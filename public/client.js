@@ -14,7 +14,7 @@ client.use('connectToS1', socketClient.service('connectToS1'), {
 async function connectToS1Service() {
   const connectToS1 = client.service('connectToS1')
   const result = await connectToS1.find()
-  console.log('connectToS1Service', result)
+  return result
 }
 
 var extra_nivele_count = 0;
@@ -791,7 +791,8 @@ function saveChanges() {
 }
 
 function saveOferta() {
-  connectToS1Service();  
+  const token = connectToS1Service();  
+  console.log("token", token);
 
   var btn_oferta = document.getElementById("btn_oferta");
   btn_oferta.innerHTML = "Oferta salvata";
