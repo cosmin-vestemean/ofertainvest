@@ -1,0 +1,16 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "./public/",
+  "origins": [
+    "http://localhost:3030", "https://ofertainvest-6e1a879e95f3.herokuapp.com"
+  ],
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "mssql": {
+    "client": "mssql",
+    "connection": "mssql://root:password@localhost:1433/ofertainvest"
+  }
+}
