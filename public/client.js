@@ -791,14 +791,15 @@ function saveChanges() {
 }
 
 async function saveOferta() {
-  const token = await connectToS1Service();  
-  console.log("token", token);
+  const token = await connectToS1Service().then((result) => {
+    return result.token
+  });
+  console.log('token', token)
 
   var btn_oferta = document.getElementById("btn_oferta");
   btn_oferta.innerHTML = "Oferta salvata";
   btn_oferta.classList.remove("btn-danger");
   btn_oferta.classList.add("btn-success");
-  alert("to be implemented");
 }
 
 function populateSelectIerarhiiFromTrees() {
