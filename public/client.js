@@ -790,8 +790,8 @@ function saveChanges() {
   modal.hide();
 }
 
-function saveOferta() {
-  const token = connectToS1Service();  
+async function saveOferta() {
+  const token = await connectToS1Service();  
   console.log("token", token);
 
   var btn_oferta = document.getElementById("btn_oferta");
