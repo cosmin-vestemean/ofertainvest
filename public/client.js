@@ -794,7 +794,7 @@ async function saveOferta() {
   const token = await connectToS1Service().then((result) => {
     return result.token
   });
-  console.log('token', token)
+  alert(token)
 
   var btn_oferta = document.getElementById("btn_oferta");
   btn_oferta.innerHTML = "Oferta salvata";
