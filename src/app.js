@@ -117,8 +117,8 @@ class getS1ObjData {
     const clientID = params.query.clientID
     const appID = params.query.appID
     const OBJECT = params.query.OBJECT
-    const FORM = params.query.FORM
-    const KEY = id
+    const FORM = params.query.FORM || ''
+    const KEY = id || ''
     const service = 'getData'
     const LOCATEINFO = params.query.LOCATEINFO
     const url = mainURL
