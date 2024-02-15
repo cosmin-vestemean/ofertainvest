@@ -857,10 +857,17 @@ async function saveOferta() {
         .create(jsonToSend)
         .then((result) => {
           console.log('result', result)
+          if (result.success) {
           var btn_oferta = document.getElementById('btn_oferta')
-          btn_oferta.innerHTML = 'Oferta salvata'
+          btn_oferta.innerHTML = 'Oferta salvata cu findoc=' + result.id
           btn_oferta.classList.remove('btn-danger')
           btn_oferta.classList.add('btn-success')
+          } else {
+            var btn_oferta = document.getElementById('btn_oferta')
+            btn_oferta.innerHTML = 'Eroare'
+            btn_oferta.classList.remove('btn-success')
+            btn_oferta.classList.add('btn-danger')
+          }
         })
         .catch((error) => {
           console.log('error', error)
