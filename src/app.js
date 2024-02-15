@@ -52,9 +52,11 @@ app.hooks({
   teardown: []
 })
 
+const mainURL = 'https://investdej.oncloud.gr/s1services'
+
 class connectToS1ServiceClass {
   async find(params) {
-    const url = 'https://investdej.oncloud.gr/s1services'
+    const url = mainURL
     const username = 'Serra'
     const password = '5151'
     const method = 'POST'
@@ -96,7 +98,7 @@ app.use('connectToS1', new connectToS1ServiceClass())
 class setDocumentServiceClass {
   async create(data, params) {
     console.log(data)
-    const url = 'https://investdej.oncloud.gr/s1services'
+    const url = mainURL
     const method = 'POST'
     const body = data
     const response = await fetch(url, { method: method, body: JSON.stringify(body) })
