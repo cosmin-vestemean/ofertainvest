@@ -143,4 +143,63 @@ class getS1ObjData {
 //register the service
 app.use('getS1ObjData', new getS1ObjData())
 
+//create a service called getDataset that gets a dataset from S1 in return to a token and a string containing a sql query
+class getDatasetServiceClass {
+  async find(params) {
+    const url = mainURL + '/JS/WS/processSqlAsDataset'
+    const method = 'POST'
+    const sqlQuery = params.query.sqlQuery
+    console.log('sqlQuery', sqlQuery)
+    const response = await fetch(url, { method: method, body: JSON.stringify({ sqlQuery: sqlQuery }) })
+    const json = await response.json()
+    console.log(json)
+    return json
+  }
+}
+
+//register the service
+app.use('getDataset', new getDatasetServiceClass())
+
+/*
+
+function processSqlAsDataset(obj) {
+	var ds, err;
+	if (!obj.sqlQuery) return {success: false, error: "No sql query transmited."}
+	try {
+		ds = X.GETSQLDATASET(obj.sqlQuery, null);
+	} catch (e) {
+		err = e.message;
+	}
+	if (ds.RECORDCOUNT>0) {
+		return {
+			success: true,
+			data: convertDatasetToArray(ds),
+			total: ds.RECORDCOUNT
+		}
+	} else {
+		return {
+			success: false,
+			error: err
+		}
+	}
+}
+
+
+function convertDatasetToArray(dataset) {
+  var arr = [];
+  dataset.FIRST;
+  while (!dataset.EOF) {
+    var row = {};
+    for (var i = 0; i < dataset.fieldcount; i++) {
+      var columnName = dataset.fieldname(i);
+      row[columnName] = dataset.fields(i);
+    }
+    arr.push(row);
+    dataset.NEXT;
+  }
+  return arr;
+}
+
+*/
+
 export { app }

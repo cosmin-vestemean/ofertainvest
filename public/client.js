@@ -974,12 +974,9 @@ window.onload = function () {
       console.log('clientID', clientID)
       var params = {
         query: {
-          KEY: '',
           clientID: clientID,
           appID: '1001',
-          OBJECT: 'CUSTOMER',
-          FORM: '',
-          LOCATEINFO: 'CUSTOMER:TRDR,NAME;'
+          sqlQuery: "select TRDR, NAME from trdr where sodtype=13 and isactive=1"
         }
       }
 
@@ -992,8 +989,8 @@ window.onload = function () {
             //populate select_trdr
             result.data.forEach(function (object) {
               var option = document.createElement('option')
-              option.value = object.data.CUSTOMER['TRDR']
-              option.text = object.data.CUSTOMER['NAME']
+              option.value = object.data['TRDR']
+              option.text = object.data['NAME']
               select_trdr.appendChild(option)
             })
           } else {
