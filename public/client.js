@@ -1000,6 +1000,36 @@ window.onload = function () {
           } else {
             console.log('error', result.error)
           }
+          //select id="prjc" populate by calling S1 service getDataSet
+          var select_prjc = document.getElementById('prjc')
+          var params = {
+            query: {
+              clientID: clientID,
+              appID: '1001',
+              sqlQuery: "select PRJC, NAME from prjc where isactive=1"
+            }
+          }
+
+          client
+            .service('getDataSet')
+            .find(params)
+            .then((result) => {
+              console.log('result', result)
+              if (result.success) {
+                //populate select_prjc
+                result.data.forEach(function (object) {
+                  var option = document.createElement('option')
+                  option.value = object['PRJC']
+                  option.text = object['NAME']
+                  select_prjc.appendChild(option)
+                })
+              } else {
+                console.log('error', result.error)
+              }
+            })
+            .catch((error) => {
+              console.log('error', error)
+            })
         })
         .catch((error) => {
           console.log('error', error)
