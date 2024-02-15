@@ -989,8 +989,8 @@ window.onload = function () {
             //populate select_trdr
             result.data.forEach(function (object) {
               var option = document.createElement('option')
-              option.value = object.data['TRDR']
-              option.text = object.data['NAME']
+              option.value = object['TRDR']
+              option.text = object['NAME']
               select_trdr.appendChild(option)
             })
           } else {
