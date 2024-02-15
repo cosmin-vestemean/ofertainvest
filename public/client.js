@@ -980,7 +980,7 @@ window.onload = function () {
         query: {
           clientID: clientID,
           appID: '1001',
-          sqlQuery: "select TRDR, NAME from trdr where sodtype=13 and isactive=1 order by NAME asc"
+          sqlQuery: 'select TRDR, NAME from trdr where sodtype=13 and isactive=1 order by NAME asc'
         }
       }
 
@@ -1007,7 +1007,11 @@ window.onload = function () {
             query: {
               clientID: clientID,
               appID: '1001',
-              sqlQuery: "select PRJC, NAME from prjc where isactive=1 order by insdate desc"
+              sqlQuery:
+                'select PRJC, NAME from prjc where isactive=1 and ' +
+                //not olde than 2 years
+                'insdate > dateadd(year, -2, getdate()) ' +
+                'order by insdate desc'
             }
           }
 
@@ -1031,7 +1035,8 @@ window.onload = function () {
                   query: {
                     clientID: clientID,
                     appID: '1001',
-                    sqlQuery: "select FINDOC, FINCODE from findoc where iscancel=0 and sosource=1351 and fprms=4001 and series=4002 order by trndate desc, findoc desc"
+                    sqlQuery:
+                      'select FINDOC, FINCODE from findoc where iscancel=0 and sosource=1351 and fprms=4001 and series=4002 order by trndate desc, findoc desc'
                   }
                 }
 
