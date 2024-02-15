@@ -1031,7 +1031,7 @@ window.onload = function () {
                   query: {
                     clientID: clientID,
                     appID: '1001',
-                    sqlQuery: "select FINDOC, FINCODE from findoc where iscancel=0 and sosource=1351 and fprms=4001 and series=4002 order by trndate desc"
+                    sqlQuery: "select FINDOC, FINCODE from findoc where iscancel=0 and sosource=1351 and fprms=4001 and series=4002 order by trndate desc, findoc desc"
                   }
                 }
 
