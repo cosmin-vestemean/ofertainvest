@@ -15,6 +15,10 @@ client.use('setDocument', socketClient.service('setDocument'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
+client.use('getS1ObjData', socketClient.service('getS1ObjData'), {
+  methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
+})
+
 async function connectToS1Service() {
   const connectToS1 = client.service('connectToS1')
   const result = await connectToS1.find()
@@ -858,10 +862,10 @@ async function saveOferta() {
         .then((result) => {
           console.log('result', result)
           if (result.success) {
-          var btn_oferta = document.getElementById('btn_oferta')
-          btn_oferta.innerHTML = 'Oferta salvata cu findoc=' + result.id
-          btn_oferta.classList.remove('btn-danger')
-          btn_oferta.classList.add('btn-success')
+            var btn_oferta = document.getElementById('btn_oferta')
+            btn_oferta.innerHTML = 'Oferta salvata cu findoc=' + result.id
+            btn_oferta.classList.remove('btn-danger')
+            btn_oferta.classList.add('btn-success')
           } else {
             var btn_oferta = document.getElementById('btn_oferta')
             btn_oferta.innerHTML = 'Eroare'
@@ -944,3 +948,63 @@ document.addEventListener('input', function (e) {
     console.log('ds_antemasuratori', ds_antemasuratori)
   }
 })
+
+//add onload event to window
+window.onload = function () {
+  var btn_oferta = document.getElementById('btn_oferta')
+  btn_oferta.onclick = saveOferta
+  var file_oferta_initiala = document.getElementById('file_oferta_initiala')
+  file_oferta_initiala.onchange = loadDataFromFile
+  var btn_oferta = document.getElementById('btn_oferta')
+  //btn_oferta text = 'left arrow' + 'Incarca oferta initiala'
+  btn_oferta.innerHTML = 'Incarca oferta initiala'
+  btn_oferta.classList.remove('btn-danger')
+  btn_oferta.classList.add('btn-success')
+  btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
+  btn_save_antemasuratori.onclick = saveChanges
+  btn_save_graph = document.getElementById('btn_save_graph')
+  //btn_save_graph populateSelectIerarhiiFromTrees()
+  btn_save_graph.onclick = populateSelectIerarhiiFromTrees
+  document.getElementById('trndate').valueAsDate = new Date()
+  select_trdr = document.getElementById('trdr')
+  //populate select_trdr by calling S1 service getS1ObjData
+  connectToS1Service()
+    .then(async (result) => {
+      const clientID = result.token
+      console.log('clientID', clientID)
+      var params = {
+        query: {
+          KEY: '',
+          clientID: clientID,
+          appID: '1001',
+          OBJECT: 'CUSTOMER',
+          FORM: '',
+          LOCATEINFO: 'CUSTOMER:TRDR,NAME;'
+        }
+      }
+
+      await client
+        .service('getS1ObjData')
+        .find(params)
+        .then((result) => {
+          console.log('result', result)
+          if (result.success) {
+            //populate select_trdr
+            result.data.forEach(function (object) {
+              var option = document.createElement('option')
+              option.value = object.data.CUSTOMER['TRDR']
+              option.text = object.data.CUSTOMER['NAME']
+              select_trdr.appendChild(option)
+            })
+          } else {
+            console.log('error', result.error)
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
+}
