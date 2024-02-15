@@ -980,7 +980,7 @@ window.onload = function () {
         query: {
           clientID: clientID,
           appID: '1001',
-          sqlQuery: "select TRDR, NAME from trdr where sodtype=13 and isactive=1"
+          sqlQuery: "select TRDR, NAME from trdr where sodtype=13 and isactive=1 order by NAME asc"
         }
       }
 
@@ -1006,7 +1006,7 @@ window.onload = function () {
             query: {
               clientID: clientID,
               appID: '1001',
-              sqlQuery: "select PRJC, NAME from prjc where isactive=1"
+              sqlQuery: "select PRJC, NAME from prjc where isactive=1 order by insdate desc"
             }
           }
 
