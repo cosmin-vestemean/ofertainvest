@@ -997,6 +997,7 @@ window.onload = function () {
               option.text = object['NAME']
               select_trdr.appendChild(option)
             })
+            select_trdr.selectedIndex = -1
           } else {
             console.log('error', result.error)
           }
@@ -1023,6 +1024,7 @@ window.onload = function () {
                   option.text = object['NAME']
                   select_prjc.appendChild(option)
                 })
+                select_prjc.selectedIndex = -1
               } else {
                 console.log('error', result.error)
               }
@@ -1038,8 +1040,4 @@ window.onload = function () {
     .catch((error) => {
       console.log('error', error)
     })
-
-    //set selets on -1
-    select_trdr.selectedIndex = -1
-    select_prjc.selectedIndex = -1
 }
