@@ -19,6 +19,10 @@ client.use('getS1ObjData', socketClient.service('getS1ObjData'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
+client.use('getDataset', socketClient.service('getDataset'), {
+  methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
+})
+
 async function connectToS1Service() {
   const connectToS1 = client.service('connectToS1')
   const result = await connectToS1.find()
