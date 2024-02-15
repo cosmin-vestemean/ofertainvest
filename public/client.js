@@ -985,7 +985,7 @@ window.onload = function () {
       }
 
       await client
-        .service('getDataSet')
+        .service('getDataset')
         .find(params)
         .then((result) => {
           console.log('result', result)
