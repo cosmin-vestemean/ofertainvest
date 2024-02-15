@@ -981,7 +981,7 @@ window.onload = function () {
       }
 
       await client
-        .service('getS1ObjData')
+        .service('getDataSet')
         .find(params)
         .then((result) => {
           console.log('result', result)
