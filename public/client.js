@@ -1025,6 +1025,37 @@ window.onload = function () {
                   select_prjc.appendChild(option)
                 })
                 select_prjc.selectedIndex = -1
+                //populate saldoc by calling S1 service getDataset
+                var select_saldoc = document.getElementById('saldoc')
+                var params = {
+                  query: {
+                    clientID: clientID,
+                    appID: '1001',
+                    sqlQuery: "select FINDOC, FINCODE from saldoc where iscancel=0 and sosource=1351 and fprms=4001 and series=4002 order by trndate desc"
+                  }
+                }
+
+                client
+                  .service('getDataset')
+                  .find(params)
+                  .then((result) => {
+                    console.log('result', result)
+                    if (result.success) {
+                      //populate select_saldoc
+                      result.data.forEach(function (object) {
+                        var option = document.createElement('option')
+                        option.value = object['FINDOC']
+                        option.text = object['FINCODE']
+                        select_saldoc.appendChild(option)
+                      })
+                      select_saldoc.selectedIndex = -1
+                    } else {
+                      console.log('error', result.error)
+                    }
+                  })
+                  .catch((error) => {
+                    console.log('error', error)
+                  })
               } else {
                 console.log('error', result.error)
               }
