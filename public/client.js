@@ -1038,4 +1038,8 @@ window.onload = function () {
     .catch((error) => {
       console.log('error', error)
     })
+
+    //set selets on -1
+    select_trdr.selectedIndex = -1
+    select_prjc.selectedIndex = -1
 }
