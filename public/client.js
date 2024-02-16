@@ -900,7 +900,7 @@ async function saveOferta() {
   btn_oferta.innerHTML = hourglassIcon + ' Salvare...'
   //bg-warning
   btn_oferta.classList.remove('btn-success')
-  btn_oferta.classList.add('btn-dark')
+  btn_oferta.classList.add('btn-info')
   //exec getValFromQuery and get findoc from result.value
   var findoc = 0
   await connectToS1Service().then(async (result) => {
@@ -984,14 +984,14 @@ async function saveOferta() {
           console.log('result', result)
           if (result.success) {
             btn_oferta.innerHTML = 'Oferta salvata cu findoc=' + result.id
-            btn_oferta.classList.remove('btn-danger')
+            btn_oferta.classList.remove('btn-info')
             btn_oferta.classList.add('btn-success')
             //disable button
             btn_oferta.disabled = true
           } else {
             btn_oferta.innerHTML = 'Eroare'
             btn_oferta.classList.remove('btn-success')
-            btn_oferta.classList.add('btn-secondary')
+            btn_oferta.classList.add('btn-danger')
           }
         })
         .catch((error) => {
