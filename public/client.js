@@ -838,27 +838,89 @@ function saveChanges() {
 }
 
 async function saveOferta() {
+  var trdr = document.getElementById('trdr').value
+  var trndate = document.getElementById('trndate').value
+  var prjc = document.getElementById('prjc').value
+  if (!trdr) {
+    alert('Selectati un client')
+    return
+  }
+
+  if (!trndate) {
+    alert('Selectati o data')
+    return
+  }
+
+  if (!prjc) {
+    alert('Selectati un proiect')
+    return
+  }
+
+  //CCCOFERTELINII array of objects, a object is a row from original_ds astfel (mapare original_ds => CCCOFERTELINII)
+  //1. original_ds ARTICOL => ART
+  //2. OFERTA => OFRT
+  //3. replace all "_" with "" in keys
+  //4. NORMA => NORM
+  //5. MATERIAL => MTRL
+  //5. UNTITARA => UNITA
+  //6. MANOPERA => MANOP
+  //7. VANZARE => VANZ
+  //8. TRANSPORT => TRANSP
+
+  if (!original_ds.) {
+    alert('Nu exista date pentru salvare')
+    return
+  }
+
+  var CCCOFERTELINII = []
+  original_ds.forEach(function (object) {
+    //read object key, apply 1..8
+    var new_object = {}
+    var keys = Object.keys(object)
+    keys.forEach(function (key) {
+      var new_key = key
+      new_key = new_key.replace('ARTICOL', 'ART')
+      new_key = new_key.replace('OFERTA', 'OFRT')
+      new_key = new_key.replace('_', '')
+      new_key = new_key.replace('NORMA', 'NORM')
+      new_key = new_key.replace('MATERIAL', 'MTRL')
+      new_key = new_key.replace('UNTITARA', 'UNITA')
+      new_key = new_key.replace('MANOPERA', 'MANOP')
+      new_key = new_key.replace('VANZARE', 'VANZ')
+      new_key = new_key.replace('TRANSPORT', 'TRANSP')
+      new_object[new_key] = object[key]
+    })
+    CCCOFERTELINII.push(new_object)
+  })
+  console.log('CCCOFERTELINII', CCCOFERTELINII)
+
+  var jsonToSend = {
+    service: 'setData',
+    clientID: clientID,
+    appId: 1001,
+    OBJECT: 'CCCOFERTE',
+    FORM: 'Oferte',
+    KEY: '',
+    DATA: {
+      SALDOC: [
+        {
+          SERIES: '4002',
+          TRDR: trdr,
+          TRNDATE: trndate,
+          PRJC: prjc,
+          COMMENTS: 'From the web app'
+        }
+      ],
+      CCCOFERTELINII: CCCOFERTELINII
+    }
+  }
+
+  console.log('jsonToSend', jsonToSend)
+
   await connectToS1Service()
     .then(async (result) => {
       const clientID = result.token
       console.log('clientID', clientID)
-      var jsonToSend = {
-        service: 'setData',
-        clientID: clientID,
-        appId: 1001,
-        OBJECT: 'CCCOFERTE',
-        FORM: 'Oferte',
-        KEY: '',
-        DATA: {
-          SALDOC: [
-            {
-              SERIES: '4002',
-              TRDR: '17978',
-              COMMENTS: 'From the web app'
-            }
-          ]
-        }
-      }
 
       await client
         .service('setDocument')
