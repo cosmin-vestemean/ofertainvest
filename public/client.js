@@ -606,12 +606,10 @@ function pushDataToTable(data, thead_name, tbody_name) {
   pg.setAttribute('aria-valuenow', 0)
   pg.setAttribute('aria-valuemin', 0)
   pg.setAttribute('aria-valuemax', data.length)
-  pg.innerHTML = 0 + '/' + data.length
   pg.style.width = '0%'
   data.forEach(function (object) {
     //update progress bar
     pg.setAttribute('aria-valuenow', data.indexOf(object) + 1)
-    pg.innerHTML = data.indexOf(object) + 1 + '/' + data.length
     pg.style.width = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
     //create row
     var tr = document.createElement('tr')
