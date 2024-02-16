@@ -881,13 +881,14 @@ async function saveOferta() {
       var new_key = key
       new_key = new_key.replace('ARTICOL', 'ART')
       new_key = new_key.replace('OFERTA', 'OFRT')
-      new_key = new_key.replace('_', '')
       new_key = new_key.replace('NORMA', 'NORM')
       new_key = new_key.replace('MATERIAL', 'MTRL')
       new_key = new_key.replace('UNTITARA', 'UNITA')
       new_key = new_key.replace('MANOPERA', 'MANOP')
       new_key = new_key.replace('VANZARE', 'VANZ')
       new_key = new_key.replace('TRANSPORT', 'TRANSP')
+      //replace all _
+      new_key = new_key.replace(/_/g, '')
       new_object[new_key] = object[key]
     })
     CCCOFERTELINII.push(new_object)
