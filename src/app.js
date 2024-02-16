@@ -160,49 +160,20 @@ class getDatasetServiceClass {
 //register the service
 app.use('getDataset', new getDatasetServiceClass())
 
-/*
-
-function processSqlA sDataset(obj) {
-	var ds, err;
-	if (!obj.sqlQuery) return {success: false, error: "No sql query transmited."}
-	try {
-		ds = X.GETSQLDATASET(obj.sqlQuery, null);
-	} catch (e) {
-		err = e.message;
-	}
-	if (ds.RECORDCOUNT>0) {
-		return {
-			success: true,
-			data: convertDatasetToArray(ds),
-			total: ds.RECORDCOUNT
-		}
-	} else {
-		return {
-			success: false,
-			error: err
-		}
-	}
-}
-
-function getValFromQuery(obj) {
-	return {value: X.SQL(obj.sqlQuery, null)}
-}
-
-function convertDatasetToArray(dataset) {
-  var arr = [];
-  dataset.FIRST;
-  while (!dataset.EOF) {
-    var row = {};
-    for (var i = 0; i < dataset.fieldcount; i++) {
-      var columnName = dataset.fieldname(i);
-      row[columnName] = dataset.fields(i);
-    }
-    arr.push(row);
-    dataset.NEXT;
+class getValFromQueryServiceClass {
+  async find(params) {
+    const url = mainURL + '/JS/WS/getValFromQuery'
+    const method = 'POST'
+    const sqlQuery = params.query.sqlQuery
+    console.log('sqlQuery', sqlQuery)
+    const response = await fetch(url, { method: method, body: JSON.stringify({ sqlQuery: sqlQuery }) })
+    const json = await response.json()
+    console.log(json)
+    return json
   }
-  return arr;
 }
 
-*/
+//register the service
+app.use('getValFromQuery', new getValFromQueryServiceClass())
 
 export { app }

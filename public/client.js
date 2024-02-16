@@ -23,6 +23,11 @@ client.use('getDataset', socketClient.service('getDataset'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
+//use getValFromQuery
+client.use('getValFromQuery', socketClient.service('getValFromQuery'), {
+  methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
+})
+
 async function connectToS1Service() {
   const connectToS1 = client.service('connectToS1')
   const result = await connectToS1.find()
@@ -872,6 +877,28 @@ async function saveOferta() {
     return
   }
 
+  //exec getValFromQuery and get findoc from result.value
+  var findoc = 0
+  await connectToS1Service()
+    .then(async (result) => {
+      const clientID = result.token
+      console.log('clientID', clientID)
+      await client
+        .service('getValFromQuery')
+        .find({
+          clientID: clientID,
+          query: "select ident_current('findoc') + ident_incr('findoc')"
+        })
+        .then((result) => {
+          console.log('result', result)
+          findoc = result.value
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
+    })
+
+
   var CCCOFERTELINII = []
   original_ds.forEach(function (object) {
     //read object key, apply 1..8
@@ -891,6 +918,7 @@ async function saveOferta() {
       new_key = new_key.replace(/_/g, '')
       new_object[new_key] = object[key]
       new_object['PRJC'] = prjc
+      new_object['FINDOC'] = findoc
     })
     CCCOFERTELINII.push(new_object)
   })
