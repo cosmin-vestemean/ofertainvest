@@ -887,7 +887,7 @@ async function saveOferta() {
         .service('getValFromQuery')
         .find({
           clientID: clientID,
-          query: "select ident_current('findoc') + ident_incr('findoc')"
+          sqlQuery: "select ident_current('findoc') + ident_incr('findoc')"
         })
         .then((result) => {
           console.log('result', result)
