@@ -899,7 +899,7 @@ async function saveOferta() {
   var btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.innerHTML = hourglassIcon + ' Salvare...'
   //bg-warning
-  btn_oferta.classList.remove('btn-success')
+  btn_oferta.classList.remove('btn-danger')
   btn_oferta.classList.add('btn-info')
   //exec getValFromQuery and get findoc from result.value
   var findoc = 0
@@ -990,7 +990,7 @@ async function saveOferta() {
             btn_oferta.disabled = true
           } else {
             btn_oferta.innerHTML = 'Eroare'
-            btn_oferta.classList.remove('btn-success')
+            btn_oferta.classList.remove('btn-info')
             btn_oferta.classList.add('btn-danger')
           }
         })
