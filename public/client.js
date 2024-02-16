@@ -879,25 +879,26 @@ async function saveOferta() {
 
   //exec getValFromQuery and get findoc from result.value
   var findoc = 0
-  await connectToS1Service()
-    .then(async (result) => {
-      const clientID = result.token
-      console.log('clientID', clientID)
-      await client
-        .service('getValFromQuery')
-        .find({
+  await connectToS1Service().then(async (result) => {
+    const clientID = result.token
+    console.log('clientID', clientID)
+    await client
+      .service('getValFromQuery')
+      .find({
+        query: {
           clientID: clientID,
+          appId: 1001,
           sqlQuery: "select ident_current('findoc') + ident_incr('findoc')"
-        })
-        .then((result) => {
-          console.log('result', result)
-          findoc = result.value
-        })
-        .catch((error) => {
-          console.log('error', error)
-        })
-    })
-
+        }
+      })
+      .then((result) => {
+        console.log('result', result)
+        findoc = result.value
+      })
+      .catch((error) => {
+        console.log('error', error)
+      })
+  })
 
   var CCCOFERTELINII = []
   original_ds.forEach(function (object) {
