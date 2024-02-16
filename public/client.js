@@ -867,7 +867,7 @@ async function saveOferta() {
   //7. VANZARE => VANZ
   //8. TRANSPORT => TRANSP
 
-  if (!original_ds.) {
+  if (!original_ds.length) {
     alert('Nu exista date pentru salvare')
     return
   }
@@ -892,11 +892,11 @@ async function saveOferta() {
     })
     CCCOFERTELINII.push(new_object)
   })
+
   console.log('CCCOFERTELINII', CCCOFERTELINII)
 
   var jsonToSend = {
     service: 'setData',
-    clientID: clientID,
     appId: 1001,
     OBJECT: 'CCCOFERTE',
     FORM: 'Oferte',
@@ -921,7 +921,7 @@ async function saveOferta() {
     .then(async (result) => {
       const clientID = result.token
       console.log('clientID', clientID)
-
+      jsonToSend.clientID = clientID
       await client
         .service('setDocument')
         .create(jsonToSend)
