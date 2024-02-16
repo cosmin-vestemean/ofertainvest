@@ -162,7 +162,7 @@ app.use('getDataset', new getDatasetServiceClass())
 
 /*
 
-function processSqlAsDataset(obj) {
+function processSqlA sDataset(obj) {
 	var ds, err;
 	if (!obj.sqlQuery) return {success: false, error: "No sql query transmited."}
 	try {
@@ -184,6 +184,9 @@ function processSqlAsDataset(obj) {
 	}
 }
 
+function getValFromQuery(obj) {
+	return {value: X.SQL(obj.sqlQuery, null)}
+}
 
 function convertDatasetToArray(dataset) {
   var arr = [];

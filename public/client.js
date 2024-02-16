@@ -890,6 +890,7 @@ async function saveOferta() {
       //replace all _
       new_key = new_key.replace(/_/g, '')
       new_object[new_key] = object[key]
+      new_object['PRJC'] = prjc
     })
     CCCOFERTELINII.push(new_object)
   })
