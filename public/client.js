@@ -531,6 +531,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
   //data > table id="table_oferta_initiala"
   //thead id="thead_oferta_initiala" < first object's keys
   //tbody id="tbody_oferta_initiala" < all objects as rows
+  var pg = document.getElementById('progress_bar')
   var thead = document.getElementById(thead_name)
   thead.innerHTML = ''
   var tbody = document.getElementById(tbody_name)
@@ -601,7 +602,18 @@ function pushDataToTable(data, thead_name, tbody_name) {
   })
 
   //create table rows
+  //prepare progress bar by setting attributes: aria-valuenow, aria-valuemin, aria-valuemax, inner html
+  pg.setAttribute('aria-valuenow', 0)
+  pg.setAttribute('aria-valuemin', 0)
+  pg.setAttribute('aria-valuemax', data.length)
+  pg.innerHTML = 0 + '/' + data.length
+  pg.style.width = '0%'
   data.forEach(function (object) {
+    //update progress bar
+    pg.setAttribute('aria-valuenow', data.indexOf(object) + 1)
+    pg.innerHTML = data.indexOf(object) + 1 + '/' + data.length
+    pg.style.width = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
+    //create row
     var tr = document.createElement('tr')
     //add td with delete icon
     var td = document.createElement('td')
