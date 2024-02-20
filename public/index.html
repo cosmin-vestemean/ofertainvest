@@ -48,6 +48,14 @@ HTML code:
       .form-control,
       .btn {
         font-size: 12px;
+        filter: alpha(opacity=60);
+        -moz-opacity: 0.6;
+        -khtml-opacity: 0.6;
+        opacity: 0.6;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 5px;
+        -moz-border-radius-topleft: 10px;
+        -moz-border-radius-topright: 10px;
       }
       .cy {
         height: 100%;
@@ -146,7 +154,7 @@ HTML code:
           </button>
         </div>
         <div class="row">
-          <div class="progress p-0" style="height: 1px;">
+          <div class="progress p-0" style="height: 1px">
             <div
               id="progress_bar"
               class="progress-bar bg-dark"
@@ -155,8 +163,7 @@ HTML code:
               aria-valuemin="0"
               aria-valuemax="100"
               style="width: 0%"
-            >
-            </div>
+            ></div>
           </div>
           <label for="progress-bar" id="progress_bar_label" class="form-label text-primary">0%</label>
         </div>
