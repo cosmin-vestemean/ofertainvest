@@ -653,6 +653,8 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn')
         button.classList.add('btn-primary')
         button.classList.add('btn-sm')
+        //margin right
+        button.style.marginRight = '5px'
         //add filter icon
         var filter_icon = document.createElement('i')
         filter_icon.classList.add('bi')
@@ -686,6 +688,8 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn')
         button.classList.add('btn-secondary')
         button.classList.add('btn-sm')
+        //margin left
+        button.style.marginLeft = '5px'
         //add list icon
         var list_icon = document.createElement('i')
         list_icon.classList.add('bi')
