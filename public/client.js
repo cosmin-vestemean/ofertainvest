@@ -666,6 +666,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
           })
           console.log('denumireUnica_ds', denumireUnica_ds)
           pushDataToTable(denumireUnica_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+          alert('Reteta pentru ' + selected_option)
         }
       }
       tr.appendChild(td)
