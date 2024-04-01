@@ -656,6 +656,12 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn-primary')
         button.classList.add('btn-sm')
         button.innerHTML = 'Filtru'
+        //add filter icon
+        var filter_icon = document.createElement('i')
+        filter_icon.classList.add('bi')
+        filter_icon.classList.add('bi-filter')
+        button.appendChild(filter_icon)
+        //add event listener
         button.onclick = function () {
           //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
           if (document.getElementById(tbody_name).rows.length < optimal_ds.length) {
