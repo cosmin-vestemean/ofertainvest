@@ -694,7 +694,10 @@ function pushDataToTable(data, thead_name, tbody_name) {
         }
         td.appendChild(button)
       }
-      td.innerHTML = val || ''
+      //add val to td as span
+      var span = document.createElement('span')
+      span.innerHTML = val || ''
+      td.appendChild(span)
       tr.appendChild(td)
     })
     tbody.appendChild(tr)
