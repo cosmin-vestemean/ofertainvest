@@ -648,6 +648,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
       }
 
       td.innerHTML = val || ''
+      console.log('key', key)
       if (key == 'DENUMIRE_ARTICOL_OFERTA') {
         //create small a button for each row. When clicked filter optimal_ds by selected_option resulting in denumireUnica_ds and display it in table
         var button = document.createElement('button')
