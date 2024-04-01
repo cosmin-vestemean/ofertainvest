@@ -655,7 +655,6 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn')
         button.classList.add('btn-primary')
         button.classList.add('btn-sm')
-        button.innerHTML = 'Filtru'
         //add filter icon
         var filter_icon = document.createElement('i')
         filter_icon.classList.add('bi')
@@ -685,7 +684,12 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn')
         button.classList.add('btn-info')
         button.classList.add('btn-sm')
-        button.innerHTML = 'Retetare'
+        //add list icon
+        var list_icon = document.createElement('i')
+        list_icon.classList.add('bi')
+        list_icon.classList.add('bi-list')
+        button.appendChild(list_icon)
+        //add event listener
         button.onclick = function () {
           creazaReteta(object)
         }
