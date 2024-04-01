@@ -646,8 +646,6 @@ function pushDataToTable(data, thead_name, tbody_name) {
           val = object[key]
         }
       }
-
-      td.innerHTML = val || ''
       if (key == 'DENUMIRE_ARTICOL_OFERTA') {
         //create small a button for each row. When clicked filter optimal_ds by selected_option resulting in denumireUnica_ds and display it in table
         var button = document.createElement('button')
@@ -691,10 +689,12 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.appendChild(list_icon)
         //add event listener
         button.onclick = function () {
+          alert('Reteta pentru ' + object[key])
           creazaReteta(object)
         }
         td.appendChild(button)
       }
+      td.innerHTML = val || ''
       tr.appendChild(td)
     })
     tbody.appendChild(tr)
