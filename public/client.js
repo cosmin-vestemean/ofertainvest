@@ -660,20 +660,20 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.onclick = function () {
           //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
           if (denumireUnica_ds.length < optimal_ds.length) {
-            denumireUnica_ds = [...optimal_ds]
+            pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
             alert('Revenire la toate inregistrarile')
           } else {
+            var selected_option = object[key]
+            denumireUnica_ds = []
+            optimal_ds.forEach(function (object) {
+              if (object[key] == selected_option) {
+                denumireUnica_ds.push(object)
+              }
+            })
+            console.log('denumireUnica_ds', denumireUnica_ds)
+            pushDataToTable(denumireUnica_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
             alert('Reteta pentru ' + selected_option)
           }
-          var selected_option = object[key]
-          denumireUnica_ds = []
-          optimal_ds.forEach(function (object) {
-            if (object[key] == selected_option) {
-              denumireUnica_ds.push(object)
-            }
-          })
-          console.log('denumireUnica_ds', denumireUnica_ds)
-          pushDataToTable(denumireUnica_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
         }
         td.appendChild(button)
       }
