@@ -47,6 +47,7 @@ var _nivel_oferta = 'NIVEL_OFERTA_'
 var _nivel_cantitate_articol_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
 var visible_columns = []
+var denumireUnica_ds = []
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -647,6 +648,26 @@ function pushDataToTable(data, thead_name, tbody_name) {
       }
 
       td.innerHTML = val || ''
+      if (key == 'DENUMIRE_ARTICOL_OFERTA') {
+        //create small a button for each row. When clicked filter optimal_ds by selected_option resulting in denumireUnica_ds and display it in table
+        var button = document.createElement('button')
+        button.type = 'button'
+        button.classList.add('btn')
+        button.classList.add('btn-primary')
+        button.classList.add('btn-sm')
+        button.innerHTML = 'Reteta'
+        button.onclick = function () {
+          var selected_option = object[key]
+          denumireUnica_ds = []
+          optimal_ds.forEach(function (object) {
+            if (object[key] == selected_option) {
+              denumireUnica_ds.push(object)
+            }
+          })
+          console.log('denumireUnica_ds', denumireUnica_ds)
+          pushDataToTable(denumireUnica_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        }
+      }
       tr.appendChild(td)
     })
     tbody.appendChild(tr)
