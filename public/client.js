@@ -661,6 +661,9 @@ function pushDataToTable(data, thead_name, tbody_name) {
           //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
           if (denumireUnica_ds.length < optimal_ds.length) {
             denumireUnica_ds = [...optimal_ds]
+            alert('Revenire la toate inregistrarile')
+          } else {
+            alert('Reteta pentru ' + selected_option)
           }
           var selected_option = object[key]
           denumireUnica_ds = []
@@ -671,7 +674,6 @@ function pushDataToTable(data, thead_name, tbody_name) {
           })
           console.log('denumireUnica_ds', denumireUnica_ds)
           pushDataToTable(denumireUnica_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-          alert('Reteta pentru ' + selected_option)
         }
         td.appendChild(button)
       }
