@@ -658,8 +658,8 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.innerHTML = 'Reteta'
         button.onclick = function () {
           //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
-          if (denumireUnica_ds.length < optimal_ds.length) {
-            pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+          if (document.getElementById(tbody_name).rows.length < optimal_ds.length) {
+            pushDataToTable(optimal_ds, thead_name, tbody_name)
             alert('Revenire la toate inregistrarile')
           } else {
             var selected_option = object[key]
@@ -670,7 +670,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
               }
             })
             console.log('denumireUnica_ds', denumireUnica_ds)
-            pushDataToTable(denumireUnica_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+            pushDataToTable(denumireUnica_ds, thead_name, tbody_name)
             alert('Reteta pentru ' + selected_option)
           }
         }
