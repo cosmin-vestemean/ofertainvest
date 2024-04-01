@@ -653,8 +653,6 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn')
         button.classList.add('btn-primary')
         button.classList.add('btn-sm')
-        //margin right
-        button.style.marginRight = '5px'
         //add filter icon
         var filter_icon = document.createElement('i')
         filter_icon.classList.add('bi')
@@ -678,18 +676,12 @@ function pushDataToTable(data, thead_name, tbody_name) {
           }
         }
         td.appendChild(button)
-        //add val to td as span
-        var span = document.createElement('span')
-        span.innerHTML = val || ''
-        td.appendChild(span)
         //add another button named Retetare
         var button = document.createElement('button')
         button.type = 'button'
         button.classList.add('btn')
         button.classList.add('btn-secondary')
         button.classList.add('btn-sm')
-        //margin left
-        button.style.marginLeft = '5px'
         //add list icon
         var list_icon = document.createElement('i')
         list_icon.classList.add('bi')
@@ -702,6 +694,10 @@ function pushDataToTable(data, thead_name, tbody_name) {
         }
         td.appendChild(button)
       }
+      //add val to td as span
+      var span = document.createElement('span')
+      span.innerHTML = val  || ''
+      td.appendChild(span)
       tr.appendChild(td)
     })
     tbody.appendChild(tr)
