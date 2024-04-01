@@ -651,7 +651,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
         var button = document.createElement('button')
         button.type = 'button'
         button.classList.add('btn')
-        button.classList.add('btn-primary')
+        button.classList.add('btn-secondary')
         button.classList.add('btn-sm')
         //add filter icon
         var filter_icon = document.createElement('i')
@@ -680,7 +680,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
         var button = document.createElement('button')
         button.type = 'button'
         button.classList.add('btn')
-        button.classList.add('btn-secondary')
+        button.classList.add('btn-primary')
         button.classList.add('btn-sm')
         //add list icon
         var list_icon = document.createElement('i')
