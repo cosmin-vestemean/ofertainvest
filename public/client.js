@@ -655,12 +655,11 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.classList.add('btn')
         button.classList.add('btn-primary')
         button.classList.add('btn-sm')
-        button.innerHTML = 'Reteta'
+        button.innerHTML = 'Filtru'
         button.onclick = function () {
           //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
           if (document.getElementById(tbody_name).rows.length < optimal_ds.length) {
             pushDataToTable(optimal_ds, thead_name, tbody_name)
-            alert('Revenire la toate inregistrarile')
           } else {
             var selected_option = object[key]
             denumireUnica_ds = []
@@ -671,8 +670,18 @@ function pushDataToTable(data, thead_name, tbody_name) {
             })
             console.log('denumireUnica_ds', denumireUnica_ds)
             pushDataToTable(denumireUnica_ds, thead_name, tbody_name)
-            alert('Reteta pentru ' + selected_option)
           }
+        }
+        td.appendChild(button)
+        //add another button named Retetare
+        var button = document.createElement('button')
+        button.type = 'button'
+        button.classList.add('btn')
+        button.classList.add('btn-info')
+        button.classList.add('btn-sm')
+        button.innerHTML = 'Retetare'
+        button.onclick = function () {
+          creazaReteta(object)
         }
         td.appendChild(button)
       }
