@@ -906,7 +906,7 @@ function drawModalDialog(selected_combo, selected_ds) {
   }
 }
 
-function saveChanges() {
+export function saveChanges() {
   document.getElementById('modal-body').innerHTML = ''
   //close modal
   var modal = new bootstrap.Modal(document.getElementById('AntemasuratoriModal'))
@@ -1059,7 +1059,7 @@ async function saveOferta() {
     })
 }
 
-function populateSelectIerarhiiFromTrees() {
+export function populateSelectIerarhiiFromTrees() {
   var select = document.getElementById('ierarhii')
   select.innerHTML = ''
   //add default option
@@ -1141,9 +1141,9 @@ export function init () {
   btn_oferta.innerHTML = al + 'Incarca oferta initiala'
   btn_oferta.classList.remove('btn-danger')
   btn_oferta.classList.add('btn-success')
-  btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
+  let btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
   btn_save_antemasuratori.onclick = saveChanges
-  btn_save_graph = document.getElementById('btn_save_graph')
+  let btn_save_graph = document.getElementById('btn_save_graph')
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   document.getElementById('trndate').valueAsDate = new Date()
