@@ -1127,7 +1127,7 @@ document.addEventListener('input', function (e) {
 })
 
 //add onload event to window
-window.onload = function () {
+export function init () {
   var btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
   var file_oferta_initiala = document.getElementById('file_oferta_initiala')
