@@ -1147,7 +1147,7 @@ export function init () {
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   document.getElementById('trndate').valueAsDate = new Date()
-  select_trdr = document.getElementById('trdr')
+  let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
   connectToS1Service()
     .then(async (result) => {
@@ -1179,7 +1179,7 @@ export function init () {
             console.log('error', result.error)
           }
           //select id="prjc" populate by calling S1 service getDataset
-          var select_prjc = document.getElementById('prjc')
+          let select_prjc = document.getElementById('prjc')
           var params = {
             query: {
               clientID: clientID,
