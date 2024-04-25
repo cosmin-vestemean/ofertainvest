@@ -1,5 +1,3 @@
-import {html, render} from 'https://esm.run/lit-html@1';
-
 console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
@@ -1127,7 +1125,7 @@ document.addEventListener('input', function (e) {
 })
 
 //add onload event to window
-export function init () {
+window.onload = function () {
   var btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
   var file_oferta_initiala = document.getElementById('file_oferta_initiala')
@@ -1141,13 +1139,13 @@ export function init () {
   btn_oferta.innerHTML = al + 'Incarca oferta initiala'
   btn_oferta.classList.remove('btn-danger')
   btn_oferta.classList.add('btn-success')
-  let btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
+  btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
   btn_save_antemasuratori.onclick = saveChanges
-  let btn_save_graph = document.getElementById('btn_save_graph')
+  btn_save_graph = document.getElementById('btn_save_graph')
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   document.getElementById('trndate').valueAsDate = new Date()
-  let select_trdr = document.getElementById('trdr')
+  select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
   connectToS1Service()
     .then(async (result) => {
@@ -1179,7 +1177,7 @@ export function init () {
             console.log('error', result.error)
           }
           //select id="prjc" populate by calling S1 service getDataset
-          let select_prjc = document.getElementById('prjc')
+          var select_prjc = document.getElementById('prjc')
           var params = {
             query: {
               clientID: clientID,
