@@ -1,4 +1,4 @@
-console.log('Client.js loaded')
+console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
