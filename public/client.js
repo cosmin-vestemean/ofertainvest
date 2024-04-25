@@ -906,7 +906,7 @@ function drawModalDialog(selected_combo, selected_ds) {
   }
 }
 
-export function saveChanges() {
+function saveChanges() {
   document.getElementById('modal-body').innerHTML = ''
   //close modal
   var modal = new bootstrap.Modal(document.getElementById('AntemasuratoriModal'))
@@ -1059,7 +1059,7 @@ async function saveOferta() {
     })
 }
 
-export function populateSelectIerarhiiFromTrees() {
+function populateSelectIerarhiiFromTrees() {
   var select = document.getElementById('ierarhii')
   select.innerHTML = ''
   //add default option
