@@ -1,3 +1,5 @@
+import {html, render} from 'https://esm.run/lit-html@1';
+
 console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
