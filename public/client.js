@@ -1,11 +1,5 @@
-const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL','SUBARTICOL','MATERIAL']
-const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
-  'PRINCIPAL',
-  'MATERIAL',
-  'MANOPERA',
-  'TRANSPORT',
-  'ECHIPAMENT'
-]
+const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
+const SUBTIP_ACTIVITATE_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT']
 
 console.log('client.js loaded')
 
@@ -1414,11 +1408,11 @@ function creazaReteta(object) {
         option.value = ''
         option.text = ''
         select.appendChild(option)
-        TIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
+        for (var j = 0; j < TIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
           var option = document.createElement('option')
-          option.text = option
+          option.text = TIP_ACTIVITATE_ARTICOL_RETETA[j]
           select.appendChild(option)
-        })
+        }
         td.appendChild(select)
       } else if (i == 3) {
         //create select with options PRINCIPAL, MATERIAL, MANOPERA, TRANSPORT, ECHIPAMENT
@@ -1432,11 +1426,11 @@ function creazaReteta(object) {
         option.value = ''
         option.text = ''
         select.appendChild(option)
-        SUBTIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
+        for (var j = 0; j < SUBTIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
           var option = document.createElement('option')
-          option.text = option
+          option.text = SUBTIP_ACTIVITATE_ARTICOL_RETETA[j]
           select.appendChild(option)
-        })
+        }
         td.appendChild(select)
       } else {
         var input = document.createElement('input')
