@@ -1327,7 +1327,7 @@ function creazaReteta(object) {
       td.contentEditable = true
       if (i == 0) {
         //WBS
-        td.innerHTML = object.WBS + '.' + (tbody.rows.length)
+        td.innerHTML = object.WBS + '.' + tbody.rows.length
       } else if (i == 2) {
         //select with TIP_ACTIVITATE_ARTICOL_RETETA
         var select = document.createElement('select')
@@ -1382,39 +1382,41 @@ function creazaReteta(object) {
   thead.appendChild(tr)
   //add Actions column: lines will contain a +, an edit and a trash icon
   var th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'Actions'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'WBS'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'DENUMIRE_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'TIP_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'UM_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   var th = document.createElement('th')
   th.innerHTML = 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  var th = document.createElement('th')
+  th = document.createElement('th')
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   modalReteta.show()
