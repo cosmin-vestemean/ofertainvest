@@ -1326,7 +1326,7 @@ function creazaReteta(object) {
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   //create tbody
-  editActivitate(1)
+  editActivitate(1, object)
   modalReteta.show()
 
   function editActivitate(index, object, existingTableLine) {
@@ -1365,7 +1365,7 @@ function creazaReteta(object) {
     }
     td.appendChild(icon)
     tr.appendChild(td)
-    
+
     for (var i = 0; i < existingTableLine.length; i++) {
       var td = document.createElement('td')
       var input = document.createElement('input')
