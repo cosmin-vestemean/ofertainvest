@@ -1348,6 +1348,8 @@ function creazaReteta(object) {
           existingTableLine.push(td.innerHTML)
         })
         var index = i
+        //eject first td
+        existingTableLine.shift()
         tr.innerHTML = ''
         editActivitate(index, object, existingTableLine)
       }
