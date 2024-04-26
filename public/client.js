@@ -1327,18 +1327,6 @@ function creazaReteta(object) {
   var th = document.createElement('th')
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  //add listner tr on click => alert index
-  tbody.onclick = function (e) {
-    var tr = e.target.closest('tr')
-    if (tr) {
-      var trs = tbody.getElementsByTagName('tr')
-      Array.from(trs).forEach((tr) => {
-        if (tr === tr) {
-          alert(Array.from(trs).indexOf(tr))
-        }
-      })
-    }
-  }
   //create tbody
   editActivitate(1, object)
   modalReteta.show()
@@ -1422,6 +1410,10 @@ function creazaReteta(object) {
       input.value = existingTableLine[i]
       td.appendChild(input)
       tr.appendChild(td)
+      tr.onclick = function (this) {
+        //get row index
+        alert(this.rowIndex)
+      }
     }
   }
 }
