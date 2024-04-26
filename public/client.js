@@ -1284,9 +1284,6 @@ function creazaReteta(object) {
   thead.id = 'thead_reteta'
   var tbody = document.createElement('tbody')
   tbody.id = 'tbody_reteta'
-  tbody.onclick = function(e) {
-    console.log(e.target.parentNode.rowIndex)
-  };
   table.appendChild(thead)
   table.appendChild(tbody)
   modal_body.appendChild(table)
@@ -1339,6 +1336,9 @@ function creazaReteta(object) {
       existingTableLine = [object.WBS + '.' + index, '', '', '', '', '', '', '', '', '', '']
     //add an empty editable row
     var tr = document.createElement('tr')
+    tr.onclick = function(e) {
+      console.log(e.target.parentNode.rowIndex)
+    };
     tbody.appendChild(tr)
     //add icons
     var td = document.createElement('td')
