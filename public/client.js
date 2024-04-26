@@ -1315,7 +1315,7 @@ function creazaReteta(object) {
       td.contentEditable = true
       if (i == 0) {
         //WBS
-        td.innerHTML = object.WBS + '.' + (tbody.rows.length + 1)
+        td.innerHTML = object.WBS + '.' + (tbody.rows.length)
       } else if (i == 2) {
         //select with TIP_ACTIVITATE_ARTICOL_RETETA
         var select = document.createElement('select')
