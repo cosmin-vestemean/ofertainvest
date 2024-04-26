@@ -1331,6 +1331,8 @@ function creazaReteta(object) {
   editActivitate(1, object)
   modalReteta.show()
 
+  const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
+  const SUBTIP_ACTIVITATE_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT']
   function editActivitate(index, object, existingTableLine) {
     if (!existingTableLine)
       existingTableLine = [object.WBS + '.' + index, '', '', '', '', '', '', '', '', '', '']
@@ -1346,15 +1348,25 @@ function creazaReteta(object) {
     icon.style.cursor = 'pointer'
     icon.onclick = function () {
       //copy input values to table's current row and delete inputs
-      var inputs = tr.getElementsByTagName('input')
+      //get td[0].values, may be input or select
       var values = []
-      //add first td with Actions icons to values
-      //get first td
-      var td = tr.getElementsByTagName('td')[0]
-      values.push(td.innerHTML)
-      Array.from(inputs).forEach((input) => {
-        values.push(input.value)
-      })
+      for (var i = 1; i < tr.cells.length; i++) {
+        var td = tr.cells[i]
+        var input = td.getElementsByTagName('input')[0]
+        if (input) {
+          values.push(input.value)
+          input.remove()
+        } else {
+          var select = td.getElementsByTagName('select')[0]
+          if (select) {
+            values.push(select.value)
+            select.remove()
+          } else {
+            values.push(td.innerHTML)
+          }
+        }
+      }
+
       tr.innerHTML = ''
       for (var i = 0; i < values.length; i++) {
         var td = document.createElement('td')
@@ -1383,12 +1395,50 @@ function creazaReteta(object) {
 
     for (var i = 0; i < existingTableLine.length; i++) {
       var td = document.createElement('td')
-      var input = document.createElement('input')
-      input.type = 'text'
-      input.classList.add('form-control')
-      input.classList.add('form-control-sm')
-      input.value = existingTableLine[i]
-      td.appendChild(input)
+      if (i == 2) {
+        //create select with options ARTICOL, SUBARTICOL, MATERIAL
+        var select = document.createElement('select')
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        select.classList.add('text-primary')
+        select.classList.add('text-center')
+        select.classList.add('fw-bold')
+        var option = document.createElement('option')
+        option.value = ''
+        option.text = ''
+        select.appendChild(option)
+        TIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
+          var option = document.createElement('option')
+          option.value = option
+          option.text = option
+          select.appendChild(option)
+        })
+      } else if (i==3) {
+        //create select with options PRINCIPAL, MATERIAL, MANOPERA, TRANSPORT, ECHIPAMENT
+        var select = document.createElement('select')
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        select.classList.add('text-primary')
+        select.classList.add('text-center')
+        select.classList.add('fw-bold')
+        var option = document.createElement('option')
+        option.value = ''
+        option.text = ''
+        select.appendChild(option)
+        SUBTIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
+          var option = document.createElement('option')
+          option.value = option
+          option.text = option
+          select.appendChild(option)
+        })
+      } else {
+        var input = document.createElement('input')
+        input.type = 'text'
+        input.classList.add('form-control')
+        input.classList.add('form-control-sm')
+        input.value = existingTableLine[i]
+        td.appendChild(input)
+      }
       tr.appendChild(td)
       tr.onclick = function (e) {
         //get row index
