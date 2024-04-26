@@ -1312,10 +1312,10 @@ function creazaReteta(object) {
     for (var i = 0; i < 11; i++) {
       var td = document.createElement('td')
       td.contentEditable = true
-      if (i == 1) {
+      if (i == 0) {
         //WBS
         td.innerHTML = object.WBS + '.' + (tbody.rows.length + 1)
-      } else if (i == 1) {
+      } else if (i == 2) {
         //select with TIP_ACTIVITATE_ARTICOL_RETETA
         var select = document.createElement('select')
         select.classList.add('form-select')
