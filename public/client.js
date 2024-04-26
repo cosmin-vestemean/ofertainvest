@@ -1346,6 +1346,10 @@ function creazaReteta(object) {
       //copy input values to table's current row and delete inputs
       var inputs = tr.getElementsByTagName('input')
       var values = []
+      //add first td with Actions icons to values
+      //get first td
+      var td = tr.getElementsByTagName('td')[0]
+      values.push(td.innerHTML)
       Array.from(inputs).forEach((input) => {
         values.push(input.value)
       })
@@ -1383,6 +1387,7 @@ function creazaReteta(object) {
       tr.innerHTML = ''
       editActivitate(index, object, existingTableLine)
     }
+    td.appendChild(icon)
     var icon = document.createElement('i')
     icon.classList.add('bi')
     icon.classList.add('bi-trash')
