@@ -1269,10 +1269,11 @@ function creazaReteta(object) {
     object.WBS +
     ' ' +
     object.DENUMIRE_ARTICOL_OFERTA +
-    ' ' +
+    ' - ' +
     object.CANTITATE_ARTICOL_OFERTA +
-    ' ' +
-    object.UM_ARTICOL_OFERTA
+    ' [' +
+    object.UM_ARTICOL_OFERTA +
+    ']'
   //add button Adauga activitate
   var div_btn = document.createElement('div')
   div_btn.classList.add('col-sm')
