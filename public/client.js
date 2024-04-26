@@ -1322,6 +1322,8 @@ function creazaReteta(object) {
     //add td with contenteditable
     for (var i = 0; i < 11; i++) {
       var td = document.createElement('td')
+      //spellcheck = false
+      td.spellcheck = false
       td.contentEditable = true
       if (i == 0) {
         //WBS
