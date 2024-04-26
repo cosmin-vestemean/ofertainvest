@@ -1273,6 +1273,48 @@ function creazaReteta(object) {
     object.CANTITATE_ARTICOL_OFERTA +
     ' ' +
     object.UM_ARTICOL_OFERTA
+    //add button Adauga activitate
+  var div_btn = document.createElement('div')
+  div_btn.classList.add('col-sm')
+  var button = document.createElement('button')
+  button.type = 'button'
+  button.classList.add('btn')
+  button.classList.add('btn-primary')
+  button.classList.add('btn-sm')
+  //add plus icon
+  var plus_icon = document.createElement('i')
+  plus_icon.classList.add('bi')
+  plus_icon.classList.add('bi-plus')
+  button.appendChild(plus_icon)
+  button.innerHTML += ' Adauga activitate'
+  div_btn.appendChild(button)
+  modal_body.appendChild(div_btn)
+  button.onclick = function () {
+    //adauga activitate
+    //add empty row to table_activitati_reteta, contenteditable
+    var tbody = document.getElementById('tbody_reteta')
+    var tr = document.createElement('tr')
+    tbody.appendChild(tr)
+    //add td with delete icon 
+    var td = document.createElement('td')
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-trash')
+    icon.classList.add('text-danger')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      //delete row
+      tbody.removeChild(tr)
+    }
+    td.appendChild(icon)
+    tr.appendChild(td)
+    //add td with contenteditable
+    for (var i = 0; i < 11; i++) {
+      var td = document.createElement('td')
+      td.contentEditable = true
+      tr.appendChild(td)
+    }
+  }
   //create table with header: WBS, DENUMIRE_ACTIVITATE_ARTICOL_RETETA, TIP_ACTIVITATE_ARTICOL_RETETA, SUBTIP_ACTIVITATE_ARTICOL_RETETA, UM_ACTIVITATE_ARTICOL_RETETA, CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA, TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA,NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA
   var table = document.createElement('table')
   //id
@@ -1330,122 +1372,5 @@ function creazaReteta(object) {
   var th = document.createElement('th')
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
-  //create tbody
-  editActivitate(1, object)
   modalReteta.show()
-
-  function editActivitate(index, object, existingTableLine) {
-    if (!existingTableLine)
-      existingTableLine = [object.WBS + '.' + index, '', '', '', '', '', '', '', '', '', '']
-    //add an empty editable row
-    var tr = document.createElement('tr')
-    tbody.appendChild(tr)
-    //add icons
-    var td = document.createElement('td')
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-plus')
-    icon.classList.add('text-success')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function () {
-      //copy input values to table's current row and delete inputs
-      //get td[0].values, may be input or select
-      var values = []
-      for (var i = 1; i < tr.cells.length; i++) {
-        var td = tr.cells[i]
-        var input = td.getElementsByTagName('input')[0]
-        if (input) {
-          values.push(input.value)
-          input.remove()
-        } else {
-          var select = td.getElementsByTagName('select')[0]
-          if (select) {
-            values.push(select.value)
-            select.remove()
-          } else {
-            values.push(td.innerHTML)
-          }
-        }
-      }
-
-      tr.innerHTML = ''
-      for (var i = 0; i < values.length; i++) {
-        var td = document.createElement('td')
-        td.innerHTML = values[i]
-        //contenteditable
-        td.contentEditable = true
-        //spellcheck
-        td.spellcheck = false
-        tr.appendChild(td)
-      }
-      index++
-      editActivitate(index, object)
-    }
-    td.appendChild(icon)
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-trash')
-    icon.classList.add('text-danger')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function () {
-      //delete row
-      tr.remove()
-    }
-    td.appendChild(icon)
-    tr.appendChild(td)
-
-    for (var i = 0; i < existingTableLine.length; i++) {
-      var td = document.createElement('td')
-      if (i == 2) {
-        //create select with options ARTICOL, SUBARTICOL, MATERIAL
-        var select = document.createElement('select')
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
-        select.classList.add('text-primary')
-        select.classList.add('text-center')
-        select.classList.add('fw-bold')
-        var option = document.createElement('option')
-        option.value = ''
-        option.text = ''
-        select.appendChild(option)
-        for (var j = 0; j < TIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
-          var option = document.createElement('option')
-          option.text = TIP_ACTIVITATE_ARTICOL_RETETA[j]
-          select.appendChild(option)
-        }
-        td.appendChild(select)
-      } else if (i == 3) {
-        //create select with options PRINCIPAL, MATERIAL, MANOPERA, TRANSPORT, ECHIPAMENT
-        var select = document.createElement('select')
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
-        select.classList.add('text-primary')
-        select.classList.add('text-center')
-        select.classList.add('fw-bold')
-        var option = document.createElement('option')
-        option.value = ''
-        option.text = ''
-        select.appendChild(option)
-        for (var j = 0; j < SUBTIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
-          var option = document.createElement('option')
-          option.text = SUBTIP_ACTIVITATE_ARTICOL_RETETA[j]
-          select.appendChild(option)
-        }
-        td.appendChild(select)
-      } else {
-        var input = document.createElement('input')
-        input.type = 'text'
-        input.classList.add('form-control')
-        input.classList.add('form-control-sm')
-        input.value = existingTableLine[i]
-        td.appendChild(input)
-      }
-      tr.appendChild(td)
-      tr.onclick = function (e) {
-        //get row index
-        var index = e.target.parentElement.rowIndex
-        console.log('index', index)
-      }
-    }
-  }
 }
