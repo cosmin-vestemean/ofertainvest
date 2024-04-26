@@ -1288,6 +1288,10 @@ function creazaReteta(object) {
   //create thead
   var tr = document.createElement('tr')
   thead.appendChild(tr)
+  //add Actions column: lines will contain a +, an edit and a trash icon
+  var th = document.createElement('th')
+  th.innerHTML = 'Actions'
+  tr.appendChild(th)
   var th = document.createElement('th')
   th.innerHTML = 'WBS'
   tr.appendChild(th)
@@ -1325,14 +1329,43 @@ function creazaReteta(object) {
   editActivitate(1)
   modalReteta.show()
 
-  function editActivitate(index, existingTableLine) {
-    if (!existingTableLine) existingTableLine = ['', '', '', '', '', '', '', '', '', '', '']
+  function editActivitate(index, object, existingTableLine) {
+    if (!existingTableLine)
+      existingTableLine = [object.WBS + '.' + index, '', '', '', '', '', '', '', '', '', '']
     //add an empty editable row
     var tr = document.createElement('tr')
     tbody.appendChild(tr)
+    //add icons
     var td = document.createElement('td')
-    td.innerHTML = object.WBS + (index ? '.' + index : '.1')
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-plus')
+    icon.classList.add('text-success')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      editActivitate(index + 1)
+    }
+    td.appendChild(icon)
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-pencil')
+    icon.classList.add('text-primary')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      editActivitate(index, object, existingTableLine)
+    }
+    td.appendChild(icon)
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-trash')
+    icon.classList.add('text-danger')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      //delete row
+    }
+    td.appendChild(icon)
     tr.appendChild(td)
+    
     for (var i = 0; i < existingTableLine.length; i++) {
       var td = document.createElement('td')
       var input = document.createElement('input')
