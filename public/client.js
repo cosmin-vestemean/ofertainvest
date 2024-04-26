@@ -689,7 +689,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
         button.appendChild(list_icon)
         //add event listener
         button.onclick = function () {
-          alert('Reteta pentru ' + object[key])
+          //alert('Reteta pentru ' + object[key])
           creazaReteta(object)
         }
         td.appendChild(button)
@@ -1251,4 +1251,62 @@ window.onload = function () {
     .catch((error) => {
       console.log('error', error)
     })
+}
+
+function creazaReteta(object) {
+  //object = {DENUMIRE_ARTICOL_OFERTA: "SUPRATERAN", CANTITATE_ARTICOL_OFERTA: 1, UM_ARTICOL_OFERTA: "buc", WBS: "1.1.1"}
+//show modal ModalReteta with object
+  var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
+  var modal_body = document.getElementById('modal-body2')
+  modal_body.innerHTML = ''
+  //add div container
+  var container = document.createElement('div')
+  container.classList.add('container')
+  modal_body.appendChild(container)
+  //add div row
+  var row = document.createElement('div')
+  row.classList.add('row')
+  container.appendChild(row)
+  //add div col-sm-6
+  var div1 = document.createElement('div')
+  div1.classList.add('col-sm-6')
+  row.appendChild(div1)
+  //add h6 with object.DENUMIRE_ARTICOL_OFERTA
+  var h6 = document.createElement('h6')
+  h6.innerHTML = object.DENUMIRE_ARTICOL_OFERTA
+  div1.appendChild(h6)
+  //add div col-sm-6
+  var div2 = document.createElement('div')
+  div2.classList.add('col-sm-6')
+  row.appendChild(div2)
+  //add input with object.CANTITATE_ARTICOL_OFERTA
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = object.CANTITATE_ARTICOL_OFERTA
+  div2.appendChild(input)
+  //add div row
+  var row = document.createElement('div')
+  row.classList.add('row')
+  container.appendChild(row)
+  //add div col-sm-6
+  var div1 = document.createElement('div')
+  div1.classList.add('col-sm-6')
+  row.appendChild(div1)
+  //add h6 with object.UM_ARTICOL_OFERTA
+  var h6 = document.createElement('h6')
+  h6.innerHTML = object.UM_ARTICOL_OFERTA
+  div1.appendChild(h6)
+  //add div col-sm-6
+  var div2 = document.createElement('div')
+  div2.classList.add('col-sm-6')
+  row.appendChild(div2)
+  //add button Adauga in antemasuratori
+  var button = document.createElement('button')
+  button.type = 'button'
+  button.classList.add('btn')
+  button.classList.add('btn-primary')
+  button.classList.add('btn-sm')
+  button.innerHTML = 'Adauga in antemasuratori'
 }
