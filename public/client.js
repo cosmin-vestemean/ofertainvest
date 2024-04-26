@@ -1372,6 +1372,7 @@ function creazaReteta(object) {
       Array.from(tds).forEach((td) => {
         existingTableLine.push(td.innerHTML)
       })
+      var index = existingTableLine[0].split('.')[1]
       tr.innerHTML = ''
       editActivitate(index, object, existingTableLine)
     }
