@@ -1423,6 +1423,7 @@ function creazaReteta(object) {
           option.text = Object.values(option)[0]
           select.appendChild(option)
         })
+        td.appendChild(select)
       } else if (i == 3) {
         //create select with options PRINCIPAL, MATERIAL, MANOPERA, TRANSPORT, ECHIPAMENT
         var select = document.createElement('select')
@@ -1444,6 +1445,7 @@ function creazaReteta(object) {
           option.text = Object.values(option)[0]
           select.appendChild(option)
         })
+        td.appendChild(select)
       } else {
         var input = document.createElement('input')
         input.type = 'text'
