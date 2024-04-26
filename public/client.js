@@ -1273,7 +1273,7 @@ function creazaReteta(object) {
     object.CANTITATE_ARTICOL_OFERTA +
     ' ' +
     object.UM_ARTICOL_OFERTA
-    //add button Adauga activitate
+  //add button Adauga activitate
   var div_btn = document.createElement('div')
   div_btn.classList.add('col-sm')
   var button = document.createElement('button')
@@ -1295,7 +1295,7 @@ function creazaReteta(object) {
     var tbody = document.getElementById('tbody_reteta')
     var tr = document.createElement('tr')
     tbody.appendChild(tr)
-    //add td with delete icon 
+    //add td with delete icon
     var td = document.createElement('td')
     var icon = document.createElement('i')
     icon.classList.add('bi')
@@ -1312,6 +1312,38 @@ function creazaReteta(object) {
     for (var i = 0; i < 11; i++) {
       var td = document.createElement('td')
       td.contentEditable = true
+      if (i == 1) {
+        //WBS
+        td.innerHTML = object.WBS + '.' + (tbody.rows.length + 1)
+      } else if (i == 2) {
+        //select with TIP_ACTIVITATE_ARTICOL_RETETA
+        var select = document.createElement('select')
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        select.id = 'TIP_ACTIVITATE_ARTICOL_RETETA'
+        for (var j = 0; j < TIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
+          var option = document.createElement('option')
+          option.value = j
+          option.text = TIP_ACTIVITATE_ARTICOL_RETETA[j]
+          select.appendChild(option)
+        }
+        td.appendChild(select)
+      } else if (i == 3) {
+        //select with SUBTIP_ACTIVITATE_ARTICOL_RETETA
+        var select = document.createElement('select')
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        select.id = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
+        for (var j = 0; j < SUBTIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
+          var option = document.createElement('option')
+          option.value = j
+          option.text = SUBTIP_ACTIVITATE_ARTICOL_RETETA[j]
+          select.appendChild(option)
+        }
+        td.appendChild(select)
+      } else {
+        td.innerHTML = ''
+      }
       tr.appendChild(td)
     }
   }
