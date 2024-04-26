@@ -1353,6 +1353,13 @@ function creazaReteta(object) {
     icon.classList.add('text-primary')
     icon.style.cursor = 'pointer'
     icon.onclick = function () {
+      existingTableLine = []
+      //get current row values
+      var tds = tr.getElementsByTagName('td')
+      Array.from(tds).forEach(function (td) {
+        var input = td.getElementsByTagName('input')[0]
+        existingTableLine.push(input.value)
+      })
       editActivitate(index, object, existingTableLine)
     }
     td.appendChild(icon)
