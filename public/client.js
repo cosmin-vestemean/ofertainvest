@@ -1361,6 +1361,8 @@ function creazaReteta(object) {
         td.innerHTML = values[i]
         //contenteditable
         td.contentEditable = true
+        //spellcheck
+        td.spellcheck = false
         tr.appendChild(td)
       }
       index++
