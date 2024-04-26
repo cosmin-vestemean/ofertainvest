@@ -1317,6 +1317,7 @@ function creazaReteta(object) {
     icon.onclick = function () {
       alert('Materiale pentru ' + object.WBS)
     }
+    td.appendChild(icon)
     tr.appendChild(td)
     //add td with contenteditable
     for (var i = 0; i < 11; i++) {
