@@ -1367,25 +1367,6 @@ function creazaReteta(object) {
       editActivitate(index, object)
     }
     td.appendChild(icon)
-    //edit
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-pencil')
-    icon.classList.add('text-primary')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function (e) {
-      existingTableLine = []
-      //get all td values and add them to existingTableLine
-      var tds = tr.getElementsByTagName('td')
-      Array.from(tds).forEach((td) => {
-        existingTableLine.push(td.innerHTML)
-      })
-      var index = e.target.parentElement.parentElement.rowIndex
-      console.log('index', index)
-      tr.innerHTML = ''
-      editActivitate(index, object, existingTableLine)
-    }
-    td.appendChild(icon)
     var icon = document.createElement('i')
     icon.classList.add('bi')
     icon.classList.add('bi-trash')
