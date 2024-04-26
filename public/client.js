@@ -1315,7 +1315,7 @@ function creazaReteta(object) {
       if (i == 1) {
         //WBS
         td.innerHTML = object.WBS + '.' + (tbody.rows.length + 1)
-      } else if (i == 2) {
+      } else if (i == 1) {
         //select with TIP_ACTIVITATE_ARTICOL_RETETA
         var select = document.createElement('select')
         select.classList.add('form-select')
