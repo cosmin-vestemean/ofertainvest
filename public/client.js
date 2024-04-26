@@ -1298,15 +1298,5 @@ function creazaReteta(object) {
   var h6 = document.createElement('h6')
   h6.innerHTML = object.UM_ARTICOL_OFERTA
   div1.appendChild(h6)
-  //add div col-sm-6
-  var div2 = document.createElement('div')
-  div2.classList.add('col-sm-6')
-  row.appendChild(div2)
-  //add button Adauga in antemasuratori
-  var button = document.createElement('button')
-  button.type = 'button'
-  button.classList.add('btn')
-  button.classList.add('btn-primary')
-  button.classList.add('btn-sm')
-  button.innerHTML = 'Adauga in antemasuratori'
+  modalReteta.show()
 }
