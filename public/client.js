@@ -1343,10 +1343,23 @@ function creazaReteta(object) {
     icon.classList.add('text-success')
     icon.style.cursor = 'pointer'
     icon.onclick = function () {
+      //copy input values to table's current row and delete inputs
+      var inputs = tr.getElementsByTagName('input')
+      var values = []
+      Array.from(inputs).forEach((input) => {
+        values.push(input.value)
+      })
+      tr.innerHTML = ''
+      for (var i = 0; i < values.length; i++) {
+        var td = document.createElement('td')
+        td.innerHTML = values[i]
+        tr.appendChild(td)
+      }
       index++
       editActivitate(index, object)
     }
     td.appendChild(icon)
+    //edit
     var icon = document.createElement('i')
     icon.classList.add('bi')
     icon.classList.add('bi-pencil')
@@ -1354,15 +1367,14 @@ function creazaReteta(object) {
     icon.style.cursor = 'pointer'
     icon.onclick = function () {
       existingTableLine = []
-      //get current row values
+      //get all td values and add them to existingTableLine
       var tds = tr.getElementsByTagName('td')
-      Array.from(tds).forEach(function (td) {
-        var input = td.getElementsByTagName('input')[0]
-        existingTableLine.push(input.value)
+      Array.from(tds).forEach((td) => {
+        existingTableLine.push(td.innerHTML)
       })
+      tr.innerHTML = ''
       editActivitate(index, object, existingTableLine)
     }
-    td.appendChild(icon)
     var icon = document.createElement('i')
     icon.classList.add('bi')
     icon.classList.add('bi-trash')
