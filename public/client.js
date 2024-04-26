@@ -1387,36 +1387,58 @@ function creazaReteta(object) {
   th.innerHTML = 'Actions'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'WBS'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'DENUMIRE_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'TIP_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'UM_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   var th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
+  th.style.writingMode = 'vertical-rl'
+  th.style.rotate = '180deg'
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   modalReteta.show()
