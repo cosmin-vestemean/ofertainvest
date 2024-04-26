@@ -1284,6 +1284,9 @@ function creazaReteta(object) {
   thead.id = 'thead_reteta'
   var tbody = document.createElement('tbody')
   tbody.id = 'tbody_reteta'
+  tbody.onclick = function(e) {
+    console.log(e.target.parentNode.rowIndex)
+  };
   table.appendChild(thead)
   table.appendChild(tbody)
   modal_body.appendChild(table)
@@ -1410,10 +1413,6 @@ function creazaReteta(object) {
       input.value = existingTableLine[i]
       td.appendChild(input)
       tr.appendChild(td)
-      tr.onclick = getIndex(this)
-      function getIndex(row) {
-        console.log('row', row.rowIndex)
-      }
     }
   }
 }
