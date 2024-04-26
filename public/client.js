@@ -1308,6 +1308,15 @@ function creazaReteta(object) {
       tbody.removeChild(tr)
     }
     td.appendChild(icon)
+    //add list icon
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-list')
+    icon.classList.add('text-primary')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      alert('Materiale pentru ' + object.WBS)
+    }
     tr.appendChild(td)
     //add td with contenteditable
     for (var i = 0; i < 11; i++) {
