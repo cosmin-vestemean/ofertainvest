@@ -1261,8 +1261,7 @@ function creazaReteta(object) {
   //show modal ModalReteta with object
   var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
   var modal_body = document.getElementById('modal-body2')
-  let title_div = document.createElement('div')
-  title_div.innerHTML = ''
+  modal_body.innerHTML = ''
   //headerLabel2
   var headerLabel2 = document.getElementById('headerLabel2')
   headerLabel2.innerHTML =
@@ -1275,8 +1274,6 @@ function creazaReteta(object) {
     ' [' +
     object.UM_ARTICOL_OFERTA +
     ']'
-
-  modal_body.appendChild(title_div)
   //add button Adauga activitate
   var div_btn = document.createElement('div')
   div_btn.classList.add('col-sm')
@@ -1292,8 +1289,7 @@ function creazaReteta(object) {
   button.appendChild(plus_icon)
   button.innerHTML += ' Adauga activitate'
   div_btn.appendChild(button)
-  modal_body.appendChild(div_btn)
-
+  headerLabel2.appendChild(div_btn)
   button.onclick = function () {
     //adauga activitate
     //add empty row to table_activitati_reteta, contenteditable
