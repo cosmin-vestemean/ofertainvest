@@ -1336,9 +1336,22 @@ function creazaReteta(object) {
       existingTableLine = [object.WBS + '.' + index, '', '', '', '', '', '', '', '', '', '']
     //add an empty editable row
     var tr = document.createElement('tr')
-    tr.onclick = function(e) {
-      console.log(e.target.parentNode.rowIndex)
-    };
+    tr.onclick = function (e) {
+      let i = e.target.parentNode.rowIndex
+      console.log(i)
+      if (i) {
+        //edit
+        let = existingTableLine = []
+        //get all td values and add them to existingTableLine
+        var tds = tr.getElementsByTagName('td')
+        Array.from(tds).forEach((td) => {
+          existingTableLine.push(td.innerHTML)
+        })
+        var index = i
+        tr.innerHTML = ''
+        editActivitate(index, object, existingTableLine)
+      }
+    }
     tbody.appendChild(tr)
     //add icons
     var td = document.createElement('td')
@@ -1368,30 +1381,6 @@ function creazaReteta(object) {
       editActivitate(index, object)
     }
     td.appendChild(icon)
-    //edit
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-pencil')
-    icon.classList.add('text-primary')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function () {
-      existingTableLine = []
-      //get all td values and add them to existingTableLine
-      var tds = tr.getElementsByTagName('td')
-      Array.from(tds).forEach((td) => {
-        existingTableLine.push(td.innerHTML)
-      })
-      var index = 0;
-      //get row index
-      var trs = tbody.getElementsByTagName('tr')
-      Array.from(trs).forEach((tr) => {
-        if (tr === tr) {
-          index = Array.from(trs).indexOf(tr)
-        }
-      })
-      tr.innerHTML = ''
-      editActivitate(index, object, existingTableLine)
-    }
     td.appendChild(icon)
     var icon = document.createElement('i')
     icon.classList.add('bi')
