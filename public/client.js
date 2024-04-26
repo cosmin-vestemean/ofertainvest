@@ -1410,9 +1410,9 @@ function creazaReteta(object) {
       input.value = existingTableLine[i]
       td.appendChild(input)
       tr.appendChild(td)
-      tr.onclick = function (this) {
-        //get row index
-        alert(this.rowIndex)
+      tr.onclick = getIndex(this)
+      function getIndex(row) {
+        console.log('row', row.rowIndex)
       }
     }
   }
