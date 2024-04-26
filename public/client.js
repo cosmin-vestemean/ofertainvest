@@ -696,7 +696,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
       }
       //add val to td as span
       var span = document.createElement('span')
-      span.innerHTML = val  || ''
+      span.innerHTML = val || ''
       td.appendChild(span)
       tr.appendChild(td)
     })
@@ -1255,13 +1255,21 @@ window.onload = function () {
 
 function creazaReteta(object) {
   //object = {DENUMIRE_ARTICOL_OFERTA: "SUPRATERAN", CANTITATE_ARTICOL_OFERTA: 1, UM_ARTICOL_OFERTA: "buc", WBS: "1.1.1"}
-//show modal ModalReteta with object
+  //show modal ModalReteta with object
   var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
   var modal_body = document.getElementById('modal-body2')
   modal_body.innerHTML = ''
   //headerLabel2
   var headerLabel2 = document.getElementById('headerLabel2')
-  headerLabel2.innerHTML = 'Reteta pentru ' + object.WBS + ' ' + object.DENUMIRE_ARTICOL_OFERTA + ' ' + object.CANTITATE_ARTICOL_OFERTA + ' ' + object.UM_ARTICOL_OFERTA
+  headerLabel2.innerHTML =
+    'Reteta pentru ' +
+    object.WBS +
+    ' ' +
+    object.DENUMIRE_ARTICOL_OFERTA +
+    ' ' +
+    object.CANTITATE_ARTICOL_OFERTA +
+    ' ' +
+    object.UM_ARTICOL_OFERTA
   //create table with header: WBS, DENUMIRE_ACTIVITATE_ARTICOL_RETETA, TIP_ACTIVITATE_ARTICOL_RETETA, SUBTIP_ACTIVITATE_ARTICOL_RETETA, UM_ACTIVITATE_ARTICOL_RETETA, CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA, TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA,NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA
   var table = document.createElement('table')
   table.classList.add('table')
@@ -1314,94 +1322,26 @@ function creazaReteta(object) {
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   //create tbody
-  //add an empty editable row
-  var tr = document.createElement('tr')
-  tbody.appendChild(tr)
-  var td = document.createElement('td')
-  td.innerHTML = object.WBS
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  var td = document.createElement('td')
-  var input = document.createElement('input')
-  input.type = 'text'
-  input.classList.add('form-control')
-  input.classList.add('form-control-sm')
-  input.value = ''
-  td.appendChild(input)
-  tr.appendChild(td)
-  //add a button Adauga
-  var tr = document.createElement('tr') 
-  tbody.appendChild(tr)
-  var td = document.createElement('td')
-  var button = document.createElement('button')
-  button.type = 'button'
-  button.classList.add('btn')
-  button.classList.add('btn-primary')
-  button.classList.add('btn-sm')
-  button.innerHTML = 'Adauga'
-  td.appendChild(button)
+  editActivitate(1)
   modalReteta.show()
+
+  function editActivitate(index, existingTableLine) {
+    if (!existingTableLine) existingTableLine = ['', '', '', '', '', '', '', '', '', '', '']
+    //add an empty editable row
+    var tr = document.createElement('tr')
+    tbody.appendChild(tr)
+    var td = document.createElement('td')
+    td.innerHTML = object.WBS + (index ? '.' + index : '.1')
+    tr.appendChild(td)
+    for (var i = 0; i < existingTableLine.length; i++) {
+      var td = document.createElement('td')
+      var input = document.createElement('input')
+      input.type = 'text'
+      input.classList.add('form-control')
+      input.classList.add('form-control-sm')
+      input.value = existingTableLine[i]
+      td.appendChild(input)
+      tr.appendChild(td)
+    }
+  }
 }
