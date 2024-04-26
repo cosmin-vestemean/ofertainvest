@@ -1,5 +1,11 @@
-const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-const SUBTIP_ACTIVITATE_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT']
+const TIP_ACTIVITATE_ARTICOL_RETETA = [{ 1: 'ARTICOL' }, { 2: 'SUBARTICOL' }, { 3: 'MATERIAL' }]
+const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
+  { 1: 'PRINCIPAL' },
+  { 2: 'MATERIAL' },
+  { 3: 'MANOPERA' },
+  { 4: 'TRANSPORT' },
+  { 5: 'ECHIPAMENT' }
+]
 
 console.log('client.js loaded')
 
@@ -1410,8 +1416,11 @@ function creazaReteta(object) {
         select.appendChild(option)
         TIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
           var option = document.createElement('option')
-          option.value = option
-          option.text = option
+          //option is an object eg {1: 'ARTICOL', 2: 'SUBARTICOL', 3: 'MATERIAL'}
+          //value is key
+          option.value = Object.keys(option)[0]
+          //text is value
+          option.text = Object.values(option)[0]
           select.appendChild(option)
         })
       } else if (i == 3) {
