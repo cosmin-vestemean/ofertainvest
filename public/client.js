@@ -1437,8 +1437,11 @@ function creazaReteta(object) {
         select.appendChild(option)
         SUBTIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
           var option = document.createElement('option')
-          option.value = option
-          option.text = option
+          //option is an object eg {1: 'PRINCIPAL', 2: 'MATERIAL', 3: 'MANOPERA', 4: 'TRANSPORT', 5: 'ECHIPAMENT'}
+          //value is key
+          option.value = Object.keys(option)[0]
+          //text is value
+          option.text = Object.values(option)[0]
           select.appendChild(option)
         })
       } else {
