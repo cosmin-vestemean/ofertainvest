@@ -1404,6 +1404,11 @@ function creazaReteta(object) {
       input.value = existingTableLine[i]
       td.appendChild(input)
       tr.appendChild(td)
+      tr.onclick = function (e) {
+        //get row index
+        var index = e.target.parentElement.rowIndex
+        console.log('index', index)
+      }
     }
   }
 }
