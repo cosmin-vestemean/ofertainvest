@@ -1343,7 +1343,8 @@ function creazaReteta(object) {
     icon.classList.add('text-success')
     icon.style.cursor = 'pointer'
     icon.onclick = function () {
-      editActivitate(index + 1)
+      index++
+      editActivitate(index, object)
     }
     td.appendChild(icon)
     var icon = document.createElement('i')
