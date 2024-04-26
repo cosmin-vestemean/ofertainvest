@@ -1259,7 +1259,7 @@ function creazaReteta(object) {
   var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
   var modal_body = document.getElementById('modal-body2')
   modal_body.innerHTML = ''
-  //headerlLabel2
+  //headerLabel2
   var headerLabel2 = document.getElementById('headerLabel2')
   headerLabel2.innerHTML = 'Reteta pentru ' + object.WBS + ' ' + object.DENUMIRE_ARTICOL_OFERTA + ' ' + object.CANTITATE_ARTICOL_OFERTA + ' ' + object.UM_ARTICOL_OFERTA
   //create table with header: WBS, DENUMIRE_ACTIVITATE_ARTICOL_RETETA, TIP_ACTIVITATE_ARTICOL_RETETA, SUBTIP_ACTIVITATE_ARTICOL_RETETA, UM_ACTIVITATE_ARTICOL_RETETA, CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA, TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA,NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA
