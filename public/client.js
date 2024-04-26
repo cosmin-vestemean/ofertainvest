@@ -1,10 +1,10 @@
-const TIP_ACTIVITATE_ARTICOL_RETETA = [{ 1: 'ARTICOL' }, { 2: 'SUBARTICOL' }, { 3: 'MATERIAL' }]
+const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL','SUBARTICOL','MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
-  { 1: 'PRINCIPAL' },
-  { 2: 'MATERIAL' },
-  { 3: 'MANOPERA' },
-  { 4: 'TRANSPORT' },
-  { 5: 'ECHIPAMENT' }
+  'PRINCIPAL',
+  'MATERIAL',
+  'MANOPERA',
+  'TRANSPORT',
+  'ECHIPAMENT'
 ]
 
 console.log('client.js loaded')
@@ -1416,11 +1416,7 @@ function creazaReteta(object) {
         select.appendChild(option)
         TIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
           var option = document.createElement('option')
-          //option is an object eg {1: 'ARTICOL', 2: 'SUBARTICOL', 3: 'MATERIAL'}
-          //value is key
-          option.value = Object.keys(option)[0]
-          //text is value
-          option.text = Object.values(option)[0]
+          option.text = option
           select.appendChild(option)
         })
         td.appendChild(select)
@@ -1438,11 +1434,7 @@ function creazaReteta(object) {
         select.appendChild(option)
         SUBTIP_ACTIVITATE_ARTICOL_RETETA.forEach(function (option) {
           var option = document.createElement('option')
-          //option is an object eg {1: 'PRINCIPAL', 2: 'MATERIAL', 3: 'MANOPERA', 4: 'TRANSPORT', 5: 'ECHIPAMENT'}
-          //value is key
-          option.value = Object.keys(option)[0]
-          //text is value
-          option.text = Object.values(option)[0]
+          option.text = option
           select.appendChild(option)
         })
         td.appendChild(select)
