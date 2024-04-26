@@ -1359,6 +1359,8 @@ function creazaReteta(object) {
       for (var i = 0; i < values.length; i++) {
         var td = document.createElement('td')
         td.innerHTML = values[i]
+        //contenteditable
+        td.contentEditable = true
         tr.appendChild(td)
       }
       index++
@@ -1391,6 +1393,7 @@ function creazaReteta(object) {
     icon.style.cursor = 'pointer'
     icon.onclick = function () {
       //delete row
+      tr.remove()
     }
     td.appendChild(icon)
     tr.appendChild(td)
