@@ -1,3 +1,6 @@
+const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
+const SUBTIP_ACTIVITATE_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT']
+
 console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
@@ -1331,8 +1334,6 @@ function creazaReteta(object) {
   editActivitate(1, object)
   modalReteta.show()
 
-  const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-  const SUBTIP_ACTIVITATE_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT']
   function editActivitate(index, object, existingTableLine) {
     if (!existingTableLine)
       existingTableLine = [object.WBS + '.' + index, '', '', '', '', '', '', '', '', '', '']
@@ -1413,7 +1414,7 @@ function creazaReteta(object) {
           option.text = option
           select.appendChild(option)
         })
-      } else if (i==3) {
+      } else if (i == 3) {
         //create select with options PRINCIPAL, MATERIAL, MANOPERA, TRANSPORT, ECHIPAMENT
         var select = document.createElement('select')
         select.classList.add('form-select')
