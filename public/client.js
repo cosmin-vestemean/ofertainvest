@@ -1,5 +1,13 @@
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-const SUBTIP_ACTIVITATE_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'COMPUS', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT', 'UTILAJ']
+const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
+  'PRINCIPAL',
+  'MATERIAL',
+  'COMPUS',
+  'MANOPERA',
+  'TRANSPORT',
+  'ECHIPAMENT',
+  'UTILAJ'
+]
 
 console.log('client.js loaded')
 
@@ -1384,61 +1392,97 @@ function creazaReteta(object) {
   var th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'Actions'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'WBS'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'DENUMIRE_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'TIP_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'UM_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   var th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   th = document.createElement('th')
   th.style.writingMode = 'vertical-rl'
   th.style.rotate = '180deg'
+  th.classList.add('header')
+  //add scope col
+  th.setAttribute('scope', 'col')
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   modalReteta.show()
