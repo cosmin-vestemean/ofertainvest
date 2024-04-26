@@ -1259,44 +1259,149 @@ function creazaReteta(object) {
   var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
   var modal_body = document.getElementById('modal-body2')
   modal_body.innerHTML = ''
-  //add div container
-  var container = document.createElement('div')
-  container.classList.add('container')
-  modal_body.appendChild(container)
-  //add div row
-  var row = document.createElement('div')
-  row.classList.add('row')
-  container.appendChild(row)
-  //add div col-sm-6
-  var div1 = document.createElement('div')
-  div1.classList.add('col-sm-6')
-  row.appendChild(div1)
-  //add h6 with object.DENUMIRE_ARTICOL_OFERTA
-  var h6 = document.createElement('h6')
-  h6.innerHTML = object.DENUMIRE_ARTICOL_OFERTA
-  div1.appendChild(h6)
-  //add div col-sm-6
-  var div2 = document.createElement('div')
-  div2.classList.add('col-sm-6')
-  row.appendChild(div2)
-  //add input with object.CANTITATE_ARTICOL_OFERTA
+  //headerlLabel2
+  var headerLabel2 = document.getElementById('headerLabel2')
+  headerLabel2.innerHTML = 'Reteta pentru ' + object.WBS + ' ' + object.DENUMIRE_ARTICOL_OFERTA + ' ' + object.CANTITATE_ARTICOL_OFERTA + ' ' + object.UM_ARTICOL_OFERTA
+  //create table with header: WBS, DENUMIRE_ACTIVITATE_ARTICOL_RETETA, TIP_ACTIVITATE_ARTICOL_RETETA, SUBTIP_ACTIVITATE_ARTICOL_RETETA, UM_ACTIVITATE_ARTICOL_RETETA, CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA, TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA,NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA
+  var table = document.createElement('table')
+  table.classList.add('table')
+  table.classList.add('table-sm')
+  table.classList.add('table-bordered')
+  table.classList.add('table-hover')
+  table.classList.add('table-striped')
+  table.classList.add('table-responsive')
+  var thead = document.createElement('thead')
+  thead.id = 'thead_reteta'
+  var tbody = document.createElement('tbody')
+  tbody.id = 'tbody_reteta'
+  table.appendChild(thead)
+  table.appendChild(tbody)
+  modal_body.appendChild(table)
+  //create thead
+  var tr = document.createElement('tr')
+  thead.appendChild(tr)
+  var th = document.createElement('th')
+  th.innerHTML = 'WBS'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'DENUMIRE_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'TIP_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'UM_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
+  tr.appendChild(th)
+  //create tbody
+  //add an empty editable row
+  var tr = document.createElement('tr')
+  tbody.appendChild(tr)
+  var td = document.createElement('td')
+  td.innerHTML = object.WBS
+  tr.appendChild(td)
+  var td = document.createElement('td')
   var input = document.createElement('input')
   input.type = 'text'
   input.classList.add('form-control')
   input.classList.add('form-control-sm')
-  input.value = object.CANTITATE_ARTICOL_OFERTA
-  div2.appendChild(input)
-  //add div row
-  var row = document.createElement('div')
-  row.classList.add('row')
-  container.appendChild(row)
-  //add div col-sm-6
-  var div1 = document.createElement('div')
-  div1.classList.add('col-sm-6')
-  row.appendChild(div1)
-  //add h6 with object.UM_ARTICOL_OFERTA
-  var h6 = document.createElement('h6')
-  h6.innerHTML = object.UM_ARTICOL_OFERTA
-  div1.appendChild(h6)
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  var td = document.createElement('td')
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.classList.add('form-control')
+  input.classList.add('form-control-sm')
+  input.value = ''
+  td.appendChild(input)
+  tr.appendChild(td)
+  //add a button Adauga
+  var tr = document.createElement('tr') 
+  tbody.appendChild(tr)
+  var td = document.createElement('td')
+  var button = document.createElement('button')
+  button.type = 'button'
+  button.classList.add('btn')
+  button.classList.add('btn-primary')
+  button.classList.add('btn-sm')
+  button.innerHTML = 'Adauga'
+  td.appendChild(button)
   modalReteta.show()
 }
