@@ -1272,6 +1272,8 @@ function creazaReteta(object) {
     object.UM_ARTICOL_OFERTA
   //create table with header: WBS, DENUMIRE_ACTIVITATE_ARTICOL_RETETA, TIP_ACTIVITATE_ARTICOL_RETETA, SUBTIP_ACTIVITATE_ARTICOL_RETETA, UM_ACTIVITATE_ARTICOL_RETETA, CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA, TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA,NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA
   var table = document.createElement('table')
+  //id
+  table.id = 'table_activitati_reteta'
   table.classList.add('table')
   table.classList.add('table-sm')
   table.classList.add('table-bordered')
@@ -1325,6 +1327,18 @@ function creazaReteta(object) {
   var th = document.createElement('th')
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
+  //add listner tr on click => alert index
+  tbody.onclick = function (e) {
+    var tr = e.target.closest('tr')
+    if (tr) {
+      var trs = tbody.getElementsByTagName('tr')
+      Array.from(trs).forEach((tr) => {
+        if (tr === tr) {
+          alert(Array.from(trs).indexOf(tr))
+        }
+      })
+    }
+  }
   //create tbody
   editActivitate(1, object)
   modalReteta.show()
