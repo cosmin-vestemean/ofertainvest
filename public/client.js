@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
@@ -50,6 +50,7 @@ var extra_nivele_count = 0
 var original_ds = []
 var compacted_ds = []
 var optimal_ds = []
+var recipes_ds = []
 var combinatii_unice = []
 var selected_ds = []
 var ds_antemasuratori = []
@@ -1137,7 +1138,7 @@ document.addEventListener('input', function (e) {
 })
 
 //add onload event to window
-export function init () {
+export function init() {
   let btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
@@ -1157,7 +1158,7 @@ export function init () {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
-    alert('scan_oferta_initiala')
+    createDatasetForRecipes()
   }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
@@ -1490,4 +1491,28 @@ function creazaReteta(object) {
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
   modalReteta.show()
+}
+
+function createDatasetForRecipes() {
+  //push from optimal_ds  to recipes_ds with (TIP_ARTICOL_OFERTA; SUBTIP_ARTICOL_OFERTA) one of these combinations: (Articol;Principal), (Articol;Manopera), (Articol; Transport) si (Articol; Utilaj)
+  //pushDataToTable
+  var mainCombo = [
+    ['Articol', 'Principal'],
+    ['Articol', 'Manopera'],
+    ['Articol', 'Transport'],
+    ['Articol', 'Utilaj']
+  ]
+
+  recipes_ds = []
+  optimal_ds.forEach(function (object) {
+    mainCombo.forEach(function (combo) {
+      if (object['TIP_ARTICOL_OFERTA'] == combo[0] && object['SUBTIP_ARTICOL_OFERTA'] == combo[1]) {
+        recipes_ds.push(object)
+      }
+    })
+  })
+
+  console.log('recipes_ds', recipes_ds)
+
+  pushDataToTable(recipes_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 }
