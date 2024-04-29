@@ -44,10 +44,15 @@ HTML code:
         font-family: helvetica, 'Roboto', sans-serif;
       }
 
+      a {
+        text-decoration: none;
+        color: black;
+        font-size: 12px;
+      }
+
       .form-select,
       .form-control,
-      .btn,
-      a {
+      .btn {
         font-size: 12px;
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
       }
@@ -194,7 +199,7 @@ HTML code:
       2. date picker id="trndate"
       3. select id="trdr" (trader)
       4. select id="prjc" (project) -->
-      <div class="row p-2">
+      <div class="row">
         <div class="col-sm">
           <label for="saldoc" class="form-label text-primary">Oferte</label>
           <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
