@@ -1,0 +1,23 @@
+activitati> materiale:
+
+-3. Gruparea se face dupa denumire + UM + TIP + SUBTIP
+-2. Articole pasbile de reteta (filtru oferta>lista de retetat)
+Articol Principal, Articol Manopera, Articol Transport si Articol Utilaj
+-1.5. WBS_Intern/WBS_Antemasuratori (index care bate pasul pe loc)
+-1.5.1: daca Activitate are WBS 1.1 materialele vor avea 1.1.n
+-1. pot fi doua activitati cu acealeasi caracteristici (denumire + UM + TIP + SUBTIP) dar WBS oferta diferite => WBS intern acelasi, care slujeste drept referinta la retetare => doua activitati cu 2 wbs diferite in oferta au aceeasi reteta
+
+0. articol selectat pentru reteta => WBS => WBS.index de tip (articol+principal) sau (material+principal) drept activitati;
+0.1. la care se adauga restul de WBS-uri aferente in materiale ca la 1 si 2
+EXEMPLU pe fisier IMPORT OFERTA.xls din teste:
+WBS:1183.7.18.23 -> activitate (articol+principal)
+
+1. daca in activit am articol + material => materiale acelasi articol cu aceleasi caracteristici
+2. articol + principal => materiale: subarticol + material; ramane de completat doar denumirea
+2.1. la o pereche (articol+principal) cu WBS scaneaza in oferta (antemas) dupa WBS.i cu (subarticol+material) si adu-le automat in materialele aferente activitatii (articol+principal); atentie! i poate batea pasul pe loc: WBS.0, WBS.0...etc (ignora si adu-le)
+
+
+
+
+
+
