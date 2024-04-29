@@ -170,7 +170,7 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
 */
 
   var nivele = []
-  keys = Object.keys(optimal_ds[0])
+  let keys = Object.keys(optimal_ds[0])
   keys.forEach(function (key) {
     if (key.includes('NIVEL_OFERTA')) {
       nivele.push(key)
