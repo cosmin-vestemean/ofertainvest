@@ -1507,8 +1507,8 @@ function createDatasetForRecipes() {
   optimal_ds.forEach(function (object) {
     mainCombo.forEach(function (combo) {
       if (
-        object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLocaleLowerCase() &&
-        object['SUBTIP_ARTICOL_OFERTA'].toLocaleLowerCase() == combo[1].toLocaleLowerCase()
+        object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
+        object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
       ) {
         recipes_ds.push(object)
       }
