@@ -1,4 +1,4 @@
-import { html, LitElement } from './node_modules/lit-html/lit-html.js'
+import { html, LitElement } from 'https://esm.run/lit-html@1'
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
