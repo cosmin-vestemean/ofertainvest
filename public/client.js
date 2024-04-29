@@ -1,3 +1,5 @@
+import {html, render} from 'https://esm.run/lit-html@1';
+
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
   'PRINCIPAL',
@@ -1135,27 +1137,26 @@ document.addEventListener('input', function (e) {
 })
 
 //add onload event to window
-window.onload = function () {
-  var btn_oferta = document.getElementById('btn_oferta')
+export function init () {
+  let btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
-  var file_oferta_initiala = document.getElementById('file_oferta_initiala')
+  let file_oferta_initiala = document.getElementById('file_oferta_initiala')
   file_oferta_initiala.onchange = loadDataFromFile
-  var btn_oferta = document.getElementById('btn_oferta')
   //btn_oferta text = 'left arrow' + 'Incarca oferta initiala'
-  var al =
+  const al =
     '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">' +
     '<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>' +
     '</svg>'
   btn_oferta.innerHTML = al + 'Incarca oferta initiala'
   btn_oferta.classList.remove('btn-danger')
   btn_oferta.classList.add('btn-success')
-  btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
+  let btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
   btn_save_antemasuratori.onclick = saveChanges
-  btn_save_graph = document.getElementById('btn_save_graph')
+  let btn_save_graph = document.getElementById('btn_save_graph')
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   document.getElementById('trndate').valueAsDate = new Date()
-  select_trdr = document.getElementById('trdr')
+  let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
   connectToS1Service()
     .then(async (result) => {
