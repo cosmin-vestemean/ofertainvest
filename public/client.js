@@ -487,7 +487,7 @@ create tree branches: SUPRATERAN -> INSTALATII ELECTRICE -> DISTRIBUTIE -> ETAJ 
     combinatii_unice_with_id = []
 
   combinatii_unice.forEach((combo) => {
-    combo_id = []
+    let combo_id = []
     combo.forEach((nivel) => {
       var i = combinatii_unice.indexOf(combo) + 1
       var j = combo.indexOf(nivel) + 1
