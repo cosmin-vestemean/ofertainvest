@@ -1160,6 +1160,10 @@ export function init() {
   scan_oferta_initiala.onclick = function () {
     createDatasetForRecipes()
   }
+  let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
+  vizualizare_oferta_optimizata.onclick = function () {
+    pushDataToTable(optimal_ds, 'thead_oferta_optimizata', 'tbody_oferta_optimizata')
+  }
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
   vizulizare_oferta_initiala.onclick = function () {
     pushDataToTable(original_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
