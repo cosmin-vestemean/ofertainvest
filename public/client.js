@@ -1,4 +1,4 @@
-import { html, render } from 'https://esm.run/lit-html@1'
+import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
