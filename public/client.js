@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement } from '.node_modules/lit-html/lit-html.js'
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
