@@ -628,7 +628,9 @@ function pushDataToTable(data, thead_name, tbody_name) {
   pg.setAttribute('aria-valuemax', data.length)
   pg.style.width = '0%'
   lbl.innerHTML = '0%'
+  let linesCount = 0
   data.forEach(function (object) {
+    linesCount++
     //update progress bar
     pg.setAttribute('aria-valuenow', data.indexOf(object) + 1)
     pg.style.width = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
@@ -646,6 +648,9 @@ function pushDataToTable(data, thead_name, tbody_name) {
       //delete row
     }
     td.appendChild(icon)
+    tr.appendChild(td)
+    var td = document.createElement('td')
+    td.innerHTML = linesCount
     tr.appendChild(td)
     keys.forEach(function (key) {
       var td = document.createElement('td')
