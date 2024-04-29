@@ -1160,6 +1160,10 @@ export function init() {
   scan_oferta_initiala.onclick = function () {
     createDatasetForRecipes()
   }
+  let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
+  vizulizare_oferta_initiala.onclick = function () {
+    pushDataToTable(original_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+  }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
