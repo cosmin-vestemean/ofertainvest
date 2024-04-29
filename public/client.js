@@ -647,13 +647,7 @@ function pushDataToTable(data, thead_name, tbody_name) {
     }
     td.appendChild(icon)
     tr.appendChild(td)
-    let linesCount = 0
     keys.forEach(function (key) {
-      linesCount ++
-      //add line count
-      var td = document.createElement('td')
-      td.innerHTML = linesCount
-      tr.appendChild(td)
       var td = document.createElement('td')
       var val = 0
       //if object[key] is a number format it to 2 decimals
