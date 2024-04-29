@@ -1155,6 +1155,10 @@ export function init () {
   let btn_save_graph = document.getElementById('btn_save_graph')
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
+  let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
+  scan_oferta_initiala.onclick = function () {
+    alet('scan_oferta_initiala')
+  }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
