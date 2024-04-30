@@ -1647,6 +1647,8 @@ async function createDatasetForRecipes() {
     return a.WBS.localeCompare(b.WBS)
   })
 
+  console.log('sorted_optimal_ds', sorted_optimal_ds)
+
   var trees = []
   var tree = []
   var prev = ''
