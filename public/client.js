@@ -1167,8 +1167,8 @@ export function init() {
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
-  scan_oferta_initiala.onclick = function () {
-    createDatasetForRecipes()
+  scan_oferta_initiala.onclick = async function () {
+    await createDatasetForRecipes()
     fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
@@ -1512,7 +1512,7 @@ function creazaReteta(object) {
   modalReteta.show()
 }
 
-function createDatasetForRecipes() {
+async function createDatasetForRecipes() {
   //push from optimal_ds  to recipes_ds with (TIP_ARTICOL_OFERTA; SUBTIP_ARTICOL_OFERTA) one of these combinations: (Articol;Principal), (Articol;Manopera), (Articol; Transport) si (Articol; Utilaj)
   //pushDataToTable
   var mainCombo = [
