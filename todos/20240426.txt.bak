@@ -17,7 +17,7 @@ Articol Principal, Articol Manopera, Articol Transport si Articol Utilaj
 1887.2.3.3.2
 1887.2.3.3.3
 
--0.5 tabela relatii WBS oferta cu WBS intern; acest WBS intern va fi folosit peste tot (antemasuratori)
+-0.5 tabela relatii WBS oferta cu WBS intern
 
 0. articol selectat pentru reteta => WBS => WBS.index de tip (articol+principal) sau (material+principal) drept activitati;
 0.1. la care se adauga restul de WBS-uri aferente in materiale ca la 1 si 2
