@@ -90,7 +90,8 @@ function loadDataFromFile(evt) {
     //console.log("compacted_ds", compacted_ds);
 
     const unique_key = 'SERIE_ARTICOL_OFERTA'
-    optimal_ds = compactByUniqueKey(compacted_ds, unique_key)
+    //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
+    optimal_ds = sortByUniqueKey(original_ds, unique_key)
     console.log('optimal_ds', optimal_ds)
 
     pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
@@ -139,11 +140,11 @@ function removeEmpty(original_ds) {
   return compacted_ds
 }
 
-function compactByUniqueKey(compacted_ds, unique_key) {
+function sortByUniqueKey(compacted_ds, unique_key) {
   //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
 
   //rearrange data so all objects with same key unique_key are displayed together
-  var optimal_ds = []
+  let optimal_ds = []
   var distinct = [...new Set(compacted_ds.map((x) => x[unique_key]))]
   distinct.forEach(function (item) {
     compacted_ds.forEach(function (object) {
