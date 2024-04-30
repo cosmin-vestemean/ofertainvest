@@ -1173,7 +1173,7 @@ export function init() {
     let roots = rez.roots
     recipes_ds = rez.recipes_dset
     pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-    await fillInRecipes()
+    fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
@@ -1293,6 +1293,62 @@ export function init() {
 }
 
 function creazaReteta(object) {
+  //display modal ModalReteta with children from recipes_ds of object.WBS
+  var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
+  var modal_body = document.getElementById('modal-body2')
+  modal_body.innerHTML = ''
+  //headerLabel2
+  var headerLabel2 = document.getElementById('headerLabel2')
+  headerLabel2.innerHTML = 'Reteta pentru ' + object.WBS + ' ' + object.DENUMIRE_ARTICOL_OFERTA
+  //find children of object.WBS in recipes_ds
+  var children = []
+  recipes_ds.forEach(function (o) {
+    if (o.WBS== object.WBS) {
+      children.push(o)
+    }
+  })
+
+  //create table with header: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA
+  var tbody = document.getElementById('tbody_reteta')
+  tbody.innerHTML = ''
+  children.forEach(function (object) {
+    var tr = document.createElement('tr')
+    tbody.appendChild(tr)
+    //add td with delete icon
+    var td = document.createElement('td')
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-trash')
+    icon.classList.add('text-danger')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      //delete row
+      tbody.removeChild(tr)
+    }
+    td.appendChild(icon)
+    tr.appendChild(td)
+    //add td with contenteditable
+    for (var i = 0; i < 4; i++) {
+      var td = document.createElement('td')
+      //spellcheck = false
+      td.spellcheck = false
+      td.contentEditable = true
+      if (i == 0) {
+        td.innerHTML = object.WBS + '.' + tbody.rows.length
+      } else if (i == 2) {
+        td.innerHTML = object.CANTITATE_ARTICOL_OFERTA
+      } else {
+        td.innerHTML = object[Object.keys(object)[i]]
+      }
+      tr.appendChild(td)
+    }
+  })
+
+  modalReteta.show()
+
+}
+
+function creazaReteta1(object) {
   //object = {DENUMIRE_ARTICOL_OFERTA: "SUPRATERAN", CANTITATE_ARTICOL_OFERTA: 1, UM_ARTICOL_OFERTA: "buc", WBS: "1.1.1"}
   //show modal ModalReteta with object
   var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
