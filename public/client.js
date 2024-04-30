@@ -1650,39 +1650,29 @@ async function createDatasetForRecipes() {
   console.log('sorted_optimal_ds', sorted_optimal_ds)
 
   var trees = []
-  function buildTree(sorted_optimal_ds, level = 0, parent = '') {
-    var trees = []
-    var tree = []
+  function buildTree(sorted_optimal_ds) {
     for (var i = 0; i < sorted_optimal_ds.length; i++) {
+      trees.push({ root: sorted_optimal_ds[i] })
       var current = sorted_optimal_ds[i].WBS
-      if (current.startsWith(parent)) {
-        if (current.split('.').length === level + 1) {
-          tree.push(current)
-        } else {
-          var subTree = buildTree(sorted_optimal_ds, level + 1, current)
-          if (subTree.length) {
-            tree.push(subTree)
+      var current_parts = current.split('.')
+      for (var j = 0; j < current_parts.length; j++) {
+        var current_part = current_parts.slice(0, j + 1).join('.')
+        var found = sorted_optimal_ds.find(function (element) {
+          return element.WBS == current_part
+        })
+        if (found) {
+          if (!trees[i].children) {
+            trees[i].children = []
           }
-        }
-      } else {
-        if (tree.length) {
-          trees.push(tree)
-        }
-        tree = [current]
+          trees[i].children.push({ root: found })
+        } 
       }
-      parent = current
     }
-    if (tree.length) {
-      trees.push(tree)
-    }
+
     return trees
   }
 
   var trees = buildTree(sorted_optimal_ds)
-  console.log('trees', trees)
-
-  var trees = buildTree(sorted_optimal_ds)
 
   console.log('trees', trees)
- 
 }
