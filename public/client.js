@@ -1639,10 +1639,6 @@ async function createDatasetForRecipes() {
     ['Articol', 'Transport'],
     ['Articol', 'Utilaj']
   ]
-
-  var roots = []
-  var activities = []
-  var materials = []
   //iterate through optimal_ds with for..of
   //trateaza optimal_ds[i] as a tree, WBS are leafs
 
@@ -1651,74 +1647,22 @@ async function createDatasetForRecipes() {
     return a.WBS.localeCompare(b.WBS)
   })
 
-  for (let i = 0; i < sorted_optimal_ds.length; i++) {
-    let object = sorted_optimal_ds[i]
-    let WBS = object.WBS
-    let index = WBS.lastIndexOf('.')
-    let parent = WBS.substring(0, index)
-    //find parent in roots
-    let found = false
-    for (let j = 0; j < roots.length; j++) {
-      if (roots[j].WBS == parent) {
-        found = true
-        break
+  var trees = []
+  var tree = []
+  var prev = ''
+  for (var i = 0; i < sorted_optimal_ds.length; i++) {
+    var current = sorted_optimal_ds[i].WBS
+    if (current.startsWith(prev)) {
+      tree.push(current)
+    } else {
+      if (tree.length) {
+        trees.push(tree)
       }
+      tree = [current]
     }
-    if (!found) {
-      //add parent to roots
-      roots.push({ WBS: parent, DENUMIRE_ARTICOL_OFERTA: 'Parent' })
-    }
-    //add object to activities
-    activities.push(object)
-    //add object to materials
-    materials.push(object)
+    prev = current
   }
 
-  //iterate through activities
-  for (let i = 0; i < activities.length; i++) {
-    let object = activities[i]
-    let WBS = object.WBS
-    let index = WBS.lastIndexOf('.')
-    let parent = WBS.substring(0, index)
-    let parent_object = null
-    for (let j = 0; j < activities.length; j++) {
-      if (activities[j].WBS == parent) {
-        parent_object = activities[j]
-        break
-      }
-    }
-    if (parent_object) {
-      //add object to parent_object
-      if (!parent_object.children) {
-        parent_object.children = []
-      }
-      parent_object.children.push(object)
-    }
-  }
-
-  //iterate through materials
-  for (let i = 0; i < materials.length; i++) {
-    let object = materials[i]
-    let WBS = object.WBS
-    let index = WBS.lastIndexOf('.')
-    let parent = WBS.substring(0, index)
-    let parent_object = null
-    for (let j = 0; j < activities.length; j++) {
-      if (activities[j].WBS == parent) {
-        parent_object = activities[j]
-        break
-      }
-    }
-    if (parent_object) {
-      //add object to parent_object
-      if (!parent_object.children) {
-        parent_object.children = []
-      }
-      parent_object.children.push(object)
-    }
-  }
-
-  console.log('roots', roots)
-  console.log('activities', activities)
-  console.log('materials', materials)
+  console.log('trees', trees)
+ 
 }
