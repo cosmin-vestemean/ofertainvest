@@ -1309,7 +1309,7 @@ function creazaReteta(object) {
   })
 
   //create table with header: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA
-  var tbody = document.getElementById('tbody_reteta')
+  var modal_body = document.getElementById('modal-body2')
   tbody.innerHTML = ''
   children.forEach(function (object) {
     var tr = document.createElement('tr')
