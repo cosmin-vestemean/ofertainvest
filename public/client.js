@@ -1658,15 +1658,26 @@ async function createDatasetForRecipes() {
 
     var current = sorted_optimal_ds[index].WBS
 
-    if (current.startsWith(prev)) {
-      if (trees.length === 0) {
-        trees.push([current])
-      } else {
-        trees[trees.length - 1].push(current)
+    var current_parts = current.split('.')
+    var prev_parts = prev.split('.')
+
+    //verifica daca current este copilul lui prev particula cu particula
+    var isChild = true
+    for (var i = 0; i < prev_parts.length; i++) {
+      if (current_parts[i] !== prev_parts[i]) {
+        isChild = false
+        break
       }
-    } else {
-      trees.push([current])
     }
+
+    if (!isChild) {
+      //current este radacina
+      var tree = []
+      trees.push(tree)
+    }
+
+    //adauga current la tree
+    tree.push(current)
 
     buildTree(sorted_optimal_ds, index + 1, current)
   }
