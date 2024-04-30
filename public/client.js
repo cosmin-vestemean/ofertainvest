@@ -1527,28 +1527,28 @@ async function createDatasetForRecipes() {
   ]
 
   let recipes_dset = []
-  optimal_ds.forEach(function (object) {
+  for (const object of optimal_ds) {
     if (
       //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
       Object.keys(object).includes('TIP_ARTICOL_OFERTA') &&
       Object.keys(object).includes('SUBTIP_ARTICOL_OFERTA')
     ) {
       if (object['TIP_ARTICOL_OFERTA'] && object['SUBTIP_ARTICOL_OFERTA']) {
-        mainCombo.forEach(function (combo) {
+        for (const combo of mainCombo) {
           if (
             object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
             object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
           ) {
             recipes_dset.push({ root: object })
           }
-        })
+        }
       } else {
         console.log('object does not have values for TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
       }
     } else {
       console.log('object does not have keys TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
     }
-  })
+  }
 
   console.log('recipes_dset', recipes_dset)
 
