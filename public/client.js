@@ -1173,7 +1173,7 @@ export function init() {
     let roots = rez.roots
     recipes_ds = rez.recipes_dset
     pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-    fillInRecipes()
+    await fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
@@ -1561,33 +1561,27 @@ async function createDatasetForRecipes() {
   return { recipes_dset, roots }
 }
 
-function fillInRecipes() {
-  //pentru fiecare row din recipes_ds am un WBS (de ex 1183.7.18.23) in root
-  //gaseste in optimal_ds toate obiectele cu WBS care incepe cu WBS din root la care se adauga .numar; intre aceste capete nu exista altceva
-  //adica: 1183.7.18.23.3 este aceptabil, 1183.7.18.23.3.3.1 nu este acceptabil
-  //adauga-le in recipes_ds drept children: []
-
-  recipes_ds.forEach(function (object) {
-    var root = object.root
-    var children = []
-    optimal_ds.forEach(function (object) {
-      //check for key WBS and value
-      if (Object.keys(object).includes('WBS')) {
-        if (object['WBS']) {
+async function fillInRecipes() {
+  for (const object of recipes_ds) {
+    const root = object.root
+    const children = []
+    for (const obj of optimal_ds) {
+      if (Object.keys(obj).includes('WBS')) {
+        if (obj['WBS']) {
           if (
-            object['WBS'].startsWith(root['WBS']) &&
-            object['WBS'].split('.').length == root['WBS'].split('.').length + 1 &&
-            Number.isInteger(parseInt(object['WBS'].split('.').pop()))
+            obj['WBS'].startsWith(root['WBS']) &&
+            obj['WBS'].split('.').length == root['WBS'].split('.').length + 1 &&
+            Number.isInteger(parseInt(obj['WBS'].split('.').pop()))
           ) {
-            children.push(object)
+            children.push(obj)
           }
         } else {
-          console.log('object does not have value for key WBS', object)
+          console.log('object does not have value for key WBS', obj)
         }
       } else {
-        console.log('object does not have key WBS', object)
+        console.log('object does not have key WBS', obj)
       }
-    })
+    }
     object.children = children
-  })
+  }
 }
