@@ -1566,12 +1566,21 @@ function fillInRecipes() {
     var root = object.root
     var children = []
     optimal_ds.forEach(function (object) {
-      if (
-        object['WBS'].startsWith(root['WBS']) &&
-        object['WBS'].split('.').length == root['WBS'].split('.').length + 1 &&
-        Number.isInteger(parseInt(object['WBS'].split('.').pop()))
-      ) {
-        children.push(object)
+      //check for key WBS and value
+      if (Object.keys(object).includes('WBS')) {
+        if (object['WBS']) {
+          if (
+            object['WBS'].startsWith(root['WBS']) &&
+            object['WBS'].split('.').length == root['WBS'].split('.').length + 1 &&
+            Number.isInteger(parseInt(object['WBS'].split('.').pop()))
+          ) {
+            children.push(object)
+          }
+        } else {
+          console.log('object does not have value for key WBS', object)
+        }
+      } else {
+        console.log('object does not have key WBS', object)
       }
     })
     object.children = children
