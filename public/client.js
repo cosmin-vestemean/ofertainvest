@@ -1504,6 +1504,79 @@ function creazaReteta(object) {
   th.setAttribute('scope', 'col')
   th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
   tr.appendChild(th)
+  //find WBS in recipes_ds and add children to tbody
+  var children = []
+  recipes_ds.forEach(function (recipe) {
+    if (recipe.root.WBS == object.WBS) {
+      children = recipe.children
+    }
+  })
+  children.forEach(function (child) {
+    var tr = document.createElement('tr')
+    tbody.appendChild(tr)
+    //add td with delete icon
+    var td = document.createElement('td')
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-trash')
+    icon.classList.add('text-danger')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      //delete row
+      tbody.removeChild(tr)
+    }
+    td.appendChild(icon)
+    //add list icon
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-list')
+    icon.classList.add('text-primary')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      alert('Materiale pentru ' + child.WBS)
+    }
+    td.appendChild(icon)
+    tr.appendChild(td)
+    //add td with contenteditable
+    for (var i = 0; i < 11; i++) {
+      var td = document.createElement('td')
+      //spellcheck = false
+      td.spellcheck = false
+      td.contentEditable = true
+      if (i == 0) {
+        //WBS
+        td.innerHTML = child.WBS + '.' + tbody.rows.length
+      } else if (i == 2) {
+        //select with TIP_ACTIVITATE_ARTICOL_RETETA
+        var select = document.createElement('select')
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        select.id = 'TIP_ACTIVITATE_ARTICOL_RETETA'
+        for (var j = 0; j < TIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
+          var option = document.createElement('option')
+          option.value = j
+          option.text = TIP_ACTIVITATE_ARTICOL_RETETA[j]
+          select.appendChild(option)
+        }
+        td.appendChild(select)
+      } else if (i == 3) {
+        //select with SUBTIP_ACTIVITATE_ARTICOL_RETETA
+        var select = document.createElement('select')
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        select.id = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
+        for (var j = 0; j < SUBTIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
+          var option = document.createElement('option')
+          option.value = j
+          option.text = SUBTIP_ACTIVITATE_ARTICOL_RETETA[j]
+          select.appendChild(option)
+        }
+        td.appendChild(select)
+      }
+      tr.appendChild(td)
+    }
+  })
+
   modalReteta.show()
 }
 
