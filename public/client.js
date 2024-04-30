@@ -1169,11 +1169,6 @@ export function init() {
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = async function () {
     let rez = await createDatasetForRecipes()
-    console.log('rez', rez)
-    let roots = rez.roots
-    recipes_ds = rez.recipes_dset
-    pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-    await fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
@@ -1517,8 +1512,127 @@ function creazaReteta(object) {
 }
 
 async function createDatasetForRecipes() {
-  //push from optimal_ds  to recipes_ds with (TIP_ARTICOL_OFERTA; SUBTIP_ARTICOL_OFERTA) one of these combinations: (Articol;Principal), (Articol;Manopera), (Articol; Transport) si (Articol; Utilaj)
-  //pushDataToTable
+  /*optimal_ds, WBS:
+1183.1.1.1
+1183.1.1.1.1
+1183.1.1.1.2
+1183.1.1.1.3
+1183.1.1.1.4
+1183.1.1.1.5
+1183.1.1.1.7
+1183.1.1.1.8
+1183.1.1.1.11
+1183.1.1.1.13
+1183.1.1.1.14
+1183.1.1.1.15
+1183.1.1.1.16
+1183.1.1.1.17
+1183.1.1.1.18
+1183.1.1.1.19
+1183.1.1.1.19.1
+1183.1.1.1.19.2
+1183.1.1.2.1
+1183.1.1.2.2
+1183.1.1.2.3
+1183.1.1.2.4
+1183.1.1.2.5
+1183.1.1.2.7
+1183.1.1.2.10
+1183.1.1.2.12
+1183.1.1.2.13
+1183.1.1.2.14
+1183.1.1.2.15
+1183.1.1.2.16
+1183.1.1.2.17
+1183.1.1.2.18
+1183.1.1.2.19
+1183.1.1.3.1
+1183.1.1.3.2
+1183.1.1.3.3
+1183.1.1.3.4
+1183.1.1.3.5
+1183.1.1.3.6
+1183.1.1.3.7
+1183.1.1.3.9
+1183.1.1.3.12
+1183.1.1.3.14
+1183.1.1.3.15
+1183.1.1.3.16
+1183.1.1.3.17
+1183.1.1.3.18
+1183.1.1.3.19
+1183.1.1.3.20
+1183.1.1.3.21
+1183.1.1.4.1
+1183.1.1.4.2
+1183.1.1.4.3
+1183.1.1.4.4
+1183.1.1.4.5
+1183.1.1.4.6
+1183.1.1.4.7
+1183.1.1.4.9
+1183.1.1.4.12
+1183.1.1.4.14
+1183.1.1.4.15
+1183.1.1.4.16
+1183.1.1.4.17
+1183.1.1.4.18
+1183.1.1.5.1
+1183.1.1.5.2
+1183.1.1.5.3
+1183.1.1.5.4
+1183.1.1.5.6
+1183.1.1.6.1
+1183.1.1.7.1
+1183.1.1.7.7
+1183.1.1.7.8
+1183.1.1.7.10
+1183.1.1.7.11
+1183.1.1.7.12
+1183.1.1.7.13
+1183.1.1.7.14
+1183.1.1.7.15
+1183.1.1.7.19
+1183.1.1.7.20
+1183.1.1.7.22
+1183.1.1.7.23
+1183.1.1.8.1
+1183.1.1.8.2
+1183.1.1.8.3
+1183.1.1.9.1
+1183.1.1.9.3
+1183.2.1.1.1
+1183.2.1.1.2
+1183.2.1.1.3
+1183.2.1.1.4
+1183.2.1.1.5
+1183.2.2.1.1
+1183.2.2.1.2
+1183.2.2.1.3
+1183.2.2.1.4
+1183.2.2.1.5
+1183.2.2.1.6
+1183.2.2.1.7
+1183.2.2.2.1
+1183.2.2.2.2
+1183.2.2.2.3
+1183.2.2.2.4
+1183.2.2.2.5
+1183.2.2.2.6
+1183.2.2.2.7
+1183.2.2.2.8
+1183.2.2.2.10
+1183.2.2.2.12
+1183.2.2.2.13
+1183.2.2.3.1
+1183.2.2.3.2
+1183.2.2.3.3
+1183.2.2.3.4
+1183.2.2.3.5
+1183.2.2.3.6
+1183.2.2.3.7
+1183.2.2.3.8
+  */
   var mainCombo = [
     ['Articol', 'Principal'],
     ['Articol', 'Manopera'],
@@ -1526,62 +1640,85 @@ async function createDatasetForRecipes() {
     ['Articol', 'Utilaj']
   ]
 
-  let recipes_dset = []
-  for (const object of optimal_ds) {
-    if (
-      //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
-      Object.keys(object).includes('TIP_ARTICOL_OFERTA') &&
-      Object.keys(object).includes('SUBTIP_ARTICOL_OFERTA')
-    ) {
-      if (object['TIP_ARTICOL_OFERTA'] && object['SUBTIP_ARTICOL_OFERTA']) {
-        for (const combo of mainCombo) {
-          if (
-            object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
-            object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
-          ) {
-            recipes_dset.push({ root: object })
-          }
-        }
-      } else {
-        console.log('object does not have values for TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
-      }
-    } else {
-      console.log('object does not have keys TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
-    }
-  }
+  var roots = []
+  var activities = []
+  var materials = []
+  //iterate through optimal_ds with for..of
+  //trateaza optimal_ds[i] as a tree, WBS are leafs
 
-  console.log('recipes_dset', recipes_dset)
-
-  //get array of roots to display
-  let roots = []
-  recipes_dset.forEach(function (object) {
-    roots.push(object.root)
+  //sort optimal_ds by WBS
+  let sorted_optimal_ds = optimal_ds.sort(function (a, b) {
+    return a.WBS.localeCompare(b.WBS)
   })
 
-  return { recipes_dset, roots }
-}
-
-async function fillInRecipes() {
-  for (const object of recipes_ds) {
-    const root = object.root
-    const children = []
-    for (const obj of optimal_ds) {
-      if (Object.keys(obj).includes('WBS')) {
-        if (obj['WBS']) {
-          if (
-            obj['WBS'].startsWith(root['WBS']) &&
-            obj['WBS'].split('.').length == root['WBS'].split('.').length + 1 &&
-            Number.isInteger(parseInt(obj['WBS'].split('.').pop()))
-          ) {
-            children.push(obj)
-          }
-        } else {
-          console.log('object does not have value for key WBS', obj)
-        }
-      } else {
-        console.log('object does not have key WBS', obj)
+  for (let i = 0; i < sorted_optimal_ds.length; i++) {
+    let object = sorted_optimal_ds[i]
+    let WBS = object.WBS
+    let index = WBS.lastIndexOf('.')
+    let parent = WBS.substring(0, index)
+    //find parent in roots
+    let found = false
+    for (let j = 0; j < roots.length; j++) {
+      if (roots[j].WBS == parent) {
+        found = true
+        break
       }
     }
-    object.children = children
+    if (!found) {
+      //add parent to roots
+      roots.push({ WBS: parent, DENUMIRE_ARTICOL_OFERTA: 'Parent' })
+    }
+    //add object to activities
+    activities.push(object)
+    //add object to materials
+    materials.push(object)
   }
+
+  //iterate through activities
+  for (let i = 0; i < activities.length; i++) {
+    let object = activities[i]
+    let WBS = object.WBS
+    let index = WBS.lastIndexOf('.')
+    let parent = WBS.substring(0, index)
+    let parent_object = null
+    for (let j = 0; j < activities.length; j++) {
+      if (activities[j].WBS == parent) {
+        parent_object = activities[j]
+        break
+      }
+    }
+    if (parent_object) {
+      //add object to parent_object
+      if (!parent_object.children) {
+        parent_object.children = []
+      }
+      parent_object.children.push(object)
+    }
+  }
+
+  //iterate through materials
+  for (let i = 0; i < materials.length; i++) {
+    let object = materials[i]
+    let WBS = object.WBS
+    let index = WBS.lastIndexOf('.')
+    let parent = WBS.substring(0, index)
+    let parent_object = null
+    for (let j = 0; j < activities.length; j++) {
+      if (activities[j].WBS == parent) {
+        parent_object = activities[j]
+        break
+      }
+    }
+    if (parent_object) {
+      //add object to parent_object
+      if (!parent_object.children) {
+        parent_object.children = []
+      }
+      parent_object.children.push(object)
+    }
+  }
+
+  console.log('roots', roots)
+  console.log('activities', activities)
+  console.log('materials', materials)
 }
