@@ -1164,6 +1164,7 @@ export function init() {
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
     createDatasetForRecipes()
+    fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
@@ -1523,7 +1524,7 @@ function createDatasetForRecipes() {
         object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
         object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
       ) {
-        recipes_ds.push(object)
+        recipes_ds.push({ root: object })
       }
     })
   })
@@ -1531,4 +1532,27 @@ function createDatasetForRecipes() {
   console.log('recipes_ds', recipes_ds)
 
   pushDataToTable(recipes_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+}
+
+function fillInRecipes() {
+  //pentru fiecare row din recipes_ds am un WBS (de ex 1183.7.18.23) in root
+  //gaseste in optimal_ds toate obiectele cu WBS care incepe cu WBS din root la care se adauga .numar; intre aceste capete nu exista altceva
+  //adica: 1183.7.18.23.3 este aceptabil, 1183.7.18.23.3.3.1 nu este acceptabil
+  //adauga-le in recipes_ds drept children: []
+
+  recipes_ds.forEach(function (object) {
+    var root = object.root
+    var children = []
+    optimal_ds.forEach(function (object) {
+      if (
+        object['WBS'].startsWith(
+          root['WBS'] + '.' && object['WBS'].split('.').length == root['WBS'].split('.').length + 1
+        )
+      ) {
+        var child = object
+        children.push(child)
+      }
+    })
+    object.children = children
+  })
 }
