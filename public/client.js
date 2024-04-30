@@ -1679,6 +1679,9 @@ async function createDatasetForRecipes() {
   }
 
   var trees = buildTree(sorted_optimal_ds)
+  console.log('trees', trees)
+
+  var trees = buildTree(sorted_optimal_ds)
 
   console.log('trees', trees)
  
