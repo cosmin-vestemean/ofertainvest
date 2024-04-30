@@ -1525,10 +1525,18 @@ function createDatasetForRecipes() {
   optimal_ds.forEach(function (object) {
     mainCombo.forEach(function (combo) {
       if (
-        object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
-        object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
+        //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
+        Object.keys(object).includes('TIP_ARTICOL_OFERTA') &&
+        Object.keys(object).includes('SUBTIP_ARTICOL_OFERTA')
       ) {
-        recipes_ds.push({ root: object })
+        if (
+          object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
+          object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
+        ) {
+          recipes_ds.push({ root: object })
+        }
+      } else {
+        console.log('object does not have TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
       }
     })
   })
