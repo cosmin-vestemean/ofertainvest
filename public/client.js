@@ -1168,7 +1168,11 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = async function () {
-    await createDatasetForRecipes()
+    let rez = await createDatasetForRecipes()
+    console.log('rez', rez)
+    let roots = rez.roots
+    recipes_ds = rez.recipes_dset
+    pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
     fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
@@ -1522,7 +1526,7 @@ async function createDatasetForRecipes() {
     ['Articol', 'Utilaj']
   ]
 
-  recipes_ds = []
+  let recipes_dset = []
   optimal_ds.forEach(function (object) {
     if (
       //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
@@ -1535,7 +1539,7 @@ async function createDatasetForRecipes() {
             object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
             object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
           ) {
-            recipes_ds.push({ root: object })
+            recipes_dset.push({ root: object })
           }
         })
       } else {
@@ -1546,14 +1550,15 @@ async function createDatasetForRecipes() {
     }
   })
 
-  console.log('recipes_ds', recipes_ds)
+  console.log('recipes_dset', recipes_dset)
 
   //get array of roots to display
   let roots = []
-  recipes_ds.forEach(function (object) {
+  recipes_dset.forEach(function (object) {
     roots.push(object.root)
   })
-  pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+
+  return { recipes_dset, roots }
 }
 
 function fillInRecipes() {
