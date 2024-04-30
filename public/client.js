@@ -1545,7 +1545,7 @@ function fillInRecipes() {
     var children = []
     optimal_ds.forEach(function (object) {
       //if object has key root and object[root] has key WBS
-      if (object[root] && object[root]['WBS']) {
+      if (Object.keys(object).includes('root') && Object.keys(object.root).includes('WBS')) {
         if (
           object.root['WBS'].startsWith(
             object.root['WBS'] + '.' &&
