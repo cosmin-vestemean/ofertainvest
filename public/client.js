@@ -1531,7 +1531,12 @@ function createDatasetForRecipes() {
 
   console.log('recipes_ds', recipes_ds)
 
-  pushDataToTable(recipes_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+  //get array of roots to display
+  let roots = []
+  recipes_ds.forEach(function (object) {
+    roots.push(object.root)
+  })
+  pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 }
 
 function fillInRecipes() {
