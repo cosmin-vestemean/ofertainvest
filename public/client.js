@@ -1523,26 +1523,26 @@ function createDatasetForRecipes() {
 
   recipes_ds = []
   optimal_ds.forEach(function (object) {
-    mainCombo.forEach(function (combo) {
-      if (
-        //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
-        Object.keys(object).includes('TIP_ARTICOL_OFERTA') &&
-        Object.keys(object).includes('SUBTIP_ARTICOL_OFERTA')
-      ) {
-        if (object['TIP_ARTICOL_OFERTA'] && object['SUBTIP_ARTICOL_OFERTA']) {
+    if (
+      //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
+      Object.keys(object).includes('TIP_ARTICOL_OFERTA') &&
+      Object.keys(object).includes('SUBTIP_ARTICOL_OFERTA')
+    ) {
+      if (object['TIP_ARTICOL_OFERTA'] && object['SUBTIP_ARTICOL_OFERTA']) {
+        mainCombo.forEach(function (combo) {
           if (
             object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
             object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
           ) {
             recipes_ds.push({ root: object })
           }
-        } else {
-          console.log('object does not have values for TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
-        }
+        })
       } else {
-        console.log('object does not have keys TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
+        console.log('object does not have values for TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
       }
-    })
+    } else {
+      console.log('object does not have keys TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
+    }
   })
 
   console.log('recipes_ds', recipes_ds)
