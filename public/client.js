@@ -1310,7 +1310,8 @@ function creazaReteta(object) {
 
   //create table with header: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA
   var modal_body = document.getElementById('modal-body2')
-  tbody.innerHTML = ''
+  var table = document.createElement('table')
+  modal_body.innerHTML = ''
   children.forEach(function (object) {
     var tr = document.createElement('tr')
     tbody.appendChild(tr)
@@ -1343,6 +1344,7 @@ function creazaReteta(object) {
       tr.appendChild(td)
     }
   })
+  modal_body.appendChild(table)
 
   modalReteta.show()
 
