@@ -1651,38 +1651,56 @@ async function createDatasetForRecipes() {
 
   var trees = []
 
-  function buildTree(sorted_optimal_ds, index, prev) {
-    if (index >= sorted_optimal_ds.length) {
-      return
-    }
-
-    var current = sorted_optimal_ds[index].WBS
-
-    var current_parts = current.split('.')
-    var prev_parts = prev.split('.')
-
-    //verifica daca current este copilul lui prev particula cu particula
-    var isChild = true
-    for (var i = 0; i < prev_parts.length; i++) {
-      if (current_parts[i] !== prev_parts[i]) {
-        isChild = false
-        break
+  for (let i = 0; i < sorted_optimal_ds.length; i++) {
+    let tree = []
+    let branch = []
+    let level = 0
+    let cut1 = 0
+    let cut2 = 0
+    let keys = Object.keys(sorted_optimal_ds[i])
+    for (let j = 0; j < keys.length; j++) {
+      if (keys[j] == 'WBS') {
+        //add branch to tree
+        tree.push(branch)
+        //add tree to trees
+        trees.push(tree)
+        //reset branch
+        branch = []
+        //add WBS to branch
+        branch.push(sorted_optimal_ds[i][keys[j]])
+        //reset level
+        level = 0
+        //reset cut1
+        cut1 = 0
+        //reset cut2
+        cut2 = 0
+      } else {
+        if (sorted_optimal_ds[i][keys[j]] == 0) {
+          //add level to branch
+          branch.push(keys[j])
+          //increment level
+          level++
+        } else {
+          //add level to branch
+          branch.push(keys[j])
+          //increment level
+          level++
+          //add branch to tree
+          tree.push(branch)
+          //reset branch
+          branch = []
+          //add WBS to branch
+          branch.push(sorted_optimal_ds[i][keys[j]])
+          //reset level
+          level = 0
+          //reset cut1
+          cut1 = 0
+          //reset cut2
+          cut2 = 0
+        }
       }
     }
-
-    if (!isChild) {
-      //current este radacina
-      var tree = []
-      trees.push(tree)
-    }
-
-    //adauga current la tree
-    tree.push(current)
-
-    buildTree(sorted_optimal_ds, index + 1, current)
   }
-
-  buildTree(sorted_optimal_ds, 0, '')
 
   console.log('trees', trees)
 }
