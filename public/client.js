@@ -94,6 +94,8 @@ function loadDataFromFile(evt) {
     optimal_ds = sortByUniqueKey(original_ds, unique_key)
     //refresh ds in my-table component
     document.getElementsByTagName('my-table')[0].ds = optimal_ds
+    //tableId
+    document.getElementsByTagName('my-table')[0].tableId = 'table_oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
@@ -1591,8 +1593,13 @@ async function fillInRecipes() {
 class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
   static properties = {
-    tableId: { type: String },
     ds: { type: Array }
+  }
+
+  constructor() {
+    super()
+    this.tableId = 'my-table'
+    this.ds = []
   }
 
   connectedCallback() {
