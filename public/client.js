@@ -1593,6 +1593,12 @@ class myTable extends LitElement {
     tableId: { type: String }
   }
 
+  constructor() {
+    super()
+    this.ds = optimal_ds
+    this.tableId = 'table_oferta_initiala'
+  }
+
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
