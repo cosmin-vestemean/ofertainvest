@@ -1586,7 +1586,7 @@ async function fillInRecipes() {
   }
 }
 
-class myTable {
+class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
   static properties = {
     ds: { type: Array }
@@ -1639,8 +1639,6 @@ class myTable {
     })
     table.appendChild(thead_tableId)
     table.appendChild(tbody_tableId)
-
-    //client.js:1641 Uncaught TypeError: custom element constructors must call super() first and must not return a different object
 
     return table
   }
