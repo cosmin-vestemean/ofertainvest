@@ -1620,7 +1620,9 @@ class myTable extends LitElement {
         >
           <thead>
             <tr>
-              ${Object.keys(this.ds[0]).map((i) => html`<th write-mode="vertical-rl" rotate="180deg">${i}</th>`)}
+              ${Object.keys(this.ds[0]).map(
+                (i) => html`<th style="writing-mode: vertical-rl; rotate: 180deg;">${i}</th>`
+              )}
             </tr>
           </thead>
           <tbody>
