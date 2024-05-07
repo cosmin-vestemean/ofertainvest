@@ -1606,7 +1606,7 @@ class myTable extends LitElement {
 
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
-    if (this.ds) {
+    if (this.ds && this.ds.length > 0) {
       //create table and fill it with ds using pushDataToTable as inspiration using `{this.}`
       var table = document.getElementById(this.tableId) || document.createElement('table')
       table.classList.add('table')
