@@ -1588,16 +1588,16 @@ async function fillInRecipes() {
 
 class myTable {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
-  constructor(ds, tableId) {
-    this.ds = ds
-    this.tableId = tableId
-  }
-
   static properties = {
     ds: { type: Array }
   }
 
-  render = () => {
+  constructor(tableId, ds) {
+    this.ds = ds
+    this.tableId = tableId
+  }
+
+  render() {
     //create table and fill it with ds using pushDataToTable as inspiration using `{this.}`
     var table = document.getElementById(this.tableId) || document.createElement('table')
     table.classList.add('table')
@@ -1633,6 +1633,8 @@ class myTable {
     })
     table.appendChild(thead_tableId)
     table.appendChild(tbody_tableId)
+
+    return html` ${table} `
   }
 }
 

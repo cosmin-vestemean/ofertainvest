@@ -279,7 +279,8 @@ HTML code:
         </div>
       </div>
       <div class="row overflow-auto">
-        <my-table id="table_oferta_initiala"></my-table>
+        <!--create my-table custom tag with constructor(tableId, ds) where tableId="table_oferta_initiala" and ds=optimal_ds variable defined in client.js-->
+        <my-table id="table_oferta_initiala" .ds=${optimal_ds}></my-table>
       </div>
     </div>
     <!-- Modal Antemasuratori -->
