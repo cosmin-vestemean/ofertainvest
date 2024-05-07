@@ -1593,8 +1593,14 @@ class myTable {
   }
 
   constructor(tableId, ds) {
+    super()
     this.ds = ds
     this.tableId = tableId
+  }
+
+  connectedCallback() {
+    console.log('my-table element added to the DOM')
+    this.render()
   }
 
   render() {
@@ -1634,7 +1640,9 @@ class myTable {
     table.appendChild(thead_tableId)
     table.appendChild(tbody_tableId)
 
-    return html` ${table} `
+    //client.js:1641 Uncaught TypeError: custom element constructors must call super() first and must not return a different object
+
+    return table
   }
 }
 
