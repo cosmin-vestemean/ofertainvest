@@ -246,16 +246,12 @@ function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) 
 
       //create table rows
       if (selected_ds.length > 0) {
-        pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        //pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        //my-table component
+        document.getElementsByTagName('my-table')[0].ds = selected_ds
       } else {
         //display a message in table
-        var tbody = document.getElementById('tbody_oferta_initiala')
-        tbody.innerHTML = ''
-        var tr = document.createElement('tr')
-        var td = document.createElement('td')
-        td.innerHTML = 'Nu exista date pentru ierarhia selectata'
-        tr.appendChild(td)
-        tbody.appendChild(tr)
+        alert('Nu exista date pentru ierarhia selectata')
       }
 
       drawModalDialog(select.value.split(delimiter), selected_ds)
