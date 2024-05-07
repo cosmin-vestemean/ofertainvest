@@ -1593,6 +1593,7 @@ class myTable {
   }
 
   constructor(tableId, ds) {
+    super(); // Call the super() method
     this.ds = ds
     this.tableId = tableId
   }
