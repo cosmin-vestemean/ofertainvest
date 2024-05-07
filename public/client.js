@@ -1593,12 +1593,6 @@ class myTable extends LitElement {
     tableId: { type: String }
   }
 
-  constructor() {
-    super()
-    this.ds = optimal_ds
-    this.tableId = 'table_oferta_initiala'
-  }
-
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
@@ -1606,46 +1600,29 @@ class myTable extends LitElement {
 
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
-    if (this.ds && this.ds.length > 0) {
-      //create table and fill it with ds using pushDataToTable as inspiration using `{this.}`
-      var table = document.getElementById(this.tableId) || document.createElement('table')
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.classList.add('table-bordered')
-      table.classList.add('table-hover')
-      table.classList.add('table-striped')
-      table.classList.add('table-responsive')
-      table.id = this.tableId
-      //get or create thead_tableId and tbody_tableId
-      var thead_tableId = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
-      thead_tableId.id = 'thead_' + this.tableId
-      var header = Object.keys(this.ds[0])
-      var tbody_tableId = document.getElementById('tbody_' + this.tableId) || document.createElement('tbody')
-      tbody_tableId.id = 'tbody_' + this.tableId
-      //draw header with keys
-      var tr = document.createElement('tr')
-      thead_tableId.appendChild(tr)
-      header.forEach(function (key) {
-        var th = document.createElement('th')
-        th.innerHTML = key
-        tr.appendChild(th)
-      })
-      //draw rows with values
-      this.ds.forEach(function (object) {
-        var tr = document.createElement('tr')
-        tbody_tableId.appendChild(tr)
-        header.forEach(function (key) {
-          var td = document.createElement('td')
-          td.innerHTML = object[key]
-          tr.appendChild(td)
-        })
-      })
-      table.appendChild(thead_tableId)
-      table.appendChild(tbody_tableId)
-
-      console.log('table', table)
-
-      return table
+    if (this.ds.length == 0) {
+      return html`<p>No data</p>`
+    } else {
+      return html`
+        <table
+          id=${this.tableId}
+          class="table table-sm table-bordered table-hover table-striped table-responsive"
+        >
+          <thead>
+            <tr>
+              ${Object.keys(this.ds[0]).map((i) => html`<th>${i}</th>`)}
+            </tr>
+          </thead>
+          <tbody>
+            ${this.ds.map(
+              (i) =>
+                html` <tr>
+                  ${Object.keys(i).map((key) => html`<td>${i[key]}</td>`)}
+                </tr>`
+            )}
+          </tbody>
+        </table>
+      `
     }
   }
 }
