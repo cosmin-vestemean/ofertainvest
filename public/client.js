@@ -1589,13 +1589,8 @@ async function fillInRecipes() {
 class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
   static properties = {
-    ds: { type: Array }
-  }
-
-  constructor(tableId, ds) {
-    super() // Call the super() method
-    this.ds = ds
-    this.tableId = tableId
+    ds: { type: Array },
+    tableId: { type: String }
   }
 
   connectedCallback() {
@@ -1605,6 +1600,7 @@ class myTable extends LitElement {
   }
 
   render() {
+    console.log('rendering my-table element with following array', ds)
     if (this.ds) {
       //create table and fill it with ds using pushDataToTable as inspiration using `{this.}`
       var table = document.getElementById(this.tableId) || document.createElement('table')
