@@ -48,7 +48,7 @@ async function connectToS1Service() {
 
 var extra_nivele_count = 0
 var original_ds = []
-//var compacted_ds = []
+var compacted_ds = []
 var optimal_ds = []
 var recipes_ds = []
 var combinatii_unice = []
