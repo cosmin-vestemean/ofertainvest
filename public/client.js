@@ -1593,7 +1593,6 @@ class myTable {
   }
 
   constructor(tableId, ds) {
-    super()
     this.ds = ds
     this.tableId = tableId
   }
