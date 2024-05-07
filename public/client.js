@@ -1629,7 +1629,9 @@ class myTable extends LitElement {
             ${this.ds.map(
               (i) =>
                 html` <tr>
-                  ${Object.keys(i).map((key) => html`<td>${i[key]}</td>`)}
+                  ${Object.keys(i).map(
+                    (key) => html`<td>${typeof i[key] === 'number' ? i[key].toFixed(2) : i[key]}</td>`
+                  )}
                 </tr>`
             )}
           </tbody>
