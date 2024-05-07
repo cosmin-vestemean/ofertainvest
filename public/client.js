@@ -95,7 +95,7 @@ function loadDataFromFile(evt) {
     //refresh ds in my-table component
     document.getElementsByTagName('my-table')[0].ds = optimal_ds
     //tableId
-    document.getElementsByTagName('my-table')[0].tableId = 'table_oferta_initiala'
+    document.getElementsByTagName('my-table')[0].tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
@@ -1615,17 +1615,17 @@ class myTable extends LitElement {
     } else {
       return html`
         <table
-          id=${this.tableId}
+          id=table_${this.tableId}
           class="table table-sm table-bordered table-hover table-striped table-responsive"
         >
-          <thead>
+          <thead id="thead_${this.tableId}">
             <tr>
               ${Object.keys(this.ds[0]).map(
                 (i) => html`<th style="writing-mode: vertical-rl; rotate: 180deg;">${i}</th>`
               )}
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tbody_${this.tableId}">
             ${this.ds.map(
               (i) =>
                 html` <tr>
