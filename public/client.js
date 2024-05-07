@@ -94,7 +94,7 @@ function loadDataFromFile(evt) {
     optimal_ds = sortByUniqueKey(original_ds, unique_key)
     console.log('optimal_ds', optimal_ds)
 
-    pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+    //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 
     var delimiter = '~~~~~~~~~~~~~~~'
     var result = creazaIerarhii(optimal_ds, delimiter)
