@@ -48,7 +48,7 @@ async function connectToS1Service() {
 
 var extra_nivele_count = 0
 var original_ds = []
-var compacted_ds = []
+//var compacted_ds = []
 var optimal_ds = []
 var recipes_ds = []
 var combinatii_unice = []
@@ -1585,3 +1585,55 @@ async function fillInRecipes() {
     object.children = children
   }
 }
+
+class myTable {
+  //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
+  constructor(ds, tableId) {
+    this.ds = ds
+    this.tableId = tableId
+  }
+
+  static properties = {
+    ds: { type: Array }
+  }
+
+  render = () => {
+    //create table and fill it with ds using pushDataToTable as inspiration using `{this.}`
+    var table = document.getElementById(this.tableId) || document.createElement('table')
+    table.classList.add('table')
+    table.classList.add('table-sm')
+    table.classList.add('table-bordered')
+    table.classList.add('table-hover')
+    table.classList.add('table-striped')
+    table.classList.add('table-responsive')
+    table.id = this.tableId
+    //get or create thead_tableId and tbody_tableId
+    var thead_tableId = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
+    thead_tableId.id = 'thead_' + this.tableId
+    var header = Object.keys(this.ds[0])
+    var tbody_tableId = document.getElementById('tbody_' + this.tableId) || document.createElement('tbody')
+    tbody_tableId.id = 'tbody_' + this.tableId
+    //draw header with keys
+    var tr = document.createElement('tr')
+    thead_tableId.appendChild(tr)
+    header.forEach(function (key) {
+      var th = document.createElement('th')
+      th.innerHTML = key
+      tr.appendChild(th)
+    })
+    //draw rows with values
+    this.ds.forEach(function (object) {
+      var tr = document.createElement('tr')
+      tbody_tableId.appendChild(tr)
+      header.forEach(function (key) {
+        var td = document.createElement('td')
+        td.innerHTML = object[key]
+        tr.appendChild(td)
+      })
+    })
+    table.appendChild(thead_tableId)
+    table.appendChild(tbody_tableId)
+  }
+}
+
+customElements.define('my-table', myTable)
