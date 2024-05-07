@@ -1596,11 +1596,10 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
-    this.render()
   }
 
   render() {
-    console.log('rendering my-table element with following array', this.ds)
+    console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     if (this.ds) {
       //create table and fill it with ds using pushDataToTable as inspiration using `{this.}`
       var table = document.getElementById(this.tableId) || document.createElement('table')
