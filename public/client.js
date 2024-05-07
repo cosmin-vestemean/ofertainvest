@@ -1600,7 +1600,7 @@ class myTable extends LitElement {
 
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
-    if (this.ds.length == 0) {
+    if (!this.ds || this.ds.length == 0) {
       return html`<p>No data</p>`
     } else {
       return html`
