@@ -92,6 +92,8 @@ function loadDataFromFile(evt) {
     const unique_key = 'SERIE_ARTICOL_OFERTA'
     //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
     optimal_ds = sortByUniqueKey(original_ds, unique_key)
+    //refresh ds in my-table component
+    document.getElementByName('my-table')[0].ds = optimal_ds
     console.log('optimal_ds', optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
@@ -1600,6 +1602,7 @@ class myTable extends LitElement {
 
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
+    console.log('tableId', this.tableId)
     if (!this.ds || this.ds.length == 0) {
       return html`<p>No data</p>`
     } else {
