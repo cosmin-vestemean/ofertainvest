@@ -1589,8 +1589,8 @@ async function fillInRecipes() {
 class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
   static properties = {
-    ds: { type: Array },
-    tableId: { type: String }
+    tableId: { type: String },
+    ds: { type: Array }
   }
 
   connectedCallback() {
