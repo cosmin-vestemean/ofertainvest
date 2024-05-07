@@ -1638,6 +1638,8 @@ class myTable extends LitElement {
       table.appendChild(thead_tableId)
       table.appendChild(tbody_tableId)
 
+      console.log('table', table)
+
       return table
     }
   }
