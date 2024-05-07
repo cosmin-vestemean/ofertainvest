@@ -93,7 +93,7 @@ function loadDataFromFile(evt) {
     //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
     optimal_ds = sortByUniqueKey(original_ds, unique_key)
     //refresh ds in my-table component
-    document.getElementByName('my-table')[0].ds = optimal_ds
+    document.getElementsByTagName('my-table')[0].ds = optimal_ds
     console.log('optimal_ds', optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
