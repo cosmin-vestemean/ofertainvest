@@ -1615,8 +1615,6 @@ class myTable extends LitElement {
 
     .table th {
       font-weight: normal;
-      color: var(--bs-light);
-      background-color: var(--bs-info);
       border-right: 1px solid #e9ecef;
     }
   `
@@ -1672,8 +1670,6 @@ class myTable extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
-        //add text-info class
-        td.classList.add('text-info')
         td.innerHTML = counter
         tr.appendChild(td)
         for (var key in object) {
