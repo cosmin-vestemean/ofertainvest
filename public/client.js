@@ -1598,8 +1598,6 @@ class myTable extends LitElement {
     ds: { type: Array }
   }
 
-  static styles = bootstrap
-
   constructor() {
     super()
     this.tableId = 'my-table'
