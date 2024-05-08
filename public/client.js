@@ -95,7 +95,7 @@ function loadDataFromFile(evt) {
     //refresh ds in my-table component
     document.getElementById('my_table_oferta_initiala').ds = optimal_ds
     //tableId
-    document.getElementsByTagName('my_table_oferta_initiala').tableId = 'oferta_initiala'
+    document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
