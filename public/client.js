@@ -1650,6 +1650,11 @@ class myTable extends LitElement {
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
+      //append counter
+      var th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = '#'
+      tr.appendChild(th)
       for (var key in this.ds[0]) {
         var th = document.createElement('th')
         th.scope = 'col'
@@ -1659,9 +1664,15 @@ class myTable extends LitElement {
         tr.appendChild(th)
       }
       //add tbody
+      let counter = 0
       this.ds.forEach(function (object) {
+        counter++
         var tr = document.createElement('tr')
         tbody.appendChild(tr)
+        var th = document.createElement('th')
+        th.scope = 'row'
+        th.innerHTML = counter
+        tr.appendChild(th)
         for (var key in object) {
           var td = document.createElement('td')
           td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
