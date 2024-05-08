@@ -66,7 +66,6 @@ var denumireUnica_ds = []
 function loadDataFromFile(evt) {
   //Loading...
   var footer = document.getElementById('footerMessages')
-  footer.classList.add('label label-info')
   footer.innerHTML = 'Citire excel...'
   var file = document.getElementById('file_oferta_initiala').files[0]
   var reader = new FileReader()
