@@ -1622,7 +1622,7 @@ class myTable extends LitElement {
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-bordered')
-      table.classList.add('table-success')
+      table.classList.add('table-info')
       table.classList.add('table-hover')
       table.classList.add('table-striped')
       table.classList.add('table-responsive')
@@ -1633,6 +1633,7 @@ class myTable extends LitElement {
       thead.classList.add('align-middle')
       var tbody = document.getElementById('tbody_' + this.tableId) || document.createElement('tbody')
       tbody.id = 'tbody_' + this.tableId
+      tbody.classList.add('table-group-divider')
       table.appendChild(thead)
       table.appendChild(tbody)
       //add thead
@@ -1640,6 +1641,7 @@ class myTable extends LitElement {
       thead.appendChild(tr)
       for (var key in this.ds[0]) {
         var th = document.createElement('th')
+        th.scope = 'col'
         th.style.writingMode = 'vertical-rl'
         th.style.rotate = '180deg'
         th.innerHTML = key
