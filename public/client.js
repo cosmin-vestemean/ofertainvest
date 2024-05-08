@@ -93,9 +93,9 @@ function loadDataFromFile(evt) {
     //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
     optimal_ds = sortByUniqueKey(original_ds, unique_key)
     //refresh ds in my-table component
-    document.getElementsByTagName('my-table')[0].ds = optimal_ds
+    document.getElementById('my_table_oferta_initiala').ds = optimal_ds
     //tableId
-    document.getElementsByTagName('my-table')[0].tableId = 'oferta_initiala'
+    document.getElementsByTagName('my_table_oferta_initiala').tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
@@ -238,7 +238,9 @@ function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) 
     select.onchange = function () {
       selected_ds = []
       if (select.value == '1') {
-        pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        //my-table component
+        document.getElementsByTagName('my-table')[0].ds = optimal_ds
         return
       }
 
@@ -1611,7 +1613,7 @@ class myTable extends LitElement {
     } else {
       return html`
         <table
-          id=table_${this.tableId}
+          id="table_${this.tableId}"
           class="table table-sm table-bordered table-hover table-striped table-responsive"
         >
           <thead id="thead_${this.tableId}">
