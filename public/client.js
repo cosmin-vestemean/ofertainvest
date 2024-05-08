@@ -1669,9 +1669,11 @@ class myTable extends LitElement {
         counter++
         var tr = document.createElement('tr')
         tbody.appendChild(tr)
-        var th = document.createElement('th')
-        th.scope = 'row'
-        th.innerHTML = counter
+        var td = document.createElement('td')
+        td.style.textAlign = 'center'
+        td.style.verticalAlign = 'middle'
+        td.style.fontWeight = 'bold'
+        td.innerHTML = counter
         tr.appendChild(th)
         for (var key in object) {
           var td = document.createElement('td')
