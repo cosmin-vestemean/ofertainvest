@@ -1673,6 +1673,8 @@ class myTable extends LitElement {
         td.style.textAlign = 'center'
         td.style.verticalAlign = 'middle'
         td.style.fontWeight = 'bold'
+        //add text-info class
+        td.classList.add('text-info')
         td.innerHTML = counter
         tr.appendChild(td)
         for (var key in object) {
