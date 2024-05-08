@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
-import * as bootstrap from 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
@@ -1589,6 +1588,10 @@ async function fillInRecipes() {
   }
 }
 
+const template = document.createElement('template')
+template.innerHTML = `
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">`
+
 class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
   static properties = {
@@ -1601,6 +1604,8 @@ class myTable extends LitElement {
     super()
     this.tableId = 'my-table'
     this.ds = []
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
   connectedCallback() {
@@ -1616,6 +1621,12 @@ class myTable extends LitElement {
       return html`<p>No data</p>`
     } else {
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-bordered')
+      table.classList.add('table-hover')
+      table.classList.add('table-striped')
+      table.classList.add('table-responsive')
       table.id = 'table_' + this.tableId
       //get or create thead and tbody
       var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
