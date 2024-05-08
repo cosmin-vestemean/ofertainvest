@@ -1595,7 +1595,7 @@ class myTable extends LitElement {
     ds: { type: Array }
   }
 
-  static styles = bootstrap
+  static styles = unsafeCss(bootstrap)
 
   constructor() {
     super()
