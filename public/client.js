@@ -1,5 +1,5 @@
 import { LitElement, html, css, unsafeCss } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
-import bootstrap from 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
+import { bootstrap } from 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
