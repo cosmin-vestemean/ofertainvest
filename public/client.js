@@ -1607,7 +1607,7 @@ class myTable extends LitElement {
   }
 
   //css
-  styles = css`
+  static styles = css`
     .table td {
       border-bottom: 1px solid #dee2e6;
     }
