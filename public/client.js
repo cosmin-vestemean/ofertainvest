@@ -1609,12 +1609,14 @@ class myTable extends LitElement {
   //css
   static styles = css`
     .table td {
-      border-bottom: 1px solid #dee2e6;
-      border-right: 1px solid #dee2e6;
+      border-bottom: 1px solid #e9ecef;
+      border-right: 1px solid #e9ecef;
     }
 
     .table th {
-      border-right: 1px solid #dee2e6;
+      font-weight: normal;
+      color: #495057;
+      background-color: #e9ecef;
     }
   `
 
