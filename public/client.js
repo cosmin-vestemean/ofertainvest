@@ -1606,6 +1606,13 @@ class myTable extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
+  //css
+  styles = css`
+    .table td {
+      border: 1px solid #dee2e6;
+    }
+  `
+
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
@@ -1621,7 +1628,7 @@ class myTable extends LitElement {
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
-      table.classList.add('table-bordered')
+      //table.classList.add('table-bordered')
       table.classList.add('table-hover')
       table.classList.add('table-striped')
       table.id = 'table_' + this.tableId
