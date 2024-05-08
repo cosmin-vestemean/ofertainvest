@@ -1151,6 +1151,10 @@ document.addEventListener('input', function (e) {
 
 //add onload event to window
 export function init() {
+  let btn_top = document.getElementById('btn_top')
+  btn_top.onclick = function () {
+    window.scrollTo(0, 0)
+  }
   let btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
