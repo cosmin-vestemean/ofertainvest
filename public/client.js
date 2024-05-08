@@ -1674,7 +1674,7 @@ class myTable extends LitElement {
         td.style.verticalAlign = 'middle'
         td.style.fontWeight = 'bold'
         td.innerHTML = counter
-        tr.appendChild(th)
+        tr.appendChild(td)
         for (var key in object) {
           var td = document.createElement('td')
           td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
