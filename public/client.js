@@ -1615,7 +1615,7 @@ class myTable extends LitElement {
 
     .table th {
       font-weight: normal;
-      background-color: #00d1b2;
+      color: var(--bs-primary);
     }
   `
 
