@@ -1631,8 +1631,6 @@ class myTable extends LitElement {
       thead.id = 'thead_' + this.tableId
       thead.classList.add('thead-dark')
       thead.classList.add('text-center')
-      thead.classList.add('align-middle')
-      thead.classList.add('table-light')
       var tbody = document.getElementById('tbody_' + this.tableId) || document.createElement('tbody')
       tbody.id = 'tbody_' + this.tableId
       table.appendChild(thead)
