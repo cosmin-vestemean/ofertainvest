@@ -1612,6 +1612,10 @@ class myTable extends LitElement {
       border-bottom: 1px solid #dee2e6;
       border-right: 1px solid #dee2e6;
     }
+
+    .table th {
+      border-right: 1px solid #dee2e6;
+    }
   `
 
   connectedCallback() {
