@@ -1654,7 +1654,6 @@ class myTable extends LitElement {
       tbody.id = 'tbody_' + this.tableId
       table.appendChild(thead)
       table.appendChild(tbody)
-      this.appendChild(table)
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
@@ -1675,6 +1674,7 @@ class myTable extends LitElement {
           tr.appendChild(td)
         }
       })
+      return html`${table}`
     }
   }
 }
