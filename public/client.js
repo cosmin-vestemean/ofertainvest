@@ -1622,7 +1622,7 @@ class myTable extends LitElement {
     console.log('tableId', this.tableId)
 
     if (!this.ds || this.ds.length == 0) {
-      return html`<p>No data</p>`
+      return html`<p class="label label-danger">No data</p>`
     } else {
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
       table.classList.add('table')
