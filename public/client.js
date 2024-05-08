@@ -1594,6 +1594,32 @@ class myTable extends LitElement {
     ds: { type: Array }
   }
 
+  static styles = css`
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 0.5em;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    th.header {
+      writing-mode: vertical-rl;
+      rotate: 180deg;
+    }
+
+    td {
+      text-align: center;
+    }
+  `
+
   constructor() {
     super()
     this.tableId = 'my-table'
@@ -1640,12 +1666,6 @@ class myTable extends LitElement {
       return html`<p>No data</p>`
     } else {
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.classList.add('table-bordered')
-      table.classList.add('table-hover')
-      table.classList.add('table-striped')
-      table.classList.add('table-responsive')
       table.id = 'table_' + this.tableId
       //get or create thead and tbody
       var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
@@ -1674,6 +1694,7 @@ class myTable extends LitElement {
           tr.appendChild(td)
         }
       })
+
       return html`${table}`
     }
   }
