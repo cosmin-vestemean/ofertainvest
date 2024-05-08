@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
+import bootstrap from 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
 
 const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
@@ -1594,31 +1595,7 @@ class myTable extends LitElement {
     ds: { type: Array }
   }
 
-  static styles = css`
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      border: 1px solid black;
-      padding: 0.5em;
-    }
-
-    th {
-      background-color: #f0f0f0;
-    }
-
-    th.header {
-      writing-mode: vertical-rl;
-      rotate: 180deg;
-    }
-
-    td {
-      text-align: center;
-    }
-  `
+  static styles = bootstrap
 
   constructor() {
     super()
@@ -1634,34 +1611,7 @@ class myTable extends LitElement {
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
-    /* if (!this.ds || this.ds.length == 0) {
-      return html`<p>No data</p>`
-    } else {
-      return html`
-        <table
-          id="table_${this.tableId}"
-          class="table table-sm table-bordered table-hover table-striped table-responsive"
-        >
-          <thead id="thead_${this.tableId}">
-            <tr>
-              ${Object.keys(this.ds[0]).map(
-                (i) => html`<th style="writing-mode: vertical-rl; rotate: 180deg;">${i}</th>`
-              )}
-            </tr>
-          </thead>
-          <tbody id="tbody_${this.tableId}">
-            ${this.ds.map(
-              (i) =>
-                html` <tr>
-                  ${Object.keys(i).map(
-                    (key) => html`<td>${typeof i[key] === 'number' ? i[key].toFixed(2) : i[key]}</td>`
-                  )}
-                </tr>`
-            )}
-          </tbody>
-        </table>
-      `
-    } */
+
     if (!this.ds || this.ds.length == 0) {
       return html`<p>No data</p>`
     } else {
