@@ -1654,7 +1654,6 @@ class myTable extends LitElement {
       //append counter
       var th = document.createElement('th')
       th.scope = 'col'
-      th.innerHTML = '#'
       tr.appendChild(th)
       for (var key in this.ds[0]) {
         var th = document.createElement('th')
