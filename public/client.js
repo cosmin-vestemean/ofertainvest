@@ -1615,8 +1615,7 @@ class myTable extends LitElement {
 
     .table th {
       font-weight: normal;
-      color: #495057;
-      background-color: #e9ecef;
+      background-color: #00d1b2;
     }
   `
 
@@ -1637,7 +1636,7 @@ class myTable extends LitElement {
       table.classList.add('table-sm')
       //table.classList.add('table-bordered')
       table.classList.add('table-hover')
-      table.classList.add('table-striped')
+      //table.classList.add('table-striped')
       table.id = 'table_' + this.tableId
       //get or create thead and tbody
       var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
