@@ -1608,7 +1608,7 @@ class myTable extends LitElement {
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
-    if (!this.ds || this.ds.length == 0) {
+    /* if (!this.ds || this.ds.length == 0) {
       return html`<p>No data</p>`
     } else {
       return html`
@@ -1635,6 +1635,46 @@ class myTable extends LitElement {
           </tbody>
         </table>
       `
+    } */
+    if (!this.ds || this.ds.length == 0) {
+      return html`<p>No data</p>`
+    } else {
+      var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-bordered')
+      table.classList.add('table-hover')
+      table.classList.add('table-striped')
+      table.classList.add('table-responsive')
+      table.id = 'table_' + this.tableId
+      //get or create thead and tbody
+      var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
+      thead.id = 'thead_' + this.tableId
+      var tbody = document.getElementById('tbody_' + this.tableId) || document.createElement('tbody')
+      tbody.id = 'tbody_' + this.tableId
+      table.appendChild(thead)
+      table.appendChild(tbody)
+      this.appendChild(table)
+      //add thead
+      var tr = document.createElement('tr')
+      thead.appendChild(tr)
+      for (var key in this.ds[0]) {
+        var th = document.createElement('th')
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.innerHTML = key
+        tr.appendChild(th)
+      }
+      //add tbody
+      this.ds.forEach(function (object) {
+        var tr = document.createElement('tr')
+        tbody.appendChild(tr)
+        for (var key in object) {
+          var td = document.createElement('td')
+          td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
+          tr.appendChild(td)
+        }
+      })
     }
   }
 }
