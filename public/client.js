@@ -65,9 +65,9 @@ var denumireUnica_ds = []
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
   //Loading...
-  var mt = document.getElementById('my_table_oferta_initiala')
-  mt.classList.add('label label-info')
-  mt.innerHTML = 'Citire excel...'
+  var footer = document.getElementById('footerMessages')
+  footer.classList.add('label label-info')
+  footer.innerHTML = 'Citire excel...'
   var file = document.getElementById('file_oferta_initiala').files[0]
   var reader = new FileReader()
   reader.onload = function (e) {
@@ -131,7 +131,7 @@ function loadDataFromFile(evt) {
   btn_oferta.classList.remove('btn-success')
   btn_oferta.classList.add('btn-danger')
 
-  mt.innerHTML = 'Excel citit cu succes'
+  footer.innerHTML = ''
 }
 
 function removeEmpty(original_ds) {
