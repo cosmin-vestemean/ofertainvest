@@ -1156,6 +1156,15 @@ export function init() {
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
   }
+  let btn_column_filter = document.getElementById('btn_column_filter')
+  btn_column_filter.onclick = function () {
+    var menu = document.getElementById('column_filter')
+    if (menu.style.display === 'none') {
+      menu.style.display = 'block'
+    } else {
+      menu.style.display = 'none'
+    }
+  }
   let btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
