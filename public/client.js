@@ -1665,12 +1665,12 @@ class myTable extends LitElement {
       var tr = document.createElement('tr')
       thead.appendChild(tr)
       //append counter
-      var th = document.createElement('th')
+      let th = document.createElement('th')
       th.scope = 'col'
       tr.appendChild(th)
 
       //add menu
-      let th = document.createElement('th')
+      th = document.createElement('th')
       th.scope = 'col'
       var enumKeys = ''
       var keys = Object.keys(this.ds[0])
@@ -1720,6 +1720,19 @@ class myTable extends LitElement {
         counter++
         var tr = document.createElement('tr')
         tbody.appendChild(tr)
+
+        var td = document.createElement('td')
+        var icon = document.createElement('i')
+        icon.classList.add('bi')
+        icon.classList.add('bi-trash')
+        icon.classList.add('text-danger')
+        icon.style.cursor = 'pointer'
+        icon.onclick = function () {
+          //delete row
+        }
+        td.appendChild(icon)
+        tr.appendChild(td)
+
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
         td.innerHTML = counter
