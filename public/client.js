@@ -1158,11 +1158,11 @@ export function init() {
   }
   let btn_column_filter = document.getElementById('btn_column_filter')
   btn_column_filter.onclick = function () {
-    var menu = document.getElementById('column_filter')
-    if (menu.style.display === 'none') {
-      menu.style.display = 'block'
+    let menu_content = document.getElementById('table_menu_content')
+    if (menu_content.style.display === 'none') {
+      menu_content.style.display = 'block'
     } else {
-      menu.style.display = 'none'
+      menu_content.style.display = 'none'
     }
   }
   let btn_oferta = document.getElementById('btn_oferta')
