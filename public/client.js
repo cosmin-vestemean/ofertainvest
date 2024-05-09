@@ -267,7 +267,7 @@ function filterOptimalDs(selected_option, optimal_ds, delimiter) {
   optimal_ds.forEach(function (object) {
     var combo = []
     nivele.forEach(function (nivel) {
-      combo.push(object[nivel])
+      if (object[nivel]) combo.push(object[nivel])
     })
     if (combo.join(delimiter) == selected_option) {
       selected_ds.push(object)
