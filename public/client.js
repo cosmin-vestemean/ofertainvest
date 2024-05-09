@@ -1707,7 +1707,7 @@ class myTable extends LitElement {
         '</div></span>'
 
       for (var key in this.ds[0]) {
-        var th = document.createElement('th')
+        th = document.createElement('th')
         th.scope = 'col'
         th.style.writingMode = 'vertical-rl'
         th.style.rotate = '180deg'
