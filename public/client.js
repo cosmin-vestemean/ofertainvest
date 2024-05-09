@@ -1668,6 +1668,44 @@ class myTable extends LitElement {
       var th = document.createElement('th')
       th.scope = 'col'
       tr.appendChild(th)
+
+      //add menu
+      let th = document.createElement('th')
+      th.scope = 'col'
+      var enumKeys = ''
+      var keys = Object.keys(this.ds[0])
+      keys.forEach(function (key) {
+        var is_checked = visible_columns.find((o) => o.column === key)
+          ? visible_columns.find((o) => o.column === key).state
+          : true
+        var state = is_checked ? 'checked' : ''
+        enumKeys += '<div class="form-check">'
+        enumKeys +=
+          '<input class="form-check-input" type="checkbox" value="" id="h' +
+          key +
+          '" ' +
+          state +
+          ' onclick="showHideColumn(this.checked, ' +
+          "'" +
+          key +
+          "', " +
+          "'" +
+          thead.id +
+          "', " +
+          "'" +
+          tbody.id +
+          "'" +
+          ')">'
+        enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
+        enumKeys += '</div>'
+      })
+      //add close icon
+      enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
+      th.innerHTML =
+        '<span id="table_menu" class="bi bi-list" style="cursor: pointer;"><div id="table_menu_content" class="text-decoration-none fw-lighter bg-light" style="display: none;">' +
+        enumKeys +
+        '</div></span>'
+
       for (var key in this.ds[0]) {
         var th = document.createElement('th')
         th.scope = 'col'
