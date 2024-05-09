@@ -262,6 +262,7 @@ function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) 
 }
 
 function filterOptimalDs(selected_option, optimal_ds, delimiter) {
+  console.log('selected_option', selected_option)
   //filter optimal_ds by selected option and display it in table
   optimal_ds.forEach(function (object) {
     var combo = []
