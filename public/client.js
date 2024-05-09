@@ -1157,14 +1157,7 @@ export function init() {
     window.scrollTo(0, 0)
   }
   let btn_column_filter = document.getElementById('btn_column_filter')
-  btn_column_filter.onclick = function () {
-    let menu_content = document.getElementById('table_menu_content')
-    if (menu_content.style.display === 'none') {
-      menu_content.style.display = 'block'
-    } else {
-      menu_content.style.display = 'none'
-    }
-  }
+  //...
   let btn_oferta = document.getElementById('btn_oferta')
   btn_oferta.onclick = saveOferta
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
@@ -1665,49 +1658,11 @@ class myTable extends LitElement {
       var tr = document.createElement('tr')
       thead.appendChild(tr)
       //append counter
-      let th = document.createElement('th')
+      var th = document.createElement('th')
       th.scope = 'col'
       tr.appendChild(th)
-
-      //add menu
-      th = document.createElement('th')
-      th.scope = 'col'
-      var enumKeys = ''
-      var keys = Object.keys(this.ds[0])
-      keys.forEach(function (key) {
-        var is_checked = visible_columns.find((o) => o.column === key)
-          ? visible_columns.find((o) => o.column === key).state
-          : true
-        var state = is_checked ? 'checked' : ''
-        enumKeys += '<div class="form-check">'
-        enumKeys +=
-          '<input class="form-check-input" type="checkbox" value="" id="h' +
-          key +
-          '" ' +
-          state +
-          ' onclick="showHideColumn(this.checked, ' +
-          "'" +
-          key +
-          "', " +
-          "'" +
-          thead.id +
-          "', " +
-          "'" +
-          tbody.id +
-          "'" +
-          ')">'
-        enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
-        enumKeys += '</div>'
-      })
-      //add close icon
-      enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
-      th.innerHTML =
-        '<span id="table_menu" class="bi bi-list" style="cursor: pointer;"><div id="table_menu_content" class="text-decoration-none fw-lighter bg-light" style="display: none;">' +
-        enumKeys +
-        '</div></span>'
-
       for (var key in this.ds[0]) {
-        th = document.createElement('th')
+        var th = document.createElement('th')
         th.scope = 'col'
         th.style.writingMode = 'vertical-rl'
         th.style.rotate = '180deg'
@@ -1720,19 +1675,6 @@ class myTable extends LitElement {
         counter++
         var tr = document.createElement('tr')
         tbody.appendChild(tr)
-
-        var td = document.createElement('td')
-        var icon = document.createElement('i')
-        icon.classList.add('bi')
-        icon.classList.add('bi-trash')
-        icon.classList.add('text-danger')
-        icon.style.cursor = 'pointer'
-        icon.onclick = function () {
-          //delete row
-        }
-        td.appendChild(icon)
-        tr.appendChild(td)
-
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
         td.innerHTML = counter
