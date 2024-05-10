@@ -1642,21 +1642,9 @@ class myTable extends LitElement {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
 
-    let showHideColumn = this.shadowRoot.host.showHideColumn
-
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
-      //add column filter and hide it
-      let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
-      var div = document.createElement('div')
-      div.id = 'table_menu_content'
-      div.classList.add('text-decoration-none')
-      div.classList.add('fw-lighter')
-      div.classList.add('bg-light')
-      div.style.display = 'none'
-      div.innerHTML = columnFilter
-      document.body.appendChild(div)
       //add table
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
       table.classList.add('table')
@@ -1672,6 +1660,17 @@ class myTable extends LitElement {
       tbody.classList.add('table-group-divider')
       table.appendChild(thead)
       table.appendChild(tbody)
+      //add column filter and hide it
+      let showHideColumn = this.shadowRoot.host.showHideColumn
+      let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
+      var div = document.createElement('div')
+      div.id = 'table_menu_content'
+      div.classList.add('text-decoration-none')
+      div.classList.add('fw-lighter')
+      div.classList.add('bg-light')
+      div.style.display = 'none'
+      div.innerHTML = columnFilter
+      document.body.appendChild(div)
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
