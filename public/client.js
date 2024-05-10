@@ -1656,17 +1656,24 @@ class myTable extends LitElement {
       input.id = 'h' + key
       //is checked by default
       input.checked = true
-      input.addEventListener('click', function () {
-        console.log('click', this.checked, key)
-        var th = document.getElementById('th_' + key)
-        var th_index = Array.from(document.getElementById(thead_name).children[0].children).indexOf(th)
-        console.log('th_index', th_index)
-        var trs = document.getElementById(tbody_name).children
-        for (var i = 0; i < trs.length; i++) {
-          var tds = trs[i].children
-          tds[th_index].style.display = this.checked ? 'table-cell' : 'none'
-        }        
-      })
+      //on click hide/show column
+      input.onclick = function () {
+        var table = document.getElementById('table_' + this.tableId)
+        var thead = document.getElementById(thead_name)
+        var tbody = document.getElementById(tbody_name)
+        var index = Array.from(thead.rows[0].cells).indexOf(thead.querySelector('th:nth-child(' + (keys.indexOf(key) + 2) + ')'))
+        if (input.checked) {
+          thead.rows[0].cells[index].style.display = 'table-cell'
+          tbody.rows.forEach(function (row) {
+            row.cells[index].style.display = 'table-cell'
+          })
+        } else {
+          thead.rows[0].cells[index].style.display = 'none'
+          tbody.rows.forEach(function (row) {
+            row.cells[index].style.display = 'none'
+          })
+        }
+      }
 
       var label = document.createElement('label')
       label.classList.add('form-check-label', 'w-100')
