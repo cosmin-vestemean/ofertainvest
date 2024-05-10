@@ -1158,7 +1158,8 @@ export function init() {
   }
   let btn_column_filter = document.getElementById('btn_column_filter')
   btn_column_filter.onclick = function () {
-    var menu = document.getElementById('table_menu_content')
+    let tbl = document.getElementById('my_table_oferta_initiala')
+    let menu = tbl.shadowRoot.getElementById('table_menu_content')
     if (menu.style.display === 'none') {
       menu.style.display = 'block'
     } else {
@@ -1637,8 +1638,6 @@ class myTable extends LitElement {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
   }
-
-  
 
   drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
     var enumKeys = ''
