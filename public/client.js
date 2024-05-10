@@ -1734,8 +1734,6 @@ function drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
     enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
     enumKeys += '</div>'
   })
-  //add close icon
-  enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
   console.log('columnFilterInnerHtml', enumKeys)
   return enumKeys
 }
