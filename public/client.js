@@ -1636,16 +1636,6 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
-    //add column filter and hide it
-    let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
-    var div = document.createElement('div')
-    div.id = 'table_menu_content'
-    div.classList.add('text-decoration-none')
-    div.classList.add('fw-lighter')
-    div.classList.add('bg-light')
-    div.style.display = 'none'
-    div.innerHTML = columnFilter
-    document.body.appendChild(div)
   }
 
   render() {
@@ -1657,6 +1647,17 @@ class myTable extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
+      //add column filter and hide it
+      let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
+      var div = document.createElement('div')
+      div.id = 'table_menu_content'
+      div.classList.add('text-decoration-none')
+      div.classList.add('fw-lighter')
+      div.classList.add('bg-light')
+      div.style.display = 'none'
+      div.innerHTML = columnFilter
+      document.body.appendChild(div)
+      //add table
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
