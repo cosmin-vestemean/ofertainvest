@@ -733,6 +733,8 @@ function pushDataToTable(data, thead_name, tbody_name) {
   visible_columns.forEach((o) => {
     showHideColumn(o.state, o.column, thead_name, tbody_name)
   })
+
+  console.log('visible_columns', visible_columns)
 }
 
 function showHideColumn(checkbox_state, column, thead_name, tbody_name) {
