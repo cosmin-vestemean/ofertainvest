@@ -1634,6 +1634,14 @@ class myTable extends LitElement {
       font-weight: normal;
       border-right: 1px solid #e9ecef;
     }
+
+    #table_menu_content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
   `
 
   connectedCallback() {
