@@ -1645,6 +1645,13 @@ class myTable extends LitElement {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
 
+    var my_table_oferta_initiala = document.getElementById('my_table_oferta_initiala')
+    //if this element has div with id = table_menu_content, remove it
+    var table_menu_content = document.getElementById('table_menu_content')
+    if (table_menu_content) {
+      my_table_oferta_initiala.removeChild(table_menu_content)
+    }
+
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
@@ -1688,8 +1695,8 @@ class myTable extends LitElement {
         table_menu_content.appendChild(div)
       })
 
-      //add table_menu_content to table
-      table.appendChild(table_menu_content)
+      //add table_menu_content to my_table_oferta_initiala
+      my_table_oferta_initiala.appendChild(table_menu_content)
 
       //add thead
       var tr = document.createElement('tr')
