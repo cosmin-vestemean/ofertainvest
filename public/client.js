@@ -1701,6 +1701,24 @@ class myTable extends LitElement {
         label.innerHTML = key
         div.appendChild(label)
         table_menu_content.appendChild(div)
+        //add event listener to input
+        input.addEventListener('change', function () {
+          //toggle display of column
+          var index = keys.indexOf(key)
+          var ths = thead.getElementsByTagName('th')
+          var tds = tbody.getElementsByTagName('td')
+          if (input.checked) {
+            ths[index].style.display = 'table-cell'
+            for (var i = index; i < tds.length; i += keys.length) {
+              tds[i].style.display = 'table-cell'
+            }
+          } else {
+            ths[index].style.display = 'none'
+            for (var i = index; i < tds.length; i += keys.length) {
+              tds[i].style.display = 'none'
+            }
+          }
+        })
       })
 
       //add table_menu_content to my_table_oferta_initiala
