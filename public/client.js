@@ -1636,6 +1636,7 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
+    this.attachShadow({ mode: 'open' })
     this.showHideColumn = showHideColumn
   }
 
@@ -1657,7 +1658,8 @@ class myTable extends LitElement {
       input.id = 'h' + key
       input.checked = is_checked ? 'checked' : ''
       input.addEventListener('click', function () {
-        showHideColumn(this.checked, key, thead_name, tbody_name)
+        console.log('click', this.checked, key)
+        this.showHideColumn(this.checked, key, thead_name, tbody_name)
       })
 
       var label = document.createElement('label')
