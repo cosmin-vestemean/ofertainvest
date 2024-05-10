@@ -1706,6 +1706,11 @@ class myTable extends LitElement {
       div.classList.add('fw-lighter')
       div.classList.add('bg-light')
       div.style.display = 'none'
+      //stanga sus, pozitie fixa
+      div.style.position = 'fixed'
+      div.style.top = '0'
+      div.style.left = '0'
+      div.style.zIndex = '1000'
       div.innerHTML = columnFilter
       //get my_table_oferta_initiala
       var my_table = document.getElementById('my_table_oferta_initiala')
