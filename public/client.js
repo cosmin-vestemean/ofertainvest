@@ -1641,6 +1641,7 @@ class myTable extends LitElement {
       top: 0;
       padding: 10px;
       border-radius: 5px;
+      opacity: 0.9;
     }
   `
 
@@ -1709,7 +1710,7 @@ class myTable extends LitElement {
         //add event listener to input
         input.addEventListener('change', function () {
           //toggle display of column
-          var index = keys.indexOf(key) + 1
+          var index = keys.indexOf(key) + 1 //beacause of counter
           var ths = thead.getElementsByTagName('th')
           var tds = tbody.getElementsByTagName('td')
           if (input.checked) {
