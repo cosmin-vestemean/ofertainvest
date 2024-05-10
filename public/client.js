@@ -1641,7 +1641,7 @@ class myTable extends LitElement {
     console.log('my-table element added to the DOM')
   }
 
-  drawColumnFilter(data, thead_name, tbody_name) {
+  drawColumnFilter(data) {
     var enumKeys = ''
     var keys = Object.keys(data)
     keys.forEach(function (key) {
@@ -1653,9 +1653,10 @@ class myTable extends LitElement {
       input.classList.add('form-check-input')
       input.type = 'checkbox'
       input.id = 'h' + key
+      //is checked by default
       input.checked = true
-      input.addEventListener('click', function () {
-        console.log('click', this.checked, key)
+      input.addEventListener('click', (event) => {
+        console.log('click', this.checked, key, event.target.checked)
       })
 
       var label = document.createElement('label')
@@ -1669,7 +1670,6 @@ class myTable extends LitElement {
       enumKeys += div.outerHTML
     })
 
-    console.log('columnFilterInnerHtml', enumKeys)
     return enumKeys
   }
 
@@ -1696,6 +1696,11 @@ class myTable extends LitElement {
       table.appendChild(thead)
       table.appendChild(tbody)
       //add column filter and hide it
+      //delete if exists
+      var menu = document.getElementById('table_menu_content')
+      if (menu) {
+        menu.remove()
+      }
       let columnFilter = this.drawColumnFilter(this.ds[0], thead.id, tbody.id)
       var div = document.createElement('div')
       div.id = 'table_menu_content'
