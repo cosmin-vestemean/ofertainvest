@@ -1677,7 +1677,6 @@ class myTable extends LitElement {
         document.getElementById('table_menu_content') || document.createElement('div')
       table_menu_content.id = 'table_menu_content'
       table_menu_content.style.display = 'none'
-      table_menu_content.classList.add('table-menu-content')
       table_menu_content.innerHTML = ''
       //add checkboxes for each column
       var keys = Object.keys(this.ds[0])
