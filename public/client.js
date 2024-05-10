@@ -1636,9 +1636,9 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
-    this.attachShadow({ mode: 'open' })
-    this.showHideColumn = showHideColumn
   }
+
+  
 
   drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
     var enumKeys = ''
@@ -1708,7 +1708,10 @@ class myTable extends LitElement {
       div.classList.add('bg-light')
       div.style.display = 'none'
       div.innerHTML = columnFilter
-      document.body.appendChild(div)
+      //get my_table_oferta_initiala
+      var my_table = document.getElementById('my_table_oferta_initiala')
+      //add div to shadowRoot
+      my_table.shadowRoot.appendChild(div)
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
