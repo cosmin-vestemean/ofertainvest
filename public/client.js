@@ -1649,7 +1649,7 @@ class myTable extends LitElement {
     //if this element has div with id = table_menu_content, remove it
     var table_menu_content = my_table_oferta_initiala.shadowRoot.getElementById('table_menu_content')
     if (table_menu_content) {
-      my_table_oferta_initiala.removeChild(table_menu_content)
+      my_table_oferta_initiala.shadowRoot.removeChild(table_menu_content)
     }
 
     if (!this.ds || this.ds.length == 0) {
@@ -1674,7 +1674,8 @@ class myTable extends LitElement {
       //1. create a hidden div with id = table_menu_content
       //2. when btn btn_column_filter is clicked, toggle display of table_menu_content
       var table_menu_content =
-        document.getElementById('table_menu_content') || document.createElement('div')
+        my_table_oferta_initiala.shadowRoot.getElementById('table_menu_content') ||
+        document.createElement('div')
       table_menu_content.id = 'table_menu_content'
       table_menu_content.style.display = 'none'
       table_menu_content.innerHTML = ''
