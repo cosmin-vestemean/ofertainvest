@@ -1658,6 +1658,7 @@ class myTable extends LitElement {
       input.checked = true
       //on click hide/show column
       input.onclick = function () {
+        console.log('click', key, 'checked', input.checked)
         var table = document.getElementById('table_' + this.tableId)
         var thead = document.getElementById(thead_name)
         var tbody = document.getElementById(tbody_name)
