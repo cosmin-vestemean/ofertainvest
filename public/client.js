@@ -1661,6 +1661,10 @@ class myTable extends LitElement {
       table.appendChild(tbody)
       //add column filter and hide it
       let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
+      //add columnFilter to body
+      var div = document.createElement('div')
+      div.innerHTML = columnFilter
+      tbody.appendChild(div)
       console.log('columnFilter', columnFilter)
       //add thead
       var tr = document.createElement('tr')
