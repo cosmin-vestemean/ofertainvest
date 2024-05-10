@@ -1641,7 +1641,7 @@ class myTable extends LitElement {
     console.log('my-table element added to the DOM')
   }
 
-  drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
+  drawColumnFilter(data, thead_name, tbody_name) {
     var enumKeys = ''
     var keys = Object.keys(data)
     keys.forEach(function (key) {
@@ -1652,29 +1652,11 @@ class myTable extends LitElement {
       var input = document.createElement('input')
       input.classList.add('form-check-input')
       input.type = 'checkbox'
-      input.value = ''
       input.id = 'h' + key
-      //is checked by default
       input.checked = true
-      //on click hide/show column
-      input.onclick = function () {
-        console.log('click', key, 'checked', input.checked)
-        var table = document.getElementById('table_' + this.tableId)
-        var thead = document.getElementById(thead_name)
-        var tbody = document.getElementById(tbody_name)
-        var index = Array.from(thead.rows[0].cells).indexOf(thead.querySelector('th:nth-child(' + (keys.indexOf(key) + 2) + ')'))
-        if (input.checked) {
-          thead.rows[0].cells[index].style.display = 'table-cell'
-          tbody.rows.forEach(function (row) {
-            row.cells[index].style.display = 'table-cell'
-          })
-        } else {
-          thead.rows[0].cells[index].style.display = 'none'
-          tbody.rows.forEach(function (row) {
-            row.cells[index].style.display = 'none'
-          })
-        }
-      }
+      input.addEventListener('click', function () {
+        console.log('click', this.checked, key)
+      })
 
       var label = document.createElement('label')
       label.classList.add('form-check-label', 'w-100')
@@ -1714,7 +1696,7 @@ class myTable extends LitElement {
       table.appendChild(thead)
       table.appendChild(tbody)
       //add column filter and hide it
-      let columnFilter = this.drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
+      let columnFilter = this.drawColumnFilter(this.ds[0], thead.id, tbody.id)
       var div = document.createElement('div')
       div.id = 'table_menu_content'
       div.classList.add('text-decoration-none')
