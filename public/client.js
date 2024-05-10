@@ -1645,9 +1645,6 @@ class myTable extends LitElement {
     var enumKeys = ''
     var keys = Object.keys(data)
     keys.forEach(function (key) {
-      var is_checked = visible_columns.find((o) => o.column === key)
-        ? visible_columns.find((o) => o.column === key).state
-        : true
 
       var div = document.createElement('div')
       div.classList.add('form-check')
@@ -1657,10 +1654,18 @@ class myTable extends LitElement {
       input.type = 'checkbox'
       input.value = ''
       input.id = 'h' + key
-      input.checked = is_checked ? 'checked' : ''
+      //is checked by default
+      input.checked = true
       input.addEventListener('click', function () {
         console.log('click', this.checked, key)
-        this.showHideColumn(this.checked, key, thead_name, tbody_name)
+        var th = document.getElementById('th_' + key)
+        var th_index = Array.from(document.getElementById(thead_name).children[0].children).indexOf(th)
+        console.log('th_index', th_index)
+        var trs = document.getElementById(tbody_name).children
+        for (var i = 0; i < trs.length; i++) {
+          var tds = trs[i].children
+          tds[th_index].style.display = this.checked ? 'table-cell' : 'none'
+        }        
       })
 
       var label = document.createElement('label')
@@ -1748,11 +1753,6 @@ class myTable extends LitElement {
           td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
           tr.appendChild(td)
         }
-      })
-
-      //config according to visible_columns
-      visible_columns.forEach((o) => {
-        showHideColumn(o.state, o.column, thead_name, tbody_name)
       })
 
       return html`${table}`
