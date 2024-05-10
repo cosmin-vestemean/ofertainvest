@@ -1641,38 +1641,6 @@ class myTable extends LitElement {
     console.log('my-table element added to the DOM')
   }
 
-  drawColumnFilter(data) {
-    var enumKeys = ''
-    var keys = Object.keys(data)
-    keys.forEach(function (key) {
-
-      var div = document.createElement('div')
-      div.classList.add('form-check')
-
-      var input = document.createElement('input')
-      input.classList.add('form-check-input')
-      input.type = 'checkbox'
-      input.id = 'h' + key
-      //is checked by default
-      input.checked = true
-      input.addEventListener('click', (event) => {
-        console.log('click', this.checked, key, event.target.checked)
-      })
-
-      var label = document.createElement('label')
-      label.classList.add('form-check-label', 'w-100')
-      label.htmlFor = 'h' + key
-      label.textContent = key
-
-      div.appendChild(input)
-      div.appendChild(label)
-
-      enumKeys += div.outerHTML
-    })
-
-    return enumKeys
-  }
-
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
@@ -1695,29 +1663,34 @@ class myTable extends LitElement {
       tbody.classList.add('table-group-divider')
       table.appendChild(thead)
       table.appendChild(tbody)
-      //add column filter and hide it
-      //delete if exists
-      var menu = document.getElementById('table_menu_content')
-      if (menu) {
-        menu.remove()
-      }
-      let columnFilter = this.drawColumnFilter(this.ds[0], thead.id, tbody.id)
-      var div = document.createElement('div')
-      div.id = 'table_menu_content'
-      div.classList.add('text-decoration-none')
-      div.classList.add('fw-lighter')
-      div.classList.add('bg-light')
-      div.style.display = 'none'
-      //stanga sus, pozitie fixa
-      div.style.position = 'fixed'
-      div.style.top = '0'
-      div.style.left = '0'
-      div.style.zIndex = '1000'
-      div.innerHTML = columnFilter
-      //get my_table_oferta_initiala
-      var my_table = document.getElementById('my_table_oferta_initiala')
-      //add div to shadowRoot
-      my_table.shadowRoot.appendChild(div)
+      //create a way to handle column visibility
+      //1. create a hidden div with id = table_menu_content
+      //2. when btn btn_column_filter is clicked, toggle display of table_menu_content
+      var table_menu_content =
+        document.getElementById('table_menu_content') || document.createElement('div')
+      table_menu_content.id = 'table_menu_content'
+      table_menu_content.style.display = 'none'
+      table_menu_content.classList.add('table-menu-content')
+      table_menu_content.innerHTML = ''
+      //add checkboxes for each column
+      var keys = Object.keys(this.ds[0])
+      keys.forEach(function (key) {
+        var div = document.createElement('div')
+        var input = document.createElement('input')
+        input.type = 'checkbox'
+        input.id = key
+        input.checked = true
+        div.appendChild(input)
+        var label = document.createElement('label')
+        label.for = key
+        label.innerHTML = key
+        div.appendChild(label)
+        table_menu_content.appendChild(div)
+      })
+
+      //add table_menu_content to table
+      table.appendChild(table_menu_content)
+
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
