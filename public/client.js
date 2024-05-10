@@ -1636,24 +1636,7 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
-  }
-
-  //copy showHideColumn here
-  showHideColumn = function (state, column, thead_name, tbody_name) {
-    var thead = document.getElementById(thead_name)
-    var tbody = document.getElementById(tbody_name)
-    var ths = thead.getElementsByTagName('th')
-    var tds = tbody.getElementsByTagName('td')
-    for (var i = 0; i < ths.length; i++) {
-      if (ths[i].innerHTML === column) {
-        ths[i].style.display = state ? '' : 'none'
-        for (var j = 0; j < tds.length; j++) {
-          if (j % ths.length === i) {
-            tds[j].style.display = state ? '' : 'none'
-          }
-        }
-      }
-    }
+    this.showHideColumn = showHideColumn;
   }
 
   render() {
