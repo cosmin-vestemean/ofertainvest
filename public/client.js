@@ -1618,6 +1618,22 @@ class myTable extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    //add column filter and hide it
+    let columnFilter = drawColumnFilter(
+      this.ds[0],
+      thead.id,
+      tbody.id,
+      visible_columns,
+      this.shadowRoot.host.showHideColumn
+    )
+    var div = document.createElement('div')
+    div.id = 'table_menu_content'
+    div.classList.add('text-decoration-none')
+    div.classList.add('fw-lighter')
+    div.classList.add('bg-light')
+    div.style.display = 'none'
+    div.innerHTML = columnFilter
+    document.body.appendChild(div)
   }
 
   //css
@@ -1659,16 +1675,6 @@ class myTable extends LitElement {
       tbody.classList.add('table-group-divider')
       table.appendChild(thead)
       table.appendChild(tbody)
-      //add column filter and hide it
-      let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
-      var div = document.createElement('div')
-      div.id = 'table_menu_content'
-      div.classList.add('text-decoration-none')
-      div.classList.add('fw-lighter')
-      div.classList.add('bg-light')
-      div.style.display = 'none'
-      div.innerHTML = columnFilter
-      document.body.appendChild(div)
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
@@ -1701,12 +1707,17 @@ class myTable extends LitElement {
         }
       })
 
+      //config according to visible_columns
+      visible_columns.forEach((o) => {
+        showHideColumn(o.state, o.column, thead_name, tbody_name)
+      })
+
       return html`${table}`
     }
   }
 }
 
-function drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
+function drawColumnFilter(data, thead_name, tbody_name, visible_columns, showHideColumn) {
   var enumKeys = ''
   var keys = Object.keys(data)
   keys.forEach(function (key) {
