@@ -1653,7 +1653,7 @@ class myTable extends LitElement {
       table.appendChild(thead)
       table.appendChild(tbody)
       //add column filter and hide it
-      let columnFilter = drawColumnFilter(this.ds[0], thead.id, thead.id, tbody.id, visible_columns)
+      let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
       console.log('columnFilter', columnFilter)
       //add thead
       var tr = document.createElement('tr')
@@ -1692,9 +1692,9 @@ class myTable extends LitElement {
   }
 }
 
-function drawColumnFilter(data, th, thead_name, tbody_name, visible_columns) {
+function drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
   var enumKeys = ''
-  var keys = Object.keys(data[0])
+  var keys = Object.keys(data)
   keys.forEach(function (key) {
     var is_checked = visible_columns.find((o) => o.column === key)
       ? visible_columns.find((o) => o.column === key).state
