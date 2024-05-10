@@ -1618,22 +1618,6 @@ class myTable extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    //add column filter and hide it
-    let columnFilter = drawColumnFilter(
-      this.ds[0],
-      thead.id,
-      tbody.id,
-      visible_columns,
-      this.shadowRoot.host.showHideColumn
-    )
-    var div = document.createElement('div')
-    div.id = 'table_menu_content'
-    div.classList.add('text-decoration-none')
-    div.classList.add('fw-lighter')
-    div.classList.add('bg-light')
-    div.style.display = 'none'
-    div.innerHTML = columnFilter
-    document.body.appendChild(div)
   }
 
   //css
@@ -1652,11 +1636,23 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
+    //add column filter and hide it
+    let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
+    var div = document.createElement('div')
+    div.id = 'table_menu_content'
+    div.classList.add('text-decoration-none')
+    div.classList.add('fw-lighter')
+    div.classList.add('bg-light')
+    div.style.display = 'none'
+    div.innerHTML = columnFilter
+    document.body.appendChild(div)
   }
 
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
+
+    let showHideColumn = this.shadowRoot.host.showHideColumn
 
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
@@ -1717,7 +1713,7 @@ class myTable extends LitElement {
   }
 }
 
-function drawColumnFilter(data, thead_name, tbody_name, visible_columns, showHideColumn) {
+function drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
   var enumKeys = ''
   var keys = Object.keys(data)
   keys.forEach(function (key) {
