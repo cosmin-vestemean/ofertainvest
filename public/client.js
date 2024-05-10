@@ -1636,7 +1636,43 @@ class myTable extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('my-table element added to the DOM')
-    this.showHideColumn = showHideColumn;
+    this.showHideColumn = showHideColumn
+  }
+
+  drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
+    var enumKeys = ''
+    var keys = Object.keys(data)
+    keys.forEach(function (key) {
+      var is_checked = visible_columns.find((o) => o.column === key)
+        ? visible_columns.find((o) => o.column === key).state
+        : true
+
+      var div = document.createElement('div')
+      div.classList.add('form-check')
+
+      var input = document.createElement('input')
+      input.classList.add('form-check-input')
+      input.type = 'checkbox'
+      input.value = ''
+      input.id = 'h' + key
+      input.checked = is_checked ? 'checked' : ''
+      input.addEventListener('click', function () {
+        showHideColumn(this.checked, key, thead_name, tbody_name)
+      })
+
+      var label = document.createElement('label')
+      label.classList.add('form-check-label', 'w-100')
+      label.htmlFor = 'h' + key
+      label.textContent = key
+
+      div.appendChild(input)
+      div.appendChild(label)
+
+      enumKeys += div.outerHTML
+    })
+
+    console.log('columnFilterInnerHtml', enumKeys)
+    return enumKeys
   }
 
   render() {
@@ -1662,7 +1698,7 @@ class myTable extends LitElement {
       table.appendChild(thead)
       table.appendChild(tbody)
       //add column filter and hide it
-      let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
+      let columnFilter = this.drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
       var div = document.createElement('div')
       div.id = 'table_menu_content'
       div.classList.add('text-decoration-none')
@@ -1711,38 +1747,6 @@ class myTable extends LitElement {
       return html`${table}`
     }
   }
-}
-
-function drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
-  var enumKeys = ''
-  var keys = Object.keys(data)
-  keys.forEach(function (key) {
-    var is_checked = visible_columns.find((o) => o.column === key)
-      ? visible_columns.find((o) => o.column === key).state
-      : true
-    var state = is_checked ? 'checked' : ''
-    enumKeys += '<div class="form-check">'
-    enumKeys +=
-      '<input class="form-check-input" type="checkbox" value="" id="h' +
-      key +
-      '" ' +
-      state +
-      ' onclick="showHideColumn(this.checked, ' +
-      "'" +
-      key +
-      "', " +
-      "'" +
-      thead_name +
-      "', " +
-      "'" +
-      tbody_name +
-      "'" +
-      ')">'
-    enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
-    enumKeys += '</div>'
-  })
-  console.log('columnFilterInnerHtml', enumKeys)
-  return enumKeys
 }
 
 customElements.define('my-table', myTable)
