@@ -1638,6 +1638,24 @@ class myTable extends LitElement {
     console.log('my-table element added to the DOM')
   }
 
+  //copy showHideColumn here
+  showHideColumn = function (state, column, thead_name, tbody_name) {
+    var thead = document.getElementById(thead_name)
+    var tbody = document.getElementById(tbody_name)
+    var ths = thead.getElementsByTagName('th')
+    var tds = tbody.getElementsByTagName('td')
+    for (var i = 0; i < ths.length; i++) {
+      if (ths[i].innerHTML === column) {
+        ths[i].style.display = state ? '' : 'none'
+        for (var j = 0; j < tds.length; j++) {
+          if (j % ths.length === i) {
+            tds[j].style.display = state ? '' : 'none'
+          }
+        }
+      }
+    }
+  }
+
   render() {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date())
     console.log('tableId', this.tableId)
@@ -1661,7 +1679,6 @@ class myTable extends LitElement {
       table.appendChild(thead)
       table.appendChild(tbody)
       //add column filter and hide it
-      let showHideColumn = this.shadowRoot.host.showHideColumn
       let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
       var div = document.createElement('div')
       div.id = 'table_menu_content'
