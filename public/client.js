@@ -1661,11 +1661,14 @@ class myTable extends LitElement {
       table.appendChild(tbody)
       //add column filter and hide it
       let columnFilter = drawColumnFilter(this.ds[0], thead.id, tbody.id, visible_columns)
-      //add columnFilter to body
       var div = document.createElement('div')
+      div.id = 'table_menu_content'
+      div.classList.add('text-decoration-none')
+      div.classList.add('fw-lighter')
+      div.classList.add('bg-light')
+      div.style.display = 'none'
       div.innerHTML = columnFilter
-      tbody.appendChild(div)
-      console.log('columnFilter', columnFilter)
+      document.body.appendChild(div)
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
@@ -1733,14 +1736,8 @@ function drawColumnFilter(data, thead_name, tbody_name, visible_columns) {
   })
   //add close icon
   enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
-  let ret =
-    '<div id="table_menu_content" class="text-decoration-none fw-lighter bg-light" style="display: none;">' +
-    enumKeys +
-    '</div>'
-
-  console.log('columnFilterDiv', ret)
-
-  return ret
+  console.log('columnFilterInnerHtml', enumKeys)
+  return enumKeys
 }
 
 customElements.define('my-table', myTable)
