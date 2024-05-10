@@ -1647,7 +1647,7 @@ class myTable extends LitElement {
 
     var my_table_oferta_initiala = document.getElementById('my_table_oferta_initiala')
     //if this element has div with id = table_menu_content, remove it
-    var table_menu_content = document.getElementById('table_menu_content')
+    var table_menu_content = my_table_oferta_initiala.shadowRoot.getElementById('table_menu_content')
     if (table_menu_content) {
       my_table_oferta_initiala.removeChild(table_menu_content)
     }
@@ -1696,7 +1696,7 @@ class myTable extends LitElement {
       })
 
       //add table_menu_content to my_table_oferta_initiala
-      my_table_oferta_initiala.appendChild(table_menu_content)
+      my_table_oferta_initiala.shadowRoot.appendChild(table_menu_content)
 
       //add thead
       var tr = document.createElement('tr')
