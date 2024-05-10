@@ -1709,7 +1709,7 @@ class myTable extends LitElement {
         //add event listener to input
         input.addEventListener('change', function () {
           //toggle display of column
-          var index = keys.indexOf(key)
+          var index = keys.indexOf(key) + 1
           var ths = thead.getElementsByTagName('th')
           var tds = tbody.getElementsByTagName('td')
           if (input.checked) {
