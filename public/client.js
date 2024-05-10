@@ -1685,6 +1685,11 @@ class myTable extends LitElement {
         my_table_oferta_initiala.shadowRoot.getElementById('table_menu_content') ||
         document.createElement('div')
       table_menu_content.id = 'table_menu_content'
+      //stylish
+      table_menu_content.classList.add('bg-dark')
+      table_menu_content.classList.add('text-light')
+      table_menu_content.classList.add('rounded')
+      table_menu_content.classList.add('shadow')
       table_menu_content.style.display = 'none'
       table_menu_content.innerHTML = ''
       //add checkboxes for each column
