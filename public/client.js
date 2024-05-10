@@ -1641,9 +1641,7 @@ class myTable extends LitElement {
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
-      //table.classList.add('table-bordered')
       table.classList.add('table-hover')
-      //table.classList.add('table-striped')
       table.id = 'table_' + this.tableId
       //get or create thead and tbody
       var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
@@ -1654,6 +1652,9 @@ class myTable extends LitElement {
       tbody.classList.add('table-group-divider')
       table.appendChild(thead)
       table.appendChild(tbody)
+      //add column filter and hide it
+      let columnFilter = drawColumnFilter(this.ds, thead.id, thead.id, tbody.id, visible_columns)
+      console.log('columnFilter', columnFilter)
       //add thead
       var tr = document.createElement('tr')
       thead.appendChild(tr)
@@ -1689,6 +1690,46 @@ class myTable extends LitElement {
       return html`${table}`
     }
   }
+}
+
+function drawColumnFilter(data, th, thead_name, tbody_name, visible_columns) {
+  var enumKeys = ''
+  var keys = Object.keys(data[0])
+  keys.forEach(function (key) {
+    var is_checked = visible_columns.find((o) => o.column === key)
+      ? visible_columns.find((o) => o.column === key).state
+      : true
+    var state = is_checked ? 'checked' : ''
+    enumKeys += '<div class="form-check">'
+    enumKeys +=
+      '<input class="form-check-input" type="checkbox" value="" id="h' +
+      key +
+      '" ' +
+      state +
+      ' onclick="showHideColumn(this.checked, ' +
+      "'" +
+      key +
+      "', " +
+      "'" +
+      thead_name +
+      "', " +
+      "'" +
+      tbody_name +
+      "'" +
+      ')">'
+    enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
+    enumKeys += '</div>'
+
+    console.log('column filter', enumKeys)
+
+    return enumKeys
+  })
+  //add close icon
+  enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
+  th.innerHTML =
+    '<span id="table_menu" class="bi bi-list" style="cursor: pointer;"><div id="table_menu_content" class="text-decoration-none fw-lighter bg-light" style="display: none;">' +
+    enumKeys +
+    '</div></span>'
 }
 
 customElements.define('my-table', myTable)
