@@ -1845,7 +1845,15 @@ function createTreesFromWBS(ds) {
         result.push(arr2)
       } else {
         if (!result.some((r) => r.join('') == arr2.join(''))) {
-          result.push(arr2)
+          let o = { branch: arr2 }
+          //find in optimal_ds object with WBS = arr2.join('.') and attach it to o
+          let obj = cloneDs.find((o) => o.WBS == arr2.join('.'))
+          if (obj) {
+            o.object = obj
+          } else {
+            console.log('object not found for WBS', arr2.join('.'))
+          }
+          result.push(o)
         }
       }
     })
@@ -1854,9 +1862,16 @@ function createTreesFromWBS(ds) {
   //console.log('result', result)
 
   var maxLevels = 0
+  /*
   result.forEach(function (branch) {
     if (branch.length > maxLevels) {
       maxLevels = branch.length
+    }
+  }) */
+
+  result.forEach(function (branch) {
+    if (branch.branch.length > maxLevels) {
+      maxLevels = branch.branch.length
     }
   })
 
@@ -1868,8 +1883,8 @@ function createTreesFromWBS(ds) {
   for (let i = 0; i < maxLevels; i++) {
     let nodes = []
     result.forEach(function (branch) {
-      if (branch.length > i) {
-        let node = branch[i]
+      if (branch.branch.length > i) {
+        let node = branch.branch[i]
         if (!nodes.includes(node)) {
           nodes.push(node)
         }
@@ -1911,7 +1926,7 @@ function createTreesFromWBS(ds) {
 
   modal.show()
 
-  return { trees , result }
+  return { trees, result }
 }
 
 /*
