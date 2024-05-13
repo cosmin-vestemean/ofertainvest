@@ -1772,12 +1772,36 @@ class myTable extends LitElement {
 customElements.define('my-table', myTable)
 
 
+function compareWBS(a, b) {
+  const aParts = a.WBS.split('.').map(Number);
+  const bParts = b.WBS.split('.').map(Number);
+
+  for (let i = 0; i < aParts.length && i < bParts.length; i++) {
+      if (aParts[i] < bParts[i]) {
+          return -1;
+      }
+      if (aParts[i] > bParts[i]) {
+          return 1;
+      }
+  }
+
+  // If we made it through the loop without returning, then the arrays are equal up to the shared length.
+  // In this case, the longer array is considered greater.
+  if (aParts.length < bParts.length) {
+      return -1;
+  }
+  if (aParts.length > bParts.length) {
+      return 1;
+  }
+
+  // If neither array is longer, they're equal.
+  return 0;
+}
+
 function createTreesFromWBS(ds) {
   //sort ds by WBS splited by '.' si interpretat ca numere
   let cloneDs = JSON.parse(JSON.stringify(ds))
-  cloneDs.sort(function (a, b) {
-    return a.WBS.split('.').map(Number) - b.WBS.split('.').map(Number)
-  })
+  cloneDs.sort(compareWBS)
 
   console.log('cloneDs', cloneDs)
 
