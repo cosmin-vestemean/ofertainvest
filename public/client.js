@@ -1892,6 +1892,11 @@ function createTreesFromWBS(ds) {
     trees.push(nodes)
   }
 
+  //sort trees
+  trees.forEach(function (tree) {
+    tree.sort()
+  })
+
   //console.log('trees', trees)
 
   const levels = trees.length
