@@ -1207,7 +1207,11 @@ export function init() {
   //WBSMap
   let WBSMap = document.getElementById('WBSMap')
   WBSMap.onclick = function () {
-    createTreesFromWBS(optimal_ds)
+    var result = createTreesFromWBS(optimal_ds)
+    console.log('result.trees', result.trees)
+    console.log('result.result', result.result)
+    console.log('receipts_ds', recipes_ds)
+  }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
@@ -1842,7 +1846,7 @@ function createTreesFromWBS(ds) {
     })
   })
 
-  console.log('result', result)
+  //console.log('result', result)
 
   var maxLevels = 0
   result.forEach(function (branch) {
@@ -1869,7 +1873,7 @@ function createTreesFromWBS(ds) {
     trees.push(nodes)
   }
 
-  console.log('trees', trees)
+  //console.log('trees', trees)
 
   const levels = trees.length
   console.log('levels', levels)
@@ -1902,7 +1906,7 @@ function createTreesFromWBS(ds) {
 
   modal.show()
 
-
+  return { trees , result }
 }
 
 /*
