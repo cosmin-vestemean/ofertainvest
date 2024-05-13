@@ -1801,20 +1801,116 @@ function createTreesFromWBS(ds) {
   console.log('options', options)
 
   //merge trees
-  let trees = []
-  options.forEach(function (tree) {
-    let found = false
-    trees.forEach(function (existing_tree) {
-      if (JSON.stringify(existing_tree) == JSON.stringify(tree)) {
-        found = true
+  /*for example:
+  [
+    [
+        "1183"
+    ],
+    [
+        "1183",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1",
+        "1"
+    ]
+]
+
+and 
+[
+    [
+        "1183"
+    ],
+    [
+        "1183",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1",
+        "2"
+    ]
+]
+
+should be 
+[
+    [
+        "1183"
+    ],
+    [
+        "1183",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1",
+        "1"
+    ],
+    [
+        "1183",
+        "1",
+        "1",
+        "1",
+        "2"
+    ]
+]*/
+  
+    let trees = []
+    options.forEach(function (tree) {
+      let found = false
+      trees.forEach(function (t) {
+        if (JSON.stringify(t) === JSON.stringify(tree)) {
+          found = true
+        }
+      })
+      if (!found) {
+        trees.push(tree)
       }
     })
-    if (!found) {
-      trees.push(tree)
-    }
-  })
-
-  console.log('trees', trees)
+  
+    console.log('trees', trees)
+  
+    return trees
 }
 
 /*
