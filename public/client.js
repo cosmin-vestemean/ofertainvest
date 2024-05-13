@@ -1839,6 +1839,30 @@ function createTreesFromWBS(ds) {
   })
 
   console.log('result', result)
+
+  var maxLevels = 0
+  result.forEach(function (branch) {
+    if (branch.length > maxLevels) {
+      maxLevels = branch.length
+    }
+  })
+
+  console.log('maxLevels', maxLevels)
+
+  //sunt maxLevels nivele in tree
+  //pornind de la primul nivel, pentru fiecare nivel, creeaza un array cu toate nodurile de pe acel nivel
+  let trees = []
+  for (let i = 0; i < maxLevels; i++) {
+    let level = []
+    result.forEach(function (branch) {
+      if (branch.length > i) {
+        level.push(branch[i])
+      }
+    })
+    trees.push(level)
+  }
+
+  console.log('trees', trees)
 }
 
 /*
