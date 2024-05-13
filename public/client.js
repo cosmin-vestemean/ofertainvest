@@ -1870,6 +1870,10 @@ function createTreesFromWBS(ds) {
   const levels = trees.length
   console.log('levels', levels)
 
+  var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+  var modal_body = document.getElementById('modal-body3')
+  modal_body.innerHTML = ''
+
   //for each level, create a table with 1 row and n columns, each column containing a node
   for (let i = 0; i < levels; i++) {
     var table = document.createElement('table')
@@ -1889,9 +1893,6 @@ function createTreesFromWBS(ds) {
       tr.appendChild(th)
     })
     //show modal id ModalGeneric
-    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-    var modal_body = document.getElementById('modal-body3')
-    modal_body.innerHTML = ''
     modal_body.appendChild(table)
   }
 
