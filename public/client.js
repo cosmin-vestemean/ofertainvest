@@ -1771,31 +1771,30 @@ class myTable extends LitElement {
 
 customElements.define('my-table', myTable)
 
-
 function compareWBS(a, b) {
-  const aParts = a.WBS.split('.').map(Number);
-  const bParts = b.WBS.split('.').map(Number);
+  const aParts = a.WBS.split('.').map(Number)
+  const bParts = b.WBS.split('.').map(Number)
 
   for (let i = 0; i < aParts.length && i < bParts.length; i++) {
-      if (aParts[i] < bParts[i]) {
-          return -1;
-      }
-      if (aParts[i] > bParts[i]) {
-          return 1;
-      }
+    if (aParts[i] < bParts[i]) {
+      return -1
+    }
+    if (aParts[i] > bParts[i]) {
+      return 1
+    }
   }
 
   // If we made it through the loop without returning, then the arrays are equal up to the shared length.
   // In this case, the longer array is considered greater.
   if (aParts.length < bParts.length) {
-      return -1;
+    return -1
   }
   if (aParts.length > bParts.length) {
-      return 1;
+    return 1
   }
 
   // If neither array is longer, they're equal.
-  return 0;
+  return 0
 }
 
 function createTreesFromWBS(ds) {
@@ -1824,107 +1823,7 @@ function createTreesFromWBS(ds) {
 
   console.log('options', options)
 
-  //merge trees
-  /*for example:
-  [
-    [
-        "1183"
-    ],
-    [
-        "1183",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1",
-        "1"
-    ]
-]
-
-and 
-[
-    [
-        "1183"
-    ],
-    [
-        "1183",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1",
-        "2"
-    ]
-]
-
-push 
-[
-    [
-        "1183"
-    ],
-    [
-        "1183",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1",
-        "1"
-    ],
-    [
-        "1183",
-        "1",
-        "1",
-        "1",
-        "2"
-    ]
-]*/
-  
-    //pseudo
-    //for each array arr1 in options
-    //for each array arr2 in arr1
-    //if arr2 does not exist in result, push it to result
-    //return result
-
+  //merge trees: for each array arr1 in options, for each array arr2 in arr1, if arr2 does not exist in result, push it to result
   let result = []
   options.forEach(function (arr1) {
     arr1.forEach(function (arr2) {
@@ -1940,6 +1839,32 @@ push
   })
 
   console.log('result', result)
+
+  //show result in cytoscape
+  var cy = cytoscape({
+    container: document.getElementById('cy'),
+    elements: {
+      nodes: result.map(function (branch) {
+        return { data: { id: branch.join('~~~~~~~~~~~~~~~'), label: branch.join(' - ') } }
+      }),
+      edges: result.map(function (branch, index) {
+        if (index > 0) {
+          return { data: { source: result[index - 1].join('~~~~~~~~~~~~~~~'), target: branch.join('~~~~~~~~~~~~~~~') } }
+        }
+      })
+    },
+    layout: {
+      name: 'breadthfirst'
+    },
+    style: [
+      {
+        selector: 'node',
+        style: {
+          label: 'data(label)'
+        }
+      }
+    ]
+  })
 }
 
 /*
