@@ -1799,9 +1799,38 @@ function createTreesFromWBS(ds) {
   }, [])
 }
 
-class TreeNode {
-  constructor(value) {
-    this.value = value;
-    this.descendants = [];
-  }
-}
+/*
+l4:1183.1.1.1.5
+1183
+l3 1183.1.1.1
+
+
+1183.1.1.1 = n
+
+n.1
+n.2
+n.3
+n.4
+n.5
+
+n.m activatate
+
+1.5.1
+1.5.2
+
+n.m.{i} materiale aferente activitatii
+
+
+reteta: {activitate: n.m, matrialeActivitate: {n.m.i}}
+
+scanare automata dupa retete
+manipulare manuala retete scanate SAU creare retete noi (orfanii)
+
+[retete] de tip {activitate: n.m, matrialeActivitate: {n.m.i}}
+
+orfani: nu se pot reteta automat
+
+buton radio cu switch intre retete si orfani
+
+
+*/
