@@ -1773,32 +1773,30 @@ customElements.define('my-table', myTable)
 
 
 function createTreesFromWBS(ds) {
-  // /https://adrianmejia.com/data-structures-for-beginners-trees-binary-search-tree-tutorial/
-  //create trees from ds with WBS as key
-  //split WBS by '.' and create for each level a tree node
-  //add each node to its parent
-  var trees = []
-  ds.forEach(function (object) {
-    var keys = Object.keys(object)
-    keys.forEach(function (key) {
-      if (key == 'WBS') {
-        var WBS = object[key]
-        var levels = WBS.split('.')
-        var tree = []
-        for (var i = 0; i < levels.length; i++) {
-          var node = new TreeNode(levels[i])
-          if (i == 0) {
-            tree.push(node)
-          } else {
-            tree[i - 1].descendants.push(node)
-          }
-        }
-        trees.push(tree)
-      }
-    })
+  //sort ds by WBS splited by '.' si interpretat ca numere
+  let cloneDs = JSON.parse(JSON.stringify(ds))
+  cloneDs.sort(function (a, b) {
+    return a.WBS.split('.').map(Number) - b.WBS.split('.').map(Number)
   })
 
-  return trees
+  console.log('cloneDs', cloneDs)
+
+  return cloneDs.reduce(function (acc, object) {
+    //create a tree for each object
+    let tree = []
+    let branches = object.WBS.split('.')
+    branches.forEach(function (branch, index) {
+      if (index == 0) {
+        tree.push([branch])
+      } else {
+        let new_branch = tree[index - 1].slice()
+        new_branch.push(branch)
+        tree.push(new_branch)
+      }
+    })
+    acc.push(tree)
+    return acc
+  }, [])
 }
 
 class TreeNode {
