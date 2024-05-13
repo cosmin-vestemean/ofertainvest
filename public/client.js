@@ -1781,7 +1781,7 @@ function createTreesFromWBS(ds) {
 
   console.log('cloneDs', cloneDs)
 
-  return cloneDs.reduce(function (acc, object) {
+  const options = cloneDs.reduce(function (acc, object) {
     //create a tree for each object
     let tree = []
     let branches = object.WBS.split('.')
@@ -1797,6 +1797,20 @@ function createTreesFromWBS(ds) {
     acc.push(tree)
     return acc
   }, [])
+
+  console.log('options', options)
+
+  //numara cate aparitii are fiecare tree
+  const counts = options.reduce(function (acc, tree) {
+    if (acc[tree]) {
+      acc[tree]++
+    } else {
+      acc[tree] = 1
+    }
+    return acc
+  }, {})
+
+  console.log('counts', counts)
 }
 
 /*
