@@ -1880,9 +1880,7 @@ function createTreesFromWBS(ds) {
     table.classList.add('table-striped')
     table.classList.add('table-responsive')
     var thead = document.createElement('thead')
-    var tbody = document.createElement('tbody')
     table.appendChild(thead)
-    table.appendChild(tbody)
     var tr = document.createElement('tr')
     thead.appendChild(tr)
     trees[i].forEach(function (node) {
@@ -1890,8 +1888,12 @@ function createTreesFromWBS(ds) {
       th.innerHTML = node
       tr.appendChild(th)
     })
-    document.body.appendChild(table)
-  }
+  } //show modal id ModalGeneric
+  var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+  var modal_body = document.getElementById('modal-body')
+  modal_body.innerHTML = ''
+  modal_body.appendChild(table)
+  modal.show()
 }
 
 /*
