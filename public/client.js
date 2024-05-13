@@ -1158,9 +1158,6 @@ document.addEventListener('input', function (e) {
 
 //add onload event to window
 export function init() {
-  const my_table = document.getElementById('my_table_oferta_initiala')
-  const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
-  const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -1198,14 +1195,23 @@ export function init() {
     console.log('rez', rez)
     let roots = rez.roots
     recipes_ds = rez.recipes_dset
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
+    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
     pushDataToTable(roots, thead, tbody)
     fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
+    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
     pushDataToTable(optimal_ds, thead, tbody)
   }
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
+  const my_table = document.getElementById('my_table_oferta_initiala')
+  const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
+  const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
   vizulizare_oferta_initiala.onclick = function () {
     pushDataToTable(original_ds, thead, tbody)
   }
