@@ -1888,11 +1888,13 @@ function createTreesFromWBS(ds) {
       th.innerHTML = node
       tr.appendChild(th)
     })
-  } //show modal id ModalGeneric
-  var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-  var modal_body = document.getElementById('modal-body')
-  modal_body.innerHTML = ''
-  modal_body.appendChild(table)
+    //show modal id ModalGeneric
+    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+    var modal_body = document.getElementById('modal-body')
+    modal_body.innerHTML = ''
+    modal_body.appendChild(table)
+  }
+
   modal.show()
 }
 
