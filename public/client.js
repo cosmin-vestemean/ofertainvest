@@ -242,7 +242,7 @@ function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) 
       if (select.value == '1') {
         //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
         //my-table component
-        document.getElementsByTagName('my-table')[0].ds = optimal_ds
+        document.getElementById('my_table_oferta_initiala').ds = optimal_ds
         return
       }
 
@@ -252,7 +252,7 @@ function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) 
       if (selected_ds.length > 0) {
         //pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
         //my-table component
-        document.getElementsByTagName('my-table')[0].ds = selected_ds
+        document.getElementById('my_table_oferta_initiala').ds = selected_ds
       } else {
         //display a message in table
         alert('Nu exista date pentru ierarhia selectata')
@@ -692,7 +692,8 @@ function pushDataToTable(data, thead, tbody) {
         button.onclick = function () {
           //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
           if (document.getElementById(tbody_name).rows.length < optimal_ds.length) {
-            pushDataToTable(optimal_ds, thead_name, tbody_name)
+            //pushDataToTable(optimal_ds, thead_name, tbody_name)
+            document.getElementById('my_table_oferta_initiala').ds = optimal_ds
           } else {
             var selected_option = object[key]
             denumireUnica_ds = []
@@ -702,7 +703,8 @@ function pushDataToTable(data, thead, tbody) {
               }
             })
             console.log('denumireUnica_ds', denumireUnica_ds)
-            pushDataToTable(denumireUnica_ds, thead_name, tbody_name)
+            //pushDataToTable(denumireUnica_ds, thead_name, tbody_name)
+            document.getElementById('my_table_oferta_initiala').ds = denumireUnica_ds
           }
         }
         td.appendChild(button)
@@ -1196,24 +1198,29 @@ export function init() {
     let roots = rez.roots
     recipes_ds = rez.recipes_dset
     const my_table = document.getElementById('my_table_oferta_initiala')
-    const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
+    /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
-    pushDataToTable(roots, thead, tbody)
+    pushDataToTable(roots, thead, tbody) */
+    my_table.ds = roots
     fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
-    const my_table = document.getElementById('my_table_oferta_initiala')
+    /* const my_table = document.getElementById('my_table_oferta_initiala')
     const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
-    pushDataToTable(optimal_ds, thead, tbody)
+    pushDataToTable(optimal_ds, thead, tbody) */
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    my_table.ds = optimal_ds
   }
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
-  const my_table = document.getElementById('my_table_oferta_initiala')
+  /* const my_table = document.getElementById('my_table_oferta_initiala')
   const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
-  const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
+  const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala') */
   vizulizare_oferta_initiala.onclick = function () {
-    pushDataToTable(original_ds, thead, tbody)
+    //pushDataToTable(original_ds, thead, tbody)
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    my_table.ds = original_ds
   }
   //WBSMap
   let WBSMap = document.getElementById('WBSMap')
