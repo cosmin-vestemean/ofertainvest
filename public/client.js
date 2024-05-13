@@ -1215,6 +1215,7 @@ export function init() {
     var result = createTreesFromWBS(optimal_ds)
     console.log('result.trees', result.trees)
     console.log('result.result', result.result)
+    console.log('result.arrayResult', result.arrayResult)
     console.log('recipes_ds', recipes_ds)
   }
   document.getElementById('trndate').valueAsDate = new Date()
@@ -1911,6 +1912,8 @@ function createTreesFromWBS(ds) {
 
   modal.show()
 
+  //console.log('result', result)
+
   //take result and add it to resultPlus array as branch property and add possible cloneDs object with the same WBS
   let resultPlus = []
   result.forEach(function (branch) {
@@ -1920,7 +1923,7 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  return { trees , result: resultPlus }
+  return { trees , result: resultPlus, arrayResult: result }
 }
 
 /*
