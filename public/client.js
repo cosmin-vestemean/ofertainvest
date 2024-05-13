@@ -1911,7 +1911,16 @@ function createTreesFromWBS(ds) {
 
   modal.show()
 
-  return { trees , result }
+  //take result and add it to resultPlus array as branch property and add possible cloneDs object with the same WBS
+  let resultPlus = []
+  result.forEach(function (branch) {
+    let obj = {}
+    obj.branch = branch
+    obj.object = cloneDs.find((object) => object.WBS == branch.join('.'))
+    resultPlus.push(obj)
+  })
+
+  return { trees , result: resultPlus }
 }
 
 /*
