@@ -1800,17 +1800,21 @@ function createTreesFromWBS(ds) {
 
   console.log('options', options)
 
-  //numara cate aparitii are fiecare tree
-  const counts = options.reduce(function (acc, tree) {
-    if (acc[tree]) {
-      acc[tree]++
-    } else {
-      acc[tree] = 1
+  //merge trees
+  let trees = []
+  options.forEach(function (tree) {
+    let found = false
+    trees.forEach(function (existing_tree) {
+      if (JSON.stringify(existing_tree) == JSON.stringify(tree)) {
+        found = true
+      }
+    })
+    if (!found) {
+      trees.push(tree)
     }
-    return acc
-  }, {})
+  })
 
-  console.log('counts', counts)
+  console.log('trees', trees)
 }
 
 /*
