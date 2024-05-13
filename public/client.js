@@ -559,8 +559,10 @@ function pushDataToTable(data, thead, tbody) {
   var pg = document.getElementById('progress_bar')
   var lbl = document.getElementById('progress_bar_label')
   //var thead = document.getElementById(thead_name)
+  const thead_name = thead.id
   thead.innerHTML = ''
   //var tbody = document.getElementById(tbody_name)
+  const tbody_name = tbody.id
   tbody.innerHTML = ''
   //add delete icon to thead
   var th = document.createElement('td')
