@@ -1892,9 +1892,15 @@ function createTreesFromWBS(ds) {
     trees.push(nodes)
   }
 
-  //sort trees
+  //sort trees as numbers, if possible, letters otherwise
   trees.forEach(function (tree) {
-    tree.sort()
+    tree.sort(function (a, b) {
+      if (!isNaN(a) && !isNaN(b)) {
+        return a - b
+      } else {
+        return a.localeCompare(b)
+      }
+    })
   })
 
   //console.log('trees', trees)
