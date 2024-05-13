@@ -1193,7 +1193,10 @@ export function init() {
     console.log('rez', rez)
     let roots = rez.roots
     recipes_ds = rez.recipes_dset
-    pushDataToTable(roots, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
+    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
+    pushDataToTable(roots, thead, tbody)
     fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
