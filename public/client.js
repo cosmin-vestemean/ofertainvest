@@ -1210,7 +1210,7 @@ export function init() {
     var result = createTreesFromWBS(optimal_ds)
     console.log('result.trees', result.trees)
     console.log('result.result', result.result)
-    console.log('receipts_ds', recipes_ds)
+    console.log('recipes_ds', recipes_ds)
   }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
