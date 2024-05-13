@@ -1775,29 +1775,34 @@ customElements.define('my-table', myTable)
 //lista indexata astfel:
 //1183.1.1.1.1, 1183.1.1.1.2, 1183.1.1.1.3, 1183.1.1.1.1.1, 1183.1.1.1.1.2 etc
 //adancimea maxima este 10 dar nu se ajunge intotdeauna la aceasta adancime
-//vreau sa creez un array de array-uri cu elementele de la fiecare nivel
-//fiecare array va contine elementele de la acel nivel
-//de exemplu:
-//[ [1183], [1, 2, 3], [1, 1, 1], [1, 1, 1, 1, 2] ]
+//vreau sa creez o structura json ca aici: https://medium.com/@mahendrjy/javascript-trees-b8f3b4261c3a
+//cu un obiect root si un array de copii
+//indexarea este data de WBS
 
-function createTreesFromWBS(ds) {
-  var trees = []
+function createTree(ds) {
+
+  var tree = []
+  var roots = []
+  var nodes = {}
+  var i = 0
   ds.forEach(function (object) {
-    var WBS = object['WBS']
-    var array = WBS.split('.')
-    var tree = []
-    array.forEach(function (element, index) {
-      if (index == 0) {
-        tree.push([element])
-      } else {
-        if (index < tree.length) {
-          tree[index].push(element)
-        } else {
-          tree.push([element])
-        }
-      }
-    })
-    trees.push(tree)
+    //create node
+    var node = {
+      WBS: object.WBS,
+      DENUMIRE_ARTICOL_OFERTA: object.DENUMIRE_ARTICOL_OFERTA,
+      CANTITATE_ARTICOL_OFERTA: object.CANTITATE_ARTICOL_OFERTA,
+      UM_ARTICOL_OFERTA: object.UM_ARTICOL_OFERTA,
+      children: []
+    }
+    nodes[object.WBS] = node
+    //add to tree
+    if (object.WBS.split('.').length == 1) {
+      tree.push(node)
+      roots.push(node)
+    } else {
+      var parent = nodes[object.WBS.split('.').slice(0, -1).join('.')]
+      parent.children.push(node)
+    }
   })
-  return trees
+  return { tree, roots }
 }
