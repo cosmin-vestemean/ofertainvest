@@ -98,6 +98,8 @@ function loadDataFromFile(evt) {
     document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
+    createTreesFromWBS(optimal_ds)
+
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 
     var delimiter = '~~~~~~~~~~~~~~~'
@@ -1768,3 +1770,34 @@ class myTable extends LitElement {
 }
 
 customElements.define('my-table', myTable)
+
+
+//lista indexata astfel:
+//1183.1.1.1.1, 1183.1.1.1.2, 1183.1.1.1.3, 1183.1.1.1.1.1, 1183.1.1.1.1.2 etc
+//adancimea maxima este 10 dar nu se ajunge intotdeauna la aceasta adancime
+//vreau sa creez un array de array-uri cu elementele de la fiecare nivel
+//fiecare array va contine elementele de la acel nivel
+//de exemplu:
+//[ [1183], [1, 2, 3], [1, 1, 1], [1, 1, 1, 1, 2] ]
+
+function createTreesFromWBS(ds) {
+  var trees = []
+  ds.forEach(function (object) {
+    var WBS = object['WBS']
+    var array = WBS.split('.')
+    var tree = []
+    array.forEach(function (element, index) {
+      if (index == 0) {
+        tree.push([element])
+      } else {
+        if (index < tree.length) {
+          tree[index].push(element)
+        } else {
+          tree.push([element])
+        }
+      }
+    })
+    trees.push(tree)
+  })
+  return trees
+}
