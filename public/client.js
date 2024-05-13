@@ -1856,7 +1856,10 @@ function createTreesFromWBS(ds) {
     let level = []
     result.forEach(function (branch) {
       if (branch.length > i) {
-        level.push(branch[i])
+        //si daca nu mai exista in level
+        if (!level.some((l) => l.join('') == branch.slice(0, i + 1).join(''))) {
+          level.push(branch[i])
+        }
       }
     })
     trees.push(level)
