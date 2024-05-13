@@ -98,7 +98,7 @@ function loadDataFromFile(evt) {
     document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
-    createTreesFromWBS(optimal_ds)
+    //createTreesFromWBS(optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 
