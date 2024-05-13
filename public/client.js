@@ -1850,19 +1850,19 @@ function createTreesFromWBS(ds) {
   console.log('maxLevels', maxLevels)
 
   //sunt maxLevels nivele in tree
-  //pornind de la primul nivel, pentru fiecare nivel, creeaza un array cu toate nodurile de pe acel nivel
+  //pornind de la primul nivel, pentru fiecare nivel, creeaza un array cu toate nodurile unice de pe acel nivel
   let trees = []
   for (let i = 0; i < maxLevels; i++) {
-    let level = []
+    let nodes = []
     result.forEach(function (branch) {
       if (branch.length > i) {
-        //si daca nu mai exista in level
-        if (!level.some((l) => l.join('') == branch.slice(0, i + 1).join(''))) {
-          level.push(branch[i])
+        let node = branch[i]
+        if (!nodes.includes(node)) {
+          nodes.push(node)
         }
       }
     })
-    trees.push(level)
+    trees.push(nodes)
   }
 
   console.log('trees', trees)
