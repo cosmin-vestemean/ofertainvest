@@ -1890,7 +1890,7 @@ function createTreesFromWBS(ds) {
     })
     //show modal id ModalGeneric
     var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-    var modal_body = document.getElementById('modal-body')
+    var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
     modal_body.appendChild(table)
   }
