@@ -98,7 +98,7 @@ function loadDataFromFile(evt) {
     document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
 
-    console.log(createTreesFromWBS(optimal_ds))
+    createTreesFromWBS(optimal_ds)
 
     //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 
@@ -1859,7 +1859,7 @@ and
     ]
 ]
 
-should be 
+push 
 [
     [
         "1183"
@@ -1895,22 +1895,22 @@ should be
     ]
 ]*/
   
-    let trees = []
-    options.forEach(function (tree) {
-      let found = false
-      trees.forEach(function (t) {
-        if (JSON.stringify(t) === JSON.stringify(tree)) {
-          found = true
-        }
-      })
-      if (!found) {
-        trees.push(tree)
+    //pseudo
+    //for each array arr1 in options
+    //for each array arr2 in arr1
+    //if arr2 does not exist in result, push it to result
+    //return result
+
+  let result = []
+  options.forEach(function (arr1) {
+    arr1.forEach(function (arr2) {
+      if (!result.some((r) => r.join() === arr2.join())) {
+        result.push(arr2)
       }
     })
-  
-    console.log('trees', trees)
-  
-    return trees
+  })
+
+  console.log('result', result)
 }
 
 /*
