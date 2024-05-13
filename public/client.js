@@ -1204,6 +1204,10 @@ export function init() {
   vizulizare_oferta_initiala.onclick = function () {
     pushDataToTable(original_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
   }
+  //WBSMap
+  let WBSMap = document.getElementById('WBSMap')
+  WBSMap.onclick = function () {
+    createTreesFromWBS(optimal_ds)
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
@@ -1897,6 +1901,8 @@ function createTreesFromWBS(ds) {
   }
 
   modal.show()
+
+
 }
 
 /*
