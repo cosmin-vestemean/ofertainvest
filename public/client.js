@@ -551,16 +551,16 @@ create tree branches: SUPRATERAN -> INSTALATII ELECTRICE -> DISTRIBUTIE -> ETAJ 
   return elements
 }
 
-function pushDataToTable(data, thead_name, tbody_name) {
+function pushDataToTable(data, thead, tbody) {
   //create html table from array
   //data > table id="table_oferta_initiala"
   //thead id="thead_oferta_initiala" < first object's keys
   //tbody id="tbody_oferta_initiala" < all objects as rows
   var pg = document.getElementById('progress_bar')
   var lbl = document.getElementById('progress_bar_label')
-  var thead = document.getElementById(thead_name)
+  //var thead = document.getElementById(thead_name)
   thead.innerHTML = ''
-  var tbody = document.getElementById(tbody_name)
+  //var tbody = document.getElementById(tbody_name)
   tbody.innerHTML = ''
   //add delete icon to thead
   var th = document.createElement('td')
