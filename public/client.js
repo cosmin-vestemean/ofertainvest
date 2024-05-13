@@ -1779,7 +1779,7 @@ customElements.define('my-table', myTable)
 //cu un obiect root si un array de copii
 //indexarea este data de WBS
 
-function createTree(ds) {
+function createTreesFromWBS(ds) {
 
   var tree = []
   var roots = []
