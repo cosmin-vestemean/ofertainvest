@@ -1772,39 +1772,38 @@ class myTable extends LitElement {
 customElements.define('my-table', myTable)
 
 
-//lista indexata astfel:
-//1183.1.1.1.1, 1183.1.1.1.2, 1183.1.1.1.3, 1183.1.1.1.1.1, 1183.1.1.1.1.2 etc
-//creaza o structura json cu urmatoarele proprietati
-
 function createTreesFromWBS(ds) {
-  //pseudo code
-  //1. sort ds by WBS
-  //2 for each WBS, split by '.' roots.push(root: WBS[0]) if unique
-  //3. for each root, find next level children, insert null if no children to preserve structure
-
-  var roots = []
+  // /https://adrianmejia.com/data-structures-for-beginners-trees-binary-search-tree-tutorial/
+  //create trees from ds with WBS as key
+  //split WBS by '.' and create for each level a tree node
+  //add each node to its parent
   var trees = []
-  ds.sort(function (a, b) {
-    return a.WBS.localeCompare(b.WBS)
-  })
   ds.forEach(function (object) {
-    var wbs = object.WBS.split('.')
-    var root = wbs[0]
-    if (!roots.includes(root)) {
-      roots.push(root)
-    }
-  })
-  roots.forEach(function (root) {
-    var tree = []
-    ds.forEach(function (object) {
-      var wbs = object.WBS.split('.')
-      if (wbs[0] == root) {
-        tree.push(wbs)
+    var keys = Object.keys(object)
+    keys.forEach(function (key) {
+      if (key == 'WBS') {
+        var WBS = object[key]
+        var levels = WBS.split('.')
+        var tree = []
+        for (var i = 0; i < levels.length; i++) {
+          var node = new TreeNode(levels[i])
+          if (i == 0) {
+            tree.push(node)
+          } else {
+            tree[i - 1].descendants.push(node)
+          }
+        }
+        trees.push(tree)
       }
     })
-    trees.push(tree)
   })
 
-  return { roots, trees }
+  return trees
+}
 
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.descendants = [];
+  }
 }
