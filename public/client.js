@@ -1904,8 +1904,13 @@ push
   let result = []
   options.forEach(function (arr1) {
     arr1.forEach(function (arr2) {
-      if (!result.some((r) => r.join() === arr2.join())) {
+      //exceptie daca ultimul element din arr2 este 0 sau litera; in acest caz adauga-l oricum
+      if (arr2[arr2.length - 1] == 0 || isNaN(arr2[arr2.length - 1])) {
         result.push(arr2)
+      } else {
+        if (!result.some((r) => r.join('') == arr2.join(''))) {
+          result.push(arr2)
+        }
       }
     })
   })
