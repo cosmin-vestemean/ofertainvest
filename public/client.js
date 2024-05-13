@@ -352,105 +352,105 @@ function createGraphs(combinatii_unice) {
     var id = document.getElementById('cytoscape_graphs').id
     createGraph(tree, id)
   }
-}
 
-function createGraph(tree, id) {
-  console.log('selected tree', tree)
-  //create a graph for tree
-  var cy = cytoscape({
-    container: document.getElementById(id),
-    elements: elementify(tree),
-    style: [
-      {
-        selector: 'node',
-        style: {
-          'background-color': '#2ecc71',
-          label: 'data(label)'
+  function createGraph(tree, id) {
+    console.log('selected tree', tree)
+    //create a graph for tree
+    var cy = cytoscape({
+      container: document.getElementById(id),
+      elements: elementify(tree),
+      style: [
+        {
+          selector: 'node',
+          style: {
+            'background-color': '#2ecc71',
+            label: 'data(label)'
+          }
+        },
+        {
+          selector: 'edge',
+          style: {
+            'line-color': '#95a5a6'
+          }
         }
-      },
-      {
-        selector: 'edge',
-        style: {
-          'line-color': '#95a5a6'
+      ]
+    })
+
+    cy.on('cxttapstart', 'node', (e) => {
+      var node = e.target
+      console.log('node id=' + node.id())
+      //find elements[id].label
+      var elements = cy.elements()
+      var label = elements.filter((el) => el.id() == node.id())[0].data('label')
+      console.log('label', label)
+      console.log('tree', tree)
+      // 1. check if it's a leaf
+      var isLeaf = false
+      var myBranch
+      for (var i = 0; i < tree.length; i++) {
+        var branch = tree[i]
+        if (branch[branch.length - 1] == label) {
+          isLeaf = true
+          myBranch = branch
+          break
         }
       }
-    ]
-  })
+      console.log(isLeaf, myBranch)
 
-  cy.on('cxttapstart', 'node', (e) => {
-    var node = e.target
-    console.log('node id=' + node.id())
-    //find elements[id].label
-    var elements = cy.elements()
-    var label = elements.filter((el) => el.id() == node.id())[0].data('label')
-    console.log('label', label)
-    console.log('tree', tree)
-    // 1. check if it's a leaf
-    var isLeaf = false
-    var myBranch
-    for (var i = 0; i < tree.length; i++) {
-      var branch = tree[i]
-      if (branch[branch.length - 1] == label) {
-        isLeaf = true
-        myBranch = branch
-        break
-      }
-    }
-    console.log(isLeaf, myBranch)
-
-    if (isLeaf && myBranch) {
-      var newLeaf = prompt('New leaf\ncam[1..10] or simple string')
-      if (newLeaf) {
-        //can be "XXX[1..10]" or simple string
-        var regex = /\[(.*?)\]/
-        var found = newLeaf.match(regex)
-        console.log('found', found)
-        if (found) {
-          //replace [1..10] with numbers
-          var numbers = found[1].split('..')
-          var start = parseInt(numbers[0])
-          var end = parseInt(numbers[1])
-          var range = Array.from({ length: end - start + 1 }, (_, i) => i + start)
-          console.log('range', range)
-          range.forEach(function (number) {
-            var leaf = newLeaf.replace(found[0], number)
+      if (isLeaf && myBranch) {
+        var newLeaf = prompt('New leaf\ncam[1..10] or simple string')
+        if (newLeaf) {
+          //can be "XXX[1..10]" or simple string
+          var regex = /\[(.*?)\]/
+          var found = newLeaf.match(regex)
+          console.log('found', found)
+          if (found) {
+            //replace [1..10] with numbers
+            var numbers = found[1].split('..')
+            var start = parseInt(numbers[0])
+            var end = parseInt(numbers[1])
+            var range = Array.from({ length: end - start + 1 }, (_, i) => i + start)
+            console.log('range', range)
+            range.forEach(function (number) {
+              var leaf = newLeaf.replace(found[0], number)
+              var cl = [...myBranch]
+              cl.push(leaf)
+              tree.push(cl)
+            })
+          } else {
             var cl = [...myBranch]
-            cl.push(leaf)
+            cl.push(newLeaf)
             tree.push(cl)
-          })
-        } else {
-          var cl = [...myBranch]
-          cl.push(newLeaf)
-          tree.push(cl)
+          }
         }
+
+        //redraw graph
+        var id = document.getElementById('cytoscape_graphs').id
+        createGraph(tree, id)
       }
 
-      //redraw graph
-      var id = document.getElementById('cytoscape_graphs').id
-      createGraph(tree, id)
-    }
+      console.log(tree)
+    })
 
-    console.log(tree)
-  })
-
-  cy.layout({
-    name: 'breadthfirst',
-    fit: true,
-    directed: true,
-    padding: 10,
-    circle: false,
-    spacingFactor: 2,
-    avoidOverlap: true,
-    grid: false,
-    // a sorting function to order nodes at equal depth. e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-    depthSort: function (a, b) {
-      return a.data('rank') - b.data('rank')
-    },
-    //ready: undefined, // callback on layoutready
-    ready: function () {
-      console.log('layoutready:' + id)
-    }
-  }).run()
+    cy.layout({
+      name: 'breadthfirst',
+      fit: true,
+      directed: true,
+      padding: 10,
+      circle: false,
+      spacingFactor: 2,
+      avoidOverlap: true,
+      grid: false,
+      // a sorting function to order nodes at equal depth. e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+      depthSort: function (a, b) {
+        return a.data('rank') - b.data('rank')
+      },
+      //ready: undefined, // callback on layoutready
+      ready: function () {
+        console.log('layoutready:' + id)
+      }
+    }).run()
+  }
 }
 
 function elementify(combinatii_unice) {
@@ -1839,22 +1839,6 @@ function createTreesFromWBS(ds) {
   })
 
   console.log('result', result)
-
-  //show result in cytoscape with createGraph function above
-  var id = document.getElementById('cytoscape_graphs').id
-  //prepare data for createGraph
-  var data = []
-  result.forEach(function (branch) {
-    var node = {}
-    node.data = {}
-    node.data.id = branch.join ('')
-    node.data.label = branch.join(' - ')
-    data.push(node)
-  })
-
-  console.log('data', data)
-
-  createGraph(id, data)
 }
 
 /*
