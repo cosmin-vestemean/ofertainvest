@@ -1866,6 +1866,173 @@ function createTreesFromWBS(ds) {
   }
 
   console.log('trees', trees)
+
+  /*trees:
+  [
+    [
+        "1183"
+    ],
+    [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11"
+    ],
+    [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+    ],
+    [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "20",
+        ""
+    ],
+    [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "0",
+        "L",
+        "24",
+        "25",
+        "26",
+        "27"
+    ],
+    [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "L",
+        "6",
+        "7",
+        "8",
+        "9",
+        "0",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "17",
+        "18"
+    ]
+]
+*/
+
+
+levels = trees.length
+  console.log('levels', levels)
+
+  //for each level, create a table with 1 row and n columns, each column containing a node
+  for (let i = 0; i < levels; i++) {
+    var table = document.createElement('table')
+    table.classList.add('table')
+    table.classList.add('table-sm')
+    table.classList.add('table-bordered')
+    table.classList.add('table-hover')
+    table.classList.add('table-striped')
+    table.classList.add('table-responsive')
+    var thead = document.createElement('thead')
+    var tbody = document.createElement('tbody')
+    table.appendChild(thead)
+    table.appendChild(tbody)
+    var tr = document.createElement('tr')
+    thead.appendChild(tr)
+    trees[i].forEach(function (node) {
+      var th = document.createElement('th')
+      th.innerHTML = node
+      tr.appendChild(th)
+    })
+    document.body.appendChild(table)
+  }
+
 }
 
 /*
