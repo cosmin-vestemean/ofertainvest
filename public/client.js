@@ -1279,6 +1279,8 @@ export function init() {
     caption.innerHTML = 'Retete'
     table.appendChild(caption)
     let thead = document.createElement('thead')
+    //make it sticky
+    thead.style.position = 'sticky'
     table.appendChild(thead)
     let tr = document.createElement('tr')
     thead.appendChild(tr)
