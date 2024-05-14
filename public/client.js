@@ -1289,7 +1289,7 @@ export function init() {
       td.innerHTML = `
         <table>
           <tr>
-        <td>${object.root.WBS}</td>
+        <td class="text-primary">${object.root.WBS}</td>
         </tr>
         <tr>
         <td>${object.root.DENUMIRE_ARTICOL_OFERTA}</td>
@@ -1320,6 +1320,7 @@ export function init() {
       object.children.forEach(function (child) {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
+        td.classList.add('text-primary')
         td.innerHTML = child.object.WBS
         tr.appendChild(td)
         td = document.createElement('td')
