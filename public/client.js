@@ -1225,12 +1225,44 @@ export function init() {
   let WBSMap = document.getElementById('WBSMap')
   WBSMap.onclick = function () {
     var result = createTreesFromWBS(optimal_ds)
-    console.log('result.trees', result.trees)
+    const trees = result.trees
+    console.log('trees', trees)
     console.log('result.result', result.result)
     console.log('result.arrayResult', result.arrayResult)
     console.log('result.resultFiltered', result.resultFiltered)
     recipes_ds = result.resultFiltered
     console.log('recipes_ds', recipes_ds)
+
+    const levels = trees.length
+    console.log('levels', levels)
+
+    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+    var modal_body = document.getElementById('modal-body3')
+    modal_body.innerHTML = ''
+
+    //for each level, create a table with 1 row and n columns, each column containing a node
+    for (let i = 0; i < levels; i++) {
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-bordered')
+      table.classList.add('table-hover')
+      table.classList.add('table-striped')
+      table.classList.add('table-responsive')
+      var thead = document.createElement('thead')
+      table.appendChild(thead)
+      var tr = document.createElement('tr')
+      thead.appendChild(tr)
+      trees[i].forEach(function (node) {
+        var th = document.createElement('th')
+        th.innerHTML = node
+        tr.appendChild(th)
+      })
+      //show modal id ModalGeneric
+      modal_body.appendChild(table)
+    }
+
+    modal.show()
   }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
@@ -1845,38 +1877,6 @@ function createTreesFromWBS(ds) {
   })
 
   //console.log('trees', trees)
-
-  const levels = trees.length
-  console.log('levels', levels)
-
-  var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-  var modal_body = document.getElementById('modal-body3')
-  modal_body.innerHTML = ''
-
-  //for each level, create a table with 1 row and n columns, each column containing a node
-  for (let i = 0; i < levels; i++) {
-    var table = document.createElement('table')
-    table.classList.add('table')
-    table.classList.add('table-sm')
-    table.classList.add('table-bordered')
-    table.classList.add('table-hover')
-    table.classList.add('table-striped')
-    table.classList.add('table-responsive')
-    var thead = document.createElement('thead')
-    table.appendChild(thead)
-    var tr = document.createElement('tr')
-    thead.appendChild(tr)
-    trees[i].forEach(function (node) {
-      var th = document.createElement('th')
-      th.innerHTML = node
-      tr.appendChild(th)
-    })
-    //show modal id ModalGeneric
-    modal_body.appendChild(table)
-  }
-
-  modal.show()
-
   //console.log('result', result)
 
   //take result and add it to resultPlus array as branch property and add possible cloneDs object with the same WBS
