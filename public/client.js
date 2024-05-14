@@ -1272,7 +1272,6 @@ export function init() {
     table.classList.add('table-sm')
     table.classList.add('table-bordered')
     table.classList.add('table-hover')
-    table.classList.add('table-striped')
     table.classList.add('table-responsive')
     let thead = document.createElement('thead')
     table.appendChild(thead)
@@ -1287,7 +1286,7 @@ export function init() {
     recipes_ds.forEach(function (object) {
       let tr = document.createElement('tr')
       let td = document.createElement('td')
-      td.innerHTML = object.root.WBS + ' ' + object.root.DENUMIRE_ARTICOL_OFERTA + ' ' + object.root.TIP_ACTIVITATE_ARTICOL_RETETA + ' ' + object.root.SUBTIP_ACTIVITATE_ARTICOL_RETETA + ' ' + object.root.UM_ARTICOL_OFERTA
+      td.innerHTML = object.root.WBS + '<br>' + object.root.DENUMIRE_ARTICOL_OFERTA + '<br>' + object.root.TIP_ARTICOL_OFERTA + '<br>' + object.root.SUBTIP_ARTICOL_OFERTA + '<br>' + object.root.UM_ARTICOL_OFERTA
       tr.appendChild(td)
       td = document.createElement('td')
       //create a table with children
@@ -1296,7 +1295,6 @@ export function init() {
       tableChildren.classList.add('table-sm')
       tableChildren.classList.add('table-bordered')
       tableChildren.classList.add('table-hover')
-      tableChildren.classList.add('table-striped')
       tableChildren.classList.add('table-responsive')
       //rows only
       let tbody = document.createElement('tbody')
@@ -1310,10 +1308,10 @@ export function init() {
         td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
         tr.appendChild(td)
         td = document.createElement('td')
-        td.innerHTML = child.object.TIP_ACTIVITATE_ARTICOL_RETETA
+        td.innerHTML = child.object.TIP_ARTICOL_RETETA
         tr.appendChild(td)
         td = document.createElement('td')
-        td.innerHTML = child.object.SUBTIP_ACTIVITATE_ARTICOL_RETETA
+        td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
         tr.appendChild(td)
         td = document.createElement('td')
         td.innerHTML = child.object.UM_ARTICOL_OFERTA
