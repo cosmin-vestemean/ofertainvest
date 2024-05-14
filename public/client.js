@@ -1958,7 +1958,7 @@ function createTreesFromWBS(ds) {
     let object = obj.object
     let ok = true
     for (const key in objFilter) {
-      if (!objFilter[key].includes(object[key])) {
+      if (object && !objFilter[key].includes(object[key])) {
         ok = false
         break
       }
