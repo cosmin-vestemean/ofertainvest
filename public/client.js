@@ -1295,7 +1295,7 @@ export function init() {
         <table>
           <tr>
         <td class="text-primary">${object.root.WBS}
-        <a class="btn" href="#"><i class="bi bi-pencil-square"></i> Edit</a>
+        <a class="btn" href="#"><i class="bi bi-pencil-square"></i></a>
         </td>
         </tr>
         <tr>
