@@ -1286,16 +1286,25 @@ export function init() {
     recipes_ds.forEach(function (object) {
       let tr = document.createElement('tr')
       let td = document.createElement('td')
-      td.innerHTML =
-        object.root.WBS +
-        '<br>' +
-        object.root.DENUMIRE_ARTICOL_OFERTA +
-        '<br>' +
-        object.root.TIP_ARTICOL_OFERTA +
-        '<br>' +
-        object.root.SUBTIP_ARTICOL_OFERTA +
-        '<br>' +
-        object.root.UM_ARTICOL_OFERTA
+      td.innerHTML = `
+        <table>
+          <tr>
+        <td>${object.root.WBS}</td>
+        </tr>
+        <tr>
+        <td>${object.root.DENUMIRE_ARTICOL_OFERTA}</td>
+        </tr>
+        <tr>
+        <td>${object.root.TIP_ARTICOL_OFERTA}</td>
+        </tr>
+        <tr>
+        <td>${object.root.SUBTIP_ARTICOL_OFERTA}</td>
+        </tr>
+        <tr>
+        <td>${object.root.UM_ARTICOL_OFERTA}</td>
+        </tr>
+        </table>
+      `
       tr.appendChild(td)
       td = document.createElement('td')
       //create a table with children
