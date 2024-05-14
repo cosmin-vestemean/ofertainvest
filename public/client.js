@@ -1947,7 +1947,7 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  //look into resultPlus and create a new array with only the objects listening of the following filter
+  //look into resultPlus and create a new array with only the objects listening of the following filter's conditions simultaneously
   //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
   const objFilter = {
     TIP_ARTICOL_OFERTA: ['Articol'],
@@ -1955,18 +1955,15 @@ function createTreesFromWBS(ds) {
   }
 
   let resultFiltered = resultPlus.filter(function (obj) {
-    if (obj.object) {
-      for (const key in objFilter) {
-        //compare using lower case
-        if (objFilter[key].map((str) => str.toLowerCase()).includes(obj.object[key].toLowerCase())) {
-          return true
-        } else {
-          return false
-        }
+    let object = obj.object
+    let ok = true
+    for (const key in objFilter) {
+      if (!objFilter[key].includes(object[key])) {
+        ok = false
+        break
       }
-    } else {
-      return false
     }
+    return ok
   })
 
   console.log('resultFiltered', resultFiltered)
