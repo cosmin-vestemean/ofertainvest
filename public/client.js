@@ -1980,25 +1980,12 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  let resultFiltered = applyFilterTipSubTip(resultPlus)
-
-  //in result shorten branch by replacing first n elements with a single element
-  //find leafs, get node of them and replace the elements before node with a single element
-  let resultShort = []
-  resultFiltered.forEach(function (obj) {
-    let branch = obj.branch
-    let leaf = branch[branch.length - 1]
-    let node = branch[branch.length - 2]
-    let new_branch = []
-    for (let i = 0; i < branch.length - 2; i++) {
-      new_branch.push(branch[i])
-    }
-    new_branch.push(node + '.' + leaf)
-    obj.branch = new_branch
-    resultShort.push(obj)
+  //add to resultPlus another property: level, with the level of the branch in the tree
+  resultPlus.forEach(function (obj) {
+    obj.level = obj.branch.length
   })
 
-  console.log('resultShort', resultShort)
+  let resultFiltered = applyFilterTipSubTip(resultPlus)
 
   return { trees, result: resultPlus, arrayResult: result, resultFiltered }
 }
