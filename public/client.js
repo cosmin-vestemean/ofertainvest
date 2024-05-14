@@ -1988,6 +1988,12 @@ function createTreesFromWBS(ds) {
     } else {
       obj.hasChildren = false
     }
+
+    if (obj.object) {
+      obj.virtual = false
+    } else {
+      obj.virtual = true
+    }
   })
 
   let resultFiltered = applyFilterTipSubTip(resultPlus)
