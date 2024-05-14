@@ -1977,6 +1977,9 @@ function applyFilterTipSubTip(data) {
           obj.children.push(child)
         }
       })
+      //rename object property to root
+      obj.root = obj.object
+      delete obj.object
       arr.push(obj)
     }
   })
