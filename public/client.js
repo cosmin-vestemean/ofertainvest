@@ -1968,8 +1968,11 @@ function createTreesFromWBS(ds) {
           obj.children.push(child)
         }
       })
+      resultFiltered.push(obj)
     }
   })
+
+  console.log('resultFiltered', resultFiltered)
 
   return { trees, result: resultPlus, arrayResult: result }
 }
