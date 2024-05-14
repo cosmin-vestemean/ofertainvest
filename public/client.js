@@ -1282,10 +1282,12 @@ export function init() {
     //make it sticky
     thead.style.position = 'sticky'
     thead.style.top = '0'
-    thead.classList.add('bg-dark')
+    thead.classList.add('bg-secondary')
     thead.classList.add('text-light')
     table.appendChild(thead)
     let tr = document.createElement('tr')
+    //no borders
+    tr.classList.add('border-0')
     thead.appendChild(tr)
     let th = document.createElement('th')
     th.innerHTML = 'Activitate'
