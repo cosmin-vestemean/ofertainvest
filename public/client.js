@@ -1195,8 +1195,12 @@ export function init() {
   scan_oferta_initiala.onclick = async function () {
     let rez = await createDatasetForRecipes()
     console.log('rez', rez)
-    let roots = rez.roots
-    recipes_ds = rez.recipes_dset
+    let roots = []
+    rez.resultFiltered.forEach((o) => {
+      //get root
+      roots.push(o.root)
+    })      
+
     const my_table = document.getElementById('my_table_oferta_initiala')
     /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
@@ -1592,9 +1596,6 @@ function creazaReteta(object) {
 
 async function createDatasetForRecipes() {
   var result = createTreesFromWBS(optimal_ds)
-  console.log('result.trees', result.trees)
-  console.log('result.result', result.result)
-  console.log('result.arrayResult', result.arrayResult)
   recipes_ds = result.resultFiltered
   console.log('recipes_ds', recipes_ds)
 
