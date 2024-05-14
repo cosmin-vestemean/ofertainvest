@@ -1955,7 +1955,14 @@ function createTreesFromWBS(ds) {
   }
 
   //keep only the objects that meet the filter's conditions, like obj.TIP_ARTICOL_OFERTA == 'Articol' && obj.SUBTIP_ARTICOL_OFERTA == 'Principal' || obj.SUBTIP_ARTICOL_OFERTA == 'Manopera' || obj.SUBTIP_ARTICOL_OFERTA == 'Transport' || obj.SUBTIP_ARTICOL_OFERTA == 'Utilaj'
-  let resultFiltered = []
+  let resultFiltered = applyFilterTipSubTip()
+  console.log('resultFiltered', resultFiltered)
+
+  return { trees, result: resultPlus, arrayResult: result }
+}
+
+function applyFilterTipSubTip() {
+  let arr = []
   resultPlus.forEach(function (obj) {
     if (
       obj.object &&
@@ -1969,13 +1976,11 @@ function createTreesFromWBS(ds) {
         obj.children.push(child)
       }
       })
-      resultFiltered.push(obj)
+      arr.push(obj)
     }
   })
 
-  console.log('resultFiltered', resultFiltered)
-
-  return { trees, result: resultPlus, arrayResult: result }
+  return arr
 }
 
 /*
