@@ -1986,7 +1986,6 @@ function createTreesFromWBS(ds) {
     } else {
       obj.hasChildren = false
     }
-
     if (obj.object || obj.root) {
       obj.virtual = false
     } else {
@@ -1994,7 +1993,9 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  return { trees, result: resultPlus, arrayResult: result, resultFiltered }
+  resultFilteredVirtualFalse = resultFiltered.filter((obj) => obj.virtual == false)
+
+  return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultFilteredVirtualFalse }
 }
 
 function applyFilterTipSubTip(data) {
