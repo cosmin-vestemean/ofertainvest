@@ -1954,16 +1954,21 @@ function createTreesFromWBS(ds) {
     SUBTIP_ARTICOL_OFERTA: ['Principal', 'Manopera', 'Transport', 'Utilaj']
   }
 
-  let resultFiltered = resultPlus.filter(function (obj) {
-    let object = obj.object
-    let ok = true
-    for (const key in objFilter) {
-      if (object && !objFilter[key].includes(object[key])) {
-        ok = false
-        break
-      }
+  //keep only the objects that meet the filter's conditions, like obj.TIP_ARTICOL_OFERTA == 'Articol' && obj.SUBTIP_ARTICOL_OFERTA == 'Principal' || obj.SUBTIP_ARTICOL_OFERTA == 'Manopera' || obj.SUBTIP_ARTICOL_OFERTA == 'Transport' || obj.SUBTIP_ARTICOL_OFERTA == 'Utilaj'
+  resultPlus.forEach(function (obj) {
+    if (
+      obj.object &&
+      objFilter.TIP_ARTICOL_OFERTA.includes(obj.object.TIP_ARTICOL_OFERTA) &&
+      objFilter.SUBTIP_ARTICOL_OFERTA.includes(obj.object.SUBTIP_ARTICOL_OFERTA)
+    ) {
+      //add children
+      obj.children = []
+      resultPlus.forEach(function (child) {
+        if (child.branch.join('.').startsWith(obj.branch.join('.')) && child.branch.length == obj.branch.length + 1) {
+          obj.children.push(child)
+        }
+      })
     }
-    return ok
   })
 
   console.log('resultFiltered', resultFiltered)
