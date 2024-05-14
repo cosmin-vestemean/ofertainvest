@@ -1977,7 +1977,8 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  //add to resultPlus another property: level, with the level of the branch in the tree
+  let resultFiltered = applyFilterTipSubTip(resultPlus)
+
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
     if (obj.children && obj.children.length > 0) {
@@ -1992,8 +1993,6 @@ function createTreesFromWBS(ds) {
       obj.virtual = true
     }
   })
-
-  let resultFiltered = applyFilterTipSubTip(resultPlus)
 
   return { trees, result: resultPlus, arrayResult: result, resultFiltered }
 }
