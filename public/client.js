@@ -1293,7 +1293,9 @@ export function init() {
       td.innerHTML = `
         <table>
           <tr>
-        <td class="text-primary">${object.root.WBS}</td>
+        <td class="text-primary">${object.root.WBS}
+        <button class="btn btn-primary btn-sm">Edit</button>
+        </td>
         </tr>
         <tr>
         <td>${object.root.DENUMIRE_ARTICOL_OFERTA}</td>
