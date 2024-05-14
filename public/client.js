@@ -1993,9 +1993,9 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  let resultFilteredVirtualFalse = resultPlus.filter((obj) => obj.virtual == false)
+  let resultPlusVirtualFalse = resultPlus.filter((obj) => obj.virtual == false)
 
-  return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultFilteredVirtualFalse }
+  return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse }
 }
 
 function applyFilterTipSubTip(data) {
