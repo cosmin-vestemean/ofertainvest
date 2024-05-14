@@ -1595,7 +1595,6 @@ async function createDatasetForRecipes() {
   console.log('result.trees', result.trees)
   console.log('result.result', result.result)
   console.log('result.arrayResult', result.arrayResult)
-  console.log('result.resultFiltered', result.resultFiltered)
   recipes_ds = result.resultFiltered
   console.log('recipes_ds', recipes_ds)
 
