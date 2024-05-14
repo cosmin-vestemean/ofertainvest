@@ -1202,7 +1202,6 @@ export function init() {
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
     pushDataToTable(roots, thead, tbody) */
     my_table.ds = roots
-    fillInRecipes()
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
@@ -1230,6 +1229,7 @@ export function init() {
     console.log('result.result', result.result)
     console.log('result.arrayResult', result.arrayResult)
     console.log('result.resultFiltered', result.resultFiltered)
+    recipes_ds = result.resultFiltered
     console.log('recipes_ds', recipes_ds)
   }
   document.getElementById('trndate').valueAsDate = new Date()
@@ -1566,73 +1566,13 @@ function creazaReteta(object) {
 }
 
 async function createDatasetForRecipes() {
-  //push from optimal_ds  to recipes_ds with (TIP_ARTICOL_OFERTA; SUBTIP_ARTICOL_OFERTA) one of these combinations: (Articol;Principal), (Articol;Manopera), (Articol; Transport) si (Articol; Utilaj)
-  //pushDataToTable
-  var mainCombo = [
-    ['Articol', 'Principal'],
-    ['Articol', 'Manopera'],
-    ['Articol', 'Transport'],
-    ['Articol', 'Utilaj']
-  ]
-
-  let recipes_dset = []
-  for (const object of optimal_ds) {
-    if (
-      //object has key TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA
-      Object.keys(object).includes('TIP_ARTICOL_OFERTA') &&
-      Object.keys(object).includes('SUBTIP_ARTICOL_OFERTA')
-    ) {
-      if (object['TIP_ARTICOL_OFERTA'] && object['SUBTIP_ARTICOL_OFERTA']) {
-        for (const combo of mainCombo) {
-          if (
-            object['TIP_ARTICOL_OFERTA'].toLowerCase() == combo[0].toLowerCase() &&
-            object['SUBTIP_ARTICOL_OFERTA'].toLowerCase() == combo[1].toLowerCase()
-          ) {
-            recipes_dset.push({ root: object })
-          }
-        }
-      } else {
-        console.log('object does not have values for TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
-      }
-    } else {
-      console.log('object does not have keys TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA', object)
-    }
-  }
-
-  console.log('recipes_dset', recipes_dset)
-
-  //get array of roots to display
-  let roots = []
-  recipes_dset.forEach(function (object) {
-    roots.push(object.root)
-  })
-
-  return { recipes_dset, roots }
-}
-
-async function fillInRecipes() {
-  for (const object of recipes_ds) {
-    const root = object.root
-    const children = []
-    for (const obj of optimal_ds) {
-      if (Object.keys(obj).includes('WBS')) {
-        if (obj['WBS']) {
-          if (
-            obj['WBS'].startsWith(root['WBS']) &&
-            obj['WBS'].split('.').length == root['WBS'].split('.').length + 1 &&
-            Number.isInteger(parseInt(obj['WBS'].split('.').pop()))
-          ) {
-            children.push(obj)
-          }
-        } else {
-          console.log('object does not have value for key WBS', obj)
-        }
-      } else {
-        console.log('object does not have key WBS', obj)
-      }
-    }
-    object.children = children
-  }
+  var result = createTreesFromWBS(optimal_ds)
+  console.log('result.trees', result.trees)
+  console.log('result.result', result.result)
+  console.log('result.arrayResult', result.arrayResult)
+  console.log('result.resultFiltered', result.resultFiltered)
+  recipes_ds = result.resultFiltered
+  console.log('recipes_ds', recipes_ds)
 }
 
 const template = document.createElement('template')
