@@ -1279,10 +1279,10 @@ export function init() {
     let tr = document.createElement('tr')
     thead.appendChild(tr)
     let th = document.createElement('th')
-    th.innerHTML = 'Root'
+    th.innerHTML = 'Activitate'
     tr.appendChild(th)
     th = document.createElement('th')
-    th.innerHTML = 'Children'
+    th.innerHTML = 'Materiale'
     tr.appendChild(th)
     recipes_ds.forEach(function (object) {
       let tr = document.createElement('tr')
