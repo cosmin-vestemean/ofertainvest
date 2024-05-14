@@ -1947,6 +1947,26 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
+  //look into resultPlus and create a new array with only the objects listening of the following filter
+  //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
+  const objFilter = {
+    TIP_ARTICOL_OFERTA: ['Articol'],
+    SUBTIP_ARTICOL_OFERTA: ['Principal', 'Manopera', 'Transport', 'Utilaj']
+  }
+
+  let resultFiltered = resultPlus.filter(function (obj) {
+    if (obj.object) {
+      for (const key in objFilter) {
+        if (objFilter[key].includes(obj.object[key])) {
+          return true
+        }
+      }
+    }
+    return false
+  })
+
+  console.log('resultFiltered', resultFiltered)
+
   return { trees, result: resultPlus, arrayResult: result }
 }
 
