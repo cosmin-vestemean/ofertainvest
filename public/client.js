@@ -1264,34 +1264,34 @@ export function init() {
   let lista_retete = document.getElementById('lista_retete')
   lista_retete.onclick = function () {
     //afiseaza recipes_ds in table; root and children
-    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-    var modal_body = document.getElementById('modal-body3')
+    let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+    let modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
-    var table = document.createElement('table')
+    let table = document.createElement('table')
     table.classList.add('table')
     table.classList.add('table-sm')
     table.classList.add('table-bordered')
     table.classList.add('table-hover')
     table.classList.add('table-striped')
     table.classList.add('table-responsive')
-    var thead = document.createElement('thead')
+    let thead = document.createElement('thead')
     table.appendChild(thead)
-    var tr = document.createElement('tr')
+    let tr = document.createElement('tr')
     thead.appendChild(tr)
-    var th = document.createElement('th')
+    let th = document.createElement('th')
     th.innerHTML = 'Root'
     tr.appendChild(th)
-    var th = document.createElement('th')
+    th = document.createElement('th')
     th.innerHTML = 'Children'
     tr.appendChild(th)
     recipes_ds.forEach(function (object) {
-      var tr = document.createElement('tr')
-      var td = document.createElement('td')
+      let tr = document.createElement('tr')
+      let td = document.createElement('td')
       td.innerHTML = object.root.WBS
       tr.appendChild(td)
-      var td = document.createElement('td')
+      td = document.createElement('td')
       //create a table with children
-      var table = document.createElement('table')
+      let table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-bordered')
@@ -1301,8 +1301,8 @@ export function init() {
       //no header
       //create rows
       object.children.forEach(function (child) {
-        var tr = document.createElement('tr')
-        var td = document.createElement('td')
+        let tr = document.createElement('tr')
+        let td = document.createElement('td')
         td.innerHTML = child.WBS
         tr.appendChild(td)
         table.appendChild(tr)
