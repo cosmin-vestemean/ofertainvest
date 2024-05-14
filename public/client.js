@@ -1957,12 +1957,16 @@ function createTreesFromWBS(ds) {
   let resultFiltered = resultPlus.filter(function (obj) {
     if (obj.object) {
       for (const key in objFilter) {
-        if (objFilter[key].toLowerCase().includes(obj.object[key]).toLowerCase()) {
+        //compare using lower case
+        if (objFilter[key].map((str) => str.toLowerCase()).includes(obj.object[key].toLowerCase())) {
           return true
+        } else {
+          return false
         }
       }
+    } else {
+      return false
     }
-    return false
   })
 
   console.log('resultFiltered', resultFiltered)
