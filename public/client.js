@@ -1282,6 +1282,8 @@ export function init() {
     //make it sticky
     thead.style.position = 'sticky'
     thead.style.top = '0'
+    thead.classList.add('bg-dark')
+    thead.classList.add('text-light')
     table.appendChild(thead)
     let tr = document.createElement('tr')
     thead.appendChild(tr)
