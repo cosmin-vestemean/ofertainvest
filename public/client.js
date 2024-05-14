@@ -1281,6 +1281,7 @@ export function init() {
     let thead = document.createElement('thead')
     //make it sticky
     thead.style.position = 'sticky'
+    thead.style.top = '0'
     table.appendChild(thead)
     let tr = document.createElement('tr')
     thead.appendChild(tr)
