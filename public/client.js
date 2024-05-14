@@ -1995,6 +1995,8 @@ function createTreesFromWBS(ds) {
 
   let resultPlusVirtualFalse = resultPlus.filter((obj) => obj.virtual == false)
 
+  //sterge elementele din resultPlusVirtualFalse care au .object si sunt copii in alt element cu .root and .hasChildren = true
+
   return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse }
 }
 
@@ -2032,6 +2034,46 @@ function applyFilterTipSubTip(data) {
   return arr
 }
 
+function applyFilterByGrupareArticolOferta() {
+  //pseudo code
+  //daca coloana GRUPARE_ARTICOL_OFERTA are i pe mai multe randuri am urmatoarea situatie:
+  /*
+1183.9.1.20	CABLU PENTRU REALIZARE PROVIZORATE SERVICII PROPRII DE CURENT CONTINUU	EC04G#	ARTICOL	PRINCIPAL
+1183.9.1.20.0	BANDA ALUMINIU M 1 X 10 AL99 S5681	3704841	SUBARTICOL	MATERIAL
+1183.9.1.21	CABLU ENERGIE CYABY 0,6/ 1 KV 1X 50 M S.8778	4802286	ARTICOL	MATERIAL
+1183.9.1.22	CABLU ENERGIE CYABY 0,6/ 1 KV 2X 2,5 U S 8778	4802482	ARTICOL	MATERIAL
+1183.9.1.23	CABLU ENERGIE CYABY 0,6/ 1 KV 2X 4 U S 8778	4802509	ARTICOL	MATERIAL
+1183.9.1.24	CABLU ENERGIE CYABY 0,6/ 1 KV 2X 6 U S 8778	4802523	ARTICOL	MATERIAL
+1183.9.1.25	CABLU ENERGIE CYABY 0,6/ 1 KV 3X 2,5 U S 8778	4802602	ARTICOL	MATERIAL
+1183.9.1.26	CABLU ENERGIE CYABY 0,6/ 1 KV 3X 6 U S 8778	4802640	ARTICOL	MATERIAL
+1183.9.1.27	CABLU CSYABY MASIV 7 X 1,5 S 8779	4810269	ARTICOL	MATERIAL
+1183.9.1.28	ETICHETA DIN ALUMINIU PENTRU MARCARE TRASEULUI DE CABLE (200X20X2) FAI 1	6718417	ARTICOL	MATERIAL
+
+.20, .21, .22, .23, .24, .25, .26, .27, .28 sunt activitati in reteta
+.20 este Articol principal; acest criteriu este suficient si obligatoriu pentru a selecta activitatea .20
+.20.0 este material pentru activitatea .20
+.21, .22, .23, .24, .25, .26, .27, .28 sunt activitati cu materialele .21.1, .22.1, .23.1, .24.1, .25.1, .26.1, .27.1, .28.1 cu denumirea activitatii
+*/
+
+}
+
+function applyFilterEndsWithL() {
+  /*
+1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
+1183.7.18.23.5	NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM	2200513	SUBARTICOL	MATERIAL
+1183.7.18.23.6	SARMA OTEL MOALE, NEAGRA, D = 1 MM	3803881	SUBARTICOL	MATERIAL
+1183.7.18.23.7	APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA	6202818	SUBARTICOL	MATERIAL
+1183.7.18.23.L	SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942	2903907	MATERIAL	PRINCIPAL
+1183.7.18.23.L	BETON MARFA CLASA C 25/30 ( BC 30/ B 400)	2100916	MATERIAL	PRINCIPAL
+
+Reteta
+Activitate 1183.7.18.23
++ materialele aferente care se termina in L devin activitati:
+Activitate 1183.7.18.23.L
+
+*/
+}
+
 /*
 l4:1183.1.1.1.5
 1183
@@ -2067,3 +2109,4 @@ buton radio cu switch intre retete si orfani
 
 
 */
+
