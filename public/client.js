@@ -1291,23 +1291,24 @@ export function init() {
       tr.appendChild(td)
       td = document.createElement('td')
       //create a table with children
-      let table = document.createElement('table')
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.classList.add('table-bordered')
-      table.classList.add('table-hover')
-      table.classList.add('table-striped')
-      table.classList.add('table-responsive')
-      //no header
-      //create rows
+      let tableChildren = document.createElement('table')
+      tableChildren.classList.add('table')
+      tableChildren.classList.add('table-sm')
+      tableChildren.classList.add('table-bordered')
+      tableChildren.classList.add('table-hover')
+      tableChildren.classList.add('table-striped')
+      tableChildren.classList.add('table-responsive')
+      //rows only
+      let tbody = document.createElement('tbody')
+      tableChildren.appendChild(tbody)
       object.children.forEach(function (child) {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
         td.innerHTML = child.WBS
         tr.appendChild(td)
-        table.appendChild(tr)
+        tbody.appendChild(tr)
       })
-      td.appendChild(table)
+      td.appendChild(tableChildren)
       tr.appendChild(td)
       table.appendChild(tr)
     })
