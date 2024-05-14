@@ -1287,10 +1287,10 @@ export function init() {
     recipes_ds.forEach(function (object) {
       var tr = document.createElement('tr')
       var td = document.createElement('td')
-      td.innerHTML = object.root
+      td.innerHTML = object.root.WBS
       tr.appendChild(td)
       var td = document.createElement('td')
-      td.innerHTML = object.children.join('<br>')
+      td.innerHTML = object.children.map((o) => o.WBS).join('<br>')
       tr.appendChild(td)
       table.appendChild(tr)
     })
