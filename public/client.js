@@ -1290,7 +1290,24 @@ export function init() {
       td.innerHTML = object.root.WBS
       tr.appendChild(td)
       var td = document.createElement('td')
-      td.innerHTML = object.children.map((o) => o.WBS).join('<br>')
+      //create a table with children
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-bordered')
+      table.classList.add('table-hover')
+      table.classList.add('table-striped')
+      table.classList.add('table-responsive')
+      //no header
+      //create rows
+      object.children.forEach(function (child) {
+        var tr = document.createElement('tr')
+        var td = document.createElement('td')
+        td.innerHTML = child.WBS
+        tr.appendChild(td)
+        table.appendChild(tr)
+      })
+      td.appendChild(table)
       tr.appendChild(td)
       table.appendChild(tr)
     })
