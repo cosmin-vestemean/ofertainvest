@@ -1987,7 +1987,7 @@ function createTreesFromWBS(ds) {
       obj.hasChildren = false
     }
 
-    if (obj.object) {
+    if (obj.object || obj.root) {
       obj.virtual = false
     } else {
       obj.virtual = true
