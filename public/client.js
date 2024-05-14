@@ -1287,7 +1287,7 @@ export function init() {
     recipes_ds.forEach(function (object) {
       let tr = document.createElement('tr')
       let td = document.createElement('td')
-      td.innerHTML = object.root.WBS
+      td.innerHTML = object.root.WBS + ' ' + object.root.DENUMIRE_ARTICOL_OFERTA + ' ' + object.root.TIP_ACTIVITATE_ARTICOL_RETETA + ' ' + object.root.SUBTIP_ACTIVITATE_ARTICOL_RETETA + ' ' + object.root.UM_ARTICOL_OFERTA
       tr.appendChild(td)
       td = document.createElement('td')
       //create a table with children
@@ -1305,6 +1305,18 @@ export function init() {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
         td.innerHTML = child.object.WBS
+        tr.appendChild(td)
+        td = document.createElement('td')
+        td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
+        tr.appendChild(td)
+        td = document.createElement('td')
+        td.innerHTML = child.object.TIP_ACTIVITATE_ARTICOL_RETETA
+        tr.appendChild(td)
+        td = document.createElement('td')
+        td.innerHTML = child.object.SUBTIP_ACTIVITATE_ARTICOL_RETETA
+        tr.appendChild(td)
+        td = document.createElement('td')
+        td.innerHTML = child.object.UM_ARTICOL_OFERTA
         tr.appendChild(td)
         tbody.appendChild(tr)
       })
