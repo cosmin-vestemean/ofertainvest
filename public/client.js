@@ -1304,7 +1304,7 @@ export function init() {
       object.children.forEach(function (child) {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
-        td.innerHTML = child.WBS
+        td.innerHTML = child.object.WBS
         tr.appendChild(td)
         tbody.appendChild(tr)
       })
