@@ -1273,6 +1273,10 @@ export function init() {
     table.classList.add('table-bordered')
     table.classList.add('table-hover')
     table.classList.add('table-responsive')
+    //table caption Retete
+    let caption = document.createElement('caption')
+    caption.innerHTML = 'Retete'
+    table.appendChild(caption)
     let thead = document.createElement('thead')
     table.appendChild(thead)
     let tr = document.createElement('tr')
