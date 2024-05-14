@@ -1229,6 +1229,7 @@ export function init() {
     console.log('result.trees', result.trees)
     console.log('result.result', result.result)
     console.log('result.arrayResult', result.arrayResult)
+    console.log('result.resultFiltered', result.resultFiltered)
     console.log('recipes_ds', recipes_ds)
   }
   document.getElementById('trndate').valueAsDate = new Date()
@@ -1947,13 +1948,12 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  let resultFiltered = applyFilterTipSubTip()
-  console.log('resultFiltered', resultFiltered)
+  let resultFiltered = applyFilterTipSubTip(resultPlus)
 
-  return { trees, result: resultPlus, arrayResult: result }
+  return { trees, result: resultPlus, arrayResult: result, resultFiltered }
 }
 
-function applyFilterTipSubTip() {
+function applyFilterTipSubTip(data) {
   //look into resultPlus and create a new array with only the objects listening of the following filter's conditions simultaneously
   //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
   const objFilter = {
@@ -1961,7 +1961,7 @@ function applyFilterTipSubTip() {
     SUBTIP_ARTICOL_OFERTA: ['principal', 'manopera', 'transport', 'utilaj']
   }
   let arr = []
-  resultPlus.forEach(function (obj) {
+  data.forEach(function (obj) {
     if (
       obj.object &&
       objFilter.TIP_ARTICOL_OFERTA.includes(obj.object.TIP_ARTICOL_OFERTA.toLowerCase()) &&
@@ -1969,7 +1969,7 @@ function applyFilterTipSubTip() {
     ) {
       //add children
       obj.children = []
-      resultPlus.forEach(function (child) {
+      data.forEach(function (child) {
         if (
           child.branch.join('.').startsWith(obj.branch.join('.')) &&
           child.branch.length == obj.branch.length + 1
