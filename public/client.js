@@ -1199,7 +1199,7 @@ export function init() {
     rez.resultFiltered.forEach((o) => {
       //get root
       roots.push(o.root)
-    })      
+    })
 
     const my_table = document.getElementById('my_table_oferta_initiala')
     /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
@@ -1286,7 +1286,16 @@ export function init() {
     recipes_ds.forEach(function (object) {
       let tr = document.createElement('tr')
       let td = document.createElement('td')
-      td.innerHTML = object.root.WBS + '<br>' + object.root.DENUMIRE_ARTICOL_OFERTA + '<br>' + object.root.TIP_ARTICOL_OFERTA + '<br>' + object.root.SUBTIP_ARTICOL_OFERTA + '<br>' + object.root.UM_ARTICOL_OFERTA
+      td.innerHTML =
+        object.root.WBS +
+        '<br>' +
+        object.root.DENUMIRE_ARTICOL_OFERTA +
+        '<br>' +
+        object.root.TIP_ARTICOL_OFERTA +
+        '<br>' +
+        object.root.SUBTIP_ARTICOL_OFERTA +
+        '<br>' +
+        object.root.UM_ARTICOL_OFERTA
       tr.appendChild(td)
       td = document.createElement('td')
       //create a table with children
@@ -1308,7 +1317,7 @@ export function init() {
         td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
         tr.appendChild(td)
         td = document.createElement('td')
-        td.innerHTML = child.object.TIP_ARTICOL_RETETA
+        td.innerHTML = child.object.TIP_ARTICOL_OFERTA
         tr.appendChild(td)
         td = document.createElement('td')
         td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
