@@ -1224,15 +1224,8 @@ export function init() {
   //WBSMap
   let WBSMap = document.getElementById('WBSMap')
   WBSMap.onclick = function () {
-    var result = createTreesFromWBS(optimal_ds)
+    var result = createDatasetForRecipes()
     const trees = result.trees
-    console.log('trees', trees)
-    console.log('result.result', result.result)
-    console.log('result.arrayResult', result.arrayResult)
-    console.log('result.resultFiltered', result.resultFiltered)
-    recipes_ds = result.resultFiltered
-    console.log('recipes_ds', recipes_ds)
-
     const levels = trees.length
     console.log('levels', levels)
 
@@ -1605,6 +1598,8 @@ async function createDatasetForRecipes() {
   console.log('result.resultFiltered', result.resultFiltered)
   recipes_ds = result.resultFiltered
   console.log('recipes_ds', recipes_ds)
+
+  return result
 }
 
 const template = document.createElement('template')
