@@ -1957,7 +1957,7 @@ function createTreesFromWBS(ds) {
   let resultFiltered = resultPlus.filter(function (obj) {
     if (obj.object) {
       for (const key in objFilter) {
-        if (objFilter[key].includes(obj.object[key])) {
+        if (objFilter[key].toLowerCase().includes(obj.object[key]).toLowerCase()) {
           return true
         }
       }
