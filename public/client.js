@@ -1275,6 +1275,7 @@ export function init() {
     table.classList.add('table-responsive')
     //table caption Retete
     let caption = document.createElement('caption')
+    caption.classList.add('caption-top')
     caption.innerHTML = 'Retete'
     table.appendChild(caption)
     let thead = document.createElement('thead')
