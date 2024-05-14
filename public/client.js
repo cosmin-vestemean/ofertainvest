@@ -1193,7 +1193,7 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = async function () {
-    let rez = await createDatasetForRecipes()
+    let rez = createDatasetForRecipes()
     console.log('rez', rez)
     let roots = []
     rez.resultFiltered.forEach((o) => {
@@ -1594,7 +1594,7 @@ function creazaReteta(object) {
   modalReteta.show()
 }
 
-async function createDatasetForRecipes() {
+function createDatasetForRecipes() {
   var result = createTreesFromWBS(optimal_ds)
   recipes_ds = result.resultFiltered
   console.log('recipes_ds', recipes_ds)
