@@ -1261,6 +1261,42 @@ export function init() {
 
     modal.show()
   }
+  let lista_retete = document.getElementById('lista_retete')
+  lista_retete.onclick = function () {
+    //afiseaza recipes_ds in table; root and children
+    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+    var modal_body = document.getElementById('modal-body3')
+    modal_body.innerHTML = ''
+    var table = document.createElement('table')
+    table.classList.add('table')
+    table.classList.add('table-sm')
+    table.classList.add('table-bordered')
+    table.classList.add('table-hover')
+    table.classList.add('table-striped')
+    table.classList.add('table-responsive')
+    var thead = document.createElement('thead')
+    table.appendChild(thead)
+    var tr = document.createElement('tr')
+    thead.appendChild(tr)
+    var th = document.createElement('th')
+    th.innerHTML = 'Root'
+    tr.appendChild(th)
+    var th = document.createElement('th')
+    th.innerHTML = 'Children'
+    tr.appendChild(th)
+    recipes_ds.forEach(function (object) {
+      var tr = document.createElement('tr')
+      var td = document.createElement('td')
+      td.innerHTML = object.root
+      tr.appendChild(td)
+      var td = document.createElement('td')
+      td.innerHTML = object.children.join('<br>')
+      tr.appendChild(td)
+      table.appendChild(tr)
+    })
+    modal_body.appendChild(table)
+    modal.show()
+  }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
