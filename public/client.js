@@ -1977,8 +1977,6 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  let resultFiltered = applyFilterTipSubTip(resultPlus)
-
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
     if (obj.children && obj.children.length > 0) {
@@ -2013,9 +2011,18 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
+  let resultFiltered = applyFilterTipSubTip(resultPlusVirtualFalseNoDuplicates)
 
-  return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse }
+  //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
+
+  return {
+    trees,
+    result: resultPlus,
+    arrayResult: result,
+    resultFiltered,
+    resultPlusVirtualFalse,
+    resultPlusVirtualFalseNoDuplicates
+  }
 }
 
 function applyFilterTipSubTip(data) {
