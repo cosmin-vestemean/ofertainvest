@@ -1211,7 +1211,12 @@ export function init() {
   orfani.onclick = async function () {
     let rez = createDatasetForRecipes()
     console.log('rez', rez)
-    let orfani = rez.orphans
+    let orfani = []
+    rez.orphans.forEach((o) => {
+      let orfan = o.object
+      orfani.push(orfan)
+    })
+
     const my_table = document.getElementById('my_table_oferta_initiala')
     /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
