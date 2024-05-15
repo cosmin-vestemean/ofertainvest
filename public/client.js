@@ -1977,6 +1977,8 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
+  let resultFiltered = applyFilterTipSubTip(resultPlus)
+
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
     if (obj.children && obj.children.length > 0) {
@@ -2011,18 +2013,18 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  let resultFiltered = applyFilterTipSubTip(resultPlusVirtualFalseNoDuplicates)
+  var orphans = []
+  //compare resultPlusVirtualFalseNoDuplicates with resultFiltered and find differences; push differences to orphans
+  resultFiltered.forEach(function (obj) {
+    let obj2 = resultPlusVirtualFalseNoDuplicates.find((o) => o.branch.join('.') == obj.branch.join('.'))
+    if (!obj2) {
+      orphans.push(obj)
+    }
+  })
 
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
-  return {
-    trees,
-    result: resultPlus,
-    arrayResult: result,
-    resultFiltered,
-    resultPlusVirtualFalse,
-    resultPlusVirtualFalseNoDuplicates
-  }
+  return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse, resultPlusVirtualFalseNoDuplicates, orphans }
 }
 
 function applyFilterTipSubTip(data) {
