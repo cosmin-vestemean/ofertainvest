@@ -1198,7 +1198,7 @@ export function init() {
     let roots = []
     rez.resultFiltered.forEach((o) => {
       //get root
-      roots.push(o.root)
+      roots.push(o.object)
     })
 
     const my_table = document.getElementById('my_table_oferta_initiala')
@@ -1206,6 +1206,23 @@ export function init() {
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
     pushDataToTable(roots, thead, tbody) */
     my_table.ds = roots
+  }
+  let orfani = document.getElementById('orfani')
+  orfani.onclick = async function () {
+    let rez = createDatasetForRecipes()
+    console.log('rez', rez)
+    let orfani = []
+    rez.orphans.forEach((o) => {
+      if (o.children.length === 0) {
+        orfani.push(o.object)
+      }
+    })
+
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
+    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
+    pushDataToTable(orfani, thead, tbody) */
+    my_table.ds = orfani
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
@@ -1298,21 +1315,21 @@ export function init() {
       td.innerHTML = `
         <table>
           <tr>
-        <td class="text-primary">${object.root.WBS}
+        <td class="text-primary">${object.object.WBS}
         <a class="btn" href="#"><i class="bi bi-pencil-square"></i></a>
         </td>
         </tr>
         <tr>
-        <td>${object.root.DENUMIRE_ARTICOL_OFERTA}</td>
+        <td>${object.object.DENUMIRE_ARTICOL_OFERTA}</td>
         </tr>
         <tr>
-        <td>${object.root.TIP_ARTICOL_OFERTA}</td>
+        <td>${object.object.TIP_ARTICOL_OFERTA}</td>
         </tr>
         <tr>
-        <td>${object.root.SUBTIP_ARTICOL_OFERTA}</td>
+        <td>${object.object.SUBTIP_ARTICOL_OFERTA}</td>
         </tr>
         <tr>
-        <td>${object.root.UM_ARTICOL_OFERTA}</td>
+        <td>${object.object.UM_ARTICOL_OFERTA}</td>
         </tr>
         </table>
       `
@@ -1986,7 +2003,7 @@ function createTreesFromWBS(ds) {
     } else {
       obj.hasChildren = false
     }
-    if (obj.object || obj.root) {
+    if (obj.object) {
       obj.virtual = false
     } else {
       obj.virtual = true
@@ -2051,9 +2068,6 @@ function applyFilterTipSubTip(data) {
           obj.children.push(child)
         }
       })
-      //rename object property to root
-      obj.root = obj.object
-      delete obj.object
       arr.push(obj)
     }
   })
