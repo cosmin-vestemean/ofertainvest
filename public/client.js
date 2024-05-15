@@ -1997,20 +1997,19 @@ function createTreesFromWBS(ds) {
 
   //remove duplicates from resultPlusVirtualFalse
   //better: if obj1 has children, loop thru children and find obj2 in resultPlusVirtualFalse with the same branch and hasChildren == false
-  let resultPlusVirtualFalseNoDuplicates = []
+  let resultPlusVirtualFalseNoDuplicates = [...resultPlusVirtualFalse]
   resultPlusVirtualFalse.forEach(function (obj1) {
     if (obj1.hasChildren) {
-      let children = obj1.children
-      children.forEach(function (child) {
+      obj1.children.forEach(function (child) {
         let obj2 = resultPlusVirtualFalse.find(
           (obj) => obj.branch.join('.') == child.branch.join('.') && obj.hasChildren == false
         )
         if (obj2) {
-          resultPlusVirtualFalseNoDuplicates.push(obj2)
+          resultPlusVirtualFalseNoDuplicates = resultPlusVirtualFalseNoDuplicates.filter(
+            (obj) => obj.branch.join('.') != obj2.branch.join('.')
+          )
         }
       })
-    } else {
-      resultPlusVirtualFalseNoDuplicates.push(obj1)
     }
   })
 
