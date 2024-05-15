@@ -2015,8 +2015,8 @@ function createTreesFromWBS(ds) {
 
   var orphans = []
   //compare resultPlusVirtualFalseNoDuplicates with resultFiltered and find differences; push differences to orphans
-  resultFiltered.forEach(function (obj) {
-    let obj2 = resultPlusVirtualFalseNoDuplicates.find((o) => o.branch.join('.') == obj.branch.join('.'))
+  resultPlusVirtualFalseNoDuplicates.forEach(function (obj) {
+    let obj2 = resultFiltered.find((o) => o.branch.join('.') == obj.branch.join('.'))
     if (!obj2) {
       orphans.push(obj)
     }
