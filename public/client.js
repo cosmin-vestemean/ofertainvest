@@ -1997,16 +1997,18 @@ function createTreesFromWBS(ds) {
 
   //remove duplicates from resultPlusVirtualFalse
   //when an object hasChildren, remove duplicates from resultPlusVirtualFalse the object with the same branch and hasChildren = false
+  //better: if obj1 has children, remove obj2 with the same branch and hasChildren = false
   let resultPlusVirtualFalseNoDuplicates = []
-  resultPlusVirtualFalse.forEach(function (obj) {
-    if (obj.hasChildren) {
-      if (!resultPlusVirtualFalseNoDuplicates.some((r) => r.branch.join('') == obj.branch.join('') && r.hasChildren == false)) {
-        resultPlusVirtualFalseNoDuplicates.push(obj)
+  resultPlusVirtualFalse.forEach(function (obj1) {
+    if (obj1.hasChildren) {
+      let obj2 = resultPlusVirtualFalse.find(
+        (obj) => obj.branch.join('.') == obj1.branch.join('.') && obj.hasChildren == false
+      )
+      if (!obj2) {
+        resultPlusVirtualFalseNoDuplicates.push(obj1)
       }
     } else {
-      if (!resultPlusVirtualFalseNoDuplicates.some((r) => r.branch.join('') == obj.branch.join())) {
-        resultPlusVirtualFalseNoDuplicates.push(obj)
-      }
+      resultPlusVirtualFalseNoDuplicates.push(obj1)
     }
   })
 
@@ -2069,7 +2071,6 @@ function applyFilterByGrupareArticolOferta() {
 .20.0 este material pentru activitatea .20
 .21, .22, .23, .24, .25, .26, .27, .28 sunt activitati cu materialele .21.1, .22.1, .23.1, .24.1, .25.1, .26.1, .27.1, .28.1 cu denumirea activitatii
 */
-
 }
 
 function applyFilterEndsWithL() {
@@ -2089,9 +2090,7 @@ Activitate 1183.7.18.23.L
 */
 }
 
-function findDuplicatesInOfertaInitiala () {
-
-}
+function findDuplicatesInOfertaInitiala() {}
 
 /*
 l4:1183.1.1.1.5
@@ -2128,4 +2127,3 @@ buton radio cu switch intre retete si orfani
 
 
 */
-
