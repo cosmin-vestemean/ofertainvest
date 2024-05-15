@@ -1995,7 +1995,22 @@ function createTreesFromWBS(ds) {
 
   let resultPlusVirtualFalse = resultPlus.filter((obj) => obj.virtual == false)
 
-  //sterge elementele din resultPlusVirtualFalse care au .object si sunt copii in alt element cu .root and .hasChildren = true
+  //remove duplicates from resultPlusVirtualFalse
+  //when an object hasChildren, remove duplicates from resultPlusVirtualFalse the object with the same branch and hasChildren = false
+  let resultPlusVirtualFalseNoDuplicates = []
+  resultPlusVirtualFalse.forEach(function (obj) {
+    if (obj.hasChildren) {
+      if (!resultPlusVirtualFalseNoDuplicates.some((r) => r.branch.join('') == obj.branch.join('') && r.hasChildren == false)) {
+        resultPlusVirtualFalseNoDuplicates.push(obj)
+      }
+    } else {
+      if (!resultPlusVirtualFalseNoDuplicates.some((r) => r.branch.join('') == obj.branch.join())) {
+        resultPlusVirtualFalseNoDuplicates.push(obj)
+      }
+    }
+  })
+
+  console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
   return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse }
 }
@@ -2072,6 +2087,10 @@ Activitate 1183.7.18.23
 Activitate 1183.7.18.23.L
 
 */
+}
+
+function findDuplicatesInOfertaInitiala () {
+
 }
 
 /*
