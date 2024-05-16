@@ -1305,13 +1305,21 @@ export function init() {
     tr.classList.add('border-0')
     thead.appendChild(tr)
     let th = document.createElement('th')
-    th.innerHTML = 'Activitate'
+    th.innerHTML = 'Reteta/Activitate'
     tr.appendChild(th)
     th = document.createElement('th')
     th.innerHTML = 'Materiale'
     tr.appendChild(th)
     for (let i = 0; i < recipes_ds.length; i++) {
       let reteta = recipes_ds[i].reteta
+      let tableReteta = document.createElement('table')
+      tableReteta.classList.add('table')
+      tableReteta.classList.add('table-sm')
+      tableReteta.classList.add('table-bordered')
+      tableReteta.classList.add('table-hover')
+      tableReteta.classList.add('table-responsive')
+      let tbody = document.createElement('tbody')
+      tableReteta.appendChild(tbody)
       for (let j = 0; j < reteta.length; j++) {
         let activitate = reteta[j]
         let tr = document.createElement('tr')
@@ -1387,10 +1395,11 @@ export function init() {
           td.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
           tr.appendChild(td)
         }
-        table.appendChild(tr)
+        tbody.appendChild(tr)
       }
+      modal_body.appendChild(tableReteta)
     }
-    modal_body.appendChild(table)
+    
     modal.show()
   }
   document.getElementById('trndate').valueAsDate = new Date()
