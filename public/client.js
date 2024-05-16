@@ -1315,7 +1315,6 @@ export function init() {
       td.classList.add('text-primary')
       //bold
       td.classList.add('fw-bold')
-      td.classList.add('rounded')
       //padding 3
       td.innerHTML = object.name
       tr.appendChild(td)
