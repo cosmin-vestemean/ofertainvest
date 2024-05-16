@@ -2167,7 +2167,8 @@ Activitate 1183.7.18.23.L
           newActivitateInReteta.nr = nr
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
-          activitate.children.push(child)
+          newActivitateInReteta.hasChildren = true
+          newActivitateInReteta.children.push(child)
           reteta.push(newActivitateInReteta)
           //delete the newly created activitate from reteta's children
           activitate.children = activitate.children.filter((child) => child.branch[child.branch.length - 1] != 'L')
