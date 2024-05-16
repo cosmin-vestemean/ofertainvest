@@ -1322,8 +1322,6 @@ export function init() {
       var thead2 = document.createElement('thead')
       table2.appendChild(thead2)
       var tr2 = document.createElement('tr')
-      //make it like a card to stand out
-      tr2.classList.add('table-primary')
       thead2.appendChild(tr2)
       var th2 = document.createElement('th')
       th2.innerHTML = 'Activitati'
@@ -1337,12 +1335,14 @@ export function init() {
         var tr2 = document.createElement('tr')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
+        var td2 = document.createElement('td')
+        tr2.appendChild(td2)
         var table3 = document.createElement('table')
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
         //no thead
-        tr2.appendChild(table3)
+        td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
         table3.appendChild(tbody3)
         var tr3 = document.createElement('tr')
