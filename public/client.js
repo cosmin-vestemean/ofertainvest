@@ -1352,7 +1352,7 @@ export function init() {
         //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
         if (object.childrenEndsInZero) {
           let newWBS = object.childrenEndsInZero[i].object.WBS
-          td.innerHTML = child.object.WBS + '<br><span class="text-success">' + newWBS + '</span>'
+          td.innerHTML = '<span class="text-danger">' + child.object.WBS + '</span><br>' + newWBS + '</span>'
         } else {
           td.innerHTML = child.object.WBS
         }
@@ -2050,7 +2050,15 @@ function createTreesFromWBS(ds) {
 
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
-  return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse, resultPlusVirtualFalseNoDuplicates, orphans }
+  return {
+    trees,
+    result: resultPlus,
+    arrayResult: result,
+    resultFiltered,
+    resultPlusVirtualFalse,
+    resultPlusVirtualFalseNoDuplicates,
+    orphans
+  }
 }
 
 function applyFilterTipSubTip(data) {
@@ -2136,7 +2144,7 @@ function applyFilterChildrenEndsWith0(data) {
 1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
 1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
 1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
-*/  
+*/
 
   let result = []
   data.forEach(function (obj) {
@@ -2160,9 +2168,8 @@ function applyFilterChildrenEndsWith0(data) {
   })
 
   return result
-  
 }
-  /*
+/*
 
 /*
 l4:1183.1.1.1.5
