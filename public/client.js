@@ -1349,11 +1349,10 @@ export function init() {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
         td.classList.add('text-primary')
-        td.innerHTML = child.object.WBS
         //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
         if (child.childrenEndsInZero) {
-          let newWBS = child.childrenEndsInZero[i].object.WBS
-          td.innerHTML = td.innerHTML + '<br><span class="text-danger">' + newWBS + '</span>'
+          let newWBS = object.childrenEndsInZero[i].object.WBS
+          td.innerHTML = child.object.WBS + '<br><span class="text-danger">' + newWBS + '</span>'
         }
         tr.appendChild(td)
         td = document.createElement('td')
