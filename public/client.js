@@ -1255,10 +1255,6 @@ export function init() {
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
 
-    //create div container
-    var container = document.createElement('div')
-    container.classList.add('container')
-
     //for each level, create a table with 1 row and n columns, each column containing a node
     for (let i = 0; i < levels; i++) {
       var table = document.createElement('table')
@@ -1289,6 +1285,10 @@ export function init() {
     let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
     let modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
+
+    //create div container
+    var container = document.createElement('div')
+    container.classList.add('container')
     
     var table = document.createElement('table')
     table.classList.add('table')
