@@ -1459,7 +1459,6 @@ export function init() {
     table.classList.add('table')
     table.classList.add('table-sm')
     table.classList.add('table-bordered')
-    table.classList.add('table-hover')
     table.classList.add('table-responsive')
     var thead = document.createElement('thead')
     table.appendChild(thead)
@@ -1485,7 +1484,6 @@ export function init() {
       table2.classList.add('table')
       table2.classList.add('table-sm')
       table2.classList.add('table-bordered')
-      table2.classList.add('table-hover')
       table2.classList.add('table-responsive')
       td.appendChild(table2)
       var thead2 = document.createElement('thead')
@@ -1508,7 +1506,6 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-bordered')
-        table3.classList.add('table-hover')
         table3.classList.add('table-responsive')
         //no thead
         tr2.appendChild(table3)
@@ -1545,20 +1542,24 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-bordered')
-        table3.classList.add('table-hover')
         table3.classList.add('table-responsive')
         td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
         table3.appendChild(tbody3)
-        object2.children.forEach(function (object3) {
+        for (var i = 0; i < object2.children.length; i++) {
+          var object3 = object2.children[i]
           var tr3 = document.createElement('tr')
           tbody3.appendChild(tr3)
           var td3 = document.createElement('td')
-          td3.innerHTML = object3.object.DENUMIRE_ARTICOL_OFERTA
+          if (object3.childrenEndsInZero) {
+            td3.innerHTML = object3.childrenEndsInZero[i].object.WBS + '<br>' + object3.object.WBS
+          } else {
+            td3.innerHTML = object3.object.WBS
+          }
           tr3.appendChild(td3)
           var td3 = document.createElement('td')
           tr3.appendChild(td3)
-        })
+        }
       })
     })
     modal_body.appendChild(table)
