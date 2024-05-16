@@ -1394,7 +1394,16 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
-        table3.classList.add('table-striped')
+        //create style striped but starts with white
+        //tr:nth-child(odd)
+        var reverseStripedStyle = 'tr:nth-child(odd) {'
+        reverseStripedStyle += 'background-color: white;'
+        reverseStripedStyle += '}'
+        //tr:nth-child(even)
+        reverseStripedStyle += 'tr:nth-child(even) {'
+        reverseStripedStyle += 'background-color: #f2f2f2;'
+        reverseStripedStyle += '}'
+        table3.style = reverseStripedStyle
         //margin-bottom 0
         table3.classList.add('mb-0')
         td2.appendChild(table3)
