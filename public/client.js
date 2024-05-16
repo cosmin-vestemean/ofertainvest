@@ -1569,6 +1569,27 @@ export function init() {
               td4.innerHTML = object3.object.WBS;
             }
             tr4.appendChild(td4);
+            //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
+            var tr4 = document.createElement('tr')
+            tbody4.appendChild(tr4)
+            var td4 = document.createElement('td')
+            td4.innerHTML = object3.object.DENUMIRE_ARTICOL_OFERTA
+            tr4.appendChild(td4)
+            var tr4 = document.createElement('tr')
+            tbody4.appendChild(tr4)
+            var td4 = document.createElement('td')
+            td4.innerHTML = object3.object.UM_ARTICOL_OFERTA
+            tr4.appendChild(td4)
+            var tr4 = document.createElement('tr')
+            tbody4.appendChild(tr4)
+            var td4 = document.createElement('td')
+            td4.innerHTML = object3.object.TIP_ARTICOL_OFERTA
+            tr4.appendChild(td4)
+            var tr4 = document.createElement('tr')
+            tbody4.appendChild(tr4)
+            var td4 = document.createElement('td')
+            td4.innerHTML = object3.object.SUBTIP_ARTICOL_OFERTA
+            tr4.appendChild(td4)
             tr3.appendChild(td3)
           }
         } else {
