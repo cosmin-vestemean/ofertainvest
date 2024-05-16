@@ -1333,6 +1333,7 @@ export function init() {
       table2.appendChild(tbody2)
       object.reteta.forEach(function (object2) {
         var tr2 = document.createElement('tr')
+        tr2.classList.add('card')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var td2 = document.createElement('td')
