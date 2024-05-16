@@ -1333,14 +1333,14 @@ export function init() {
       table2.appendChild(tbody2)
       object.reteta.forEach(function (object2) {
         var tr2 = document.createElement('tr')
+        //make it like a card
+        tr2.classList.add('table-primary')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var table3 = document.createElement('table')
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
-        //bordered
-        table3.classList.add('table-bordered')
         //no thead
         tr2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
