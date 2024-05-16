@@ -1332,11 +1332,12 @@ export function init() {
       var tbody2 = document.createElement('tbody')
       table2.appendChild(tbody2)
       object.reteta.forEach(function (object2) {
-        var tr2 = document.createElement('tr')
-        tr2.classList.add('card')
+        var tr2 = document.createElement('tr class="d-flex"')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var td2 = document.createElement('td')
+        //add class col-2
+        td2.classList.add('col-2')
         tr2.appendChild(td2)
         var table3 = document.createElement('table')
         table3.classList.add('table')
@@ -1372,6 +1373,7 @@ export function init() {
         td3.innerHTML = object2.object.SUBTIP_ARTICOL_OFERTA
         tr3.appendChild(td3)
         var td2 = document.createElement('td')
+        td2.classList.add('col-2')
         tr2.appendChild(td2)
         var table3 = document.createElement('table')
         table3.classList.add('table')
