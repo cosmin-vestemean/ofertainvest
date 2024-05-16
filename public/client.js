@@ -1311,12 +1311,13 @@ export function init() {
     th.innerHTML = 'Materiale'
     tr.appendChild(th)
     for (let i = 0; i < recipes_ds.length; i++) {
-      let reteta = recipes_ds[i]
-      for (let j = 0; j < reteta.children.length; j++) {
-        let activitate = reteta.children[j]
-        let tr = document.createElement('tr')
-        let td = document.createElement('td')
-        td.innerHTML = `
+      if (recipes_ds[i].children && recipes_ds[i].children.length) {
+        let reteta = recipes_ds[i]
+        for (let j = 0; j < reteta.children.length; j++) {
+          let activitate = reteta.children[j]
+          let tr = document.createElement('tr')
+          let td = document.createElement('td')
+          td.innerHTML = `
         <table>
           <tr>
         <td class="text-primary">${activitate.object.WBS}
@@ -1337,50 +1338,51 @@ export function init() {
         </tr>
         </table>
       `
-        tr.appendChild(td)
-        td = document.createElement('td')
-        //create a table with children
-        let tableChildren = document.createElement('table')
-        tableChildren.classList.add('table')
-        tableChildren.classList.add('table-sm')
-        tableChildren.classList.add('table-bordered')
-        tableChildren.classList.add('table-hover')
-        tableChildren.classList.add('table-responsive')
-        //rows only
-        let tbody = document.createElement('tbody')
-        tableChildren.appendChild(tbody)
-        let i = 0
-        activitate.children.forEach(function (child) {
-          let tr = document.createElement('tr')
-          let td = document.createElement('td')
-          td.classList.add('text-primary')
-          //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
-          if (activitate.childrenEndsInZero) {
-            let newWBS = activitate.childrenEndsInZero[i].object.WBS
-            td.innerHTML =
-              '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
-          } else {
-            td.innerHTML = child.object.WBS
-          }
           tr.appendChild(td)
           td = document.createElement('td')
-          td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
+          //create a table with children
+          let tableChildren = document.createElement('table')
+          tableChildren.classList.add('table')
+          tableChildren.classList.add('table-sm')
+          tableChildren.classList.add('table-bordered')
+          tableChildren.classList.add('table-hover')
+          tableChildren.classList.add('table-responsive')
+          //rows only
+          let tbody = document.createElement('tbody')
+          tableChildren.appendChild(tbody)
+          let i = 0
+          activitate.children.forEach(function (child) {
+            let tr = document.createElement('tr')
+            let td = document.createElement('td')
+            td.classList.add('text-primary')
+            //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
+            if (activitate.childrenEndsInZero) {
+              let newWBS = activitate.childrenEndsInZero[i].object.WBS
+              td.innerHTML =
+                '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
+            } else {
+              td.innerHTML = child.object.WBS
+            }
+            tr.appendChild(td)
+            td = document.createElement('td')
+            td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
+            tr.appendChild(td)
+            td = document.createElement('td')
+            td.innerHTML = child.object.TIP_ARTICOL_OFERTA
+            tr.appendChild(td)
+            td = document.createElement('td')
+            td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
+            tr.appendChild(td)
+            td = document.createElement('td')
+            td.innerHTML = child.object.UM_ARTICOL_OFERTA
+            tr.appendChild(td)
+            tbody.appendChild(tr)
+            i++
+          })
+          td.appendChild(tableChildren)
           tr.appendChild(td)
-          td = document.createElement('td')
-          td.innerHTML = child.object.TIP_ARTICOL_OFERTA
-          tr.appendChild(td)
-          td = document.createElement('td')
-          td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
-          tr.appendChild(td)
-          td = document.createElement('td')
-          td.innerHTML = child.object.UM_ARTICOL_OFERTA
-          tr.appendChild(td)
-          tbody.appendChild(tr)
-          i++
-        })
-        td.appendChild(tableChildren)
-        tr.appendChild(td)
-        table.appendChild(tr)
+          table.appendChild(tr)
+        }
       }
     }
     modal_body.appendChild(table)
