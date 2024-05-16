@@ -1285,176 +1285,7 @@ export function init() {
     let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
     let modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
-    /*
-    recipes_ds > object
-    {
-    "name": 1,
-    "reteta": [
-        {
-            "branch": [
-                "1183",
-                "7",
-                "18",
-                "23"
-            ],
-            "object": {
-                "WBS": "1183.7.18.23",
-                "DENUMIRE_ARTICOL_OFERTA": "TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE",
-                "TIP_ARTICOL_OFERTA": "ARTICOL",
-                "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
-                "UM_ARTICOL_OFERTA": "mp",
-            },
-            "children": [
-                {
-                    "branch": [
-                        "1183",
-                        "7",
-                        "18",
-                        "23",
-                        "5"
-                    ],
-                    "object": {
-                        "WBS": "1183.7.18.23.5",
-                        "DENUMIRE_ARTICOL_OFERTA": "NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM",
-                        "TIP_ARTICOL_OFERTA": "SUBARTICOL",
-                        "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
-                        "UM_ARTICOL_OFERTA": "mc",
-                    },
-                    "level": 5,
-                    "hasChildren": false,
-                    "virtual": false
-                },
-                {
-                    "branch": [
-                        "1183",
-                        "7",
-                        "18",
-                        "23",
-                        "6"
-                    ],
-                    "object": {
-                        "WBS": "1183.7.18.23.6",
-                        "DENUMIRE_ARTICOL_OFERTA": "SARMA OTEL MOALE, NEAGRA, D = 1 MM",
-                        "TIP_ARTICOL_OFERTA": "SUBARTICOL",
-                        "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
-                        "UM_ARTICOL_OFERTA": "kg",
-                    },
-                    "level": 5,
-                    "hasChildren": false,
-                    "virtual": false
-                },
-                {
-                    "branch": [
-                        "1183",
-                        "7",
-                        "18",
-                        "23",
-                        "7"
-                    ],
-                    "object": {
-                        "WBS": "1183.7.18.23.7",
-                        "DENUMIRE_ARTICOL_OFERTA": "APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA",
-                        "TIP_ARTICOL_OFERTA": "SUBARTICOL",
-                        "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
-                        "UM_ARTICOL_OFERTA": "mc",
-                    },
-                    "level": 5,
-                    "hasChildren": false,
-                    "virtual": false
-                }
-            ],
-            "level": 4,
-            "hasChildren": true,
-            "virtual": false
-        },
-        {
-            "branch": [
-                "1183",
-                "7",
-                "18",
-                "23",
-                "L"
-            ],
-            "object": {
-                "WBS": "1183.7.18.23.L",
-                "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
-                "TIP_ARTICOL_OFERTA": "MATERIAL",
-                "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
-                "UM_ARTICOL_OFERTA": "mc",
-            },
-            "level": 4,
-            "hasChildren": true,
-            "virtual": false,
-            "nr": null,
-            "children": [
-                {
-                    "branch": [
-                        "1183",
-                        "7",
-                        "18",
-                        "23",
-                        "L"
-                    ],
-                    "object": {
-                        "WBS": "1183.7.18.23.L",
-                        "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
-                        "TIP_ARTICOL_OFERTA": "MATERIAL",
-                        "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
-                        "UM_ARTICOL_OFERTA": "mc",
-                    },
-                    "level": 5,
-                    "hasChildren": false,
-                    "virtual": false
-                }
-            ]
-        },
-        {
-            "branch": [
-                "1183",
-                "7",
-                "18",
-                "23",
-                "L"
-            ],
-            "object": {
-                "WBS": "1183.7.18.23.L",
-                "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
-                "TIP_ARTICOL_OFERTA": "MATERIAL",
-                "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
-                "UM_ARTICOL_OFERTA": "mc",
-            },
-            "level": 4,
-            "hasChildren": true,
-            "virtual": false,
-            "nr": null,
-            "children": [
-                {
-                    "branch": [
-                        "1183",
-                        "7",
-                        "18",
-                        "23",
-                        "L"
-                    ],
-                    "object": {
-                        "WBS": "1183.7.18.23.L",
-                        "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
-                        "TIP_ARTICOL_OFERTA": "MATERIAL",
-                        "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
-                        "UM_ARTICOL_OFERTA": "mc",
-                    },
-                    "level": 5,
-                    "hasChildren": false,
-                    "virtual": false
-                }
-            ]
-        }
-    ]
-}
-    need to represent this kind of data in a table
-    //table: recipes_ds > table: reteta: {name, reteta} > [reteta] > {object, table:children}
-    */
-
+    
     var table = document.createElement('table')
     table.classList.add('table')
     table.classList.add('table-sm')
@@ -1483,7 +1314,6 @@ export function init() {
       var table2 = document.createElement('table')
       table2.classList.add('table')
       table2.classList.add('table-sm')
-      table2.classList.add('table-bordered')
       table2.classList.add('table-responsive')
       td.appendChild(table2)
       var thead2 = document.createElement('thead')
@@ -1540,7 +1370,6 @@ export function init() {
         var table3 = document.createElement('table')
         table3.classList.add('table')
         table3.classList.add('table-sm')
-        table3.classList.add('table-bordered')
         table3.classList.add('table-responsive')
         td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
