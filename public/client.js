@@ -1336,7 +1336,7 @@ export function init() {
         //add d-flex
         tr2.classList.add('d-flex')
         //add shadow
-        tr2.classList.add('shadow')
+        tr2.classList.add('shadow-sm mt-2')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var td2 = document.createElement('td')
@@ -1383,6 +1383,8 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
+        //margin-bottom 0
+        table3.classList.add('mb-0')
         td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
         table3.appendChild(tbody3)
@@ -1396,6 +1398,8 @@ export function init() {
             table4.classList.add('table');
             table4.classList.add('table-sm');
             table4.classList.add('table-responsive');
+            //add margin-bottom 0
+            table4.classList.add('mb-0');
             td3.appendChild(table4);
             var tbody4 = document.createElement('tbody');
             table4.appendChild(tbody4);
