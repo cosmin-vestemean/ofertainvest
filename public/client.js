@@ -2038,6 +2038,8 @@ function createTreesFromWBS(ds) {
     }
   })
 
+  resultFiltered = applyFilterChildrenEndsWith0(resultFiltered)
+
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
   return { trees, result: resultPlus, arrayResult: result, resultFiltered, resultPlusVirtualFalse, resultPlusVirtualFalseNoDuplicates, orphans }
