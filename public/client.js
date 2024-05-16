@@ -1505,7 +1505,6 @@ export function init() {
         var table3 = document.createElement('table')
         table3.classList.add('table')
         table3.classList.add('table-sm')
-        table3.classList.add('table-bordered')
         table3.classList.add('table-responsive')
         //no thead
         tr2.appendChild(table3)
@@ -1555,7 +1554,6 @@ export function init() {
             var table4 = document.createElement('table');
             table4.classList.add('table');
             table4.classList.add('table-sm');
-            table4.classList.add('table-bordered');
             table4.classList.add('table-responsive');
             td3.appendChild(table4);
             var tbody4 = document.createElement('tbody');
@@ -1563,8 +1561,8 @@ export function init() {
             var tr4 = document.createElement('tr');
             tbody4.appendChild(tr4);
             var td4 = document.createElement('td');
-            if (object3.childrenEndsInZero) {
-              td4.innerHTML = object3.childrenEndsInZero[i].object.WBS + '<br>' + object3.object.WBS;
+            if (object2.childrenEndsInZero) {
+              td4.innerHTML = object2.childrenEndsInZero[i].object.WBS + '<br>' + object3.object.WBS;
             } else {
               td4.innerHTML = object3.object.WBS;
             }
