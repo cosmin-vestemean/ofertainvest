@@ -1316,7 +1316,8 @@ export function init() {
       //bold
       td.classList.add('fw-bold')
       //padding 3
-      td.classList.add('p-3')
+      td.classList.add('px-3')
+      td.classList.add('py-3')
       td.innerHTML = object.name
       tr.appendChild(td)
       var td = document.createElement('td')
@@ -1336,7 +1337,7 @@ export function init() {
         //add shadow
         tr2.classList.add('shadow')
         //margin-bottom 1
-        tr2.classList.add('mb-3')
+        tr2.classList.add('mb-1')
         //border 0
         tr2.classList.add('border-0')
         tbody2.appendChild(tr2)
