@@ -1311,13 +1311,12 @@ export function init() {
     th.innerHTML = 'Materiale'
     tr.appendChild(th)
     for (let i = 0; i < recipes_ds.length; i++) {
-      if (recipes_ds[i].children && recipes_ds[i].children.length) {
-        let reteta = recipes_ds[i]
-        for (let j = 0; j < reteta.children.length; j++) {
-          let activitate = reteta.children[j]
-          let tr = document.createElement('tr')
-          let td = document.createElement('td')
-          td.innerHTML = `
+      let reteta = recipes_ds[i]
+      for (let j = 0; j < reteta.length; j++) {
+        let activitate = reteta[j]
+        let tr = document.createElement('tr')
+        let td = document.createElement('td')
+        td.innerHTML = `
         <table>
           <tr>
         <td class="text-primary">${activitate.object.WBS}
@@ -1338,9 +1337,11 @@ export function init() {
         </tr>
         </table>
       `
-          tr.appendChild(td)
+        tr.appendChild(td)
+        //create a table with children
+        let children = activitate.children
+        if (children && children.length > 0) {
           td = document.createElement('td')
-          //create a table with children
           let tableChildren = document.createElement('table')
           tableChildren.classList.add('table')
           tableChildren.classList.add('table-sm')
@@ -1351,7 +1352,7 @@ export function init() {
           let tbody = document.createElement('tbody')
           tableChildren.appendChild(tbody)
           let i = 0
-          activitate.children.forEach(function (child) {
+          for (let child of children) {
             let tr = document.createElement('tr')
             let td = document.createElement('td')
             td.classList.add('text-primary')
@@ -1378,11 +1379,15 @@ export function init() {
             tr.appendChild(td)
             tbody.appendChild(tr)
             i++
-          })
+          }
           td.appendChild(tableChildren)
           tr.appendChild(td)
-          table.appendChild(tr)
+        } else {
+          td = document.createElement('td')
+          td.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
+          tr.appendChild(td)
         }
+        table.appendChild(tr)
       }
     }
     modal_body.appendChild(table)
