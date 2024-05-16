@@ -1410,6 +1410,8 @@ export function init() {
             table4.classList.add('table');
             table4.classList.add('table-sm');
             table4.classList.add('table-responsive');
+            //striped
+            table4.classList.add('table-striped');
             //add margin-bottom 0
             table4.classList.add('mb-0');
             td3.appendChild(table4);
@@ -1456,6 +1458,7 @@ export function init() {
           var tr3 = document.createElement('tr')
           tbody3.appendChild(tr3)
           var td3 = document.createElement('td')
+          td3.classList.add('border-0')
           td3.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
           tr3.appendChild(td3)
         }
