@@ -1289,14 +1289,12 @@ export function init() {
     var table = document.createElement('table')
     table.classList.add('table')
     table.classList.add('table-sm')
-    table.classList.add('table-bordered')
-    table.classList.add('table-responsive')
     var thead = document.createElement('thead')
     table.appendChild(thead)
     var tr = document.createElement('tr')
     thead.appendChild(tr)
     var th = document.createElement('th')
-    th.innerHTML = 'Nume'
+    th.innerHTML = '#'
     tr.appendChild(th)
     var th = document.createElement('th')
     th.innerHTML = 'Reteta'
