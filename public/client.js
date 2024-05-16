@@ -1319,16 +1319,6 @@ export function init() {
       table2.classList.add('table-sm')
       table2.classList.add('table-responsive')
       td.appendChild(table2)
-      var thead2 = document.createElement('thead')
-      table2.appendChild(thead2)
-      var tr2 = document.createElement('tr')
-      thead2.appendChild(tr2)
-      var th2 = document.createElement('th')
-      th2.innerHTML = 'Activitati'
-      tr2.appendChild(th2)
-      var th2 = document.createElement('th')
-      th2.innerHTML = 'Materiale'
-      tr2.appendChild(th2)
       var tbody2 = document.createElement('tbody')
       table2.appendChild(tbody2)
       object.reteta.forEach(function (object2) {
