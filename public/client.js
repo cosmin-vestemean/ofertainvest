@@ -1335,6 +1335,8 @@ export function init() {
         var tr2 = document.createElement('tr')
         //add d-flex
         tr2.classList.add('d-flex')
+        //add shadow
+        tr2.classList.add('shadow')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var td2 = document.createElement('td')
