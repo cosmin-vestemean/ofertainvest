@@ -2048,6 +2048,10 @@ function createTreesFromWBS(ds) {
 
   resultFiltered = applyFilterChildrenEndsWith0(resultFiltered)
 
+  resultFiltered = prepareForMultipleActivities(resultFiltered)
+
+  //resultFiltered = applyFilterEndsWithL(resultFiltered)
+
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
   return {
@@ -2114,6 +2118,18 @@ function applyFilterByGrupareArticolOferta() {
 */
 }
 
+function prepareForMultipleActivities(data) {
+  //push every obj in data into it's own array as in {retete: [{nr, reteta: [obj]}]}, ude nr is an indexed number
+  let result = []
+  data.forEach(function (obj, index) {
+    let reteta = []
+    reteta.push(obj)
+    result.push({ nr: index, reteta: reteta })
+  })
+
+  return result
+}
+
 function applyFilterEndsWithL() {
   /*
 1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
@@ -2127,7 +2143,6 @@ Reteta
 Activitate 1183.7.18.23
 + materialele aferente care se termina in L devin activitati:
 Activitate 1183.7.18.23.L
-
 */
 }
 
