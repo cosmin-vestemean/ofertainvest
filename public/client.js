@@ -1352,7 +1352,8 @@ export function init() {
         //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
         if (object.childrenEndsInZero) {
           let newWBS = object.childrenEndsInZero[i].object.WBS
-          td.innerHTML = '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
+          td.innerHTML =
+            '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
         } else {
           td.innerHTML = child.object.WBS
         }
@@ -2050,7 +2051,7 @@ function createTreesFromWBS(ds) {
 
   resultFiltered = prepareForMultipleActivities(resultFiltered)
 
-  //resultFiltered = applyFilterEndsWithL(resultFiltered)
+  resultFiltered = applyFilterEndsWithL(resultFiltered)
 
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
@@ -2144,6 +2145,38 @@ Activitate 1183.7.18.23
 + materialele aferente care se termina in L devin activitati:
 Activitate 1183.7.18.23.L
 */
+
+  //1 detect every child that ends with L, that is in it's chidren array
+  //2 add child to it's parent's outer array
+  //3 level of it's parent
+  //4 and a new single child in it's children
+  //branch remains the same
+
+  let result = []
+  result = JSON.parse(JSON.stringify(data))
+  result.forEach(function (obj) {
+    let reteta = obj.reteta //array of objects
+    let nr = obj.nr
+    reteta.forEach(function (activitate) {
+      let children = activitate.children
+      let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
+      if (childrenEndsWithL.length > 0) {
+        childrenEndsWithL.forEach(function (child) {
+          let newActivitateInReteta = JSON.parse(JSON.stringify(child))
+          nr++
+          newActivitateInReteta.nr = nr
+          newActivitateInReteta.level = activitate.level
+          newActivitateInReteta.children = []
+          activitate.children.push(child)
+          reteta.push(newActivitateInReteta)
+          //delete the newly created activitate from reteta's children
+          children = children.filter((child) => child.branch[child.branch.length - 1] != 'L')
+        })
+      }
+    })
+  })
+
+  return result
 }
 
 function findDuplicatesInOfertaInitiala() {}
