@@ -1285,129 +1285,263 @@ export function init() {
     let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
     let modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
-    let table = document.createElement('table')
+    /*
+    recipes_ds > object
+    {
+    "name": 1,
+    "reteta": [
+        {
+            "branch": [
+                "1183",
+                "7",
+                "18",
+                "23"
+            ],
+            "object": {
+                "WBS": "1183.7.18.23",
+                "DENUMIRE_ARTICOL_OFERTA": "TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE",
+                "TIP_ARTICOL_OFERTA": "ARTICOL",
+                "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
+                "UM_ARTICOL_OFERTA": "mp",
+            },
+            "children": [
+                {
+                    "branch": [
+                        "1183",
+                        "7",
+                        "18",
+                        "23",
+                        "5"
+                    ],
+                    "object": {
+                        "WBS": "1183.7.18.23.5",
+                        "DENUMIRE_ARTICOL_OFERTA": "NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM",
+                        "TIP_ARTICOL_OFERTA": "SUBARTICOL",
+                        "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
+                        "UM_ARTICOL_OFERTA": "mc",
+                    },
+                    "level": 5,
+                    "hasChildren": false,
+                    "virtual": false
+                },
+                {
+                    "branch": [
+                        "1183",
+                        "7",
+                        "18",
+                        "23",
+                        "6"
+                    ],
+                    "object": {
+                        "WBS": "1183.7.18.23.6",
+                        "DENUMIRE_ARTICOL_OFERTA": "SARMA OTEL MOALE, NEAGRA, D = 1 MM",
+                        "TIP_ARTICOL_OFERTA": "SUBARTICOL",
+                        "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
+                        "UM_ARTICOL_OFERTA": "kg",
+                    },
+                    "level": 5,
+                    "hasChildren": false,
+                    "virtual": false
+                },
+                {
+                    "branch": [
+                        "1183",
+                        "7",
+                        "18",
+                        "23",
+                        "7"
+                    ],
+                    "object": {
+                        "WBS": "1183.7.18.23.7",
+                        "DENUMIRE_ARTICOL_OFERTA": "APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA",
+                        "TIP_ARTICOL_OFERTA": "SUBARTICOL",
+                        "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
+                        "UM_ARTICOL_OFERTA": "mc",
+                    },
+                    "level": 5,
+                    "hasChildren": false,
+                    "virtual": false
+                }
+            ],
+            "level": 4,
+            "hasChildren": true,
+            "virtual": false
+        },
+        {
+            "branch": [
+                "1183",
+                "7",
+                "18",
+                "23",
+                "L"
+            ],
+            "object": {
+                "WBS": "1183.7.18.23.L",
+                "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
+                "TIP_ARTICOL_OFERTA": "MATERIAL",
+                "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
+                "UM_ARTICOL_OFERTA": "mc",
+            },
+            "level": 4,
+            "hasChildren": true,
+            "virtual": false,
+            "nr": null,
+            "children": [
+                {
+                    "branch": [
+                        "1183",
+                        "7",
+                        "18",
+                        "23",
+                        "L"
+                    ],
+                    "object": {
+                        "WBS": "1183.7.18.23.L",
+                        "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
+                        "TIP_ARTICOL_OFERTA": "MATERIAL",
+                        "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
+                        "UM_ARTICOL_OFERTA": "mc",
+                    },
+                    "level": 5,
+                    "hasChildren": false,
+                    "virtual": false
+                }
+            ]
+        },
+        {
+            "branch": [
+                "1183",
+                "7",
+                "18",
+                "23",
+                "L"
+            ],
+            "object": {
+                "WBS": "1183.7.18.23.L",
+                "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
+                "TIP_ARTICOL_OFERTA": "MATERIAL",
+                "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
+                "UM_ARTICOL_OFERTA": "mc",
+            },
+            "level": 4,
+            "hasChildren": true,
+            "virtual": false,
+            "nr": null,
+            "children": [
+                {
+                    "branch": [
+                        "1183",
+                        "7",
+                        "18",
+                        "23",
+                        "L"
+                    ],
+                    "object": {
+                        "WBS": "1183.7.18.23.L",
+                        "DENUMIRE_ARTICOL_OFERTA": "SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942",
+                        "TIP_ARTICOL_OFERTA": "MATERIAL",
+                        "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL",
+                        "UM_ARTICOL_OFERTA": "mc",
+                    },
+                    "level": 5,
+                    "hasChildren": false,
+                    "virtual": false
+                }
+            ]
+        }
+    ]
+}
+    need to represent this kind of data in a table
+    //table: recipes_ds > table: reteta: {name, reteta} > [reteta] > {object, table:children}
+    */
+
+    var table = document.createElement('table')
     table.classList.add('table')
     table.classList.add('table-sm')
     table.classList.add('table-bordered')
     table.classList.add('table-hover')
+    table.classList.add('table-striped')
     table.classList.add('table-responsive')
-    //table caption Retete
-    let caption = document.createElement('caption')
-    caption.classList.add('caption-top')
-    caption.innerHTML = 'Retete'
-    table.appendChild(caption)
-    let thead = document.createElement('thead')
-    thead.classList.add('bg-secondary')
-    thead.classList.add('text-light')
+    var thead = document.createElement('thead')
     table.appendChild(thead)
-    let tr = document.createElement('tr')
-    //no borders
-    tr.classList.add('border-0')
+    var tr = document.createElement('tr')
     thead.appendChild(tr)
-    let th = document.createElement('th')
-    th.innerHTML = 'Reteta/Activitate'
+    var th = document.createElement('th')
+    th.innerHTML = 'Nume'
     tr.appendChild(th)
-    th = document.createElement('th')
-    th.innerHTML = 'Materiale'
+    var th = document.createElement('th')
+    th.innerHTML = 'Reteta'
     tr.appendChild(th)
-    for (let i = 0; i < recipes_ds.length; i++) {
-      let reteta = recipes_ds[i].reteta
-      let caption = recipes_ds[i].name
-      let tableReteta = document.createElement('table')
-      tableReteta.classList.add('table')
-      tableReteta.classList.add('table-sm')
-      tableReteta.classList.add('table-bordered')
-      tableReteta.classList.add('table-hover')
-      tableReteta.classList.add('table-responsive')
-      //striped
-      tableReteta.classList.add('table-striped')
-      //table's caption top
-      let captionReteta = document.createElement('caption')
-      captionReteta.classList.add('caption-top')
-      //bg-info
-      captionReteta.classList.add('bg-info')
-      captionReteta.innerHTML = caption
-      let tbody = document.createElement('tbody')
-      tableReteta.appendChild(tbody)
-      for (let j = 0; j < reteta.length; j++) {
-        let activitate = reteta[j]
-        let tr = document.createElement('tr')
-        let td = document.createElement('td')
-        td.innerHTML = `
-        <table>
-          <tr>
-        <td class="text-primary">${activitate.object.WBS}
-        <a class="btn" href="#"><i class="bi bi-pencil-square"></i></a>
-        </td>
-        </tr>
-        <tr>
-        <td>${activitate.object.DENUMIRE_ARTICOL_OFERTA}</td>
-        </tr>
-        <tr>
-        <td>${activitate.object.TIP_ARTICOL_OFERTA}</td>
-        </tr>
-        <tr>
-        <td>${activitate.object.SUBTIP_ARTICOL_OFERTA}</td>
-        </tr>
-        <tr>
-        <td>${activitate.object.UM_ARTICOL_OFERTA}</td>
-        </tr>
-        </table>
-      `
-        tr.appendChild(td)
-        //create a table with children
-        let children = activitate.children
-        if (children && children.length > 0) {
-          td = document.createElement('td')
-          let tableChildren = document.createElement('table')
-          tableChildren.classList.add('table')
-          tableChildren.classList.add('table-sm')
-          tableChildren.classList.add('table-bordered')
-          tableChildren.classList.add('table-hover')
-          tableChildren.classList.add('table-responsive')
-          //rows only
-          let tbody = document.createElement('tbody')
-          tableChildren.appendChild(tbody)
-          let i = 0
-          for (let child of children) {
-            let tr = document.createElement('tr')
-            let td = document.createElement('td')
-            td.classList.add('text-primary')
-            //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
-            if (activitate.childrenEndsInZero) {
-              let newWBS = activitate.childrenEndsInZero[i].object.WBS
-              td.innerHTML =
-                '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
-            } else {
-              td.innerHTML = child.object.WBS
-            }
-            tr.appendChild(td)
-            td = document.createElement('td')
-            td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
-            tr.appendChild(td)
-            td = document.createElement('td')
-            td.innerHTML = child.object.TIP_ARTICOL_OFERTA
-            tr.appendChild(td)
-            td = document.createElement('td')
-            td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
-            tr.appendChild(td)
-            td = document.createElement('td')
-            td.innerHTML = child.object.UM_ARTICOL_OFERTA
-            tr.appendChild(td)
-            tbody.appendChild(tr)
-            i++
-          }
-          td.appendChild(tableChildren)
-          tr.appendChild(td)
-        } else {
-          td = document.createElement('td')
-          td.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
-          tr.appendChild(td)
-        }
-        tbody.appendChild(tr)
-      }
-      modal_body.appendChild(tableReteta)
-    }
+    var tbody = document.createElement('tbody')
+    table.appendChild(tbody)
+    recipes_ds.forEach(function (object) {
+      var tr = document.createElement('tr')
+      tbody.appendChild(tr)
+      var td = document.createElement('td')
+      td.innerHTML = object.name
+      tr.appendChild(td)
+      var td = document.createElement('td')
+      tr.appendChild(td)
+      var table2 = document.createElement('table')
+      table2.classList.add('table')
+      table2.classList.add('table-sm')
+      table2.classList.add('table-bordered')
+      table2.classList.add('table-hover')
+      table2.classList.add('table-striped')
+      table2.classList.add('table-responsive')
+      td.appendChild(table2)
+      var thead2 = document.createElement('thead')
+      table2.appendChild(thead2)
+      var tr2 = document.createElement('tr')
+      thead2.appendChild(tr2)
+      var th2 = document.createElement('th')
+      th2.innerHTML = 'Nume'
+      tr2.appendChild(th2)
+      var th2 = document.createElement('th')
+      th2.innerHTML = 'Reteta'
+      tr2.appendChild(th2)
+      var tbody2 = document.createElement('tbody')
+      table2.appendChild(tbody2)
+      object.reteta.forEach(function (object2) {
+        var tr2 = document.createElement('tr')
+        tbody2.appendChild(tr2)
+        var td2 = document.createElement('td')
+        td2.innerHTML = object2.object.DENUMIRE_ARTICOL_OFERTA
+        tr2.appendChild(td2)
+        var td2 = document.createElement('td')
+        tr2.appendChild(td2)
+        var table3 = document.createElement('table')
+        table3.classList.add('table')
+        table3.classList.add('table-sm')
+        table3.classList.add('table-bordered')
+        table3.classList.add('table-hover')
+        table3.classList.add('table-striped')
+        table3.classList.add('table-responsive')
+        td2.appendChild(table3)
+        var thead3 = document.createElement('thead')
+        table3.appendChild(thead3)
+        var tr3 = document.createElement('tr')
+        thead3.appendChild(tr3)
+        var th3 = document.createElement('th')
+        th3.innerHTML = 'Nume'
+        tr3.appendChild(th3)
+        var th3 = document.createElement('th')
+        th3.innerHTML = 'Reteta'
+        tr3.appendChild(th3)
+        var tbody3 = document.createElement('tbody')
+        table3.appendChild(tbody3)
+        object2.children.forEach(function (object3) {
+          var tr3 = document.createElement('tr')
+          tbody3.appendChild(tr3)
+          var td3 = document.createElement('td')
+          td3.innerHTML = object3.object.DENUMIRE_ARTICOL_OFERTA
+          tr3.appendChild(td3)
+          var td3 = document.createElement('td')
+          tr3.appendChild(td3)
+        })
+      })
+    })
+    modal_body.appendChild(table)
     
     modal.show()
   }
