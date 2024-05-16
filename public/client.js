@@ -2115,6 +2115,43 @@ Activitate 1183.7.18.23.L
 
 function findDuplicatesInOfertaInitiala() {}
 
+function applyFilterChildrenEndsWith0(data) {
+  //1.look into every obj's data.chidren
+  //2. if ALL chidren are identical and end with 0, create another children array with the same children but with the last element indexed properly
+  /*
+  1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
+*/  
+
+  let result = []
+  data.forEach(function (obj) {
+    if (obj.children && obj.children.length > 0) {
+      let children = obj.children
+      let last = children[0].branch[children[0].branch.length - 1]
+      let identical = children.every((child) => child.branch[child.branch.length - 1] == last)
+      if (identical && last == 0) {
+        let newChildren = []
+        children.forEach(function (child, index) {
+          let newChild = JSON.parse(JSON.stringify(child))
+          newChild.branch[newChild.branch.length - 1] = index + 1
+          newChildren.push(newChild)
+        })
+        obj.childrenEndsInZero = newChildren
+      }
+    }
+    result.push(obj)
+  })
+
+  return result
+  
+}
+  /*
+
 /*
 l4:1183.1.1.1.5
 1183
