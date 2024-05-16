@@ -1312,12 +1312,21 @@ export function init() {
     tr.appendChild(th)
     for (let i = 0; i < recipes_ds.length; i++) {
       let reteta = recipes_ds[i].reteta
+      let caption = recipes_ds[i].name
       let tableReteta = document.createElement('table')
       tableReteta.classList.add('table')
       tableReteta.classList.add('table-sm')
       tableReteta.classList.add('table-bordered')
       tableReteta.classList.add('table-hover')
       tableReteta.classList.add('table-responsive')
+      //striped
+      tableReteta.classList.add('table-striped')
+      //table's caption top
+      let captionReteta = document.createElement('caption')
+      captionReteta.classList.add('caption-top')
+      //bg-info
+      captionReteta.classList.add('bg-info')
+      captionReteta.innerHTML = caption
       let tbody = document.createElement('tbody')
       tableReteta.appendChild(tbody)
       for (let j = 0; j < reteta.length; j++) {
