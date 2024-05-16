@@ -1336,11 +1336,12 @@ export function init() {
         //add d-flex
         tr2.classList.add('d-flex')
         //flex-basis 100%
-        tr2.classList.add('flex-basis-100')
         //add shadow
         tr2.classList.add('shadow')
         //margin-bottom 1
-        tr2.classList.add('mb-5')
+        tr2.classList.add('mb-3')
+        //border 0
+        tr2.classList.add('border-0')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var td2 = document.createElement('td')
@@ -1358,6 +1359,8 @@ export function init() {
         var tr3 = document.createElement('tr')
         tbody3.appendChild(tr3)
         var td3 = document.createElement('td')
+        //border 0
+        td3.classList.add('border-0')
         td3.innerHTML = object2.object.WBS
         tr3.appendChild(td3)
         var tr3 = document.createElement('tr')
