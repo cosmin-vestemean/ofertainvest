@@ -1338,7 +1338,9 @@ export function init() {
         //flex-shrink-0
         tr2.classList.add('flex-shrink-0')
         //add shadow
-        tr2.classList.add('shadow-sm mt-2')
+        tr2.classList.add('shadow-sm')
+        //margin-bottom 1
+        tr2.classList.add('mb-1')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var td2 = document.createElement('td')
