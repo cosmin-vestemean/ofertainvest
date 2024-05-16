@@ -1311,8 +1311,8 @@ export function init() {
       tbody.appendChild(tr)
       var td = document.createElement('td')
       //make it fancy
-      td.classList.add('bg-secondary')
-      td.classList.add('text-light')
+      td.classList.add('bg-info')
+      td.classList.add('text-white')
       //bold
       td.classList.add('fw-bold')
       //padding 3
