@@ -1310,6 +1310,13 @@ export function init() {
       var tr = document.createElement('tr')
       tbody.appendChild(tr)
       var td = document.createElement('td')
+      //make it fancy
+      td.classList.add('bg-secondary')
+      td.classList.add('text-light')
+      //bold
+      td.classList.add('fw-bold')
+      //padding 3
+      td.classList.add('p-3')
       td.innerHTML = object.name
       tr.appendChild(td)
       var td = document.createElement('td')
