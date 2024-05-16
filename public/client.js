@@ -1460,7 +1460,6 @@ export function init() {
     table.classList.add('table-sm')
     table.classList.add('table-bordered')
     table.classList.add('table-hover')
-    table.classList.add('table-striped')
     table.classList.add('table-responsive')
     var thead = document.createElement('thead')
     table.appendChild(thead)
@@ -1487,7 +1486,6 @@ export function init() {
       table2.classList.add('table-sm')
       table2.classList.add('table-bordered')
       table2.classList.add('table-hover')
-      table2.classList.add('table-striped')
       table2.classList.add('table-responsive')
       td.appendChild(table2)
       var thead2 = document.createElement('thead')
@@ -1495,19 +1493,52 @@ export function init() {
       var tr2 = document.createElement('tr')
       thead2.appendChild(tr2)
       var th2 = document.createElement('th')
-      th2.innerHTML = 'Nume'
+      th2.innerHTML = 'Activitati'
       tr2.appendChild(th2)
       var th2 = document.createElement('th')
-      th2.innerHTML = 'Reteta'
+      th2.innerHTML = 'Materiale'
       tr2.appendChild(th2)
       var tbody2 = document.createElement('tbody')
       table2.appendChild(tbody2)
       object.reteta.forEach(function (object2) {
         var tr2 = document.createElement('tr')
         tbody2.appendChild(tr2)
-        var td2 = document.createElement('td')
-        td2.innerHTML = object2.object.DENUMIRE_ARTICOL_OFERTA
-        tr2.appendChild(td2)
+        //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
+        var table3 = document.createElement('table')
+        table3.classList.add('table')
+        table3.classList.add('table-sm')
+        table3.classList.add('table-bordered')
+        table3.classList.add('table-hover')
+        table3.classList.add('table-responsive')
+        //no thead
+        tr2.appendChild(table3)
+        var tbody3 = document.createElement('tbody')
+        table3.appendChild(tbody3)
+        var tr3 = document.createElement('tr')
+        tbody3.appendChild(tr3)
+        var td3 = document.createElement('td')
+        td3.innerHTML = object2.object.WBS
+        tr3.appendChild(td3)
+        var tr3 = document.createElement('tr')
+        tbody3.appendChild(tr3)
+        var td3 = document.createElement('td')
+        td3.innerHTML = object2.object.DENUMIRE_ARTICOL_OFERTA
+        tr3.appendChild(td3)
+        var tr3 = document.createElement('tr')
+        tbody3.appendChild(tr3)
+        var td3 = document.createElement('td')
+        td3.innerHTML = object2.object.UM_ARTICOL_OFERTA
+        tr3.appendChild(td3)
+        var tr3 = document.createElement('tr')
+        tbody3.appendChild(tr3)
+        var td3 = document.createElement('td')
+        td3.innerHTML = object2.object.TIP_ARTICOL_OFERTA
+        tr3.appendChild(td3)
+        var tr3 = document.createElement('tr')
+        tbody3.appendChild(tr3)
+        var td3 = document.createElement('td')
+        td3.innerHTML = object2.object.SUBTIP_ARTICOL_OFERTA
+        tr3.appendChild(td3)
         var td2 = document.createElement('td')
         tr2.appendChild(td2)
         var table3 = document.createElement('table')
@@ -1515,19 +1546,8 @@ export function init() {
         table3.classList.add('table-sm')
         table3.classList.add('table-bordered')
         table3.classList.add('table-hover')
-        table3.classList.add('table-striped')
         table3.classList.add('table-responsive')
         td2.appendChild(table3)
-        var thead3 = document.createElement('thead')
-        table3.appendChild(thead3)
-        var tr3 = document.createElement('tr')
-        thead3.appendChild(tr3)
-        var th3 = document.createElement('th')
-        th3.innerHTML = 'Nume'
-        tr3.appendChild(th3)
-        var th3 = document.createElement('th')
-        th3.innerHTML = 'Reteta'
-        tr3.appendChild(th3)
         var tbody3 = document.createElement('tbody')
         table3.appendChild(tbody3)
         object2.children.forEach(function (object3) {
@@ -1542,7 +1562,7 @@ export function init() {
       })
     })
     modal_body.appendChild(table)
-    
+
     modal.show()
   }
   document.getElementById('trndate').valueAsDate = new Date()
