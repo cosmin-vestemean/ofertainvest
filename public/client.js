@@ -1352,6 +1352,8 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
+        //striped
+        table3.classList.add('table-striped')
         //no thead
         td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
@@ -1410,8 +1412,6 @@ export function init() {
             table4.classList.add('table')
             table4.classList.add('table-sm')
             table4.classList.add('table-responsive')
-            //striped
-            table4.classList.add('table-striped')
             //add margin-bottom 0
             table4.classList.add('mb-0')
             td3.appendChild(table4)
