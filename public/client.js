@@ -1322,6 +1322,8 @@ export function init() {
       var thead2 = document.createElement('thead')
       table2.appendChild(thead2)
       var tr2 = document.createElement('tr')
+      //make it like a card to stand out
+      tr2.classList.add('table-primary')
       thead2.appendChild(tr2)
       var th2 = document.createElement('th')
       th2.innerHTML = 'Activitati'
@@ -1333,8 +1335,6 @@ export function init() {
       table2.appendChild(tbody2)
       object.reteta.forEach(function (object2) {
         var tr2 = document.createElement('tr')
-        //make it like a card
-        tr2.classList.add('table-primary')
         tbody2.appendChild(tr2)
         //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
         var table3 = document.createElement('table')
