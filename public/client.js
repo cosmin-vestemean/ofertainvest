@@ -1545,7 +1545,7 @@ export function init() {
         td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
         table3.appendChild(tbody3)
-        if (object2.children) {
+        if (object2.children && object2.children.length) {
           for (var i = 0; i < object2.children.length; i++) {
             var object3 = object2.children[i]
             var tr3 = document.createElement('tr')
@@ -1594,7 +1594,7 @@ export function init() {
           var tr3 = document.createElement('tr')
           tbody3.appendChild(tr3)
           var td3 = document.createElement('td')
-          td3.innerHTML = 'Fara materiale'
+          td3.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
           tr3.appendChild(td3)
         }
       })
