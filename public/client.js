@@ -1394,16 +1394,6 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
-        //create style striped but starts with white
-        //tr:nth-child(odd)
-        var reverseStripedStyle = 'tr:nth-child(odd) {'
-        reverseStripedStyle += 'background-color: white;'
-        reverseStripedStyle += '}'
-        //tr:nth-child(even)
-        reverseStripedStyle += 'tr:nth-child(even) {'
-        reverseStripedStyle += 'background-color: #f2f2f2;'
-        reverseStripedStyle += '}'
-        table3.style = reverseStripedStyle
         //margin-bottom 0
         table3.classList.add('mb-0')
         td2.appendChild(table3)
@@ -1413,6 +1403,12 @@ export function init() {
           for (var i = 0; i < object2.children.length; i++) {
             var object3 = object2.children[i]
             var tr3 = document.createElement('tr')
+            //if i even => add style="background-color: whie;" else style="background-color: BOOTSTRAP(bg-light);"
+            if (i % 2 == 0) {
+              tr3.style.backgroundColor = 'white'
+            } else {
+              tr3.style.backgroundColor = 'rgb(248, 249, 250)'
+            }
             tbody3.appendChild(tr3)
             var td3 = document.createElement('td')
             td3.classList.add('border-0')
