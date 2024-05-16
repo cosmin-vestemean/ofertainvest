@@ -2170,7 +2170,7 @@ Activitate 1183.7.18.23.L
           activitate.children.push(child)
           reteta.push(newActivitateInReteta)
           //delete the newly created activitate from reteta's children
-          children = children.filter((child) => child.branch[child.branch.length - 1] != 'L')
+          activitate.children = activitate.children.filter((child) => child.branch[child.branch.length - 1] != 'L')
         })
       }
     })
