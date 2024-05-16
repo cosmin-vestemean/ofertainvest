@@ -1344,11 +1344,17 @@ export function init() {
       //rows only
       let tbody = document.createElement('tbody')
       tableChildren.appendChild(tbody)
+      let i = 0
       object.children.forEach(function (child) {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
         td.classList.add('text-primary')
         td.innerHTML = child.object.WBS
+        //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
+        if (child.childrenEndsInZero) {
+          let newWBS = child.childrenEndsInZero[i].object.WBS
+          td.innerHTML = td.innerHTML + '<br><span class="text-danger">' + newWBS + '</span>'
+        }
         tr.appendChild(td)
         td = document.createElement('td')
         td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
@@ -1363,6 +1369,7 @@ export function init() {
         td.innerHTML = child.object.UM_ARTICOL_OFERTA
         tr.appendChild(td)
         tbody.appendChild(tr)
+        i++
       })
       td.appendChild(tableChildren)
       tr.appendChild(td)
@@ -2141,6 +2148,8 @@ function applyFilterChildrenEndsWith0(data) {
         children.forEach(function (child, index) {
           let newChild = JSON.parse(JSON.stringify(child))
           newChild.branch[newChild.branch.length - 1] = index + 1
+          //change WBS
+          newChild.object.WBS = newChild.branch.join('.')
           newChildren.push(newChild)
         })
         obj.childrenEndsInZero = newChildren
