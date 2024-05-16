@@ -1352,7 +1352,7 @@ export function init() {
         //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
         if (object.childrenEndsInZero) {
           let newWBS = object.childrenEndsInZero[i].object.WBS
-          td.innerHTML = '<span class="text-danger">' + child.object.WBS + '</span><br>' + newWBS + '</span>'
+          td.innerHTML = '<del class="text-danger">' + child.object.WBS + '</del><br>' + newWBS
         } else {
           td.innerHTML = child.object.WBS
         }
