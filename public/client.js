@@ -1311,13 +1311,12 @@ export function init() {
       tbody.appendChild(tr)
       var td = document.createElement('td')
       //make it fancy
-      td.classList.add('bg-info')
-      td.classList.add('text-white')
+      td.classList.add('bg-light')
+      td.classList.add('text-primary')
       //bold
       td.classList.add('fw-bold')
+      td.classList.add('rounded')
       //padding 3
-      td.classList.add('px-3')
-      td.classList.add('py-3')
       td.innerHTML = object.name
       tr.appendChild(td)
       var td = document.createElement('td')
