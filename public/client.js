@@ -1255,6 +1255,10 @@ export function init() {
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
 
+    //create div container
+    var container = document.createElement('div')
+    container.classList.add('container')
+
     //for each level, create a table with 1 row and n columns, each column containing a node
     for (let i = 0; i < levels; i++) {
       var table = document.createElement('table')
@@ -1289,6 +1293,7 @@ export function init() {
     var table = document.createElement('table')
     table.classList.add('table')
     table.classList.add('table-sm')
+    table.classList.add('table-responsive')
     var thead = document.createElement('thead')
     table.appendChild(thead)
     var tr = document.createElement('tr')
@@ -1426,7 +1431,8 @@ export function init() {
         }
       })
     })
-    modal_body.appendChild(table)
+    container.appendChild(table)
+    modal_body.appendChild(container)
 
     modal.show()
   }
