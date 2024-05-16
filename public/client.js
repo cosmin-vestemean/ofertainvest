@@ -1546,18 +1546,36 @@ export function init() {
         td2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
         table3.appendChild(tbody3)
-        for (var i = 0; i < object2.children.length; i++) {
-          var object3 = object2.children[i]
+        if (object2.children) {
+          for (var i = 0; i < object2.children.length; i++) {
+            var object3 = object2.children[i]
+            var tr3 = document.createElement('tr')
+            tbody3.appendChild(tr3)
+            var td3 = document.createElement('td')
+            var table4 = document.createElement('table');
+            table4.classList.add('table');
+            table4.classList.add('table-sm');
+            table4.classList.add('table-bordered');
+            table4.classList.add('table-responsive');
+            td3.appendChild(table4);
+            var tbody4 = document.createElement('tbody');
+            table4.appendChild(tbody4);
+            var tr4 = document.createElement('tr');
+            tbody4.appendChild(tr4);
+            var td4 = document.createElement('td');
+            if (object3.childrenEndsInZero) {
+              td4.innerHTML = object3.childrenEndsInZero[i].object.WBS + '<br>' + object3.object.WBS;
+            } else {
+              td4.innerHTML = object3.object.WBS;
+            }
+            tr4.appendChild(td4);
+            tr3.appendChild(td3)
+          }
+        } else {
           var tr3 = document.createElement('tr')
           tbody3.appendChild(tr3)
           var td3 = document.createElement('td')
-          if (object3.childrenEndsInZero) {
-            td3.innerHTML = object3.childrenEndsInZero[i].object.WBS + '<br>' + object3.object.WBS
-          } else {
-            td3.innerHTML = object3.object.WBS
-          }
-          tr3.appendChild(td3)
-          var td3 = document.createElement('td')
+          td3.innerHTML = 'Fara materiale'
           tr3.appendChild(td3)
         }
       })
