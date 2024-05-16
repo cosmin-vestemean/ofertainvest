@@ -1311,7 +1311,7 @@ export function init() {
     th.innerHTML = 'Materiale'
     tr.appendChild(th)
     for (let i = 0; i < recipes_ds.length; i++) {
-      let reteta = recipes_ds[i]
+      let reteta = recipes_ds[i].reteta
       for (let j = 0; j < reteta.length; j++) {
         let activitate = reteta[j]
         let tr = document.createElement('tr')
