@@ -1367,20 +1367,24 @@ export function init() {
         tbody3.appendChild(tr3)
         var td3 = document.createElement('td')
         td3.innerHTML = object2.object.DENUMIRE_ARTICOL_OFERTA
+        td3.classList.add('border-0')
         tr3.appendChild(td3)
         var tr3 = document.createElement('tr')
         tbody3.appendChild(tr3)
         var td3 = document.createElement('td')
+        td3.classList.add('border-0')
         td3.innerHTML = object2.object.UM_ARTICOL_OFERTA
         tr3.appendChild(td3)
         var tr3 = document.createElement('tr')
         tbody3.appendChild(tr3)
         var td3 = document.createElement('td')
+        td3.classList.add('border-0')
         td3.innerHTML = object2.object.TIP_ARTICOL_OFERTA
         tr3.appendChild(td3)
         var tr3 = document.createElement('tr')
         tbody3.appendChild(tr3)
         var td3 = document.createElement('td')
+        td3.classList.add('border-0')
         td3.innerHTML = object2.object.SUBTIP_ARTICOL_OFERTA
         tr3.appendChild(td3)
         var td2 = document.createElement('td')
@@ -1401,6 +1405,7 @@ export function init() {
             var tr3 = document.createElement('tr')
             tbody3.appendChild(tr3)
             var td3 = document.createElement('td')
+            td3.classList.add('border-0');
             var table4 = document.createElement('table');
             table4.classList.add('table');
             table4.classList.add('table-sm');
@@ -1418,26 +1423,31 @@ export function init() {
             } else {
               td4.innerHTML = object3.object.WBS;
             }
+            td4.classList.add('border-0');
             tr4.appendChild(td4);
             //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
             var tr4 = document.createElement('tr')
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
+            td4.classList.add('border-0');
             td4.innerHTML = object3.object.DENUMIRE_ARTICOL_OFERTA
             tr4.appendChild(td4)
             var tr4 = document.createElement('tr')
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
+            td4.classList.add('border-0');
             td4.innerHTML = object3.object.UM_ARTICOL_OFERTA
             tr4.appendChild(td4)
             var tr4 = document.createElement('tr')
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
+            td4.classList.add('border-0');
             td4.innerHTML = object3.object.TIP_ARTICOL_OFERTA
             tr4.appendChild(td4)
             var tr4 = document.createElement('tr')
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
+            td4.classList.add('border-0');
             td4.innerHTML = object3.object.SUBTIP_ARTICOL_OFERTA
             tr4.appendChild(td4)
             tr3.appendChild(td3)
