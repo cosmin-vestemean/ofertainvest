@@ -1196,9 +1196,11 @@ export function init() {
     let rez = createDatasetForRecipes()
     console.log('rez', rez)
     let roots = []
-    rez.resultFiltered.forEach((o) => {
-      //get root
-      roots.push(o.object)
+    rez.resultFiltered.forEach((obj) => {
+      let reteta = obj.reteta
+      reteta.forEach((activitate) => {
+        roots.push(activitate.object)
+      })
     })
 
     const my_table = document.getElementById('my_table_oferta_initiala')
@@ -1308,74 +1310,76 @@ export function init() {
     th = document.createElement('th')
     th.innerHTML = 'Materiale'
     tr.appendChild(th)
-    recipes_ds.forEach(function (object) {
-      let tr = document.createElement('tr')
-      let td = document.createElement('td')
-      td.innerHTML = `
+    recipes_ds.forEach(function (reteta) {
+      reteta.forEach(function (activitate) {
+        let tr = document.createElement('tr')
+        let td = document.createElement('td')
+        td.innerHTML = `
         <table>
           <tr>
-        <td class="text-primary">${object.object.WBS}
+        <td class="text-primary">${activitate.object.WBS}
         <a class="btn" href="#"><i class="bi bi-pencil-square"></i></a>
         </td>
         </tr>
         <tr>
-        <td>${object.object.DENUMIRE_ARTICOL_OFERTA}</td>
+        <td>${activitate.object.DENUMIRE_ARTICOL_OFERTA}</td>
         </tr>
         <tr>
-        <td>${object.object.TIP_ARTICOL_OFERTA}</td>
+        <td>${activitate.object.TIP_ARTICOL_OFERTA}</td>
         </tr>
         <tr>
-        <td>${object.object.SUBTIP_ARTICOL_OFERTA}</td>
+        <td>${activitate.object.SUBTIP_ARTICOL_OFERTA}</td>
         </tr>
         <tr>
-        <td>${object.object.UM_ARTICOL_OFERTA}</td>
+        <td>${activitate.object.UM_ARTICOL_OFERTA}</td>
         </tr>
         </table>
       `
-      tr.appendChild(td)
-      td = document.createElement('td')
-      //create a table with children
-      let tableChildren = document.createElement('table')
-      tableChildren.classList.add('table')
-      tableChildren.classList.add('table-sm')
-      tableChildren.classList.add('table-bordered')
-      tableChildren.classList.add('table-hover')
-      tableChildren.classList.add('table-responsive')
-      //rows only
-      let tbody = document.createElement('tbody')
-      tableChildren.appendChild(tbody)
-      let i = 0
-      object.children.forEach(function (child) {
-        let tr = document.createElement('tr')
-        let td = document.createElement('td')
-        td.classList.add('text-primary')
-        //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
-        if (object.childrenEndsInZero) {
-          let newWBS = object.childrenEndsInZero[i].object.WBS
-          td.innerHTML =
-            '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
-        } else {
-          td.innerHTML = child.object.WBS
-        }
         tr.appendChild(td)
         td = document.createElement('td')
-        td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
+        //create a table with children
+        let tableChildren = document.createElement('table')
+        tableChildren.classList.add('table')
+        tableChildren.classList.add('table-sm')
+        tableChildren.classList.add('table-bordered')
+        tableChildren.classList.add('table-hover')
+        tableChildren.classList.add('table-responsive')
+        //rows only
+        let tbody = document.createElement('tbody')
+        tableChildren.appendChild(tbody)
+        let i = 0
+        activitate.children.forEach(function (child) {
+          let tr = document.createElement('tr')
+          let td = document.createElement('td')
+          td.classList.add('text-primary')
+          //if object has another arrray named childrenEndsInZero, add WBS to td in text-danger
+          if (activitate.childrenEndsInZero) {
+            let newWBS = activitate.childrenEndsInZero[i].object.WBS
+            td.innerHTML =
+              '<span class="text-secondary"><del>' + child.object.WBS + '</del></span><br>' + newWBS
+          } else {
+            td.innerHTML = child.object.WBS
+          }
+          tr.appendChild(td)
+          td = document.createElement('td')
+          td.innerHTML = child.object.DENUMIRE_ARTICOL_OFERTA
+          tr.appendChild(td)
+          td = document.createElement('td')
+          td.innerHTML = child.object.TIP_ARTICOL_OFERTA
+          tr.appendChild(td)
+          td = document.createElement('td')
+          td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
+          tr.appendChild(td)
+          td = document.createElement('td')
+          td.innerHTML = child.object.UM_ARTICOL_OFERTA
+          tr.appendChild(td)
+          tbody.appendChild(tr)
+          i++
+        })
+        td.appendChild(tableChildren)
         tr.appendChild(td)
-        td = document.createElement('td')
-        td.innerHTML = child.object.TIP_ARTICOL_OFERTA
-        tr.appendChild(td)
-        td = document.createElement('td')
-        td.innerHTML = child.object.SUBTIP_ARTICOL_OFERTA
-        tr.appendChild(td)
-        td = document.createElement('td')
-        td.innerHTML = child.object.UM_ARTICOL_OFERTA
-        tr.appendChild(td)
-        tbody.appendChild(tr)
-        i++
+        table.appendChild(tr)
       })
-      td.appendChild(tableChildren)
-      tr.appendChild(td)
-      table.appendChild(tr)
     })
     modal_body.appendChild(table)
     modal.show()
@@ -2125,7 +2129,7 @@ function prepareForMultipleActivities(data) {
   data.forEach(function (obj, index) {
     let reteta = []
     reteta.push(obj)
-    result.push({ nr: index, reteta: reteta })
+    result.push({ name: index + 1, reteta: reteta })
   })
 
   return result
@@ -2171,7 +2175,9 @@ Activitate 1183.7.18.23.L
           newActivitateInReteta.children.push(child)
           reteta.push(newActivitateInReteta)
           //delete the newly created activitate from reteta's children
-          activitate.children = activitate.children.filter((child) => child.branch[child.branch.length - 1] != 'L')
+          activitate.children = activitate.children.filter(
+            (child) => child.branch[child.branch.length - 1] != 'L'
+          )
         })
       }
     })
