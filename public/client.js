@@ -1310,7 +1310,8 @@ export function init() {
     th = document.createElement('th')
     th.innerHTML = 'Materiale'
     tr.appendChild(th)
-    recipes_ds.forEach(function (reteta) {
+    for (let i = 0; i < recipes_ds.length; i++) {
+      let reteta = recipes_ds[i]
       reteta.forEach(function (activitate) {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
@@ -1380,7 +1381,7 @@ export function init() {
         tr.appendChild(td)
         table.appendChild(tr)
       })
-    })
+    }
     modal_body.appendChild(table)
     modal.show()
   }
