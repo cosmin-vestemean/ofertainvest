@@ -1335,8 +1335,8 @@ export function init() {
         var tr2 = document.createElement('tr')
         //add d-flex
         tr2.classList.add('d-flex')
-        //flex-shrink-0
-        tr2.classList.add('flex-shrink-0')
+        //flex-basis 100%
+        tr2.classList.add('flex-basis-100')
         //add shadow
         tr2.classList.add('shadow-sm')
         //margin-bottom 1
