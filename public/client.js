@@ -1312,7 +1312,8 @@ export function init() {
     tr.appendChild(th)
     for (let i = 0; i < recipes_ds.length; i++) {
       let reteta = recipes_ds[i]
-      reteta.forEach(function (activitate) {
+      for (let j = 0; j < reteta.children.length; j++) {
+        let activitate = reteta.children[j]
         let tr = document.createElement('tr')
         let td = document.createElement('td')
         td.innerHTML = `
@@ -1380,7 +1381,7 @@ export function init() {
         td.appendChild(tableChildren)
         tr.appendChild(td)
         table.appendChild(tr)
-      })
+      }
     }
     modal_body.appendChild(table)
     modal.show()
