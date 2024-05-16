@@ -1339,6 +1339,8 @@ export function init() {
         table3.classList.add('table')
         table3.classList.add('table-sm')
         table3.classList.add('table-responsive')
+        //bordered
+        table3.classList.add('table-bordered')
         //no thead
         tr2.appendChild(table3)
         var tbody3 = document.createElement('tbody')
