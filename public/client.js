@@ -1192,7 +1192,7 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = async function () {
-    let rez = createDatasetForRecipes()
+    let rez = await createDatasetForRecipes()
     console.log('rez', rez)
     let roots = []
     rez.resultFiltered.forEach((obj) => {
@@ -1819,8 +1819,8 @@ function creazaReteta(object) {
   modalReteta.show()
 }
 
-function createDatasetForRecipes() {
-  return createTreesFromWBS(optimal_ds)
+async function createDatasetForRecipes() {
+  return await createTreesFromWBS(optimal_ds)
 }
 
 const template = document.createElement('template')
@@ -2013,7 +2013,7 @@ function compareWBS(a, b) {
   return 0
 }
 
-function createTreesFromWBS(ds) {
+async function createTreesFromWBS(ds) {
   //sort ds by WBS splited by '.' si interpretat ca numere
   let cloneDs = JSON.parse(JSON.stringify(ds))
   cloneDs.sort(compareWBS)
@@ -2024,15 +2024,15 @@ function createTreesFromWBS(ds) {
     //create a tree for each object
     let tree = []
     let branches = object.WBS.split('.')
-    branches.forEach(function (branch, index) {
+    for (let index = 0; index < branches.length; index++) {
       if (index == 0) {
-        tree.push([branch])
+        tree.push([branches[index]])
       } else {
         let new_branch = tree[index - 1].slice()
-        new_branch.push(branch)
+        new_branch.push(branches[index])
         tree.push(new_branch)
       }
-    })
+    }
     acc.push(tree)
     return acc
   }, [])
@@ -2041,9 +2041,9 @@ function createTreesFromWBS(ds) {
 
   //merge trees: for each array arr1 in options, for each array arr2 in arr1, if arr2 does not exist in result, push it to result
   let result = []
-  options.forEach(function (arr1) {
-    arr1.forEach(function (arr2) {
-      //exceptie daca ultimul element din arr2 este 0 sau litera; in acest caz adauga-l oricum
+  for (let arr1 of options) {
+    for (let arr2 of arr1) {
+      // exceptie daca ultimul element din arr2 este 0 sau litera; in acest caz adauga-l oricum
       if (arr2[arr2.length - 1] == 0 || isNaN(arr2[arr2.length - 1])) {
         result.push(arr2)
       } else {
@@ -2051,17 +2051,17 @@ function createTreesFromWBS(ds) {
           result.push(arr2)
         }
       }
-    })
-  })
+    }
+  }
 
   //console.log('result', result)
 
   var maxLevels = 0
-  result.forEach(function (branch) {
+  for (let branch of result) {
     if (branch.length > maxLevels) {
       maxLevels = branch.length
     }
-  })
+  }
 
   console.log('maxLevels', maxLevels)
 
@@ -2082,7 +2082,7 @@ function createTreesFromWBS(ds) {
   }
 
   //sort trees as numbers, if possible, letters otherwise
-  trees.forEach(function (tree) {
+  for (let tree of trees) {
     tree.sort(function (a, b) {
       if (!isNaN(a) && !isNaN(b)) {
         return a - b
@@ -2090,23 +2090,23 @@ function createTreesFromWBS(ds) {
         return a.localeCompare(b)
       }
     })
-  })
+  }
 
   //console.log('trees', trees)
   //console.log('result', result)
 
   //take result and add it to resultPlus array as branch property and add possible cloneDs object with the same WBS
   let resultPlus = []
-  result.forEach(function (branch) {
+  for (let branch of result) {
     let obj = {}
     obj.branch = branch
     obj.object = cloneDs.find((object) => object.WBS == branch.join('.'))
     resultPlus.push(obj)
-  })
+  }
 
   let resultFiltered = applyFilterTipSubTip(resultPlus)
 
-  resultPlus.forEach(function (obj) {
+  for (let obj of resultPlus) {
     obj.level = obj.branch.length
     if (obj.children && obj.children.length > 0) {
       obj.hasChildren = true
@@ -2118,16 +2118,16 @@ function createTreesFromWBS(ds) {
     } else {
       obj.virtual = true
     }
-  })
+  }
 
   let resultPlusVirtualFalse = resultPlus.filter((obj) => obj.virtual == false)
 
   //remove duplicates from resultPlusVirtualFalse
   //better: if obj1 has children, loop thru children and find obj2 in resultPlusVirtualFalse with the same branch and hasChildren == false
   let resultPlusVirtualFalseNoDuplicates = [...resultPlusVirtualFalse]
-  resultPlusVirtualFalse.forEach(function (obj1) {
+  for (let obj1 of resultPlusVirtualFalse) {
     if (obj1.hasChildren) {
-      obj1.children.forEach(function (child) {
+      for (let child of obj1.children) {
         let obj2 = resultPlusVirtualFalse.find(
           (obj) => obj.branch.join('.') == child.branch.join('.') && obj.hasChildren == false
         )
@@ -2136,24 +2136,24 @@ function createTreesFromWBS(ds) {
             (obj) => obj.branch.join('.') != obj2.branch.join('.')
           )
         }
-      })
+      }
     }
-  })
+  }
 
   var orphans = []
   //compare resultPlusVirtualFalseNoDuplicates with resultFiltered and find differences; push differences to orphans
-  resultPlusVirtualFalseNoDuplicates.forEach(function (obj) {
+  for (let obj of resultPlusVirtualFalseNoDuplicates) {
     let obj2 = resultFiltered.find((o) => o.branch.join('.') == obj.branch.join('.'))
     if (!obj2) {
       orphans.push(obj)
     }
-  })
+  }
 
-  resultFiltered = applyFilterChildrenEndsWith0(resultFiltered)
+  resultFiltered = await applyFilterChildrenEndsWith0(resultFiltered)
 
-  resultFiltered = prepareForMultipleActivities(resultFiltered)
+  resultFiltered = await prepareForMultipleActivities(resultFiltered)
 
-  resultFiltered = applyFilterEndsWithL(resultFiltered)
+  resultFiltered = await applyFilterEndsWithL(resultFiltered)
 
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
@@ -2168,7 +2168,7 @@ function createTreesFromWBS(ds) {
   }
 }
 
-function applyFilterTipSubTip(data) {
+async function applyFilterTipSubTip(data) {
   //look into resultPlus and create a new array with only the objects listening of the following filter's conditions simultaneously
   //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
   const objFilter = {
@@ -2176,7 +2176,7 @@ function applyFilterTipSubTip(data) {
     SUBTIP_ARTICOL_OFERTA: ['principal', 'manopera', 'transport', 'utilaj']
   }
   let arr = []
-  data.forEach(function (obj) {
+  for (let obj of data) {
     if (
       obj.object &&
       objFilter.TIP_ARTICOL_OFERTA.includes(obj.object.TIP_ARTICOL_OFERTA.toLowerCase()) &&
@@ -2184,17 +2184,17 @@ function applyFilterTipSubTip(data) {
     ) {
       //add children
       obj.children = []
-      data.forEach(function (child) {
+      for (let child of data) {
         if (
           child.branch.join('.').startsWith(obj.branch.join('.')) &&
           child.branch.length == obj.branch.length + 1
         ) {
           obj.children.push(child)
         }
-      })
+      }
       arr.push(obj)
     }
-  })
+  }
 
   return arr
 }
@@ -2221,19 +2221,20 @@ function applyFilterByGrupareArticolOferta() {
 */
 }
 
-function prepareForMultipleActivities(data) {
+async function prepareForMultipleActivities(data) {
   //push every obj in data into it's own array as in {retete: [{nr, reteta: [obj]}]}, ude nr is an indexed number
   let result = []
-  data.forEach(function (obj, index) {
+  for (let index = 0; index < data.length; index++) {
+    let obj = data[index]
     let reteta = []
     reteta.push(obj)
     result.push({ name: index + 1, reteta: reteta })
-  })
+  }
 
   return result
 }
 
-function applyFilterEndsWithL(data) {
+async function applyFilterEndsWithL(data) {
   /*
 1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
 1183.7.18.23.5	NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM	2200513	SUBARTICOL	MATERIAL
@@ -2256,37 +2257,37 @@ Activitate 1183.7.18.23.L
 
   let result = []
   result = JSON.parse(JSON.stringify(data))
-  result.forEach(function (obj) {
-    let reteta = obj.reteta //array of objects
-    let nr = obj.nr
-    reteta.forEach(function (activitate) {
-      let children = activitate.children
-      let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
+  for (let obj of result) {
+    let reteta = obj.reteta; //array of objects
+    let nr = obj.nr;
+    for (let activitate of reteta) {
+      let children = activitate.children;
+      let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L');
       if (childrenEndsWithL.length > 0) {
-        childrenEndsWithL.forEach(function (child) {
-          let newActivitateInReteta = JSON.parse(JSON.stringify(child))
-          nr++
-          newActivitateInReteta.nr = nr
-          newActivitateInReteta.level = activitate.level
-          newActivitateInReteta.children = []
-          newActivitateInReteta.hasChildren = true
-          newActivitateInReteta.children.push(child)
-          reteta.push(newActivitateInReteta)
+        for (let child of childrenEndsWithL) {
+          let newActivitateInReteta = JSON.parse(JSON.stringify(child));
+          nr++;
+          newActivitateInReteta.nr = nr;
+          newActivitateInReteta.level = activitate.level;
+          newActivitateInReteta.children = [];
+          newActivitateInReteta.hasChildren = true;
+          newActivitateInReteta.children.push(child);
+          reteta.push(newActivitateInReteta);
           //delete the newly created activitate from reteta's children
           activitate.children = activitate.children.filter(
             (child) => child.branch[child.branch.length - 1] != 'L'
-          )
-        })
+          );
+        }
       }
-    })
-  })
+    }
+  }
 
   return result
 }
 
 function findDuplicatesInOfertaInitiala() {}
 
-function applyFilterChildrenEndsWith0(data) {
+async function applyFilterChildrenEndsWith0(data) {
   //1.look into every obj's data.chidren
   //2. if ALL chidren are identical and end with 0, create another children array with the same children but with the last element indexed properly
   /*
@@ -2300,25 +2301,25 @@ function applyFilterChildrenEndsWith0(data) {
 */
 
   let result = []
-  data.forEach(function (obj) {
+  for (let obj of data) {
     if (obj.children && obj.children.length > 0) {
       let children = obj.children
       let last = children[0].branch[children[0].branch.length - 1]
       let identical = children.every((child) => child.branch[child.branch.length - 1] == last)
       if (identical && last == 0) {
         let newChildren = []
-        children.forEach(function (child, index) {
-          let newChild = JSON.parse(JSON.stringify(child))
+        for (let index = 0; index < children.length; index++) {
+          let newChild = JSON.parse(JSON.stringify(children[index]))
           newChild.branch[newChild.branch.length - 1] = index + 1
           //change WBS
           newChild.object.WBS = newChild.branch.join('.')
           newChildren.push(newChild)
-        })
+        }
         obj.childrenEndsInZero = newChildren
       }
     }
     result.push(obj)
-  })
+  }
 
   return result
 }
