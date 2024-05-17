@@ -1226,16 +1226,17 @@ export function init() {
     const my_table = document.getElementById('my_table_oferta_initiala')
     let listaRetete = []
     if (recipes_ds && recipes_ds.length > 0) {
-    recipes_ds.forEach((o) => {
-      listaRetete.push({ Reteta: o.name })
-    })
-    my_table.ds = listaRetete
-  } else {
-    my_table.ds = [
-      {
-        Reteta: 'Nu exista retete'
-      }
-    ]
+      recipes_ds.forEach((o) => {
+        listaRetete.push({ Reteta: o.name })
+      })
+      my_table.ds = listaRetete
+    } else {
+      my_table.ds = [
+        {
+          Reteta: 'Nu exista retete'
+        }
+      ]
+    }
   }
   let orfani = document.getElementById('orfani')
   orfani.onclick = async function () {
