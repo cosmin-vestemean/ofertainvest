@@ -1213,7 +1213,12 @@ export function init() {
     /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
     pushDataToTable(roots, thead, tbody) */
-    my_table.ds = activitati_oferta
+    //my_table.ds = activitati_oferta
+    let listaRetete = []
+    recipes_ds.forEach((o) => {
+      listaRetete.push({ Reteta: o.name })
+    })
+    my_table.ds = listaRetete
   }
   let orfani = document.getElementById('orfani')
   orfani.onclick = async function () {
@@ -1294,8 +1299,8 @@ export function init() {
     modal.show()
   }
   let lista_retete = document.getElementById('lista_retete')
-  lista_retete.onclick = function() {
-    showRecipesList(recipes_ds);
+  lista_retete.onclick = function () {
+    showRecipesList(recipes_ds)
   }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
@@ -2170,7 +2175,7 @@ buton radio cu switch intre retete si orfani
 
 
 */
-function showRecipesList (data) {
+function showRecipesList(data) {
   //afiseaza recipes_ds in table; root and children
   let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
   let modal_body = document.getElementById('modal-body3')
