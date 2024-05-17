@@ -16,9 +16,13 @@
 2.1. .20 is main pt ca ARTICOL	PRINCIPAL
 2.2. 20.0 este material pt .20, daca; numai articolul principal poate avea asa ceva
 2.3. .20...28 activitati
-2.4. .21 este material pt activitatea .21; .22 este material pt activitatea .22 etc
+2.4. .21 este material pt activitatea .21; .22 este material pt activitatea .22 etc DOAR daca are combo Articol Material
 
 => reteta cu n activitati si m materiale
 
 3. endsWithL
 este un hibrid intre raportare doar pe un palier, fara interes pentru componente si GrupareArticolOferta, unde se raporteaza pe toate activitatile
+
+
+17.05.2024
+La detectie automata se vor reprezenta doar retetele, nu activitatile; activitatile (ca acum) vor avea propria intrare in meniul Reteta

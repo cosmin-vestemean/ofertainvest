@@ -61,6 +61,9 @@ var _nivel_cantitate_articol_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
 var visible_columns = []
 var denumireUnica_ds = []
+var activitati_oferta = []
+var intrari_orfane = []
+var WBSMap = []
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -97,10 +100,6 @@ function loadDataFromFile(evt) {
     //tableId
     document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
     console.log('optimal_ds', optimal_ds)
-
-    //createTreesFromWBS(optimal_ds)
-
-    //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
 
     var delimiter = '~~~~~~~~~~~~~~~'
     var result = creazaIerarhii(optimal_ds, delimiter)
@@ -1203,21 +1202,36 @@ export function init() {
       })
     })
 
+    activitati_oferta = roots
+    intrari_orfane = rez.orphans
+    WBSMap = rez.trees
+    recipes_ds = rez.resultFiltered
+
     const my_table = document.getElementById('my_table_oferta_initiala')
     /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
     const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
     pushDataToTable(roots, thead, tbody) */
-    my_table.ds = roots
+    my_table.ds = activitati_oferta
   }
   let orfani = document.getElementById('orfani')
   orfani.onclick = async function () {
-    let rez = createDatasetForRecipes()
-    console.log('rez', rez)
     let orfani = []
-    rez.orphans.forEach((o) => {
-      let orfan = o.object
-      orfani.push(orfan)
-    })
+    if (intrari_orfane && intrari_orfane.length > 0) {
+      intrari_orfane.forEach((o) => {
+        let orfan = o.object
+        orfani.push(orfan)
+      })
+    } else {
+      orfani = [
+        {
+          WBS: 0,
+          DENUMIRE_ARTICOL_OFERTA: 'Nu exista intrari orfane',
+          TIP_ARTICOL_OFERTA: '',
+          SUBTIP_ARTICOL_OFERTA: '',
+          UM_ARTICOL_OFERTA: ''
+        }
+      ]
+    }
 
     const my_table = document.getElementById('my_table_oferta_initiala')
     /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
@@ -1246,9 +1260,7 @@ export function init() {
   //WBSMap
   let WBSMap = document.getElementById('WBSMap')
   WBSMap.onclick = function () {
-    var result = createDatasetForRecipes()
-    const trees = result.trees
-    const levels = trees.length
+    const levels = WBSMap.length
     console.log('levels', levels)
 
     var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
@@ -1268,7 +1280,7 @@ export function init() {
       table.appendChild(thead)
       var tr = document.createElement('tr')
       thead.appendChild(tr)
-      trees[i].forEach(function (node) {
+      WBSMap[i].forEach(function (node) {
         var th = document.createElement('th')
         th.innerHTML = node
         tr.appendChild(th)
@@ -1808,11 +1820,7 @@ function creazaReteta(object) {
 }
 
 function createDatasetForRecipes() {
-  var result = createTreesFromWBS(optimal_ds)
-  recipes_ds = result.resultFiltered
-  console.log('recipes_ds', recipes_ds)
-
-  return result
+  return createTreesFromWBS(optimal_ds)
 }
 
 const template = document.createElement('template')
