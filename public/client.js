@@ -1194,15 +1194,17 @@ export function init() {
   scan_oferta_initiala.onclick = async function () {
     let rez = createDatasetForRecipes()
     console.log('rez', rez)
-    let roots = []
+    activitati_oferta = []
+    WBSMap = []
+    recipes_ds = []
+    intrari_orfane = []
     rez.resultFiltered.forEach((obj) => {
       let reteta = obj.reteta
       reteta.forEach((activitate) => {
-        roots.push(activitate.object)
+        activitati_oferta.push(activitate.object)
       })
     })
 
-    activitati_oferta = roots
     intrari_orfane = rez.orphans
     WBSMap = rez.trees
     recipes_ds = rez.resultFiltered
