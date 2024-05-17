@@ -1230,12 +1230,6 @@ export function init() {
         listaRetete.push({ Reteta: o.name })
       })
       my_table.ds = listaRetete
-    } else {
-      my_table.ds = [
-        {
-          Reteta: 'Nu exista retete'
-        }
-      ]
     }
   }
   let orfani = document.getElementById('orfani')
@@ -1246,16 +1240,6 @@ export function init() {
         let orfan = o.object
         orfani.push(orfan)
       })
-    } else {
-      orfani = [
-        {
-          WBS: 0,
-          DENUMIRE_ARTICOL_OFERTA: 'Nu exista intrari orfane',
-          TIP_ARTICOL_OFERTA: '',
-          SUBTIP_ARTICOL_OFERTA: '',
-          UM_ARTICOL_OFERTA: ''
-        }
-      ]
     }
 
     const my_table = document.getElementById('my_table_oferta_initiala')
