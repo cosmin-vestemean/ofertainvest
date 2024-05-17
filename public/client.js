@@ -2049,7 +2049,7 @@ function prepareForMultipleActivities(data) {
   data.forEach(function (obj, index) {
     let reteta = []
     reteta.push(obj)
-    result.push({ name: index + 1, reteta: reteta })
+    result.push({ name: 'Reteta ' + index + 1, reteta: reteta })
   })
 
   return result
