@@ -1264,6 +1264,12 @@ export function init() {
     const my_table = document.getElementById('my_table_oferta_initiala')
     my_table.ds = original_ds
   }
+  //lista_activitati
+  let lista_activitati = document.getElementById('lista_activitati')
+  lista_activitati.onclick = function () {
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    my_table.ds = activitati_oferta
+  }
   //WBSMap
   let WBSMap = document.getElementById('WBSMap')
   WBSMap.onclick = function () {
