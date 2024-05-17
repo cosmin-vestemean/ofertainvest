@@ -1294,200 +1294,7 @@ export function init() {
     modal.show()
   }
   let lista_retete = document.getElementById('lista_retete')
-  lista_retete.onclick = function () {
-    //afiseaza recipes_ds in table; root and children
-    let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-    let modal_body = document.getElementById('modal-body3')
-    modal_body.innerHTML = ''
-
-    //create div container
-    var container = document.createElement('div')
-    container.classList.add('container')
-
-    var table = document.createElement('table')
-    table.classList.add('table')
-    table.classList.add('table-sm')
-    table.classList.add('table-responsive')
-    var thead = document.createElement('thead')
-    table.appendChild(thead)
-    var tr = document.createElement('tr')
-    thead.appendChild(tr)
-    var th = document.createElement('th')
-    th.innerHTML = '#'
-    tr.appendChild(th)
-    var th = document.createElement('th')
-    th.innerHTML = 'Reteta'
-    tr.appendChild(th)
-    var tbody = document.createElement('tbody')
-    table.appendChild(tbody)
-    recipes_ds.forEach(function (object) {
-      var tr = document.createElement('tr')
-      tbody.appendChild(tr)
-      var td = document.createElement('td')
-      //make it fancy
-      td.classList.add('bg-light')
-      td.classList.add('text-primary')
-      //bold
-      td.classList.add('fw-bold')
-      //padding 3
-      td.innerHTML = object.name
-      tr.appendChild(td)
-      var td = document.createElement('td')
-      tr.appendChild(td)
-      var table2 = document.createElement('table')
-      table2.classList.add('table')
-      table2.classList.add('table-sm')
-      table2.classList.add('table-responsive')
-      td.appendChild(table2)
-      var tbody2 = document.createElement('tbody')
-      table2.appendChild(tbody2)
-      object.reteta.forEach(function (object2) {
-        var tr2 = document.createElement('tr')
-        //add d-flex
-        tr2.classList.add('d-flex')
-        //flex-basis 100%
-        //add shadow
-        tr2.classList.add('shadow-sm')
-        //margin-bottom 1
-        tr2.classList.add('mb-1')
-        //border 0
-        tr2.classList.add('border-0')
-        tbody2.appendChild(tr2)
-        //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
-        var td2 = document.createElement('td')
-        //add class col-2
-        td2.classList.add('col')
-        tr2.appendChild(td2)
-        var table3 = document.createElement('table')
-        table3.classList.add('table')
-        table3.classList.add('table-sm')
-        table3.classList.add('table-responsive')
-        //no thead
-        td2.appendChild(table3)
-        var tbody3 = document.createElement('tbody')
-        table3.appendChild(tbody3)
-        var tr3 = document.createElement('tr')
-        tbody3.appendChild(tr3)
-        var td3 = document.createElement('td')
-        //border 0
-        td3.classList.add('border-0')
-        td3.innerHTML = '<span class="text-primary">' + object2.object.WBS + '</span>'
-        tr3.appendChild(td3)
-        var tr3 = document.createElement('tr')
-        tbody3.appendChild(tr3)
-        var td3 = document.createElement('td')
-        td3.innerHTML = object2.object.DENUMIRE_ARTICOL_OFERTA
-        td3.classList.add('border-0')
-        tr3.appendChild(td3)
-        var tr3 = document.createElement('tr')
-        tbody3.appendChild(tr3)
-        var td3 = document.createElement('td')
-        td3.classList.add('border-0')
-        td3.innerHTML = object2.object.UM_ARTICOL_OFERTA
-        tr3.appendChild(td3)
-        var tr3 = document.createElement('tr')
-        tbody3.appendChild(tr3)
-        var td3 = document.createElement('td')
-        td3.classList.add('border-0')
-        td3.innerHTML = object2.object.TIP_ARTICOL_OFERTA
-        tr3.appendChild(td3)
-        var tr3 = document.createElement('tr')
-        tbody3.appendChild(tr3)
-        var td3 = document.createElement('td')
-        td3.classList.add('border-0')
-        td3.innerHTML = object2.object.SUBTIP_ARTICOL_OFERTA
-        tr3.appendChild(td3)
-        var td2 = document.createElement('td')
-        td2.classList.add('col')
-        tr2.appendChild(td2)
-        var table3 = document.createElement('table')
-        table3.classList.add('table')
-        table3.classList.add('table-sm')
-        table3.classList.add('table-responsive')
-        //margin-bottom 0
-        table3.classList.add('mb-0')
-        td2.appendChild(table3)
-        var tbody3 = document.createElement('tbody')
-        table3.appendChild(tbody3)
-        if (object2.children && object2.children.length) {
-          for (var i = 0; i < object2.children.length; i++) {
-            var object3 = object2.children[i]
-            var tr3 = document.createElement('tr')
-            //if i even => add style="background-color: whie;" else style="background-color: BOOTSTRAP(bg-light);"
-            if (i % 2 == 0) {
-              tr3.style.backgroundColor = 'white'
-            } else {
-              tr3.style.backgroundColor = 'rgb(248, 249, 250)'
-            }
-            tbody3.appendChild(tr3)
-            var td3 = document.createElement('td')
-            td3.classList.add('border-0')
-            var table4 = document.createElement('table')
-            table4.classList.add('table')
-            table4.classList.add('table-sm')
-            table4.classList.add('table-responsive')
-            //add margin-bottom 0
-            table4.classList.add('mb-0')
-            td3.appendChild(table4)
-            var tbody4 = document.createElement('tbody')
-            table4.appendChild(tbody4)
-            var tr4 = document.createElement('tr')
-            tbody4.appendChild(tr4)
-            var td4 = document.createElement('td')
-            if (object2.childrenEndsInZero) {
-              td4.innerHTML =
-                '<span class="text-primary">' +
-                object2.childrenEndsInZero[i].object.WBS +
-                '</span><br><del>' +
-                object3.object.WBS +
-                '</del>'
-            } else {
-              td4.innerHTML = '<span class="text-primary">' + object3.object.WBS + '</span>'
-            }
-            td4.classList.add('border-0')
-            tr4.appendChild(td4)
-            //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
-            var tr4 = document.createElement('tr')
-            tbody4.appendChild(tr4)
-            var td4 = document.createElement('td')
-            td4.classList.add('border-0')
-            td4.innerHTML = object3.object.DENUMIRE_ARTICOL_OFERTA
-            tr4.appendChild(td4)
-            var tr4 = document.createElement('tr')
-            tbody4.appendChild(tr4)
-            var td4 = document.createElement('td')
-            td4.classList.add('border-0')
-            td4.innerHTML = object3.object.UM_ARTICOL_OFERTA
-            tr4.appendChild(td4)
-            var tr4 = document.createElement('tr')
-            tbody4.appendChild(tr4)
-            var td4 = document.createElement('td')
-            td4.classList.add('border-0')
-            td4.innerHTML = object3.object.TIP_ARTICOL_OFERTA
-            tr4.appendChild(td4)
-            var tr4 = document.createElement('tr')
-            tbody4.appendChild(tr4)
-            var td4 = document.createElement('td')
-            td4.classList.add('border-0')
-            td4.innerHTML = object3.object.SUBTIP_ARTICOL_OFERTA
-            tr4.appendChild(td4)
-            tr3.appendChild(td3)
-          }
-        } else {
-          var tr3 = document.createElement('tr')
-          tbody3.appendChild(tr3)
-          var td3 = document.createElement('td')
-          td3.classList.add('border-0')
-          td3.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
-          tr3.appendChild(td3)
-        }
-      })
-    })
-    container.appendChild(table)
-    modal_body.appendChild(container)
-
-    modal.show()
-  }
+  lista_retete.onclick = showRecipesList(recipes_ds)
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
@@ -2361,3 +2168,197 @@ buton radio cu switch intre retete si orfani
 
 
 */
+function showRecipesList (data) {
+  //afiseaza recipes_ds in table; root and children
+  let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+  let modal_body = document.getElementById('modal-body3')
+  modal_body.innerHTML = ''
+
+  //create div container
+  var container = document.createElement('div')
+  container.classList.add('container')
+
+  var table = document.createElement('table')
+  table.classList.add('table')
+  table.classList.add('table-sm')
+  table.classList.add('table-responsive')
+  var thead = document.createElement('thead')
+  table.appendChild(thead)
+  var tr = document.createElement('tr')
+  thead.appendChild(tr)
+  var th = document.createElement('th')
+  th.innerHTML = '#'
+  tr.appendChild(th)
+  var th = document.createElement('th')
+  th.innerHTML = 'Reteta'
+  tr.appendChild(th)
+  var tbody = document.createElement('tbody')
+  table.appendChild(tbody)
+  data.forEach(function (object) {
+    var tr = document.createElement('tr')
+    tbody.appendChild(tr)
+    var td = document.createElement('td')
+    //make it fancy
+    td.classList.add('bg-light')
+    td.classList.add('text-primary')
+    //bold
+    td.classList.add('fw-bold')
+    //padding 3
+    td.innerHTML = object.name
+    tr.appendChild(td)
+    var td = document.createElement('td')
+    tr.appendChild(td)
+    var table2 = document.createElement('table')
+    table2.classList.add('table')
+    table2.classList.add('table-sm')
+    table2.classList.add('table-responsive')
+    td.appendChild(table2)
+    var tbody2 = document.createElement('tbody')
+    table2.appendChild(tbody2)
+    object.reteta.forEach(function (object2) {
+      var tr2 = document.createElement('tr')
+      //add d-flex
+      tr2.classList.add('d-flex')
+      //flex-basis 100%
+      //add shadow
+      tr2.classList.add('shadow-sm')
+      //margin-bottom 1
+      tr2.classList.add('mb-1')
+      //border 0
+      tr2.classList.add('border-0')
+      tbody2.appendChild(tr2)
+      //add wbs, denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta in a table
+      var td2 = document.createElement('td')
+      //add class col-2
+      td2.classList.add('col')
+      tr2.appendChild(td2)
+      var table3 = document.createElement('table')
+      table3.classList.add('table')
+      table3.classList.add('table-sm')
+      table3.classList.add('table-responsive')
+      //no thead
+      td2.appendChild(table3)
+      var tbody3 = document.createElement('tbody')
+      table3.appendChild(tbody3)
+      var tr3 = document.createElement('tr')
+      tbody3.appendChild(tr3)
+      var td3 = document.createElement('td')
+      //border 0
+      td3.classList.add('border-0')
+      td3.innerHTML = '<span class="text-primary">' + object2.object.WBS + '</span>'
+      tr3.appendChild(td3)
+      var tr3 = document.createElement('tr')
+      tbody3.appendChild(tr3)
+      var td3 = document.createElement('td')
+      td3.innerHTML = object2.object.DENUMIRE_ARTICOL_OFERTA
+      td3.classList.add('border-0')
+      tr3.appendChild(td3)
+      var tr3 = document.createElement('tr')
+      tbody3.appendChild(tr3)
+      var td3 = document.createElement('td')
+      td3.classList.add('border-0')
+      td3.innerHTML = object2.object.UM_ARTICOL_OFERTA
+      tr3.appendChild(td3)
+      var tr3 = document.createElement('tr')
+      tbody3.appendChild(tr3)
+      var td3 = document.createElement('td')
+      td3.classList.add('border-0')
+      td3.innerHTML = object2.object.TIP_ARTICOL_OFERTA
+      tr3.appendChild(td3)
+      var tr3 = document.createElement('tr')
+      tbody3.appendChild(tr3)
+      var td3 = document.createElement('td')
+      td3.classList.add('border-0')
+      td3.innerHTML = object2.object.SUBTIP_ARTICOL_OFERTA
+      tr3.appendChild(td3)
+      var td2 = document.createElement('td')
+      td2.classList.add('col')
+      tr2.appendChild(td2)
+      var table3 = document.createElement('table')
+      table3.classList.add('table')
+      table3.classList.add('table-sm')
+      table3.classList.add('table-responsive')
+      //margin-bottom 0
+      table3.classList.add('mb-0')
+      td2.appendChild(table3)
+      var tbody3 = document.createElement('tbody')
+      table3.appendChild(tbody3)
+      if (object2.children && object2.children.length) {
+        for (var i = 0; i < object2.children.length; i++) {
+          var object3 = object2.children[i]
+          var tr3 = document.createElement('tr')
+          //if i even => add style="background-color: whie;" else style="background-color: BOOTSTRAP(bg-light);"
+          if (i % 2 == 0) {
+            tr3.style.backgroundColor = 'white'
+          } else {
+            tr3.style.backgroundColor = 'rgb(248, 249, 250)'
+          }
+          tbody3.appendChild(tr3)
+          var td3 = document.createElement('td')
+          td3.classList.add('border-0')
+          var table4 = document.createElement('table')
+          table4.classList.add('table')
+          table4.classList.add('table-sm')
+          table4.classList.add('table-responsive')
+          //add margin-bottom 0
+          table4.classList.add('mb-0')
+          td3.appendChild(table4)
+          var tbody4 = document.createElement('tbody')
+          table4.appendChild(tbody4)
+          var tr4 = document.createElement('tr')
+          tbody4.appendChild(tr4)
+          var td4 = document.createElement('td')
+          if (object2.childrenEndsInZero) {
+            td4.innerHTML =
+              '<span class="text-primary">' +
+              object2.childrenEndsInZero[i].object.WBS +
+              '</span><br><del>' +
+              object3.object.WBS +
+              '</del>'
+          } else {
+            td4.innerHTML = '<span class="text-primary">' + object3.object.WBS + '</span>'
+          }
+          td4.classList.add('border-0')
+          tr4.appendChild(td4)
+          //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
+          var tr4 = document.createElement('tr')
+          tbody4.appendChild(tr4)
+          var td4 = document.createElement('td')
+          td4.classList.add('border-0')
+          td4.innerHTML = object3.object.DENUMIRE_ARTICOL_OFERTA
+          tr4.appendChild(td4)
+          var tr4 = document.createElement('tr')
+          tbody4.appendChild(tr4)
+          var td4 = document.createElement('td')
+          td4.classList.add('border-0')
+          td4.innerHTML = object3.object.UM_ARTICOL_OFERTA
+          tr4.appendChild(td4)
+          var tr4 = document.createElement('tr')
+          tbody4.appendChild(tr4)
+          var td4 = document.createElement('td')
+          td4.classList.add('border-0')
+          td4.innerHTML = object3.object.TIP_ARTICOL_OFERTA
+          tr4.appendChild(td4)
+          var tr4 = document.createElement('tr')
+          tbody4.appendChild(tr4)
+          var td4 = document.createElement('td')
+          td4.classList.add('border-0')
+          td4.innerHTML = object3.object.SUBTIP_ARTICOL_OFERTA
+          tr4.appendChild(td4)
+          tr3.appendChild(td3)
+        }
+      } else {
+        var tr3 = document.createElement('tr')
+        tbody3.appendChild(tr3)
+        var td3 = document.createElement('td')
+        td3.classList.add('border-0')
+        td3.innerHTML = '<i class="bi bi-emoji-sunglasses"></i>'
+        tr3.appendChild(td3)
+      }
+    })
+  })
+  container.appendChild(table)
+  modal_body.appendChild(container)
+
+  modal.show()
+}
