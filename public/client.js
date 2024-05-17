@@ -2104,7 +2104,7 @@ async function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   }
 
-  let resultFiltered = applyFilterTipSubTip(resultPlus)
+  let resultFiltered = await applyFilterTipSubTip(resultPlus)
 
   for (let obj of resultPlus) {
     obj.level = obj.branch.length
@@ -2258,25 +2258,25 @@ Activitate 1183.7.18.23.L
   let result = []
   result = JSON.parse(JSON.stringify(data))
   for (let obj of result) {
-    let reteta = obj.reteta; //array of objects
-    let nr = obj.nr;
+    let reteta = obj.reteta //array of objects
+    let nr = obj.nr
     for (let activitate of reteta) {
-      let children = activitate.children;
-      let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L');
+      let children = activitate.children
+      let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
       if (childrenEndsWithL.length > 0) {
         for (let child of childrenEndsWithL) {
-          let newActivitateInReteta = JSON.parse(JSON.stringify(child));
-          nr++;
-          newActivitateInReteta.nr = nr;
-          newActivitateInReteta.level = activitate.level;
-          newActivitateInReteta.children = [];
-          newActivitateInReteta.hasChildren = true;
-          newActivitateInReteta.children.push(child);
-          reteta.push(newActivitateInReteta);
+          let newActivitateInReteta = JSON.parse(JSON.stringify(child))
+          nr++
+          newActivitateInReteta.nr = nr
+          newActivitateInReteta.level = activitate.level
+          newActivitateInReteta.children = []
+          newActivitateInReteta.hasChildren = true
+          newActivitateInReteta.children.push(child)
+          reteta.push(newActivitateInReteta)
           //delete the newly created activitate from reteta's children
           activitate.children = activitate.children.filter(
             (child) => child.branch[child.branch.length - 1] != 'L'
-          );
+          )
         }
       }
     }
