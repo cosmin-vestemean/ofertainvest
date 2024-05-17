@@ -1294,7 +1294,9 @@ export function init() {
     modal.show()
   }
   let lista_retete = document.getElementById('lista_retete')
-  lista_retete.onclick = showRecipesList(recipes_ds)
+  lista_retete.onclick = function() {
+    showRecipesList(recipes_ds);
+  }
   document.getElementById('trndate').valueAsDate = new Date()
   let select_trdr = document.getElementById('trdr')
   //populate select_trdr by calling S1 service getDataset
