@@ -1220,6 +1220,16 @@ export function init() {
     })
     my_table.ds = listaRetete
   }
+  //lista_retete_scurta
+  let lista_retete_scurta = document.getElementById('lista_retete_scurta')
+  lista_retete_scurta.onclick = function () {
+    const my_table = document.getElementById('my_table_oferta_initiala')
+    let listaRetete = []
+    recipes_ds.forEach((o) => {
+      listaRetete.push({ Reteta: o.name })
+    })
+    my_table.ds = listaRetete
+  }
   let orfani = document.getElementById('orfani')
   orfani.onclick = async function () {
     let orfani = []
