@@ -1333,7 +1333,7 @@ export function init() {
         tr2.classList.add('d-flex')
         //flex-basis 100%
         //add shadow
-        tr2.classList.add('shadow')
+        tr2.classList.add('shadow-sm')
         //margin-bottom 1
         tr2.classList.add('mb-1')
         //border 0
