@@ -81,7 +81,14 @@ function loadDataFromFile(evt) {
       type: 'binary'
     })
     workbook.SheetNames.forEach(function (sheetName) {
-      var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName])
+      var XL_row_object = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets[sheetName],
+        {
+          raw: true
+        },
+        { defval: '' },
+        {header: 1}
+      )
       excel_object = JSON.stringify(XL_row_object)
     })
     //console.log("excel_object", excel_object);
