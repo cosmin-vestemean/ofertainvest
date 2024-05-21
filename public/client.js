@@ -2047,7 +2047,7 @@ function createTreesFromWBS(ds) {
   resultFiltered = applyFilterEndsWithL(resultFiltered)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with resultFiltered
-  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds) //orphans?
+  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds, resultFiltered)
   console.log('resultFilteredPlus', resultFilteredPlus)
   let resultFilteredPlus1 = resultFilteredPlus.concat(resultFiltered)
   console.log('resultFilteredPlus1', resultFilteredPlus1)
@@ -2096,7 +2096,7 @@ function applyFilterTipSubTip(data) {
   return arr
 }
 
-function applyFilterByGrupareArticolOferta(data) {
+function applyFilterByGrupareArticolOferta(data, retete) {
   //pseudo code
   //daca coloana GRUPARE_ARTICOL_OFERTA are i pe mai multe randuri am urmatoarea situatie:
   /*
@@ -2124,6 +2124,7 @@ function applyFilterByGrupareArticolOferta(data) {
 
   let result = []
   let grupari = []
+  let rescuedOrphans = []
 
   data.forEach(function (obj) {
     if (obj.GRUPARE_ARTICOL_OFERTA) {
@@ -2132,18 +2133,22 @@ function applyFilterByGrupareArticolOferta(data) {
         var newObj = {}
         grupari.push(grupare)
         let related = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
+        rescuedOrphans.push(...related)
+        console.log('related', related)
         if (related.length > 1) {
-          //find smallest WBS
           let principal = related.find(
             (child) =>
               child.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
               child.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal'
           )
           if (principal) {
-            newObj.object = principal
-            var principalWBS = principal.WBS
-            //include the rest of the related in principal's children array, except principal (WBS)
-            newObj.children = related.filter((child) => child.WBS != principalWBS)
+            //look for principal in retete
+            let reteta = retete.find((obj) => obj.reteta.object.WBS == principal.WBS)
+            if (reteta) {
+              console.log('reteta exista', reteta)
+            } else {
+              console.log('reteta nu exista', principal)
+            }
           } else {
             console.log('Principal not found for grupare', grupare)
           }
@@ -2155,7 +2160,7 @@ function applyFilterByGrupareArticolOferta(data) {
     }
   })
 
-  return result
+  return { result, rescuedOrphans }
 }
 
 function prepareForMultipleActivities(data) {
