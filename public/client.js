@@ -1448,7 +1448,7 @@ export function init() {
           let obj2 = {};
           if (activitate.childrenEndsInZero && activitate.childrenEndsInZero.length > 0) {
             //primul termen strikethrough si al doilea termen normal
-            obj2.WBS = '<span style="text-decoration: line-through;">' + child.object.WBS + '</span><br>' + activitate.childrenEndsInZero[i].object.WBS;
+            obj2.WBS = activitate.childrenEndsInZero[i].object.WBS;
           } else {
             obj2.WBS = child.object.WBS;
           }
