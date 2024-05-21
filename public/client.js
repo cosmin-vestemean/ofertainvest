@@ -2134,13 +2134,18 @@ function applyFilterByGrupareArticolOferta(data) {
         let related = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
         if (related.length > 1) {
           //find smallest WBS
-          let principal = children.find(
-            (child) => child.TIP_ARTICOL_OFERTA == 'ARTICOL' && child.SUBTIP_ARTICOL_OFERTA == 'PRINCIPAL'
+          let principal = related.find(
+            (child) =>
+              child.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
+              child.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal'
           )
           if (principal) {
             newObj.object = principal
+            var principalWBS = principal.WBS
             //include the rest of the related in principal's children array, except principal (WBS)
             newObj.children = related.filter((child) => child.WBS != principalWBS)
+          } else {
+            console.log('Principal not found for grupare', grupare)
           }
           newObj.hasChildren = true
           newObj.GRUPARE_ARTICOL_OFERTA = grupare
