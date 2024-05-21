@@ -1424,6 +1424,7 @@ export function init() {
     //get index of row and look in recipes_ds[index] for reteta to display in my_table2
     if (e.target.tagName === 'TD') {
       var index = e.target.parentElement.rowIndex - 1
+      console.log('index', index)
       if (index >= 0) {
         var reteta = recipes_ds[index].reteta
         my_table3.style.display = 'block'
