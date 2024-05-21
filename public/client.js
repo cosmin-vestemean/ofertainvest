@@ -2129,21 +2129,22 @@ function applyFilterByGrupareArticolOferta(data) {
     if (obj.GRUPARE_ARTICOL_OFERTA) {
       let grupare = obj.GRUPARE_ARTICOL_OFERTA
       if (!grupari.includes(grupare)) {
+        var newObj = {}
         grupari.push(grupare)
-        let children = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
-        if (children.length > 1) {
+        let related = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
+        if (related.length > 1) {
           //find smallest WBS
           let principal = children.find(
             (child) => child.TIP_ARTICOL_OFERTA == 'ARTICOL' && child.SUBTIP_ARTICOL_OFERTA == 'PRINCIPAL'
           )
           if (principal) {
-            //include the rest of the children in principal's children array, except principal (WBS)
-            let principalWBS = principal.WBS
-            principal.children = children.filter((child) => child.WBS != principalWBS)
+            newObj.object = principal
+            //include the rest of the related in principal's children array, except principal (WBS)
+            newObj.children = related.filter((child) => child.WBS != principalWBS)
           }
-          principal.hasChildren = true
-          principal.GRUPARE_ARTICOL_OFERTA = grupare
-          result.push(principal)
+          newObj.hasChildren = true
+          newObj.GRUPARE_ARTICOL_OFERTA = grupare
+          result.push(newObj)
         }
       }
     }
