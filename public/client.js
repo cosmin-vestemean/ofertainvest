@@ -84,10 +84,10 @@ function loadDataFromFile(evt) {
       var XL_row_object = XLSX.utils.sheet_to_row_object_array(
         workbook.Sheets[sheetName],
         {
-          raw: true
+          raw: false
         },
         { defval: '' },
-        {header: 1}
+        { header: 1 }
       )
       excel_object = JSON.stringify(XL_row_object)
     })
