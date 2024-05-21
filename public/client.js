@@ -1437,6 +1437,7 @@ export function init() {
         obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
         obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
         obj.SUBTIP_ARTICOL_OFERTA = activitate.object.SUBTIP_ARTICOL_OFERTA
+        listaActivitati.push(obj)
         var children = activitate.children
         //add children to obj
         children.forEach(function (child) {
@@ -1449,8 +1450,8 @@ export function init() {
           obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA
           listaActivitati.push(obj2)
         })
-        listaActivitati.push(obj)
       })
+      console.log('listaActivitati', listaActivitati)
       my_table3.ds = listaActivitati
     }
   })
