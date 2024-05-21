@@ -1168,7 +1168,7 @@ export function init() {
   }
   let btn_column_filter = document.getElementById('btn_column_filter')
   btn_column_filter.onclick = function () {
-    let menu = table1.shadowRoot.getElementById('table_menu_content')
+    let menu = my_table1.shadowRoot.getElementById('table_menu_content')
     if (menu.style.display === 'none') {
       menu.style.display = 'block'
     } else {
