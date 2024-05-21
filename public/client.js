@@ -1435,7 +1435,7 @@ export function init() {
         //obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
 
         //same but with background color info
-        obj.DENUMIRE_ARTICOL_OFERTA = '<span class="text-info">' + activitate.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
+        obj.DENUMIRE_ARTICOL_OFERTA = '<span class="text-primary">' + activitate.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
         obj.CANTITATE_ARTICOL_OFERTA = activitate.object.CANTITATE_ARTICOL_OFERTA
         obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
         obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
