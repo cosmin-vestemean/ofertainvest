@@ -1440,18 +1440,25 @@ export function init() {
         listaActivitati.push(obj)
         var children = activitate.children
         //add children to obj
-        children.forEach(function (child) {
-          var obj2 = {}
-          obj2.WBS = child.object.WBS
+        for (let i = 0; i < children.length; i++) {
+          let child = children[i];
+          let obj2 = {};
+          if (object.childrenEndsInZero && object.childrenEndsInZero.length > 0) {
+            //primul termen strikethrough si al doilea termen normal
+            obj2.WBS = '<span style="text-decoration: line-through;">' + child.object.WBS + '</span><br>' + object.childrenEndsInZero[i];
+          } else {
+            obj2.WBS = child.object.WBS;
+          }
           //obj2.DENUMIRE_ARTICOL_OFERTA = child.object.DENUMIRE_ARTICOL_OFERTA
           //same but in primary color
-          obj2.DENUMIRE_ARTICOL_OFERTA = '<span class="text-primary">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
-          obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA
-          obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA
-          obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA
-          obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA
-          listaActivitati.push(obj2)
-        })
+          obj2.DENUMIRE_ARTICOL_OFERTA =
+            '<span class="text-primary">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>';
+          obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA;
+          obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA;
+          obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA;
+          obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA;
+          listaActivitati.push(obj2);
+        }
       })
       console.log('listaActivitati', listaActivitati)
       my_table3.ds = listaActivitati
