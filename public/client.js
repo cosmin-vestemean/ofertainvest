@@ -82,7 +82,7 @@ function loadDataFromFile(evt) {
     })
     var opts = {
       header: 0,
-      raw: false,
+      raw: true,
       defval: ''
     }
     workbook.SheetNames.forEach(function (sheetName) {
