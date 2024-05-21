@@ -1192,7 +1192,7 @@ export function init() {
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
-  scan_oferta_initiala.onclick = async function () {
+  scan_oferta_initiala.onclick = function () {
     let rez = createDatasetForRecipes()
     console.log('rez', rez)
     activitati_oferta = []
