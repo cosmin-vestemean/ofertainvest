@@ -1437,6 +1437,18 @@ export function init() {
         obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
         obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
         obj.SUBTIP_ARTICOL_OFERTA = activitate.object.SUBTIP_ARTICOL_OFERTA
+        var children = activitate.children
+        //add children to obj
+        children.forEach(function (child) {
+          var obj2 = {}
+          obj2.WBS = child.object.WBS
+          obj2.DENUMIRE_ARTICOL_OFERTA = child.object.DENUMIRE_ARTICOL_OFERTA
+          obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA
+          obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA
+          obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA
+          obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA
+          listaActivitati.push(obj2)
+        })
         listaActivitati.push(obj)
       })
       my_table3.ds = listaActivitati
