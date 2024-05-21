@@ -2449,4 +2449,5 @@ function showRecipesList(data) {
 
 function showHideHeader() {
   theadIsSet = !theadIsSet
+  console.log('theadIsSet', theadIsSet)
 }
