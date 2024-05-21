@@ -2047,7 +2047,7 @@ function createTreesFromWBS(ds) {
   resultFiltered = applyFilterEndsWithL(resultFiltered)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with resultFiltered
-  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds)
+  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds)  //orphans?
   console.log('resultFilteredPlus', resultFilteredPlus)
   let resultFilteredPlus1 = resultFilteredPlus.concat(resultFiltered)
   console.log('resultFilteredPlus1', resultFilteredPlus1)
@@ -2117,32 +2117,23 @@ function applyFilterByGrupareArticolOferta(data) {
 .21, .22, .23, .24, .25, .26, .27, .28 sunt activitati cu materialele .21.1, .22.1, .23.1, .24.1, .25.1, .26.1, .27.1, .28.1 cu denumirea activitatii
 */
   
-    //1. detect every row with GRUPARE_ARTICOL_OFERTA i
+    //1. detect every row with GRUPARE_ARTICOL_OFERTA with the same value; can be 5 rows with 1, 3 rows with 2, 2 rows with 3, etc.
     //2. detect if it's a principal or a material
     //3. if it's a principal, add it to the result array
     //4. if it's a material, add it to the children array of the principal
   
     let result = []
-    let children = []
-    for (let i = 0; i < data.length; i++) {
-      let obj = data[i];
-      if (obj.object.GRUPARE_ARTICOL_OFERTA == 'i') {
-      if (obj.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') {
-        result.push(obj);
-      } else {
-        children.push(obj);
-      }
-      }
-    }
-  
-    //add children to result
-    result.forEach(function (obj) {
-      obj.children = []
-      children.forEach(function (child) {
-        if (child.branch.join('.').startsWith(obj.branch.join('.')) && child.branch.length == obj.branch.length + 1) {
-          obj.children.push(child)
+    
+    data.forEach(function (obj) {
+      if (obj && obj.GRUPARE_ARTICOL_OFERTA) {
+        let grupare = obj.GRUPARE_ARTICOL_OFERTA
+        let children = data.filter((child) => child && child.GRUPARE_ARTICOL_OFERTA == grupare)
+        if (children.length > 1) {
+          //add children to obj
+          obj.children = children
+          result.push(obj)
         }
-      })
+      }
     })
   
     return result
