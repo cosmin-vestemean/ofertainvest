@@ -1161,6 +1161,7 @@ document.addEventListener('input', function (e) {
 export function init() {
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
+  const my_table3 = document.getElementById('my_table_detalii_reteta')
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -1214,6 +1215,7 @@ export function init() {
     my_table1.style.display = 'none'
     //show table2
     my_table2.style.display = 'block'
+    my_table3.style.display = 'block'
     let listaRetete = []
     recipes_ds.forEach((o) => {
       listaRetete.push({ Reteta: o.name })
@@ -1229,6 +1231,7 @@ export function init() {
         listaRetete.push({ Reteta: o.name })
       })
       my_table2.style.display = 'none'
+      my_table3.style.display = 'none'
       my_table1.style.display = 'block'
       my_table1.ds = listaRetete
     }
@@ -1244,18 +1247,21 @@ export function init() {
     }
 
     my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = orfani
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
     my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = optimal_ds
   }
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
   vizulizare_oferta_initiala.onclick = function () {
     my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = original_ds
   }
@@ -1263,6 +1269,7 @@ export function init() {
   let lista_activitati = document.getElementById('lista_activitati')
   lista_activitati.onclick = function () {
     my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = activitati_oferta
   }
