@@ -1419,13 +1419,12 @@ export function init() {
       console.log('error', error)
     })
 
-    //add on hover to my_table2 rows
-    my_table2.addEventListener('mouseover', function (e) {
-      if (e.target.tagName === 'TD') {
-        e.target.parentElement.style.backgroundColor = 'lightgray'
-      }
+  //add on hover to my_table2 rows
+  my_table2.addEventListener('mouseover', function (e) {
+    if (e.target.tagName === 'TD') {
+      e.target.parentElement.style.backgroundColor = 'lightgray'
       //get index of row and look in recipes_ds[index] for reteta to display in my_table2
-      var index = e.target.parentElement.rowIndex - 1
+      var index = Array.from(my_table2.rows).indexOf(e.target.parentElement)
       console.log('index', index)
       if (index > -1) {
         var reteta = recipes_ds[index].reteta
@@ -1435,7 +1434,8 @@ export function init() {
         })
         my_table3.ds = listaActivitati
       }
-    })
+    }
+  })
 }
 
 function creazaReteta(object) {
