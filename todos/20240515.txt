@@ -26,3 +26,9 @@ este un hibrid intre raportare doar pe un palier, fara interes pentru componente
 
 17.05.2024
 La detectie automata se vor reprezenta doar retetele, nu activitatile; activitatile (ca acum) vor avea propria intrare in meniul Reteta
+
+21.05.2024
+Editare retete, modificare existente, adaugare activitati+materiale, stergere activitati+materiale
+Cu mentiunea: activitati noi vor avea tip artcol subtip CUSTOM
+La fel la materiale (SUBARTICOL, CUSTOM)
+WBS Intern
