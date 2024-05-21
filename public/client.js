@@ -1424,6 +1424,16 @@ export function init() {
       if (e.target.tagName === 'TD') {
         e.target.parentElement.style.backgroundColor = 'lightgray'
       }
+      //get index of row and look in recipes_ds[index] for reteta to display in my_table2
+      var index = Array.from(e.target.parentElement.parentElement.rows).indexOf(e.target.parentElement)
+      if (index > -1) {
+        var reteta = recipes_ds[index].reteta
+        var listaActivitati = []
+        reteta.forEach(function (activitate) {
+          listaActivitati.push(activitate.object)
+        })
+        my_table3.ds = listaActivitati
+      }
     })
 }
 
