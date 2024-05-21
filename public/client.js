@@ -81,7 +81,7 @@ function loadDataFromFile(evt) {
       type: 'binary'
     })
     var opts = {
-      header: 1,
+      header: 0,
       raw: false,
       defval: ''
     }
