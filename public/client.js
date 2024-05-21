@@ -1424,7 +1424,8 @@ export function init() {
   //do not forget shadowRoot
   my_table2.shadowRoot.addEventListener('mouseover', function (e) {
     if (e.target.tagName === 'TD') {
-      var index = e.target.parentElement.rowIndex - 1
+      //a se tine cont de theadIsSet
+      var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0)
       console.log('index', index)
       console.log('recipes_ds[index]', recipes_ds[index])
       var reteta = recipes_ds[index].reteta
@@ -1465,8 +1466,6 @@ export function init() {
       })
       console.log('listaActivitati', listaActivitati)
       my_table3.ds = listaActivitati
-      //hide thead
-      my_table3.shadowRoot.getElementById('thead_my-table').style.display = 'none'
     }
   })
 
