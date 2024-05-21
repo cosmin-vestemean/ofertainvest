@@ -2427,3 +2427,23 @@ function showRecipesList(data) {
 
   modal.show()
 }
+
+function showHideHeader() {
+  //get all my-table elements
+  var my_tables = document.getElementsByTagName('my-table')
+  //get all headers from my-table elements
+  var headers = []
+  for (var i = 0; i < my_tables.length; i++) {
+    var table = my_tables[i]
+    var thead = table.shadowRoot.getElementById('thead_' + table.tableId)
+    headers.push(thead)
+  }
+  //toggle display of headers
+  headers.forEach(function (header) {
+    if (header.style.display == 'none') {
+      header.style.display = 'table-header-group'
+    } else {
+      header.style.display = 'none'
+    }
+  })
+}
