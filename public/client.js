@@ -1467,6 +1467,12 @@ export function init() {
       my_table3.shadowRoot.getElementById('thead_my-table').style.display = 'none'
     }
   })
+
+  //btn_showHideHeader
+  let btn_showHideHeader = document.getElementById('btn_showHideHeader')
+  btn_showHideHeader.onclick = function () {
+    showHideHeader()
+  }
 }
 
 function creazaReteta(object) {
@@ -2428,7 +2434,7 @@ function showRecipesList(data) {
   modal.show()
 }
 
-function showHideHeader() {
+export function showHideHeader() {
   //get all my-table elements
   var my_tables = document.getElementsByTagName('my-table')
   //get all headers from my-table elements
