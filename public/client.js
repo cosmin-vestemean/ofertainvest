@@ -1443,9 +1443,9 @@ export function init() {
         for (let i = 0; i < children.length; i++) {
           let child = children[i];
           let obj2 = {};
-          if (object.childrenEndsInZero && object.childrenEndsInZero.length > 0) {
+          if (activitate.childrenEndsInZero && activitate.childrenEndsInZero.length > 0) {
             //primul termen strikethrough si al doilea termen normal
-            obj2.WBS = '<span style="text-decoration: line-through;">' + child.object.WBS + '</span><br>' + object.childrenEndsInZero[i];
+            obj2.WBS = '<span style="text-decoration: line-through;">' + child.object.WBS + '</span><br>' + activitate.childrenEndsInZero[i];
           } else {
             obj2.WBS = child.object.WBS;
           }
