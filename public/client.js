@@ -2047,7 +2047,7 @@ function createTreesFromWBS(ds) {
   resultFiltered = applyFilterEndsWithL(resultFiltered)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with resultFiltered
-  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds)  //orphans?
+  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds) //orphans?
   console.log('resultFilteredPlus', resultFilteredPlus)
   let resultFilteredPlus1 = resultFilteredPlus.concat(resultFiltered)
   console.log('resultFilteredPlus1', resultFilteredPlus1)
@@ -2116,27 +2116,42 @@ function applyFilterByGrupareArticolOferta(data) {
 .20.0 este material pentru activitatea .20
 .21, .22, .23, .24, .25, .26, .27, .28 sunt activitati cu materialele .21.1, .22.1, .23.1, .24.1, .25.1, .26.1, .27.1, .28.1 cu denumirea activitatii
 */
-  
-    //1. detect every row with GRUPARE_ARTICOL_OFERTA with the same value; can be 5 rows with 1, 3 rows with 2, 2 rows with 3, etc.
-    //2. detect if it's a principal or a material
-    //3. if it's a principal, add it to the result array
-    //4. if it's a material, add it to the children array of the principal
-  
-    let result = []
-    
-    data.forEach(function (obj) {
-      if (obj && obj.GRUPARE_ARTICOL_OFERTA) {
-        let grupare = obj.GRUPARE_ARTICOL_OFERTA
-        let children = data.filter((child) => child && child.GRUPARE_ARTICOL_OFERTA == grupare)
+
+  //1. detect every row with GRUPARE_ARTICOL_OFERTA with the same value; can be 5 rows with 1, 3 rows with 2, 2 rows with 3, etc.
+  //2. detect if it's a principal or a material
+  //3. if it's a principal, add it to the result array
+  //4. if it's a material, add it to the children array of the principal
+
+  let result = []
+  let grupari = []
+
+  data.forEach(function (obj) {
+    if (obj.GRUPARE_ARTICOL_OFERTA) {
+      let grupare = obj.GRUPARE_ARTICOL_OFERTA
+      if (!grupari.includes(grupare)) {
+        grupari.push(grupare)
+      }
+      if (!grupari.includes(grupare)) {
+        let children = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
         if (children.length > 1) {
-          //add children to obj
-          obj.children = children
-          result.push(obj)
+          //find smallest WBS
+          let principal = children.find(
+            (child) => child.TIP_ARTICOL_OFERTA == 'ARTICOL' && child.SUBTIP_ARTICOL_OFERTA == 'PRINCIPAL'
+          )
+          if (principal) {
+            //include the rest of the children in principal's children array, except principal (WBS)
+            let principalWBS = principal.WBS
+            principal.children = children.filter((child) => child.WBS != principalWBS)
+          }
+          principal.hasChildren = true
+          principal.GRUPARE_ARTICOL_OFERTA = grupare
+          result.push(principal)
         }
       }
-    })
-  
-    return result
+    }
+  })
+
+  return result
 }
 
 function prepareForMultipleActivities(data) {
