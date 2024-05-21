@@ -1830,8 +1830,6 @@ class myTable extends LitElement {
       //add table_menu_content to my_table_oferta_initiala
       my_table_oferta_initiala.shadowRoot.appendChild(table_menu_content)
 
-      let btn_showHideHeader = document.getElementById('btn_showHideHeader')
-
       //add thead
       if (theadIsSet) {
         var tr = document.createElement('tr')
@@ -1847,13 +1845,9 @@ class myTable extends LitElement {
           th.style.rotate = '180deg'
           th.innerHTML = key
           tr.appendChild(th)
-          btn_showHideHeader.classList.remove('btn-secondary')
-          btn_showHideHeader.classList.add('btn-primary')
         }
       } else {
         thead.style.display = 'none'
-        btn_showHideHeader.classList.remove('btn-primary')
-        btn_showHideHeader.classList.add('btn-secondary')
       }
 
       //add tbody
@@ -2450,4 +2444,12 @@ function showRecipesList(data) {
 function showHideHeader() {
   theadIsSet = !theadIsSet
   console.log('theadIsSet', theadIsSet)
+  let btn_showHideHeader = document.getElementById('btn_showHideHeader')
+  if (theadIsSet) {
+    btn_showHideHeader.classList.remove('btn-secondary')
+    btn_showHideHeader.classList.add('btn-primary')
+  } else {
+    btn_showHideHeader.classList.remove('btn-primary')
+    btn_showHideHeader.classList.add('btn-secondary')
+  }
 }
