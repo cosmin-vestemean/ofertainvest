@@ -1419,17 +1419,19 @@ export function init() {
       console.log('error', error)
     })
 
-  //add on hover to my_table2 rows
-  my_table2.addEventListener('mouseover', function (e) {
-    //get index of row and look in recipes_ds[index] for reteta to display in my_table2
+  //add on hover to my_table2 rows and get index of row and look in recipes_ds[index] for reteta to display in my_table2
+  //do not forget shadowRoot
+  my_table2.shadowRoot.addEventListener('mouseover', function (e) {
     if (e.target.tagName === 'TD') {
-      var index = e.target.parentElement.rowIndex - 1
+      var index = e.target.parentElement.rowIndex
       console.log('index', index)
-      if (index >= 0) {
-        var reteta = recipes_ds[index].reteta
-        my_table3.style.display = 'block'
-        my_table3.ds = reteta
-      }
+      console.log('recipes_ds[index]', recipes_ds[index])
+      var reteta = recipes_ds[index].reteta
+      var listaActivitati = []
+      reteta.forEach(function (activitate) {
+        listaActivitati.push(activitate.object)
+      })
+      my_table3.ds = listaActivitati
     }
   })
 }
