@@ -2130,8 +2130,6 @@ function applyFilterByGrupareArticolOferta(data) {
       let grupare = obj.GRUPARE_ARTICOL_OFERTA
       if (!grupari.includes(grupare)) {
         grupari.push(grupare)
-      }
-      if (!grupari.includes(grupare)) {
         let children = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
         if (children.length > 1) {
           //find smallest WBS
