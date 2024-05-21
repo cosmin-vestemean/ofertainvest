@@ -86,7 +86,7 @@ function loadDataFromFile(evt) {
         {
           raw: true
         },
-        { defval: '' },
+        { defval: "" },
         { header: 1 }
       )
       excel_object = JSON.stringify(XL_row_object)
