@@ -2143,7 +2143,9 @@ function applyFilterByGrupareArticolOferta(data, retete) {
           )
           if (principal) {
             //look for principal in retete
-            let reteta = retete.find((obj) => obj.reteta.object.WBS == principal.WBS)
+            //let reteta = retete.find((obj) => obj.reteta.object.WBS == principal.WBS)
+            //obj > reteta > loop through array elements looking for emelent.object.WBS
+            let reteta = retete.find((obj) => obj.reteta.find((element) => element.object.WBS == principal.WBS))
             if (reteta) {
               console.log('reteta exista', reteta)
             } else {
