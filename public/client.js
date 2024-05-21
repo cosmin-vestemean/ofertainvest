@@ -1159,14 +1159,15 @@ document.addEventListener('input', function (e) {
 
 //add onload event to window
 export function init() {
+  const my_table1 = document.getElementById('my_table_oferta_initiala')
+  const my_table2 = document.getElementById('my_table_recipes')
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
   }
   let btn_column_filter = document.getElementById('btn_column_filter')
   btn_column_filter.onclick = function () {
-    let tbl = document.getElementById('my_table_oferta_initiala')
-    let menu = tbl.shadowRoot.getElementById('table_menu_content')
+    let menu = table1.shadowRoot.getElementById('table_menu_content')
     if (menu.style.display === 'none') {
       menu.style.display = 'block'
     } else {
@@ -1209,27 +1210,25 @@ export function init() {
     WBSMap = rez.trees
     recipes_ds = rez.resultFiltered
 
-    const my_table = document.getElementById('my_table_oferta_initiala')
-    /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
-    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
-    pushDataToTable(roots, thead, tbody) */
-    //my_table.ds = activitati_oferta
+    //hide table1
+    my_table1.style.display = 'none'
+    //show table2
+    my_table2.style.display = 'block'
     let listaRetete = []
     recipes_ds.forEach((o) => {
       listaRetete.push({ Reteta: o.name })
     })
-    my_table.ds = listaRetete
+    my_table2.ds = listaRetete
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
   lista_retete_scurta.onclick = function () {
-    const my_table = document.getElementById('my_table_oferta_initiala')
     let listaRetete = []
     if (recipes_ds && recipes_ds.length > 0) {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
-      my_table.ds = listaRetete
+      my_table1.ds = listaRetete
     }
   }
   let orfani = document.getElementById('orfani')
@@ -1242,35 +1241,20 @@ export function init() {
       })
     }
 
-    const my_table = document.getElementById('my_table_oferta_initiala')
-    /* const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
-    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
-    pushDataToTable(orfani, thead, tbody) */
-    my_table.ds = orfani
+    my_table1.ds = orfani
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
-    /* const my_table = document.getElementById('my_table_oferta_initiala')
-    const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
-    const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala')
-    pushDataToTable(optimal_ds, thead, tbody) */
-    const my_table = document.getElementById('my_table_oferta_initiala')
-    my_table.ds = optimal_ds
+    my_table1.ds = optimal_ds
   }
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
-  /* const my_table = document.getElementById('my_table_oferta_initiala')
-  const thead = my_table.shadowRoot.getElementById('thead_oferta_initiala')
-  const tbody = my_table.shadowRoot.getElementById('tbody_oferta_initiala') */
   vizulizare_oferta_initiala.onclick = function () {
-    //pushDataToTable(original_ds, thead, tbody)
-    const my_table = document.getElementById('my_table_oferta_initiala')
-    my_table.ds = original_ds
+    my_table1.ds = original_ds
   }
   //lista_activitati
   let lista_activitati = document.getElementById('lista_activitati')
   lista_activitati.onclick = function () {
-    const my_table = document.getElementById('my_table_oferta_initiala')
-    my_table.ds = activitati_oferta
+    my_table1.ds = activitati_oferta
   }
   //WBSMap
   let WBSMap = document.getElementById('WBSMap')
