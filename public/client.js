@@ -1230,10 +1230,10 @@ export function init() {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
-      my_table2.style.display = 'none'
-      my_table3.style.display = 'none'
-      my_table1.style.display = 'block'
-      my_table1.ds = listaRetete
+      my_table2.style.display = 'block'
+      my_table3.style.display = 'block'
+      my_table1.style.display = 'none'
+      my_table2.ds = listaRetete
     }
   }
   let orfani = document.getElementById('orfani')
