@@ -2046,6 +2046,12 @@ function createTreesFromWBS(ds) {
 
   resultFiltered = applyFilterEndsWithL(resultFiltered)
 
+  //applyFilterByGrupareArticolOferta to optimal_ds and merge with resultFiltered
+  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds)
+  console.log('resultFilteredPlus', resultFilteredPlus)
+  let resultFilteredPlus1 = resultFilteredPlus.concat(resultFiltered)
+  console.log('resultFilteredPlus1', resultFilteredPlus1)
+
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
   return {
@@ -2090,7 +2096,7 @@ function applyFilterTipSubTip(data) {
   return arr
 }
 
-function applyFilterByGrupareArticolOferta() {
+function applyFilterByGrupareArticolOferta(data) {
   //pseudo code
   //daca coloana GRUPARE_ARTICOL_OFERTA are i pe mai multe randuri am urmatoarea situatie:
   /*
@@ -2110,6 +2116,36 @@ function applyFilterByGrupareArticolOferta() {
 .20.0 este material pentru activitatea .20
 .21, .22, .23, .24, .25, .26, .27, .28 sunt activitati cu materialele .21.1, .22.1, .23.1, .24.1, .25.1, .26.1, .27.1, .28.1 cu denumirea activitatii
 */
+  
+    //1. detect every row with GRUPARE_ARTICOL_OFERTA i
+    //2. detect if it's a principal or a material
+    //3. if it's a principal, add it to the result array
+    //4. if it's a material, add it to the children array of the principal
+  
+    let result = []
+    let children = []
+    for (let i = 0; i < data.length; i++) {
+      let obj = data[i];
+      if (obj.object.GRUPARE_ARTICOL_OFERTA == 'i') {
+      if (obj.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') {
+        result.push(obj);
+      } else {
+        children.push(obj);
+      }
+      }
+    }
+  
+    //add children to result
+    result.forEach(function (obj) {
+      obj.children = []
+      children.forEach(function (child) {
+        if (child.branch.join('.').startsWith(obj.branch.join('.')) && child.branch.length == obj.branch.length + 1) {
+          obj.children.push(child)
+        }
+      })
+    })
+  
+    return result
 }
 
 function prepareForMultipleActivities(data) {
