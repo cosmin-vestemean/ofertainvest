@@ -1421,18 +1421,13 @@ export function init() {
 
   //add on hover to my_table2 rows
   my_table2.addEventListener('mouseover', function (e) {
+    //get index of row and look in recipes_ds[index] for reteta to display in my_table2
     if (e.target.tagName === 'TD') {
-      e.target.parentElement.style.backgroundColor = 'lightgray'
-      //get index of row and look in recipes_ds[index] for reteta to display in my_table2
-      var index = Array.from(my_table2.rows).indexOf(e.target.parentElement)
-      console.log('index', index)
-      if (index > -1) {
+      var index = e.target.parentElement.rowIndex - 1
+      if (index >= 0) {
         var reteta = recipes_ds[index].reteta
-        var listaActivitati = []
-        reteta.forEach(function (activitate) {
-          listaActivitati.push(activitate.object)
-        })
-        my_table3.ds = listaActivitati
+        my_table3.style.display = 'block'
+        my_table3.ds = reteta
       }
     }
   })
