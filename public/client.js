@@ -1449,10 +1449,8 @@ export function init() {
           } else {
             obj2.WBS = child.object.WBS;
           }
-          //obj2.DENUMIRE_ARTICOL_OFERTA = child.object.DENUMIRE_ARTICOL_OFERTA
-          //same but in primary color
           obj2.DENUMIRE_ARTICOL_OFERTA =
-            '<span class="text-primary">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>';
+            '<span class="text-secondary">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>';
           obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA;
           obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA;
           obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA;
