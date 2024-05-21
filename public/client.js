@@ -1429,7 +1429,15 @@ export function init() {
       var reteta = recipes_ds[index].reteta
       var listaActivitati = []
       reteta.forEach(function (activitate) {
-        listaActivitati.push(activitate.object)
+        var obj = {}
+        //get only the following keys: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
+        obj.WBS = activitate.object.WBS
+        obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
+        obj.CANTITATE_ARTICOL_OFERTA = activitate.object.CANTITATE_ARTICOL_OFERTA
+        obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
+        obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
+        obj.SUBTIP_ARTICOL_OFERTA = activitate.object.SUBTIP_ARTICOL_OFERTA
+        listaActivitati.push(obj)
       })
       my_table3.ds = listaActivitati
     }
