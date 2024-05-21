@@ -1418,6 +1418,13 @@ export function init() {
     .catch((error) => {
       console.log('error', error)
     })
+
+    //add on hover to my_table2 rows
+    my_table2.addEventListener('mouseover', function (e) {
+      if (e.target.tagName === 'TD') {
+        e.target.parentElement.style.backgroundColor = 'lightgray'
+      }
+    })
 }
 
 function creazaReteta(object) {
