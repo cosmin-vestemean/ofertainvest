@@ -165,7 +165,7 @@ HTML code:
                   <li>
                     <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
                   </li>
-                  <li>
+                  <li></li>
                   <li>
                     <a class="dropdown-item" href="#" id="lista_retete">Lista completa retete cu detalii</a>
                   </li>
@@ -293,54 +293,44 @@ HTML code:
         </div>
         <label for="progress-bar" id="progress_bar_label" class="form-label text-primary">0%</label>
       </div>
-      <div class="table-responsive">
+      <div class="row">
         <my-table id="my_table_oferta_initiala"></my-table>
-        <!--
-          <table id="table_oferta_initiala" class="table table-striped table-bordered table-sm table-hover">
-          <thead id="thead_oferta_initiala"></thead>
-          <tbody id="tbody_oferta_initiala"></tbody>
-        </table>
-        -->
+        <my-table id="my_table_recipes"></my-table>
       </div>
-      <div class="table-responsive"></div>
-        <my-table id="my_table_recipes" class="d-none"></my-table>
-      </div>
-      </div>
-    </div>
-    <!-- Modal Antemasuratori -->
-    <div
-      class="modal fade"
-      id="ModalAntemasuratori"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="headerlLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
-        <div class="modal-content">
-          <div class="modal-header" id="modal-header">
-            <h5 class="modal-title" id="headerlLabel">Antemasuratori</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="modal-body"></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" id="btn_save_antemasuratori" class="btn btn-primary">Save changes</button>
+      <!-- Modal Antemasuratori -->
+      <div
+        class="modal fade"
+        id="ModalAntemasuratori"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="headerlLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
+          <div class="modal-content">
+            <div class="modal-header" id="modal-header">
+              <h5 class="modal-title" id="headerlLabel">Antemasuratori</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" id="btn_save_antemasuratori" class="btn btn-primary">Save changes</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Modal generic -->
-    <!-- Modal Antemasuratori -->
-    <div
-      class="modal fade"
-      id="ModalGeneric"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="headerlLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg modal-dialog-scrollable role="document">
+      <!-- Modal generic -->
+      <!-- Modal Antemasuratori -->
+      <div
+        class="modal fade"
+        id="ModalGeneric"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="headerlLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable role="document">
         <div class="modal-content">
           <div class="modal-body" id="modal-body3"></div>
           <div class="modal-footer">
