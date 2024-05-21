@@ -1228,6 +1228,8 @@ export function init() {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
+      my_table2.style.display = 'none'
+      my_table1.style.display = 'block'
       my_table1.ds = listaRetete
     }
   }
@@ -1241,19 +1243,27 @@ export function init() {
       })
     }
 
+    my_table2.style.display = 'none'
+    my_table1.style.display = 'block'
     my_table1.ds = orfani
   }
   let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
   vizualizare_oferta_optimizata.onclick = function () {
+    my_table2.style.display = 'none'
+    my_table1.style.display = 'block'
     my_table1.ds = optimal_ds
   }
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
   vizulizare_oferta_initiala.onclick = function () {
+    my_table2.style.display = 'none'
+    my_table1.style.display = 'block'
     my_table1.ds = original_ds
   }
   //lista_activitati
   let lista_activitati = document.getElementById('lista_activitati')
   lista_activitati.onclick = function () {
+    my_table2.style.display = 'none'
+    my_table1.style.display = 'block'
     my_table1.ds = activitati_oferta
   }
   //WBSMap
