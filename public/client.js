@@ -64,6 +64,7 @@ var denumireUnica_ds = []
 var activitati_oferta = []
 var intrari_orfane = []
 var WBSMap = []
+var theadIsSet = false
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1435,7 +1436,8 @@ export function init() {
         //obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
 
         //same but with background color info
-        obj.DENUMIRE_ARTICOL_OFERTA = '<span class="text-primary">' + activitate.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
+        obj.DENUMIRE_ARTICOL_OFERTA =
+          '<span class="text-primary">' + activitate.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
         obj.CANTITATE_ARTICOL_OFERTA = activitate.object.CANTITATE_ARTICOL_OFERTA
         obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
         obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
@@ -1444,21 +1446,21 @@ export function init() {
         var children = activitate.children
         //add children to obj
         for (let i = 0; i < children.length; i++) {
-          let child = children[i];
-          let obj2 = {};
+          let child = children[i]
+          let obj2 = {}
           if (activitate.childrenEndsInZero && activitate.childrenEndsInZero.length > 0) {
             //primul termen strikethrough si al doilea termen normal
-            obj2.WBS = activitate.childrenEndsInZero[i].object.WBS;
+            obj2.WBS = activitate.childrenEndsInZero[i].object.WBS
           } else {
-            obj2.WBS = child.object.WBS;
+            obj2.WBS = child.object.WBS
           }
           obj2.DENUMIRE_ARTICOL_OFERTA =
-            '<span class="text-dark">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>';
-          obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA;
-          obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA;
-          obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA;
-          obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA;
-          listaActivitati.push(obj2);
+            '<span class="text-dark">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
+          obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA
+          obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA
+          obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA
+          obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA
+          listaActivitati.push(obj2)
         }
       })
       console.log('listaActivitati', listaActivitati)
@@ -1828,21 +1830,32 @@ class myTable extends LitElement {
       //add table_menu_content to my_table_oferta_initiala
       my_table_oferta_initiala.shadowRoot.appendChild(table_menu_content)
 
+      let btn_showHideHeader = document.getElementById('btn_showHideHeader')
+
       //add thead
-      var tr = document.createElement('tr')
-      thead.appendChild(tr)
-      //append counter
-      var th = document.createElement('th')
-      th.scope = 'col'
-      tr.appendChild(th)
-      for (var key in this.ds[0]) {
+      if (showHeader) {
+        var tr = document.createElement('tr')
+        thead.appendChild(tr)
+        //append counter
         var th = document.createElement('th')
         th.scope = 'col'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.innerHTML = key
         tr.appendChild(th)
+        for (var key in this.ds[0]) {
+          var th = document.createElement('th')
+          th.scope = 'col'
+          th.style.writingMode = 'vertical-rl'
+          th.style.rotate = '180deg'
+          th.innerHTML = key
+          tr.appendChild(th)
+          btn_showHideHeader.classList.remove('btn-secondary')
+          btn_showHideHeader.classList.add('btn-primary')
+        }
+      } else {
+        thead.style.display = 'none'
+        btn_showHideHeader.classList.remove('btn-primary')
+        btn_showHideHeader.classList.add('btn-secondary')
       }
+
       //add tbody
       let counter = 0
       this.ds.forEach(function (object) {
@@ -2434,22 +2447,6 @@ function showRecipesList(data) {
   modal.show()
 }
 
-export function showHideHeader() {
-  //get all my-table elements
-  var my_tables = document.getElementsByTagName('my-table')
-  //get all headers from my-table elements
-  var headers = []
-  for (var i = 0; i < my_tables.length; i++) {
-    var table = my_tables[i]
-    var thead = table.shadowRoot.getElementById('thead_' + table.tableId)
-    headers.push(thead)
-  }
-  //toggle display of headers
-  headers.forEach(function (header) {
-    if (header.style.display == 'none') {
-      header.style.display = 'table-header-group'
-    } else {
-      header.style.display = 'none'
-    }
-  })
+function showHideHeader() {
+  showHeader = !showHeader
 }
