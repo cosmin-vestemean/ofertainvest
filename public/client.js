@@ -64,7 +64,7 @@ var denumireUnica_ds = []
 var activitati_oferta = []
 var intrari_orfane = []
 var WBSMap = []
-var theadIsSet = false
+var theadIsSet = true
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1833,7 +1833,7 @@ class myTable extends LitElement {
       let btn_showHideHeader = document.getElementById('btn_showHideHeader')
 
       //add thead
-      if (showHeader) {
+      if (theadIsSet) {
         var tr = document.createElement('tr')
         thead.appendChild(tr)
         //append counter
@@ -2448,5 +2448,5 @@ function showRecipesList(data) {
 }
 
 function showHideHeader() {
-  showHeader = !showHeader
+  theadIsSet = !theadIsSet
 }
