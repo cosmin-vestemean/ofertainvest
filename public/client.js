@@ -1432,7 +1432,10 @@ export function init() {
         var obj = {}
         //get only the following keys: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
         obj.WBS = activitate.object.WBS
-        obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
+        //obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
+
+        //same but with background color info
+        obj.DENUMIRE_ARTICOL_OFERTA = '<span class="bg-info text-white">' + activitate.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
         obj.CANTITATE_ARTICOL_OFERTA = activitate.object.CANTITATE_ARTICOL_OFERTA
         obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
         obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
@@ -1450,7 +1453,7 @@ export function init() {
             obj2.WBS = child.object.WBS;
           }
           obj2.DENUMIRE_ARTICOL_OFERTA =
-            '<span class="text-secondary">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>';
+            '<span class="text-dark">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>';
           obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA;
           obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA;
           obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA;
