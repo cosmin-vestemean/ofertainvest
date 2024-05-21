@@ -84,7 +84,7 @@ function loadDataFromFile(evt) {
       var XL_row_object = XLSX.utils.sheet_to_json(
         workbook.Sheets[sheetName],
         {
-          raw: false
+          raw: true
         },
         { defval: '' },
         { header: 1 }
