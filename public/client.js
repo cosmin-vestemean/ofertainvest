@@ -1460,6 +1460,8 @@ export function init() {
       })
       console.log('listaActivitati', listaActivitati)
       my_table3.ds = listaActivitati
+      //hide thead
+      my_table3.shadowRoot.querySelector('thead').style.display = 'none'
     }
   })
 }
