@@ -2190,13 +2190,17 @@ function adaugaInReteta(reteta, related) {
   for (let i = 0; i < related.length; i++) {
     let newObj2 = { object: related[i] }
     newObj2.branch = [...related[i].WBS.split('.'), 1];
+    //WBS
+    newObj2.WBS = newObj2.branch.join('.')
     newObj2.level = newObj2.branch.length + 1
     newObj2.virtual = true
     newObj2.hasChildren = false
     newObj2.children = []
     newObj2.children.push(newObj2)
-    newObj2.hasChildren = true
+    newObj2.hasChildren = true    
     newObj2.branch = related[i].WBS.split('.')
+    //WBS
+    newObj2.WBS = newObj2.branch.join('.')
     newObj2.level = newObj2.branch.length
     newObj2.virtual = false
     reteta.reteta.push(newObj2)
