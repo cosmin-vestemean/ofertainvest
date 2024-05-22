@@ -2144,9 +2144,20 @@ function applyFilterByGrupareArticolOferta(data, retete) {
           if (principal) {
             //look for principal in retete
             //obj > reteta > loop through array elements looking for emelent.object.WBS
-            let reteta = retete.find((obj) => obj.reteta.find((element) => element.object.WBS == principal.WBS))
+            let reteta = retete.find((obj) =>
+              obj.reteta.find((element) => element.object.WBS == principal.WBS)
+            )
             if (reteta) {
               console.log('reteta exista', reteta)
+              //delete from related
+              related = related.filter((child) => child.WBS != principal.WBS)
+              //add each related to reteta array as object using for (let...)
+              for (let i = 0; i < related.length; i++) {
+                let newObj2 = {}
+                newObj2.nr = i + 1
+                newObj2.reteta = { object: related[i] }
+                reteta.reteta.push(newObj2)
+              }
             } else {
               console.log('reteta nu exista', principal)
             }
