@@ -2153,8 +2153,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
               for (let i = 0; i < related.length; i++) {
-                let newObj2 = {}
-                newObj2 = { object: related[i] }
+                let newObj2 = { object: related[i] }
                 reteta.reteta.push(newObj2)
               }
             } else {
