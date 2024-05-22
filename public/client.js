@@ -2154,8 +2154,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //add each related to reteta array as object using for (let...)
               for (let i = 0; i < related.length; i++) {
                 let newObj2 = {}
-                newObj2.nr = i + 1
-                newObj2.reteta = { object: related[i] }
+                newObj2 = { object: related[i] }
                 reteta.reteta.push(newObj2)
               }
             } else {
