@@ -1438,6 +1438,12 @@ export function init() {
       reteta.forEach(function (activitate) {
         var obj = {}
         //get only the following keys: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
+        //old WBS
+        if (activitate.object.old_WBS) {
+          obj.old_WBS = '<span style="text-decoration: line-through;">' + activitate.object.old_WBS + '</span>'
+        } else {
+          obj.old_WBS = ''
+        }
         obj.WBS = activitate.object.WBS
         //obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
 
