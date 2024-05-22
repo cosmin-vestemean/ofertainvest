@@ -2154,6 +2154,16 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //add each related to reteta array as object using for (let...)
               for (let i = 0; i < related.length; i++) {
                 let newObj2 = { object: related[i] }
+                newObj2.branch = related[i].WBS.split('.').concat([1])
+                newObj2.level = newObj2.branch.length + 1
+                newObj2.virtual = true
+                newObj2.hasChildren = false
+                newObj2.children = []
+                newObj2.children.push(newObj2)
+                newObj2.hasChildren = true
+                newObj2.branch = related[i].WBS.split('.')
+                newObj2.level = newObj2.branch.length
+                newObj2.virtual = false
                 reteta.reteta.push(newObj2)
               }
             } else {
