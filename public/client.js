@@ -1206,7 +1206,7 @@ export function init() {
     WBSMap = []
     recipes_ds = []
     intrari_orfane = []
-    rez.resultFiltered.forEach((obj) => {
+    rez.retete.forEach((obj) => {
       let reteta = obj.reteta
       reteta.forEach((activitate) => {
         activitati_oferta.push(activitate.object)
@@ -1215,7 +1215,7 @@ export function init() {
 
     intrari_orfane = rez.orphans
     WBSMap = rez.trees
-    recipes_ds = rez.resultFiltered
+    recipes_ds = rez.retete
 
     //hide table1
     my_table1.style.display = 'none'
@@ -1995,7 +1995,7 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  let resultFiltered = applyFilterTipSubTip(resultPlus)
+  let retete = applyFilterTipSubTip(resultPlus)
 
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
@@ -2032,25 +2032,27 @@ function createTreesFromWBS(ds) {
   })
 
   var orphans = []
-  //compare resultPlusVirtualFalseNoDuplicates with resultFiltered and find differences; push differences to orphans
+  //compare resultPlusVirtualFalseNoDuplicates with retete and find differences; push differences to orphans
   resultPlusVirtualFalseNoDuplicates.forEach(function (obj) {
-    let obj2 = resultFiltered.find((o) => o.branch.join('.') == obj.branch.join('.'))
+    let obj2 = retete.find((o) => o.branch.join('.') == obj.branch.join('.'))
     if (!obj2) {
       orphans.push(obj)
     }
   })
 
-  resultFiltered = applyFilterChildrenEndsWith0(resultFiltered)
+  retete = applyFilterChildrenEndsWith0(retete)
 
-  resultFiltered = prepareForMultipleActivities(resultFiltered)
+  retete = prepareForMultipleActivities(retete)
 
-  resultFiltered = applyFilterEndsWithL(resultFiltered)
+  retete = applyFilterEndsWithL(retete)
 
-  //applyFilterByGrupareArticolOferta to optimal_ds and merge with resultFiltered
-  let resultFilteredPlus = applyFilterByGrupareArticolOferta(optimal_ds, resultFiltered)
-  console.log('resultFilteredPlus', resultFilteredPlus)
-  let resultFilteredPlus1 = resultFilteredPlus.concat(resultFiltered)
-  console.log('resultFilteredPlus1', resultFilteredPlus1)
+  //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
+  let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, retete)
+  console.log('reteteGrupateArtificial', reteteGrupateArtificial)
+  let retete1 = reteteGrupateArtificial.concat(retete)
+  console.log('retete1', retete1)
+
+  retete = retete1
 
   //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
 
@@ -2058,7 +2060,7 @@ function createTreesFromWBS(ds) {
     trees,
     result: resultPlus,
     arrayResult: result,
-    resultFiltered,
+    retete,
     resultPlusVirtualFalse,
     resultPlusVirtualFalseNoDuplicates,
     orphans
@@ -2152,35 +2154,45 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //delete from related
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
-              for (let i = 0; i < related.length; i++) {
-                let newObj2 = { object: related[i] }
-                newObj2.branch = related[i].WBS.split('.').concat([1])
-                newObj2.level = newObj2.branch.length + 1
-                newObj2.virtual = true
-                newObj2.hasChildren = false
-                newObj2.children = []
-                newObj2.children.push(newObj2)
-                newObj2.hasChildren = true
-                newObj2.branch = related[i].WBS.split('.')
-                newObj2.level = newObj2.branch.length
-                newObj2.virtual = false
-                reteta.reteta.push(newObj2)
-              }
+                let clonedReteta = JSON.parse(JSON.stringify(reteta))
+              adaugaInReteta(clonedReteta, related)
+              result.push(clonedReteta)
             } else {
               console.log('reteta nu exista', principal)
+              //creaza reteta in retete
+              reteta = []
+              adaugaInReteta(reteta, related)
+              result.push({
+                name: 'Reteta ' + retete.length + 1 + ' (pentru gruparea ' + grupare + ')',
+                reteta
+              })
             }
           } else {
             console.log('Principal not found for grupare', grupare)
           }
-          newObj.hasChildren = true
-          newObj.GRUPARE_ARTICOL_OFERTA = grupare
-          result.push(newObj)
         }
       }
     }
   })
 
   return { result, rescuedOrphans }
+}
+
+function adaugaInReteta(reteta, related) {
+  for (let i = 0; i < related.length; i++) {
+    let newObj2 = { object: related[i] }
+    newObj2.branch = related[i].WBS.split('.').concat([1])
+    newObj2.level = newObj2.branch.length + 1
+    newObj2.virtual = true
+    newObj2.hasChildren = false
+    newObj2.children = []
+    newObj2.children.push(newObj2)
+    newObj2.hasChildren = true
+    newObj2.branch = related[i].WBS.split('.')
+    newObj2.level = newObj2.branch.length
+    newObj2.virtual = false
+    reteta.reteta.push(newObj2)
+  }
 }
 
 function prepareForMultipleActivities(data) {
