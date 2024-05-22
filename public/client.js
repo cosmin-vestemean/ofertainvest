@@ -2295,12 +2295,11 @@ function applyFilterChildrenEndsWith0(data) {
       let identical = children.every((child) => child.branch[child.branch.length - 1] == last)
       if (identical && last == 0) {
         children.forEach(function (child, index) {
-          let newChild = JSON.parse(JSON.stringify(child))
-          newChild.branch[newChild.branch.length - 1] = index + 1
+          child.branch[child.branch.length - 1] = index + 1
           //old WBS
-          newChild.object.old_WBS = newChild.object.WBS
+          child.object.old_WBS = child.object.WBS
           //change WBS
-          newChild.object.WBS = newChild.branch.join('.')
+          child.object.WBS = child.branch.join('.')
         })
       }
     }
