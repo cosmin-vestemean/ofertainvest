@@ -2193,7 +2193,7 @@ function adaugaInReteta(reteta, related) {
     newObj1.object.old_WBS = related[i].WBS
     newObj1.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
     newObj1.branch = newObj1.object.WBS.split('.')
-    newObj1.level = newObj2.branch.length + 1
+    newObj1.level = newObj1.branch.length
     newObj1.virtual = true
     newObj1.hasChildren = false
     newObj2.children = []
