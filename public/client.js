@@ -1454,12 +1454,13 @@ export function init() {
         for (let i = 0; i < children.length; i++) {
           let child = children[i]
           let obj2 = {}
-          if (activitate.childrenEndsInZero && activitate.childrenEndsInZero.length > 0) {
+          if (child.old_WBS) {
             //primul termen strikethrough si al doilea termen normal
-            obj2.WBS = activitate.childrenEndsInZero[i].object.WBS
+            obj2.old_WBS = '<span style="text-decoration: line-through;">' + child.old_WBS + '</span>'
           } else {
-            obj2.WBS = child.object.WBS
+            obj2.old_WBS = ''
           }
+          obj2.WBS = child.object.WBS
           obj2.DENUMIRE_ARTICOL_OFERTA =
             '<span class="text-dark">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
           obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA
@@ -2040,6 +2041,7 @@ function createTreesFromWBS(ds) {
     }
   })
 
+  //returns old WBS and newly created WBS, if any
   retete = applyFilterChildrenEndsWith0(retete)
 
   retete = prepareForMultipleActivities(retete)
@@ -2292,15 +2294,14 @@ function applyFilterChildrenEndsWith0(data) {
       let last = children[0].branch[children[0].branch.length - 1]
       let identical = children.every((child) => child.branch[child.branch.length - 1] == last)
       if (identical && last == 0) {
-        let newChildren = []
         children.forEach(function (child, index) {
           let newChild = JSON.parse(JSON.stringify(child))
           newChild.branch[newChild.branch.length - 1] = index + 1
+          //old WBS
+          newChild.object.old_WBS = newChild.object.WBS
           //change WBS
           newChild.object.WBS = newChild.branch.join('.')
-          newChildren.push(newChild)
         })
-        obj.childrenEndsInZero = newChildren
       }
     }
     result.push(obj)
@@ -2485,18 +2486,18 @@ function showRecipesList(data) {
           var tr4 = document.createElement('tr')
           tbody4.appendChild(tr4)
           var td4 = document.createElement('td')
-          if (object2.childrenEndsInZero) {
-            td4.innerHTML =
-              '<span class="text-primary">' +
-              object2.childrenEndsInZero[i].object.WBS +
-              '</span><br><del>' +
-              object3.object.WBS +
-              '</del>'
-          } else {
-            td4.innerHTML = '<span class="text-primary">' + object3.object.WBS + '</span>'
-          }
+          td4.innerHTML = '<span class="text-primary">' + object3.object.WBS + '</span>'
           td4.classList.add('border-0')
           tr4.appendChild(td4)
+          //add old_WBS
+          if (object3.object.old_WBS) {
+            var tr4 = document.createElement('tr')
+            tbody4.appendChild(tr4)
+            var td4 = document.createElement('td')
+            td4.classList.add('border-0')
+            td4.innerHTML = object3.object.old_WBS
+            tr4.appendChild(td4)
+          }
           //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
           var tr4 = document.createElement('tr')
           tbody4.appendChild(tr4)
