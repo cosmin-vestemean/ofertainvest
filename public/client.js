@@ -2295,8 +2295,8 @@ function applyFilterChildrenEndsWith0(data) {
 1183.9.1.29.0	BANDA ALUMINIU M 1 X 20 AL99,5 S5681	SUBARTICOL	MATERIAL	kg
 */
 
-  let result = []
-  data.forEach(function (obj) {
+  let innerData = [...data]
+  innerData.forEach(function (obj) {
     if (obj.children && obj.children.length > 0) {
       let children = obj.children
       let newChildren = []
@@ -2311,15 +2311,14 @@ function applyFilterChildrenEndsWith0(data) {
           newChild.object.WBS = newChild.branch.join('.')
           newChildren.push(newChild)
         })
+        obj.children = newChildren
       }
-      obj.children = newChildren
-      result.push(obj)
     } else {
-      result.push(obj)
+      //console.log('no children')
     }
   })
 
-  return result
+  return innerData
 }
 /*
 
