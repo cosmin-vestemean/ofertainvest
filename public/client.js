@@ -1440,7 +1440,8 @@ export function init() {
         //get only the following keys: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
         //old WBS
         if (activitate.object.old_WBS) {
-          obj.old_WBS = '<span style="text-decoration: line-through;">' + activitate.object.old_WBS + '</span>'
+          obj.old_WBS =
+            '<span style="text-decoration: line-through;">' + activitate.object.old_WBS + '</span>'
         } else {
           obj.old_WBS = ''
         }
@@ -2298,18 +2299,21 @@ function applyFilterChildrenEndsWith0(data) {
   data.forEach(function (obj) {
     if (obj.children && obj.children.length > 0) {
       let children = obj.children
+      let newChildren = []
       let last = children[0].branch[children[0].branch.length - 1]
       let identical = children.every((child) => child.branch[child.branch.length - 1] == last)
       if (identical && last == 0) {
         children.forEach(function (child, index) {
-          child.branch[child.branch.length - 1] = index + 1
-          const old_WBS = child.object.WBS
+          let newChild = JSON.parse(JSON.stringify(child))
+          newChild.branch[child.branch.length - 1] = index + 1
+          newChild.object.old_WBS = child.object.WBS
           //change WBS
-          child.object.WBS = child.branch.join('.')
-          child.object.old_WBS = old_WBS
+          newChild.object.WBS = newChild.branch.join('.')
+          newChildren.push(newChild)
         })
       }
     }
+    obj.children = newChildren
     result.push(obj)
   })
 
@@ -2501,7 +2505,7 @@ function showRecipesList(data) {
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
             td4.classList.add('border-0')
-            td4.innerHTML = `<del>${object3.object.old_WBS}</del>`;
+            td4.innerHTML = `<del>${object3.object.old_WBS}</del>`
             tr4.appendChild(td4)
           }
           //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
