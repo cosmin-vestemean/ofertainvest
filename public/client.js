@@ -1440,8 +1440,7 @@ export function init() {
         //get only the following keys: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
         //old WBS
         if (activitate.object.old_WBS) {
-          obj.old_WBS =
-            '<span style="text-decoration: line-through;">' + activitate.object.old_WBS + '</span>'
+          obj.old_WBS = '<span style="text-decoration: line-through;">' + activitate.object.old_WBS + '</span>'
         } else {
           obj.old_WBS = ''
         }
@@ -2304,12 +2303,10 @@ function applyFilterChildrenEndsWith0(data) {
       if (identical && last == 0) {
         children.forEach(function (child, index) {
           child.branch[child.branch.length - 1] = index + 1
-          //old WBS
-          const old_WBS = { ...child.object }.WBS
-          child.object.old_WBS = old_WBS
+          const old_WBS = child.object.WBS
           //change WBS
-          const new_WBS = child.branch.join('.')
-          child.object.WBS = new_WBS
+          child.object.WBS = child.branch.join('.')
+          child.object.old_WBS = old_WBS
         })
       }
     }
@@ -2504,7 +2501,7 @@ function showRecipesList(data) {
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
             td4.classList.add('border-0')
-            td4.innerHTML = `<del>${object3.object.old_WBS}</del>`
+            td4.innerHTML = `<del>${object3.object.old_WBS}</del>`;
             tr4.appendChild(td4)
           }
           //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
