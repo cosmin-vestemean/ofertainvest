@@ -2049,7 +2049,7 @@ function createTreesFromWBS(ds) {
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
   let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, retete)
   console.log('reteteGrupateArtificial', reteteGrupateArtificial)
-  let retete1 = reteteGrupateArtificial.concat(retete)
+  let retete1 = [...retete, ...reteteGrupateArtificial]
   console.log('retete1', retete1)
 
   retete = retete1
