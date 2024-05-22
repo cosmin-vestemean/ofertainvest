@@ -2188,15 +2188,16 @@ function applyFilterByGrupareArticolOferta(data, retete) {
 
 function adaugaInReteta(reteta, related) {
   for (let i = 0; i < related.length; i++) {
+    let newObj1 = { object: related[i] }
     let newObj2 = { object: related[i] }
-    newObj2.object.old_WBS = related[i].WBS
-    newObj2.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
-    newObj2.branch = newObj2.object.WBS.split('.')
-    newObj2.level = newObj2.branch.length + 1
-    newObj2.virtual = true
-    newObj2.hasChildren = false
+    newObj1.object.old_WBS = related[i].WBS
+    newObj1.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
+    newObj1.branch = newObj1.object.WBS.split('.')
+    newObj1.level = newObj2.branch.length + 1
+    newObj1.virtual = true
+    newObj1.hasChildren = false
     newObj2.children = []
-    newObj2.children.push(newObj2)
+    newObj2.children.push(newObj1)
     newObj2.hasChildren = true    
     newObj2.branch = related[i].WBS.split('.')
     newObj2.level = newObj2.branch.length
