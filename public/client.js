@@ -2188,9 +2188,11 @@ function applyFilterByGrupareArticolOferta(data, retete) {
 
 function adaugaInReteta(reteta, related) {
   for (let i = 0; i < related.length; i++) {
-    let newObj1 = { object: related[i] }
-    let newObj2 = { object: related[i] }
-    newObj1.object.old_WBS = related[i].WBS
+    let obj1 = { object: related[i] }
+    let obj2 = { object: related[i] }
+    let newObj1 = { ...obj1 };
+    let newObj2 = { ...obj2 };
+    newObj1.object.old_WBS = related[i].WBS;
     newObj1.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
     newObj1.branch = newObj1.object.WBS.split('.')
     newObj1.level = newObj1.branch.length
