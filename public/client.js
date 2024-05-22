@@ -2190,7 +2190,8 @@ function adaugaInReteta(reteta, related) {
   for (let i = 0; i < related.length; i++) {
     let newObj2 = { object: related[i] }
     newObj2.oldWBS = related[i].WBS
-    newObj2.branch = [...related[i].WBS.split('.'), 1];
+    newObj2.branch = related[i].WBS.split('.')
+    newObj2.branch.push(1)
     //WBS
     newObj2.WBS = newObj2.branch.join('.')
     newObj2.level = newObj2.branch.length + 1
