@@ -2164,14 +2164,14 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
               adaugaInReteta(reteta, related)
-              reteta.name = 'Reteta ' + retete.indexOf(reteta) + 1 + ' (pentru gruparea ' + grupare + ')'
+              reteta.name = 'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (pentru gruparea ' + grupare + ')'
             } else {
               console.log('reteta nu exista', principal)
               //creaza reteta in retete
               reteta = []
               adaugaInReteta(reteta, related)
               result.push({
-                name: 'Reteta ' + retete.length + 1 + ' (pentru gruparea ' + grupare + ')',
+                name: 'Reteta ' + (retete.length + 1).toString() + ' (pentru gruparea ' + grupare + ')',
                 reteta
               })
             }
