@@ -2312,9 +2312,11 @@ function applyFilterChildrenEndsWith0(data) {
           newChildren.push(newChild)
         })
       }
+      obj.children = newChildren
+      result.push(obj)
+    } else {
+      result.push(obj)
     }
-    obj.children = newChildren
-    result.push(obj)
   })
 
   return result
