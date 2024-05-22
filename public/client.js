@@ -2164,6 +2164,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
               adaugaInReteta(reteta, related)
+              reteta.name = 'Reteta ' + retete.indexOf(reteta) + 1 + ' (pentru gruparea ' + grupare + ')'
             } else {
               console.log('reteta nu exista', principal)
               //creaza reteta in retete
@@ -2188,7 +2189,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
 function adaugaInReteta(reteta, related) {
   for (let i = 0; i < related.length; i++) {
     let newObj2 = { object: related[i] }
-    newObj2.branch = related[i].WBS.split('.').concat([1])
+    newObj2.branch = [...related[i].WBS.split('.'), 1];
     newObj2.level = newObj2.branch.length + 1
     newObj2.virtual = true
     newObj2.hasChildren = false
