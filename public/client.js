@@ -2307,7 +2307,7 @@ function applyFilterChildrenEndsWith0(data) {
           //old WBS
           child.object.old_WBS = { ...child.object }.WBS
           //change WBS
-          child.object.WBS = child.branch.join('.')
+          child.object.WBS = [...child.branch].join('.')
         })
       }
     }
