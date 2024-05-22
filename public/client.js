@@ -2165,14 +2165,14 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //add each related to reteta array as object using for (let...)
               adaugaInReteta(reteta, related)
               reteta.name =
-                'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (pentru gruparea ' + grupare + ')'
+                'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (include gruparea ' + grupare + ')'
             } else {
               console.log('reteta nu exista', principal)
               //creaza reteta in retete
               reteta = []
               adaugaInReteta(reteta, related)
               result.push({
-                name: 'Reteta ' + (retete.length + 1).toString() + ' (pentru gruparea ' + grupare + ')',
+                name: 'Reteta ' + (retete.length + 1).toString() + ' (include gruparea ' + grupare + ')',
                 reteta
               })
             }
