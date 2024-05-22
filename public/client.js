@@ -2048,9 +2048,17 @@ function createTreesFromWBS(ds) {
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
   let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, retete)
+  let rescuedOrphans = []
+  if (reteteGrupateArtificial.rescuedOrphans && reteteGrupateArtificial.rescuedOrphans.length > 0) {
+    rescuedOrphans = reteteGrupateArtificial.rescuedOrphans
+  }
   console.log('reteteGrupateArtificial', reteteGrupateArtificial)
-  let retete1 = [...retete, ...reteteGrupateArtificial]
-  console.log('retete1', retete1)
+  let retete1
+  if (reteteGrupateArtificial.length > 0 && reteteGrupateArtificial.result.length > 0) {
+    retete1 = [...retete, ...reteteGrupateArtificial.result]
+  } else {
+    retete1 = retete
+  }
 
   retete = retete1
 
@@ -2063,7 +2071,8 @@ function createTreesFromWBS(ds) {
     retete,
     resultPlusVirtualFalse,
     resultPlusVirtualFalseNoDuplicates,
-    orphans
+    orphans,
+    rescuedOrphans
   }
 }
 
@@ -2154,9 +2163,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //delete from related
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
-                let clonedReteta = JSON.parse(JSON.stringify(reteta))
-              adaugaInReteta(clonedReteta, related)
-              result.push(clonedReteta)
+              adaugaInReteta(reteta, related)
             } else {
               console.log('reteta nu exista', principal)
               //creaza reteta in retete
