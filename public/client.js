@@ -2052,7 +2052,7 @@ class Recipe extends LitElement {
       //add icon for plus
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
-      plus_icon.classList.add('bi-plus')
+      plus_icon.classList.add('bi-plus-square')
       plus_icon.style.cursor = 'pointer'
       td.appendChild(plus_icon)
       let counter = 0
