@@ -2054,12 +2054,12 @@ class Recipe extends LitElement {
         //old_WBS
         let td1 = document.createElement('td')
         td1.innerHTML = activitate.object.old_WBS ? activitate.object.old_WBS : ''
-        td1.classList.add('font-weight-light')
+        td1.style.fontWeight = 'light'
         tr.appendChild(td1)
         //WBS
         let td2 = document.createElement('td')
         td2.innerHTML = activitate.object.WBS
-        td2.classList.add('font-weight-bold')
+        td2.style.fontWeight = 'bold'
         tr.appendChild(td2)
         //DENUMIRE_ARTICOL_OFERTA
         let td3 = document.createElement('td')
@@ -2086,6 +2086,7 @@ class Recipe extends LitElement {
           let material = activitate.children[j]
           counter++
           var tr = document.createElement('tr')
+          tr.classList.add('text-primary')
           tbody.appendChild(tr)
           var td = document.createElement('td')
           td.style.fontWeight = 'bold'
@@ -2094,7 +2095,7 @@ class Recipe extends LitElement {
           //old_WBS
           let td1 = document.createElement('td')
           td1.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
-          td1.classList.add('font-weight-light')
+          td1.style.fontWeight = 'light'
           tr.appendChild(td1)
           //WBS
           let td2 = document.createElement('td')
