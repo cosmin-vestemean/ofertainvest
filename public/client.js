@@ -2100,6 +2100,8 @@ class Recipe extends LitElement {
   }
 }
 
+customElements.define('my-recipe', Recipe)
+
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)
   const bParts = b.WBS.split('.').map(Number)
