@@ -2046,7 +2046,7 @@ class Recipe extends LitElement {
         let activitate = this.reteta[i]
         counter++
         var tr = document.createElement('tr')
-        tr.classList.add('shadow-sm', 'bg-light', 'table-group-divider') 
+        tr.classList.add('shadow-sm', 'bg-light', 'table-group-divider')
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
@@ -2090,7 +2090,7 @@ class Recipe extends LitElement {
           tbody.appendChild(tr)
           var td = document.createElement('td')
           td.style.fontWeight = 'bold'
-          td.innerHTML = counter + '.' + mCounter
+          td.innerHTML = '<small>' + counter + '.' + mCounter + '</small>'
           tr.appendChild(td)
           //old_WBS
           let td1 = document.createElement('td')
