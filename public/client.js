@@ -2150,29 +2150,29 @@ class Activity extends LitElement {
         tr.appendChild(td)
         //select same option like the above child
         //get the above tr and select element
-        var trAbove = tbody.children[tbody.children.length - 2]
-        var aboveSelect = trAbove.getElementsByTagName('select')[0]
+        let trAbove = tbody.children[tbody.children.length - 2]
+        let aboveSelect = trAbove.getElementsByTagName('select')[0]
         select.selectedIndex = aboveIndex
         //SUBTIP_ARTICOL_OFERTA
         td = document.createElement('td')
         //select element
-        var select = document.createElement('select')
-        select.id = 'material_SUBTIP_ARTICOL_OFERTA'
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
+        let select2 = document.createElement('select')
+        select2.id = 'material_SUBTIP_ARTICOL_OFERTA'
+        select2.classList.add('form-select')
+        select2.classList.add('form-select-sm')
         //vezi SUBTIP_ARTICOL_RETETA array (for let)
         for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
           var option = document.createElement('option')
           option.value = SUBTIP_ARTICOL_RETETA[i]
           option.text = SUBTIP_ARTICOL_RETETA[i]
-          select.appendChild(option)
+          select2.appendChild(option)
         }
         //select same option like the above child
         //get the above tr and select element
         aboveSelect = trAbove.getElementsByTagName('select')[1]
         var aboveIndex = aboveSelect.selectedIndex
-        select.selectedIndex = aboveIndex
-        td.appendChild(select)
+        select2.selectedIndex = aboveIndex
+        td.appendChild(select2)
         tr.appendChild(td)
       }
       td.appendChild(plus_icon)
