@@ -2135,24 +2135,24 @@ class Activity extends LitElement {
         //TIP_ARTICOL_OFERTA
         var td = document.createElement('td')
         //select element
-        var select = document.createElement('select')
-        select.id = 'material_TIP_ARTICOL_OFERTA'
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
+        let select1 = document.createElement('select')
+        select1.id = 'material_TIP_ARTICOL_OFERTA'
+        select1.classList.add('form-select')
+        select1.classList.add('form-select-sm')
         //vezi TIP_ARTICOL_RETETA array (for let)
         for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
           var option = document.createElement('option')
           option.value = TIP_ARTICOL_RETETA[i]
           option.text = TIP_ARTICOL_RETETA[i]
-          select.appendChild(option)
+          select1.appendChild(option)
         }
-        td.appendChild(select)
+        td.appendChild(select1)
         tr.appendChild(td)
         //select same option like the above child
         //get the above tr and select element
         let trAbove = tbody.children[tbody.children.length - 2]
         let aboveSelect = trAbove.getElementsByTagName('select')[0]
-        select.selectedIndex = aboveIndex
+        select1.selectedIndex = aboveIndex
         //SUBTIP_ARTICOL_OFERTA
         td = document.createElement('td')
         //select element
