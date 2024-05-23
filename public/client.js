@@ -2050,6 +2050,7 @@ class Recipe extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
+        td.classList.add('badge', 'bg-secondary')
         td.innerHTML = counter
         tr.appendChild(td)
         //old_WBS
@@ -2085,7 +2086,6 @@ class Recipe extends LitElement {
         for (let j = 0; j < activitate.children.length; j++) {
           mCounter++
           let material = activitate.children[j]
-          counter++
           var tr = document.createElement('tr')
           tbody.appendChild(tr)
           var td = document.createElement('td')
