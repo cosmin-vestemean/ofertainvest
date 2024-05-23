@@ -2075,7 +2075,7 @@ class Activity extends LitElement {
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {
         //add a new material
-        var tbody = document.getElementById('tbody_activitate')
+        var tbody = this.shadowRoot.getElementById('tbody_activitate');
         var tr = document.createElement('tr')
         tr.style.borderBottomColor = 'lightgray'
         tbody.appendChild(tr)
