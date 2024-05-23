@@ -2052,7 +2052,7 @@ class Recipe extends LitElement {
       //add icon for plus
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
-      plus_icon.classList.add('bi-plus-square')
+      plus_icon.classList.add('bi-plus-square', 'text-primary')
       plus_icon.style.cursor = 'pointer'
       td.appendChild(plus_icon)
       let counter = 0
@@ -2068,12 +2068,12 @@ class Recipe extends LitElement {
         //add fixed width to td
         td.style.width = '50px'
         var edit = document.createElement('i')
-        edit.classList.add('bi', 'bi-pencil-square')
+        edit.classList.add('bi', 'bi-pencil-square', 'text-primary')
         edit.id = 'edit_' + counter
         edit.style.cursor = 'pointer'
         edit.onclick = function () {}
         var trash = document.createElement('i')
-        trash.classList.add('bi', 'bi-trash')
+        trash.classList.add('bi', 'bi-trash', 'text-danger')
         trash.id = 'trash_' + counter
         trash.style.cursor = 'pointer'
         trash.style.marginLeft = '5px'
@@ -2081,7 +2081,7 @@ class Recipe extends LitElement {
         td.appendChild(edit)
         td.appendChild(trash)
         //span with counter
-        var span = document.createElement('i')
+        var span = document.createElement('span')
         //add margin left
         span.style.marginLeft = '5px'
         span.innerHTML = counter
