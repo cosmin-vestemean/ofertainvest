@@ -2050,8 +2050,10 @@ class Recipe extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
-        td.classList.add('badge', 'bg-secondary')
-        td.innerHTML = counter
+        let badge = document.createElement('span')
+        badge.classList.add('badge', 'bg-secondary')
+        badge.innerHTML = counter
+        td.appendChild(badge)
         tr.appendChild(td)
         //old_WBS
         let td1 = document.createElement('td')
