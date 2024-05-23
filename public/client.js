@@ -2146,14 +2146,13 @@ class Activity extends LitElement {
           option.text = TIP_ARTICOL_RETETA[i]
           select.appendChild(option)
         }
-        //select same option like the above child
-        //get the above tr and select element
-        var tr = tbody.children[tbody.children.length - 2]
-        var aboveSelect = tr.getElementsByTagName('select')[0]
-        var aboveIndex = aboveSelect.selectedIndex
-        select.selectedIndex = aboveIndex
         td.appendChild(select)
         tr.appendChild(td)
+        //select same option like the above child
+        //get the above tr and select element
+        var trAbove = tbody.children[tbody.children.length - 2]
+        var aboveSelect = trAbove.getElementsByTagName('select')[0]
+        select.selectedIndex = aboveIndex
         //SUBTIP_ARTICOL_OFERTA
         td = document.createElement('td')
         //select element
@@ -2170,8 +2169,7 @@ class Activity extends LitElement {
         }
         //select same option like the above child
         //get the above tr and select element
-        var tr = tbody.children[tbody.children.length - 2]
-        var aboveSelect = tr.getElementsByTagName('select')[1]
+        var aboveSelect = trAbove.getElementsByTagName('select')[1]
         var aboveIndex = aboveSelect.selectedIndex
         select.selectedIndex = aboveIndex
         td.appendChild(select)
