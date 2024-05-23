@@ -2081,14 +2081,16 @@ class Recipe extends LitElement {
         td.innerHTML = activitate.object.SUBTIP_ARTICOL_OFERTA
         tr.appendChild(td)
         //add children
+        var mCounter = 0
         for (let j = 0; j < activitate.children.length; j++) {
+          mCounter++
           let material = activitate.children[j]
           counter++
           var tr = document.createElement('tr')
           tbody.appendChild(tr)
           var td = document.createElement('td')
           td.style.fontWeight = 'bold'
-          td.innerHTML = counter
+          td.innerHTML = counter + '.' + mCounter
           tr.appendChild(td)
           //old_WBS
           let td1 = document.createElement('td')
