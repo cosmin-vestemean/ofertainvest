@@ -1843,7 +1843,11 @@ class Recipe extends LitElement {
         edit.onclick = function () {
           //edit activitate
           //ModalGeneric + modal_body3 > my-activity with activitate
-          var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+          //add class fullscreen
+          var popup = document.getElementById('ModalGeneric')
+          popup.classList.remove('modal-lg')
+          popup.classList.add('modal-fullscreen')
+          var modal = new bootstrap.Modal(popup)
           var modal_body = document.getElementById('modal-body3')
           modal_body.innerHTML = ''
           var my_activity = document.createElement('my-activity')
@@ -2062,6 +2066,9 @@ class Activity extends LitElement {
       var tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
+      //append counter
+      var td = document.createElement('td')
+      tr.appendChild(td)
       //old_WBS
       var td = document.createElement('td')
       td.innerHTML = this.activitate.object.old_WBS ? this.activitate.object.old_WBS : ''
