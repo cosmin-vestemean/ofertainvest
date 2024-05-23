@@ -2073,6 +2073,7 @@ class Activity extends LitElement {
       //DENUMIRE_ARTICOL_OFERTA
       var td = document.createElement('td')
       td.innerHTML = this.activitate.object.DENUMIRE_ARTICOL_OFERTA
+      td.contentEditable = true
       tr.appendChild(td)
       //CANTITATE_ARTICOL_OFERTA
       var td = document.createElement('td')
@@ -2140,6 +2141,7 @@ class Activity extends LitElement {
         //DENUMIRE_ARTICOL_OFERTA
         var td = document.createElement('td')
         td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
+        td.contentEditable = true
         tr.appendChild(td)
         //CANTITATE_ARTICOL_OFERTA
         var td = document.createElement('td')
