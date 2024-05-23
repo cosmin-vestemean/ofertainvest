@@ -2088,7 +2088,7 @@ class Recipe extends LitElement {
           mCounter++
           let material = activitate.children[j]
           var tr = document.createElement('tr')
-          tr.style.borderBottomColor = 'var(--light)'
+          tr.style.borderBottomColor = 'lightgray'
           tbody.appendChild(tr)
           var td = document.createElement('td')
           td.classList.add('text-secondary')
