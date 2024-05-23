@@ -2046,7 +2046,6 @@ class Recipe extends LitElement {
         let activitate = this.reteta[i]
         counter++
         var tr = document.createElement('tr')
-        tr.style.fontWeight = 'bold'
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
