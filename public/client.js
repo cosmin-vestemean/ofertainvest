@@ -2077,7 +2077,10 @@ class Recipe extends LitElement {
         trash.onclick = function () {}
         td.appendChild(edit)
         td.appendChild(trash)
-        td.innerHTML += counter
+        //span with counter
+        var span = document.createElement('span')
+        span.innerHTML = counter
+        td.appendChild(span)
         tr.appendChild(td)
         //old_WBS
         let td1 = document.createElement('td')
