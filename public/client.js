@@ -2169,7 +2169,7 @@ class Activity extends LitElement {
       //add refresh icon for reloading my-activity with retetaCurenta
       var refresh_icon = document.createElement('i')
       refresh_icon.classList.add('bi')
-      refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary')
+      refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary', 'fs-4', 'mb-3')
       refresh_icon.style.cursor = 'pointer'
       refresh_icon.style.marginLeft = '5px'
       refresh_icon.onclick = function () {
@@ -2181,7 +2181,7 @@ class Activity extends LitElement {
       //add forward and backward icons for navigation between activities
       var backward_icon = document.createElement('i')
       backward_icon.classList.add('bi')
-      backward_icon.classList.add('bi-arrow-left-circle', 'text-primary')
+      backward_icon.classList.add('bi-arrow-left-circle', 'text-primary', 'fs-4', 'mb-3')
       backward_icon.style.cursor = 'pointer'
       backward_icon.style.marginLeft = '5px'
       backward_icon.onclick = function () {
@@ -2190,7 +2190,7 @@ class Activity extends LitElement {
       td.appendChild(backward_icon)
       var forward_icon = document.createElement('i')
       forward_icon.classList.add('bi')
-      forward_icon.classList.add('bi-arrow-right-circle', 'text-primary')
+      forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
       forward_icon.style.cursor = 'pointer'
       forward_icon.style.marginLeft = '5px'
       forward_icon.onclick = function () {
