@@ -2175,6 +2175,7 @@ class Activity extends LitElement {
         var my_activity = document.getElementById('editare_activitate')
         my_activity.activitate = retetaCurenta
       }
+      td.appendChild(refresh_icon)
       tbody.appendChild(tr)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
