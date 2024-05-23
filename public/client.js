@@ -2081,6 +2081,8 @@ class Activity extends LitElement {
       var td = document.createElement('td')
       td.innerHTML = this.activitate.object.DENUMIRE_ARTICOL_OFERTA
       td.contentEditable = true
+      //spellcheck
+      td.spellcheck = false
       tr.appendChild(td)
       //CANTITATE_ARTICOL_OFERTA
       var td = document.createElement('td')
@@ -2149,6 +2151,7 @@ class Activity extends LitElement {
         var td = document.createElement('td')
         td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
         td.contentEditable = true
+        td.spellcheck = false
         tr.appendChild(td)
         //CANTITATE_ARTICOL_OFERTA
         var td = document.createElement('td')
