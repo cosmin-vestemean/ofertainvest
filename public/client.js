@@ -1852,6 +1852,7 @@ class Recipe extends LitElement {
           var modal_body = document.getElementById('modal-body3')
           modal_body.innerHTML = ''
           var my_activity = document.createElement('my-activity')
+          my_activity.id = 'editare_activitate'
           my_activity.activitate = activitate
           modal_body.appendChild(my_activity)
           modal.show()
@@ -2075,7 +2076,7 @@ class Activity extends LitElement {
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {
         //add a new material
-        var tbody = this.shadowRoot.getElementById('tbody_activitate');
+        var tbody = document.getElementById('editare_activitate').shadowRoot.getElementById('tbody_activitate');
         var tr = document.createElement('tr')
         tr.style.borderBottomColor = 'lightgray'
         tbody.appendChild(tr)
