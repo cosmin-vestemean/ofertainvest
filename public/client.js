@@ -2064,7 +2064,7 @@ class Activity extends LitElement {
       tbody.appendChild(tr)
       //old_WBS
       var td = document.createElement('td')
-      td1.innerHTML = this.activitate.object.old_WBS ? this.activitate.object.old_WBS : ''
+      td.innerHTML = this.activitate.object.old_WBS ? this.activitate.object.old_WBS : ''
       tr.appendChild(td)
       //WBS
       var td = document.createElement('td')
