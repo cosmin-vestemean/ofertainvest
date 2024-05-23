@@ -2178,6 +2178,25 @@ class Activity extends LitElement {
         my_activity.activitate = activitateCurenta
       }
       td.appendChild(refresh_icon)
+      //add forward and backward icons for navigation between activities
+      var backward_icon = document.createElement('i')
+      backward_icon.classList.add('bi')
+      backward_icon.classList.add('bi-arrow-left-circle', 'text-primary')
+      backward_icon.style.cursor = 'pointer'
+      backward_icon.style.marginLeft = '5px'
+      backward_icon.onclick = function () {
+        //find previous activity
+      }
+      td.appendChild(backward_icon)
+      var forward_icon = document.createElement('i')
+      forward_icon.classList.add('bi')
+      forward_icon.classList.add('bi-arrow-right-circle', 'text-primary')
+      forward_icon.style.cursor = 'pointer'
+      forward_icon.style.marginLeft = '5px'
+      forward_icon.onclick = function () {
+        //find next activity
+      }
+      td.appendChild(forward_icon)
       tbody.appendChild(tr)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
