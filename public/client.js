@@ -2049,7 +2049,6 @@ class Recipe extends LitElement {
         counter++
         var tr = document.createElement('tr')
         tr.classList.add('shadow-sm', 'bg-light')
-        tr.style.borderBottomColor = 'var(--secondary)'
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
@@ -2089,6 +2088,7 @@ class Recipe extends LitElement {
           mCounter++
           let material = activitate.children[j]
           var tr = document.createElement('tr')
+          tr.style.borderBottomColor = 'var(--secondary)'
           tbody.appendChild(tr)
           var td = document.createElement('td')
           td.classList.add('text-secondary')
