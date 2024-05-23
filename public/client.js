@@ -2084,7 +2084,7 @@ class Activity extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.classList.add('text-primary')
-        td.innerHTML = tbody.children.length
+        td.innerHTML = tbody.children.length - 2
         tr.appendChild(td)
         //old_WBS
         var td = document.createElement('td')
@@ -2225,7 +2225,21 @@ class Activity extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.classList.add('text-secondary')
-        td.innerHTML = mCounter
+        //add trash icon and span with counter
+        var trash = document.createElement('i')
+        trash.classList.add('bi')
+        trash.classList.add('bi-trash', 'text-danger')
+        trash.style.cursor = 'pointer'
+        trash.onclick = function () {
+          //delete material
+          //remove tr from tbody
+          tr.remove()
+        }
+        td.appendChild(trash)
+        var span = document.createElement('span')
+        span.style.marginLeft = '5px'
+        span.innerHTML = mCounter
+        td.appendChild(span)
         tr.appendChild(td)
         //old_WBS
         var td = document.createElement('td')
