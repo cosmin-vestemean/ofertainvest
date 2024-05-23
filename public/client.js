@@ -2042,6 +2042,28 @@ class Recipe extends LitElement {
         tr.appendChild(th)
       }
       //add tbody
+      //first add a row for buttons like "Adauga activitate", "Ascunde materiale"
+      var tr = document.createElement('tr')
+      tbody.appendChild(tr)
+      var td = document.createElement('td')
+      td.colSpan = 7
+      tr.appendChild(td)
+      //add button Adauga activitate
+      var button = document.createElement('button')
+      button.type = 'button'
+      button.classList.add('btn', 'btn-primary', 'btn-sm')
+      button.id = 'btn_adauga_activitate'
+      button.innerHTML = 'Adauga activitate'
+      td.appendChild(button)
+      button.onclick = function () {}
+      //add button Ascunde materiale
+      button = document.createElement('button')
+      button.type = 'button'
+      button.classList.add('btn', 'btn-primary', 'btn-sm')
+      button.id = 'btn_ascunde_materiale'
+      button.innerHTML = 'Ascunde materiale'
+      td.appendChild(button)
+      button.onclick = function () {}
       let counter = 0
       //use for (let)
       for (let i = 0; i < this.reteta.length; i++) {
@@ -2052,7 +2074,19 @@ class Recipe extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
-        td.innerHTML = counter
+        var edit = document.createElement('i')
+        edit.classList.add('bi', 'bi-pencil-square')
+        edit.id = 'edit_' + counter
+        edit.style.cursor = 'pointer'
+        edit.onclick = function () {}
+        var trash = document.createElement('i')
+        trash.classList.add('bi', 'bi-trash')
+        trash.id = 'trash_' + counter
+        trash.style.cursor = 'pointer'
+        trash.onclick = function () {}
+        td.appendChild(edit)
+        td.appendChild(trash)
+        td.innerHTML += counter
         tr.appendChild(td)
         //old_WBS
         let td1 = document.createElement('td')
