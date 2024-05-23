@@ -2046,7 +2046,7 @@ class Recipe extends LitElement {
         let activitate = this.reteta[i]
         counter++
         var tr = document.createElement('tr')
-        tr.classList.add('bg-info', 'text-white')
+        tr.style.fontWeight = 'bold'
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
@@ -2055,6 +2055,7 @@ class Recipe extends LitElement {
         //old_WBS
         td = document.createElement('td')
         td.innerHTML = activitate.object.old_WBS ? activitate.object.old_WBS : ''
+        td.classList.add('font-weight-light')
         tr.appendChild(td)
         //WBS
         td = document.createElement('td')
@@ -2092,18 +2093,22 @@ class Recipe extends LitElement {
           tr.appendChild(td)
           //old_WBS
           td = document.createElement('td')
-          td.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
-          td.classList.add('pl-10')
+          td.innerHTML = '<span style="display: inline-block; width: 100px;">'
+          td.innerHTML += material.object.old_WBS ? material.object.old_WBS : ''
+          td.innerHTML += '</span>'
+          td.classList.add('font-weight-light')
           tr.appendChild(td)
           //WBS
           td = document.createElement('td')
-          td.innerHTML = material.object.WBS
-          td.classList.add('pl-10')
+          td.innerHTML = '<span style="display: inline-block; width: 100px;">'
+          td.innerHTML += material.object.WBS
+          td.innerHTML += '</span>'
           tr.appendChild(td)
           //DENUMIRE_ARTICOL_OFERTA
           td = document.createElement('td')
-          td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
-          td.classList.add('pl-10')
+          td.innerHTML = '<span style="display: inline-block; width: 100px;">'
+          td.innerHTML += material.object.DENUMIRE_ARTICOL_OFERTA
+          td.innerHTML += '</span>'
           tr.appendChild(td)
           //CANTITATE_ARTICOL_OFERTA
           td = document.createElement('td')
