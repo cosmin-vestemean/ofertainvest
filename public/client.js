@@ -2152,6 +2152,7 @@ class Activity extends LitElement {
         //get the above tr and select element
         let trAbove = tbody.children[tbody.children.length - 2]
         let aboveSelect = trAbove.getElementsByTagName('select')[0]
+        let aboveIndex = aboveSelect.selectedIndex
         select1.selectedIndex = aboveIndex
         //SUBTIP_ARTICOL_OFERTA
         td = document.createElement('td')
@@ -2170,7 +2171,7 @@ class Activity extends LitElement {
         //select same option like the above child
         //get the above tr and select element
         aboveSelect = trAbove.getElementsByTagName('select')[1]
-        var aboveIndex = aboveSelect.selectedIndex
+        aboveIndex = aboveSelect.selectedIndex
         select2.selectedIndex = aboveIndex
         td.appendChild(select2)
         tr.appendChild(td)
