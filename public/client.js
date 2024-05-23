@@ -2078,7 +2078,9 @@ class Recipe extends LitElement {
         td.appendChild(edit)
         td.appendChild(trash)
         //span with counter
-        var span = document.createElement('span')
+        var span = document.createElement('i')
+        //add margin left
+        span.style.marginLeft = '5px'
         span.innerHTML = counter
         td.appendChild(span)
         tr.appendChild(td)
