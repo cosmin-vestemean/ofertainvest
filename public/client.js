@@ -1842,7 +1842,7 @@ class Recipe extends LitElement {
       let counter = 0
       //use for (let)
       for (let i = 0; i < this.reteta.length; i++) {
-        let activitateCurenta = this.reteta[i]
+        let activitate = this.reteta[i]
         counter++
         var tr = document.createElement('tr')
         tr.classList.add('shadow-sm', 'bg-light')
@@ -1868,7 +1868,8 @@ class Recipe extends LitElement {
           modal_body.innerHTML = ''
           var my_activity = document.createElement('my-activity')
           my_activity.id = 'editare_activitate'
-          my_activity.activitate = activitateCurenta
+          activitateCurenta = activitate
+          my_activity.activitate = activitate
           modal_body.appendChild(my_activity)
           modal.show()
         }
@@ -2172,12 +2173,9 @@ class Activity extends LitElement {
       refresh_icon.style.cursor = 'pointer'
       refresh_icon.style.marginLeft = '5px'
       refresh_icon.onclick = function () {
-        //are you sure?
         //reload my-activity with currentRecipe
-        if (confirm('Sunteti sigir ca doriti sa initializati activitatea?')) {
-          var my_activity = document.getElementById('editare_activitate')
-          my_activity.activitate = activitateCurenta
-        }
+        var my_activity = document.getElementById('editare_activitate')
+        my_activity.activitate = retetaCurenta
       }
       td.appendChild(refresh_icon)
       tbody.appendChild(tr)
