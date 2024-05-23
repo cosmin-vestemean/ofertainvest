@@ -1,14 +1,7 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
 
-const TIP_ACTIVITATE_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-const SUBTIP_ACTIVITATE_ARTICOL_RETETA = [
-  'PRINCIPAL',
-  'MATERIAL',
-  'MANOPERA',
-  'TRANSPORT',
-  'ECHIPAMENT',
-  'UTILAJ'
-]
+const TIP_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
+const SUBTIP_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT', 'UTILAJ']
 
 console.log('client.js loaded')
 
@@ -1446,230 +1439,6 @@ export function init() {
   }
 }
 
-function creazaReteta(object) {
-  //object = {DENUMIRE_ARTICOL_OFERTA: "SUPRATERAN", CANTITATE_ARTICOL_OFERTA: 1, UM_ARTICOL_OFERTA: "buc", WBS: "1.1.1"}
-  //show modal ModalReteta with object
-  var modalReteta = new bootstrap.Modal(document.getElementById('ModalReteta'))
-  var modal_body = document.getElementById('modal-body2')
-  modal_body.innerHTML = ''
-  //headerLabel2
-  var headerLabel2 = document.getElementById('headerLabel2')
-  headerLabel2.innerHTML =
-    'Reteta pentru ' +
-    object.WBS +
-    ' ' +
-    object.DENUMIRE_ARTICOL_OFERTA +
-    ' - ' +
-    object.CANTITATE_ARTICOL_OFERTA +
-    ' [' +
-    object.UM_ARTICOL_OFERTA +
-    ']'
-  //add button Adauga activitate
-  var div_btn = document.createElement('div')
-  div_btn.classList.add('col-sm')
-  var button = document.createElement('button')
-  button.type = 'button'
-  button.classList.add('btn')
-  button.classList.add('btn-primary')
-  button.classList.add('btn-sm')
-  //add plus icon
-  var plus_icon = document.createElement('i')
-  plus_icon.classList.add('bi')
-  plus_icon.classList.add('bi-plus')
-  button.appendChild(plus_icon)
-  button.innerHTML += ' Adauga activitate'
-  div_btn.appendChild(button)
-  headerLabel2.appendChild(div_btn)
-  button.onclick = function () {
-    //adauga activitate
-    //add empty row to table_activitati_reteta, contenteditable
-    var tbody = document.getElementById('tbody_reteta')
-    var tr = document.createElement('tr')
-    tbody.appendChild(tr)
-    //add td with delete icon
-    var td = document.createElement('td')
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-trash')
-    icon.classList.add('text-danger')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function () {
-      //delete row
-      tbody.removeChild(tr)
-    }
-    td.appendChild(icon)
-    //add list icon
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-list')
-    icon.classList.add('text-primary')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function () {
-      alert('Materiale pentru ' + object.WBS)
-    }
-    td.appendChild(icon)
-    tr.appendChild(td)
-    //add td with contenteditable
-    for (var i = 0; i < 11; i++) {
-      var td = document.createElement('td')
-      //spellcheck = false
-      td.spellcheck = false
-      td.contentEditable = true
-      if (i == 0) {
-        //WBS
-        td.innerHTML = object.WBS + '.' + tbody.rows.length
-      } else if (i == 2) {
-        //select with TIP_ACTIVITATE_ARTICOL_RETETA
-        var select = document.createElement('select')
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
-        select.id = 'TIP_ACTIVITATE_ARTICOL_RETETA'
-        for (var j = 0; j < TIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
-          var option = document.createElement('option')
-          option.value = j
-          option.text = TIP_ACTIVITATE_ARTICOL_RETETA[j]
-          select.appendChild(option)
-        }
-        td.appendChild(select)
-      } else if (i == 3) {
-        //select with SUBTIP_ACTIVITATE_ARTICOL_RETETA
-        var select = document.createElement('select')
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
-        select.id = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
-        for (var j = 0; j < SUBTIP_ACTIVITATE_ARTICOL_RETETA.length; j++) {
-          var option = document.createElement('option')
-          option.value = j
-          option.text = SUBTIP_ACTIVITATE_ARTICOL_RETETA[j]
-          select.appendChild(option)
-        }
-        td.appendChild(select)
-      } else {
-        td.innerHTML = ''
-      }
-      tr.appendChild(td)
-    }
-  }
-  //create table with header: WBS, DENUMIRE_ACTIVITATE_ARTICOL_RETETA, TIP_ACTIVITATE_ARTICOL_RETETA, SUBTIP_ACTIVITATE_ARTICOL_RETETA, UM_ACTIVITATE_ARTICOL_RETETA, CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA, TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA,NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA
-  var table = document.createElement('table')
-  //id
-  table.id = 'table_activitati_reteta'
-  table.classList.add('table')
-  table.classList.add('table-sm')
-  table.classList.add('table-bordered')
-  table.classList.add('table-hover')
-  table.classList.add('table-striped')
-  table.classList.add('table-responsive')
-  var thead = document.createElement('thead')
-  thead.id = 'thead_reteta'
-  var tbody = document.createElement('tbody')
-  tbody.id = 'tbody_reteta'
-  table.appendChild(thead)
-  table.appendChild(tbody)
-  modal_body.appendChild(table)
-  //create thead
-  var tr = document.createElement('tr')
-  thead.appendChild(tr)
-  //add Actions column: lines will contain a +, an edit and a trash icon
-  var th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'Actions'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'WBS'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'DENUMIRE_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'TIP_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'UM_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'TOTAL_CANTITATE_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  var th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'TOTAL_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  th = document.createElement('th')
-  th.style.writingMode = 'vertical-rl'
-  th.style.rotate = '180deg'
-  th.classList.add('header')
-  //add scope col
-  th.setAttribute('scope', 'col')
-  th.innerHTML = 'NORMA_UNITARA_ORE_MANOPERA_ACTIVITATE_ARTICOL_RETETA'
-  tr.appendChild(th)
-  modalReteta.show()
-}
-
 function createDatasetForRecipes() {
   return createTreesFromWBS(optimal_ds)
 }
@@ -2073,7 +1842,14 @@ class Recipe extends LitElement {
         edit.style.cursor = 'pointer'
         edit.onclick = function () {
           //edit activitate
-          creazaReteta(activitate.object)
+          //ModalGeneric + modal_body3 > my-activity with activitate
+          var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+          var modal_body = document.getElementById('modal-body3')
+          modal_body.innerHTML = ''
+          var my_activity = document.createElement('my-activity')
+          my_activity.activitate = activitate
+          modal_body.appendChild(my_activity)
+          modal.show()
         }
         var trash = document.createElement('i')
         trash.classList.add('bi', 'bi-trash', 'text-danger')
@@ -2167,6 +1943,254 @@ class Recipe extends LitElement {
 }
 
 customElements.define('my-recipe', Recipe)
+
+//create a <my-activity> element
+//this element is composed from a single activity and its children as materials
+//you can add custom materials to an activity, edit mataerials (rename, for eg), delete materials
+//it relates to retetaCurenta, changes are made to retetaCurenta when saving
+
+class Activity extends LitElement {
+  static properties = {
+    activitate: { type: Object }
+  }
+
+  constructor() {
+    super()
+    this.activitate = {}
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('activity element added to the DOM')
+  }
+
+  render() {
+    console.log('rendering activity element with following object', this.activitate, 'added at', new Date())
+
+    if (!this.activitate || Object.keys(this.activitate).length == 0) {
+      return html`<p class="label label-danger">No data</p>`
+    } else {
+      //add activity then add children in a rw table (contenteditable)
+      //TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA are select elements
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.id = 'table_activitate'
+      //get or create thead and tbody
+      var thead = document.createElement('thead')
+      thead.id = 'thead_activitate'
+      thead.classList.add('align-middle')
+      var tbody = document.createElement('tbody')
+      tbody.id = 'tbody_activitate'
+      if (theadIsSet) {
+        tbody.classList.add('table-group-divider')
+      }
+      table.appendChild(tbody)
+      //add thead
+      if (theadIsSet) {
+        table.appendChild(thead)
+        var tr = document.createElement('tr')
+        thead.appendChild(tr)
+        //append counter
+        var th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
+        //append old_WBS, if exists
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'old_WBS'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        //make it text normal, instead of bold
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append WBS
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'WBS'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append DENUMIRE_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append CANTITATE_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append UM_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'UM_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append TIP_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'TIP_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append SUBTIP_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.scope = 'col'
+        th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+      }
+
+      //add tbody
+      var tr = document.createElement('tr')
+      tr.classList.add('shadow-sm', 'bg-light')
+      tbody.appendChild(tr)
+      //old_WBS
+      var td = document.createElement('td')
+      td1.innerHTML = this.activitate.object.old_WBS ? this.activitate.object.old_WBS : ''
+      tr.appendChild(td)
+      //WBS
+      var td = document.createElement('td')
+      td.innerHTML = this.activitate.object.WBS
+      tr.appendChild(td)
+      //DENUMIRE_ARTICOL_OFERTA
+      var td = document.createElement('td')
+      td.innerHTML = this.activitate.object.DENUMIRE_ARTICOL_OFERTA
+      tr.appendChild(td)
+      //CANTITATE_ARTICOL_OFERTA
+      var td = document.createElement('td')
+      td.innerHTML = this.activitate.object.CANTITATE_ARTICOL_OFERTA
+      tr.appendChild(td)
+      //UM_ARTICOL_OFERTA
+      var td = document.createElement('td')
+      td.innerHTML = this.activitate.object.UM_ARTICOL_OFERTA
+      tr.appendChild(td)
+      //TIP_ARTICOL_OFERTA
+      var td = document.createElement('td')
+      //select element
+      var select = document.createElement('select')
+      select.id = 'activitate_TIP_ARTICOL_OFERTA'
+      select.classList.add('form-select')
+      select.classList.add('form-select-sm')
+      //vezi TIP_ARTICOL_RETETA array (for let)
+      for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
+        var option = document.createElement('option')
+        option.value = TIP_ARTICOL_RETETA[i]
+        option.text = TIP_ARTICOL_RETETA[i]
+        select.appendChild(option)
+      }
+      select.selectedIndex = TIP_ARTICOL_RETETA.indexOf(this.activitate.object.TIP_ARTICOL_OFERTA)
+      td.appendChild(select)
+      tr.appendChild(td)
+      //SUBTIP_ARTICOL_OFERTA
+      var td = document.createElement('td')
+      //select element
+      var select = document.createElement('select')
+      select.id = 'activitate_SUBTIP_ARTICOL_OFERTA'
+      select.classList.add('form-select')
+      select.classList.add('form-select-sm')
+      //vezi SUBTIP_ARTICOL_RETETA array (for let)
+      for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
+        var option = document.createElement('option')
+        option.value = SUBTIP_ARTICOL_RETETA[i]
+        option.text = SUBTIP_ARTICOL_RETETA[i]
+        select.appendChild(option)
+      }
+      select.selectedIndex = SUBTIP_ARTICOL_RETETA.indexOf(this.activitate.object.SUBTIP_ARTICOL_OFERTA)
+      td.appendChild(select)
+      tr.appendChild(td)
+
+      //add children
+      var mCounter = 0
+      for (let i = 0; i < this.activitate.children.length; i++) {
+        let material = this.activitate.children[i]
+        mCounter++
+        var tr = document.createElement('tr')
+        tr.style.borderBottomColor = 'lightgray'
+        tbody.appendChild(tr)
+        var td = document.createElement('td')
+        td.classList.add('text-secondary')
+        td.innerHTML = mCounter
+        tr.appendChild(td)
+        //old_WBS
+        var td = document.createElement('td')
+        td.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
+        tr.appendChild(td)
+        //WBS
+        var td = document.createElement('td')
+        td.innerHTML = material.object.WBS
+        tr.appendChild(td)
+        //DENUMIRE_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //CANTITATE_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        td.innerHTML = material.object.CANTITATE_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //UM_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        td.innerHTML = material.object.UM_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //TIP_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        //select
+        var select = document.createElement('select')
+        select.id = 'material_TIP_ARTICOL_OFERTA'
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        //vezi TIP_ARTICOL_RETETA array (for let)
+        for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
+          var option = document.createElement('option')
+          option.value = TIP_ARTICOL_RETETA[i]
+          option.text = TIP_ARTICOL_RETETA[i]
+          select.appendChild(option)
+        }
+        select.selectedIndex = TIP_ARTICOL_RETETA.indexOf(material.object.TIP_ARTICOL_OFERTA)
+        td.appendChild(select)
+        tr.appendChild(td)
+        //SUBTIP_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        //select
+        var select = document.createElement('select')
+        select.id = material.object.DENUMIRE_ARTICOL_OFERTA + '_SUBTIP_ARTICOL_OFERTA'
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        //vezi SUBTIP_ARTICOL_RETETA array (for let)
+        for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
+          var option = document.createElement('option')
+          option.value = SUBTIP_ARTICOL_RETETA[i]
+          option.text = SUBTIP_ARTICOL_RETETA[i]
+          select.appendChild(option)
+        }
+        select.selectedIndex = SUBTIP_ARTICOL_RETETA.indexOf(material.object.SUBTIP_ARTICOL_OFERTA)
+        td.appendChild(select)
+        tr.appendChild(td)
+      }
+
+      return html`${table}`
+    }
+  }
+}
+
+customElements.define('my-activity', Activity)
 
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)
