@@ -59,6 +59,7 @@ var intrari_orfane = []
 var WBSMap = []
 var theadIsSet = true
 var retetaCurenta = {}
+var activitateCurenta = {}
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1841,7 +1842,7 @@ class Recipe extends LitElement {
       let counter = 0
       //use for (let)
       for (let i = 0; i < this.reteta.length; i++) {
-        let activitate = this.reteta[i]
+        let activitateCurenta = this.reteta[i]
         counter++
         var tr = document.createElement('tr')
         tr.classList.add('shadow-sm', 'bg-light')
@@ -1867,7 +1868,7 @@ class Recipe extends LitElement {
           modal_body.innerHTML = ''
           var my_activity = document.createElement('my-activity')
           my_activity.id = 'editare_activitate'
-          my_activity.activitate = activitate
+          my_activity.activitate = activitateCurenta
           modal_body.appendChild(my_activity)
           modal.show()
         }
@@ -2173,7 +2174,7 @@ class Activity extends LitElement {
       refresh_icon.onclick = function () {
         //reload my-activity with currentRecipe
         var my_activity = document.getElementById('editare_activitate')
-        my_activity.activitate = retetaCurenta
+        my_activity.activitate = activitateCurenta
       }
       td.appendChild(refresh_icon)
       tbody.appendChild(tr)
