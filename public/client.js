@@ -1430,7 +1430,6 @@ export function init() {
   //do not forget shadowRoot
   my_table2.shadowRoot.addEventListener('mouseover', function (e) {
     if (e.target.tagName === 'TD') {
-      //a se tine cont de theadIsSet
       var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0)
       console.log('index', index)
       console.log('recipes_ds[index]', recipes_ds[index])
@@ -1970,66 +1969,77 @@ class Recipe extends LitElement {
       var tbody = document.createElement('tbody')
       tbody.id = 'tbody_reteta'
       tbody.classList.add('table-group-divider')
-      table.appendChild(thead)
       table.appendChild(tbody)
       //add thead
-      var tr = document.createElement('tr')
-      thead.appendChild(tr)
-      //append counter
-      var th = document.createElement('th')
-      th.scope = 'col'
-      tr.appendChild(th)
-      //append old_WBS, if exists
-      th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'old_WBS'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
-      //append WBS
-      th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'WBS'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
-      //append DENUMIRE_ARTICOL_OFERTA
-      th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
-      //append CANTITATE_ARTICOL_OFERTA
-      th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
-      //append UM_ARTICOL_OFERTA
-      th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'UM_ARTICOL_OFERTA'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
-      //append TIP_ARTICOL_OFERTA
-      th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'TIP_ARTICOL_OFERTA'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
-      //append SUBTIP_ARTICOL_OFERTA
-      th = document.createElement('th')
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      th.scope = 'col'
-      th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
-      th.style.writingMode = 'vertical-rl'
-      th.style.rotate = '180deg'
-      tr.appendChild(th)
+      //a se tine cont de theadIsSet
+      if (theadIsSet) {
+        table.appendChild(thead)
+        var tr = document.createElement('tr')
+        thead.appendChild(tr)
+        //append counter
+        var th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
+        //append old_WBS, if exists
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'old_WBS'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        //make it text normal, instead of bold
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append WBS
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'WBS'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append DENUMIRE_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append CANTITATE_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append UM_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'UM_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append TIP_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'TIP_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //append SUBTIP_ARTICOL_OFERTA
+        th = document.createElement('th')
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.scope = 'col'
+        th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+      }
       //add tbody
       let counter = 0
       //use for (let)
@@ -2082,7 +2092,7 @@ class Recipe extends LitElement {
           tr.appendChild(td)
           //old_WBS
           td = document.createElement('td')
-          td.innerHTML = material.object.old_WBS
+          td.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
           tr.appendChild(td)
           //WBS
           td = document.createElement('td')
