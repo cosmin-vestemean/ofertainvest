@@ -2053,18 +2053,18 @@ class Recipe extends LitElement {
         td.innerHTML = counter
         tr.appendChild(td)
         //old_WBS
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.old_WBS ? activitate.object.old_WBS : ''
-        td.classList.add('font-weight-light')
-        tr.appendChild(td)
+        let td1 = document.createElement('td')
+        td1.innerHTML = activitate.object.old_WBS ? activitate.object.old_WBS : ''
+        td1.classList.add('font-weight-light')
+        tr.appendChild(td1)
         //WBS
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.WBS
-        tr.appendChild(td)
+        let td2 = document.createElement('td')
+        td2.innerHTML = activitate.object.WBS
+        tr.appendChild(td2)
         //DENUMIRE_ARTICOL_OFERTA
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.DENUMIRE_ARTICOL_OFERTA
-        tr.appendChild(td)
+        let td3 = document.createElement('td')
+        td3.innerHTML = activitate.object.DENUMIRE_ARTICOL_OFERTA
+        tr.appendChild(td3)
         //CANTITATE_ARTICOL_OFERTA
         td = document.createElement('td')
         td.innerHTML = activitate.object.CANTITATE_ARTICOL_OFERTA
@@ -2092,24 +2092,24 @@ class Recipe extends LitElement {
           td.innerHTML = counter
           tr.appendChild(td)
           //old_WBS
-          td = document.createElement('td')
-          td.innerHTML = '<span style="display: inline-block; width: 100px;">'
-          td.innerHTML += material.object.old_WBS ? material.object.old_WBS : ''
-          td.innerHTML += '</span>'
-          td.classList.add('font-weight-light')
-          tr.appendChild(td)
+          let td1 = document.createElement('td')
+          td1.innerHTML = '<span style="display: inline-block; width: 30px;">'
+          td1.innerHTML += material.object.old_WBS ? material.object.old_WBS : ''
+          td1.innerHTML += '</span>'
+          td1.classList.add('font-weight-light')
+          tr.appendChild(td1)
           //WBS
-          td = document.createElement('td')
-          td.innerHTML = '<span style="display: inline-block; width: 100px;">'
-          td.innerHTML += material.object.WBS
-          td.innerHTML += '</span>'
-          tr.appendChild(td)
+          let td2 = document.createElement('td')
+          td2.innerHTML = '<span style="display: inline-block; width: 30px;">'
+          td2.innerHTML += material.object.WBS
+          td2.innerHTML += '</span>'
+          tr.appendChild(td2)
           //DENUMIRE_ARTICOL_OFERTA
-          td = document.createElement('td')
-          td.innerHTML = '<span style="display: inline-block; width: 100px;">'
-          td.innerHTML += material.object.DENUMIRE_ARTICOL_OFERTA
-          td.innerHTML += '</span>'
-          tr.appendChild(td)
+          let td3 = document.createElement('td')
+          td3.innerHTML = '<span style="display: inline-block; width: 30px;">'
+          td3.innerHTML += material.object.DENUMIRE_ARTICOL_OFERTA
+          td3.innerHTML += '</span>'
+          tr.appendChild(td3)
           //CANTITATE_ARTICOL_OFERTA
           td = document.createElement('td')
           td.innerHTML = material.object.CANTITATE_ARTICOL_OFERTA
