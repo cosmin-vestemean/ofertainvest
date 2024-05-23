@@ -2169,7 +2169,7 @@ class Activity extends LitElement {
         }
         //select same option like the above child
         //get the above tr and select element
-        var aboveSelect = trAbove.getElementsByTagName('select')[1]
+        aboveSelect = trAbove.getElementsByTagName('select')[1]
         var aboveIndex = aboveSelect.selectedIndex
         select.selectedIndex = aboveIndex
         td.appendChild(select)
