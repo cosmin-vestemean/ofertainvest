@@ -2047,7 +2047,7 @@ class Recipe extends LitElement {
       var tr = document.createElement('tr')
       tbody.appendChild(tr)
       var td = document.createElement('td')
-      td.colSpan = 7
+      td.colSpan = 8
       tr.appendChild(td)
       //add icon for plus
       var plus_icon = document.createElement('i')
