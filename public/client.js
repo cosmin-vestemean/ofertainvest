@@ -2094,16 +2094,12 @@ class Recipe extends LitElement {
           tr.appendChild(td)
           //old_WBS
           let td1 = document.createElement('td')
-          td1.innerHTML = '<span style="display: inline-block; width: 30px;">'
-          td1.innerHTML += material.object.old_WBS ? material.object.old_WBS : ''
-          td1.innerHTML += '</span>'
+          td1.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
           td1.classList.add('font-weight-light')
           tr.appendChild(td1)
           //WBS
           let td2 = document.createElement('td')
-          td2.innerHTML = '<span style="display: inline-block; width: 30px;">'
-          td2.innerHTML += material.object.WBS
-          td2.innerHTML += '</span>'
+          td2.innerHTML = material.object.WBS
           tr.appendChild(td2)
           //DENUMIRE_ARTICOL_OFERTA
           let td3 = document.createElement('td')
