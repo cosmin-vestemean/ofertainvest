@@ -1960,7 +1960,6 @@ class Recipe extends LitElement {
       var table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
-      table.classList.add('table-hover')
       table.id = 'table_reteta'
       //get or create thead and tbody
       var thead = document.createElement('thead')
@@ -2047,7 +2046,7 @@ class Recipe extends LitElement {
         let activitate = this.reteta[i]
         counter++
         var tr = document.createElement('tr')
-        tr.classList.add('bg-secondary', 'text-light')
+        tr.classList.add('bg-info', 'text-white')
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
@@ -2094,17 +2093,17 @@ class Recipe extends LitElement {
           //old_WBS
           td = document.createElement('td')
           td.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
-          td.classList.add('pl-5')
+          td.classList.add('pl-10')
           tr.appendChild(td)
           //WBS
           td = document.createElement('td')
           td.innerHTML = material.object.WBS
-          td.classList.add('pl-5')
+          td.classList.add('pl-10')
           tr.appendChild(td)
           //DENUMIRE_ARTICOL_OFERTA
           td = document.createElement('td')
           td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
-          td.classList.add('pl-5')
+          td.classList.add('pl-10')
           tr.appendChild(td)
           //CANTITATE_ARTICOL_OFERTA
           td = document.createElement('td')
