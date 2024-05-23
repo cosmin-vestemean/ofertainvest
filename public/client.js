@@ -2060,6 +2060,7 @@ class Recipe extends LitElement {
         //WBS
         let td2 = document.createElement('td')
         td2.innerHTML = activitate.object.WBS
+        td2.classList.add('font-weight-bold')
         tr.appendChild(td2)
         //DENUMIRE_ARTICOL_OFERTA
         let td3 = document.createElement('td')
