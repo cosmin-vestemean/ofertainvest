@@ -1845,8 +1845,9 @@ class Recipe extends LitElement {
           //ModalGeneric + modal_body3 > my-activity with activitate
           //add class fullscreen
           var popup = document.getElementById('ModalGeneric')
-          popup.classList.remove('modal-lg')
-          popup.classList.add('modal-fullscreen')
+          var genericContainer = document.getElementById('genericContainer')
+          genericContainer.classList.remove('modal-lg')
+          genericContainer.classList.add('modal-fullscreen')
           var modal = new bootstrap.Modal(popup)
           var modal_body = document.getElementById('modal-body3')
           modal_body.innerHTML = ''
