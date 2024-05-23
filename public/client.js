@@ -2251,6 +2251,7 @@ class Activity extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.classList.add('text-secondary')
+        td.style.width = '50px'
         //add trash icon and span with counter
         var trash = document.createElement('i')
         trash.classList.add('bi')
