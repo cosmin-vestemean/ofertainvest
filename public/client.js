@@ -2076,7 +2076,9 @@ class Activity extends LitElement {
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {
         //add a new material
-        var tbody = document.getElementById('editare_activitate').shadowRoot.getElementById('tbody_activitate');
+        var tbody = document
+          .getElementById('editare_activitate')
+          .shadowRoot.getElementById('tbody_activitate')
         var tr = document.createElement('tr')
         tr.style.borderBottomColor = 'lightgray'
         tbody.appendChild(tr)
@@ -2094,16 +2096,24 @@ class Activity extends LitElement {
         tr.appendChild(td)
         //DENUMIRE_ARTICOL_OFERTA
         var td = document.createElement('td')
+        //add class text-primary
+        td.classList.add('text-primary')
         td.innerHTML = ''
         td.contentEditable = true
         td.spellcheck = false
         tr.appendChild(td)
         //CANTITATE_ARTICOL_OFERTA
         var td = document.createElement('td')
+        td.classList.add('text-primary')
+        td.contentEditable = true
+        td.spellcheck = false
         td.innerHTML = ''
         tr.appendChild(td)
         //UM_ARTICOL_OFERTA
         var td = document.createElement('td')
+        td.classList.add('text-primary')
+        td.contentEditable = true
+        td.spellcheck = false
         td.innerHTML = ''
         tr.appendChild(td)
         //TIP_ARTICOL_OFERTA
