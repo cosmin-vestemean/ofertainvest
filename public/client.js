@@ -2090,6 +2090,7 @@ class Recipe extends LitElement {
           tbody.appendChild(tr)
           var td = document.createElement('td')
           td.style.fontWeight = 'bold'
+          td.classList.add('text-secondary')
           td.innerHTML = '<small>' + counter + '.' + mCounter + '</small>'
           tr.appendChild(td)
           //old_WBS
