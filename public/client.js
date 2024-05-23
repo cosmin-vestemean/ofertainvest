@@ -1436,7 +1436,7 @@ export function init() {
       console.log('recipes_ds[index]', recipes_ds[index])
       retetaCurenta = recipes_ds[index]
       var reteta = retetaCurenta.reteta
-      my_table3.ds = reteta
+      my_table3.reteta = reteta
     }
   })
 
