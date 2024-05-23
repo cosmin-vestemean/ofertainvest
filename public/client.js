@@ -1463,7 +1463,7 @@ export function init() {
           let obj2 = {}
           if (child.object.old_WBS) {
             //primul termen strikethrough si al doilea termen normal
-            obj2.old_WBS = '<span style="text-decoration: line-through;">' + child.object.old_WBS + '</span>'
+            obj2.old_WBS = '<span class="text-secondary">' + child.object.old_WBS + '</span>'
           } else {
             obj2.old_WBS = ''
           }
@@ -2506,7 +2506,7 @@ function showRecipesList(data) {
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
             td4.classList.add('border-0')
-            td4.innerHTML = `<del>${object3.object.old_WBS}</del>`
+            td4.innerHTML = `<span class="text-secondary"><del>${object3.object.old_WBS}</del></span>`;
             tr4.appendChild(td4)
           }
           //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
