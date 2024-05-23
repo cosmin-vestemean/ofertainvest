@@ -2065,6 +2065,8 @@ class Recipe extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
+        //add fixed width to td
+        td.style.width = '50px'
         var edit = document.createElement('i')
         edit.classList.add('bi', 'bi-pencil-square')
         edit.id = 'edit_' + counter
@@ -2074,6 +2076,7 @@ class Recipe extends LitElement {
         trash.classList.add('bi', 'bi-trash')
         trash.id = 'trash_' + counter
         trash.style.cursor = 'pointer'
+        trash.style.marginLeft = '5px'
         trash.onclick = function () {}
         td.appendChild(edit)
         td.appendChild(trash)
