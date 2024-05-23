@@ -2103,9 +2103,7 @@ class Recipe extends LitElement {
           tr.appendChild(td2)
           //DENUMIRE_ARTICOL_OFERTA
           let td3 = document.createElement('td')
-          td3.innerHTML = '<span style="display: inline-block; width: 30px;">'
-          td3.innerHTML += material.object.DENUMIRE_ARTICOL_OFERTA
-          td3.innerHTML += '</span>'
+          td3.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
           tr.appendChild(td3)
           //CANTITATE_ARTICOL_OFERTA
           td = document.createElement('td')
