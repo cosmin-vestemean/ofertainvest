@@ -2164,6 +2164,17 @@ class Activity extends LitElement {
         tr.appendChild(td)
       }
       td.appendChild(plus_icon)
+      //add refresh icon for reloading my-activity with retetaCurenta
+      var refresh_icon = document.createElement('i')
+      refresh_icon.classList.add('bi')
+      refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary')
+      refresh_icon.style.cursor = 'pointer'
+      refresh_icon.style.marginLeft = '5px'
+      refresh_icon.onclick = function () {
+        //reload my-activity with currentRecipe
+        var my_activity = document.getElementById('editare_activitate')
+        my_activity.activitate = retetaCurenta
+      }
       tbody.appendChild(tr)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
