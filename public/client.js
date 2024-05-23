@@ -1823,6 +1823,20 @@ class Recipe extends LitElement {
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square', 'text-primary')
       plus_icon.style.cursor = 'pointer'
+      plus_icon.onclick = function () {
+        //modal with my-activity
+        var popup = document.getElementById('ModalGeneric')
+        var genericContainer = document.getElementById('genericContainer')
+        genericContainer.classList.remove('modal-lg')
+        genericContainer.classList.add('modal-fullscreen')
+        var modal = new bootstrap.Modal(popup)
+        var modal_body = document.getElementById('modal-body3')
+        modal_body.innerHTML = ''
+        var my_activity = document.createElement('my-activity')
+        my_activity.id = 'adaugare_activitate'
+        modal_body.appendChild(my_activity)
+        modal.show()
+      }
       td.appendChild(plus_icon)
       let counter = 0
       //use for (let)
