@@ -2172,9 +2172,12 @@ class Activity extends LitElement {
       refresh_icon.style.cursor = 'pointer'
       refresh_icon.style.marginLeft = '5px'
       refresh_icon.onclick = function () {
+        //are you sure?
         //reload my-activity with currentRecipe
-        var my_activity = document.getElementById('editare_activitate')
-        my_activity.activitate = activitateCurenta
+        if (confirm('Sunteti sigir ca doriti sa initializati activitatea?')) {
+          var my_activity = document.getElementById('editare_activitate')
+          my_activity.activitate = activitateCurenta
+        }
       }
       td.appendChild(refresh_icon)
       tbody.appendChild(tr)
