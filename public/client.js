@@ -65,6 +65,7 @@ var activitati_oferta = []
 var intrari_orfane = []
 var WBSMap = []
 var theadIsSet = true
+var retetaCurenta = {}
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1433,52 +1434,9 @@ export function init() {
       var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0)
       console.log('index', index)
       console.log('recipes_ds[index]', recipes_ds[index])
-      var reteta = recipes_ds[index].reteta
-      var listaActivitati = []
-      reteta.forEach(function (activitate) {
-        var obj = {}
-        //get only the following keys: WBS, DENUMIRE_ARTICOL_OFERTA, CANTITATE_ARTICOL_OFERTA, UM_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
-        //old WBS
-        if (activitate.object.old_WBS) {
-          obj.old_WBS =
-            '<span style="text-decoration: line-through;">' + activitate.object.old_WBS + '</span>'
-        } else {
-          obj.old_WBS = ''
-        }
-        obj.WBS = activitate.object.WBS
-        //obj.DENUMIRE_ARTICOL_OFERTA = activitate.object.DENUMIRE_ARTICOL_OFERTA
-
-        //same but with background color info
-        obj.DENUMIRE_ARTICOL_OFERTA =
-          '<span class="text-primary">' + activitate.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
-        obj.CANTITATE_ARTICOL_OFERTA = activitate.object.CANTITATE_ARTICOL_OFERTA
-        obj.UM_ARTICOL_OFERTA = activitate.object.UM_ARTICOL_OFERTA
-        obj.TIP_ARTICOL_OFERTA = activitate.object.TIP_ARTICOL_OFERTA
-        obj.SUBTIP_ARTICOL_OFERTA = activitate.object.SUBTIP_ARTICOL_OFERTA
-        listaActivitati.push(obj)
-        var children = activitate.children
-        //add children to obj
-        for (let i = 0; i < children.length; i++) {
-          let child = children[i]
-          let obj2 = {}
-          if (child.object.old_WBS) {
-            //primul termen strikethrough si al doilea termen normal
-            obj2.old_WBS = '<span class="text-secondary">' + child.object.old_WBS + '</span>'
-          } else {
-            obj2.old_WBS = ''
-          }
-          obj2.WBS = child.object.WBS
-          obj2.DENUMIRE_ARTICOL_OFERTA =
-            '<span class="text-dark">' + child.object.DENUMIRE_ARTICOL_OFERTA + '</span>'
-          obj2.CANTITATE_ARTICOL_OFERTA = child.object.CANTITATE_ARTICOL_OFERTA
-          obj2.UM_ARTICOL_OFERTA = child.object.UM_ARTICOL_OFERTA
-          obj2.TIP_ARTICOL_OFERTA = child.object.TIP_ARTICOL_OFERTA
-          obj2.SUBTIP_ARTICOL_OFERTA = child.object.SUBTIP_ARTICOL_OFERTA
-          listaActivitati.push(obj2)
-        }
-      })
-      console.log('listaActivitati', listaActivitati)
-      my_table3.ds = listaActivitati
+      retetaCurenta = recipes_ds[index]
+      var reteta = retetaCurenta.reteta
+      my_table3.ds = reteta
     }
   })
 
@@ -1885,6 +1843,262 @@ class myTable extends LitElement {
 }
 
 customElements.define('my-table', myTable)
+
+//create a <recipe> element
+//this element is composed from activities and their children as materials
+//a receipe has a name and a list of activities
+//each activity has a list of materials named children
+/*
+this is an activity data:
+{
+    "branch": [
+        "1183",
+        "7",
+        "18",
+        "23"
+    ],
+    "object": {
+        "WBS": "1183.7.18.23",
+        "DENUMIRE_ARTICOL_OFERTA": "TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE",
+        "CANTITATE_ARTICOL_OFERTA": 8.7312,
+        "UM_ARTICOL_OFERTA": "mp"
+        "TIP_ARTICOL_OFERTA": "ARTICOL",
+        "SUBTIP_ARTICOL_OFERTA": "PRINCIPAL"
+    },
+    "children": [
+        {
+            "branch": [
+                "1183",
+                "7",
+                "18",
+                "23",
+                "5"
+            ],
+            "object": {
+                "WBS": "1183.7.18.23.5",
+                "DENUMIRE_ARTICOL_OFERTA": "NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM",
+                "CANTITATE_ARTICOL_OFERTA": 8.7312,
+                "UM_ARTICOL_OFERTA": "mc",
+                "TIP_ARTICOL_OFERTA": "SUBARTICOL",
+                "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
+            },
+            "level": 5,
+            "hasChildren": false,
+            "virtual": false
+        },
+        {
+            "branch": [
+                "1183",
+                "7",
+                "18",
+                "23",
+                "6"
+            ],
+            "object": {
+                "WBS": "1183.7.18.23.6",
+                "DENUMIRE_ARTICOL_OFERTA": "SARMA OTEL MOALE, NEAGRA, D = 1 MM",
+                "CANTITATE_ARTICOL_OFERTA": 2.856,
+                "UM_ARTICOL_OFERTA": "kg",
+                "TIP_ARTICOL_OFERTA": "SUBARTICOL",
+                "SUBTIP_ARTICOL_OFERTA": "MATERIAL"
+            },
+            "level": 5,
+            "hasChildren": false,
+            "virtual": false
+        },
+        {
+            "branch": [
+                "1183",
+                "7",
+                "18",
+                "23",
+                "7"
+            ],
+            "object": {
+                "WBS": "1183.7.18.23.7",
+                "DENUMIRE_ARTICOL_OFERTA": "APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA",
+                "CANTITATE_ARTICOL_OFERTA": 0.1632,
+                "UM_ARTICOL_OFERTA": "mc",
+                "TIP_ARTICOL_OFERTA": "SUBARTICOL",
+                "SUBTIP_ARTICOL_OFERTA": "MATERIAL",
+            },
+            "level": 5,
+            "hasChildren": false,
+            "virtual": false
+        }
+    ],
+    "level": 4,
+    "hasChildren": true,
+    "virtual": false
+}
+*/
+
+class Recipe extends LitElement {
+  static properties = {
+    reteta: { type: Array }
+  }
+
+  constructor() {
+    super()
+    this.reteta = []
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('recipe element added to the DOM')
+  }
+
+  render() {
+    console.log('rendering recipe element with following array', this.reteta, 'added at', new Date())
+
+    if (!this.reteta || this.reteta.length == 0) {
+      return html`<p class="label label-danger">No data</p>`
+    } else {
+      //add table
+      //evidenteaza activitatea de materiale si activitatile intre ele
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-hover')
+      table.id = 'table_reteta'
+      //get or create thead and tbody
+      var thead = document.createElement('thead')
+      thead.id = 'thead_reteta'
+      thead.classList.add('align-middle')
+      var tbody = document.createElement('tbody')
+      tbody.id = 'tbody_reteta'
+      tbody.classList.add('table-group-divider')
+      table.appendChild(thead)
+      table.appendChild(tbody)
+      //add thead
+      var tr = document.createElement('tr')
+      thead.appendChild(tr)
+      //append counter
+      var th = document.createElement('th')
+      th.scope = 'col'
+      tr.appendChild(th)
+      //append old_WBS, if exists
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'old_WBS'
+      tr.appendChild(th)
+      //append WBS
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'WBS'
+      tr.appendChild(th)
+      //append DENUMIRE_ARTICOL_OFERTA
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
+      tr.appendChild(th)
+      //append CANTITATE_ARTICOL_OFERTA
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
+      tr.appendChild(th)
+      //append UM_ARTICOL_OFERTA
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'UM_ARTICOL_OFERTA'
+      tr.appendChild(th)
+      //append TIP_ARTICOL_OFERTA
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'TIP_ARTICOL_OFERTA'
+      tr.appendChild(th)
+      //append SUBTIP_ARTICOL_OFERTA
+      th = document.createElement('th')
+      th.scope = 'col'
+      th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
+      tr.appendChild(th)
+      //add tbody
+      let counter = 0
+      //use for (let)
+      for (let i = 0; i < this.reteta.length; i++) {
+        let activitate = this.reteta[i]
+        counter++
+        var tr = document.createElement('tr')
+        tbody.appendChild(tr)
+        var td = document.createElement('td')
+        td.style.fontWeight = 'bold'
+        td.innerHTML = counter
+        tr.appendChild(td)
+        //old_WBS
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.old_WBS
+        tr.appendChild(td)
+        //WBS
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.WBS
+        tr.appendChild(td)
+        //DENUMIRE_ARTICOL_OFERTA
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.DENUMIRE_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //CANTITATE_ARTICOL_OFERTA
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.CANTITATE_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //UM_ARTICOL_OFERTA
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.UM_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //TIP_ARTICOL_OFERTA
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.TIP_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //SUBTIP_ARTICOL_OFERTA
+        td = document.createElement('td')
+        td.innerHTML = activitate.object.SUBTIP_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //add children
+        for (let j = 0; j < activitate.children.length; j++) {
+          let material = activitate.children[j]
+          counter++
+          var tr = document.createElement('tr')
+          tbody.appendChild(tr)
+          var td = document.createElement('td')
+          td.style.fontWeight = 'bold'
+          td.innerHTML = counter
+          tr.appendChild(td)
+          //old_WBS
+          td = document.createElement('td')
+          td.innerHTML = material.object.old_WBS
+          tr.appendChild(td)
+          //WBS
+          td = document.createElement('td')
+          td.innerHTML = material.object.WBS
+          tr.appendChild(td)
+          //DENUMIRE_ARTICOL_OFERTA
+          td = document.createElement('td')
+          td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
+          tr.appendChild(td)
+          //CANTITATE_ARTICOL_OFERTA
+          td = document.createElement('td')
+          td.innerHTML = material.object.CANTITATE_ARTICOL_OFERTA
+          tr.appendChild(td)
+          //UM_ARTICOL_OFERTA
+          td = document.createElement('td')
+          td.innerHTML = material.object.UM_ARTICOL_OFERTA
+          tr.appendChild(td)
+          //TIP_ARTICOL_OFERTA
+          td = document.createElement('td')
+          td.innerHTML = material.object.TIP_ARTICOL_OFERTA
+          tr.appendChild(td)
+          //SUBTIP_ARTICOL_OFERTA
+          td = document.createElement('td')
+          td.innerHTML = material.object.SUBTIP_ARTICOL_OFERTA
+          tr.appendChild(td)
+        }
+      }
+
+      return html`${table}`
+    }
+  }
+}
 
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)
@@ -2506,7 +2720,7 @@ function showRecipesList(data) {
             tbody4.appendChild(tr4)
             var td4 = document.createElement('td')
             td4.classList.add('border-0')
-            td4.innerHTML = `<span class="text-secondary"><del>${object3.object.old_WBS}</del></span>`;
+            td4.innerHTML = `<span class="text-secondary"><del>${object3.object.old_WBS}</del></span>`
             tr4.appendChild(td4)
           }
           //add denumire_articol_oferta, um_articol_oferta, tip_articol_oferta, subtip_articol_oferta too
