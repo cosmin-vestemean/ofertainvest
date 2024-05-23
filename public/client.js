@@ -1983,36 +1983,52 @@ class Recipe extends LitElement {
       th = document.createElement('th')
       th.scope = 'col'
       th.innerHTML = 'old_WBS'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //append WBS
       th = document.createElement('th')
       th.scope = 'col'
       th.innerHTML = 'WBS'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //append DENUMIRE_ARTICOL_OFERTA
       th = document.createElement('th')
       th.scope = 'col'
       th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //append CANTITATE_ARTICOL_OFERTA
       th = document.createElement('th')
       th.scope = 'col'
       th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //append UM_ARTICOL_OFERTA
       th = document.createElement('th')
       th.scope = 'col'
       th.innerHTML = 'UM_ARTICOL_OFERTA'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //append TIP_ARTICOL_OFERTA
       th = document.createElement('th')
       th.scope = 'col'
       th.innerHTML = 'TIP_ARTICOL_OFERTA'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //append SUBTIP_ARTICOL_OFERTA
       th = document.createElement('th')
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       th.scope = 'col'
       th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
+      th.style.writingMode = 'vertical-rl'
+      th.style.rotate = '180deg'
       tr.appendChild(th)
       //add tbody
       let counter = 0
@@ -2028,7 +2044,7 @@ class Recipe extends LitElement {
         tr.appendChild(td)
         //old_WBS
         td = document.createElement('td')
-        td.innerHTML = activitate.object.old_WBS
+        td.innerHTML = activitate.object.old_WBS ? activitate.object.old_WBS : ''
         tr.appendChild(td)
         //WBS
         td = document.createElement('td')
