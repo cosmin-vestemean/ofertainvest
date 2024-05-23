@@ -2122,7 +2122,7 @@ class Activity extends LitElement {
         td.appendChild(select)
         tr.appendChild(td)
         //SUBTIP_ARTICOL_OFERTA
-        var td = document.createElement('td')
+        td = document.createElement('td')
         //select element
         var select = document.createElement('select')
         select.id = 'material_SUBTIP_ARTICOL_OFERTA'
@@ -2138,8 +2138,8 @@ class Activity extends LitElement {
         td.appendChild(select)
         tr.appendChild(td)
       }
-
       td.appendChild(plus_icon)
+      tbody.appendChild(tr)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
