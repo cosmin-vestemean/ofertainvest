@@ -2065,6 +2065,82 @@ class Activity extends LitElement {
 
       //add tbody
       var tr = document.createElement('tr')
+      //add plus-square icon
+      var td = document.createElement('td')
+      td.colSpan = 8
+      tr.appendChild(td)
+      var plus_icon = document.createElement('i')
+      plus_icon.classList.add('bi')
+      plus_icon.classList.add('bi-plus-square', 'text-primary')
+      plus_icon.style.cursor = 'pointer'
+      plus_icon.onclick = function () {
+        //add a new material
+        var tbody = document.getElementById('tbody_activitate')
+        var tr = document.createElement('tr')
+        tr.style.borderBottomColor = 'lightgray'
+        tbody.appendChild(tr)
+        var td = document.createElement('td')
+        td.classList.add('text-primary')
+        td.innerHTML = tbody.children.length
+        tr.appendChild(td)
+        //old_WBS
+        var td = document.createElement('td')
+        td.innerHTML = ''
+        tr.appendChild(td)
+        //WBS
+        var td = document.createElement('td')
+        td.innerHTML = ''
+        tr.appendChild(td)
+        //DENUMIRE_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        td.innerHTML = ''
+        td.contentEditable = true
+        td.spellcheck = false
+        tr.appendChild(td)
+        //CANTITATE_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        td.innerHTML = ''
+        tr.appendChild(td)
+        //UM_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        td.innerHTML = ''
+        tr.appendChild(td)
+        //TIP_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        //select element
+        var select = document.createElement('select')
+        select.id = 'material_TIP_ARTICOL_OFERTA'
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        //vezi TIP_ARTICOL_RETETA array (for let)
+        for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
+          var option = document.createElement('option')
+          option.value = TIP_ARTICOL_RETETA[i]
+          option.text = TIP_ARTICOL_RETETA[i]
+          select.appendChild(option)
+        }
+        td.appendChild(select)
+        tr.appendChild(td)
+        //SUBTIP_ARTICOL_OFERTA
+        var td = document.createElement('td')
+        //select element
+        var select = document.createElement('select')
+        select.id = 'material_SUBTIP_ARTICOL_OFERTA'
+        select.classList.add('form-select')
+        select.classList.add('form-select-sm')
+        //vezi SUBTIP_ARTICOL_RETETA array (for let)
+        for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
+          var option = document.createElement('option')
+          option.value = SUBTIP_ARTICOL_RETETA[i]
+          option.text = SUBTIP_ARTICOL_RETETA[i]
+          select.appendChild(option)
+        }
+        td.appendChild(select)
+        tr.appendChild(td)
+      }
+
+      td.appendChild(plus_icon)
+      tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
       //append counter
