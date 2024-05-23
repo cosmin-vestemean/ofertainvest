@@ -2069,7 +2069,6 @@ class Recipe extends LitElement {
         edit.classList.add('bi', 'bi-pencil-square')
         edit.id = 'edit_' + counter
         edit.style.cursor = 'pointer'
-        edit.innerHTML = 'edit'
         edit.onclick = function () {}
         var trash = document.createElement('i')
         trash.classList.add('bi', 'bi-trash')
