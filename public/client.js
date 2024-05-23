@@ -2097,7 +2097,6 @@ class Recipe extends LitElement {
           //old_WBS
           let td1 = document.createElement('td')
           td1.innerHTML = '<small>' + (material.object.old_WBS ? material.object.old_WBS : '') + '</small>'
-          td1.classList.add('text-secondary')
           tr.appendChild(td1)
           //WBS
           let td2 = document.createElement('td')
