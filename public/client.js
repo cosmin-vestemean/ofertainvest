@@ -2175,7 +2175,7 @@ class Activity extends LitElement {
       refresh_icon.onclick = function () {
         //reload my-activity with currentRecipe
         var my_activity = document.getElementById('editare_activitate')
-        my_activity.activitate = retetaCurenta
+        my_activity.activitate = activitateCurenta
       }
       td.appendChild(refresh_icon)
       tbody.appendChild(tr)
