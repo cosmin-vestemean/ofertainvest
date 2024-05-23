@@ -2088,7 +2088,7 @@ class Activity extends LitElement {
       tr.appendChild(td)
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
-      plus_icon.classList.add('bi-plus-square', 'text-primary')
+      plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {
         //add a new material
