@@ -1967,7 +1967,9 @@ class Recipe extends LitElement {
       thead.classList.add('align-middle')
       var tbody = document.createElement('tbody')
       tbody.id = 'tbody_reteta'
-      tbody.classList.add('table-group-divider')
+      if (theadIsSet) {
+        tbody.classList.add('table-group-divider')
+      }
       table.appendChild(tbody)
       //add thead
       //a se tine cont de theadIsSet
