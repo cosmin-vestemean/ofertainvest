@@ -2233,6 +2233,8 @@ class Activity extends LitElement {
         trash.onclick = function () {
           //delete material
           //remove tr from tbody
+          //which tr?
+          var tr = trash.parentElement.parentElement
           tr.remove()
         }
         td.appendChild(trash)
