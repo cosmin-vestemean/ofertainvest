@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
 
 const TIP_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-const SUBTIP_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT', 'UTILAJ']
+const SUBTIP_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT', 'UTILAJ', 'CUSTOM']
 
 console.log('client.js loaded')
 
@@ -2170,8 +2170,9 @@ class Activity extends LitElement {
         }
         //select same option like the above child
         //get the above tr and select element
-        aboveSelect = trAbove.getElementsByTagName('select')[1]
-        aboveIndex = aboveSelect.selectedIndex
+        /* aboveSelect = trAbove.getElementsByTagName('select')[1]
+        aboveIndex = aboveSelect.selectedIndex */
+        //select2.selectedIndex = aboveIndex
         select2.selectedIndex = aboveIndex
         td.appendChild(select2)
         tr.appendChild(td)
