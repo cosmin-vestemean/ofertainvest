@@ -1502,7 +1502,7 @@ export function init() {
             if (nivele[o]) {
               activit[nivele[o]] = temps[n][o]
             } else {
-              activit['NIVEL_OFERTA_' + o] = temps[n][o]
+              activit[_nivel_oferta + o] = temps[n][o]
             }
           }
           ds_antemasuratori.push(activit)
