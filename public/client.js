@@ -1475,7 +1475,8 @@ export function init() {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
-            if (branch.join('~~~~~~~~~~~~~~~') === temp.join('~~~~~~~~~~~~~~~')) {
+            let checker = (arr, target) => target.every(v => arr.includes(v));
+            if (checker(branch, temp) === true && branch.length === temp.length) {
               temps.push(branch)
             }
             //pastreaza in temps doar cele mai lungi array-uri
