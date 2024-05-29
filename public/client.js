@@ -1478,7 +1478,7 @@ export function init() {
             var branch = tree[l]
             console.log('branch', branch)            
             let checker = (arr, target) => target.every((v) => arr.includes(v))
-            if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
+            if (checker(branch, nivele_activitate) === true) {
               console.log('accepted branch', branch)
               temps.push(branch)
             }
