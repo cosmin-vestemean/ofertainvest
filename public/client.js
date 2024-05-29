@@ -1490,14 +1490,18 @@ export function init() {
         }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
-          ds_antemasuratori.push({
+          var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
             CANTITATE_ANTEMASURATORI: 0,
             UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
-          })
+          }
+          for (let o = 0; o < temps[n].length; o++) {
+            activit[nivele[o]] = temps[n][o]
+          }
+          ds_antemasuratori.push(activit)
         }
       }
     }
