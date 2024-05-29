@@ -1475,6 +1475,8 @@ export function init() {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
+            console.log('branch', branch)
+            console.log('nivele_activitate', nivele_activitate)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             if (checker(nivele_activitate, branch) === true && branch.length === nivele_activitate.length) {
               temps.push(branch)
