@@ -1499,7 +1499,7 @@ export function init() {
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
           }
           for (let o = 0; o < temps[n].length; o++) {
-            if (nivele.length < temps[n].length) {
+            if (o < nivele.length) {
               activit[nivele[o]] = temps[n][o]
             } else {
               activit[_nivel_oferta + o] = temps[n][o]
