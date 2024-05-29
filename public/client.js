@@ -1466,17 +1466,17 @@ export function init() {
       var reteta = recipes_ds[i].reteta
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
-        var temp = []
+        var nivele_activitate = []
         for (let m = 0; m < nivele.length; m++) {
-          temp.push(activitate[nivele[m]])
+          nivele_activitate.push(activitate[nivele[m]])
         }
         var temps = []
         for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
-            let checker = (arr, target) => target.every(v => arr.includes(v));
-            if (checker(branch, temp) === true && branch.length === temp.length) {
+            let checker = (arr, target) => target.every((v) => arr.includes(v))
+            if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
               temps.push(branch)
             }
             //pastreaza in temps doar cele mai lungi array-uri
@@ -1486,18 +1486,19 @@ export function init() {
               })
               temps = [max]
             }
-            console.log('temps', temps)
-            for (let n = 0; n < temps.length; n++) {
-              ds_antemasuratori.push({
-                DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
-                CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
-                CANTITATE_ANTEMASURATORI: 0,
-                UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
-                TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
-                SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
-              })
-            }
           }
+        }
+
+        console.log('temps', temps)
+        for (let n = 0; n < temps.length; n++) {
+          ds_antemasuratori.push({
+            DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
+            CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
+            CANTITATE_ANTEMASURATORI: 0,
+            UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
+            TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
+            SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
+          })
         }
       }
     }
