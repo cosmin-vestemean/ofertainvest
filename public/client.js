@@ -1165,6 +1165,36 @@ document.addEventListener('input', function (e) {
   }
 })
 
+function detectieRetete(my_table1, my_table2, my_table3) {
+  let rez = createDatasetForRecipes()
+  console.log('rez', rez)
+  activitati_oferta = []
+  WBSMap = []
+  recipes_ds = []
+  intrari_orfane = []
+  rez.retete.forEach((obj) => {
+    let reteta = obj.reteta
+    reteta.forEach((activitate) => {
+      activitati_oferta.push(activitate.object)
+    })
+  })
+
+  intrari_orfane = rez.orphans
+  WBSMap = rez.trees
+  recipes_ds = rez.retete
+
+  //hide table1
+  my_table1.style.display = 'none'
+  //show table2
+  my_table2.style.display = 'block'
+  my_table3.style.display = 'block'
+  let listaRetete = []
+  recipes_ds.forEach((o) => {
+    listaRetete.push({ Reteta: o.name })
+  })
+  my_table2.ds = listaRetete
+}
+
 //add onload event to window
 export function init() {
   const my_table1 = document.getElementById('my_table_oferta_initiala')
@@ -1202,33 +1232,7 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
-    let rez = createDatasetForRecipes()
-    console.log('rez', rez)
-    activitati_oferta = []
-    WBSMap = []
-    recipes_ds = []
-    intrari_orfane = []
-    rez.retete.forEach((obj) => {
-      let reteta = obj.reteta
-      reteta.forEach((activitate) => {
-        activitati_oferta.push(activitate.object)
-      })
-    })
-
-    intrari_orfane = rez.orphans
-    WBSMap = rez.trees
-    recipes_ds = rez.retete
-
-    //hide table1
-    my_table1.style.display = 'none'
-    //show table2
-    my_table2.style.display = 'block'
-    my_table3.style.display = 'block'
-    let listaRetete = []
-    recipes_ds.forEach((o) => {
-      listaRetete.push({ Reteta: o.name })
-    })
-    my_table2.ds = listaRetete
+    detectieRetete(my_table1, my_table2, my_table3)
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
@@ -1450,6 +1454,10 @@ export function init() {
   let nav_antemasuratori = document.getElementById('listaAntemasuratori')
   nav_antemasuratori.onclick = function () {
     //create ds_antemasuratori from recipes_ds, enum activities only, add CANTITATE_ARTICOL_OFERTA, add CANTITATE_ANTEMASURATORI = 0
+    const my_table1 = document.getElementById('my_table_oferta_initiala')
+    const my_table2 = document.getElementById('my_table_recipes')
+    const my_table3 = document.getElementById('my_table_detalii_reteta')
+    detectieRetete(my_table1, my_table2, my_table3)
     console.log('recipes_ds', recipes_ds)
     console.log('trees', trees)
     console.log('nivele', nivele)
@@ -1490,7 +1498,6 @@ export function init() {
                   TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
                   SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
                 })
-                ds_antemasuratori.push(ds)
               }
             }
           }
