@@ -1479,6 +1479,8 @@ export function init() {
             for (let o = 0; o < branches.length; o++) {
               var branch = branches[o]
               if (branch.join('~~~~~~~~~~~~~~~') === temp.join('~~~~~~~~~~~~~~~')) {
+                temps.push(branch)
+              }
               //pastreaza in temps doar cele mai lungi array-uri
               if (temps.length > 1) {
                 var max = temps.reduce(function (a, b) {
