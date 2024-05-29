@@ -1470,13 +1470,13 @@ export function init() {
         for (let m = 0; m < nivele.length; m++) {
           nivele_activitate.push(activitate[nivele[m]])
         }
+        console.log('nivele_activitate', nivele_activitate)
         var temps = []
         for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
-            console.log('branch', branch)
-            console.log('nivele_activitate', nivele_activitate)
+            console.log('branch', branch)            
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
               temps.push(branch)
