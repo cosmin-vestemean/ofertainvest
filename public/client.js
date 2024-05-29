@@ -1465,7 +1465,7 @@ export function init() {
           for (let m = 0; m < nivele; m++) {
             temp.push(activitate[_nivel_oferta + (m + 1)])
           }
-          if (temp.join('~~~~~~~~~~~~~~~') === tree.join('~~~~~~~~~~~~~~~')) {
+          if (tree.includes(temp)) {
             ds_antemasuratori.push({
               DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
               CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
