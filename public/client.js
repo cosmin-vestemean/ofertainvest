@@ -1484,10 +1484,9 @@ export function init() {
             }
           }
         }
-        //pastreaza in temps doar cele mai lungi array-uri, include situatia in care exista egalitate
+        //pastreaza doar nivelele cele mai lungi
         if (temps.length > 1) {
-          temps = temps.sort((a, b) => b.length - a.length)
-          temps = temps.filter((el) => el.length === temps[0].length)
+          temps = temps.filter((a) => a.length === Math.max(...temps.map((a) => a.length)))
         }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
