@@ -1,7 +1,15 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
 
 const TIP_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-const SUBTIP_ARTICOL_RETETA = ['PRINCIPAL', 'MATERIAL', 'MANOPERA', 'TRANSPORT', 'ECHIPAMENT', 'UTILAJ', 'CUSTOM']
+const SUBTIP_ARTICOL_RETETA = [
+  'PRINCIPAL',
+  'MATERIAL',
+  'MANOPERA',
+  'TRANSPORT',
+  'ECHIPAMENT',
+  'UTILAJ',
+  'CUSTOM'
+]
 
 console.log('client.js loaded')
 
@@ -60,6 +68,7 @@ var WBSMap = []
 var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
+var nivele = []
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -176,8 +185,6 @@ distincy combinations of values for combo NIVEL_OFERTA_1, NIVEL_OFERTA_2, NIVEL_
 SUPRATERAN  INSTALATII ELECTRICE	DISTRIBUTIE
 SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE 
 */
-
-  var nivele = []
   let keys = Object.keys(optimal_ds[0])
   keys.forEach(function (key) {
     if (key.includes('NIVEL_OFERTA')) {
@@ -1445,8 +1452,34 @@ export function init() {
     //create ds_antemasuratori from recipes_ds, enum activities only, add CANTITATE_ARTICOL_OFERTA, add CANTITATE_ANTEMASURATORI = 0
     console.log('recipes_ds', recipes_ds)
     console.log('trees', trees)
+    console.log('nivele', nivele)
+    //activitate = reteta.object
+    for (let i = 0; i < recipes_ds.length; i++) {
+      var reteta = recipes_ds[i].reteta
+      for (var j = 0; j < reteta.length; j++) {
+        var activitate = reteta[j].object
+        for (let k; k < trees.length; k++) {
+          var tree = trees[k]
+          //creaza un array temporar care contine toate activitate[nivele] si comparativ cu tree
+          var temp = []
+          for (let m = 0; m < nivele; m++) {
+            temp.push(activitate[_nivel_oferta + (m + 1)])
+          }
+          if (temp.join('~~~~~~~~~~~~~~~') === tree.join('~~~~~~~~~~~~~~~')) {
+            ds_antemasuratori.push({
+              DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
+              CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
+              CANTITATE_ANTEMASURATORI: 0,
+              UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
+              TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
+              SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
+            })
+          }
+        }
+      }
+    }
     if (ds_antemasuratori.length > 0) {
-       my_table2.style.display = 'none'
+      my_table2.style.display = 'none'
       my_table3.style.display = 'none'
       my_table1.style.display = 'block'
       my_table1.ds = ds_antemasuratori
