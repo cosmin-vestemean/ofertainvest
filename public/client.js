@@ -1459,7 +1459,7 @@ export function init() {
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
         var temps = []
-        for (let k; k < trees.length; k++) {
+        for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branches = tree[l]
@@ -1473,7 +1473,6 @@ export function init() {
               if (branch.includes(temp)) {
                 temps.push(temp)
               }
-              console.log('temps', temps)
               //pastreaza in temps doar cele mai lungi array-uri
               if (temps.length > 1) {
                 var max = temps.reduce(function (a, b) {
