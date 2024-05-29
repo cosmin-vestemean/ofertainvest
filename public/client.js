@@ -1466,39 +1466,35 @@ export function init() {
       var reteta = recipes_ds[i].reteta
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
+        var temp = []
+        for (let m = 0; m < nivele; m++) {
+          temp.push(activitate['NIVEL_OFERTA_' + (m + 1)])
+        }
         var temps = []
         for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
-            var branches = tree[l]
-            //creaza un array temporar care contine toate activitate[nivele] si comparativ cu tree
-            var temp = []
-            for (let m = 0; m < nivele; m++) {
-              temp.push(activitate['NIVEL_OFERTA_' + (m + 1)])
+            var branch = tree[l]
+            if (branch.join('~~~~~~~~~~~~~~~') === temp.join('~~~~~~~~~~~~~~~')) {
+              temps.push(branch)
             }
-            for (let o = 0; o < branches.length; o++) {
-              var branch = branches[o]
-              if (branch.join('~~~~~~~~~~~~~~~') === temp.join('~~~~~~~~~~~~~~~')) {
-                temps.push(branch)
-              }
-              //pastreaza in temps doar cele mai lungi array-uri
-              if (temps.length > 1) {
-                var max = temps.reduce(function (a, b) {
-                  return a.length > b.length ? a : b
-                })
-                temps = [max]
-              }
-              console.log('temps', temps)
-              for (let n = 0; n < temps.length; n++) {
-                ds_antemasuratori.push({
-                  DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
-                  CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
-                  CANTITATE_ANTEMASURATORI: 0,
-                  UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
-                  TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
-                  SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
-                })
-              }
+            //pastreaza in temps doar cele mai lungi array-uri
+            if (temps.length > 1) {
+              var max = temps.reduce(function (a, b) {
+                return a.length > b.length ? a : b
+              })
+              temps = [max]
+            }
+            console.log('temps', temps)
+            for (let n = 0; n < temps.length; n++) {
+              ds_antemasuratori.push({
+                DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
+                CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
+                CANTITATE_ANTEMASURATORI: 0,
+                UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
+                TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
+                SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
+              })
             }
           }
         }
