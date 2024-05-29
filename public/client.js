@@ -1484,12 +1484,10 @@ export function init() {
             }
           }
         }
-        //pastreaza in temps doar cele mai lungi array-uri
+        //pastreaza in temps doar cele mai lungi array-uri, include situatia in care exista egalitate
         if (temps.length > 1) {
-          var max = temps.reduce(function (a, b) {
-            return a.length > b.length ? a : b
-          })
-          temps = [max]
+          temps = temps.sort((a, b) => b.length - a.length)
+          temps = temps.filter((el) => el.length === temps[0].length)
         }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
