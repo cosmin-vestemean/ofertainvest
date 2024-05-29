@@ -1461,26 +1461,31 @@ export function init() {
         var temps = []
         for (let k; k < trees.length; k++) {
           var tree = trees[k]
-          //creaza un array temporar care contine toate activitate[nivele] si comparativ cu tree
-          var temp = []
-          for (let m = 0; m < nivele; m++) {
-            temp.push(activitate["nivel_oferta_" + (m + 1)])
-          }
-          if (tree.includes(temp)) {
-            temps.push(temp)
-          }
-          console.log('temps', temps)
-          for (let n = 0; n < temps.length; n++) {
-            ds_antemasuratori.push({
-              DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
-              CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
-              CANTITATE_ANTEMASURATORI: 0,
-              UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
-              TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
-              SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA,
-
-            })
-            ds_antemasuratori.push(ds)
+          for (let l = 0; l < tree.length; l++) {
+            var branches = tree[l]
+            //creaza un array temporar care contine toate activitate[nivele] si comparativ cu tree
+            var temp = []
+            for (let m = 0; m < nivele; m++) {
+              temp.push(activitate['NIVEL_OFERTA_' + (m + 1)])
+            }
+            for (let o = 0; o < branches.length; o++) {
+              var branch = branches[o]
+              if (branch.includes(temp)) {
+                temps.push(temp)
+              }
+              console.log('temps', temps)
+              for (let n = 0; n < temps.length; n++) {
+                ds_antemasuratori.push({
+                  DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
+                  CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
+                  CANTITATE_ANTEMASURATORI: 0,
+                  UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
+                  TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
+                  SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
+                })
+                ds_antemasuratori.push(ds)
+              }
+            }
           }
         }
       }
