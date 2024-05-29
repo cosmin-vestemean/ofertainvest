@@ -1467,7 +1467,7 @@ export function init() {
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
         var temp = []
-        for (let m = 0; m < nivele; m++) {
+        for (let m = 0; m < nivele.length; m++) {
           temp.push(activitate[nivele[m]])
         }
         var temps = []
