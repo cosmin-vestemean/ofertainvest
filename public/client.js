@@ -258,7 +258,7 @@ function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) 
         alert('Nu exista date pentru ierarhia selectata')
       }
 
-      drawModalDialog(select.value.split(delimiter), selected_ds)
+      //drawModalDialog(select.value.split(delimiter), selected_ds)
     }
   })
 }
@@ -1437,6 +1437,20 @@ export function init() {
   let btn_showHideHeader = document.getElementById('btn_showHideHeader')
   btn_showHideHeader.onclick = function () {
     showHideHeader()
+  }
+
+  //antemasuratori
+  let nav_antemasuratori = document.getElementById('listaAntemasuratori')
+  nav_antemasuratori.onclick = function () {
+    //create ds_antemasuratori from recipes_ds, enum activities only, add CANTITATE_ARTICOL_OFERTA, add CANTITATE_ANTEMASURATORI = 0
+    console.log('recipes_ds', recipes_ds)
+    console.log('trees', trees)
+    if (ds_antemasuratori.length > 0) {
+       my_table2.style.display = 'none'
+      my_table3.style.display = 'none'
+      my_table1.style.display = 'block'
+      my_table1.ds = ds_antemasuratori
+    }
   }
 }
 

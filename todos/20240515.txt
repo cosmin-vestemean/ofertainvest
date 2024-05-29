@@ -33,8 +33,8 @@ La detectie automata se vor reprezenta doar retetele, nu activitatile; activitat
 ---------> 22.05
 3.Editare retete, modificare existente, adaugare activitati+materiale, stergere activitati+materiale;Cu mentiunea: activitati noi vor avea tip artcol subtip CUSTOM (La fel la materiale (SUBARTICOL, CUSTOM))
 ---------> 24.05
-4. Antemasuratori
-5. WBS Intern
+4. Antemasuratori -- 28.05
+5. WBS Intern   -- 29.05
+6. calcul retete -- 31.05
 ----------------
-6. calcul retete
 7. FL
