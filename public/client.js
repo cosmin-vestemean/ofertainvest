@@ -1479,16 +1479,15 @@ export function init() {
             if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
               temps.push(branch)
             }
-            //pastreaza in temps doar cele mai lungi array-uri
-            if (temps.length > 1) {
-              var max = temps.reduce(function (a, b) {
-                return a.length > b.length ? a : b
-              })
-              temps = [max]
-            }
           }
         }
-
+        //pastreaza in temps doar cele mai lungi array-uri
+        if (temps.length > 1) {
+          var max = temps.reduce(function (a, b) {
+            return a.length > b.length ? a : b
+          })
+          temps = [max]
+        }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
           ds_antemasuratori.push({
