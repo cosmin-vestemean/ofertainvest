@@ -1476,7 +1476,7 @@ export function init() {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
-            console.log('branch', branch)            
+            console.log('branch', branch)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             if (checker(branch, nivele_activitate) === true) {
               console.log('accepted branch', branch)
@@ -1499,7 +1499,11 @@ export function init() {
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
           }
           for (let o = 0; o < temps[n].length; o++) {
-            activit[nivele[o]] = temps[n][o]
+            if (nivele[o]) {
+              activit[nivele[o]] = temps[n][o]
+            } else {
+              activit['NIVEL_OFERTA_' + o] = temps[n][o]
+            }
           }
           ds_antemasuratori.push(activit)
         }
