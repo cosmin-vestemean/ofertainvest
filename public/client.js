@@ -1479,6 +1479,7 @@ export function init() {
             console.log('branch', branch)            
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
+              console.log('accepted branch', branch)
               temps.push(branch)
             }
           }
