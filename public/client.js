@@ -1478,7 +1478,7 @@ export function init() {
             console.log('branch', branch)
             console.log('nivele_activitate', nivele_activitate)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
-            if (checker(nivele_activitate, branch) === true && branch.length === nivele_activitate.length) {
+            if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
               temps.push(branch)
             }
           }
