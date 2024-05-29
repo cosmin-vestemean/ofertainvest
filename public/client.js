@@ -1476,7 +1476,7 @@ export function init() {
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
             let checker = (arr, target) => target.every((v) => arr.includes(v))
-            if (checker(branch, nivele_activitate) === true && branch.length === nivele_activitate.length) {
+            if (checker(nivele_activitate, branch) === true && branch.length === nivele_activitate.length) {
               temps.push(branch)
             }
           }
