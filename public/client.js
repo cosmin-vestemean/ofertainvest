@@ -1889,38 +1889,6 @@ class Recipe extends LitElement {
         th.style.rotate = '180deg'
         th.style.fontWeight = 'normal'
         tr.appendChild(th)
-        //CANTITITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'CANTITITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
       }
       //add tbody
       //first add a row for actions
