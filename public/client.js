@@ -1887,12 +1887,28 @@ class Recipe extends LitElement {
         th.style.rotate = '180deg'
         th.style.fontWeight = 'normal'
         tr.appendChild(th)
+        //TIP_ACTIVITATE_ARTICOL_RETETA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'TIP_ACTIVITATE_ARTICOL_RETETA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
         //append SUBTIP_ARTICOL_OFERTA
         th = document.createElement('th')
         th.style.writingMode = 'vertical-rl'
         th.style.rotate = '180deg'
         th.scope = 'col'
         th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+        //SUBTIP_ACTIVITATE_ARTICOL_RETETA
+        th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'SUBTIP_ACTIVITATE_ARTICOL_RETETA'
         th.style.writingMode = 'vertical-rl'
         th.style.rotate = '180deg'
         th.style.fontWeight = 'normal'
@@ -2033,9 +2049,17 @@ class Recipe extends LitElement {
         td = document.createElement('td')
         td.innerHTML = activitate.object.TIP_ARTICOL_OFERTA
         tr.appendChild(td)
+        //TIP_ACTIVITATE_ARTICOL_RETETA
+        td = document.createElement('td')
+        td.innerHTML = ''
+        tr.appendChild(td)
         //SUBTIP_ARTICOL_OFERTA
         td = document.createElement('td')
         td.innerHTML = activitate.object.SUBTIP_ARTICOL_OFERTA
+        tr.appendChild(td)
+        //SUBTIP_ACTIVITATE_ARTICOL_RETETA
+        td = document.createElement('td')
+        td.innerHTML = ''
         tr.appendChild(td)
         //add children
         var mCounter = 0
@@ -2061,6 +2085,10 @@ class Recipe extends LitElement {
           let td3 = document.createElement('td')
           td3.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
           tr.appendChild(td3)
+          //noua denumire
+          let td4 = document.createElement('td')
+          td4.innerHTML = ''
+          tr.appendChild(td4)
           //CANTITATE_ARTICOL_OFERTA
           td = document.createElement('td')
           td.innerHTML = material.object.CANTITATE_ARTICOL_OFERTA
@@ -2073,9 +2101,17 @@ class Recipe extends LitElement {
           td = document.createElement('td')
           td.innerHTML = material.object.TIP_ARTICOL_OFERTA
           tr.appendChild(td)
+          //TIP_ACTIVITATE_ARTICOL_RETETA
+          td = document.createElement('td')
+          td.innerHTML = ''
+          tr.appendChild(td)
           //SUBTIP_ARTICOL_OFERTA
           td = document.createElement('td')
           td.innerHTML = material.object.SUBTIP_ARTICOL_OFERTA
+          tr.appendChild(td)
+          //SUBTIP_ACTIVITATE_ARTICOL_RETETA
+          td = document.createElement('td')
+          td.innerHTML = ''
           tr.appendChild(td)
         }
       }
