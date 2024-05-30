@@ -1855,14 +1855,6 @@ class Recipe extends LitElement {
         th.style.rotate = '180deg'
         th.style.fontWeight = 'normal'
         tr.appendChild(th)
-        //noua denumire
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'DENUMIRE_RETETA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
         //append CANTITATE_ARTICOL_OFERTA
         th = document.createElement('th')
         th.scope = 'col'
@@ -2018,9 +2010,6 @@ class Recipe extends LitElement {
         let td3 = document.createElement('td')
         td3.innerHTML = activitate.object.DENUMIRE_ARTICOL_OFERTA
         tr.appendChild(td3)
-        let td4 = document.createElement('td')
-        td4.innerHTML = ''
-        tr.appendChild(td4)
         //CANTITATE_ARTICOL_OFERTA
         td = document.createElement('td')
         td.innerHTML = activitate.object.CANTITATE_ARTICOL_OFERTA
