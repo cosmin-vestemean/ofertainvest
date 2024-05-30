@@ -1513,6 +1513,7 @@ export function init() {
       my_table2.style.display = 'none'
       my_table3.style.display = 'none'
       my_table1.style.display = 'block'
+      my_table1.ds = []
       my_table1.ds = ds_antemasuratori
     }
   }
