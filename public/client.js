@@ -2075,6 +2075,7 @@ class Activity extends LitElement {
     } else {
       //add activity then add children in a rw table (contenteditable)
       //TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA are select elements
+      const keysOfInterest = ['old_WBS', 'WBS', 'DENUMIRE_ARTICOL_OFERTA', 'CANTITATE_ARTICOL_OFERTA', 'UM_ARTICOL_OFERTA']
       var table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
@@ -2098,65 +2099,16 @@ class Activity extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        //append old_WBS, if exists
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'old_WBS'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        //make it text normal, instead of bold
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append WBS
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'WBS'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append DENUMIRE_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append CANTITATE_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append UM_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'UM_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append TIP_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'TIP_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append SUBTIP_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.scope = 'col'
-        th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
+        //append columns based on keysOfInterest
+        for (let key of keysOfInterest) {
+          let th = document.createElement('th');
+          th.scope = 'col';
+          th.innerHTML = key;
+          th.style.writingMode = 'vertical-rl';
+          th.style.rotate = '180deg';
+          th.style.fontWeight = 'normal';
+          tr.appendChild(th);
+        }
       }
 
       //add tbody
