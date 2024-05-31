@@ -778,13 +778,6 @@ function showHideColumn(checkbox_state, column, thead_name, tbody_name) {
   })
 }
 
-function saveChanges() {
-  document.getElementById('modal-body').innerHTML = ''
-  //close modal
-  var modal = new bootstrap.Modal(document.getElementById('AntemasuratoriModal'))
-  modal.hide()
-}
-
 async function saveOferta() {
   var trdr = document.getElementById('trdr').value
   var trndate = document.getElementById('trndate').value
@@ -1060,8 +1053,6 @@ export function init() {
   btn_oferta.innerHTML = al + 'Incarca oferta initiala'
   btn_oferta.classList.remove('btn-danger')
   btn_oferta.classList.add('btn-success')
-  let btn_save_antemasuratori = document.getElementById('btn_save_antemasuratori')
-  btn_save_antemasuratori.onclick = saveChanges
   let btn_save_graph = document.getElementById('btn_save_graph')
   //btn_save_graph populateSelectIerarhiiFromTrees()
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
