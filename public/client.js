@@ -69,6 +69,7 @@ var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
 var nivele = []
+const keysOfInterestInRecipe = ['old_WBS', 'WBS', 'DENUMIRE_ARTICOL_OFERTA', 'CANTITATE_ARTICOL_OFERTA', 'UM_ARTICOL_OFERTA']
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1793,34 +1794,15 @@ class Recipe extends LitElement {
         span.innerHTML = counter
         td.appendChild(span)
         tr.appendChild(td)
-        //old_WBS
-        let td1 = document.createElement('td')
-        td1.innerHTML = '<small>' + (activitate.object.old_WBS ? activitate.object.old_WBS : '') + '</small>'
-        tr.appendChild(td1)
-        //WBS
-        let td2 = document.createElement('td')
-        td2.innerHTML = activitate.object.WBS
-        tr.appendChild(td2)
-        //DENUMIRE_ARTICOL_OFERTA
-        let td3 = document.createElement('td')
-        td3.innerHTML = activitate.object.DENUMIRE_ARTICOL_OFERTA
-        tr.appendChild(td3)
-        //CANTITATE_ARTICOL_OFERTA
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.CANTITATE_ARTICOL_OFERTA
-        tr.appendChild(td)
-        //UM_ARTICOL_OFERTA
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.UM_ARTICOL_OFERTA
-        tr.appendChild(td)
-        //TIP_ARTICOL_OFERTA
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.TIP_ARTICOL_OFERTA
-        tr.appendChild(td)
-        //SUBTIP_ARTICOL_OFERTA
-        td = document.createElement('td')
-        td.innerHTML = activitate.object.SUBTIP_ARTICOL_OFERTA
-        tr.appendChild(td)
+        // define the keys of interest in the recipe object
+        const keysOfInterestInRecipe = ['old_WBS', 'WBS', 'DENUMIRE_ARTICOL_OFERTA', 'CANTITATE_ARTICOL_OFERTA', 'UM_ARTICOL_OFERTA', 'TIP_ARTICOL_OFERTA', 'SUBTIP_ARTICOL_OFERTA'];
+
+        // loop through the keys of interest and create the corresponding table cells
+        keysOfInterestInRecipe.forEach(key => {
+          let td = document.createElement('td');
+          td.innerHTML = activitate.object[key] || '';
+          tr.appendChild(td);
+        });
         //add children
         var mCounter = 0
         for (let j = 0; j < activitate.children.length; j++) {
@@ -1901,7 +1883,6 @@ class Activity extends LitElement {
     } else {
       //add activity then add children in a rw table (contenteditable)
       //TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA are select elements
-      const keysOfInterest = ['old_WBS', 'WBS', 'DENUMIRE_ARTICOL_OFERTA', 'CANTITATE_ARTICOL_OFERTA', 'UM_ARTICOL_OFERTA']
       var table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
@@ -1925,8 +1906,8 @@ class Activity extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        //append columns based on keysOfInterest
-        for (let key of keysOfInterest) {
+        //append columns based on keysOfInterestInRecipe
+        for (let key of keysOfInterestInRecipe) {
           let th = document.createElement('th');
           th.scope = 'col';
           th.innerHTML = key;
