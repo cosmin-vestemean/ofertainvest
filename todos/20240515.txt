@@ -38,3 +38,18 @@ La detectie automata se vor reprezenta doar retetele, nu activitatile; activitat
 6. calcul retete -- 31.05
 ----------------
 7. FL
+
+
+
+31.05.2024 -> 03.06.2024
+termina custom activitate + custom material
+
+concept1:
+detectie duplicate reteta (instante reteta) => grupe instante retete in meniu. Va aparea aceasta lista in UI
+
+concept2:
+in cadrul unei retete cu mai multe activitati, una este principala, la care se vor raporta prin participare ponderata celelalte activitati introduse cu ARTICOL CUSTOM
+-in cazul L este evidenta activitatea principala (deci bifez singur)
+
+activitate: CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
+material: CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA
