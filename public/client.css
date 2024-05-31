@@ -43,6 +43,15 @@ a {
   display: block;
 }
 
+#progress_bar_container {
+  height: 1px;
+}
+
 #progress_bar {
-    
+  width: 0%;
+}
+
+#my_table_recipes,
+#my_table_detalii_reteta {
+  display: none;
 }
