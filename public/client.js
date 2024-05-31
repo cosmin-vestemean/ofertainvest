@@ -1180,6 +1180,9 @@ function detectieRetete(my_table1, my_table2, my_table3) {
   })
 
   intrari_orfane = rez.orphans
+  let rescuedOrphans = rez.rescuedOrphans
+  //scoate din intrari_orfane toate intrarile din rescuedOrphans
+  intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.includes(o))
   WBSMap = rez.trees
   recipes_ds = rez.retete
 
