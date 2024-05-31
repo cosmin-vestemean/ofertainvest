@@ -1815,34 +1815,13 @@ class Recipe extends LitElement {
           td.classList.add('text-secondary')
           td.innerHTML = counter + '.' + mCounter
           tr.appendChild(td)
-          //old_WBS
-          let td1 = document.createElement('td')
-          td1.innerHTML = '<small>' + (material.object.old_WBS ? material.object.old_WBS : '') + '</small>'
-          tr.appendChild(td1)
-          //WBS
-          let td2 = document.createElement('td')
-          td2.innerHTML = material.object.WBS
-          tr.appendChild(td2)
-          //DENUMIRE_ARTICOL_OFERTA
-          let td3 = document.createElement('td')
-          td3.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
-          tr.appendChild(td3)
-          //CANTITATE_ARTICOL_OFERTA
-          td = document.createElement('td')
-          td.innerHTML = material.object.CANTITATE_ARTICOL_OFERTA
-          tr.appendChild(td)
-          //UM_ARTICOL_OFERTA
-          td = document.createElement('td')
-          td.innerHTML = material.object.UM_ARTICOL_OFERTA
-          tr.appendChild(td)
-          //TIP_ARTICOL_OFERTA
-          td = document.createElement('td')
-          td.innerHTML = material.object.TIP_ARTICOL_OFERTA
-          tr.appendChild(td)
-          //SUBTIP_ARTICOL_OFERTA
-          td = document.createElement('td')
-          td.innerHTML = material.object.SUBTIP_ARTICOL_OFERTA
-          tr.appendChild(td)
+
+          // loop through the keys of interest and create the corresponding table cells
+          keysOfInterestInRecipe.forEach(key => {
+            let td = document.createElement('td');
+            td.innerHTML = material.object[key] || '';
+            tr.appendChild(td);
+          });
         }
       }
 
