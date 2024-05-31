@@ -1169,7 +1169,6 @@ function detectieRetete(my_table1, my_table2, my_table3) {
   let rez = createDatasetForRecipes()
   console.log('rez', rez)
   activitati_oferta = []
-  WBSMap = []
   recipes_ds = []
   intrari_orfane = []
   rez.retete.forEach((obj) => {
@@ -1181,8 +1180,8 @@ function detectieRetete(my_table1, my_table2, my_table3) {
 
   intrari_orfane = rez.orphans
   let rescuedOrphans = rez.rescuedOrphans
-  //scoate din intrari_orfane toate intrarile din rescuedOrphans
-  intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.includes(o))
+  //scoate din intrari_orfane.object care sunt in rescuedOrphans
+  intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.includes(o.object))
   WBSMap = rez.trees
   recipes_ds = rez.retete
 
