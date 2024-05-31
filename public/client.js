@@ -1288,8 +1288,8 @@ export function init() {
     my_table1.ds = activitati_oferta
   }
   //WBSMap
-  let WBSMap = document.getElementById('WBSMap')
-  WBSMap.onclick = function () {
+  let WBSMapBtn = document.getElementById('WBSMap')
+  WBSMapBtn.onclick = function () {
     const levels = WBSMap.length
     console.log('levels', levels)
 
