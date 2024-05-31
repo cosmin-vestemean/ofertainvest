@@ -945,13 +945,6 @@ function drawModalDialog(selected_combo, selected_ds) {
   }
 }
 
-function saveChanges() {
-  document.getElementById('modal-body').innerHTML = ''
-  //close modal
-  var modal = new bootstrap.Modal(document.getElementById('AntemasuratoriModal'))
-  modal.hide()
-}
-
 async function saveOferta() {
   var trdr = document.getElementById('trdr').value
   var trndate = document.getElementById('trndate').value
@@ -1516,6 +1509,13 @@ export function init() {
       my_table1.ds = []
       my_table1.ds = ds_antemasuratori
     }
+  }
+
+  //ModalAntemasuratori
+  let btn_antemasuratori = document.getElementById('ModalAntemasuratori')
+  btn_antemasuratori.onclick = function () {
+    //nav_antemasuratori click
+    nav_antemasuratori.click()
   }
 }
 
