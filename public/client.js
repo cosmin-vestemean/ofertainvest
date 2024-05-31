@@ -2252,7 +2252,9 @@ class Activity extends LitElement {
         /* aboveSelect = trAbove.getElementsByTagName('select')[1]
         aboveIndex = aboveSelect.selectedIndex */
         //select2.selectedIndex = aboveIndex
-        select2.selectedIndex = SUBTIP_ARTICOL_RETETA[SUBTIP_ARTICOL_RETETA.length - 1]
+
+        //instead it gets index of 'CUSTOM' from SUBTIP_ARTICOL_RETETA
+        select2.selectedIndex = SUBTIP_ARTICOL_RETETA.indexOf('CUSTOM')
         td.appendChild(select2)
         tr.appendChild(td)
       }
