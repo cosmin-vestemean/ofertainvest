@@ -263,7 +263,7 @@
           type="button"
           class="btn btn-primary btn-sm col-sm-2"
           data-bs-toggle="modal"
-          id="ModalAntemasuratori"
+          data-bs-target="#ModalAntemasuratori"
         >
           Antemasuratori <i class="bi bi-list-ol"></i>
         </button>
@@ -291,7 +291,31 @@
           <my-recipe id="my_table_detalii_reteta" style="display: none"></my-recipe>
         </div>
       </div>
+      <!-- Modal Antemasuratori -->
+      <div
+        class="modal fade"
+        id="ModalAntemasuratori"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="headerlLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
+          <div class="modal-content">
+            <div class="modal-header" id="modal-header">
+              <h5 class="modal-title" id="headerlLabel">Antemasuratori</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" id="btn_save_antemasuratori" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Modal generic -->
+      <!-- Modal Antemasuratori -->
       <div
         class="modal fade"
         id="ModalGeneric"

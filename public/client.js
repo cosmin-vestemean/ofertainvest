@@ -558,6 +558,400 @@ create tree branches: SUPRATERAN -> INSTALATII ELECTRICE -> DISTRIBUTIE -> ETAJ 
   return elements
 }
 
+function pushDataToTable(data, thead, tbody) {
+  //create html table from array
+  //data > table id="table_oferta_initiala"
+  //thead id="thead_oferta_initiala" < first object's keys
+  //tbody id="tbody_oferta_initiala" < all objects as rows
+  var pg = document.getElementById('progress_bar')
+  var lbl = document.getElementById('progress_bar_label')
+  //var thead = document.getElementById(thead_name)
+  const thead_name = thead.id
+  thead.innerHTML = ''
+  //var tbody = document.getElementById(tbody_name)
+  const tbody_name = tbody.id
+  tbody.innerHTML = ''
+  //add delete icon to thead
+  var th = document.createElement('td')
+  //add class
+  //add burger icon
+  var enumKeys = ''
+  var keys = Object.keys(data[0])
+  keys.forEach(function (key) {
+    var is_checked = visible_columns.find((o) => o.column === key)
+      ? visible_columns.find((o) => o.column === key).state
+      : true
+    var state = is_checked ? 'checked' : ''
+    enumKeys += '<div class="form-check">'
+    enumKeys +=
+      '<input class="form-check-input" type="checkbox" value="" id="h' +
+      key +
+      '" ' +
+      state +
+      ' onclick="showHideColumn(this.checked, ' +
+      "'" +
+      key +
+      "', " +
+      "'" +
+      thead_name +
+      "', " +
+      "'" +
+      tbody_name +
+      "'" +
+      ')">'
+    enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
+    enumKeys += '</div>'
+  })
+  //add close icon
+  enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
+  th.innerHTML =
+    '<span id="table_menu" class="bi bi-list" style="cursor: pointer;"><div id="table_menu_content" class="text-decoration-none fw-lighter bg-light" style="display: none;">' +
+    enumKeys +
+    '</div></span>'
+  th.onclick = function () {
+    //show/hide menu
+    var menu = document.getElementById('table_menu')
+    var menu_content = document.getElementById('table_menu_content')
+    if (menu_content.style.display === 'none') {
+      menu_content.style.display = 'block'
+    } else {
+      menu_content.style.display = 'none'
+    }
+  }
+  thead.appendChild(th)
+  //add line number to thead
+  var th = document.createElement('td')
+  th.innerHTML = 'Nr'
+  thead.appendChild(th)
+  var keys = Object.keys(data[0])
+  keys.forEach(function (key) {
+    var th = document.createElement('td')
+    th.style.writingMode = 'vertical-rl'
+    th.style.rotate = '180deg'
+    /* //sticky top
+    th.style.position = "sticky";
+    th.style.top = "0";
+    th.style.backgroundColor = "white"; */
+    th.innerHTML = key
+    //add class header
+    th.classList.add('header')
+    //add scope col
+    th.setAttribute('scope', 'col')
+    thead.appendChild(th)
+  })
+
+  //create table rows
+  //prepare progress bar by setting attributes: aria-valuenow, aria-valuemin, aria-valuemax, inner html
+  pg.setAttribute('aria-valuenow', 0)
+  pg.setAttribute('aria-valuemin', 0)
+  pg.setAttribute('aria-valuemax', data.length)
+  pg.style.width = '0%'
+  lbl.innerHTML = '0%'
+  let linesCount = 0
+  data.forEach(function (object) {
+    linesCount++
+    //update progress bar
+    pg.setAttribute('aria-valuenow', data.indexOf(object) + 1)
+    pg.style.width = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
+    lbl.innerHTML = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
+    //create row
+    var tr = document.createElement('tr')
+    //add td with delete icon
+    var td = document.createElement('td')
+    var icon = document.createElement('i')
+    icon.classList.add('bi')
+    icon.classList.add('bi-trash')
+    icon.classList.add('text-danger')
+    icon.style.cursor = 'pointer'
+    icon.onclick = function () {
+      //delete row
+    }
+    td.appendChild(icon)
+    tr.appendChild(td)
+    var td = document.createElement('td')
+    td.innerHTML = linesCount
+    tr.appendChild(td)
+    keys.forEach(function (key) {
+      var td = document.createElement('td')
+      var val = 0
+      //if object[key] is a number format it to 2 decimals
+      if (object[key]) {
+        val = object[key]
+        if (!isNaN(val)) {
+          val = parseFloat(val).toFixed(2)
+        } else {
+          val = object[key]
+        }
+      }
+      if (key == 'DENUMIRE_ARTICOL_OFERTA') {
+        //create small a button for each row. When clicked filter optimal_ds by selected_option resulting in denumireUnica_ds and display it in table
+        var button = document.createElement('button')
+        button.type = 'button'
+        button.classList.add('btn')
+        button.classList.add('btn-secondary')
+        button.classList.add('btn-sm')
+        //add filter icon
+        var filter_icon = document.createElement('i')
+        filter_icon.classList.add('bi')
+        filter_icon.classList.add('bi-filter')
+        button.appendChild(filter_icon)
+        //add event listener
+        button.onclick = function () {
+          //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
+          if (document.getElementById(tbody_name).rows.length < optimal_ds.length) {
+            //pushDataToTable(optimal_ds, thead_name, tbody_name)
+            document.getElementById('my_table_oferta_initiala').ds = optimal_ds
+          } else {
+            var selected_option = object[key]
+            denumireUnica_ds = []
+            optimal_ds.forEach(function (object) {
+              if (object[key] == selected_option) {
+                denumireUnica_ds.push(object)
+              }
+            })
+            console.log('denumireUnica_ds', denumireUnica_ds)
+            //pushDataToTable(denumireUnica_ds, thead_name, tbody_name)
+            document.getElementById('my_table_oferta_initiala').ds = denumireUnica_ds
+          }
+        }
+        td.appendChild(button)
+        //add another button named Retetare
+        var button = document.createElement('button')
+        button.type = 'button'
+        button.classList.add('btn')
+        button.classList.add('btn-primary')
+        button.classList.add('btn-sm')
+        //add list icon
+        var list_icon = document.createElement('i')
+        list_icon.classList.add('bi')
+        list_icon.classList.add('bi-list')
+        button.appendChild(list_icon)
+        //add event listener
+        button.onclick = function () {
+          //alert('Reteta pentru ' + object[key])
+          creazaReteta(object)
+        }
+        td.appendChild(button)
+      }
+      //add val to td as span
+      var span = document.createElement('span')
+      span.innerHTML = val || ''
+      td.appendChild(span)
+      tr.appendChild(td)
+    })
+    tbody.appendChild(tr)
+  })
+
+  //config according to visible_columns
+  visible_columns.forEach((o) => {
+    showHideColumn(o.state, o.column, thead_name, tbody_name)
+  })
+
+  console.log('visible_columns', visible_columns)
+}
+
+function showHideColumn(checkbox_state, column, thead_name, tbody_name) {
+  //visible_columns
+  //if exists update it's state
+  try {
+    visible_columns.find((o) => o.column === column).state = checkbox_state
+  } catch (error) {
+    visible_columns.push({ column: column, state: checkbox_state })
+  } finally {
+    console.log('visible_columns', visible_columns)
+  }
+  var thead = document.getElementById(thead_name)
+  var ths = thead.getElementsByTagName('td')
+  var columnIndex = -1
+  Array.from(ths).forEach((th) => {
+    if (th.innerHTML == column) {
+      columnIndex = Array.from(ths).indexOf(th)
+      //hide
+      th.style.display = checkbox_state ? '' : 'none'
+    }
+  })
+  //tbody
+  var tbody = document.getElementById(tbody_name)
+  var rows = tbody.rows
+  Array.from(rows).forEach((row) => {
+    row.cells[columnIndex].style.display = checkbox_state ? '' : 'none'
+  })
+}
+
+function drawModalDialog(selected_combo, selected_ds) {
+  extra_nivele_count = 0
+  console.log('selected_combo', selected_combo)
+  //add to modal id="modal-body"; 1. split combo by delimiter  2.add each part as a text input
+  var modal_body = document.getElementById('modal-body')
+  var modal_header = document.getElementById('modal-header')
+  modal_body.innerHTML = ''
+  modal_header.innerHTML = ''
+  //add div container
+  var container = document.createElement('div')
+  container.classList.add('container')
+  modal_header.appendChild(container)
+  //create div for all selected_combo
+  var row = document.createElement('div')
+  row.classList.add('row')
+  row.id = 'nivele_ofertare'
+  container.appendChild(row)
+  selected_combo.forEach(function (part) {
+    var niv = document.createElement('h6')
+    niv.id = _nivel_oferta + (selected_combo.indexOf(part) + 1)
+    niv.classList.add('col-sm')
+    niv.classList.add('text-primary')
+    niv.innerHTML = part
+    row.appendChild(niv)
+  })
+
+  //add all selected_ds['DENUMIRE_ARTICOL_OFERTA'] to modal id="modal-body" as a newly created select
+  //create a div for select, label and button
+  var row1 = document.createElement('div')
+  row1.classList.add('row')
+  row1.id = 'articole_antemasuratori'
+  container.appendChild(row1)
+  var div2 = document.createElement('div')
+  div2.classList.add('col-sm-8')
+  var select_articole = document.createElement('select')
+  select_articole.id = 'articole'
+  select_articole.name = 'articole'
+  select_articole.classList.add('form-select')
+  select_articole.classList.add('form-select-sm')
+  //multiselect
+  select_articole.multiple = true
+  //8 rows
+  select_articole.size = 8
+  selected_ds.forEach(function (object) {
+    var option = document.createElement('option')
+    option.value = object['WBS']
+    option.text =
+      object['DENUMIRE_ARTICOL_OFERTA'] +
+      ' - ' +
+      object['CANTITATE_ARTICOL_OFERTA'] +
+      ' [' +
+      object['UM_ARTICOL_OFERTA'] +
+      ']'
+    select_articole.appendChild(option)
+  })
+  div2.appendChild(select_articole)
+  row1.appendChild(div2)
+
+  //add button Adauga in antemasuratori
+  var div_btn = document.createElement('div')
+  div_btn.classList.add('col-sm')
+  var button = document.createElement('button')
+  button.type = 'button'
+  button.classList.add('btn')
+  button.classList.add('btn-primary')
+  button.classList.add('btn-sm')
+  var arrow_down =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">' +
+    '<path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"></path>' +
+    '</svg>'
+  button.innerHTML = 'Antemasuratori' + arrow_down
+  div_btn.appendChild(button)
+  row1.appendChild(div_btn)
+  button.onclick = function () {
+    //adauga in ds_antemasuratori
+    var selected_articole = []
+    for (var i = 0; i < select_articole.options.length; i++) {
+      if (select_articole.options[i].selected) {
+        selected_articole.push(select_articole.options[i].value)
+      }
+    }
+    console.log('selected_articole', selected_articole)
+    //find selected WBS  in selected_ds['WBS'] => a new ds with only selected WBS
+    selected_ds.forEach(function (object) {
+      if (selected_articole.includes(object['WBS'])) {
+        ds_antemasuratori.push(object)
+      }
+    })
+    console.log('ds_antemasuratori', ds_antemasuratori)
+
+    var new_levels = []
+    for (var i = 0; i < selected_combo.length; i++) {
+      new_levels.push(_nivel_oferta + (i + 1))
+    }
+
+    console.log('new_levels', new_levels)
+
+    //enumarate keys din ds_antemasuratori
+    var cut1,
+      cut2,
+      keys = Object.keys(ds_antemasuratori[0])
+    console.log('keys', keys)
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i].includes(_nivel_oferta)) {
+        cut1 = i
+      }
+      if (keys[i].includes(_nivel_cantitate_articol_oferta)) {
+        if (!document.getElementById('tbody_antemasuratori')) {
+          cut2 = i
+        } else {
+          cut2 = i - 1
+        }
+      }
+    }
+
+    console.log('cut1', cut1)
+    console.log('cut1', cut2)
+
+    var rearranged_ds_antemasuratori = []
+    //=> ds_antemasuratori keys: 0 ... cut1 ramains the same + add unique new_levels: selected_combo + add remaining cut1+1 ... end
+    ds_antemasuratori.forEach(function (object) {
+      var new_object = {}
+      for (var i = 0; i < cut1 + 1; i++) {
+        new_object[keys[i]] = object[keys[i]]
+      }
+      for (var i = 0; i < new_levels.length; i++) {
+        new_object[new_levels[i]] = selected_combo[i].toString()
+      }
+      for (var i = cut1 + 1; i <= cut2; i++) {
+        new_object[keys[i]] = object[keys[i]]
+      }
+      new_object[_cantitate_antemasuratori] =
+        `<input type="text" class="form-control form-control-sm bg-warning cantitate_articol_antemasuratori" value="0" />`
+      for (var i = cut2 + 1; i < keys.length; i++) {
+        new_object[keys[i]] = object[keys[i]]
+      }
+      rearranged_ds_antemasuratori.push(new_object)
+    })
+
+    ds_antemasuratori = [...rearranged_ds_antemasuratori]
+
+    console.log('ds_antemasuratori', ds_antemasuratori)
+
+    //create table
+
+    var table = document.getElementById('table_antemasuratori') || document.createElement('table')
+    table.classList.add('table')
+    table.classList.add('table-sm')
+    table.classList.add('table-bordered')
+    table.classList.add('table-hover')
+    table.classList.add('table-striped')
+    table.classList.add('table-responsive')
+    table.id = 'table_antemasuratori'
+    //get or create thead and tbody antemasuratori
+    var thead_antemasuratori =
+      document.getElementById('thead_antemasuratori') || document.createElement('thead')
+    thead_antemasuratori.id = 'thead_antemasuratori'
+    var tbody_antemasuratori =
+      document.getElementById('tbody_antemasuratori') || document.createElement('tbody')
+    tbody_antemasuratori.id = 'tbody_antemasuratori'
+    table.appendChild(thead_antemasuratori)
+    table.appendChild(tbody_antemasuratori)
+    modal_body.appendChild(table)
+    pushDataToTable(ds_antemasuratori, 'thead_antemasuratori', 'tbody_antemasuratori')
+  }
+}
+
+function saveChanges() {
+  document.getElementById('modal-body').innerHTML = ''
+  //close modal
+  var modal = new bootstrap.Modal(document.getElementById('AntemasuratoriModal'))
+  modal.hide()
+}
+
 async function saveOferta() {
   var trdr = document.getElementById('trdr').value
   var trndate = document.getElementById('trndate').value
@@ -1122,13 +1516,6 @@ export function init() {
       my_table1.ds = []
       my_table1.ds = ds_antemasuratori
     }
-  }
-
-  //ModalAntemasuratori
-  let btn_antemasuratori = document.getElementById('ModalAntemasuratori')
-  btn_antemasuratori.onclick = function () {
-    //nav_antemasuratori click
-    nav_antemasuratori.click()
   }
 }
 
