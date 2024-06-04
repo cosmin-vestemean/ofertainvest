@@ -69,7 +69,15 @@ var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
 var nivele = []
-const keysOfInterestInRecipe = ['old_WBS', 'WBS', 'DENUMIRE_ARTICOL_OFERTA', 'CANTITATE_ARTICOL_OFERTA', 'UM_ARTICOL_OFERTA']
+const keysOfInterestInRecipe = [
+  'old_WBS',
+  'WBS',
+  'DENUMIRE_ARTICOL_OFERTA',
+  'CANTITATE_ARTICOL_OFERTA',
+  'UM_ARTICOL_OFERTA',
+  'TIP_ARTICOL_OFERTA',
+  'SUBTIP_ARTICOL_OFERTA'
+]
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1794,15 +1802,12 @@ class Recipe extends LitElement {
         span.innerHTML = counter
         td.appendChild(span)
         tr.appendChild(td)
-        // define the keys of interest in the recipe object
-        const keysOfInterestInRecipe = ['old_WBS', 'WBS', 'DENUMIRE_ARTICOL_OFERTA', 'CANTITATE_ARTICOL_OFERTA', 'UM_ARTICOL_OFERTA', 'TIP_ARTICOL_OFERTA', 'SUBTIP_ARTICOL_OFERTA'];
-
         // loop through the keys of interest and create the corresponding table cells
-        keysOfInterestInRecipe.forEach(key => {
-          let td = document.createElement('td');
-          td.innerHTML = activitate.object[key] || '';
-          tr.appendChild(td);
-        });
+        for (let key of keysOfInterestInRecipe) {
+          let td = document.createElement('td')
+          td.innerHTML = activitate.object[key] || ''
+          tr.appendChild(td)
+        }
         //add children
         var mCounter = 0
         for (let j = 0; j < activitate.children.length; j++) {
@@ -1817,11 +1822,11 @@ class Recipe extends LitElement {
           tr.appendChild(td)
 
           // loop through the keys of interest and create the corresponding table cells
-          keysOfInterestInRecipe.forEach(key => {
-            let td = document.createElement('td');
-            td.innerHTML = material.object[key] || '';
-            tr.appendChild(td);
-          });
+          for (let key of keysOfInterestInRecipe) {
+            let td = document.createElement('td')
+            td.innerHTML = material.object[key] || ''
+            tr.appendChild(td)
+          }
         }
       }
 
@@ -1887,13 +1892,13 @@ class Activity extends LitElement {
         tr.appendChild(th)
         //append columns based on keysOfInterestInRecipe
         for (let key of keysOfInterestInRecipe) {
-          let th = document.createElement('th');
-          th.scope = 'col';
-          th.innerHTML = key;
-          th.style.writingMode = 'vertical-rl';
-          th.style.rotate = '180deg';
-          th.style.fontWeight = 'normal';
-          tr.appendChild(th);
+          let th = document.createElement('th')
+          th.scope = 'col'
+          th.innerHTML = key
+          th.style.writingMode = 'vertical-rl'
+          th.style.rotate = '180deg'
+          th.style.fontWeight = 'normal'
+          tr.appendChild(th)
         }
       }
 
@@ -1919,82 +1924,29 @@ class Activity extends LitElement {
         td.classList.add('text-primary')
         td.innerHTML = tbody.children.length - 2
         tr.appendChild(td)
-        //old_WBS
-        var td = document.createElement('td')
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //WBS
-        var td = document.createElement('td')
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //DENUMIRE_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        //add class text-primary
-        td.classList.add('text-primary')
-        td.innerHTML = ''
-        td.contentEditable = true
-        td.spellcheck = false
-        tr.appendChild(td)
-        //CANTITATE_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.classList.add('text-primary')
-        td.contentEditable = true
-        td.spellcheck = false
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //UM_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.classList.add('text-primary')
-        td.contentEditable = true
-        td.spellcheck = false
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //TIP_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        //select element
-        let select1 = document.createElement('select')
-        select1.id = 'material_TIP_ARTICOL_OFERTA'
-        select1.classList.add('form-select')
-        select1.classList.add('form-select-sm')
-        //vezi TIP_ARTICOL_OFERTA array (for let)
-        for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
-          var option = document.createElement('option')
-          option.value = TIP_ARTICOL_OFERTA[i]
-          option.text = TIP_ARTICOL_OFERTA[i]
-          select1.appendChild(option)
+        for (let key of keysOfInterestInRecipe) {
+          let td = document.createElement('td')
+          if (Array.isArray(this.activitate.object[key])) {
+            //select element
+            let select = document.createElement('select')
+            select.id = 'material_' + key
+            select.classList.add('form-select')
+            select.classList.add('form-select-sm')
+            //vezi key array (for let)
+            for (let i = 0; i < this.activitate.object[key].length; i++) {
+              var option = document.createElement('option')
+              option.value = this.activitate.object[key][i]
+              option.text = this.activitate.object[key][i]
+              select.appendChild(option)
+            }
+            td.appendChild(select)
+          } else {
+            td.contentEditable = true
+            td.spellcheck = false
+            td.innerHTML = ''
+          }
+          tr.appendChild(td)
         }
-        td.appendChild(select1)
-        tr.appendChild(td)
-        //select same option like the above child
-        //get the above tr and select element
-        let trAbove = tbody.children[tbody.children.length - 2]
-        let aboveSelect = trAbove.getElementsByTagName('select')[0]
-        let aboveIndex = aboveSelect.selectedIndex
-        select1.selectedIndex = aboveIndex
-        //SUBTIP_ARTICOL_OFERTA
-        td = document.createElement('td')
-        //select element
-        let select2 = document.createElement('select')
-        select2.id = 'material_SUBTIP_ARTICOL_OFERTA'
-        select2.classList.add('form-select')
-        select2.classList.add('form-select-sm')
-        //vezi SUBTIP_ARTICOL_OFERTA array (for let)
-        for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
-          var option = document.createElement('option')
-          option.value = SUBTIP_ARTICOL_OFERTA[i]
-          option.text = SUBTIP_ARTICOL_OFERTA[i]
-          select2.appendChild(option)
-        }
-        //select same option like the above child
-        //get the above tr and select element
-        /* aboveSelect = trAbove.getElementsByTagName('select')[1]
-        aboveIndex = aboveSelect.selectedIndex */
-        //select2.selectedIndex = aboveIndex
-
-        //instead it gets index of 'CUSTOM' from SUBTIP_ARTICOL_OFERTA
-        select2.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf('CUSTOM')
-        td.appendChild(select2)
-        tr.appendChild(td)
       }
       td.appendChild(plus_icon)
       //add refresh icon for reloading my-activity with retetaCurenta
