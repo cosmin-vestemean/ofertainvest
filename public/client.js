@@ -2544,7 +2544,6 @@ function eleminateDuplicates(data) {
   //cauta restul retetelor cu aceleasi proprietati si elimina-le
 
   let innerData = [...data]
-  let result = []
 
   for (let i = 0; i < innerData.length; i++) {
     let reteta = innerData[i].reteta
@@ -2614,9 +2613,7 @@ function eleminateDuplicates(data) {
     }
   }
 
-  console.log('result', result)
-
-  return result
+  return innerData
 }
 
 /*
