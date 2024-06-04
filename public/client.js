@@ -1772,7 +1772,7 @@ class Recipe extends LitElement {
         // loop through the keys of interest and create the corresponding table cells
         for (let [key, value] of Object.entries(recipeDisplayMask)) {
           let td = document.createElement('td')
-          if (value.visible) {
+          if (!value.visible) {
             td.classList.add('d-none')
           }
           td.innerHTML = activitate.object[key] || ''
@@ -1794,7 +1794,7 @@ class Recipe extends LitElement {
           // loop through the keys of interest and create the corresponding table cells
           for (let [key, value] of Object.entries(recipeDisplayMask)) {
             let td = document.createElement('td')
-            if (value.visible) {
+            if (!value.visible) {
               td.classList.add('d-none')
             }
             td.innerHTML = material.object[key] || ''
