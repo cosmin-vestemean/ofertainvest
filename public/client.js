@@ -1920,17 +1920,8 @@ class Activity extends LitElement {
       let trPanel = document.createElement('tr')
       tbody.appendChild(trPanel)
       //add plus-square icon
-      let btnPanel = document.createElement('td')
-      let colSpan = 0
-      //check keysOfInterestInRecipe visibility
-      for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
-        let props = value
-        if (props.visible === false) {
-          colSpan++
-        }
-      }
-      colSpan++
-      trPanel.appendChild(btnPanel)
+      let btnAdd = document.createElement('td')
+      trPanel.appendChild(btnAdd)
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
@@ -1987,7 +1978,9 @@ class Activity extends LitElement {
           tr.appendChild(td)
         }
       }
-      btnPanel.appendChild(plus_icon)
+      btnAdd.appendChild(plus_icon)
+      let btnRefresh = document.createElement('td')
+      trPanel.appendChild(btnRefresh)
       //add refresh icon for reloading my-activity with retetaCurenta
       var refresh_icon = document.createElement('i')
       refresh_icon.classList.add('bi')
@@ -1999,7 +1992,9 @@ class Activity extends LitElement {
         var my_activity = document.getElementById('editare_activitate')
         my_activity.activitate = activitateCurenta
       }
-      btnPanel.appendChild(refresh_icon)
+      btnRefresh.appendChild(refresh_icon)
+      let btnBack = document.createElement('td')
+      trPanel.appendChild(btnBack)
       //add forward and backward icons for navigation between activities
       var backward_icon = document.createElement('i')
       backward_icon.classList.add('bi')
@@ -2009,7 +2004,9 @@ class Activity extends LitElement {
       backward_icon.onclick = function () {
         //find previous activity
       }
-      btnPanel.appendChild(backward_icon)
+      btnBack.appendChild(backward_icon)
+      let btnForward = document.createElement('td')
+      trPanel.appendChild(btnForward)
       var forward_icon = document.createElement('i')
       forward_icon.classList.add('bi')
       forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
@@ -2018,7 +2015,7 @@ class Activity extends LitElement {
       forward_icon.onclick = function () {
         //find next activity
       }
-      btnPanel.appendChild(forward_icon)
+      btnForward.appendChild(forward_icon)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
