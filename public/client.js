@@ -1918,17 +1918,18 @@ class Activity extends LitElement {
 
       //add tbody
       let trPanel = document.createElement('tr')
+      tbody.appendChild(trPanel)
       //add plus-square icon
       let btnPanel = document.createElement('td')
-      btnPanel.colSpan = 0
+      let colSpan = 0
       //check keysOfInterestInRecipe visibility
       for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
         let props = value
         if (props.visible === false) {
-          btnPanel.colSpan++
+          colSpan++
         }
       }
-      btnPanel ++ //for counter
+      colSpan++
       trPanel.appendChild(btnPanel)
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
@@ -1985,81 +1986,6 @@ class Activity extends LitElement {
           }
           tr.appendChild(td)
         }
-        /* //old_WBS
-        var td = document.createElement('td')
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //WBS
-        var td = document.createElement('td')
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //DENUMIRE_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        //add class text-primary
-        td.classList.add('text-primary')
-        td.innerHTML = ''
-        td.contentEditable = true
-        td.spellcheck = false
-        tr.appendChild(td)
-        //CANTITATE_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.classList.add('text-primary')
-        td.contentEditable = true
-        td.spellcheck = false
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //UM_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.classList.add('text-primary')
-        td.contentEditable = true
-        td.spellcheck = false
-        td.innerHTML = ''
-        tr.appendChild(td)
-        //TIP_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        //if TIP_ARTICOL_OFERTA is an array, create a select element
-        if (Array.isArray(TIP_ARTICOL_OFERTA)) {
-          //select element
-          let select1 = document.createElement('select')
-          select1.id = 'material_TIP_ARTICOL_OFERTA'
-          select1.classList.add('form-select')
-          select1.classList.add('form-select-sm')
-          //vezi TIP_ARTICOL_OFERTA array (for let)
-          for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
-            var option = document.createElement('option')
-            option.value = TIP_ARTICOL_OFERTA[i]
-            option.text = TIP_ARTICOL_OFERTA[i]
-            select1.appendChild(option)
-          }
-          //select same option like the above child
-          //get the above tr and select element
-          let trAbove = tbody.children[tbody.children.length - 2]
-          let aboveSelect = trAbove.getElementsByTagName('select')[0]
-          let aboveIndex = aboveSelect.selectedIndex
-          select1.selectedIndex = aboveIndex
-          td.appendChild(select1)
-        }
-        tr.appendChild(td)
-        //SUBTIP_ARTICOL_OFERTA
-        td = document.createElement('td')
-        if (Array.isArray(SUBTIP_ARTICOL_OFERTA)) {
-          //select element
-          let select2 = document.createElement('select')
-          select2.id = 'material_SUBTIP_ARTICOL_OFERTA'
-          select2.classList.add('form-select')
-          select2.classList.add('form-select-sm')
-          //vezi SUBTIP_ARTICOL_OFERTA array (for let)
-          for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
-            var option = document.createElement('option')
-            option.value = SUBTIP_ARTICOL_OFERTA[i]
-            option.text = SUBTIP_ARTICOL_OFERTA[i]
-            select2.appendChild(option)
-          }
-          //instead it gets index of 'CUSTOM' from SUBTIP_ARTICOL_OFERTA
-          select2.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf('CUSTOM')
-          td.appendChild(select2)
-        }
-        tr.appendChild(td) */
       }
       btnPanel.appendChild(plus_icon)
       //add refresh icon for reloading my-activity with retetaCurenta
@@ -2093,7 +2019,6 @@ class Activity extends LitElement {
         //find next activity
       }
       btnPanel.appendChild(forward_icon)
-      tbody.appendChild(trPanel)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
@@ -2112,62 +2037,7 @@ class Activity extends LitElement {
         td.contentEditable = true
         tr.appendChild(td)
       }
-      /* //old_WBS
-      var td = document.createElement('td')
-      td.innerHTML = this.activitate.object.old_WBS ? this.activitate.object.old_WBS : ''
-      tr.appendChild(td)
-      //WBS
-      var td = document.createElement('td')
-      td.innerHTML = this.activitate.object.WBS
-      tr.appendChild(td)
-      //DENUMIRE_ARTICOL_OFERTA
-      var td = document.createElement('td')
-      td.innerHTML = this.activitate.object.DENUMIRE_ARTICOL_OFERTA
-      td.contentEditable = true
-      //spellcheck
-      td.spellcheck = false
-      tr.appendChild(td)
-      //CANTITATE_ARTICOL_OFERTA
-      var td = document.createElement('td')
-      td.innerHTML = this.activitate.object.CANTITATE_ARTICOL_OFERTA
-      tr.appendChild(td)
-      //UM_ARTICOL_OFERTA
-      var td = document.createElement('td')
-      td.innerHTML = this.activitate.object.UM_ARTICOL_OFERTA
-      tr.appendChild(td)
-      //TIP_ARTICOL_OFERTA
-      var td = document.createElement('td')
-      //select element
-      var select = document.createElement('select')
-      select.id = 'activitate_TIP_ARTICOL_OFERTA'
-      select.classList.add('form-select')
-      select.classList.add('form-select-sm')
-      //vezi TIP_ARTICOL_OFERTA array (for let)
-      for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
-        var option = document.createElement('option')
-        option.value = TIP_ARTICOL_OFERTA[i]
-        option.text = TIP_ARTICOL_OFERTA[i]
-        select.appendChild(option)
-      }
-      select.selectedIndex = TIP_ARTICOL_OFERTA.indexOf(this.activitate.object.TIP_ARTICOL_OFERTA)
-      td.appendChild(select)
-      tr.appendChild(td)
-      //SUBTIP_ARTICOL_OFERTA
-      var td = document.createElement('td')
-      //select element
-      var select = document.createElement('select')
-      select.id = 'activitate_SUBTIP_ARTICOL_OFERTA'
-      select.classList.add('form-select')
-      select.classList.add('form-select-sm')
-      //vezi SUBTIP_ARTICOL_OFERTA array (for let)
-      for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
-        var option = document.createElement('option')
-        option.value = SUBTIP_ARTICOL_OFERTA[i]
-        option.text = SUBTIP_ARTICOL_OFERTA[i]
-        select.appendChild(option)
-      }
-      select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(this.activitate.object.SUBTIP_ARTICOL_OFERTA)
-      td.appendChild(select) */
+      //add children
       tr.appendChild(td)
 
       //add children
