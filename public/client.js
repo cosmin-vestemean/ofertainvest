@@ -2572,7 +2572,7 @@ function eleminateDuplicates(data) {
         })
 
         if (identical) {
-          innerData.splice(k, 1)
+          innerData.toRemove = true
           //mark reteta2 as duplicate in instanteRetete
           instanteRetete[k].duplicate = true
           //point to the original reteta
@@ -2580,6 +2580,9 @@ function eleminateDuplicates(data) {
         }
       }
     }
+
+    //remove duplicates from innerData
+    innerData = innerData.filter((obj) => !obj.toRemove)
   }
 
   //transforma
