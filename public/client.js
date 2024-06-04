@@ -2548,7 +2548,7 @@ function eleminateDuplicates(data) {
   let result = []
   
   for (let i = 0; i < innerData.length; i++) {
-    let obj = innerData[i]
+    let obj = innerData.reteta[i]
     let children = obj.children
     let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
     let childrenProps = []
