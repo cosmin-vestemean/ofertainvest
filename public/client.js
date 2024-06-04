@@ -1910,6 +1910,7 @@ class Activity extends LitElement {
         td.appendChild(trash)
         var span = document.createElement('span')
         span.style.marginLeft = '5px'
+        mCounter++
         span.innerHTML = mCounter
         td.appendChild(span)
         tr.appendChild(td)
