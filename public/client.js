@@ -70,13 +70,23 @@ var retetaCurenta = {}
 var activitateCurenta = {}
 var nivele = []
 const keysOfInterestInRecipe = {
-  old_WBS: 'old_WBS',
-  WBS: 'WBS',
-  DENUMIRE_ARTICOL_OFERTA: 'DENUMIRE_ARTICOL_OFERTA',
-  CANTITATE_ARTICOL_OFERTA: 'CANTITATE_ARTICOL_OFERTA',
-  UM_ARTICOL_OFERTA: 'UM_ARTICOL_OFERTA',
-  TIP_ARTICOL_OFERTA: TIP_ARTICOL_OFERTA,
-  SUBTIP_ARTICOL_OFERTA: SUBTIP_ARTICOL_OFERTA
+  old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
+  WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: true,
+    visible: true,
+    label: 'Denumire articol'
+  },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: true,
+    visible: true,
+    label: 'Cantitate'
+  },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM' },
+  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Tip articol' },
+  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol' }
 }
 
 // 1. load excel file by file chooser xlsx.js
@@ -1891,10 +1901,14 @@ class Activity extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         //append columns based on keysOfInterestInRecipe
-        for (let key of Object.keys(keysOfInterestInRecipe)) {
+        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+          let props = value
           let th = document.createElement('th')
+          if (props.visible === false) {
+            th.classList.add('d-none')
+          }
           th.scope = 'col'
-          th.innerHTML = key
+          th.innerHTML = value.label
           th.style.writingMode = 'vertical-rl'
           th.style.rotate = '180deg'
           th.style.fontWeight = 'normal'
@@ -1925,19 +1939,38 @@ class Activity extends LitElement {
         td.innerHTML = tbody.children.length - 2
         tr.appendChild(td)
         for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+          let props = value
           let td = document.createElement('td')
-          if (Array.isArray(value)) {
+          let visibility = props.visible
+          if (visibility === false) {
+            td.classList.add('d-none')
+          }
+          let innerValue = props.value
+          if (Array.isArray(innerValue)) {
             //select element
             let select = document.createElement('select')
             select.id = 'material_' + key
             select.classList.add('form-select')
             select.classList.add('form-select-sm')
             //vezi key array (for let)
-            for (let i = 0; i < value.length; i++) {
+            for (let i = 0; i < innerValue.length; i++) {
               var option = document.createElement('option')
-              option.value = value[i]
-              option.text = value[i]
+              option.value = innerValue[i]
+              option.text = innerValue[i]
               select.appendChild(option)
+            }
+            //if key is TIP_ARTICOL_OFERTA, select same option like the above child
+            if (key === 'TIP_ARTICOL_OFERTA') {
+              //get the above tr and select element
+              let trAbove = tbody.children[tbody.children.length - 2]
+              let aboveSelect = trAbove.getElementsByTagName('select')[0]
+              let aboveIndex = aboveSelect.selectedIndex
+              select.selectedIndex = aboveIndex
+            }
+
+            if (key === 'SUBTIP_ARTICOL_OFERTA') {
+              //'CUSTOM'
+              select.selectedIndex = value.indexOf('CUSTOM')
             }
             td.appendChild(select)
           } else {
@@ -2062,7 +2095,14 @@ class Activity extends LitElement {
       //append counter
       var td = document.createElement('td')
       tr.appendChild(td)
-      //old_WBS
+      for (let key of Object.keys(keysOfInterestInRecipe)) {
+        let td = document.createElement('td')
+        td.innerHTML = this.activitate.object[key] || ''
+        td.spellcheck = false
+        td.contentEditable = true
+        tr.appendChild(td)
+      }
+      /* //old_WBS
       var td = document.createElement('td')
       td.innerHTML = this.activitate.object.old_WBS ? this.activitate.object.old_WBS : ''
       tr.appendChild(td)
@@ -2117,7 +2157,7 @@ class Activity extends LitElement {
         select.appendChild(option)
       }
       select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(this.activitate.object.SUBTIP_ARTICOL_OFERTA)
-      td.appendChild(select)
+      td.appendChild(select) */
       tr.appendChild(td)
 
       //add children
