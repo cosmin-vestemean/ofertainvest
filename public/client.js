@@ -2548,26 +2548,26 @@ function eleminateDuplicates(data) {
 
   for (let i = 0; i < innerData.length; i++) {
     let reteta = innerData[i].reteta
-    for (let j = 0; j<reteta.length; j++) {
-      let obj = reteta[j]
-      let children = obj.children
-      let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
-      let childrenProps = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
+    for (let j = 0; j < reteta.length; j++) {
+      let obj = reteta[j];
+      let children = obj.children;
+      let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA];
+      let childrenProps = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA]);
       //filter out the rest of the retete with the same properties
       let rest = innerData.filter((reteta) => {
-        for (let k = 0; k<reteta.reteta.length; k++) {
-          let obj = reteta.reteta[k]
-          let children = obj.children
-          let objProps2 = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
-          let childrenProps2 = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
-          if (JSON.stringify(objProps) == JSON.stringify(objProps2) && JSON.stringify(childrenProps) == JSON.stringify(childrenProps2)) {
-            return true
+        for (let k = 0; k < reteta.reteta.length; k++) {
+          let obj2 = reteta.reteta[k];
+          let children2 = obj2.children;
+          let objProps2 = [obj2.object.DENUMIRE_ARTICOL_OFERTA, obj2.object.UM_ARTICOL_OFERTA, obj2.object.TIP_ARTICOL_OFERTA, obj2.object.SUBTIP_ARTICOL_OFERTA];
+          let childrenProps2 = children2.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA]);
+          if (JSON.stringify(objProps) === JSON.stringify(objProps2) && JSON.stringify(childrenProps) === JSON.stringify(childrenProps2)) {
+            return true;
           }
         }
-      })
+      });
 
-      if (rest.length == 1) {
-        result.push(innerData[i])
+      if (rest.length === 1) {
+        result.push(innerData[i]);
       }
     }
   }
