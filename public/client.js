@@ -1899,7 +1899,19 @@ class Activity extends LitElement {
         tbody.appendChild(tr)
         var td = document.createElement('td')
         td.classList.add('text-primary')
-        td.innerHTML = tbody.children.length - 2
+        var trash = document.createElement('i')
+        trash.classList.add('bi')
+        trash.classList.add('bi-trash', 'text-danger')
+        trash.style.cursor = 'pointer'
+        trash.onclick = function () {
+          var tr = trash.parentElement.parentElement
+          tr.remove()
+        }
+        td.appendChild(trash)
+        var span = document.createElement('span')
+        span.style.marginLeft = '5px'
+        span.innerHTML = mCounter
+        td.appendChild(span)
         tr.appendChild(td)
         for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
           let props = value
