@@ -2247,9 +2247,8 @@ function createTreesFromWBS(ds) {
     instanteRetete1 = instanteRetete
   }
 
-  instanteRetete = instanteRetete1
 
-  let rez = eleminateDuplicates(instanteRetete)
+  let rez = eleminateDuplicates(instanteRetete1)
   let retete = rez.retete
   instanteRetete = rez.instanteRetete
 
@@ -2507,8 +2506,8 @@ function eleminateDuplicates(data) {
   //and his children [reteta.object.children.DENUMIRE_ARTICOL_OFERTA, reteta.object.children.UM_ARTICOL_OFERTA, reteta.object.children.TIP_ARTICOL_OFERTA, reteta.object.children.SUBTIP_ARTICOL_OFERTA]
   //cauta restul retetelor cu aceleasi proprietati si elimina-le
 
-  let innerData = [...data]
-  let instanteRetete1 = [...data]
+  let innerData = data.slice()
+  let instanteRetete = data.slice()
 
   for (let i = 0; i < innerData.length; i++) {
     let reteta = innerData[i].reteta
@@ -2574,9 +2573,9 @@ function eleminateDuplicates(data) {
         if (identical) {
           innerData[k].toRemove = true
           //mark reteta2 as duplicate in instanteRetete
-          instanteRetete1[k].duplicate = true
+          instanteRetete[k].duplicate = true
           //point to the original reteta
-          instanteRetete1[k].duplicateOf = i
+          instanteRetete[k].duplicateOf = i
         }
       }
     }
@@ -2587,7 +2586,7 @@ function eleminateDuplicates(data) {
 
   //transforma
 
-  return { retete: innerData, instanteRetete: instanteRetete1 }
+  return { retete: innerData, instanteRetete: instanteRetete }
 }
 
 /*
