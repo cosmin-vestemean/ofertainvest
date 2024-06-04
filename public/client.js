@@ -1961,11 +1961,8 @@ class Activity extends LitElement {
             }
             //if key is TIP_ARTICOL_OFERTA, select same option like the above child
             if (key === 'TIP_ARTICOL_OFERTA') {
-              //get the above tr and select element
-              let trAbove = tbody.children[tbody.children.length - 2]
-              let aboveSelect = trAbove.getElementsByTagName('select')[0]
-              let aboveIndex = aboveSelect.selectedIndex
-              select.selectedIndex = aboveIndex
+              //'SUBARTICOL'
+              select.selectedIndex = value.indexOf('SUBARTICOL')
             }
 
             if (key === 'SUBTIP_ARTICOL_OFERTA') {
@@ -2258,8 +2255,8 @@ class Activity extends LitElement {
           select.appendChild(option)
         }
         select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(material.object.SUBTIP_ARTICOL_OFERTA)
-        td.appendChild(select) */
-        tr.appendChild(td)
+        td.appendChild(select)
+        tr.appendChild(td) */
       }
 
       return html`${table}`
