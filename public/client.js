@@ -1306,6 +1306,7 @@ export function init() {
     console.log('recipes_ds', recipes_ds)
     console.log('trees', trees)
     console.log('nivele', nivele)
+    ds_antemasuratori = []
     //activitate = reteta.object
     for (let i = 0; i < recipes_ds.length; i++) {
       var reteta = recipes_ds[i].reteta
@@ -2287,7 +2288,7 @@ function createTreesFromWBS(ds) {
 
   retete = retete1
 
-  //console.log('resultPlusVirtualFalseNoDuplicates', resultPlusVirtualFalseNoDuplicates)
+  retete = eleminateDuplicates(retete)
 
   return {
     trees,
@@ -2536,6 +2537,41 @@ function applyFilterChildrenEndsWith0(data) {
 
   return innerData
 }
+
+
+function eleminateDuplicates(data) {
+  //choose one reteta, get [reteta.object.DENUMIRE_ARTICOL_OFERTA, reteta.object.UM_ARTICOL_OFERTA, reteta.object.TIP_ARTICOL_OFERTA, reteta.object.SUBTIP_ARTICOL_OFERTA]
+  //and his children [reteta.object.children.DENUMIRE_ARTICOL_OFERTA, reteta.object.children.UM_ARTICOL_OFERTA, reteta.object.children.TIP_ARTICOL_OFERTA, reteta.object.children.SUBTIP_ARTICOL_OFERTA] 
+  //cauta restul retetelor cu aceleasi proprietati si elimina-le
+
+  let innerData = [...data]
+  let result = []
+  
+  for (let i = 0; i < innerData.length; i++) {
+    let obj = innerData[i]
+    let children = obj.children
+    let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
+    let childrenProps = []
+    children.forEach(function (child) {
+      childrenProps.push([child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
+    })
+    let found = innerData.filter((innerObj) => {
+      let innerObjChildrenProps = []
+      innerObj.children.forEach(function (child) {
+        innerObjChildrenProps.push([child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
+      })
+      return objProps.join('') == [innerObj.object.DENUMIRE_ARTICOL_OFERTA, innerObj.object.UM_ARTICOL_OFERTA, innerObj.object.TIP_ARTICOL_OFERTA, innerObj.object.SUBTIP_ARTICOL_OFERTA].join('') && JSON.stringify(childrenProps) == JSON.stringify(innerObjChildrenProps)
+    })
+    if (found.length == 1) {
+      result.push(obj)
+    }
+  }
+
+  console.log('result', result)
+
+  return result
+}
+
 /*
 
 /*
