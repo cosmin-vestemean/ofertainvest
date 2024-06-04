@@ -1990,7 +1990,7 @@ class Activity extends LitElement {
             th.classList.add('d-none')
           }
           th.scope = 'col'
-          th.innerHTML = value.label ? value.label : key
+          th.innerHTML = props.label ? props.label : key
           th.style.writingMode = 'vertical-rl'
           th.style.rotate = '180deg'
           th.style.fontWeight = 'normal'
@@ -2008,14 +2008,15 @@ class Activity extends LitElement {
       tr.appendChild(counter)
       for (const [key, value] of Object.entries(recipeDisplayMask)) {
         let props = value
-        let td = document.createElement('td')
-        if (props.visible === false) {
-          td.classList.add('d-none')
+        let visibility = props.visible
+        let label = props.label
+        let th = document.createElement('th')
+        if (visibility === false) {
+          th.classList.add('d-none')
         }
-        td.innerHTML = this.activitate.object[key] || ''
-        td.spellcheck = false
-        td.contentEditable = true
-        tr.appendChild(td)
+        th.scope = 'col'
+        th.innerHTML = label ? label : key
+        tr.appendChild(th)
       }
 
       //add children
@@ -2580,6 +2581,8 @@ function eleminateDuplicates(data) {
       }
     }
   }
+
+  //transforma
 
   return { retete: innerData, instanteRetete: instanteRetete }
 }
