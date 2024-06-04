@@ -1881,7 +1881,6 @@ class Activity extends LitElement {
       //add buttons
       let buttonsPannel = document.createElement('div')
       buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
-      this.shadowRoot.appendChild(buttonsPannel)
       //add plus-square icon
       let btnAdd = document.createElement('div')
       btnAdd.classList.add('col')
@@ -2082,7 +2081,7 @@ class Activity extends LitElement {
         }
       }
 
-      return html`${table}`
+      return html`${buttonsPannel}${table}`
     }
   }
 }
