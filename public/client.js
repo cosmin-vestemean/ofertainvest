@@ -2506,8 +2506,8 @@ function eleminateDuplicates(data) {
   //and his children [reteta.object.children.DENUMIRE_ARTICOL_OFERTA, reteta.object.children.UM_ARTICOL_OFERTA, reteta.object.children.TIP_ARTICOL_OFERTA, reteta.object.children.SUBTIP_ARTICOL_OFERTA]
   //cauta restul retetelor cu aceleasi proprietati si elimina-le
 
-  let innerData = data.slice()
-  let instanteRetete = data.slice()
+  let innerData = [...data]
+  let instanteRetete = JSON.parse(JSON.stringify(innerData))
 
   for (let i = 0; i < innerData.length; i++) {
     let reteta = innerData[i].reteta
