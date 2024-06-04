@@ -2534,6 +2534,9 @@ function eleminateDuplicates(data) {
         })
       }
       for (let k = i + 1; k < innerData.length; k++) {
+        if (innerData[k].toRemove) {
+          continue
+        }
         let reteta2 = innerData[k].reteta
         let activitati2 = []
         for (let l = 0; l < reteta2.length; l++) {
