@@ -1678,65 +1678,20 @@ class Recipe extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        //append old_WBS, if exists
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'old_WBS'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        //make it text normal, instead of bold
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append WBS
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'WBS'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append DENUMIRE_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'DENUMIRE_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append CANTITATE_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'CANTITATE_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append UM_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'UM_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append TIP_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'TIP_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
-        //append SUBTIP_ARTICOL_OFERTA
-        th = document.createElement('th')
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.scope = 'col'
-        th.innerHTML = 'SUBTIP_ARTICOL_OFERTA'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
-        tr.appendChild(th)
+        for (let [key, value] of Object.entries(this.reteta[0].object)) {
+          let label = value.label
+          let visible = value.visible
+          let th = document.createElement('th')
+          if (!visible) {
+            th.classList.add('d-none')
+          }
+          th.scope = 'col'
+          th.innerHTML = label ? label : key
+          th.style.writingMode = 'vertical-rl'
+          th.style.rotate = '180deg'
+          th.style.fontWeight = 'normal'
+          tr.appendChild(th)
+        }
       }
       //add tbody
       //first add a row for actions
@@ -1815,8 +1770,11 @@ class Recipe extends LitElement {
         td.appendChild(span)
         tr.appendChild(td)
         // loop through the keys of interest and create the corresponding table cells
-        for (let key of Object.keys(recipeDisplayMask)) {
+        for (let [key, value] of Object.entries(recipeDisplayMask)) {
           let td = document.createElement('td')
+          if (value.visible) {
+            td.classList.add('d-none')
+          }
           td.innerHTML = activitate.object[key] || ''
           tr.appendChild(td)
         }
@@ -1834,8 +1792,11 @@ class Recipe extends LitElement {
           tr.appendChild(td)
 
           // loop through the keys of interest and create the corresponding table cells
-          for (let key of Object.keys(recipeDisplayMask)) {
+          for (let [key, value] of Object.entries(recipeDisplayMask)) {
             let td = document.createElement('td')
+            if (value.visible) {
+              td.classList.add('d-none')
+            }
             td.innerHTML = material.object[key] || ''
             tr.appendChild(td)
           }
