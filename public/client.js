@@ -1877,51 +1877,15 @@ class Activity extends LitElement {
     } else {
       //add activity then add children in a rw table (contenteditable)
       //TIP_ARTICOL_OFERTA and SUBTIP_ARTICOL_OFERTA are select elements
-      var table = document.createElement('table')
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.id = 'table_activitate'
-      //get or create thead and tbody
-      var thead = document.createElement('thead')
-      thead.id = 'thead_activitate'
-      thead.classList.add('align-middle')
-      var tbody = document.createElement('tbody')
-      tbody.id = 'tbody_activitate'
-      if (theadIsSet) {
-        tbody.classList.add('table-group-divider')
-      }
-      table.appendChild(tbody)
-      //add thead
-      if (theadIsSet) {
-        table.appendChild(thead)
-        var tr = document.createElement('tr')
-        thead.appendChild(tr)
-        //append counter
-        var th = document.createElement('th')
-        th.scope = 'col'
-        tr.appendChild(th)
-        //append columns based on keysOfInterestInRecipe
-        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
-          let props = value
-          let th = document.createElement('th')
-          if (props.visible === false) {
-            th.classList.add('d-none')
-          }
-          th.scope = 'col'
-          th.innerHTML = value.label ? value.label : key
-          th.style.writingMode = 'vertical-rl'
-          th.style.rotate = '180deg'
-          th.style.fontWeight = 'normal'
-          tr.appendChild(th)
-        }
-      }
 
-      //add tbody
-      let trPanel = document.createElement('tr')
-      tbody.appendChild(trPanel)
+      //add buttons
+      let buttonsPannel = document.createElement('div')
+      buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
+      this.shadowRoot.appendChild(buttonsPannel)
       //add plus-square icon
-      let btnAdd = document.createElement('td')
-      trPanel.appendChild(btnAdd)
+      let btnAdd = document.createElement('div')
+      btnAdd.classList.add('col')
+      buttonsPannel.appendChild(btnAdd)
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
@@ -1979,8 +1943,9 @@ class Activity extends LitElement {
         }
       }
       btnAdd.appendChild(plus_icon)
-      let btnRefresh = document.createElement('td')
-      trPanel.appendChild(btnRefresh)
+      let btnRefresh = document.createElement('div')
+      btnRefresh.classList.add('col')
+      buttonsPannel.appendChild(btnRefresh)
       //add refresh icon for reloading my-activity with retetaCurenta
       var refresh_icon = document.createElement('i')
       refresh_icon.classList.add('bi')
@@ -1993,8 +1958,9 @@ class Activity extends LitElement {
         my_activity.activitate = activitateCurenta
       }
       btnRefresh.appendChild(refresh_icon)
-      let btnBack = document.createElement('td')
-      trPanel.appendChild(btnBack)
+      let btnBack = document.createElement('div')
+      btnBack.classList.add('col')
+      buttonsPannel.appendChild(btnBack)
       //add forward and backward icons for navigation between activities
       var backward_icon = document.createElement('i')
       backward_icon.classList.add('bi')
@@ -2005,8 +1971,9 @@ class Activity extends LitElement {
         //find previous activity
       }
       btnBack.appendChild(backward_icon)
-      let btnForward = document.createElement('td')
-      trPanel.appendChild(btnForward)
+      let btnForward = document.createElement('div')
+      btnForward.classList.add('col')
+      buttonsPannel.appendChild(btnForward)
       var forward_icon = document.createElement('i')
       forward_icon.classList.add('bi')
       forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
@@ -2016,6 +1983,47 @@ class Activity extends LitElement {
         //find next activity
       }
       btnForward.appendChild(forward_icon)
+
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.id = 'table_activitate'
+      //get or create thead and tbody
+      var thead = document.createElement('thead')
+      thead.id = 'thead_activitate'
+      thead.classList.add('align-middle')
+      var tbody = document.createElement('tbody')
+      tbody.id = 'tbody_activitate'
+      if (theadIsSet) {
+        tbody.classList.add('table-group-divider')
+      }
+      table.appendChild(tbody)
+      //add thead
+      if (theadIsSet) {
+        table.appendChild(thead)
+        var tr = document.createElement('tr')
+        thead.appendChild(tr)
+        //append counter
+        var th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
+        //append columns based on keysOfInterestInRecipe
+        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+          let props = value
+          let th = document.createElement('th')
+          if (props.visible === false) {
+            th.classList.add('d-none')
+          }
+          th.scope = 'col'
+          th.innerHTML = value.label ? value.label : key
+          th.style.writingMode = 'vertical-rl'
+          th.style.rotate = '180deg'
+          th.style.fontWeight = 'normal'
+          tr.appendChild(th)
+        }
+      }
+
+      //add tbody
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
