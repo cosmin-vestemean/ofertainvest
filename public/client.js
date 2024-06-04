@@ -1986,7 +1986,7 @@ class Activity extends LitElement {
         for (const [key, value] of Object.entries(recipeDisplayMask)) {
           let props = value
           let th = document.createElement('th')
-          if (props.visible === false) {
+          if (!props.visible) {
             th.classList.add('d-none')
           }
           th.scope = 'col'
