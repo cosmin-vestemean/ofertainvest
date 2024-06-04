@@ -2287,7 +2287,7 @@ function createTreesFromWBS(ds) {
 
   instanteRetete = instanteRetete1
 
-  let retete = eleminateDuplicates(retete)
+  let retete = eleminateDuplicates(instanteRetete)
 
   return {
     trees,
