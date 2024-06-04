@@ -69,7 +69,7 @@ var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
 var nivele = []
-const keysOfInterestInRecipe = {
+const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
   DENUMIRE_ARTICOL_OFERTA: {
@@ -1813,7 +1813,7 @@ class Recipe extends LitElement {
         td.appendChild(span)
         tr.appendChild(td)
         // loop through the keys of interest and create the corresponding table cells
-        for (let key of Object.keys(keysOfInterestInRecipe)) {
+        for (let key of Object.keys(recipeDisplayMask)) {
           let td = document.createElement('td')
           td.innerHTML = activitate.object[key] || ''
           tr.appendChild(td)
@@ -1832,7 +1832,7 @@ class Recipe extends LitElement {
           tr.appendChild(td)
 
           // loop through the keys of interest and create the corresponding table cells
-          for (let key of Object.keys(keysOfInterestInRecipe)) {
+          for (let key of Object.keys(recipeDisplayMask)) {
             let td = document.createElement('td')
             td.innerHTML = material.object[key] || ''
             tr.appendChild(td)
@@ -1914,7 +1914,7 @@ class Activity extends LitElement {
         span.innerHTML = mCounter
         td.appendChild(span)
         tr.appendChild(td)
-        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+        for (const [key, value] of Object.entries(recipeDisplayMask)) {
           let props = value
           let td = document.createElement('td')
           let visibility = props.visible
@@ -2019,8 +2019,8 @@ class Activity extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        //append columns based on keysOfInterestInRecipe
-        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+        //append columns based on recipeDisplayMask
+        for (const [key, value] of Object.entries(recipeDisplayMask)) {
           let props = value
           let th = document.createElement('th')
           if (props.visible === false) {
@@ -2043,7 +2043,7 @@ class Activity extends LitElement {
       let counter = document.createElement('td')
       counter.innerHTML = ''
       tr.appendChild(counter)
-      for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+      for (const [key, value] of Object.entries(recipeDisplayMask)) {
         let props = value
         let td = document.createElement('td')
         if (props.visible === false) {
@@ -2081,7 +2081,7 @@ class Activity extends LitElement {
         span.innerHTML = mCounter
         td.appendChild(span)
         tr.appendChild(td)
-        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+        for (const [key, value] of Object.entries(recipeDisplayMask)) {
           let props = value
           let td = document.createElement('td')
           if (props.visible === false) {
