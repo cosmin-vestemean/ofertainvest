@@ -2548,26 +2548,70 @@ function eleminateDuplicates(data) {
 
   for (let i = 0; i < innerData.length; i++) {
     let reteta = innerData[i].reteta
+    let activitati = []
     for (let j = 0; j < reteta.length; j++) {
       let obj = reteta[j];
       let children = obj.children;
-      let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA];
-      let childrenProps = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA]);
-      //filter out the rest of the retete with the same properties
-      let rest = innerData.filter((reteta) => {
-        for (let k = 0; k < reteta.reteta.length; k++) {
-          let obj2 = reteta.reteta[k];
+      activitati.push({
+        DENUMIRE_ARTICOL_OFERTA: obj.object.DENUMIRE_ARTICOL_OFERTA,
+        UM_ARTICOL_OFERTA: obj.object.UM_ARTICOL_OFERTA,
+        TIP_ARTICOL_OFERTA: obj.object.TIP_ARTICOL_OFERTA,
+        SUBTIP_ARTICOL_OFERTA: obj.object.SUBTIP_ARTICOL_OFERTA
+      })
+      if (children) {
+        children.forEach(function (child) {
+          activitati[activitati.length - 1].children = children.map(function (child) {
+            return {
+              DENUMIRE_ARTICOL_OFERTA: child.object.DENUMIRE_ARTICOL_OFERTA,
+              UM_ARTICOL_OFERTA: child.object.UM_ARTICOL_OFERTA,
+              TIP_ARTICOL_OFERTA: child.object.TIP_ARTICOL_OFERTA,
+              SUBTIP_ARTICOL_OFERTA: child.object.SUBTIP_ARTICOL_OFERTA
+            }
+          })
+        })
+      }
+      for (let k = i+1; k < innerData.length; k++) {
+        let reteta2 = innerData[k].reteta
+        let activitati2 = []
+        for (let l = 0; l < reteta2.length; l++) {
+          let obj2 = reteta2[l];
           let children2 = obj2.children;
-          let objProps2 = [obj2.object.DENUMIRE_ARTICOL_OFERTA, obj2.object.UM_ARTICOL_OFERTA, obj2.object.TIP_ARTICOL_OFERTA, obj2.object.SUBTIP_ARTICOL_OFERTA];
-          let childrenProps2 = children2.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA]);
-          if (JSON.stringify(objProps) === JSON.stringify(objProps2) && JSON.stringify(childrenProps) === JSON.stringify(childrenProps2)) {
-            return true;
+          activitati2.push({
+            DENUMIRE_ARTICOL_OFERTA: obj2.object.DENUMIRE_ARTICOL_OFERTA,
+            UM_ARTICOL_OFERTA: obj2.object.UM_ARTICOL_OFERTA,
+            TIP_ARTICOL_OFERTA: obj2.object.TIP_ARTICOL_OFERTA,
+            SUBTIP_ARTICOL_OFERTA: obj2.object.SUBTIP_ARTICOL_OFERTA
+          })
+          if (children2) {
+            children2.forEach(function (child2) {
+              activitati2[activitati2.length - 1].children = children2.map(function (child2) {
+                return {
+                  DENUMIRE_ARTICOL_OFERTA: child2.object.DENUMIRE_ARTICOL_OFERTA,
+                  UM_ARTICOL_OFERTA: child2.object.UM_ARTICOL_OFERTA,
+                  TIP_ARTICOL_OFERTA: child2.object.TIP_ARTICOL_OFERTA,
+                  SUBTIP_ARTICOL_OFERTA: child2.object.SUBTIP_ARTICOL_OFERTA
+                }
+              })
+            })
           }
         }
-      });
-
-      if (rest.length === 1) {
-        result.push(innerData[i]);
+        let identical = activitati.every((activitate, index) => {
+          return activitate.DENUMIRE_ARTICOL_OFERTA == activitati2[index].DENUMIRE_ARTICOL_OFERTA &&
+            activitate.UM_ARTICOL_OFERTA == activitati2[index].UM_ARTICOL_OFERTA &&
+            activitate.TIP_ARTICOL_OFERTA == activitati2[index].TIP_ARTICOL_OFERTA &&
+            activitate.SUBTIP_ARTICOL_OFERTA == activitati2[index].SUBTIP_ARTICOL_OFERTA
+            //compare children
+            && activitate.children.every((child, index) => {
+              return child.DENUMIRE_ARTICOL_OFERTA == activitati2[index].children.DENUMIRE_ARTICOL_OFERTA &&
+                child.UM_ARTICOL_OFERTA == activitati2[index].children.UM_ARTICOL_OFERTA &&
+                child.TIP_ARTICOL_OFERTA == activitati2[index].children.TIP_ARTICOL_OFERTA &&
+                child.SUBTIP_ARTICOL_OFERTA == activitati2[index].children.SUBTIP_ARTICOL_OFERTA
+            })
+        })
+        if (identical) {
+          console.log('identical', activitati, activitati2)
+          break
+        }
       }
     }
   }
