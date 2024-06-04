@@ -1678,7 +1678,7 @@ class Recipe extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        for (let [key, value] of Object.entries(this.reteta[0].object)) {
+        for (let [key, value] of Object.entries(recipeDisplayMask)) {
           let label = value.label
           let visible = value.visible
           let th = document.createElement('th')
