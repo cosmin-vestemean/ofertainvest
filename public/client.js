@@ -2590,7 +2590,20 @@ function eleminateDuplicates(data) {
   //remove duplicates from innerData
   innerData = innerData.filter((obj) => !obj.toRemove)
 
-  //transforma
+  //pentru fiecare instanteReteta cu duplicate false, adauga duplicate true la ea si pointeaza la original
+  for ( let i = 0; i < instanteRetete.length; i++) {
+    //daca nu are cheia duplicate, adauga-o
+    if (!instanteRetete[i].duplicate) {
+      instanteRetete[i].duplicate = true
+      //cauta in retete intrarea cu acelasi name si pointeaza la ea
+      for (let j = 0; j < retete.length; j++) {
+        //duplicateOf pointeaza la name care pointeaza la reteta.name
+        
+      }
+
+    }
+  }
+
 
   return { retete: innerData, instanteRetete: instanteRetete }
 }
