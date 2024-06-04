@@ -1933,10 +1933,10 @@ class Activity extends LitElement {
             select.classList.add('form-select')
             select.classList.add('form-select-sm')
             //vezi key array (for let)
-            for (let i = 0; i < this.activitate.object[key].length; i++) {
+            for (let i = 0; i < value.length; i++) {
               var option = document.createElement('option')
-              option.value = this.activitate.object[key][i]
-              option.text = this.activitate.object[key][i]
+              option.value = value[i]
+              option.text = value[i]
               select.appendChild(option)
             }
             td.appendChild(select)
