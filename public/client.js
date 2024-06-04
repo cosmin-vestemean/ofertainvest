@@ -81,7 +81,7 @@ const keysOfInterestInRecipe = {
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: true,
-    visible: true,
+    visible: false,
     label: 'Cantitate'
   },
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM' },
@@ -1917,10 +1917,17 @@ class Activity extends LitElement {
       }
 
       //add tbody
-      var tr = document.createElement('tr')
+      tr = document.createElement('tr')
       //add plus-square icon
-      var td = document.createElement('td')
-      td.colSpan = 8
+      td = document.createElement('td')
+      td.colSpan = 0
+      //check keysOfInterestInRecipe visibility
+      for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+        let props = value
+        if (props.visible === false) {
+          td.colSpan++
+        }
+      }
       tr.appendChild(td)
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
