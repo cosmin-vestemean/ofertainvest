@@ -2508,7 +2508,7 @@ function eleminateDuplicates(data) {
   //cauta restul retetelor cu aceleasi proprietati si elimina-le
 
   let innerData = [...data]
-  let instanteRetete = [...data]
+  let instanteRetete1 = [...data]
 
   for (let i = 0; i < innerData.length; i++) {
     let reteta = innerData[i].reteta
@@ -2572,11 +2572,11 @@ function eleminateDuplicates(data) {
         })
 
         if (identical) {
-          innerData.toRemove = true
+          innerData[k].toRemove = true
           //mark reteta2 as duplicate in instanteRetete
-          instanteRetete[k].duplicate = true
+          instanteRetete1[k].duplicate = true
           //point to the original reteta
-          instanteRetete[k].duplicateOf = i
+          instanteRetete1[k].duplicateOf = i
         }
       }
     }
@@ -2587,7 +2587,7 @@ function eleminateDuplicates(data) {
 
   //transforma
 
-  return { retete: innerData, instanteRetete: instanteRetete }
+  return { retete: innerData, instanteRetete: instanteRetete1 }
 }
 
 /*
