@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
 
-const TIP_ARTICOL_RETETA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
-const SUBTIP_ARTICOL_RETETA = [
+const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
+const SUBTIP_ARTICOL_OFERTA = [
   'PRINCIPAL',
   'MATERIAL',
   'MANOPERA',
@@ -1956,11 +1956,11 @@ class Activity extends LitElement {
         select1.id = 'material_TIP_ARTICOL_OFERTA'
         select1.classList.add('form-select')
         select1.classList.add('form-select-sm')
-        //vezi TIP_ARTICOL_RETETA array (for let)
-        for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
+        //vezi TIP_ARTICOL_OFERTA array (for let)
+        for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
           var option = document.createElement('option')
-          option.value = TIP_ARTICOL_RETETA[i]
-          option.text = TIP_ARTICOL_RETETA[i]
+          option.value = TIP_ARTICOL_OFERTA[i]
+          option.text = TIP_ARTICOL_OFERTA[i]
           select1.appendChild(option)
         }
         td.appendChild(select1)
@@ -1978,11 +1978,11 @@ class Activity extends LitElement {
         select2.id = 'material_SUBTIP_ARTICOL_OFERTA'
         select2.classList.add('form-select')
         select2.classList.add('form-select-sm')
-        //vezi SUBTIP_ARTICOL_RETETA array (for let)
-        for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
+        //vezi SUBTIP_ARTICOL_OFERTA array (for let)
+        for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
           var option = document.createElement('option')
-          option.value = SUBTIP_ARTICOL_RETETA[i]
-          option.text = SUBTIP_ARTICOL_RETETA[i]
+          option.value = SUBTIP_ARTICOL_OFERTA[i]
+          option.text = SUBTIP_ARTICOL_OFERTA[i]
           select2.appendChild(option)
         }
         //select same option like the above child
@@ -1991,8 +1991,8 @@ class Activity extends LitElement {
         aboveIndex = aboveSelect.selectedIndex */
         //select2.selectedIndex = aboveIndex
 
-        //instead it gets index of 'CUSTOM' from SUBTIP_ARTICOL_RETETA
-        select2.selectedIndex = SUBTIP_ARTICOL_RETETA.indexOf('CUSTOM')
+        //instead it gets index of 'CUSTOM' from SUBTIP_ARTICOL_OFERTA
+        select2.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf('CUSTOM')
         td.appendChild(select2)
         tr.appendChild(td)
       }
@@ -2065,14 +2065,14 @@ class Activity extends LitElement {
       select.id = 'activitate_TIP_ARTICOL_OFERTA'
       select.classList.add('form-select')
       select.classList.add('form-select-sm')
-      //vezi TIP_ARTICOL_RETETA array (for let)
-      for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
+      //vezi TIP_ARTICOL_OFERTA array (for let)
+      for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
         var option = document.createElement('option')
-        option.value = TIP_ARTICOL_RETETA[i]
-        option.text = TIP_ARTICOL_RETETA[i]
+        option.value = TIP_ARTICOL_OFERTA[i]
+        option.text = TIP_ARTICOL_OFERTA[i]
         select.appendChild(option)
       }
-      select.selectedIndex = TIP_ARTICOL_RETETA.indexOf(this.activitate.object.TIP_ARTICOL_OFERTA)
+      select.selectedIndex = TIP_ARTICOL_OFERTA.indexOf(this.activitate.object.TIP_ARTICOL_OFERTA)
       td.appendChild(select)
       tr.appendChild(td)
       //SUBTIP_ARTICOL_OFERTA
@@ -2082,14 +2082,14 @@ class Activity extends LitElement {
       select.id = 'activitate_SUBTIP_ARTICOL_OFERTA'
       select.classList.add('form-select')
       select.classList.add('form-select-sm')
-      //vezi SUBTIP_ARTICOL_RETETA array (for let)
-      for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
+      //vezi SUBTIP_ARTICOL_OFERTA array (for let)
+      for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
         var option = document.createElement('option')
-        option.value = SUBTIP_ARTICOL_RETETA[i]
-        option.text = SUBTIP_ARTICOL_RETETA[i]
+        option.value = SUBTIP_ARTICOL_OFERTA[i]
+        option.text = SUBTIP_ARTICOL_OFERTA[i]
         select.appendChild(option)
       }
-      select.selectedIndex = SUBTIP_ARTICOL_RETETA.indexOf(this.activitate.object.SUBTIP_ARTICOL_OFERTA)
+      select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(this.activitate.object.SUBTIP_ARTICOL_OFERTA)
       td.appendChild(select)
       tr.appendChild(td)
 
@@ -2151,14 +2151,14 @@ class Activity extends LitElement {
         select.id = 'material_TIP_ARTICOL_OFERTA'
         select.classList.add('form-select')
         select.classList.add('form-select-sm')
-        //vezi TIP_ARTICOL_RETETA array (for let)
-        for (let i = 0; i < TIP_ARTICOL_RETETA.length; i++) {
+        //vezi TIP_ARTICOL_OFERTA array (for let)
+        for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
           var option = document.createElement('option')
-          option.value = TIP_ARTICOL_RETETA[i]
-          option.text = TIP_ARTICOL_RETETA[i]
+          option.value = TIP_ARTICOL_OFERTA[i]
+          option.text = TIP_ARTICOL_OFERTA[i]
           select.appendChild(option)
         }
-        select.selectedIndex = TIP_ARTICOL_RETETA.indexOf(material.object.TIP_ARTICOL_OFERTA)
+        select.selectedIndex = TIP_ARTICOL_OFERTA.indexOf(material.object.TIP_ARTICOL_OFERTA)
         td.appendChild(select)
         tr.appendChild(td)
         //SUBTIP_ARTICOL_OFERTA
@@ -2168,14 +2168,14 @@ class Activity extends LitElement {
         select.id = material.object.DENUMIRE_ARTICOL_OFERTA + '_SUBTIP_ARTICOL_OFERTA'
         select.classList.add('form-select')
         select.classList.add('form-select-sm')
-        //vezi SUBTIP_ARTICOL_RETETA array (for let)
-        for (let i = 0; i < SUBTIP_ARTICOL_RETETA.length; i++) {
+        //vezi SUBTIP_ARTICOL_OFERTA array (for let)
+        for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
           var option = document.createElement('option')
-          option.value = SUBTIP_ARTICOL_RETETA[i]
-          option.text = SUBTIP_ARTICOL_RETETA[i]
+          option.value = SUBTIP_ARTICOL_OFERTA[i]
+          option.text = SUBTIP_ARTICOL_OFERTA[i]
           select.appendChild(option)
         }
-        select.selectedIndex = SUBTIP_ARTICOL_RETETA.indexOf(material.object.SUBTIP_ARTICOL_OFERTA)
+        select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(material.object.SUBTIP_ARTICOL_OFERTA)
         td.appendChild(select)
         tr.appendChild(td)
       }
@@ -2390,8 +2390,8 @@ function applyFilterTipSubTip(data) {
   //look into resultPlus and create a new array with only the objects listening of the following filter's conditions simultaneously
   //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
   const objFilter = {
-    TIP_ARTICOL_OFERTA: ['articol'],
-    SUBTIP_ARTICOL_OFERTA: ['principal', 'manopera', 'transport', 'utilaj']
+    TIP_ARTICOL_OFERTA,
+    SUBTIP_ARTICOL_OFERTA
   }
   let arr = []
   data.forEach(function (obj) {
