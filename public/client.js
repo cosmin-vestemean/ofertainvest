@@ -1970,12 +1970,12 @@ class Activity extends LitElement {
             //if key is TIP_ARTICOL_OFERTA, select same option like the above child
             if (key === 'TIP_ARTICOL_OFERTA') {
               //'SUBARTICOL'
-              select.selectedIndex = value.indexOf('SUBARTICOL')
+              select.selectedIndex = innerValue.indexOf('SUBARTICOL')
             }
 
             if (key === 'SUBTIP_ARTICOL_OFERTA') {
               //'CUSTOM'
-              select.selectedIndex = value.indexOf('CUSTOM')
+              select.selectedIndex = innerValue.indexOf('CUSTOM')
             }
             td.appendChild(select)
           } else {
