@@ -2550,8 +2550,8 @@ function eleminateDuplicates(data) {
     let reteta = innerData[i].reteta
     let activitati = []
     for (let j = 0; j < reteta.length; j++) {
-      let obj = reteta[j];
-      let children = obj.children;
+      let obj = reteta[j]
+      let children = obj.children
       activitati.push({
         DENUMIRE_ARTICOL_OFERTA: obj.object.DENUMIRE_ARTICOL_OFERTA,
         UM_ARTICOL_OFERTA: obj.object.UM_ARTICOL_OFERTA,
@@ -2570,12 +2570,12 @@ function eleminateDuplicates(data) {
           })
         })
       }
-      for (let k = i+1; k < innerData.length; k++) {
+      for (let k = i + 1; k < innerData.length; k++) {
         let reteta2 = innerData[k].reteta
         let activitati2 = []
         for (let l = 0; l < reteta2.length; l++) {
-          let obj2 = reteta2[l];
-          let children2 = obj2.children;
+          let obj2 = reteta2[l]
+          let children2 = obj2.children
           activitati2.push({
             DENUMIRE_ARTICOL_OFERTA: obj2.object.DENUMIRE_ARTICOL_OFERTA,
             UM_ARTICOL_OFERTA: obj2.object.UM_ARTICOL_OFERTA,
@@ -2595,30 +2595,15 @@ function eleminateDuplicates(data) {
             })
           }
         }
-        let identical = activitati.every((activitate, index) => {
-          return activitate.DENUMIRE_ARTICOL_OFERTA == activitati2[index].DENUMIRE_ARTICOL_OFERTA &&
-            activitate.UM_ARTICOL_OFERTA == activitati2[index].UM_ARTICOL_OFERTA &&
-            activitate.TIP_ARTICOL_OFERTA == activitati2[index].TIP_ARTICOL_OFERTA &&
-            activitate.SUBTIP_ARTICOL_OFERTA == activitati2[index].SUBTIP_ARTICOL_OFERTA
-            //compare children
-            && activitate.children.every((child, index) => {
-              return child.DENUMIRE_ARTICOL_OFERTA == activitati2[index].children.DENUMIRE_ARTICOL_OFERTA &&
-                child.UM_ARTICOL_OFERTA == activitati2[index].children.UM_ARTICOL_OFERTA &&
-                child.TIP_ARTICOL_OFERTA == activitati2[index].children.TIP_ARTICOL_OFERTA &&
-                child.SUBTIP_ARTICOL_OFERTA == activitati2[index].children.SUBTIP_ARTICOL_OFERTA
-            })
-        })
-        if (identical) {
-          console.log('identical', activitati, activitati2)
-          break
-        }
+
+        console.log('identical', activitati, activitati2)
       }
     }
   }
 
   console.log('result', result)
 
-  return result    
+  return result
 }
 
 /*
