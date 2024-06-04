@@ -2585,10 +2585,10 @@ function eleminateDuplicates(data) {
         }
       }
     }
-
-    //remove duplicates from innerData
-    innerData = innerData.filter((obj) => !obj.toRemove)
   }
+
+  //remove duplicates from innerData
+  innerData = innerData.filter((obj) => !obj.toRemove)
 
   //transforma
 
