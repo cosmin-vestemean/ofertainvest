@@ -69,15 +69,15 @@ var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
 var nivele = []
-const keysOfInterestInRecipe = [
-  'old_WBS',
-  'WBS',
-  'DENUMIRE_ARTICOL_OFERTA',
-  'CANTITATE_ARTICOL_OFERTA',
-  'UM_ARTICOL_OFERTA',
-  'TIP_ARTICOL_OFERTA',
-  'SUBTIP_ARTICOL_OFERTA',
-]
+const keysOfInterestInRecipe = {
+  old_WBS: 'old_WBS',
+  WBS: 'WBS',
+  DENUMIRE_ARTICOL_OFERTA: 'DENUMIRE_ARTICOL_OFERTA',
+  CANTITATE_ARTICOL_OFERTA: 'CANTITATE_ARTICOL_OFERTA',
+  UM_ARTICOL_OFERTA: 'UM_ARTICOL_OFERTA',
+  TIP_ARTICOL_OFERTA: TIP_ARTICOL_OFERTA,
+  SUBTIP_ARTICOL_OFERTA: SUBTIP_ARTICOL_OFERTA
+}
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1803,7 +1803,7 @@ class Recipe extends LitElement {
         td.appendChild(span)
         tr.appendChild(td)
         // loop through the keys of interest and create the corresponding table cells
-        for (let key of keysOfInterestInRecipe) {
+        for (let key of Object.keys(keysOfInterestInRecipe)) {
           let td = document.createElement('td')
           td.innerHTML = activitate.object[key] || ''
           tr.appendChild(td)
@@ -1822,7 +1822,7 @@ class Recipe extends LitElement {
           tr.appendChild(td)
 
           // loop through the keys of interest and create the corresponding table cells
-          for (let key of keysOfInterestInRecipe) {
+          for (let key of Object.keys(keysOfInterestInRecipe)) {
             let td = document.createElement('td')
             td.innerHTML = material.object[key] || ''
             tr.appendChild(td)
@@ -1891,7 +1891,7 @@ class Activity extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         //append columns based on keysOfInterestInRecipe
-        for (let key of keysOfInterestInRecipe) {
+        for (let key of Object.keys(keysOfInterestInRecipe)) {
           let th = document.createElement('th')
           th.scope = 'col'
           th.innerHTML = key
@@ -1924,9 +1924,9 @@ class Activity extends LitElement {
         td.classList.add('text-primary')
         td.innerHTML = tbody.children.length - 2
         tr.appendChild(td)
-        for (let key of keysOfInterestInRecipe) {
+        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
           let td = document.createElement('td')
-          if (Array.isArray(keysOfInterestInRecipe[key])) {
+          if (Array.isArray(keysOfInterestInRecipe[value])) {
             //select element
             let select = document.createElement('select')
             select.id = 'material_' + key
@@ -1941,9 +1941,9 @@ class Activity extends LitElement {
             }
             td.appendChild(select)
           } else {
-          td.contentEditable = true
-          td.spellcheck = false
-          td.innerHTML = ''
+            td.contentEditable = true
+            td.spellcheck = false
+            td.innerHTML = ''
           }
           tr.appendChild(td)
         }
