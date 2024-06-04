@@ -2037,8 +2037,6 @@ class Activity extends LitElement {
         td.contentEditable = true
         tr.appendChild(td)
       }
-      //add children
-      tr.appendChild(td)
 
       //add children
       var mCounter = 0
