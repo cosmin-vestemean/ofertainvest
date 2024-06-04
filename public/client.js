@@ -2535,6 +2535,9 @@ function eleminateDuplicates(data) {
         })
       }
       for (let k = i + 1; k < instanteRetete.length; k++) {
+        if (instanteRetete[k].duplicate) {
+          continue
+        }
         let reteta2 = instanteRetete[k].reteta
         let activitati2 = []
         for (let l = 0; l < reteta2.length; l++) {
