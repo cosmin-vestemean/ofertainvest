@@ -2553,13 +2553,20 @@ function eleminateDuplicates(data) {
       let children = obj.children
       let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
       let childrenProps = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
-      let found = innerData.filter((reteta) => {
-        let retetaProps = [reteta.object.DENUMIRE_ARTICOL_OFERTA, reteta.object.UM_ARTICOL_OFERTA, reteta.object.TIP_ARTICOL_OFERTA, reteta.object.SUBTIP_ARTICOL_OFERTA]
-        let children = reteta.children
-        let childrenProps = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
-        return JSON.stringify(objProps) == JSON.stringify(retetaProps) && JSON.stringify(childrenProps) == JSON.stringify(childrenProps)
+      //filter out the rest of the retete with the same properties
+      let rest = innerData.filter((reteta) => {
+        for (let k = 0; k<reteta.reteta.length; k++) {
+          let obj = reteta.reteta[k]
+          let children = obj.children
+          let objProps2 = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
+          let childrenProps2 = children.map((child) => [child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
+          if (JSON.stringify(objProps) == JSON.stringify(objProps2) && JSON.stringify(childrenProps) == JSON.stringify(childrenProps2)) {
+            return true
+          }
+        }
       })
-      if (found.length == 1) {
+
+      if (rest.length == 1) {
         result.push(innerData[i])
       }
     }
