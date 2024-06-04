@@ -2390,8 +2390,8 @@ function applyFilterTipSubTip(data) {
   //look into resultPlus and create a new array with only the objects listening of the following filter's conditions simultaneously
   //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
   const objFilter = {
-    TIP_ARTICOL_OFERTA,
-    SUBTIP_ARTICOL_OFERTA
+    TIP_ARTICOL_OFERTA: ['articol'],
+    SUBTIP_ARTICOL_OFERTA: ['principal', 'manopera', 'transport', 'utilaj']
   }
   let arr = []
   data.forEach(function (obj) {
