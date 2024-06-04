@@ -2572,11 +2572,11 @@ function eleminateDuplicates(data) {
         })
 
         if (identical) {
-          innerData[k].toRemove = true
           //mark reteta2 as duplicate in instanteRetete
           instanteRetete[k].duplicate = true
           //point to the original reteta
           instanteRetete[k].duplicateOf = i
+          innerData[k].toRemove = true
         }
       }
     }
