@@ -2090,8 +2090,9 @@ class Activity extends LitElement {
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
       //append counter
-      var td = document.createElement('td')
-      tr.appendChild(td)
+      let counter = document.createElement('td')
+      counter.innerHTML = ''
+      tr.appendChild(counter)
       for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
         let props = value
         let td = document.createElement('td')
