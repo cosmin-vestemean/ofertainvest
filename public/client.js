@@ -2510,6 +2510,9 @@ function eleminateDuplicates(data) {
   let instanteRetete = JSON.parse(JSON.stringify(innerData))
 
   for (let i = 0; i < innerData.length; i++) {
+    if (innerData[i].toRemove) {
+      continue
+    }
     let reteta = innerData[i].reteta
     let activitati = []
     for (let j = 0; j < reteta.length; j++) {
