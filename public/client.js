@@ -2538,32 +2538,71 @@ function applyFilterChildrenEndsWith0(data) {
   return innerData
 }
 
-
 function eleminateDuplicates(data) {
   //choose one reteta, get [reteta.object.DENUMIRE_ARTICOL_OFERTA, reteta.object.UM_ARTICOL_OFERTA, reteta.object.TIP_ARTICOL_OFERTA, reteta.object.SUBTIP_ARTICOL_OFERTA]
-  //and his children [reteta.object.children.DENUMIRE_ARTICOL_OFERTA, reteta.object.children.UM_ARTICOL_OFERTA, reteta.object.children.TIP_ARTICOL_OFERTA, reteta.object.children.SUBTIP_ARTICOL_OFERTA] 
+  //and his children [reteta.object.children.DENUMIRE_ARTICOL_OFERTA, reteta.object.children.UM_ARTICOL_OFERTA, reteta.object.children.TIP_ARTICOL_OFERTA, reteta.object.children.SUBTIP_ARTICOL_OFERTA]
   //cauta restul retetelor cu aceleasi proprietati si elimina-le
 
   let innerData = [...data]
   let result = []
-  
+
   for (let i = 0; i < innerData.length; i++) {
-    let obj = innerData.reteta[i]
-    let children = obj.children
-    let objProps = [obj.object.DENUMIRE_ARTICOL_OFERTA, obj.object.UM_ARTICOL_OFERTA, obj.object.TIP_ARTICOL_OFERTA, obj.object.SUBTIP_ARTICOL_OFERTA]
-    let childrenProps = []
-    children.forEach(function (child) {
-      childrenProps.push([child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
-    })
-    let found = innerData.filter((innerObj) => {
-      let innerObjChildrenProps = []
-      innerObj.children.forEach(function (child) {
-        innerObjChildrenProps.push([child.object.DENUMIRE_ARTICOL_OFERTA, child.object.UM_ARTICOL_OFERTA, child.object.TIP_ARTICOL_OFERTA, child.object.SUBTIP_ARTICOL_OFERTA])
+    let reteta = innerData[i].reteta
+    let activitati = []
+    reteta.forEach(function (obj) {
+      activitateCuCriterii = {
+        DENUMIRE_ARTICOL_OFERTA: obj.object.DENUMIRE_ARTICOL_OFERTA,
+        UM_ARTICOL_OFERTA: obj.object.UM_ARTICOL_OFERTA,
+        TIP_ARTICOL_OFERTA: obj.object.TIP_ARTICOL_OFERTA,
+        SUBTIP_ARTICOL_OFERTA: obj.object.SUBTIP_ARTICOL_OFERTA
+      }
+      let children = []
+      obj.children.forEach(function (child) {
+        children.push({
+          DENUMIRE_ARTICOL_OFERTA: child.object.DENUMIRE_ARTICOL_OFERTA,
+          UM_ARTICOL_OFERTA: child.object.UM_ARTICOL_OFERTA,
+          TIP_ARTICOL_OFERTA: child.object.TIP_ARTICOL_OFERTA,
+          SUBTIP_ARTICOL_OFERTA: child.object.SUBTIP_ARTICOL_OFERTA
+        })
       })
-      return objProps.join('') == [innerObj.object.DENUMIRE_ARTICOL_OFERTA, innerObj.object.UM_ARTICOL_OFERTA, innerObj.object.TIP_ARTICOL_OFERTA, innerObj.object.SUBTIP_ARTICOL_OFERTA].join('') && JSON.stringify(childrenProps) == JSON.stringify(innerObjChildrenProps)
+
+      activitati.push({ activitate: activitateCuCriterii, materialeActivitate: children })
     })
-    if (found.length == 1) {
-      result.push(obj)
+    //take 1 and compare with the rest, up and down
+    let rest = [...activitati]
+    let result = []
+    
+    for (let j = 0; j < rest.length; j++) {
+      let activitate = rest[j]
+      let materialeActivitate = activitate.materialeActivitate
+      let restActivitati = [...rest]
+      restActivitati.splice(j, 1)
+      let restActivitatiFiltrate = []
+      restActivitati.forEach(function (restActivitate) {
+        let restMaterialeActivitate = restActivitate.materialeActivitate
+        let filtrate = materialeActivitate.filter((materiale) => {
+          let restMateriale = restMaterialeActivitate.find(
+            (restMateriale) =>
+              materiale.DENUMIRE_ARTICOL_OFERTA == restMateriale.DENUMIRE_ARTICOL_OFERTA &&
+              materiale.UM_ARTICOL_OFERTA == restMateriale.UM_ARTICOL_OFERTA &&
+              materiale.TIP_ARTICOL_OFERTA == restMateriale.TIP_ARTICOL_OFERTA &&
+              materiale.SUBTIP_ARTICOL_OFERTA == restMateriale.SUBTIP_ARTICOL_OFERTA
+          )
+          if (restMateriale) {
+            return true
+          } else {
+            return false
+          }
+        })
+        if (filtrate.length == materialeActivitate.length) {
+          restActivitatiFiltrate.push(restActivitate)
+        }
+      })
+      //console.log('restActivitatiFiltrate', restActivitatiFiltrate)
+      restActivitatiFiltrate.forEach(function (restActivitateFiltrata) {
+        let index = rest.indexOf(restActivitateFiltrata)
+        rest.splice(index, 1)
+      })
     }
   }
 
