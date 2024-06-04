@@ -1354,6 +1354,7 @@ export function init() {
         }
       }
     }
+    console.log('ds_antemasuratori', ds_antemasuratori)
     if (ds_antemasuratori.length > 0) {
       my_table2.style.display = 'none'
       my_table3.style.display = 'none'
