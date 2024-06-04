@@ -1926,7 +1926,7 @@ class Activity extends LitElement {
         tr.appendChild(td)
         for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
           let td = document.createElement('td')
-          if (Array.isArray(keysOfInterestInRecipe[value])) {
+          if (Array.isArray(value)) {
             //select element
             let select = document.createElement('select')
             select.id = 'material_' + key
