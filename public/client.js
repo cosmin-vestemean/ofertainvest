@@ -2534,8 +2534,8 @@ function eleminateDuplicates(data) {
           })
         })
       }
-      for (let k = i + 1; k < innerData.length; k++) {
-        let reteta2 = innerData[k].reteta
+      for (let k = i + 1; k < instanteRetete.length; k++) {
+        let reteta2 = instanteRetete[k].reteta
         let activitati2 = []
         for (let l = 0; l < reteta2.length; l++) {
           let obj2 = reteta2[l]
@@ -2572,18 +2572,17 @@ function eleminateDuplicates(data) {
         })
 
         if (identical) {
+          innerData.splice(k, 1)
           //mark reteta2 as duplicate in instanteRetete
           instanteRetete[k].duplicate = true
           //point to the original reteta
           instanteRetete[k].duplicateOf = i
-          innerData[k].toRemove = true
         }
       }
     }
   }
 
-  //get rid of duplicates
-  innerData = innerData.filter((obj) => !obj.toRemove)
+  //transforma
 
   return { retete: innerData, instanteRetete: instanteRetete }
 }
