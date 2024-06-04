@@ -1908,7 +1908,7 @@ class Activity extends LitElement {
             th.classList.add('d-none')
           }
           th.scope = 'col'
-          th.innerHTML = value.label
+          th.innerHTML = value.label ? value.label : key
           th.style.writingMode = 'vertical-rl'
           th.style.rotate = '180deg'
           th.style.fontWeight = 'normal'
@@ -2095,8 +2095,12 @@ class Activity extends LitElement {
       //append counter
       var td = document.createElement('td')
       tr.appendChild(td)
-      for (let key of Object.keys(keysOfInterestInRecipe)) {
+      for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+        let props = value
         let td = document.createElement('td')
+        if (props.visible === false) {
+          td.classList.add('d-none')
+        }
         td.innerHTML = this.activitate.object[key] || ''
         td.spellcheck = false
         td.contentEditable = true
@@ -2189,7 +2193,18 @@ class Activity extends LitElement {
         span.innerHTML = mCounter
         td.appendChild(span)
         tr.appendChild(td)
-        //old_WBS
+        for (const [key, value] of Object.entries(keysOfInterestInRecipe)) {
+          let props = value
+          let td = document.createElement('td')
+          if (props.visible === false) {
+            td.classList.add('d-none')
+          }
+          td.innerHTML = material.object[key] || ''
+          td.spellcheck = false
+          td.contentEditable = true
+          tr.appendChild(td)
+        }
+        /* //old_WBS
         var td = document.createElement('td')
         td.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
         tr.appendChild(td)
@@ -2243,7 +2258,7 @@ class Activity extends LitElement {
           select.appendChild(option)
         }
         select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(material.object.SUBTIP_ARTICOL_OFERTA)
-        td.appendChild(select)
+        td.appendChild(select) */
         tr.appendChild(td)
       }
 
