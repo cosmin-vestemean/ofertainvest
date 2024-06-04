@@ -2057,9 +2057,6 @@ class Activity extends LitElement {
         trash.classList.add('bi-trash', 'text-danger')
         trash.style.cursor = 'pointer'
         trash.onclick = function () {
-          //delete material
-          //remove tr from tbody
-          //which tr?
           var tr = trash.parentElement.parentElement
           tr.remove()
         }
@@ -2080,62 +2077,6 @@ class Activity extends LitElement {
           td.contentEditable = true
           tr.appendChild(td)
         }
-        /* //old_WBS
-        var td = document.createElement('td')
-        td.innerHTML = material.object.old_WBS ? material.object.old_WBS : ''
-        tr.appendChild(td)
-        //WBS
-        var td = document.createElement('td')
-        td.innerHTML = material.object.WBS
-        tr.appendChild(td)
-        //DENUMIRE_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.innerHTML = material.object.DENUMIRE_ARTICOL_OFERTA
-        td.contentEditable = true
-        td.spellcheck = false
-        tr.appendChild(td)
-        //CANTITATE_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.innerHTML = material.object.CANTITATE_ARTICOL_OFERTA
-        tr.appendChild(td)
-        //UM_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        td.innerHTML = material.object.UM_ARTICOL_OFERTA
-        tr.appendChild(td)
-        //TIP_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        //select
-        var select = document.createElement('select')
-        select.id = 'material_TIP_ARTICOL_OFERTA'
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
-        //vezi TIP_ARTICOL_OFERTA array (for let)
-        for (let i = 0; i < TIP_ARTICOL_OFERTA.length; i++) {
-          var option = document.createElement('option')
-          option.value = TIP_ARTICOL_OFERTA[i]
-          option.text = TIP_ARTICOL_OFERTA[i]
-          select.appendChild(option)
-        }
-        select.selectedIndex = TIP_ARTICOL_OFERTA.indexOf(material.object.TIP_ARTICOL_OFERTA)
-        td.appendChild(select)
-        tr.appendChild(td)
-        //SUBTIP_ARTICOL_OFERTA
-        var td = document.createElement('td')
-        //select
-        var select = document.createElement('select')
-        select.id = material.object.DENUMIRE_ARTICOL_OFERTA + '_SUBTIP_ARTICOL_OFERTA'
-        select.classList.add('form-select')
-        select.classList.add('form-select-sm')
-        //vezi SUBTIP_ARTICOL_OFERTA array (for let)
-        for (let i = 0; i < SUBTIP_ARTICOL_OFERTA.length; i++) {
-          var option = document.createElement('option')
-          option.value = SUBTIP_ARTICOL_OFERTA[i]
-          option.text = SUBTIP_ARTICOL_OFERTA[i]
-          select.appendChild(option)
-        }
-        select.selectedIndex = SUBTIP_ARTICOL_OFERTA.indexOf(material.object.SUBTIP_ARTICOL_OFERTA)
-        td.appendChild(select)
-        tr.appendChild(td) */
       }
 
       return html`${table}`
