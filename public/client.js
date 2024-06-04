@@ -2220,7 +2220,7 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  let retete = applyFilterTipSubTip(resultPlus)
+  let instanteRetete = applyFilterTipSubTip(resultPlus)
 
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
@@ -2259,42 +2259,42 @@ function createTreesFromWBS(ds) {
   var orphans = []
   //compare resultPlusVirtualFalseNoDuplicates with retete and find differences; push differences to orphans
   resultPlusVirtualFalseNoDuplicates.forEach(function (obj) {
-    let obj2 = retete.find((o) => o.branch.join('.') == obj.branch.join('.'))
+    let obj2 = instanteRetete.find((o) => o.branch.join('.') == obj.branch.join('.'))
     if (!obj2) {
       orphans.push(obj)
     }
   })
 
   //returns old WBS and newly created WBS, if any
-  retete = applyFilterChildrenEndsWith0(retete)
+  instanteRetete = applyFilterChildrenEndsWith0(instanteRetete)
 
-  retete = prepareForMultipleActivities(retete)
+  instanteRetete = prepareForMultipleActivities(instanteRetete)
 
-  retete = applyFilterEndsWithL(retete)
+  instanteRetete = applyFilterEndsWithL(instanteRetete)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
-  let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, retete)
+  let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
   let rescuedOrphans = []
   if (reteteGrupateArtificial.rescuedOrphans && reteteGrupateArtificial.rescuedOrphans.length > 0) {
     rescuedOrphans = reteteGrupateArtificial.rescuedOrphans
   }
-  console.log('reteteGrupateArtificial', reteteGrupateArtificial)
-  let retete1
+  let instanteRetete1 = []
   if (reteteGrupateArtificial.length > 0 && reteteGrupateArtificial.result.length > 0) {
-    retete1 = [...retete, ...reteteGrupateArtificial.result]
+    instanteRetete1 = [...instanteRetete, ...reteteGrupateArtificial.result]
   } else {
-    retete1 = retete
+    instanteRetete1 = instanteRetete
   }
 
-  retete = retete1
+  instanteRetete = instanteRetete1
 
-  retete = eleminateDuplicates(retete)
+  let retete = eleminateDuplicates(retete)
 
   return {
     trees,
     result: resultPlus,
     arrayResult: result,
     retete,
+    instanteRetete,
     resultPlusVirtualFalse,
     resultPlusVirtualFalseNoDuplicates,
     orphans,
