@@ -2596,7 +2596,20 @@ function eleminateDuplicates(data) {
           }
         }
 
-        console.log('identical', activitati, activitati2)
+        //comapre activitati and activitati2 (chidren included); if they are identical, remove reteta2 from innerData
+        let identical = activitati.every((activitate, index) => {
+          return (
+            activitate.DENUMIRE_ARTICOL_OFERTA == activitati2[index].DENUMIRE_ARTICOL_OFERTA &&
+            activitate.UM_ARTICOL_OFERTA == activitati2[index].UM_ARTICOL_OFERTA &&
+            activitate.TIP_ARTICOL_OFERTA == activitati2[index].TIP_ARTICOL_OFERTA &&
+            activitate.SUBTIP_ARTICOL_OFERTA == activitati2[index].SUBTIP_ARTICOL_OFERTA &&
+            JSON.stringify(activitate.children) == JSON.stringify(activitati2[index].children)
+          )
+        })
+
+        if (identical) {
+          innerData.splice(k, 1)
+        }
       }
     }
   }
