@@ -1917,7 +1917,7 @@ class Activity extends LitElement {
       }
 
       //add tbody
-      tr = document.createElement('tr')
+      let trPanel = document.createElement('tr')
       //add plus-square icon
       let btnPanel = document.createElement('td')
       btnPanel.colSpan = 0
@@ -1929,7 +1929,7 @@ class Activity extends LitElement {
         }
       }
       btnPanel ++ //for counter
-      tr.appendChild(btnPanel)
+      trPanel.appendChild(btnPanel)
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
@@ -2093,7 +2093,7 @@ class Activity extends LitElement {
         //find next activity
       }
       btnPanel.appendChild(forward_icon)
-      tbody.appendChild(tr)
+      tbody.appendChild(trPanel)
       tr = document.createElement('tr')
       tr.classList.add('shadow-sm', 'bg-light')
       tbody.appendChild(tr)
