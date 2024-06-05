@@ -2124,6 +2124,15 @@ class antemasuratori extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    //add event listener for keydown for td class cantitate_antemasuratori
+    this.shadowRoot.addEventListener('keydown', function (e) {
+      if (e.target.classList.contains('cantitate_antemasuratori')) {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          e.target.blur()
+        }
+      }
+    })
   }
 
   connectedCallback() {
