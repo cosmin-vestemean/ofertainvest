@@ -1388,7 +1388,7 @@ export function init() {
   //btn_listaRetete
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
-    let lista_retete = document.getElementById('lista_retete')
+    let lista_retete = document.getElementById('lista_retete_scurta')
     lista_retete.click()
   }
 }
