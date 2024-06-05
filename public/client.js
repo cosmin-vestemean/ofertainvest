@@ -1389,6 +1389,7 @@ export function init() {
         //scan_oferta_initiala
         let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
         scan_oferta_initiala.click()
+        nav_antemasuratori.click()
       }
     }
   }
@@ -1397,9 +1398,11 @@ export function init() {
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
     if (recipes_ds && recipes_ds.length > 0) {
+      console.log('listing recipes')
       let lista_retete = document.getElementById('lista_retete_scurta')
       lista_retete.click()
     } else {
+      console.log('scanning initial offer')
       //scan_oferta_initiala
       let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
       scan_oferta_initiala.click()
