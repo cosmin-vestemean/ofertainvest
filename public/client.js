@@ -2188,6 +2188,8 @@ class antemasuratori extends LitElement {
           if (key == 'CANTITATE_ANTEMASURATORI') {
             td.contentEditable = true
             td.spellcheck = false
+            td.classList.add('border')
+            td.style.borderColor = 'lightgray'
           }
           tr.appendChild(td)
         }
