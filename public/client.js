@@ -2510,6 +2510,7 @@ function eleminateDuplicates(data) {
   let instanteRetete = JSON.parse(JSON.stringify(innerData))
 
   for (let i = 0; i < innerData.length; i++) {
+    innerData[i].id = i
     if (innerData[i].toRemove) {
       continue
     }
