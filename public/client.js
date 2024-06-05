@@ -2582,6 +2582,9 @@ function eleminateDuplicates(data) {
           instanteRetete[k].duplicate = true
           //point to the original reteta
           instanteRetete[k].duplicateOf = i
+          //transform reteta in instanta sa proprie
+          instanteRetete[i].duplicate = true
+          instanteRetete[i].duplicateOf = i
         }
       }
     }
