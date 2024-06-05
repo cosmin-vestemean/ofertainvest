@@ -51,6 +51,6 @@ a {
 }
 
 #my_table_recipes,
-#my_table_detalii_reteta {
+#my_table_detalii_reteta, my_table_antemasuratori {
   display: none;
 }
