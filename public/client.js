@@ -1390,6 +1390,7 @@ export function init() {
       //scan_oferta_initiala
       let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
       scan_oferta_initiala.click()
+      console.log('Calcul antemasuratori')
       nav_antemasuratori.click()
     }
   }
