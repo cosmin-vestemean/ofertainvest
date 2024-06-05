@@ -984,7 +984,9 @@ document.addEventListener('keydown', function (e) {
 //add to .cantitate_articol_antemasuratori on enter => move to next input
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Enter') {
-    var inputs = document.querySelectorAll('cantitate_antemasuratori')
+    //var inputs = document.querySelectorAll('cantitate_antemasuratori')
+    //get inputs from my_table_antemasuratori > shadowRoot > tbody
+    var inputs = document.getElementById('my_table_antemasuratori').shadowRoot.querySelectorAll('.cantitate_antemasuratori')
     var index = Array.from(inputs).indexOf(document.activeElement)
     if (index > -1) {
       if (index < inputs.length - 1) {
