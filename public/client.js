@@ -1377,6 +1377,13 @@ export function init() {
       my_table4.ds = ds_antemasuratori
     }
   }
+
+  //btn_antemasuratori
+  let btn_antemasuratori = document.getElementById('btn_antemasuratori')
+  btn_antemasuratori.onclick = function () {
+    let nav_antemasuratori = document.getElementById('listaAntemasuratori')
+    nav_antemasuratori.click()
+  }
 }
 
 function createDatasetForRecipes() {
