@@ -1011,7 +1011,7 @@ document.addEventListener('input', function (e) {
   }
 })
 
-function detectieRetete(my_table1, my_table2, my_table3) {
+function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   let rez = createDatasetForRecipes()
   console.log('rez', rez)
   activitati_oferta = []
@@ -1035,6 +1035,7 @@ function detectieRetete(my_table1, my_table2, my_table3) {
 
   //hide table1
   my_table1.style.display = 'none'
+  my_table4.style.display = 'none'
   //show table2
   my_table2.style.display = 'block'
   my_table3.style.display = 'block'
@@ -1050,6 +1051,7 @@ export function init() {
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
   const my_table3 = document.getElementById('my_table_detalii_reteta')
+  const my_table4 = document.getElementById('my_table_antemasuratori')
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -1080,7 +1082,7 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
-    detectieRetete(my_table1, my_table2, my_table3)
+    detectieRetete(my_table1, my_table2, my_table3, my_table4)
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
@@ -1093,6 +1095,7 @@ export function init() {
       my_table2.style.display = 'block'
       my_table3.style.display = 'block'
       my_table1.style.display = 'none'
+      my_table4.style.display = 'none'
       my_table2.ds = listaRetete
     }
   }
@@ -1108,6 +1111,7 @@ export function init() {
 
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = orfani
   }
@@ -1115,6 +1119,7 @@ export function init() {
   vizualizare_oferta_optimizata.onclick = function () {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = optimal_ds
   }
@@ -1122,6 +1127,7 @@ export function init() {
   vizulizare_oferta_initiala.onclick = function () {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = original_ds
   }
@@ -1130,6 +1136,7 @@ export function init() {
   lista_activitati.onclick = function () {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = activitati_oferta
   }
@@ -1305,7 +1312,8 @@ export function init() {
     const my_table1 = document.getElementById('my_table_oferta_initiala')
     const my_table2 = document.getElementById('my_table_recipes')
     const my_table3 = document.getElementById('my_table_detalii_reteta')
-    detectieRetete(my_table1, my_table2, my_table3)
+    const my_table4 = document.getElementById('my_table_antemasuratori')
+    detectieRetete(my_table1, my_table2, my_table3, my_table4)
     console.log('recipes_ds', recipes_ds)
     console.log('instanteRetete', ds_instanteRetete)
     console.log('trees', trees)
@@ -1363,9 +1371,10 @@ export function init() {
     if (ds_antemasuratori.length > 0) {
       my_table2.style.display = 'none'
       my_table3.style.display = 'none'
-      my_table1.style.display = 'block'
-      my_table1.ds = []
-      my_table1.ds = ds_antemasuratori
+      my_table1.style.display = 'none'
+      my_table4.style.display = 'block'
+      my_table4.ds = []
+      my_table4.ds = ds_antemasuratori
     }
   }
 }
@@ -2068,6 +2077,86 @@ class Activity extends LitElement {
 }
 
 customElements.define('my-activity', Activity)
+
+class antemasuratori extends LitElement {
+  static properties = {
+    ds: { type: Array }
+  }
+
+  constructor() {
+    super()
+    this.ds = []
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('antemasuratori element added to the DOM')
+  }
+
+  render() {
+    console.log('rendering antemasuratori element with following array', this.ds, 'added at', new Date())
+
+    if (!this.ds || this.ds.length == 0) {
+      return html`<p class="label label-danger">No data</p>`
+    } else {
+      //add table
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.id = 'table_antemasuratori'
+      //get or create thead and tbody
+      var thead = document.createElement('thead')
+      thead.id = 'thead_antemasuratori'
+      thead.classList.add('align-middle')
+      var tbody = document.createElement('tbody')
+      tbody.id = 'tbody_antemasuratori'
+      if (theadIsSet) {
+        tbody.classList.add('table-group-divider')
+      }
+      table.appendChild(tbody)
+      //add thead
+      if (theadIsSet) {
+        table.appendChild(thead)
+        var tr = document.createElement('tr')
+        thead.appendChild(tr)
+        //append counter
+        var th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
+        for (var key in this.ds[0]) {
+          var th = document.createElement('th')
+          th.scope = 'col'
+          th.style.writingMode = 'vertical-rl'
+          th.style.rotate = '180deg'
+          th.innerHTML = key
+          tr.appendChild(th)
+        }
+      }
+      //add tbody
+      let counter = 0
+      this.ds.forEach(function (object) {
+        counter++
+        var tr = document.createElement('tr')
+        tbody.appendChild(tr)
+        var td = document.createElement('td')
+        td.style.fontWeight = 'bold'
+        td.innerHTML = counter
+        tr.appendChild(td)
+        for (var key in object) {
+          var td = document.createElement('td')
+          td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
+          tr.appendChild(td)
+        }
+      })
+
+      return html`${table}`
+    }
+  }
+}
+
+customElements.define('my-antemasuratori', antemasuratori)
 
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)
