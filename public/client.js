@@ -1384,6 +1384,13 @@ export function init() {
     let nav_antemasuratori = document.getElementById('listaAntemasuratori')
     nav_antemasuratori.click()
   }
+
+  //btn_listaRetete
+  let btn_listaRetete = document.getElementById('btn_listaRetete')
+  btn_listaRetete.onclick = function () {
+    let lista_retete = document.getElementById('lista_retete')
+    lista_retete.click()
+  }
 }
 
 function createDatasetForRecipes() {
