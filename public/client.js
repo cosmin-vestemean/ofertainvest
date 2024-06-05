@@ -2186,7 +2186,7 @@ class antemasuratori extends LitElement {
           }
           //cantitate antemasuratori contenteditable
           if (key == 'CANTITATE_ANTEMASURATORI') {
-            let customClass = 'cantitate_antemasuratori' + counter
+            let customClass = 'cantitate_antemasuratori'
             td.contentEditable = true
             td.spellcheck = false
             td.classList.add('border', 'text-primary')
