@@ -1381,16 +1381,20 @@ export function init() {
   //btn_antemasuratori
   let btn_antemasuratori = document.getElementById('btn_antemasuratori')
   btn_antemasuratori.onclick = function () {
-    let nav_antemasuratori = document.getElementById('listaAntemasuratori')
-    nav_antemasuratori.click()
+    if (ds_antemasuratori && ds_antemasuratori.length > 0) {
+      let nav_antemasuratori = document.getElementById('listaAntemasuratori')
+      nav_antemasuratori.click()
+    } else {
+      alert('Nu exista antemasuratori')
+    }
   }
 
   //btn_listaRetete
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
-    let lista_retete = document.getElementById('lista_retete_scurta')
     if (recipes_ds && recipes_ds.length > 0) {
-    lista_retete.click()
+      let lista_retete = document.getElementById('lista_retete_scurta')
+      lista_retete.click()
     } else {
       //scan_oferta_initiala
       let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
@@ -2173,7 +2177,7 @@ class antemasuratori extends LitElement {
           //cantitate antemasuratori contenteditable
           if (key == 'CANTITATE_ANTEMASURATORI') {
             td.contentEditable = true
-            td.spellcheck = false 
+            td.spellcheck = false
           }
           tr.appendChild(td)
         }
@@ -2367,7 +2371,6 @@ function createTreesFromWBS(ds) {
   } else {
     instanteRetete1 = instanteRetete
   }
-
 
   let rez = eleminateDuplicates(instanteRetete1)
   let retete = rez.retete
