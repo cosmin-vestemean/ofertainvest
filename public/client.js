@@ -1313,7 +1313,7 @@ export function init() {
     const my_table2 = document.getElementById('my_table_recipes')
     const my_table3 = document.getElementById('my_table_detalii_reteta')
     const my_table4 = document.getElementById('my_table_antemasuratori')
-    detectieRetete(my_table1, my_table2, my_table3, my_table4)
+    //detectieRetete(my_table1, my_table2, my_table3, my_table4)
     console.log('recipes_ds', recipes_ds)
     console.log('instanteRetete', ds_instanteRetete)
     console.log('trees', trees)
@@ -1385,7 +1385,11 @@ export function init() {
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
       nav_antemasuratori.click()
     } else {
-      alert('Nu exista antemasuratori')
+      if (!recipes_ds && !recipes_ds.length) {
+        //scan_oferta_initiala
+        let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
+        scan_oferta_initiala.click()
+      }
     }
   }
 
