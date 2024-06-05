@@ -1382,15 +1382,15 @@ export function init() {
   let btn_antemasuratori = document.getElementById('btn_antemasuratori')
   btn_antemasuratori.onclick = function () {
     if (ds_instanteRetete && ds_instanteRetete.length > 0) {
+      console.log('Exista instante retete, se afiseaza antemasuratori')
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
       nav_antemasuratori.click()
     } else {
-      if (!recipes_ds && !recipes_ds.length) {
-        //scan_oferta_initiala
-        let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
-        scan_oferta_initiala.click()
-        nav_antemasuratori.click()
-      }
+      console.log('Nu exista instante retete, se scaneaza oferta initiala')
+      //scan_oferta_initiala
+      let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
+      scan_oferta_initiala.click()
+      nav_antemasuratori.click()
     }
   }
 
