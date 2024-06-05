@@ -1313,7 +1313,7 @@ export function init() {
     ds_antemasuratori = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
-      var reteta = recipes_ds[i].reteta
+      var reteta = ds_instanteRetete[i].reteta
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
         var nivele_activitate = []
