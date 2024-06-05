@@ -54,6 +54,7 @@ var optimal_ds = []
 var recipes_ds = []
 var combinatii_unice = []
 var selected_ds = []
+var ds_instanteRetete = []
 var ds_antemasuratori = []
 var trees = []
 var nivele = []
@@ -1016,6 +1017,7 @@ function detectieRetete(my_table1, my_table2, my_table3) {
   activitati_oferta = []
   recipes_ds = []
   intrari_orfane = []
+  ds_antemasuratori = []
   rez.retete.forEach((obj) => {
     let reteta = obj.reteta
     reteta.forEach((activitate) => {
@@ -1029,6 +1031,7 @@ function detectieRetete(my_table1, my_table2, my_table3) {
   intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.find((r) => r.WBS === o.object.WBS))
   WBSMap = rez.trees
   recipes_ds = rez.retete
+  ds_instanteRetete = rez.instanteRetete
 
   //hide table1
   my_table1.style.display = 'none'
@@ -1304,11 +1307,12 @@ export function init() {
     const my_table3 = document.getElementById('my_table_detalii_reteta')
     detectieRetete(my_table1, my_table2, my_table3)
     console.log('recipes_ds', recipes_ds)
+    console.log('instanteRetete', ds_instanteRetete)
     console.log('trees', trees)
     console.log('nivele', nivele)
     ds_antemasuratori = []
     //activitate = reteta.object
-    for (let i = 0; i < recipes_ds.length; i++) {
+    for (let i = 0; i < ds_instanteRetete.length; i++) {
       var reteta = recipes_ds[i].reteta
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
