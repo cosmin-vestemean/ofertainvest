@@ -2147,6 +2147,14 @@ class antemasuratori extends LitElement {
         for (var key in object) {
           var td = document.createElement('td')
           td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
+          if (key == 'CANTITATE_ARTICOL_OFERTA' || key == 'CANTITATE_ANTEMASURATORI') {
+            td.style.fontWeight = 'bold'
+          }
+          //cantitate antemasuratori contenteditable
+          if (key == 'CANTITATE_ANTEMASURATORI') {
+            td.contentEditable = true
+            td.spellcheck = false 
+          }
           tr.appendChild(td)
         }
       })
