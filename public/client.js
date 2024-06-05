@@ -1381,7 +1381,7 @@ export function init() {
   //btn_antemasuratori
   let btn_antemasuratori = document.getElementById('btn_antemasuratori')
   btn_antemasuratori.onclick = function () {
-    if (ds_antemasuratori && ds_antemasuratori.length > 0) {
+    if (ds_instanteRetete && ds_instanteRetete.length > 0) {
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
       nav_antemasuratori.click()
     } else {
