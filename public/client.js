@@ -982,6 +982,7 @@ document.addEventListener('keydown', function (e) {
 })
 
 //add to .cantitate_articol_antemasuratori on enter => move to next input
+/* 
 document.getElementById('my_table_antemasuratori').shadowRoot.addEventListener('keydown', function (e) {
   if (e.key === 'Enter') {
     //var inputs = document.querySelectorAll('cantitate_antemasuratori')
@@ -994,7 +995,7 @@ document.getElementById('my_table_antemasuratori').shadowRoot.addEventListener('
       }
     }
   }
-})
+}) */
 
 //add to .cantitate_articol_antemasuratori on focus => select all text
 document.addEventListener('focus', function (e) {
