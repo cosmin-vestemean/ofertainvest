@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oferta</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -69,19 +69,6 @@
   </head>
   <body>
     <div class="container mt-2">
-      <!--
-        Create nav menu with 3 submenus:
-        1. Oferta
-        1.1. Incarca oferta
-        1.2. Salveaza oferta 
-        1.3. Vizualizeaza oferta initiala
-        2. Reteta
-        2.1. Scaneaza oferta initiala
-        3. Antemasuratori
-        3.1. Adauga antemasuratori
-        4. Grafic
-        4.1. Vizualizeaza ierarhii
-      -->
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
           <a class="navbar-brand" href="#"
@@ -115,9 +102,13 @@
                   Oferta
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li>
-                    <a class="dropdown-item" href="#" onclick="document.getElementById('file_oferta_initiala').click()">Incarca oferta</a>
-                    </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick="document.getElementById('file_oferta_initiala').click()"
+                      >Incarca oferta</a
+                    >
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">Salveaza oferta</a>
@@ -155,7 +146,6 @@
                   <li>
                     <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
                   </li>
-                  <li></li>
                   <li>
                     <a class="dropdown-item" href="#" id="lista_retete">Lista completa retete cu detalii</a>
                   </li>
@@ -219,8 +209,6 @@
                   <li>
                     <a class="dropdown-item" href="#">Utilizare interfata</a>
                   </li>
-                </ul>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li>
                     <a class="dropdown-item" href="#">Concepte</a>
                   </li>
@@ -230,12 +218,6 @@
           </div>
         </div>
       </nav>
-
-      <!-- four elements as columns in a row:
-      1.select id="saldoc"
-      2. date picker id="trndate"
-      3. select id="trdr" (trader)
-      4. select id="prjc" (project) -->
       <div class="row">
         <div class="col-sm">
           <label for="saldoc" class="form-label text-primary">Oferte</label>
@@ -268,7 +250,9 @@
           <button type="button" id="btn_oferta" class="btn btn-success btn-sm">Oferta</button>
         </div>
         <div class="col-sm">
-          <button type="button" id="btn_listaRetete" class="btn btn-info text-light btn-sm">Retete <i class="bi bi-list-ol"></i></button>
+          <button type="button" id="btn_listaRetete" class="btn btn-info text-light btn-sm">
+            Retete <i class="bi bi-list-ol"></i>
+          </button>
         </div>
         <div class="col-sm">
           <button
@@ -282,40 +266,38 @@
           </button>
         </div>
         <div class="col-sm">
-          <button
-          type="button"
-          class="btn btn-primary btn-sm"
-          id="btn_antemasuratori"
-        >
-          Antemasuratori <i class="bi bi-list-ol"></i>
-        </button>
-      </div>
-      <div class="row">
-        <select class="col-sm form-select form-select-sm" id="ierarhii" aria-label="Ierarhii"></select>
-      </div>
-      <div class="row">
-        <div id="progress_bar_container" class="progress p-0">
-          <div
-            <div title="Progress Bar"
-            id="progress_bar"
-            class="progress-bar bg-dark"
-            role="progressbar"
-            aria-valuenow="0"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
+          <button type="button" class="btn btn-primary btn-sm" id="btn_antemasuratori">
+            Antemasuratori <i class="bi bi-list-ol"></i>
+          </button>
         </div>
-        <label for="progress-bar" id="progress_bar_label" class="form-label text-primary">0%</label>
-      </div>
-      <div class="row">
-        <my-table id="my_table_oferta_initiala"></my-table>
-        <div class="col-2">
-          <my-table id="my_table_recipes"></my-table>
+        <div class="row">
+          <select class="col-sm form-select form-select-sm" id="ierarhii" aria-label="Ierarhii"></select>
         </div>
-        <div class="col-10">
-          <my-recipe id="my_table_detalii_reteta"></my-recipe>
+        <div class="row">
+          <div id="progress_bar_container" class="progress p-0">
+            <div
+              <div
+              title="Progress Bar"
+              id="progress_bar"
+              class="progress-bar bg-dark"
+              role="progressbar"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+          <label for="progress-bar" id="progress_bar_label" class="form-label text-primary">0%</label>
         </div>
-        <my-antemasuratori id="my_table_antemasuratori"></my-antemasuratori>
+        <div class="row">
+          <my-table id="my_table_oferta_initiala"></my-table>
+          <div class="col-2">
+            <my-table id="my_table_recipes"></my-table>
+          </div>
+          <div class="col-10">
+            <my-recipe id="my_table_detalii_reteta"></my-recipe>
+          </div>
+          <my-antemasuratori id="my_table_antemasuratori"></my-antemasuratori>
+        </div>
       </div>
       <!-- Modal generic -->
       <div
@@ -361,8 +343,14 @@
       </div>
     </div>
     <!-- fixed button top up arrow -->
-    <button type="button" id="btn_top" class="btn btn-secondary rounded-circle position-fixed bottom-0 end-0 m-2"
-    data-toggle="tooltip" data-placement="top" title="Top">
+    <button
+      type="button"
+      id="btn_top"
+      class="btn btn-secondary rounded-circle position-fixed bottom-0 end-0 m-2"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Top"
+    >
       <i class="bi bi-arrow-up"></i>
     </button>
     <!--another second button right to above, for showing/hiding all my-table header-->
@@ -370,7 +358,9 @@
       type="button"
       id="btn_showHideHeader"
       class="btn btn-primary rounded-circle position-fixed bottom-0 m-2"
-      data-toggle="tooltip" data-placement="top" title="Show hide header. Reload dataset after show/hide"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Show hide header. Reload dataset after show/hide"
     >
       <i class="bi bi-eye"></i>
     </button>
@@ -379,7 +369,9 @@
       type="button"
       id="btn_column_filter"
       class="btn btn-secondary rounded-circle position-fixed bottom-0 start-0 m-2"
-      data-toggle="tooltip" data-placement="top" title="Column filter"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Column filter"
     >
       <i class="bi bi-columns-gap"></i>
     </button>
