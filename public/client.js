@@ -1389,7 +1389,13 @@ export function init() {
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
     let lista_retete = document.getElementById('lista_retete_scurta')
+    if (recipes_ds && recipes_ds.length > 0) {
     lista_retete.click()
+    } else {
+      //scan_oferta_initiala
+      let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
+      scan_oferta_initiala.click()
+    }
   }
 }
 
