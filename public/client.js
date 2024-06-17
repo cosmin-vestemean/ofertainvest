@@ -2784,6 +2784,13 @@ function eleminateDuplicates(data) {
   //remove duplicates from innerData
   innerData = innerData.filter((obj) => !obj.toRemove)
 
+  //add to each innerData.reteta[i] property isMain = false
+  innerData.forEach(function (obj) {
+    obj.reteta.forEach(function (activity) {
+      activity.isMain = false
+    })
+  })
+
   return { retete: innerData, instanteRetete: instanteRetete }
 }
 
