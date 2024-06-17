@@ -2760,6 +2760,15 @@ function eleminateDuplicates(data) {
     }
   }
 
+  //instantele reteta care nu sunt marcate ca duplicate in acest moment trebuiesc marcate ca instante singulare, citeriul fiind name
+  for (let obj of instanteRetete) {
+    // your code here
+    if (!obj.hasOwnProperty('duplicate')) {
+      obj.duplicate = false
+      obj.duplicateOf = obj.id
+    }
+  }
+
   //remove duplicates from innerData
   innerData = innerData.filter((obj) => !obj.toRemove)
 
