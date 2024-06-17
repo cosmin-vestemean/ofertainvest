@@ -1326,7 +1326,14 @@ export function init() {
     ds_antemasuratori = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
-      var reteta = ds_instanteRetete[i].reteta
+      var pointerToReteta = ds_instanteRetete[i].duplicateOf
+      var locate = recipes_ds.find((o) => o.id === pointerToReteta)
+      if (locate) {
+        var reteta = locate.reteta
+      } else {
+        console.log('Reteta cu id ', ds_instanteRetete[i].duplicateOf + ' nu a fost gasita')
+        continue
+      }
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
         var nivele_activitate = []
@@ -2768,6 +2775,11 @@ function eleminateDuplicates(data) {
       obj.duplicateOf = i
     }
   }
+
+  //remove property reteta from instanteRetete, it will have just the pointer to the original reteta
+  instanteRetete.forEach(function (obj) {
+    delete obj.reteta
+  })
 
   //remove duplicates from innerData
   innerData = innerData.filter((obj) => !obj.toRemove)
