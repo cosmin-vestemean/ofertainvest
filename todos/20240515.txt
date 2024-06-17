@@ -53,3 +53,7 @@ in cadrul unei retete cu mai multe activitati, una este principala, la care se v
 
 activitate: CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
 material: CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA
+
+05.06.2024
+Conventia extindere arbore oferta initiala cu acelasi numar de ramuri si frunze, daca se extinde
+Noua Conventie: extindere arbore cu ramuri de lungime diferita

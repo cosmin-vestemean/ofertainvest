@@ -2133,6 +2133,25 @@ class antemasuratori extends LitElement {
           e.target.blur()
         }
       }
+
+      //arrow up and down
+      if (e.target.classList.contains('cantitate_antemasuratori')) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault()
+          let td = e.target
+          let tr = td.parentElement
+          let tbody = tr.parentElement
+          let tds = tbody.getElementsByTagName('td')
+          let index = Array.prototype.indexOf.call(tds, td)
+          let trs = tbody.getElementsByTagName('tr')
+          let trIndex = Array.prototype.indexOf.call(trs, tr)
+          let nextTr = e.key === 'ArrowDown' ? trs[trIndex + 1] : trs[trIndex - 1]
+          let nextTd = nextTr.getElementsByTagName('td')[index]
+          if (nextTd) {
+            nextTd.focus()
+          }
+        }
+      }
     })
   }
 
