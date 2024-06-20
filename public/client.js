@@ -2062,7 +2062,7 @@ class Activity extends LitElement {
               console.log('key', key)
               //update activitateCurenta with key = td.innerHTML
               
-            });                
+            }               
           }
           tr.appendChild(td)
         }
