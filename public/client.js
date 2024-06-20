@@ -2181,6 +2181,7 @@ class Activity extends LitElement {
         td.scope = 'col'
         td.innerHTML = this.activitate.object[key] || ''
         td.contentEditable = true
+        td.spellcheck = false
         tr.appendChild(td)
       }
 
