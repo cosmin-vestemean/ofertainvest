@@ -1954,6 +1954,10 @@ class Activity extends LitElement {
     this.shadowRoot.addEventListener('input', function (e) {
       console.log('input event', e.target)
       this.hasChanged = true
+      //get id save_icon and change color to red
+      var save_icon = document.getElementById('save_icon')
+      save_icon.classList.remove('text-success')
+      save_icon.classList.add('text-danger')
     })
   }
 
@@ -2052,6 +2056,7 @@ class Activity extends LitElement {
       btnSave.classList.add('col')
       buttonsPannel.appendChild(btnSave)
       var save_icon = document.createElement('i')
+      save_icon.id = 'save_icon'
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
       save_icon.style.cursor = 'pointer'
