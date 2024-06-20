@@ -1957,7 +1957,7 @@ class Activity extends LitElement {
       //get id save_icon and change color to red
       var tbody = document
           .getElementById('editare_activitate')
-          .shadowRoot.getElementById('tbody_activitate')
+          .shadowRoot.getElementById('buttonsPannel')
       var save_icon = tbody.shadowRoot.getElementById('save_icon')
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
@@ -1981,6 +1981,7 @@ class Activity extends LitElement {
       //add buttons
       let buttonsPannel = document.createElement('div')
       buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
+      buttonsPannel.id = 'buttonsPannel'
       //add plus-square icon
       let btnAdd = document.createElement('div')
       btnAdd.classList.add('col')
