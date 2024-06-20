@@ -1953,6 +1953,14 @@ class Activity extends LitElement {
     //add a listener any cell text change resulting hasChanged = true
     this.shadowRoot.addEventListener('input', function (e) {
       console.log('input event', e.target)
+      //find tag name id and class
+      var tagName = e.target.tagName
+      var id = e.target.id
+      var className = e.target.className
+      console.log('tagName', tagName, 'id', id, 'className', className)
+      if (tagName === 'TD') {
+        console.log('hey, a td was clicked')
+      }
       this.hasChanged = true
       //get id save_icon and change color to red
       var buttonsPannel = document
@@ -2050,19 +2058,7 @@ class Activity extends LitElement {
           } else {
             td.contentEditable = true
             td.spellcheck = false
-            td.innerHTML = ''
-            td.onblur = function () {
-              //find header cell name for this working cell
-              var ths = tbody.getElementsByTagName('th')
-              var th = ths[td.cellIndex]
-              var label = th.innerHTML
-              //find object in recipeDisplayMask with label = label
-              var obj = Object.entries(recipeDisplayMask).find(([key, value]) => value.label === label)
-              var key = obj[value]
-              console.log('key', key)
-              //update activitateCurenta with key = td.innerHTML
-              
-            }               
+            td.innerHTML = ''     
           }
           tr.appendChild(td)
         }
