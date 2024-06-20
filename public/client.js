@@ -2116,7 +2116,7 @@ class Activity extends LitElement {
           th.classList.add('d-none')
         }
         th.scope = 'col'
-        th.innerHTML = label ? label : key
+        th.innerHTML = this.activitate.object[key] || ''
         tr.appendChild(th)
       }
 
