@@ -1962,18 +1962,17 @@ class Activity extends LitElement {
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
     })
-    //add blur event to any td element
-    this.shadowRoot.addEventListener('blur', function (e) {
-      if (e.target.tagName.toLowerCase() === 'td') {
-        console.log('blur event', e.target.tagName)
-        //find th name for this td
+    //add blur event to any tbody_activitate td html element
+    var td = this.shadowRoot.getElementById('tbody_activitate').getElementsByTagName('td')
+    for (let i = 0; i < td.length; i++) {
+      td[i].addEventListener('blur', function (e) {
+        console.log('blur event', e.target)
         var ths = e.target.parentElement.parentElement.getElementsByTagName('th')
         var th = ths[e.target.cellIndex]
         var label = th.innerHTML
         console.log('label', label)
-      }
-    })
-
+      })
+    }
   }
 
   connectedCallback() {
