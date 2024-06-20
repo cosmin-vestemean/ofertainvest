@@ -1962,13 +1962,6 @@ class Activity extends LitElement {
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
     })
-    //add blur event to any tbody_activitate td html element
-    var td = this.shadowRoot.getElementById('tbody_activitate').getElementsByTagName('td')
-    for (let i = 0; i < td.length; i++) {
-      td[i].addEventListener('blur', function (e) {
-        console.log('blur event', e.target)
-      })
-    }
   }
 
   connectedCallback() {
@@ -2057,7 +2050,19 @@ class Activity extends LitElement {
           } else {
             td.contentEditable = true
             td.spellcheck = false
-            td.innerHTML = ''               
+            td.innerHTML = ''
+            td.onblur = function () {
+              //find header cell name for this working cell
+              var ths = tbody.getElementsByTagName('th')
+              var th = ths[td.cellIndex]
+              var label = th.innerHTML
+              //find object in recipeDisplayMask with label = label
+              var obj = Object.entries(recipeDisplayMask).find(([key, value]) => value.label === label)
+              key = obj[value]
+              console.log('key', key)
+              //update activitateCurenta with key = td.innerHTML
+              
+            });                
           }
           tr.appendChild(td)
         }
