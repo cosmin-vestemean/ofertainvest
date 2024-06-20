@@ -43,3 +43,8 @@ activit princip: trotuar CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 2 => 60
 material: CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = 1.2 => 1.2*60=72 mc necesari pentru 30 mp trotuar I
 								1.2 => 1.2*40=24 mc > II
 								1.2*63.2=75.84 > III
+
+
+28.06.2024
+1.CONCATENAREA import AFL as oferta cu antemasuratori/FL=> modificare articol existente + adauga articole noi
+2.modificare parcurgere dinamica a extinderii arborelui in ante,asuratori vs cu acelasi pas/lungime, ca acum
