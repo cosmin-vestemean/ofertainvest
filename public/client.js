@@ -1799,9 +1799,9 @@ class Recipe extends LitElement {
           virtual: false,
           level: level
         }
-        my_activity.activitate = activitate
         //add it to reteta
         reteta.push(activitate)
+        my_activity.activitate = activitate
         modal_body.appendChild(my_activity)
         modal.show()
       }
