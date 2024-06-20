@@ -2087,6 +2087,22 @@ class Activity extends LitElement {
             td.innerHTML = ''     
           }
           tr.appendChild(td)
+          //create a new child material
+          var material = {
+            branch: [],
+            object: {
+              WBS: '',
+              DENUMIRE_ARTICOL_OFERTA: '',
+              CANTITATE_ARTICOL_OFERTA: 0,
+              UM_ARTICOL_OFERTA: '',
+              TIP_ARTICOL_OFERTA: '',
+              SUBTIP_ARTICOL_OFERTA: ''
+            },
+            level: -1,
+            hasChildren: false,
+            virtual: false
+          }
+          activitateCurenta.children.push(material)
         }
       }
       //add save icon
