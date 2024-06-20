@@ -2630,6 +2630,7 @@ Activitate 1183.7.18.23.L
       let children = activitate.children
       let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
       if (childrenEndsWithL.length > 0) {
+        activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           nr++
