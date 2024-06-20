@@ -1969,7 +1969,7 @@ class Activity extends LitElement {
         var td = e.target
         if (td.classList.contains('activitate')) {
           //update activitateCurenta
-          var key = e.target.id.split('_')[1]
+          var key = e.target.id.split('@')[1]
           activitateCurenta.object[key] = e.target.textContent
         } else if (td.classList.contains('material')) {
           //update material
@@ -2231,7 +2231,7 @@ class Activity extends LitElement {
         //add class as th name
         td.classList.add(key)
         td.classList.add('activitate')
-        td.id = '0_' + key
+        td.id = '0@' + key
         td.scope = 'col'
         td.innerHTML = this.activitate.object[key] || ''
         td.contentEditable = true
@@ -2274,7 +2274,7 @@ class Activity extends LitElement {
           td.classList.add(key)
           td.classList.add('material')
           td.classList.add(mCounter - 1)
-          td.id = mCounter.toString() + '_' + key
+          td.id = mCounter.toString() + '@' + key
           td.innerHTML = material.object[key] || ''
           td.spellcheck = false
           td.contentEditable = true
