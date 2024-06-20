@@ -1779,9 +1779,14 @@ class Recipe extends LitElement {
         //has branch, object, children, hasChildren = false, isMain = false, virtual = false, (level = reteta > find reteta.object.isMain object's level)
         //adauga activitatea la reteta
         //adauga activitatea la my_activity
-        let reteta = this.reteta
         //find the main activity
-        let mainActivity = reteta.find((o) => o.isMain)
+        let mainActivity = retetaCurenta.find((o) => o.isMain)
+        if (!mainActivity) {
+          console.log('Activitatea principala nu a fost gasita')
+          return
+        } else {
+          console.log('Activitatea principala', mainActivity)
+        }
         let level = mainActivity.object.level
         let activitate = {
           branch: [],
@@ -1800,7 +1805,7 @@ class Recipe extends LitElement {
           level: level
         }
         //add it to reteta
-        reteta.push(activitate)
+        retetaCurenta.push(activitate)
         my_activity.activitate = activitate
         modal_body.appendChild(my_activity)
         modal.show()
