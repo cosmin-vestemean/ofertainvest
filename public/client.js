@@ -2051,13 +2051,17 @@ class Activity extends LitElement {
             td.contentEditable = true
             td.spellcheck = false
             td.innerHTML = ''
-            addEventListener("focusout", (event) => {
-              //find header cell for this working cell
-              let headerCell = event.target
-              console.log('headerCell', headerCell)
-              let headerCellIndex = headerCell.cellIndex
-              let headerCellText = headerCell.innerText
-              console.log('headerCellText', headerCellText)
+            addEventListener("blur", (event) => {
+              //find header cell name for this working cell
+              var ths = tbody.getElementsByTagName('th')
+              var th = ths[td.cellIndex]
+              var label = th.innerHTML
+              //find object in recipeDisplayMask with label = label
+              var obj = Object.entries(recipeDisplayMask).find(([key, value]) => value.label === label)
+              key = obj[value]
+              console.log('key', key)
+              //update activitateCurenta with key = td.innerHTML
+              
             });                
           }
           tr.appendChild(td)
