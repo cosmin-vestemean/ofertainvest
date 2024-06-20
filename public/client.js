@@ -1775,6 +1775,33 @@ class Recipe extends LitElement {
         modal_body.innerHTML = ''
         var my_activity = document.createElement('my-activity')
         my_activity.id = 'adaugare_activitate'
+        //creaza o activitate noua in aceasi reteta
+        //has branch, object, children, hasChildren = false, isMain = false, virtual = false, (level = reteta > find reteta.object.isMain object's level)
+        //adauga activitatea la reteta
+        //adauga activitatea la my_activity
+        let reteta = this.reteta
+        //find the main activity
+        let mainActivity = reteta.find((o) => o.isMain)
+        let level = mainActivity.object.level
+        let activitate = {
+          branch: [],
+          object: {
+            WBS: '',
+            DENUMIRE_ARTICOL_OFERTA: 'Denumire activitate noua',
+            CANTITATE_ARTICOL_OFERTA: 0,
+            UM_ARTICOL_OFERTA: '',
+            TIP_ARTICOL_OFERTA: '',
+            SUBTIP_ARTICOL_OFERTA: ''
+          },
+          children: [],
+          hasChildren: false,
+          isMain: false,
+          virtual: false,
+          level: level
+        }
+        my_activity.activitate = activitate
+        //add it to reteta
+        reteta.push(activitate)
         modal_body.appendChild(my_activity)
         modal.show()
       }
