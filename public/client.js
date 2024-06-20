@@ -1958,43 +1958,45 @@ class Activity extends LitElement {
       var id = e.target.id
       var className = e.target.className
       if (tagName === 'TD') {
-        console.log('hey, a td was clicked', className + ' ' + 'id: ' +id + ' ' + 'text: ' + e.target.textContent)
+        console.log(
+          'hey, a td was clicked',
+          className + ' ' + 'id: ' + id + ' ' + 'text: ' + e.target.textContent
+        )
+        //save to activitateCurenta
+        //check if activitate or material
+        //if material find index in activitateCurenta.children and update; if not found add
+        //if activitate, update activitateCurenta
+        var td = e.target
+        if (td.classList.contains('activitate')) {
+          //update activitateCurenta
+          var key = e.target.id.split('_')[1]
+          activitateCurenta.object[key] = e.target.textContent
+        } else if (td.classList.contains('material')) {
+          //update material
+          var tr = e.target.parentElement
+          var tds = tr.getElementsByTagName('td')
+          var index = -1
+          for (let i = 0; i < tds.length; i++) {
+            if (tds[i] === e.target) {
+              index = i
+              break
+            }
+          }
+          //find material in activitateCurenta.children
+          if (index > -1) {
+            var material = activitateCurenta.children[index]
+            material.object[key] = e.target.textContent
+          }
+        }
       }
       this.hasChanged = true
       //get id save_icon and change color to red
       var buttonsPannel = document
-          .getElementById('editare_activitate')
-          .shadowRoot.getElementById('buttonsPannel')
+        .getElementById('editare_activitate')
+        .shadowRoot.getElementById('buttonsPannel')
       var save_icon = buttonsPannel.querySelector('#save_icon')
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
-
-      //save to activitateCurenta
-      //check if activitate or material
-      //if material find index in activitateCurenta.children and update; if not found add
-      //if activitate, update activitateCurenta
-      var td = e.target
-      if (td.classList.contains('activitate')) {
-        //update activitateCurenta
-        var key = e.target.id.split('_')[1]
-        activitateCurenta.object[key] = e.target.textContent
-      } else if (td.classList.contains('material')) {
-        //update material
-        var tr = e.target.parentElement
-        var tds = tr.getElementsByTagName('td')
-        var index = -1
-        for (let i = 0; i < tds.length; i++) {
-          if (tds[i] === e.target) {
-            index = i
-            break
-          }
-        }
-        //find material in activitateCurenta.children
-        if (index > -1) {
-          var material = activitateCurenta.children[index]
-          material.object[key] = e.target.textContent
-        }
-      }
     })
   }
 
@@ -2084,7 +2086,7 @@ class Activity extends LitElement {
           } else {
             td.contentEditable = true
             td.spellcheck = false
-            td.innerHTML = ''     
+            td.innerHTML = ''
           }
           tr.appendChild(td)
           //create a new child material
@@ -2124,8 +2126,7 @@ class Activity extends LitElement {
         for (let i = 0; i < trs.length; i++) {
           var tr = trs[i]
           var tds = tr.getElementsByTagName('td')
-          for (let j = 0; j < tds.length; j++) {
-          }
+          for (let j = 0; j < tds.length; j++) {}
         }
       }
       btnSave.appendChild(save_icon)
@@ -2272,7 +2273,7 @@ class Activity extends LitElement {
           td.classList.add(key)
           td.classList.add('material')
           td.classList.add(mCounter - 1)
-          td.id = mCounter -1 + '_' + key
+          td.id = mCounter - 1 + '_' + key
           td.innerHTML = material.object[key] || ''
           td.spellcheck = false
           td.contentEditable = true
