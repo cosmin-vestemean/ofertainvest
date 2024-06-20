@@ -2111,12 +2111,13 @@ class Activity extends LitElement {
         let props = value
         let visibility = props.visible
         let label = props.label
-        let th = document.createElement('th')
+        let td = document.createElement('td')
         if (visibility === false) {
-          th.classList.add('d-none')
+          td.classList.add('d-none')
         }
-        th.scope = 'col'
-        th.innerHTML = this.activitate.object[key] || ''
+        td.scope = 'col'
+        td.innerHTML = this.activitate.object[key] || ''
+        td.contentEditable = true
         tr.appendChild(th)
       }
 
