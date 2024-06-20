@@ -2162,6 +2162,7 @@ class Activity extends LitElement {
           }
           th.scope = 'col'
           th.innerHTML = props.label ? props.label : key
+          th.classList.add(key)
           th.style.writingMode = 'vertical-rl'
           th.style.rotate = '180deg'
           th.style.fontWeight = 'normal'
@@ -2225,6 +2226,7 @@ class Activity extends LitElement {
           if (props.visible === false) {
             td.classList.add('d-none')
           }
+          td.classList.add(key)
           td.innerHTML = material.object[key] || ''
           td.spellcheck = false
           td.contentEditable = true
