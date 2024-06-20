@@ -1791,7 +1791,7 @@ class Recipe extends LitElement {
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
         //add fixed width to td
-        td.style.width = '50px'
+        td.style.width = '80px'
         var edit = document.createElement('i')
         edit.classList.add('bi', 'bi-pencil-square', 'text-primary')
         edit.id = 'edit_' + counter
