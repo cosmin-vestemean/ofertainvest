@@ -1828,6 +1828,10 @@ class Recipe extends LitElement {
         checkbox.id = 'checkbox_' + counter
         checkbox.checked = isActivitatePrincipala
         checkbox.style.marginLeft = '5px'
+        //onchange, set activitate.isMain = checkbox.checked
+        checkbox.onchange = function () {
+          
+        }
         td.appendChild(checkbox)
         //span with counter
         var span = document.createElement('span')
