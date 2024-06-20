@@ -56,6 +56,26 @@ var combinatii_unice = []
 var selected_ds = []
 var ds_instanteRetete = []
 var ds_antemasuratori = []
+var ds_AFL = [
+  {
+    header: { denumire: 'DS1233354', data: '20.06.2024' },
+    linii: [
+      {
+        WBS_Intern: '',
+        WBS_Extern: '',
+        Denumire: '',
+        Cantitate: '',
+        UM: '',
+        PretUnitar: '',
+        PretTotal: '',
+        PretTotalFaraTVA: '',
+        PretTotalTVA: '',
+        PretTotalRON: '',
+        PretTotal
+      }
+    ]
+  }
+]
 var trees = []
 var nivele = []
 var _nivel_oferta = 'NIVEL_OFERTA_'
