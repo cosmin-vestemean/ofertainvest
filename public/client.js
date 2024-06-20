@@ -1967,10 +1967,6 @@ class Activity extends LitElement {
     for (let i = 0; i < td.length; i++) {
       td[i].addEventListener('blur', function (e) {
         console.log('blur event', e.target)
-        var ths = e.target.parentElement.parentElement.getElementsByTagName('th')
-        var th = ths[e.target.cellIndex]
-        var label = th.innerHTML
-        console.log('label', label)
       })
     }
   }
