@@ -1958,7 +1958,7 @@ class Activity extends LitElement {
       var buttonsPannel = document
           .getElementById('editare_activitate')
           .shadowRoot.getElementById('buttonsPannel')
-      var save_icon = buttonsPannel.getElementById('save_icon')
+      var save_icon = buttonsPannel.querySelector('#save_icon')
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
     })
