@@ -1959,7 +1959,7 @@ class Activity extends LitElement {
       var className = e.target.className
       console.log('tagName', tagName, 'id', id, 'className', className)
       if (tagName === 'TD') {
-        console.log('hey, a td was clicked')
+        console.log('hey, a td was clicked', className)
       }
       this.hasChanged = true
       //get id save_icon and change color to red
