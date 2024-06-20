@@ -1807,6 +1807,7 @@ class Recipe extends LitElement {
         }
         //add it to reteta
         retetaCurenta.reteta.push(activitate)
+        activitateCurenta = activitate
         my_activity.activitate = activitate
         //id
         my_activity.id = 'editare_activitate'
