@@ -1967,9 +1967,9 @@ class Activity extends LitElement {
         //if material find index in activitateCurenta.children and update; if not found add
         //if activitate, update activitateCurenta
         var td = e.target
+        var key = e.target.id.split('@')[1]
         if (td.classList.contains('activitate')) {
           //update activitateCurenta
-          var key = e.target.id.split('@')[1]
           activitateCurenta.object[key] = e.target.textContent
         } else if (td.classList.contains('material')) {
           //update material
