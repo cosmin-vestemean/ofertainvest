@@ -1808,6 +1808,8 @@ class Recipe extends LitElement {
         //add it to reteta
         retetaCurenta.reteta.push(activitate)
         my_activity.activitate = activitate
+        //id
+        my_activity.id = 'editare_activitate'
         modal_body.appendChild(my_activity)
         modal.show()
       }
@@ -2110,7 +2112,6 @@ class Activity extends LitElement {
       for (const [key, value] of Object.entries(recipeDisplayMask)) {
         let props = value
         let visibility = props.visible
-        let label = props.label
         let td = document.createElement('td')
         if (visibility === false) {
           td.classList.add('d-none')
