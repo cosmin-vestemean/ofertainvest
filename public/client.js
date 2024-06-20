@@ -1316,7 +1316,7 @@ export function init() {
       var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0)
       console.log('index', index)
       console.log('recipes_ds[index]', recipes_ds[index])
-      retetaCurenta = [...recipes_ds[index]]
+      retetaCurenta = {...recipes_ds[index]}
       console.log('retetaCurenta', retetaCurenta)
       var reteta = retetaCurenta.reteta
       my_table3.reteta = reteta
@@ -1826,9 +1826,9 @@ class Recipe extends LitElement {
           level: level
         }
         //add it to reteta
-        retetaCurenta.reteta.push(activitate)
-        activitateCurenta = [...activitate]
-        my_activity.activitate = activitate
+        activitateCurenta = {...activitate}
+        retetaCurenta.reteta.push(activitateCurenta)
+        my_activity.activitate = activitateCurenta
         //id
         my_activity.id = 'editare_activitate'
         modal_body.appendChild(my_activity)
@@ -1864,8 +1864,8 @@ class Recipe extends LitElement {
           modal_body.innerHTML = ''
           var my_activity = document.createElement('my-activity')
           my_activity.id = 'editare_activitate'
-          activitateCurenta = [...activitate]
-          my_activity.activitate = activitate
+          activitateCurenta = {...activitate}
+          my_activity.activitate = activitateCurenta
           modal_body.appendChild(my_activity)
           modal.show()
         }
