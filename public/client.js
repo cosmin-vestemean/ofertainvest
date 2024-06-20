@@ -2051,6 +2051,14 @@ class Activity extends LitElement {
             td.contentEditable = true
             td.spellcheck = false
             td.innerHTML = ''
+            addEventListener("focusout", (event) => {
+              //find header cell for this working cell
+              let headerCell = event.target
+              console.log('headerCell', headerCell)
+              let headerCellIndex = headerCell.cellIndex
+              let headerCellText = headerCell.innerText
+              console.log('headerCellIndex', headerCellIndex)
+            });                
           }
           tr.appendChild(td)
         }
