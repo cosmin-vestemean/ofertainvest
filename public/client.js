@@ -1316,7 +1316,7 @@ export function init() {
       var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0)
       console.log('index', index)
       console.log('recipes_ds[index]', recipes_ds[index])
-      retetaCurenta = recipes_ds[index]
+      retetaCurenta = [...recipes_ds[index]]
       console.log('retetaCurenta', retetaCurenta)
       var reteta = retetaCurenta.reteta
       my_table3.reteta = reteta
