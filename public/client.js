@@ -1973,7 +1973,7 @@ class Activity extends LitElement {
       //check if activitate or material
       //if material find index in activitateCurenta.children and update; if not found add
       //if activitate, update activitateCurenta
-
+      var td = e.target
       if (td.classList.contains('activitate')) {
         //update activitateCurenta
         var key = e.target.id.split('_')[1]
