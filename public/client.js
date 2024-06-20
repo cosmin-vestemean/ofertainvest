@@ -1969,11 +1969,11 @@ class Activity extends LitElement {
         var td = e.target
         if (td.classList.contains('activitate')) {
           //update activitateCurenta
-          var indexOfChild = e.target.id.split('@')[0] -1
           var key = e.target.id.split('@')[1]
           activitateCurenta.object[key] = e.target.textContent
         } else if (td.classList.contains('material')) {
           //update material
+          var indexOfChild = e.target.id.split('@')[0] -1
           var tr = e.target.parentElement
           var tds = tr.getElementsByTagName('td')
           var index = -1
