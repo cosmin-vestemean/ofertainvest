@@ -1984,6 +1984,7 @@ class Activity extends LitElement {
           }
           //find material in activitateCurenta.children
           if (index > -1) {
+            index--
             var material = activitateCurenta.children[index]
             material.object[key] = e.target.textContent
           }
