@@ -1386,7 +1386,7 @@ export function init() {
             CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
             CANTITATE_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
-            VARIATII: { OFINIT: [], AMTEMASURATORI: [], FL: [], AFL: [] }, //{ DOCS1: {FINDOC: 124453, MTRLINES: 2, CANTITATE: -10}, DOCCLIENT: {DOC:'DISP SANT', DATA: 20240611, LINIA: 2} }, {DOCS1: {FINDOC: 124453, MTRLINES: 2, CANTITATE: 3}, DOCCLIENT: {DOC:'DISP SANT', DATA: 20240611, LINIA: 3}
+            VARIATII: { OFINIT: [], AMTEMASURATORI: [], FL: [], AFL: [] }, //AFL stocate in aplicatie v. ds_AFL
             UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
@@ -2047,6 +2047,30 @@ class Activity extends LitElement {
           tr.appendChild(td)
         }
       }
+      //add save icon
+      let btnSave = document.createElement('div')
+      btnSave.classList.add('col')
+      buttonsPannel.appendChild(btnSave)
+      var save_icon = document.createElement('i')
+      save_icon.classList.add('bi')
+      save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
+      save_icon.style.cursor = 'pointer'
+      save_icon.style.marginLeft = '5px'
+      save_icon.onclick = function () {
+        //update activitateCurenta with values from tbody_activitate
+        var tbody = document
+          .getElementById('editare_activitate')
+          .shadowRoot.getElementById('tbody_activitate')
+        var trs = tbody.getElementsByTagName('tr')
+        for (let i = 0; i < trs.length; i++) {
+          var tr = trs[i]
+          var tds = tr.getElementsByTagName('td')
+          for (let j = 0; j < tds.length; j++) {
+          }
+        }
+      }
+      btnSave.appendChild(save_icon)
+      //add plus-square icon
       btnAdd.appendChild(plus_icon)
       let btnRefresh = document.createElement('div')
       btnRefresh.classList.add('col')
