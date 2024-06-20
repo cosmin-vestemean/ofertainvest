@@ -1365,7 +1365,7 @@ export function init() {
             CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
             CANTITATE_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
-            VARIATII: { AFL: [] },  //{ FINDOC: 124453, MTRLINES: 2, CANTITATE: -10 }, { FINDOC: 124453, MTRLINES: 3, CANTITATE: 3 }
+            VARIATII: { AFL: [] }, //{ FINDOC: 124453, MTRLINES: 2, CANTITATE: -10 }, { FINDOC: 124453, MTRLINES: 3, CANTITATE: 3 }
             UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
@@ -2200,12 +2200,14 @@ class antemasuratori extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         for (var key in this.ds[0]) {
-          var th = document.createElement('th')
-          th.scope = 'col'
-          th.style.writingMode = 'vertical-rl'
-          th.style.rotate = '180deg'
-          th.innerHTML = key
-          tr.appendChild(th)
+          if (key != 'VARIATII') {
+            var th = document.createElement('th')
+            th.scope = 'col'
+            th.style.writingMode = 'vertical-rl'
+            th.style.rotate = '180deg'
+            th.innerHTML = key
+            tr.appendChild(th)
+          }
         }
       }
       //add tbody
