@@ -1958,7 +1958,7 @@ class Activity extends LitElement {
       var buttonsPannel = document
           .getElementById('editare_activitate')
           .shadowRoot.getElementById('buttonsPannel')
-      var save_icon = buttonsPannel.getElementById('save_icon')
+      var save_icon = buttonsPannel.querySelector('#save_icon')
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
     })
@@ -1993,7 +1993,6 @@ class Activity extends LitElement {
       plus_icon.onclick = function () {
         //add a new material
         var tbody = document
-          .getElementById('editare_activitate')
           .shadowRoot.getElementById('tbody_activitate')
         var tr = document.createElement('tr')
         tr.style.borderBottomColor = 'lightgray'
@@ -2067,9 +2066,9 @@ class Activity extends LitElement {
       save_icon.style.marginLeft = '5px'
       save_icon.onclick = function () {
         //update activitateCurenta with values from tbody_activitate
-        var tbody = document
+        var buttons = document
           .getElementById('editare_activitate')
-          .shadowRoot.getElementById('tbody_activitate')
+          .shadowRoot.getElementById('buttonsPannel')
         var trs = tbody.getElementsByTagName('tr')
         for (let i = 0; i < trs.length; i++) {
           var tr = trs[i]
