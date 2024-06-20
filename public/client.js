@@ -1781,7 +1781,7 @@ class Recipe extends LitElement {
         //adauga activitatea la reteta
         //adauga activitatea la my_activity
         //find the main activity
-        let mainActivity = retetaCurenta.find((o) => o.isMain)
+        let mainActivity = retetaCurenta.reteta.find((o) => o.isMain)
         if (!mainActivity) {
           console.log('Activitatea principala nu a fost gasita')
           return
@@ -1806,7 +1806,7 @@ class Recipe extends LitElement {
           level: level
         }
         //add it to reteta
-        retetaCurenta.push(activitate)
+        retetaCurenta.reteta.push(activitate)
         my_activity.activitate = activitate
         modal_body.appendChild(my_activity)
         modal.show()
