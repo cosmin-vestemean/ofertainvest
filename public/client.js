@@ -1932,7 +1932,7 @@ class Activity extends LitElement {
     //add a listener any cell text change resulting hasChanged = true
     this.shadowRoot.addEventListener('input', function (e) {
       console.log('input event', e.target)
-      hasChanged = true
+      this.hasChanged = true
     })
   }
 
