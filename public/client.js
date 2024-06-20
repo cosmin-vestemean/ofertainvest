@@ -2057,7 +2057,7 @@ class Activity extends LitElement {
               console.log('headerCell', headerCell)
               let headerCellIndex = headerCell.cellIndex
               let headerCellText = headerCell.innerText
-              console.log('headerCellIndex', headerCellIndex)
+              console.log('headerCellText', headerCellText)
             });                
           }
           tr.appendChild(td)
