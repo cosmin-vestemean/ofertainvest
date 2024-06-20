@@ -2231,6 +2231,7 @@ class Activity extends LitElement {
         //add class as th name
         td.classList.add(key)
         td.classList.add('activitate')
+        td.id = '0_' + key
         td.scope = 'col'
         td.innerHTML = this.activitate.object[key] || ''
         td.contentEditable = true
@@ -2273,7 +2274,7 @@ class Activity extends LitElement {
           td.classList.add(key)
           td.classList.add('material')
           td.classList.add(mCounter - 1)
-          td.id = mCounter - 1 + '_' + key
+          td.id = mCounter.toString() + '_' + key
           td.innerHTML = material.object[key] || ''
           td.spellcheck = false
           td.contentEditable = true
