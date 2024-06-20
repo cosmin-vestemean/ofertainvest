@@ -2058,7 +2058,7 @@ class Activity extends LitElement {
               var label = th.innerHTML
               //find object in recipeDisplayMask with label = label
               var obj = Object.entries(recipeDisplayMask).find(([key, value]) => value.label === label)
-              key = obj[value]
+              var key = obj[value]
               console.log('key', key)
               //update activitateCurenta with key = td.innerHTML
               
