@@ -1955,7 +1955,10 @@ class Activity extends LitElement {
       console.log('input event', e.target)
       this.hasChanged = true
       //get id save_icon and change color to red
-      var save_icon = document.getElementById('save_icon')
+      var tbody = document
+          .getElementById('editare_activitate')
+          .shadowRoot.getElementById('tbody_activitate')
+      var save_icon = tbody.shadowRoot.getElementById('save_icon')
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
     })
