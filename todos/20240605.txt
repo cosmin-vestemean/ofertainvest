@@ -1,0 +1,45 @@
+2 tipuri de instante
+
+1.
+multiple instante in oferta initiala
+
+2.
+instante <= prelungirea arborelui
+
+------------------------------------------------
+art princip: trotuar 81.6 m
+
+I.
+cant articol antemas: 30
+activit princip: trotuar > CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 2 (=>FL: 2*30=60);PONDERE_DECONT=0.6
+activit sec1: montare bordura > CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA=1 (FL:1*30=30);PONDERE_DECONT=0.3
+activit sec2: montare piatra cubica 1.5 => FL: 1.5*30=45;PONDERE_DECONT=0.1
+
+II.
+cant articol antemas: 20
+activit princip: trotuar 2 => 2*20=40
+activit sec1: montare bordura 1
+activit sec2: montare piatra cubica 1.5
+
+III.
+cant articol antemas: 31.6
+activit princip: trotuar 2 => 2*31.6=63.2
+activit sec1: montare bordura 1
+activit sec2: montare piatra cubica 1.5
+
+
+RETETA:
+------------------------------
+activitate: 
+CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
+
+SUM(PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)=1 !!! < manual dar conditie de max 1
+
+PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA < manual, neconditionat
+
+--------------------------------
+material:
+activit princip: trotuar CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 2 => 60
+material: CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = 1.2 => 1.2*60=72 mc necesari pentru 30 mp trotuar I
+								1.2 => 1.2*40=24 mc > II
+								1.2*63.2=75.84 > III

@@ -1364,6 +1364,7 @@ export function init() {
             DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
             CANTITATE_ANTEMASURATORI: 0,
+            CANTITATE_FL: 0,
             UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
