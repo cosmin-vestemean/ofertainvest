@@ -1365,7 +1365,7 @@ export function init() {
             CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
             CANTITATE_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
-            VARIATII: {OFINIT: [], AMTEMASURATORI: [], AFL: [], NR: [], NCS: [] }, //{ DOCS1: {FINDOC: 124453, MTRLINES: 2, CANTITATE: -10}, DOCCLIENT: {DOC:'DISP SANT', DATA: 20240611, LINIA: 2} }, {DOCS1: {FINDOC: 124453, MTRLINES: 2, CANTITATE: 3}, DOCCLIENT: {DOC:'DISP SANT', DATA: 20240611, LINIA: 3}
+            VARIATII: { OFINIT: [], AMTEMASURATORI: [], AFL: [], NR: [], NCS: [] }, //{ DOCS1: {FINDOC: 124453, MTRLINES: 2, CANTITATE: -10}, DOCCLIENT: {DOC:'DISP SANT', DATA: 20240611, LINIA: 2} }, {DOCS1: {FINDOC: 124453, MTRLINES: 2, CANTITATE: 3}, DOCCLIENT: {DOC:'DISP SANT', DATA: 20240611, LINIA: 3}
             UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
@@ -1783,6 +1783,7 @@ class Recipe extends LitElement {
       //use for (let)
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
+        let isActivitatePrincipala = activitate.isMain
         counter++
         var tr = document.createElement('tr')
         tr.classList.add('shadow-sm', 'bg-light')
@@ -1821,6 +1822,13 @@ class Recipe extends LitElement {
         trash.onclick = function () {}
         td.appendChild(edit)
         td.appendChild(trash)
+        //activitate principala as as checkbox indiferent de stare
+        var checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.id = 'checkbox_' + counter
+        checkbox.checked = isActivitatePrincipala
+        checkbox.style.marginLeft = '5px'
+        td.appendChild(checkbox)
         //span with counter
         var span = document.createElement('span')
         //add margin left
