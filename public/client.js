@@ -1780,7 +1780,6 @@ class Recipe extends LitElement {
       }
       td.appendChild(plus_icon)
       let counter = 0
-      //use for (let)
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
         let isActivitatePrincipala = activitate.isMain
@@ -1829,9 +1828,7 @@ class Recipe extends LitElement {
         checkbox.checked = isActivitatePrincipala
         checkbox.style.marginLeft = '5px'
         //onchange, set activitate.isMain = checkbox.checked
-        checkbox.onchange = function () {
-          
-        }
+        checkbox.onchange = function () {}
         td.appendChild(checkbox)
         //span with counter
         var span = document.createElement('span')
@@ -2641,6 +2638,7 @@ Activitate 1183.7.18.23.L
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
           newActivitateInReteta.children.push(child)
+          newActivitateInReteta.isMain = false
           reteta.push(newActivitateInReteta)
           //delete the newly created activitate from reteta's children
           activitate.children = activitate.children.filter(
@@ -2804,8 +2802,9 @@ function eleminateDuplicates(data) {
 
   //add to each innerData.reteta[i] property isMain = false
   innerData.forEach(function (obj) {
+    var nrActivitati = obj.reteta.length
     obj.reteta.forEach(function (activity) {
-      activity.isMain = false
+      if (!activity.isMain) activity.isMain = nrActivitati == 1 ? true : false
     })
   })
 
