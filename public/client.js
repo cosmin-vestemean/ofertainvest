@@ -1962,6 +1962,18 @@ class Activity extends LitElement {
       save_icon.classList.remove('text-success')
       save_icon.classList.add('text-danger')
     })
+    //add blur event to any td element
+    this.shadowRoot.addEventListener('blur', function (e) {
+      if (e.target.tagName === 'TD') {
+        console.log('blur event', e.target.tagName)
+        //find th name for this td
+        var ths = e.target.parentElement.parentElement.getElementsByTagName('th')
+        var th = ths[e.target.cellIndex]
+        var label = th.innerHTML
+        console.log('label', label)
+      }
+    })
+
   }
 
   connectedCallback() {
@@ -2050,19 +2062,7 @@ class Activity extends LitElement {
           } else {
             td.contentEditable = true
             td.spellcheck = false
-            td.innerHTML = ''
-            addEventListener("blur", (event) => {
-              //find header cell name for this working cell
-              var ths = tbody.getElementsByTagName('th')
-              var th = ths[td.cellIndex]
-              var label = th.innerHTML
-              //find object in recipeDisplayMask with label = label
-              var obj = Object.entries(recipeDisplayMask).find(([key, value]) => value.label === label)
-              key = obj[value]
-              console.log('key', key)
-              //update activitateCurenta with key = td.innerHTML
-              
-            });                
+            td.innerHTML = ''               
           }
           tr.appendChild(td)
         }
