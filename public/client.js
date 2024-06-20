@@ -2221,19 +2221,21 @@ class antemasuratori extends LitElement {
         td.innerHTML = counter
         tr.appendChild(td)
         for (var key in object) {
-          var td = document.createElement('td')
-          td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
-          if (key == 'CANTITATE_ARTICOL_OFERTA' || key == 'CANTITATE_ANTEMASURATORI') {
-            td.style.fontWeight = 'bold'
-          }
-          //cantitate antemasuratori contenteditable
-          if (key == 'CANTITATE_ANTEMASURATORI') {
-            let customClass = 'cantitate_antemasuratori'
-            td.contentEditable = true
-            td.spellcheck = false
-            td.classList.add('border', 'text-primary')
-            td.classList.add(customClass)
-            td.style.borderColor = 'lightgray'
+          if (key != 'VARIATII') {
+            var td = document.createElement('td')
+            td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
+            if (key == 'CANTITATE_ARTICOL_OFERTA' || key == 'CANTITATE_ANTEMASURATORI') {
+              td.style.fontWeight = 'bold'
+            }
+            //cantitate antemasuratori contenteditable
+            if (key == 'CANTITATE_ANTEMASURATORI') {
+              let customClass = 'cantitate_antemasuratori'
+              td.contentEditable = true
+              td.spellcheck = false
+              td.classList.add('border', 'text-primary')
+              td.classList.add(customClass)
+              td.style.borderColor = 'lightgray'
+            }
           }
           tr.appendChild(td)
         }
