@@ -56,7 +56,7 @@ var combinatii_unice = []
 var selected_ds = []
 var ds_instanteRetete = []
 var ds_antemasuratori = []
-var ds_AFL = [
+/* var ds_AFL = [
   {
     header: { denumire: 'DS1233354', data: '20.06.2024' },
     linii: [
@@ -75,7 +75,7 @@ var ds_AFL = [
       }
     ]
   }
-]
+] */
 var trees = []
 var nivele = []
 var _nivel_oferta = 'NIVEL_OFERTA_'
