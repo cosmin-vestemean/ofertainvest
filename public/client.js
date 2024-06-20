@@ -1964,7 +1964,7 @@ class Activity extends LitElement {
     })
     //add blur event to any td element
     this.shadowRoot.addEventListener('blur', function (e) {
-      if (e.target.tagName === 'TD') {
+      if (e.target.tagName.toLowerCase() === 'td') {
         console.log('blur event', e.target.tagName)
         //find th name for this td
         var ths = e.target.parentElement.parentElement.getElementsByTagName('th')
