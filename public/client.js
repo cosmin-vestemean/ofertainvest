@@ -1920,7 +1920,8 @@ customElements.define('my-recipe', Recipe)
 
 class Activity extends LitElement {
   static properties = {
-    activitate: { type: Object }
+    activitate: { type: Object },
+    hasChanged: { type: Boolean }
   }
 
   constructor() {
@@ -1928,6 +1929,11 @@ class Activity extends LitElement {
     this.activitate = {}
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    //add a listener any cell text change resulting hasChanged = true
+    this.shadowRoot.addEventListener('input', function (e) {
+      console.log('input event', e.target)
+      hasChanged = true
+    })
   }
 
   connectedCallback() {
@@ -2116,6 +2122,8 @@ class Activity extends LitElement {
         if (visibility === false) {
           td.classList.add('d-none')
         }
+        //add class as th name
+        td.classList.add(key)
         td.scope = 'col'
         td.innerHTML = this.activitate.object[key] || ''
         td.contentEditable = true
