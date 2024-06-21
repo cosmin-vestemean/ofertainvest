@@ -1977,7 +1977,7 @@ class Activity extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     //add a listener any cell text change resulting hasChanged = true
     this.shadowRoot.addEventListener('input', function (e) {
-      console.log('input event', e.target)
+      //console.log('input event', e.target)
       //find tag name id and class
       var tagName = e.target.tagName
       var id = e.target.id
