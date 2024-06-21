@@ -107,7 +107,10 @@ const recipeDisplayMask = {
   },
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM' },
   TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Tip articol' },
-  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol' }
+  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol' },
+  CANTITATE_UNITARA_ARTICOL_RETETA: {value: 'CANTITATE_UNITARA_ARTICOL_RETETA', RW: true, visible: true, label: 'Cantitate unitara'},
+  PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: {value: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA', RW: true, visible: true, label: 'Pondere decont'},
+  PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: {value: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA', RW: true, visible: true, label: 'Pondere norma'},
 }
 
 // 1. load excel file by file chooser xlsx.js
@@ -1825,8 +1828,8 @@ class Recipe extends LitElement {
           virtual: false,
           level: level
         }
-         //adauga nivele oferta/antemasuratori
-         for (let [key, value] of Object.entries(mainActivity.object)) {
+        //adauga nivele oferta/antemasuratori
+        for (let [key, value] of Object.entries(mainActivity.object)) {
           if (key.includes(_nivel_oferta)) {
             activitateNoua.object[key] = value
           }
@@ -1848,7 +1851,9 @@ class Recipe extends LitElement {
       material_icon.style.cursor = 'pointer'
       material_icon.style.marginLeft = '5px'
       material_icon.onclick = function () {
-        var tbody = document.getElementById('my_table_detalii_reteta').shadowRoot.getElementById('tbody_reteta')
+        var tbody = document
+          .getElementById('my_table_detalii_reteta')
+          .shadowRoot.getElementById('tbody_reteta')
         var tds = tbody.getElementsByTagName('td')
         for (let i = 0; i < tds.length; i++) {
           if (tds[i].classList.contains('material')) {
@@ -1952,7 +1957,7 @@ class Recipe extends LitElement {
             }
             td.innerHTML = material.object[key] || ''
             td.classList.add('material')
-            td.id = (mCounter -1).toString() + '@' + key
+            td.id = (mCounter - 1).toString() + '@' + key
             tr.appendChild(td)
           }
         }
@@ -2006,7 +2011,7 @@ class Activity extends LitElement {
           activitateCurenta.object[key] = e.target.textContent
         } else if (td.classList.contains('material')) {
           //update material
-          var indexOfChild = e.target.id.split('@')[0] -1
+          var indexOfChild = e.target.id.split('@')[0] - 1
           var tr = e.target.parentElement
           var tds = tr.getElementsByTagName('td')
           var index = -1
@@ -2632,6 +2637,25 @@ function createTreesFromWBS(ds) {
   let rez = eleminateDuplicates(instanteRetete1)
   let retete = rez.retete
   instanteRetete = rez.instanteRetete
+
+  //add to retete > reteta > object CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
+  for (let i = 0; i < retete.length; i++) {
+    let reteta = retete[i].reteta
+    for (let j = 0; j < reteta.length; j++) {
+      let object = reteta[j]
+      object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
+      object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
+      object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+      let materiale = object.children
+      //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
+      for (let k = 0; k < materiale.length; k++) {
+        let material = materiale[k]
+        material.object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
+        material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
+        material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+      }
+    }
+  }
 
   return {
     trees,
