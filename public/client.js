@@ -1804,7 +1804,7 @@ class Recipe extends LitElement {
         let mainActivity = retetaCurenta.reteta.find((o) => o.isMain)
         //adauga nivele oferta/antemasuratori
         for (let [key, value] of Object.entries(mainActivity.object)) {
-          if (key.contains(_nivel_oferta)) {
+          if (key.includes(_nivel_oferta)) {
             activitateNoua.object[key] = value
           }
         }
