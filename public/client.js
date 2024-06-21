@@ -1802,6 +1802,12 @@ class Recipe extends LitElement {
         //adauga activitatea la my_activity
         //find the main activity
         let mainActivity = retetaCurenta.reteta.find((o) => o.isMain)
+        //adauga nivele oferta/antemasuratori
+        for (let [key, value] of Object.entries(mainActivity.object)) {
+          if (key.contains(_nivel_oferta)) {
+            activitateNoua.object[key] = value
+          }
+        }
         if (!mainActivity) {
           console.log('Activitatea principala nu a fost gasita')
           return
@@ -1980,8 +1986,8 @@ class Activity extends LitElement {
       //console.log('input event', e.target)
       //find tag name id and class
       var tagName = e.target.tagName
-      var id = e.target.id
-      var className = e.target.className
+      //var id = e.target.id
+      //var className = e.target.className
       if (tagName === 'TD') {
         /*
         console.log(
