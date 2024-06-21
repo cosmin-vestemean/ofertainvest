@@ -1783,7 +1783,7 @@ class Recipe extends LitElement {
       //add icon for plus
       var plus_icon = document.createElement('i')
       plus_icon.classList.add('bi')
-      plus_icon.classList.add('bi-plus-square', 'text-primary')
+      plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {
         //modal with my-activity
@@ -1844,7 +1844,7 @@ class Recipe extends LitElement {
       //adauga pictograma ascunde/arata toate materiale <=> td with class='material' > display none/block
       var material_icon = document.createElement('i')
       material_icon.classList.add('bi')
-      material_icon.classList.add('bi-eye-slash', 'text-primary')
+      material_icon.classList.add('bi-eye-slash', 'text-primary', 'fs-4', 'mb-3')
       material_icon.style.cursor = 'pointer'
       material_icon.style.marginLeft = '5px'
       material_icon.onclick = function () {
