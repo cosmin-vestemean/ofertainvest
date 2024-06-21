@@ -1835,6 +1835,25 @@ class Recipe extends LitElement {
         modal.show()
       }
       td.appendChild(plus_icon)
+      //adauga pictograma ascunde/arata toate materiale <=> td with class='material' > display none/block
+      var material_icon = document.createElement('i')
+      material_icon.classList.add('bi')
+      material_icon.classList.add('bi-eye-slash', 'text-primary')
+      material_icon.style.cursor = 'pointer'
+      material_icon.style.marginLeft = '5px'
+      material_icon.onclick = function () {
+        var tbody = document.getElementById('my_table_detalii_reteta').shadowRoot.getElementById('tbody_reteta')
+        var tds = tbody.getElementsByTagName('td')
+        for (let i = 0; i < tds.length; i++) {
+          if (tds[i].classList.contains('material')) {
+            if (tds[i].style.display === 'none') {
+              tds[i].style.display = 'table-cell'
+            } else {
+              tds[i].style.display = 'none'
+            }
+          }
+        }
+      }
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
@@ -1900,6 +1919,8 @@ class Recipe extends LitElement {
             td.classList.add('d-none')
           }
           td.innerHTML = activitate.object[key] || ''
+          td.classList.add('activitate')
+          td.id = counter + '@' + key
           tr.appendChild(td)
         }
         //add children
@@ -1913,6 +1934,7 @@ class Recipe extends LitElement {
           var td = document.createElement('td')
           td.classList.add('text-secondary')
           td.innerHTML = counter + '.' + mCounter
+          td.classList.add('material')
           tr.appendChild(td)
 
           // loop through the keys of interest and create the corresponding table cells
@@ -1922,6 +1944,8 @@ class Recipe extends LitElement {
               td.classList.add('d-none')
             }
             td.innerHTML = material.object[key] || ''
+            td.classList.add('material')
+            td.id = (mCounter -1).toString() + '@' + key
             tr.appendChild(td)
           }
         }
