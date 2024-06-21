@@ -1809,8 +1809,8 @@ class Recipe extends LitElement {
           console.log('Activitatea principala', mainActivity)
         }
         let level = mainActivity.object.level
-        let activitate = {
-          branch: [],
+        let activitateNoua = {
+          branch: mainActivity.branch,
           object: {
             WBS: '',
             DENUMIRE_ARTICOL_OFERTA: 'Denumire activitate noua',
@@ -1826,9 +1826,9 @@ class Recipe extends LitElement {
           level: level
         }
         //add it to reteta
-        retetaCurenta.reteta.push(activitate)
-        activitateCurenta = activitate
-        my_activity.activitate = activitate
+        retetaCurenta.reteta.push(activitateNoua)
+        activitateCurenta = activitateNoua
+        my_activity.activitate = activitateCurenta
         //id
         my_activity.id = 'editare_activitate'
         modal_body.appendChild(my_activity)
@@ -1983,10 +1983,12 @@ class Activity extends LitElement {
       var id = e.target.id
       var className = e.target.className
       if (tagName === 'TD') {
+        /*
         console.log(
           'hey, a td was clicked',
           className + ' ' + 'id: ' + id + ' ' + 'text: ' + e.target.textContent
         )
+        */
         //save to activitateCurenta
         //check if activitate or material
         //if material find index in activitateCurenta.children and update; if not found add
