@@ -1854,6 +1854,7 @@ class Recipe extends LitElement {
           }
         }
       }
+      td.appendChild(material_icon)
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
