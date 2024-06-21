@@ -227,7 +227,7 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
 */
   let keys = Object.keys(optimal_ds[0])
   keys.forEach(function (key) {
-    if (key.includes('NIVEL_OFERTA')) {
+    if (key.includes(_nivel_oferta)) {
       nivele.push(key)
     }
   })
@@ -1802,12 +1802,6 @@ class Recipe extends LitElement {
         //adauga activitatea la my_activity
         //find the main activity
         let mainActivity = retetaCurenta.reteta.find((o) => o.isMain)
-        //adauga nivele oferta/antemasuratori
-        for (let [key, value] of Object.entries(mainActivity.object)) {
-          if (key.includes(_nivel_oferta)) {
-            activitateNoua.object[key] = value
-          }
-        }
         if (!mainActivity) {
           console.log('Activitatea principala nu a fost gasita')
           return
@@ -1830,6 +1824,12 @@ class Recipe extends LitElement {
           isMain: false,
           virtual: false,
           level: level
+        }
+         //adauga nivele oferta/antemasuratori
+         for (let [key, value] of Object.entries(mainActivity.object)) {
+          if (key.includes(_nivel_oferta)) {
+            activitateNoua.object[key] = value
+          }
         }
         //add it to reteta
         retetaCurenta.reteta.push(activitateNoua)
