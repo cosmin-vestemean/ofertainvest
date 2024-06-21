@@ -46,5 +46,10 @@ material: CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = 1.2 => 1.2*60=7
 
 
 28.06.2024
-1.CONCATENAREA import AFL as oferta cu antemasuratori/FL=> modificare articol existente + adauga articole noi
+
+1. IMPLICITE PE RETETE
 2.modificare parcurgere dinamica a extinderii arborelui in ante,asuratori vs cu acelasi pas/lungime, ca acum
+
+--------------------------------
+
+3.CONCATENAREA import AFL as oferta cu antemasuratori/FL=> modificare articol existente + adauga articole noi
