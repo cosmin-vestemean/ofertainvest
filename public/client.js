@@ -128,7 +128,7 @@ const recipeDisplayMask = {
   }
 }
 
-const themes = ['cerulean', 'business-casual', 'flatly', 'sandstone', 'slate', 'solar', 'stylish', 'yeti']
+const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
