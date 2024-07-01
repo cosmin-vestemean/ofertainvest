@@ -1468,6 +1468,7 @@ export function init() {
     //add <a></a> class to li
     let a = document.createElement('a')
     a.classList.add('dropdown-item')
+    a.href = '#'
     a.textContent = theme
     li.appendChild(a)
     themesUl.appendChild(li)
