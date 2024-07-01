@@ -128,16 +128,7 @@ const recipeDisplayMask = {
   }
 }
 
-const themes = [
-  'cerulean',
-  'business-casual',
-  'flatly',
-  'sandstone',
-  'slate',
-  'solar',
-  'stylish',
-  'yeti'
-]
+const themes = ['cerulean', 'business-casual', 'flatly', 'sandstone', 'slate', 'solar', 'stylish', 'yeti']
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1470,15 +1461,13 @@ export function init() {
 
   //dropdown menu themes
   let themesUl = document.getElementById('themesUl')
-  themesUl.addEventListener('change', function (e) {
-    //loop through themes array and add them to themes ul
-    for (let i = 0; i < themes.length; i++) {
-      let theme = themes[i];
-      let li = document.createElement('li');
-      li.textContent = theme;
-      themesUl.appendChild(li);
-    }
-  })
+  //loop through themes array and add them to themes ul
+  for (let i = 0; i < themes.length; i++) {
+    let theme = themes[i]
+    let li = document.createElement('li')
+    li.textContent = theme
+    themesUl.appendChild(li)
+  }
 }
 
 function createDatasetForRecipes() {
