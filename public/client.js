@@ -1516,6 +1516,7 @@ export function init() {
         pageHeader.style.display = 'none'
       }
     }
+    showHideHeader()
   }
 }
 
