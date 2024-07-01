@@ -70,184 +70,194 @@
   </head>
   <body>
     <div class="container mt-2">
-      <nav class="navbar navbar-expand-lg navbar-primary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#"
-            ><img
-              src="https://www.invest-dej.com/templates/livecms/images/logo-inves.png"
-              alt="logo"
-              id="logo"
-          /></a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
+      <div class="row">
+        <div class="page-header">
+          <div class="bs-component">
+            <nav class="navbar navbar-expand-lg bg-primary text-light" data-bs-theme="dark">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="#"
+                  ><img
+                    src="https://www.invest-dej.com/templates/livecms/images/logo-inves.png"
+                    alt="logo"
+                    id="logo"
+                /></a>
+                <button
+                  class="navbar-toggler"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarNav"
+                  aria-controls="navbarNav"
                   aria-expanded="false"
+                  aria-label="Toggle navigation"
                 >
-                  Oferta
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a
-                      class="dropdown-item"
-                      href="#"
-                      onclick="document.getElementById('file_oferta_initiala').click()"
-                      >Incarca oferta</a
-                    >
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">Salveaza oferta</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" id="vizualizare_oferta_initiala"
-                      >Vizualizeaza oferta</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  AFL
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" id="listaAFL" href="#">Browse AFL</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Reteta
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" href="#" id="scan_oferta_initiala">Detectie automata retete</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" id="lista_activitati">Lista activitati oferta</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" id="lista_retete">Lista completa retete cu detalii</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" id="orfani">Intrari orfane</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">Vizualizare echivalente WBS</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" id="WBSMap">Vizualizare harta WBS</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Antemasuratori
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" id="listaAntemasuratori" href="#">Antemasuratori</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Fisa limita
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" id="listaFL" href="#">Lista achizitii materiale</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Grafic
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" href="#">Vizualizeaza ierarhii</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Documentatie
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" href="#">Utilizare interfata</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">Concepte</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Oferta
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            onclick="document.getElementById('file_oferta_initiala').click()"
+                            >Incarca oferta</a
+                          >
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#">Salveaza oferta</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="vizualizare_oferta_initiala"
+                            >Vizualizeaza oferta</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        AFL
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a class="dropdown-item" id="listaAFL" href="#">Browse AFL</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Reteta
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a class="dropdown-item" href="#" id="scan_oferta_initiala"
+                            >Detectie automata retete</a
+                          >
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="lista_activitati">Lista activitati oferta</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="lista_retete"
+                            >Lista completa retete cu detalii</a
+                          >
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="orfani">Intrari orfane</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#">Vizualizare echivalente WBS</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="WBSMap">Vizualizare harta WBS</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Antemasuratori
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a class="dropdown-item" id="listaAntemasuratori" href="#">Antemasuratori</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Fisa limita
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a class="dropdown-item" id="listaFL" href="#">Lista achizitii materiale</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Grafic
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a class="dropdown-item" href="#">Vizualizeaza ierarhii</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Documentatie
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                          <a class="dropdown-item" href="#">Utilizare interfata</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#">Concepte</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
           </div>
         </div>
-      </nav>
+      </div>
       <div class="row">
         <div class="col-sm">
           <label for="saldoc" class="form-label text-primary">Oferte</label>
