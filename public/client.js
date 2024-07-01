@@ -1481,7 +1481,23 @@ export function init() {
   })
 
   function changeTheme(theme) {
-  
+    //remove all stylesheets with names equal to themes array and add the one with the selected theme
+    let links = document.getElementsByTagName('link')
+    for (let i = 0; i < links.length; i++) {
+      let link = links[i]
+      if (link.rel === 'stylesheet') {
+        themes.forEach((theme) => {
+          if (link.href.includes(theme)) {
+            link.remove()
+          }
+        })
+      }
+    }
+    //add the selected theme
+    let link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = theme + '.css'
+    document.head.appendChild(link)
   }
 }
 
