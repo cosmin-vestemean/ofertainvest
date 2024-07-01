@@ -129,6 +129,7 @@ const recipeDisplayMask = {
 }
 
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
+let selectedTheme = 'yeti'
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1477,6 +1478,7 @@ export function init() {
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
     console.log('theme', theme)
+    selectedTheme = theme
     changeTheme(theme)
   })
 
@@ -1524,7 +1526,7 @@ function createDatasetForRecipes() {
 const template = document.createElement('template')
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/><link rel="stylesheet" href="yeti.css">`
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/><link rel="stylesheet" href="${selectedTheme}.css">`
 
 class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
@@ -1583,6 +1585,8 @@ class myTable extends LitElement {
     } else {
       //add table
       var table = document.getElementById('table_' + this.tableId) || document.createElement('table')
+      //set font size
+      table.style.fontSize = 'small'
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-hover')
@@ -1806,6 +1810,7 @@ class Recipe extends LitElement {
       //add table
       //evidenteaza activitatea de materiale si activitatile intre ele
       var table = document.createElement('table')
+      table.style.fontSize = 'small'
       table.classList.add('table')
       table.classList.add('table-sm')
       table.id = 'table_reteta'
@@ -2138,6 +2143,7 @@ class Activity extends LitElement {
         var tbody = document
           .getElementById('editare_activitate')
           .shadowRoot.getElementById('tbody_activitate')
+        tbody.style.fontSize = 'small'
         var tr = document.createElement('tr')
         tr.style.borderBottomColor = 'lightgray'
         tbody.appendChild(tr)
