@@ -2472,6 +2472,8 @@ class antemasuratori extends LitElement {
       table.classList.add('table')
       table.classList.add('table-sm')
       table.id = 'table_antemasuratori'
+      //font size
+      table.style.fontSize = 'small'
       //get or create thead and tbody
       var thead = document.createElement('thead')
       thead.id = 'thead_antemasuratori'
