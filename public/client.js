@@ -1465,7 +1465,11 @@ export function init() {
   for (let i = 0; i < themes.length; i++) {
     let theme = themes[i]
     let li = document.createElement('li')
-    li.textContent = theme
+    //add <a></a> class to li
+    let a = document.createElement('a')
+    a.classList.add('dropdown-item')
+    a.textContent = theme
+    li.appendChild(a)
     themesUl.appendChild(li)
   }
   //add event listener to themesUl
