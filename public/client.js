@@ -1468,6 +1468,17 @@ export function init() {
     li.textContent = theme
     themesUl.appendChild(li)
   }
+  //add event listener to themesUl
+  themesUl.addEventListener('click', function (e) {
+    let theme = e.target.textContent
+    console.log('theme', theme)
+    //change theme
+    changeTheme(theme)
+  })
+
+  function changeTheme(theme) {
+  
+  }
 }
 
 function createDatasetForRecipes() {
