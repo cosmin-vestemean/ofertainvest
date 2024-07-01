@@ -1586,7 +1586,9 @@ class myTable extends LitElement {
           th.scope = 'col'
           th.style.writingMode = 'vertical-rl'
           th.style.rotate = '180deg'
-          th.innerHTML = key
+          //th.innerHTML = key
+          //all lowercase but first letter
+          th.innerHTML = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()
           tr.appendChild(th)
         }
       } else {
@@ -1605,7 +1607,9 @@ class myTable extends LitElement {
         tr.appendChild(td)
         for (var key in object) {
           var td = document.createElement('td')
-          td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
+          //all lowercase but first letter
+          var theText = object[key].charAt(0).toUpperCase() + object[key].slice(1).toLowerCase()
+          td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : theText
           tr.appendChild(td)
         }
       })
