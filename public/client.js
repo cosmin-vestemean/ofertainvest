@@ -1518,6 +1518,17 @@ export function init() {
     }
     showHideHeader()
   }
+
+  //fullScreen
+  let fullScreen = document.getElementById('fullScreen')
+  //toggle full screen
+  fullScreen.onclick = function () {
+    if (document.fullscreenElement) {
+      document.exitFullscreen()
+    } else {
+      document.documentElement.requestFullscreen()
+    }
+  }
 }
 
 function createDatasetForRecipes() {
