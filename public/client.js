@@ -108,10 +108,36 @@ const recipeDisplayMask = {
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM' },
   TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Tip articol' },
   SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol' },
-  CANTITATE_UNITARA_ARTICOL_RETETA: {value: 'CANTITATE_UNITARA_ARTICOL_RETETA', RW: true, visible: true, label: 'Cantitate unitara'},
-  PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: {value: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA', RW: true, visible: true, label: 'Pondere decont'},
-  PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: {value: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA', RW: true, visible: true, label: 'Pondere norma'},
+  CANTITATE_UNITARA_ARTICOL_RETETA: {
+    value: 'CANTITATE_UNITARA_ARTICOL_RETETA',
+    RW: true,
+    visible: true,
+    label: 'Cantitate unitara'
+  },
+  PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: {
+    value: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA',
+    RW: true,
+    visible: true,
+    label: 'Pondere decont'
+  },
+  PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: {
+    value: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA',
+    RW: true,
+    visible: true,
+    label: 'Pondere norma'
+  }
 }
+
+const themes = [
+  'cerulean',
+  'business-casual',
+  'flatly',
+  'sandstone',
+  'slate',
+  'solar',
+  'stylish',
+  'yeti'
+]
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1441,6 +1467,18 @@ export function init() {
       scan_oferta_initiala.click()
     }
   }
+
+  //dropdown menu themes
+  let themesUl = document.getElementById('themesUl')
+  themesUl.addEventListener('change', function (e) {
+    //loop through themes array and add them to themes ul
+    for (let i = 0; i < themes.length; i++) {
+      let theme = themes[i];
+      let li = document.createElement('li');
+      li.textContent = theme;
+      themesUl.appendChild(li);
+    }
+  })
 }
 
 function createDatasetForRecipes() {
