@@ -1498,6 +1498,7 @@ export function init() {
     link.rel = 'stylesheet'
     link.href = theme + '.css'
     document.head.appendChild(link)
+    console.log('Theme changed to:', theme);
   }
 }
 
