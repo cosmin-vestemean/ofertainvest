@@ -1448,6 +1448,22 @@ export function init() {
       scan_oferta_initiala.click()
     }
   }
+
+  //add button top right to switch between styles in public folder
+   //create a button in the top right corner of the page
+    var btn = document.createElement('button')
+    btn.innerHTML = 'dark mode'
+    btn.style.position = 'fixed'
+    btn.style.top = '0'
+    btn.style.right = '0'
+    btn.style.zIndex = '1000'
+    btn.onclick = function () {
+      var link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = 'solar.css'
+      document.head.appendChild(link)
+    }
+
 }
 
 function createDatasetForRecipes() {
