@@ -1141,14 +1141,7 @@ export function init() {
     my_table1.style.display = 'block'
     my_table1.ds = orfani
   }
-  let vizualizare_oferta_optimizata = document.getElementById('vizualizare_oferta_optimizata')
-  vizualizare_oferta_optimizata.onclick = function () {
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table1.style.display = 'block'
-    my_table1.ds = optimal_ds
-  }
+  //vizualizare_oferta_initiala
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
   vizulizare_oferta_initiala.onclick = function () {
     my_table2.style.display = 'none'
