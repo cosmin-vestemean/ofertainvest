@@ -1500,6 +1500,21 @@ export function init() {
     document.head.appendChild(link)
     console.log('Theme changed to:', theme);
   }
+
+  //zenView
+  let zenView = document.getElementById('zenView')
+  //hide/show all page-header class elements
+  zenView.onclick = function () {
+    let pageHeaders = document.getElementsByClassName('page-header')
+    for (let i = 0; i < pageHeaders.length; i++) {
+      let pageHeader = pageHeaders[i]
+      if (pageHeader.style.display === 'none') {
+        pageHeader.style.display = 'block'
+      } else {
+        pageHeader.style.display = 'none'
+      }
+    }
+  }
 }
 
 function createDatasetForRecipes() {
