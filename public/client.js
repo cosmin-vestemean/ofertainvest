@@ -1474,7 +1474,7 @@ export function init() {
     li.appendChild(a)
     themesUl.appendChild(li)
   }
-  //add event listener 
+  //add event listener
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
     console.log('theme', theme)
@@ -1500,7 +1500,7 @@ export function init() {
     link.rel = 'stylesheet'
     link.href = theme + '.css'
     document.head.appendChild(link)
-    console.log('Theme changed to:', theme);
+    console.log('Theme changed to:', theme)
   }
 
   //zenView
@@ -1610,7 +1610,9 @@ class myTable extends LitElement {
       var tbody = document.getElementById('tbody_' + this.tableId) || document.createElement('tbody')
       tbody.id = 'tbody_' + this.tableId
       tbody.classList.add('table-group-divider')
-      table.appendChild(thead)
+      if (theadIsSet) {
+        table.appendChild(thead)
+      }
       table.appendChild(tbody)
       //create a way to handle column visibility
       //1. create a hidden div with id = table_menu_content
