@@ -1501,6 +1501,9 @@ export function init() {
     link.href = theme + '.css'
     document.head.appendChild(link)
     console.log('Theme changed to:', theme);
+    //navbarDropdownMenuLinkThemes caption is the selected theme
+    let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
+    navbarDropdownMenuLinkThemes.textContent = theme
   }
 
   //zenView
