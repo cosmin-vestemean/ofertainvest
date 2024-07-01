@@ -1472,11 +1472,10 @@ export function init() {
     li.appendChild(a)
     themesUl.appendChild(li)
   }
-  //add event listener to themesUl
+  //add event listener 
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
     console.log('theme', theme)
-    //change theme
     changeTheme(theme)
   })
 
