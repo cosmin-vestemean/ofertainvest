@@ -47,7 +47,7 @@ async function connectToS1Service() {
   return result
 }
 
-var extra_nivele_count = 0
+var extra_niveluri_count = 0
 var original_ds = []
 var compacted_ds = []
 var optimal_ds = []
@@ -77,7 +77,7 @@ var ds_antemasuratori = []
   }
 ] */
 var trees = []
-var nivele = []
+var niveluri = []
 var _nivel_oferta = 'NIVEL_OFERTA_'
 var _nivel_cantitate_articol_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
@@ -89,7 +89,7 @@ var WBSMap = []
 var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
-var nivele = []
+var niveluri = []
 const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
@@ -156,11 +156,11 @@ function loadDataFromFile(evt) {
 
     var delimiter = '~~~~~~~~~~~~~~~'
     var result = creazaIerarhii(optimal_ds, delimiter)
-    nivele = result.nivele
+    niveluri = result.niveluri
     var combinatii_unice_as_str = result.combinatii_unice_as_str
     combinatii_unice = result.combinatii_unice
 
-    populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter)
+    populateSelect(niveluri, combinatii_unice_as_str, optimal_ds, delimiter)
 
     createGraphs(combinatii_unice)
   }
@@ -231,28 +231,28 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
   let keys = Object.keys(optimal_ds[0])
   keys.forEach(function (key) {
     if (key.includes(_nivel_oferta)) {
-      nivele.push(key)
+      niveluri.push(key)
     }
   })
 
-  console.log('nivele detectate', nivele)
+  console.log('niveluri detectate', niveluri)
 
   //scan optimal_ds and create distinct combinations of values for combo NIVEL_OFERTA_1, NIVEL_OFERTA_2, NIVEL_OFERTA_3 ... NIVEL_OFERTA_N
-  var all_combos_for_nivele = []
+  var all_combos_for_niveluri = []
   optimal_ds.forEach(function (object) {
     var combo = []
-    nivele.forEach(function (nivel) {
+    niveluri.forEach(function (nivel) {
       //if trimmed object[nivel] is not empty add it to combo
       if (object[nivel] && object[nivel].trim()) combo.push(object[nivel])
     })
-    all_combos_for_nivele.push(combo)
+    all_combos_for_niveluri.push(combo)
   })
 
-  //console.log("all_combos_for_nivele", all_combos_for_nivele);
+  //console.log("all_combos_for_niveluri", all_combos_for_niveluri);
 
-  //remove duplicates from all_combos_for_nivele
+  //remove duplicates from all_combos_for_niveluri
   var combinatii_unice_as_str = []
-  all_combos_for_nivele.forEach(function (combo) {
+  all_combos_for_niveluri.forEach(function (combo) {
     const combo_str = combo.join(delimiter)
     if (!combinatii_unice_as_str.includes(combo_str)) {
       combinatii_unice_as_str.push(combo_str)
@@ -268,10 +268,10 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
 
   //console.log("combinatii_unice", combinatii_unice);
 
-  return { nivele, combinatii_unice_as_str, combinatii_unice }
+  return { niveluri, combinatii_unice_as_str, combinatii_unice }
 }
 
-function populateSelect(nivele, combinatii_unice_as_str, optimal_ds, delimiter) {
+function populateSelect(niveluri, combinatii_unice_as_str, optimal_ds, delimiter) {
   //add combinatii_unice_as_str to select id="ierarchii"
   var select = document.getElementById('ierarhii')
   //add default option
@@ -318,7 +318,7 @@ function filterOptimalDs(selected_option, optimal_ds, delimiter) {
   //filter optimal_ds by selected option and display it in table
   optimal_ds.forEach(function (object) {
     var combo = []
-    nivele.forEach(function (nivel) {
+    niveluri.forEach(function (nivel) {
       if (object[nivel]) combo.push(object[nivel])
     })
     if (combo.join(delimiter) == selected_option) {
@@ -1346,7 +1346,7 @@ export function init() {
     console.log('recipes_ds', recipes_ds)
     console.log('instanteRetete', ds_instanteRetete)
     console.log('trees', trees)
-    console.log('nivele', nivele)
+    console.log('niveluri', niveluri)
     ds_antemasuratori = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
@@ -1358,13 +1358,14 @@ export function init() {
         console.log('Reteta cu id ', ds_instanteRetete[i].duplicateOf + ' nu a fost gasita')
         continue
       }
+      console.log('reteta', reteta)
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
-        var nivele_activitate = []
-        for (let m = 0; m < nivele.length; m++) {
-          nivele_activitate.push(activitate[nivele[m]])
+        var niveluri_activitate = []
+        for (let m = 0; m < niveluri.length; m++) {
+          niveluri_activitate.push(activitate[niveluri[m]])
         }
-        console.log('nivele_activitate', nivele_activitate)
+        console.log('niveluri_activitate', niveluri_activitate)
         var temps = []
         for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
@@ -1372,13 +1373,13 @@ export function init() {
             var branch = tree[l]
             console.log('branch', branch)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
-            if (checker(branch, nivele_activitate) === true) {
+            if (checker(branch, niveluri_activitate) === true) {
               console.log('accepted branch', branch)
               temps.push(branch)
             }
           }
         }
-        //pastreaza doar nivelele cele mai lungi
+        //pastreaza doar nivelurile cele mai lungi
         if (temps.length > 1) {
           temps = temps.filter((a) => a.length === Math.max(...temps.map((a) => a.length)))
         }
@@ -1395,8 +1396,8 @@ export function init() {
             SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
           }
           for (let o = 0; o < temps[n].length; o++) {
-            if (o < nivele.length) {
-              activit[nivele[o]] = temps[n][o]
+            if (o < niveluri.length) {
+              activit[niveluri[o]] = temps[n][o]
             } else {
               activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
             }
@@ -1828,7 +1829,7 @@ class Recipe extends LitElement {
           virtual: false,
           level: level
         }
-        //adauga nivele oferta/antemasuratori
+        //adauga niveluri oferta/antemasuratori
         for (let [key, value] of Object.entries(mainActivity.object)) {
           if (key.includes(_nivel_oferta)) {
             activitateNoua.object[key] = value
@@ -2530,7 +2531,7 @@ function createTreesFromWBS(ds) {
 
   console.log('maxLevels', maxLevels)
 
-  //sunt maxLevels nivele in tree
+  //sunt maxLevels niveluri in tree
   //pornind de la primul nivel, pentru fiecare nivel, creeaza un array cu toate nodurile unice de pe acel nivel
   let trees = []
   for (let i = 0; i < maxLevels; i++) {
