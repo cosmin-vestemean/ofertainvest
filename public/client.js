@@ -1587,7 +1587,6 @@ class myTable extends LitElement {
           th.style.writingMode = 'vertical-rl'
           th.style.rotate = '180deg'
           th.innerHTML = key
-          th.style.textTransform = 'capitalize'
           tr.appendChild(th)
         }
       } else {
@@ -1607,7 +1606,6 @@ class myTable extends LitElement {
         for (var key in object) {
           var td = document.createElement('td')
           td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
-          td.style.textTransform = 'capitalize'
           tr.appendChild(td)
         }
       })
