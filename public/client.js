@@ -1463,6 +1463,7 @@ export function init() {
       link.href = 'solar.css'
       document.head.appendChild(link)
     }
+    document.body.appendChild(btn)
 
 }
 
