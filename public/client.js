@@ -1417,8 +1417,9 @@ export function init() {
                 var values2 = Object.values(o2)
                 var checker = (arr, target) => target.every((v) => arr.includes(v))
                 if (checker(keys2, keys) === true && checker(values2, values) === true) {
+                  console.log('remove', o, 'beacause of', o2)
                   temps.splice(n, 1)
-                
+                }
               }
             }
           }
