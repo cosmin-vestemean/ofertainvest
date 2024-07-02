@@ -1402,7 +1402,7 @@ export function init() {
             var temp = temps[n]
             var o = {}
             for (let m = 0; m < temp.length; m++) {
-              if (o[niveluri[m]] === undefined) {
+              if (niveluri[m] === undefined) {
                 //create property
                 var spl = o[niveluri[m -1]].split('_')
                 var last = spl[spl.length - 1]
@@ -1416,7 +1416,7 @@ export function init() {
               var temp2 = temps[p]
               var o2 = {}
               for (let q = 0; q < temp2.length; q++) {
-                if (o2[niveluri[q]] === undefined) {
+                if (niveluri[q] === undefined) {
                   //create property
                   var spl = o2[niveluri[q -1]].split('_')
                   var last = spl[spl.length - 1]
