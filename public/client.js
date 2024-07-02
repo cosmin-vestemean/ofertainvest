@@ -1406,7 +1406,7 @@ export function init() {
                 //create property
                 var spl = niveluri[m -1].split('_')
                 var last = spl[spl.length - 1]
-                var new_key = _nivel_oferta + '_' + last
+                var new_key = _nivel_oferta + last + 1
                 o[new_key] = temp[m]
               } else {
               o[niveluri[m]] = temp[m]
@@ -1420,7 +1420,7 @@ export function init() {
                   //create property
                   var spl = niveluri[q -1].split('_')
                   var last = spl[spl.length - 1]
-                  var new_key = _nivel_oferta + '_' + last
+                  var new_key = _nivel_oferta + last + 1
                   o2[new_key] = temp2[q]
                 } else {
                 o2[niveluri[q]] = temp2[q]}
