@@ -1395,9 +1395,9 @@ export function init() {
           }
         }
         //pastreaza doar nivelurile cele mai lungi
-        if (temps.length > 1) {
+        /* if (temps.length > 1) {
           temps = temps.filter((a) => a.length === Math.max(...temps.map((a) => a.length)))
-        }
+        } */
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
           var activit = {
