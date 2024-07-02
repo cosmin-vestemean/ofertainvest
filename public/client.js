@@ -1394,23 +1394,25 @@ export function init() {
             }
           }
         }
-        //pastreaza doar nivelurile care nu se ragasesc in alta pozitie cu mai multe niveluri
+        //remove redundant branches
+        //de ex, daca gasesct ['Constructii', 'Exterioare']; ['Constructii', 'Exterioare', 'P1']; ['Constructii', 'Exterioare', 'P1', 'P1.1']
+        //pastrez doar ['Constructii', 'Exterioare', 'P1', 'P1.1'], restul este redundant
         if (temps.length > 1) {
-          var temp = []
           for (let n = 0; n < temps.length; n++) {
-            var found = false
             for (let o = 0; o < temps.length; o++) {
               if (n !== o) {
-                if (temps[n].includes(temps[o][0])) {
-                  found = true
+                if (temps[n].length > temps[o].length) {
+                  if (temps[n].every((v, i) => v === temps[o][i])) {
+                    temps.splice(n, 1)
+                  }
+                } else {
+                  if (temps[o].every((v, i) => v === temps[n][i])) {
+                    temps.splice(o, 1)
+                  }
                 }
               }
             }
-            if (!found) {
-              temp.push(temps[n])
-            }
           }
-          temps = temp
         }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
