@@ -1399,17 +1399,26 @@ export function init() {
         //pastrez doar ['Constructii', 'Exterioare', 'P1', 'P1.1'], restul este redundant
         if (temps.length > 1) {
           for (let n = 0; n < temps.length; n++) {
-            for (let o = 0; o < temps.length; o++) {
-              if (n !== o) {
-                if (temps[n].length > temps[o].length) {
-                  if (temps[n].every((v, i) => v === temps[o][i])) {
-                    temps.splice(n, 1)
-                  }
-                } else {
-                  if (temps[o].every((v, i) => v === temps[n][i])) {
-                    temps.splice(o, 1)
-                  }
-                }
+            var temp = temps[n]
+            var o = {}
+            for (let m = 0; m < temp.length; m++) {
+              o[niveluri[m]] = temp[m]
+            }
+            for (let p = n + 1; p < temps.length; p++) {
+              var temp2 = temps[p]
+              var o2 = {}
+              for (let q = 0; q < temp2.length; q++) {
+                o2[niveluri[q]] = temp2[q]
+              }
+              if (Object.keys(o).length < Object.keys(o2).length) {
+                var keys = Object.keys(o)
+                var values = Object.values(o)
+                var keys2 = Object.keys(o2)
+                var values2 = Object.values(o2)
+                var checker = (arr, target) => target.every((v) => arr.includes(v))
+                if (checker(keys2, keys) === true && checker(values2, values) === true) {
+                  temps.splice(n, 1)
+                
               }
             }
           }
