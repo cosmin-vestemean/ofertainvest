@@ -1404,7 +1404,7 @@ export function init() {
             for (let m = 0; m < temp.length; m++) {
               if (niveluri[m] === undefined) {
                 //create property
-                var spl = o[niveluri[m -1]].split('_')
+                var spl = niveluri[m -1].split('_')
                 var last = spl[spl.length - 1]
                 var new_key = _nivel_oferta + '_' + last
                 o[new_key] = temp[m]
@@ -1418,7 +1418,7 @@ export function init() {
               for (let q = 0; q < temp2.length; q++) {
                 if (niveluri[q] === undefined) {
                   //create property
-                  var spl = o2[niveluri[q -1]].split('_')
+                  var spl = niveluri[q -1].split('_')
                   var last = spl[spl.length - 1]
                   var new_key = _nivel_oferta + '_' + last
                   o2[new_key] = temp2[q]
