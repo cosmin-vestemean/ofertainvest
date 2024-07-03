@@ -1587,12 +1587,14 @@ export function init() {
         //find reteta
         let locate = recipes_ds.find((o) => o.id === pointerToReteta)
         //get reteta
-        let reteta = locate.reteta.map((o) => o.object)
+        let reteta = locate.reteta
         reteta.forEach((activitate) => {
-          let chidren = activitate.children
-          chidren.forEach((child) => {
-            listaMateriale.push(child)
-          })
+          if (activitate.children && activitate.children.length > 0) {
+            let chidren = activitate.children
+            chidren.forEach((child) => {
+              listaMateriale.push(child)
+            })
+          }
         })
       })
     }
