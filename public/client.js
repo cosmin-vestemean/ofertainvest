@@ -1468,15 +1468,15 @@ export function init() {
     //sort ds_antemasuratori by DENUMIRE_ARTICOL_OFERTA and then by niveluri
     ds_antemasuratori.sort((a, b) => {
       if (a.DENUMIRE_ARTICOL_OFERTA < b.DENUMIRE_ARTICOL_OFERTA) {
-        return -1
-      } else if (a.DENUMIRE_ARTICOL_OFERTA > b.DENUMIRE_ARTICOL_OFERTA) {
         return 1
+      } else if (a.DENUMIRE_ARTICOL_OFERTA > b.DENUMIRE_ARTICOL_OFERTA) {
+        return -1
       } else {
         for (let i = 0; i < niveluri.length; i++) {
           if (a[niveluri[i]] < b[niveluri[i]]) {
-            return -1
-          } else if (a[niveluri[i]] > b[niveluri[i]]) {
             return 1
+          } else if (a[niveluri[i]] > b[niveluri[i]]) {
+            return -1
           } else {
             continue
           }
