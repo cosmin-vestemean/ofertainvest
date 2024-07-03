@@ -1592,6 +1592,7 @@ export function init() {
         })
       })
     }
+    //display listaMateriale in my_table1
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
