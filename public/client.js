@@ -1584,7 +1584,6 @@ export function init() {
       ds_instanteRetete.forEach((o) => {
         let reteta = o.reteta
         reteta.forEach((activitate) => {
-          let activitate = activitate.object
           let chidren = activitate.children
           chidren.forEach((child) => {
             listaMateriale.push(child)
