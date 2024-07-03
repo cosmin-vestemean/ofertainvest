@@ -1457,7 +1457,7 @@ export function init() {
             } else {
               activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
               //push to niveluri too
-              niveluri.push(_nivel_oferta + (o + 1).toString())
+              //niveluri.push(_nivel_oferta + (o + 1).toString())
             }
           }
           ds_antemasuratori.push(activit)
