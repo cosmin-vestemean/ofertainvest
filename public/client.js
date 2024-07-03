@@ -1483,6 +1483,9 @@ export function init() {
           if (a[niveluri[i]] > b[niveluri[i]]) {
             return 1
           }
+          if (a[niveluri[i]] === b[niveluri[i]]) {
+            return 0
+          }
         }
       }
     })
