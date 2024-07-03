@@ -1470,20 +1470,20 @@ export function init() {
     //sort ds_antemasuratori by DENUMIRE_ARTICOL_OFERTA and then by niveluri
     ds_antemasuratori.sort((a, b) => {
       if (a.DENUMIRE_ARTICOL_OFERTA < b.DENUMIRE_ARTICOL_OFERTA) {
-        return 1
-      } else if (a.DENUMIRE_ARTICOL_OFERTA > b.DENUMIRE_ARTICOL_OFERTA) {
         return -1
-      } else {
+      }
+      if (a.DENUMIRE_ARTICOL_OFERTA > b.DENUMIRE_ARTICOL_OFERTA) {
+        return 1
+      }
+      if (a.DENUMIRE_ARTICOL_OFERTA === b.DENUMIRE_ARTICOL_OFERTA) {
         for (let i = 0; i < niveluri.length; i++) {
           if (a[niveluri[i]] < b[niveluri[i]]) {
-            return 1
-          } else if (a[niveluri[i]] > b[niveluri[i]]) {
             return -1
-          } else {
-            continue
+          }
+          if (a[niveluri[i]] > b[niveluri[i]]) {
+            return 1
           }
         }
-        return 0
       }
     })
 
