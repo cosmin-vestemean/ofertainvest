@@ -1407,7 +1407,7 @@ export function init() {
                 var new_key = _nivel_oferta + (m + 1).toString()
                 o[new_key] = temp[m]
               } else {
-              o[niveluri[m]] = temp[m]
+                o[niveluri[m]] = temp[m]
               }
             }
             for (let p = n + 1; p < temps.length; p++) {
@@ -1419,7 +1419,8 @@ export function init() {
                   var new_key = _nivel_oferta + (q + 1).toString()
                   o2[new_key] = temp2[q]
                 } else {
-                o2[niveluri[q]] = temp2[q]}
+                  o2[niveluri[q]] = temp2[q]
+                }
               }
               if (Object.keys(o).length < Object.keys(o2).length) {
                 var keys = Object.keys(o)
@@ -1516,7 +1517,7 @@ export function init() {
     li.appendChild(a)
     themesUl.appendChild(li)
   }
-  //add event listener 
+  //add event listener
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
     console.log('theme', theme)
@@ -1542,7 +1543,7 @@ export function init() {
     link.rel = 'stylesheet'
     link.href = theme + '.css'
     document.head.appendChild(link)
-    console.log('Theme changed to:', theme);
+    console.log('Theme changed to:', theme)
     //navbarDropdownMenuLinkThemes caption is the selected theme
     let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
     navbarDropdownMenuLinkThemes.textContent = theme
@@ -1573,6 +1574,29 @@ export function init() {
     } else {
       document.documentElement.requestFullscreen()
     }
+  }
+
+  //listaMateriale: get all children from instantele retete and display them in my_table1
+  let listaMateriale = document.getElementById('listaMateriale')
+  listaMateriale.onclick = function () {
+    let listaMateriale = []
+    if (ds_instanteRetete && ds_instanteRetete.length > 0) {
+      ds_instanteRetete.forEach((o) => {
+        let reteta = o.reteta
+        reteta.forEach((activitate) => {
+          let activitate = activitate.object
+          let chidren = activitate.children
+          chidren.forEach((child) => {
+            listaMateriale.push(child)
+          })
+        })
+      })
+    }
+    my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table1.style.display = 'block'
+    my_table1.ds = listaMateriale
   }
 }
 
