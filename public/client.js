@@ -1398,6 +1398,7 @@ export function init() {
         //de ex, daca gasesct ['Constructii', 'Exterioare']; ['Constructii', 'Exterioare', 'P1']; ['Constructii', 'Exterioare', 'P1', 'P1.1']
         //pastrez doar ['Constructii', 'Exterioare', 'P1', 'P1.1'], restul este redundant
         if (temps.length > 1) {
+          let tempsToBeRemoved = []
           for (let n = 0; n < temps.length; n++) {
             var temp = temps[n]
             var o = {}
@@ -1410,7 +1411,6 @@ export function init() {
                 o[niveluri[m]] = temp[m]
               }
             }
-            let tempsToBeRemoved = []
             for (let p = n + 1; p < temps.length; p++) {
               var temp2 = temps[p]
               var o2 = {}
