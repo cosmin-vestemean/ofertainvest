@@ -1592,7 +1592,19 @@ export function init() {
           if (activitate.children && activitate.children.length > 0) {
             let chidren = activitate.children
             chidren.forEach((child) => {
-              listaMateriale.push(child)
+              let o = child.object
+              let material = {
+                DENUMIRE_ARTICOL_OFERTA: o.DENUMIRE_ARTICOL_OFERTA,
+                CANTITATE_ARTICOL_OFERTA: o.CANTITATE_ARTICOL_OFERTA,
+                UM_ARTICOL_OFERTA: o.UM_ARTICOL_OFERTA,
+              }
+              //check in listaMateriale if material already exists by denumire and um criteria; if yes, add CANTITATE_ARTICOL_OFERTA, else add material to listaMateriale
+              let found = listaMateriale.find((m) => m.DENUMIRE_ARTICOL_OFERTA === material.DENUMIRE_ARTICOL_OFERTA && m.UM_ARTICOL_OFERTA === material.UM_ARTICOL_OFERTA)
+              if (found) {
+                found.CANTITATE_ARTICOL_OFERTA += material.CANTITATE_ARTICOL_OFERTA
+              } else {
+                listaMateriale.push(material)
+              }
             })
           }
         })
