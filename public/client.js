@@ -1582,7 +1582,12 @@ export function init() {
     let listaMateriale = []
     if (ds_instanteRetete && ds_instanteRetete.length > 0) {
       ds_instanteRetete.forEach((o) => {
-        let reteta = o.reteta
+        //get pointer to reteta
+        let pointerToReteta = o.duplicateOf
+        //find reteta
+        let locate = recipes_ds.find((o) => o.id === pointerToReteta)
+        //get reteta
+        let reteta = locate.reteta
         reteta.forEach((activitate) => {
           let chidren = activitate.children
           chidren.forEach((child) => {
