@@ -1410,6 +1410,7 @@ export function init() {
                 o[niveluri[m]] = temp[m]
               }
             }
+            let tempsToBeRemoved = []
             for (let p = n + 1; p < temps.length; p++) {
               var temp2 = temps[p]
               var o2 = {}
@@ -1430,12 +1431,13 @@ export function init() {
                 var checker = (arr, target) => target.every((v) => arr.includes(v))
                 if (checker(keys2, keys) === true && checker(values2, values) === true) {
                   console.log('remove', o, 'beacause of', o2)
-                  temps.splice(n, 1)
+                  tempsToBeRemoved.push(n)
                   break
                 }
               }
             }
           }
+          temps = temps.filter((o, index) => !tempsToBeRemoved.includes(index))
         }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
