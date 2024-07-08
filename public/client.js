@@ -1116,9 +1116,9 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
       })
       //if all children are SUBARTICOL/MATERIAL then I'm interested in activity
       //set CANTITATE_UNITARA_ARTICOL_RETETA=1, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA=1 and PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
-      activitate.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-      activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-      activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+      activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+      activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+      activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
       //these children gets CANTITATE_UNITARA_ARTICOL_RETETA = sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current children)/sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current activity)
       let instante = ds_instanteRetete.filter((o) => o.duplicateOf === id)
       activityInstante = instante.filter((o) => o.WBS === activitate.WBS)
