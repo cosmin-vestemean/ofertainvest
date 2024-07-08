@@ -1993,7 +1993,10 @@ class Recipe extends LitElement {
             CANTITATE_ARTICOL_OFERTA: 0,
             UM_ARTICOL_OFERTA: '',
             TIP_ARTICOL_OFERTA: '',
-            SUBTIP_ARTICOL_OFERTA: ''
+            SUBTIP_ARTICOL_OFERTA: '',
+            CANTITATE_UNITARA_ARTICOL_RETETA: 1,
+            PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: 1,
+            PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: 1
           },
           children: [],
           hasChildren: false,
@@ -3022,12 +3025,18 @@ Activitate 1183.7.18.23.L
       if (childrenEndsWithL.length > 0) {
         activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
+          child.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          child.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+          child.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           nr++
           newActivitateInReteta.nr = nr
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
+          child.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          child.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
+          child.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
           newActivitateInReteta.children.push(child)
           newActivitateInReteta.isMain = false
           reteta.push(newActivitateInReteta)
