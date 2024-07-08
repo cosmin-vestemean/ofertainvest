@@ -1081,6 +1081,58 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   recipes_ds = rez.retete
   ds_instanteRetete = rez.instanteRetete
 
+  //recipes_ds:
+  //loop through activities with TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL'
+  //current activity gets CANTITATE_UNITARA_ARTICOL_RETETA=1, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA=1 and PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1 if ALL its children are SUBARTICOL - MATERIAL
+  //these children gets CANTITATE_UNITARA_ARTICOL_RETETA = sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current children)/sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current activity)
+
+  //check if activity has ARTICOL/PRINCIAPAL attributes
+  //if yes then check if all children are SUBARTICOL/MATERIAL
+  recipes_ds.forEach((o) => {
+    let reteta = o.reteta
+    let id = o.id
+    //let activitati1 = reteta.object with TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL'
+    let activitati1 = reteta.filter((o) => o.TIP_ARTICOL === 'ARTICOL' && o.SUBTIP_ARTICOL === 'PRINCIPAL')
+    activitati1.forEach((activitate) => {
+      let children = activitate.children && activitate.children.length ? activitate.children : []
+
+      children.forEach((child) => {
+        //if child is not SUBARTICOL/MATERIAL (lowercase) then I'm not interested in activity
+        if (
+          child.SUBTIP_ARTICOL.toLowerCase() !== 'subarticol' &&
+          child.SUBTIP_ARTICOL.toLowerCase() !== 'material'
+        ) {
+          return
+        }
+      })
+      //if all children are SUBARTICOL/MATERIAL then I'm interested in activity
+      //set CANTITATE_UNITARA_ARTICOL_RETETA=1, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA=1 and PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+      activitate.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+      activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+      activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+      //these children gets CANTITATE_UNITARA_ARTICOL_RETETA = sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current children)/sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current activity)
+      let instante = ds_instanteRetete.filter((o) => o.duplicateOf === id)
+      activityInstante = instante.filter((o) => o.WBS === activitate.WBS)
+      console.log('activityInstante', activityInstante)
+      let sumCantitateArticolOferta_Activitate = 0
+      activityInstante.forEach((instanta) => {
+        sumCantitateArticolOferta_Activitate += instanta.CANTITATE_ARTICOL_OFERTA
+      })
+      children.forEach((child) => {
+        let sumCantitateArticolOferta_Copii = 0
+        //find children in activityInstante.chidren with WBS = child.WBS
+        activityInstante.forEach((instanta) => {
+          let chidrenInstanta = instanta.children.filter((o) => o.WBS === child.WBS)
+          chidrenInstanta.forEach((childInstanta) => {
+            sumCantitateArticolOferta_Copii += childInstanta.CANTITATE_ARTICOL_OFERTA
+          })
+        })
+        child.CANTITATE_UNITARA_ARTICOL_RETETA =
+          sumCantitateArticolOferta_Copii / sumCantitateArticolOferta_Activitate
+      })
+    })
+  })
+
   //hide table1
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
@@ -1601,10 +1653,14 @@ export function init() {
               let material = {
                 DENUMIRE_ARTICOL_OFERTA: o.DENUMIRE_ARTICOL_OFERTA,
                 CANTITATE_ARTICOL_OFERTA: o.CANTITATE_ARTICOL_OFERTA,
-                UM_ARTICOL_OFERTA: o.UM_ARTICOL_OFERTA,
+                UM_ARTICOL_OFERTA: o.UM_ARTICOL_OFERTA
               }
               //check in listaMateriale if material already exists by denumire and um criteria; if yes, add CANTITATE_ARTICOL_OFERTA, else add material to listaMateriale
-              let found = listaMateriale.find((m) => m.DENUMIRE_ARTICOL_OFERTA === material.DENUMIRE_ARTICOL_OFERTA && m.UM_ARTICOL_OFERTA === material.UM_ARTICOL_OFERTA)
+              let found = listaMateriale.find(
+                (m) =>
+                  m.DENUMIRE_ARTICOL_OFERTA === material.DENUMIRE_ARTICOL_OFERTA &&
+                  m.UM_ARTICOL_OFERTA === material.UM_ARTICOL_OFERTA
+              )
               if (found) {
                 found.CANTITATE_ARTICOL_OFERTA += material.CANTITATE_ARTICOL_OFERTA
               } else {
