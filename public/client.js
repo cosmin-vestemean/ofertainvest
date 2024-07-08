@@ -1096,8 +1096,8 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
     //let activitati1 = reteta.filter((o) => o.TIP_ARTICOL === 'ARTICOL' && o.SUBTIP_ARTICOL === 'PRINCIPAL')
     reteta.forEach((activitate) => {
       if (
-        activitate.TIP_ARTICOL.toLowerCase() === 'articol' &&
-        activitate.SUBTIP_ARTICOL.toLowerCase() === 'principal'
+        activitate.object.TIP_ARTICOL.toLowerCase() === 'articol' &&
+        activitate.object.SUBTIP_ARTICOL.toLowerCase() === 'principal'
       ) {
         activitati1.push(activitate)
       }
