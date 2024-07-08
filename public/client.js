@@ -3025,18 +3025,18 @@ Activitate 1183.7.18.23.L
       if (childrenEndsWithL.length > 0) {
         activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
-          child.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          child.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-          child.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           nr++
           newActivitateInReteta.nr = nr
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
-          child.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          child.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
-          child.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
+          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
           newActivitateInReteta.children.push(child)
           newActivitateInReteta.isMain = false
           reteta.push(newActivitateInReteta)
