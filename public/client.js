@@ -3027,7 +3027,7 @@ Activitate 1183.7.18.23.L
         childrenEndsWithL.forEach(function (child) {
           child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
           child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           nr++
           newActivitateInReteta.nr = nr
