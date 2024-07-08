@@ -1108,8 +1108,8 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
       children.forEach((child) => {
         //if child is not SUBARTICOL/MATERIAL (lowercase) then I'm not interested in activity
         if (
-          child.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' &&
-          child.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material'
+          child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' &&
+          child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material'
         ) {
           return
         }
