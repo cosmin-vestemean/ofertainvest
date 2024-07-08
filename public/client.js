@@ -1096,8 +1096,8 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
     //let activitati1 = reteta.filter((o) => o.TIP_ARTICOL === 'ARTICOL' && o.SUBTIP_ARTICOL === 'PRINCIPAL')
     reteta.forEach((activitate) => {
       if (
-        activitate.object.TIP_ARTICOL.toLowerCase() === 'articol' &&
-        activitate.object.SUBTIP_ARTICOL.toLowerCase() === 'principal'
+        activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' &&
+        activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal'
       ) {
         activitati1.push(activitate)
       }
@@ -1108,8 +1108,8 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
       children.forEach((child) => {
         //if child is not SUBARTICOL/MATERIAL (lowercase) then I'm not interested in activity
         if (
-          child.SUBTIP_ARTICOL.toLowerCase() !== 'subarticol' &&
-          child.SUBTIP_ARTICOL.toLowerCase() !== 'material'
+          child.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' &&
+          child.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material'
         ) {
           return
         }
