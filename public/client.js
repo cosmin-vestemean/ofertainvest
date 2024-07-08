@@ -1091,8 +1091,17 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   recipes_ds.forEach((o) => {
     let reteta = o.reteta
     let id = o.id
+    let activitati1 = []
     //let activitati1 = reteta.object with TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL'
-    let activitati1 = reteta.filter((o) => o.TIP_ARTICOL === 'ARTICOL' && o.SUBTIP_ARTICOL === 'PRINCIPAL')
+    //let activitati1 = reteta.filter((o) => o.TIP_ARTICOL === 'ARTICOL' && o.SUBTIP_ARTICOL === 'PRINCIPAL')
+    reteta.forEach((activitate) => {
+      if (
+        activitate.TIP_ARTICOL.toLowerCase() === 'articol' &&
+        activitate.SUBTIP_ARTICOL.toLowerCase() === 'principal'
+      ) {
+        activitati1.push(activitate)
+      }
+    })
     activitati1.forEach((activitate) => {
       let children = activitate.children && activitate.children.length ? activitate.children : []
 
