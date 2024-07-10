@@ -1081,6 +1081,7 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   recipes_ds = rez.retete
   ds_instanteRetete = rez.instanteRetete
 
+  autocompleteRetete_1()
   
   //hide table1
   my_table1.style.display = 'none'
@@ -1093,6 +1094,23 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
     listaRetete.push({ Reteta: o.name })
   })
   my_table2.ds = listaRetete
+
+  function autocompleteRetete_1() {
+/*
+Pentru Articole Principale care au doar Subarticole Material.
+CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1
+PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1 cu avertisment rosu la de pasire max = 1 cand adaug Activitati Noi.
+PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1, editabil.
+CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTITATE_ARTICOL_OFERTA al tuturor instantelor Subarticolului Material impartita la suma CANTITATE_ARTICOL_OFERTA al tuturor instantelor Articolului Principal (Activitate), pentru fiecare Subarticol.
+*/
+//1. loop through recipes_ds
+//2. loop through reteta's activities (reteta.object)
+//3. find TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL' (lowercase)
+//4. loop through reteta.object's children and skip if TIP_ARTICOL <> 'SUBARTICOL' and SUBTIP_ARTICOL <> 'MATERIAL' (lowercase)
+//5. if all children are SUBARTICOL MATERIAL then set CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+//6. set PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+//7. set PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+  }
 }
 
 //add onload event to window
@@ -2827,7 +2845,7 @@ function createTreesFromWBS(ds) {
   for (let i = 0; i < retete.length; i++) {
     let reteta = retete[i].reteta
     for (let j = 0; j < reteta.length; j++) {
-      let object = reteta[j]
+      let object = reteta[j].object
       object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
       object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
       object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
