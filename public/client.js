@@ -1132,7 +1132,7 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
           if (!isMaterial) {
             return
           } else {
-            activitate.object.CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1
+            activitate.object.CANTITATE_UNITARA_RETETA = 1
             activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
             activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
             children.forEach((child) => {
@@ -1144,7 +1144,7 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
                   //loop through instanceSpecifics and find by WBS parent and sum their CANTITATE_ARTICOL_OFERTA
                   let foundParent = instance.instanceSpecifics.find((o) => o.object.WBS === parent)
                   if (foundParent) {
-                    sum_parent += foundParent.CANTITATE_ARTICOL_OFERTA
+                    sum_parent += foundParent.object.CANTITATE_ARTICOL_OFERTA
                     //find by WBS child and sum their CANTITATE_ARTICOL_OFERTA
                     let foundChild = foundParent.children.find((o) => o.WBS === child.object.WBS)
                     if (foundChild) {
@@ -1153,7 +1153,7 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
                   }
                 }
               })
-              child.object.CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = sum_child / sum_parent
+              child.object.CANTITATE_UNITARA_ARTICOL_RETETA = sum_child / sum_parent
             })
           }
         }
