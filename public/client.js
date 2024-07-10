@@ -1129,12 +1129,12 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
               isSubarticolMaterial = false
             }
             if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'material' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') {
-              isSubarticolMaterial = true
+              isMaterialPrincipal = true
             }
           })
           //skip if not all children are SUBARTICOL MATERIAL
           if (!isSubarticolMaterial) {
-            if (isSubarticolMaterial) {
+            if (isMaterialPrincipal) {
               activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
               activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
               activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
