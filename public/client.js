@@ -1124,7 +1124,7 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
           let children = activitate.children
           let isMaterial = true
           children.forEach((child) => {
-            if (child.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' || child.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material') {
+            if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material') {
               isMaterial = false
             }
           })
