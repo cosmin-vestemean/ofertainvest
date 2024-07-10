@@ -1122,15 +1122,29 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
       reteta_obj.forEach((activitate) => {
         if (activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' && activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal') {
           let children = activitate.children
-          let isMaterial = true
+          let isSubarticolMaterial = true
+          let isMaterialPrincipal = false
           children.forEach((child) => {
             if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material') {
-              isMaterial = false
+              isSubarticolMaterial = false
+            }
+            if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'material' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') {
+              isSubarticolMaterial = true
             }
           })
           //skip if not all children are SUBARTICOL MATERIAL
-          if (!isMaterial) {
+          if (!isSubarticolMaterial) {
+            if (isSubarticolMaterial) {
+              activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+              activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+              activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+              //let all children have CANTITATE_UNITARA_ARTICOL_RETETA = 1
+              children.forEach((child) => {
+                child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+              })
+            } else {
             return
+            }
           } else {
             activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
             activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
