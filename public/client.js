@@ -1081,67 +1081,7 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   recipes_ds = rez.retete
   ds_instanteRetete = rez.instanteRetete
 
-  //recipes_ds:
-  //loop through activities with TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL'
-  //current activity gets CANTITATE_UNITARA_ARTICOL_RETETA=1, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA=1 and PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1 if ALL its children are SUBARTICOL - MATERIAL
-  //these children gets CANTITATE_UNITARA_ARTICOL_RETETA = sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current children)/sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current activity)
-
-  //check if activity has ARTICOL/PRINCIAPAL attributes
-  //if yes then check if all children are SUBARTICOL/MATERIAL
-  recipes_ds.forEach((o) => {
-    let reteta = o.reteta
-    let id = o.id
-    let activitati1 = []
-    //let activitati1 = reteta.object with TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL'
-    //let activitati1 = reteta.filter((o) => o.TIP_ARTICOL === 'ARTICOL' && o.SUBTIP_ARTICOL === 'PRINCIPAL')
-    reteta.forEach((activitate) => {
-      if (
-        activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' &&
-        activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal'
-      ) {
-        activitati1.push(activitate)
-      }
-    })
-    activitati1.forEach((activitate) => {
-      let children = activitate.children && activitate.children.length ? activitate.children : []
-
-      children.forEach((child) => {
-        //if child is not SUBARTICOL/MATERIAL (lowercase) then I'm not interested in activity
-        if (
-          child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' &&
-          child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material'
-        ) {
-          return
-        }
-      })
-      //if all children are SUBARTICOL/MATERIAL then I'm interested in activity
-      //set CANTITATE_UNITARA_ARTICOL_RETETA=1, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA=1 and PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
-      activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-      activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-      activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
-      //these children gets CANTITATE_UNITARA_ARTICOL_RETETA = sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current children)/sum(instanteReteta.CANTITATE_ARTICOL_OFERTA for current activity)
-      let instante = ds_instanteRetete.filter((o) => o.duplicateOf === id)
-      let activityInstante = instante.filter((o) => o.WBS === activitate.WBS)
-      console.log('activityInstante', activityInstante)
-      let sumCantitateArticolOferta_Activitate = 0
-      activityInstante.forEach((instanta) => {
-        sumCantitateArticolOferta_Activitate += instanta.CANTITATE_ARTICOL_OFERTA
-      })
-      children.forEach((child) => {
-        let sumCantitateArticolOferta_Copii = 0
-        //find children in activityInstante.chidren with WBS = child.WBS
-        activityInstante.forEach((instanta) => {
-          let chidrenInstanta = instanta.children.filter((o) => o.WBS === child.WBS)
-          chidrenInstanta.forEach((childInstanta) => {
-            sumCantitateArticolOferta_Copii += childInstanta.CANTITATE_ARTICOL_OFERTA
-          })
-        })
-        child.CANTITATE_UNITARA_ARTICOL_RETETA =
-          sumCantitateArticolOferta_Copii / sumCantitateArticolOferta_Activitate
-      })
-    })
-  })
-
+  
   //hide table1
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
