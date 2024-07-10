@@ -1132,7 +1132,7 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
           if (!isMaterial) {
             return
           } else {
-            activitate.object.CANTITATE_UNITARA_RETETA = 1
+            activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
             activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
             activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
             children.forEach((child) => {
