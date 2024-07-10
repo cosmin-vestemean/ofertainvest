@@ -1146,9 +1146,9 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
                   if (foundParent) {
                     sum_parent += foundParent.object.CANTITATE_ARTICOL_OFERTA
                     //find by WBS child and sum their CANTITATE_ARTICOL_OFERTA
-                    let foundChild = foundParent.children.find((o) => o.WBS === child.object.WBS)
+                    let foundChild = foundParent.children.find((o) => o.object.WBS === child.object.WBS)
                     if (foundChild) {
-                      sum_child += foundChild.CANTITATE_ARTICOL_OFERTA
+                      sum_child += foundChild.object.CANTITATE_ARTICOL_OFERTA
                     }
                   }
                 }
