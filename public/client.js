@@ -3049,9 +3049,13 @@ function adaugaInReteta(reteta, related) {
     newObj1.level = newObj1.branch.length
     newObj1.virtual = true
     newObj1.hasChildren = false
+    newObj1.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
     newObj2.children = []
     newObj2.children.push(newObj1)
     newObj2.object.old_WBS = ''
+    newObj2.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+    newObj2.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+    newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
     newObj2.hasChildren = true
     newObj2.branch = related[i].WBS.split('.')
     newObj2.level = newObj2.branch.length
