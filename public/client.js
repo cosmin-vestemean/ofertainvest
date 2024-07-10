@@ -3197,14 +3197,12 @@ function eleminateDuplicates(data) {
     }
   }
 
-  console.log('instanteRetete', instanteRetete)
-
   //remove property reteta from instanteRetete, it will have just the pointer to the original reteta
   instanteRetete.forEach(function (obj) {
+    //clone reteta in instanceSpecifics
+    obj.instanceSpecifics = JSON.parse(JSON.stringify(obj.reteta))
     delete obj.reteta
   })
-
-  console.log('instanteRetete', instanteRetete)
 
   //remove duplicates from innerData
   innerData = innerData.filter((obj) => !obj.toRemove)
