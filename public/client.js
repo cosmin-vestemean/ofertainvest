@@ -1122,29 +1122,15 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
       reteta_obj.forEach((activitate) => {
         if (activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' && activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal') {
           let children = activitate.children
-          let isSubarticolMaterial = true
-          let isMaterialPrincipal = false
+          let isMaterial = true
           children.forEach((child) => {
             if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material') {
-              isSubarticolMaterial = false
-            }
-            if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'material' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') {
-              isMaterialPrincipal = true
+              isMaterial = false
             }
           })
           //skip if not all children are SUBARTICOL MATERIAL
-          if (!isSubarticolMaterial) {
-            if (isMaterialPrincipal) {
-              activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-              activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-              activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
-              //let all children have CANTITATE_UNITARA_ARTICOL_RETETA = 1
-              children.forEach((child) => {
-                child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-              })
-            } else {
+          if (!isMaterial) {
             return
-            }
           } else {
             activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
             activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
@@ -2900,7 +2886,7 @@ function createTreesFromWBS(ds) {
     instanteRetete1 = instanteRetete
   }
 
-  let rez = eleminateDuplicates(instanteRetete1)
+  let rez = eliminateDuplicates(instanteRetete1)
   let retete = rez.retete
   instanteRetete = rez.instanteRetete
 
@@ -3112,18 +3098,24 @@ Activitate 1183.7.18.23.L
       if (childrenEndsWithL.length > 0) {
         activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
-          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+          if (!child.object.CANTITATE_UNITARA_ARTICOL_RETETA)
+            child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          if (!child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
+            child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+          if (!child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
+            child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           nr++
           newActivitateInReteta.nr = nr
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
-          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
-          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+          if (!child.object.CANTITATE_UNITARA_ARTICOL_RETETA)
+            child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          if (!child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
+            child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
+          if (!child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
+            child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
           newActivitateInReteta.children.push(child)
           newActivitateInReteta.isMain = false
           reteta.push(newActivitateInReteta)
@@ -3180,7 +3172,7 @@ function applyFilterChildrenEndsWith0(data) {
   return innerData
 }
 
-function eleminateDuplicates(data) {
+function eliminateDuplicates(data) {
   //choose one reteta, get [reteta.object.DENUMIRE_ARTICOL_OFERTA, reteta.object.UM_ARTICOL_OFERTA, reteta.object.TIP_ARTICOL_OFERTA, reteta.object.SUBTIP_ARTICOL_OFERTA]
   //and his children [reteta.object.children.DENUMIRE_ARTICOL_OFERTA, reteta.object.children.UM_ARTICOL_OFERTA, reteta.object.children.TIP_ARTICOL_OFERTA, reteta.object.children.SUBTIP_ARTICOL_OFERTA]
   //cauta restul retetelor cu aceleasi proprietati si elimina-le
