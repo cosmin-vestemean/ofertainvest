@@ -2895,16 +2895,22 @@ function createTreesFromWBS(ds) {
     let reteta = retete[i].reteta
     for (let j = 0; j < reteta.length; j++) {
       let object = reteta[j].object
-      object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
-      object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
-      object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+      if (!object.CANTITATE_UNITARA_ARTICOL_RETETA)
+        object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
+      if (!object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
+        object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
+      if (!object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
+        object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
       let materiale = reteta[j].children
       //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
       for (let k = 0; k < materiale.length; k++) {
         let material = materiale[k]
-        material.object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
-        material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
-        material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+        if (!material.object.CANTITATE_UNITARA_ARTICOL_RETETA)
+          material.object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
+        if (!material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
+          material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
+        if (!material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
+          material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
       }
     }
   }
@@ -3098,24 +3104,18 @@ Activitate 1183.7.18.23.L
       if (childrenEndsWithL.length > 0) {
         activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
-          if (!child.object.CANTITATE_UNITARA_ARTICOL_RETETA)
-            child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          if (!child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
-            child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-          if (!child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
-            child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           nr++
           newActivitateInReteta.nr = nr
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
-          if (!child.object.CANTITATE_UNITARA_ARTICOL_RETETA)
-            child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          if (!child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
-            child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
-          if (!child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
-            child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
+          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
           newActivitateInReteta.children.push(child)
           newActivitateInReteta.isMain = false
           reteta.push(newActivitateInReteta)
