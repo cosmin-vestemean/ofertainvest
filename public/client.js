@@ -1120,11 +1120,11 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
       let reteta_obj = reteta.reteta
       let duplicateParent = reteta.id
       reteta_obj.forEach((activitate) => {
-        if (activitate.object.TIP_ARTICOL.toLowerCase() === 'articol' && activitate.object.SUBTIP_ARTICOL.toLowerCase() === 'principal') {
+        if (activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' && activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal') {
           let children = activitate.children
           let isMaterial = true
           children.forEach((child) => {
-            if (child.TIP_ARTICOL.toLowerCase() !== 'subarticol' || child.SUBTIP_ARTICOL.toLowerCase() !== 'material') {
+            if (child.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' || child.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material') {
               isMaterial = false
             }
           })
