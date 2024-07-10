@@ -2849,7 +2849,7 @@ function createTreesFromWBS(ds) {
       object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
       object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
       object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
-      let materiale = object.children
+      let materiale = reteta[j].children
       //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
       for (let k = 0; k < materiale.length; k++) {
         let material = materiale[k]
