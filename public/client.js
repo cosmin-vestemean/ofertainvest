@@ -1104,12 +1104,61 @@ PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1, editabil.
 CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTITATE_ARTICOL_OFERTA al tuturor instantelor Subarticolului Material impartita la suma CANTITATE_ARTICOL_OFERTA al tuturor instantelor Articolului Principal (Activitate), pentru fiecare Subarticol.
 */
 //1. loop through recipes_ds
-//2. loop through reteta's activities (reteta.object)
-//3. find TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL' (lowercase)
+//2. loop through every reteta's activities (reteta.object)
+//3. find if activity has TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL' (lowercase), if not skip
 //4. loop through reteta.object's children and skip if TIP_ARTICOL <> 'SUBARTICOL' and SUBTIP_ARTICOL <> 'MATERIAL' (lowercase)
-//5. if all children are SUBARTICOL MATERIAL then set CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+//5. if all children are SUBARTICOL MATERIAL then set CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object, else skip
 //6. set PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
 //7. set PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+//8. for these type of children:
+//9. find by WBS all instances of the parent and sum their CANTITATE_ARTICOL_OFERTA
+//10. find by WBS all instances of the child and sum their CANTITATE_ARTICOL_OFERTA
+//11. set CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = sum_child / sum_parent
+//GO
+
+    recipes_ds.forEach((reteta) => { 
+      let reteta_obj = reteta.reteta
+      let duplicateParent = reteta.id
+      reteta_obj.forEach((activitate) => {
+        if (activitate.object.TIP_ARTICOL.toLowerCase() === 'articol' && activitate.object.SUBTIP_ARTICOL.toLowerCase() === 'principal') {
+          let children = activitate.children
+          let isMaterial = true
+          children.forEach((child) => {
+            if (child.TIP_ARTICOL.toLowerCase() !== 'subarticol' || child.SUBTIP_ARTICOL.toLowerCase() !== 'material') {
+              isMaterial = false
+            }
+          })
+          //skip if not all children are SUBARTICOL MATERIAL
+          if (!isMaterial) {
+            return
+          } else {
+            activitate.object.CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1
+            activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+            activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+            children.forEach((child) => {
+              let parent = activitate.object.WBS
+              let sum_parent = 0
+              let sum_child = 0
+              ds_instanteRetete.forEach((instance) => {
+                if (instance.duplicateOf === duplicateParent) {
+                  //loop through instanceSpecifics and find by WBS parent and sum their CANTITATE_ARTICOL_OFERTA
+                  let foundParent = instance.instanceSpecifics.find((o) => o.object.WBS === parent)
+                  if (foundParent) {
+                    sum_parent += foundParent.CANTITATE_ARTICOL_OFERTA
+                    //find by WBS child and sum their CANTITATE_ARTICOL_OFERTA
+                    let foundChild = foundParent.children.find((o) => o.WBS === child.object.WBS)
+                    if (foundChild) {
+                      sum_child += foundChild.CANTITATE_ARTICOL_OFERTA
+                    }
+                  }
+                }
+              })
+              child.object.CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = sum_child / sum_parent
+            })
+          }
+        }
+      })
+    })
   }
 }
 
