@@ -1082,7 +1082,7 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   ds_instanteRetete = rez.instanteRetete
 
   autocompleteRetete_1()
-  
+
   //hide table1
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
@@ -1096,35 +1096,41 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   my_table2.ds = listaRetete
 
   function autocompleteRetete_1() {
-/*
+    /*
 Pentru Articole Principale care au doar Subarticole Material.
 CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1
 PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1 cu avertisment rosu la de pasire max = 1 cand adaug Activitati Noi.
 PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA. Completat automat cu 1, editabil.
 CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTITATE_ARTICOL_OFERTA al tuturor instantelor Subarticolului Material impartita la suma CANTITATE_ARTICOL_OFERTA al tuturor instantelor Articolului Principal (Activitate), pentru fiecare Subarticol.
 */
-//1. loop through recipes_ds
-//2. loop through every reteta's activities (reteta.object)
-//3. find if activity has TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL' (lowercase), if not skip
-//4. loop through reteta.object's children and skip if TIP_ARTICOL <> 'SUBARTICOL' and SUBTIP_ARTICOL <> 'MATERIAL' (lowercase)
-//5. if all children are SUBARTICOL MATERIAL then set CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object, else skip
-//6. set PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
-//7. set PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
-//8. for these type of children:
-//9. find by WBS all instances of the parent and sum their CANTITATE_ARTICOL_OFERTA
-//10. find by WBS all instances of the child and sum their CANTITATE_ARTICOL_OFERTA
-//11. set CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = sum_child / sum_parent
-//GO
+    //1. loop through recipes_ds
+    //2. loop through every reteta's activities (reteta.object)
+    //3. find if activity has TIP_ARTICOL = 'ARTICOL' and SUBTIP_ARTICOL = 'PRINCIPAL' (lowercase), if not skip
+    //4. loop through reteta.object's children and skip if TIP_ARTICOL <> 'SUBARTICOL' and SUBTIP_ARTICOL <> 'MATERIAL' (lowercase)
+    //5. if all children are SUBARTICOL MATERIAL then set CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object, else skip
+    //6. set PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+    //7. set PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1 in reteta.object
+    //8. for these type of children:
+    //9. find by WBS all instances of the parent and sum their CANTITATE_ARTICOL_OFERTA
+    //10. find by WBS all instances of the child and sum their CANTITATE_ARTICOL_OFERTA
+    //11. set CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA = sum_child / sum_parent
+    //GO
 
-    recipes_ds.forEach((reteta) => { 
+    recipes_ds.forEach((reteta) => {
       let reteta_obj = reteta.reteta
       let duplicateParent = reteta.id
       reteta_obj.forEach((activitate) => {
-        if (activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' && activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal') {
+        if (
+          activitate.object.TIP_ARTICOL_OFERTA.toLowerCase() === 'articol' &&
+          activitate.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() === 'principal'
+        ) {
           let children = activitate.children
           let isMaterial = true
           children.forEach((child) => {
-            if (child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' || child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material') {
+            if (
+              child.object.TIP_ARTICOL_OFERTA.toLowerCase() !== 'subarticol' ||
+              child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() !== 'material'
+            ) {
               isMaterial = false
             }
           })
@@ -2895,12 +2901,10 @@ function createTreesFromWBS(ds) {
     let reteta = retete[i].reteta
     for (let j = 0; j < reteta.length; j++) {
       let object = reteta[j].object
-      if (!object.CANTITATE_UNITARA_ARTICOL_RETETA)
-        object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
+      if (!object.CANTITATE_UNITARA_ARTICOL_RETETA) object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
       if (!object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
         object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
-      if (!object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
-        object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+      if (!object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA) object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
       let materiale = reteta[j].children
       //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
       for (let k = 0; k < materiale.length; k++) {
@@ -3055,7 +3059,16 @@ function adaugaInReteta(reteta, related) {
     newObj2.object.old_WBS = ''
     newObj2.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
     newObj2.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-    newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+    if (
+      (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
+        newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') ||
+      (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
+        newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'manopera')
+    ) {
+      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+    } else {
+      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+    }
     newObj2.hasChildren = true
     newObj2.branch = related[i].WBS.split('.')
     newObj2.level = newObj2.branch.length
