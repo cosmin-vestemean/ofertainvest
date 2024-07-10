@@ -1377,6 +1377,7 @@ export function init() {
       console.log('reteta', reteta)
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
+        var instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
         var niveluri_activitate = []
         for (let m = 0; m < niveluri.length; m++) {
           niveluri_activitate.push(activitate[niveluri[m]])
@@ -1444,7 +1445,7 @@ export function init() {
         for (let n = 0; n < temps.length; n++) {
           var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
-            CANTITATE_ARTICOL_OFERTA: activitate.CANTITATE_ARTICOL_OFERTA,
+            CANTITATE_ARTICOL_OFERTA: instanceSpecifics.CANTITATE_ARTICOL_OFERTA,
             CANTITATE_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
             VARIATII: { OFINIT: [], AMTEMASURATORI: [], FL: [], AFL: [] }, //AFL stocate in aplicatie v. ds_AFL
