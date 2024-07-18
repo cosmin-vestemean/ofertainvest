@@ -182,7 +182,8 @@ function loadDataFromFile(evt) {
     var combinatii_unice_as_str = result.combinatii_unice_as_str
     combinatii_unice = result.combinatii_unice
 
-    populateSelect(niveluri, combinatii_unice_as_str, optimal_ds, delimiter)
+    populateSelect(combinatii_unice_as_str, delimiter)
+    addOnChangeEvt(optimal_ds, delimiter, 'my_table_oferta_initiala')
 
     createGraphs(combinatii_unice)
   }
@@ -202,6 +203,33 @@ function loadDataFromFile(evt) {
   btn_oferta.innerHTML = 'Salveaza oferta initiala ' + dl
   btn_oferta.classList.remove('btn-success')
   btn_oferta.classList.add('btn-danger')
+}
+
+function addOnChangeEvt(ds, delimiter, tableId) {
+  var select = document.getElementById('ierarhii')
+    select.onchange = function () {
+      selected_ds = []
+      if (select.value == '1') {
+        //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        //my-table component
+        document.getElementById(tableId).ds = ds
+        return
+      }
+
+      filterOptimalDs(select.value, ds, delimiter)
+
+      //create table rows
+      if (selected_ds.length > 0) {
+        //pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+        //my-table component
+        document.getElementById(tableId).ds = selected_ds
+      } else {
+        //display a message in table
+        alert('Nu exista date pentru ierarhia selectata')
+      }
+
+      //drawModalDialog(select.value.split(delimiter), selected_ds)
+    }
 }
 
 function removeEmpty(original_ds) {
@@ -293,7 +321,7 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
   return { niveluri, combinatii_unice_as_str, combinatii_unice }
 }
 
-function populateSelect(niveluri, combinatii_unice_as_str, optimal_ds, delimiter) {
+function populateSelect(combinatii_unice_as_str, delimiter) {
   //add combinatii_unice_as_str to select id="ierarchii"
   var select = document.getElementById('ierarhii')
   //add default option
@@ -309,29 +337,6 @@ function populateSelect(niveluri, combinatii_unice_as_str, optimal_ds, delimiter
     //replace delimiter with " -> "
     option.text = combo_str.split(delimiter).join(' - ')
     select.appendChild(option)
-    select.onchange = function () {
-      selected_ds = []
-      if (select.value == '1') {
-        //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-        //my-table component
-        document.getElementById('my_table_oferta_initiala').ds = optimal_ds
-        return
-      }
-
-      filterOptimalDs(select.value, optimal_ds, delimiter)
-
-      //create table rows
-      if (selected_ds.length > 0) {
-        //pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-        //my-table component
-        document.getElementById('my_table_oferta_initiala').ds = selected_ds
-      } else {
-        //display a message in table
-        alert('Nu exista date pentru ierarhia selectata')
-      }
-
-      //drawModalDialog(select.value.split(delimiter), selected_ds)
-    }
   })
 }
 
