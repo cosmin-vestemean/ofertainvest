@@ -1454,7 +1454,7 @@ export function init() {
       }
       console.log('reteta', reteta)
       for (var j = 0; j < reteta.length; j++) {
-        var activitate = reteta[j].object
+        var activitate = reteta[j]
         var instanceSpecifics = null
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
@@ -1464,7 +1464,7 @@ export function init() {
         }
         var niveluri_activitate = []
         for (let m = 0; m < niveluri.length; m++) {
-          niveluri_activitate.push(activitate[niveluri[m]])
+          niveluri_activitate.push(activitate.object[niveluri[m]])
         }
         console.log('niveluri_activitate', niveluri_activitate)
         var temps = []
@@ -1528,14 +1528,13 @@ export function init() {
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
           var activit = {
-            DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
+            DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics.CANTITATE_ARTICOL_OFERTA : 0,
             CANTITATE_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
-            VARIATII: { OFINIT: [], AMTEMASURATORI: [], FL: [], AFL: [] }, //AFL stocate in aplicatie v. ds_AFL
-            UM_ARTICOL_OFERTA: activitate.UM_ARTICOL_OFERTA,
-            TIP_ARTICOL_OFERTA: activitate.TIP_ARTICOL_OFERTA,
-            SUBTIP_ARTICOL_OFERTA: activitate.SUBTIP_ARTICOL_OFERTA
+            UM_ARTICOL_OFERTA: activitate.object.UM_ARTICOL_OFERTA,
+            TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
+            SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
           }
           for (let o = 0; o < temps[n].length; o++) {
             if (o < niveluri.length) {
