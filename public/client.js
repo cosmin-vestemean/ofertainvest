@@ -1456,9 +1456,10 @@ export function init() {
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
         var instanceSpecifics = {}
-        //if ds_instanteRetete[i].instanceSpecifics[j] has object property
-        if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
-          instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
+        if (ds_instanteRetete[i].instanceSpecifics.length < j + 1) {
+          if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
+            instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
+          }
         }
         var niveluri_activitate = []
         for (let m = 0; m < niveluri.length; m++) {
