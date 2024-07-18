@@ -2926,10 +2926,10 @@ function createTreesFromWBS(ds) {
   }
 
   //add field FInalizat to instantele de reteta
-  for (let i = 0; i < instanteRetete.length; i++) {
+  /* for (let i = 0; i < instanteRetete.length; i++) {
     let obj = instanteRetete[i]
     obj.object.Finalizat = false
-  }
+  } */
 
   return {
     trees,
