@@ -1456,7 +1456,7 @@ export function init() {
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
         var instanceSpecifics = null
-        if (ds_instanteRetete[i].instanceSpecifics.length < j) {
+        if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
           }
