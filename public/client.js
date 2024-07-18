@@ -1459,6 +1459,7 @@ export function init() {
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
+            console.log('instanceSpecifics', instanceSpecifics)
           }
         }
         var niveluri_activitate = []
@@ -1551,8 +1552,8 @@ export function init() {
     }
 
     console.log('ds_antemasuratori', ds_antemasuratori)
-    addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
     if (ds_antemasuratori.length > 0) {
+      addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
       my_table2.style.display = 'none'
       my_table3.style.display = 'none'
       my_table1.style.display = 'none'
