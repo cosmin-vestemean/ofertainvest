@@ -2843,7 +2843,7 @@ function createTreesFromWBS(ds) {
   })
 
   //console.log('trees', trees)
-  //console.log('result', result)
+  console.log('result', [...result])
 
   //take result and add it to resultPlus array as branch property and add possible cloneDs object with the same WBS
   let resultPlus = []
