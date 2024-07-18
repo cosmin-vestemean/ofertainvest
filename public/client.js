@@ -2850,8 +2850,10 @@ function createTreesFromWBS(ds) {
   result.forEach(function (branch) {
     let obj = {}
     obj.branch = branch
-    obj.object = cloneDs.find((object) => object.WBS == branch.join('.'))
-    resultPlus.push(obj)
+    let matches = cloneDs.filter((object) => object.WBS == branch.join('.'))
+    matches.forEach(function (match) {
+      resultPlus.push({ branch: branch, object: match })
+    })
   })
 
   console.log('instanteRetete4', [...resultPlus])
