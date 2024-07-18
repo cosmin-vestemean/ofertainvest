@@ -3149,6 +3149,7 @@ Activitate 1183.7.18.23.L
     let reteta = obj.reteta //array of objects
     reteta.forEach(function (activitate) {
       let children = activitate.children
+      console.log('children', children)
       let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
       console.log('childrenEndsWithL', childrenEndsWithL)
       if (childrenEndsWithL.length > 0) {
