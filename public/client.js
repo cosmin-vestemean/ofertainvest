@@ -2190,6 +2190,11 @@ class Recipe extends LitElement {
           for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].id !== this.id) {
               checkboxes[i].checked = false
+              //find object in retetaCurenta[i] and set isMain = false
+              var a = retetaCurenta.reteta[i]
+              if (a) {
+                a.isMain = false
+              }
             }
           }
           activitate.isMain = this.checked
