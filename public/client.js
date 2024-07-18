@@ -3147,10 +3147,10 @@ Activitate 1183.7.18.23.L
   result = JSON.parse(JSON.stringify(data))
   result.forEach(function (obj) {
     let reteta = obj.reteta //array of objects
-    let nr = obj.nr
     reteta.forEach(function (activitate) {
       let children = activitate.children
       let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
+      console.log('childrenEndsWithL', childrenEndsWithL)
       if (childrenEndsWithL.length > 0) {
         activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
@@ -3158,8 +3158,6 @@ Activitate 1183.7.18.23.L
           child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
           child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
-          nr++
-          newActivitateInReteta.nr = nr
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
