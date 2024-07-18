@@ -2188,7 +2188,9 @@ class Recipe extends LitElement {
           //unchecked all checkboxes from activitati_reteta
           var checkboxes = document.getElementsByClassName('activitati_reteta')
           for (let i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = false
+            if (checkboxes[i].id !== checkbox.id) {
+              checkboxes[i].checked = false
+            }
           }
           activitate.isMain = checkbox.checked
         }
