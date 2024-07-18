@@ -2179,10 +2179,19 @@ class Recipe extends LitElement {
         var checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
         checkbox.id = 'checkbox_' + counter
+        checkbox.classList.add('form-check-input')
+        checkbox.classList.add('activitati_reteta')
         checkbox.checked = isActivitatePrincipala
         checkbox.style.marginLeft = '5px'
         //onchange, set activitate.isMain = checkbox.checked
-        checkbox.onchange = function () {}
+        checkbox.onchange = function () {
+          //unchecked all checkboxes from activitati_reteta
+          var checkboxes = document.getElementsByClassName('activitati_reteta')
+          for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false
+          }
+          activitate.isMain = checkbox.checked
+        }
         td.appendChild(checkbox)
         //span with counter
         var span = document.createElement('span')
