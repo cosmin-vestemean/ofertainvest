@@ -207,29 +207,29 @@ function loadDataFromFile(evt) {
 
 function addOnChangeEvt(ds, delimiter, tableId) {
   var select = document.getElementById('ierarhii')
-    select.onchange = function () {
-      selected_ds = []
-      if (select.value == '1') {
-        //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-        //my-table component
-        document.getElementById(tableId).ds = ds
-        return
-      }
-
-      filterOptimalDs(select.value, ds, delimiter)
-
-      //create table rows
-      if (selected_ds.length > 0) {
-        //pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-        //my-table component
-        document.getElementById(tableId).ds = selected_ds
-      } else {
-        //display a message in table
-        alert('Nu exista date pentru ierarhia selectata')
-      }
-
-      //drawModalDialog(select.value.split(delimiter), selected_ds)
+  select.onchange = function () {
+    selected_ds = []
+    if (select.value == '1') {
+      //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+      //my-table component
+      document.getElementById(tableId).ds = ds
+      return
     }
+
+    filterOptimalDs(select.value, ds, delimiter)
+
+    //create table rows
+    if (selected_ds.length > 0) {
+      //pushDataToTable(selected_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
+      //my-table component
+      document.getElementById(tableId).ds = selected_ds
+    } else {
+      //display a message in table
+      alert('Nu exista date pentru ierarhia selectata')
+    }
+
+    //drawModalDialog(select.value.split(delimiter), selected_ds)
+  }
 }
 
 function removeEmpty(original_ds) {
@@ -1455,7 +1455,11 @@ export function init() {
       console.log('reteta', reteta)
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j].object
-        var instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
+        var instanceSpecifics = {}
+        //if ds_instanteRetete[i].instanceSpecifics[j] has object property
+        if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
+          instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
+        }
         var niveluri_activitate = []
         for (let m = 0; m < niveluri.length; m++) {
           niveluri_activitate.push(activitate[niveluri[m]])
@@ -1523,7 +1527,7 @@ export function init() {
         for (let n = 0; n < temps.length; n++) {
           var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.DENUMIRE_ARTICOL_OFERTA,
-            CANTITATE_ARTICOL_OFERTA: instanceSpecifics.CANTITATE_ARTICOL_OFERTA,
+            CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics.CANTITATE_ARTICOL_OFERTA : 0,
             CANTITATE_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
             VARIATII: { OFINIT: [], AMTEMASURATORI: [], FL: [], AFL: [] }, //AFL stocate in aplicatie v. ds_AFL
