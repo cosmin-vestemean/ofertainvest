@@ -2185,14 +2185,14 @@ class Recipe extends LitElement {
         checkbox.style.marginLeft = '5px'
         //onchange, set activitate.isMain = checkbox.checked
         checkbox.onchange = function () {
-          //unchecked all checkboxes from activitati_reteta
-          var checkboxes = document.getElementsByClassName('activitati_reteta')
+          //unchecked all checkboxes from activitati_reteta; keep in mind shadowRoot of 'table_reteta
+          var checkboxes = document.getElementById('table_reteta').shadowRoot.getElementsByClassName
           for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].id !== checkbox.id) {
               checkboxes[i].checked = false
             }
           }
-          activitate.isMain = checkbox.checked
+          activitate.isMain = this.checked
         }
         td.appendChild(checkbox)
         //span with counter
