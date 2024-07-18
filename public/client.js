@@ -2854,7 +2854,7 @@ function createTreesFromWBS(ds) {
     resultPlus.push(obj)
   })
 
-  console.log('instanteRetete', resultPlus)
+  console.log('instanteRetete4', [...resultPlus])
   let instanteRetete = applyFilterTipSubTip(resultPlus)
   console.log('instanteRetete3', [...instanteRetete])
 
