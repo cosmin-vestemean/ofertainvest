@@ -2852,7 +2852,12 @@ function createTreesFromWBS(ds) {
     obj.branch = branch
     let matches = cloneDs.filter((object) => object.WBS == branch.join('.'))
     matches.forEach(function (match) {
-      resultPlus.push({ branch: branch, object: match })
+      //check if branch/match is already in resultPlus
+      let found = resultPlus.find((obj) => obj.branch.join('.') == branch.join('.') && obj.object.DENUMIRE_ARTICOL_OFERTA == match.DENUMIRE_ARTICOL_OFERTA)
+      if (!found) {
+        obj.object = match
+        resultPlus.push(obj)
+      }
     })
   })
 
