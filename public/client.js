@@ -2903,6 +2903,7 @@ function createTreesFromWBS(ds) {
   instanteRetete = applyFilterChildrenEndsWith0(instanteRetete)
 
   instanteRetete = prepareForMultipleActivities(instanteRetete)
+  console.log('instanteRetete', [...instanteRetete])
 
   instanteRetete = applyFilterEndsWithL(instanteRetete)
 
