@@ -2186,7 +2186,7 @@ class Recipe extends LitElement {
         //onchange, set activitate.isMain = checkbox.checked
         checkbox.onchange = function () {
           //unchecked all checkboxes from activitati_reteta; keep in mind shadowRoot of 'table_reteta
-          var checkboxes = document.getElementById('table_reteta').shadowRoot.getElementsByClassName
+          var checkboxes = document.getElementById('table_reteta').shadowRoot.getElementsByClassName('activitati_reteta')
           for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].id !== checkbox.id) {
               checkboxes[i].checked = false
