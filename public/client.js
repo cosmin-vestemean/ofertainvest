@@ -325,7 +325,7 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
 
 function populateSelect(combinatii_unice_as_str, delimiter) {
   //add combinatii_unice_as_str to select id="ierarchii"
-  var select = document.getElementById('ierarhii')
+  //var select = document.getElementById('ierarhii')
   //add default option
   /* var option = document.createElement('option')
   option.value = '1'
