@@ -1436,6 +1436,7 @@ export function init() {
     console.log('instanteRetete', ds_instanteRetete)
     console.log('trees', trees)
     console.log('niveluri', niveluri)
+    let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
@@ -1525,7 +1526,7 @@ export function init() {
           var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0,
-            CANTITATE_ARTICOL_ANTEMASURATORI: 0,
+            //CANTITATE_ARTICOL_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
             UM_ARTICOL_OFERTA: activitate.object.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
@@ -1540,6 +1541,22 @@ export function init() {
               //niveluri.push(_nivel_oferta + (o + 1).toString())
             }
           }
+          //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
+          let old = ds_antemasuratori_old.find((o) => { 
+            let keys = Object.keys(o)
+            let values = Object.values(o)
+            let keys2 = Object.keys(activit)
+            let values2 = Object.values(activit)
+            let checker = (arr, target) => target.every((v) => arr.includes(v))
+            return checker(keys, keys2) && checker(values, values2)
+          })
+
+          if (old) {
+            activit[_cantitate_antemasuratori] = old[_cantitate_antemasuratori]
+          } else {
+            activit[_cantitate_antemasuratori] = 0
+          }
+
           ds_antemasuratori.push(activit)
         }
       }
