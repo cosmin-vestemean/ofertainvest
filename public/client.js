@@ -1054,7 +1054,7 @@ document.addEventListener('input', function (e) {
     //var index = Array.from(document.querySelectorAll(_cantitate_antemasuratori)).indexOf(e.target)
     var index = Array.from(document.getElementById('my_table_antemasuratori').shadowRoot.getElementById('tbody_antemasuratori').querySelectorAll('.'+_cantitate_antemasuratori)).indexOf(e.target)
     console.log('index', index)
-    ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.value)
+    ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
     console.log('ds_antemasuratori', ds_antemasuratori)
   }
 })
