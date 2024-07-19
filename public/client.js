@@ -214,7 +214,9 @@ function addOnChangeEvt(ds, delimiter, tableId) {
     selected_ds = []
     let selected_options_arr = ierarhii.getValue()
     console.log('selected_options_arr', selected_options_arr)
-    filterOptimalDs(selected_options_arr, ds, delimiter)
+    if (selected_options_arr.length > 0) {
+      filterOptimalDs(selected_options_arr, ds, delimiter)
+    }
 
     //create table rows
     if (selected_ds.length > 0) {
@@ -330,6 +332,9 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
 
 function filterOptimalDs(selected_options_arr, ds, delimiter) {
   console.log('selected_options', selected_options_arr)
+  if (selected_options_arr.length == 0) {
+    return
+  }
   //filter optimal_ds by selected option and display it in table
   ds.forEach(function (object) {
     var combo = []
@@ -337,7 +342,7 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
       if (object[nivel]) combo.push(object[nivel])
     })
     var comboStr = combo.join(delimiter)
-    if (selected_options_arr.every(option => comboStr.includes(option))) {
+    if (selected_options_arr.includes(comboStr)) {
       selected_ds.push(object)
     }
   })
