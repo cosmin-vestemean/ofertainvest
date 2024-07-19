@@ -330,7 +330,7 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
 }
 
 function filterOptimalDs(selected_options_arr, ds, delimiter) {
-  console.log('selected_option', selected_options_arr)
+  console.log('selected_options', selected_options_arr)
   //filter optimal_ds by selected option and display it in table
   ds.forEach(function (object) {
     var combo = []
