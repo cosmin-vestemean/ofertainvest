@@ -348,6 +348,7 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
       extra_niveluri_count++
       niveluri.push(_nivel_oferta + extra_niveluri_count)
     }
+  }
   ds.forEach(function (object) {
     var combo = []
     niveluri.forEach(function (nivel) {
