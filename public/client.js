@@ -209,11 +209,11 @@ function loadDataFromFile(evt) {
 
 function addOnChangeEvt(ds, delimiter, tableId) {
   //var select = document.getElementById('ierarhii')
-  let select = ierarhii.selectElement()
+  let select = ierarhii.selectElement
   select.onchange = function () {
     selected_ds = []
-  let selected_options_arr = ierarhii.getValue()
-  console.log('selected_options_arr', selected_options_arr)
+    let selected_options_arr = ierarhii.getValue()
+    console.log('selected_options_arr', selected_options_arr)
     filterOptimalDs(selected_options_arr, ds, delimiter)
 
     //create table rows
