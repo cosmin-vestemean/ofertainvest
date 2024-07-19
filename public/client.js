@@ -327,18 +327,20 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
   //add combinatii_unice_as_str to select id="ierarchii"
   var select = document.getElementById('ierarhii')
   //add default option
-  var option = document.createElement('option')
+  /* var option = document.createElement('option')
   option.value = '1'
   option.text = 'Toate ierarhiile'
-  select.appendChild(option)
+  select.appendChild(option) */
+  ierarhii.addOption('1', 'Toate ierarhiile', true, 'first')
   //add combinatii_unice_as_str as options
   combinatii_unice_as_str.forEach(function (combo_str) {
-    var option = document.createElement('option')
+   /*  var option = document.createElement('option')
     option.value = combo_str
     //option.text = combo_str;
     //replace delimiter with " -> "
     option.text = combo_str.split(delimiter).join(' - ')
-    select.appendChild(option)
+    select.appendChild(option) */
+    ierarhii.addOption(combo_str, combo_str.split(delimiter).join(' - '))
   })
 }
 
