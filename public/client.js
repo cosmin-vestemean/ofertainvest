@@ -1526,7 +1526,6 @@ export function init() {
           var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0,
-            CANTITATE_ARTICOL_ANTEMASURATORI: 0,
             UM_ARTICOL_OFERTA: activitate.object.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
@@ -1555,6 +1554,13 @@ export function init() {
           } else {
             activit[_cantitate_antemasuratori] = 0
           }
+
+          //push up _cantitate_antemasuratori, just below CANTITATE_ARTICOL_OFERTA
+          let keys = Object.keys(activit)
+          let values = Object.values(activit)
+          let index = keys.indexOf(_cantitate_oferta)
+          keys.splice(index + 1, 0, _cantitate_antemasuratori)
+          values.splice(index + 1, 0, activit[_cantitate_antemasuratori])
 
           ds_antemasuratori.push(activit)
         }
