@@ -361,6 +361,17 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
     var comboStr = combo.join(delimiter)
     if (selected_options_arr.includes(comboStr)) {
       selected_ds.push(object)
+    } else {
+      //try to find selected_options_arr in comboStr
+      var found = false
+      selected_options_arr.forEach(function (selected_option) {
+        if (comboStr.includes(selected_option)) {
+          found = true
+        }
+      })
+      if (found) {
+        selected_ds.push(object)
+      }
     }
   })
 
