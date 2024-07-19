@@ -348,9 +348,8 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
   console.log('maxNiv', maxNiv)
   if (niveluri.length < maxNiv) {
     //add extra niveluri
-    for (var i = 0; i < maxNiv - niveluri.length; i++) {
-      extra_niveluri_count++
-      niveluri.push(_nivel_oferta + extra_niveluri_count)
+    for (var i = niveluri.length; i < maxNiv; i++) {
+      niveluri.push(_nivel_oferta + (i + 1))
     }
   }
   ds.forEach(function (object) {
