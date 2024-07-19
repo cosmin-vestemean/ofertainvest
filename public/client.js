@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
+import UseBootstrapSelect from 'use-bootstrap-select'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -208,17 +209,13 @@ function loadDataFromFile(evt) {
 }
 
 function addOnChangeEvt(ds, delimiter, tableId) {
-  var select = document.getElementById('ierarhii')
+  //var select = document.getElementById('ierarhii')
+  let select = ierarhii.selectElement()
   select.onchange = function () {
     selected_ds = []
-    if (select.value == '1') {
-      //pushDataToTable(optimal_ds, 'thead_oferta_initiala', 'tbody_oferta_initiala')
-      //my-table component
-      document.getElementById(tableId).ds = ds
-      return
-    }
-
-    filterOptimalDs(select.value, ds, delimiter)
+  let selected_options_arr = ierarhii.getValue()
+  console.log('selected_options_arr', selected_options_arr)
+    filterOptimalDs(selected_options_arr, ds, delimiter)
 
     //create table rows
     if (selected_ds.length > 0) {
@@ -324,40 +321,25 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
 }
 
 function populateSelect(combinatii_unice_as_str, delimiter) {
-  //add combinatii_unice_as_str to select id="ierarchii"
-  //var select = document.getElementById('ierarhii')
-  //add default option
-  /* var option = document.createElement('option')
-  option.value = '1'
-  option.text = 'Toate ierarhiile'
-  select.appendChild(option) */
+  UseBootstrapSelect.clearAll(document.getElementById('ierarhii'))
   ierarhii.addOption('1', 'Toate ierarhiile', true, 'first')
   //add combinatii_unice_as_str as options
   combinatii_unice_as_str.forEach(function (combo_str) {
-   /*  var option = document.createElement('option')
-    option.value = combo_str
-    //option.text = combo_str;
-    //replace delimiter with " -> "
-    option.text = combo_str.split(delimiter).join(' - ')
-    select.appendChild(option) */
     ierarhii.addOption(combo_str, combo_str.split(delimiter).join(' - '))
   })
 }
 
-function filterOptimalDs(selected_option, optimal_ds, delimiter) {
-  console.log('selected_option', selected_option)
+function filterOptimalDs(selected_options_arr, ds, delimiter) {
+  console.log('selected_option', selected_options_arr)
   //filter optimal_ds by selected option and display it in table
-  optimal_ds.forEach(function (object) {
+  ds.forEach(function (object) {
     var combo = []
     niveluri.forEach(function (nivel) {
       if (object[nivel]) combo.push(object[nivel])
     })
-    if (combo.join(delimiter) == selected_option) {
+    var comboStr = combo.join(delimiter)
+    if (selected_options_arr.every(option => comboStr.includes(option))) {
       selected_ds.push(object)
-    } else {
-      if (selected_option.includes(combo.join(delimiter))) {
-        selected_ds.push(object)
-      }
     }
   })
 
