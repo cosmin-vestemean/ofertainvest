@@ -15,6 +15,8 @@ const SUBTIP_ARTICOL_OFERTA = [
 
 console.log('client.js loaded')
 
+const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
+
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
 const client = feathers()
