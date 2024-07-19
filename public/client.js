@@ -999,10 +999,10 @@ async function saveOferta() {
 }
 
 function populateSelectIerarhiiFromTrees() {
-  var select = document.getElementById('ierarhii')
-  select.innerHTML = ''
+  //var select = document.getElementById('ierarhii')
+  UseBootstrapSelect.clearAll(document.getElementById('ierarhii'))
   //add default option
-  var option = document.createElement('option')
+  /* var option = document.createElement('option')
   option.value = '1'
   option.text = 'Toate ierarhiile'
   select.appendChild(option)
@@ -1012,6 +1012,12 @@ function populateSelectIerarhiiFromTrees() {
       option.value = branch.join('~~~~~~~~~~~~~~~')
       option.text = branch.join(' - ')
       select.appendChild(option)
+    })
+  }) */
+  ierarhii.addOption('1', 'Toate ierarhiile', true, 'first')
+  trees.forEach(function (tree, index) {
+    tree.forEach(function (branch) {
+      ierarhii.addOption(branch.join('~~~~~~~~~~~~~~~'), branch.join(' - '))
     })
   })
 }
