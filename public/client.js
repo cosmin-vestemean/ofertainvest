@@ -1051,7 +1051,8 @@ document.addEventListener('focus', function (e) {
 //add to .cantitate_articol_antemasuratori on input => ds_antemasuratori[index][CANTITATE_ARTICOL_ANTEMASURATORI] = input.value
 document.addEventListener('input', function (e) {
   if (e.target.classList.contains(_cantitate_antemasuratori)) {
-    var index = Array.from(document.querySelectorAll(_cantitate_antemasuratori)).indexOf(e.target)
+    //var index = Array.from(document.querySelectorAll(_cantitate_antemasuratori)).indexOf(e.target)
+    var index = Array.from(document.getElementById('my_table_antemasuratori').shadowRoot.getElementById('tbody_antemasuratori').querySelectorAll('.'+_cantitate_antemasuratori)).indexOf(e.target)
     console.log('index', index)
     ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.value)
     console.log('ds_antemasuratori', ds_antemasuratori)
