@@ -1050,7 +1050,7 @@ document.addEventListener('focus', function (e) {
 
 //add to .cantitate_articol_antemasuratori on input => ds_antemasuratori[index][CANTITATE_ARTICOL_ANTEMASURATORI] = input.value
 document.addEventListener('input', function (e) {
-  if (e.target.classList.contains('cantitate_articol_antemasuratori')) {
+  if (e.target.classList.contains(_cantitate_antemasuratori)) {
     var index = Array.from(document.querySelectorAll('.cantitate_articol_antemasuratori')).indexOf(e.target)
     console.log('index', index)
     ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.value)
@@ -2617,7 +2617,7 @@ class antemasuratori extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     //add event listener for keydown for td class cantitate_antemasuratori
     this.shadowRoot.addEventListener('keydown', function (e) {
-      if (e.target.classList.contains('cantitate_antemasuratori')) {
+      if (e.target.classList.contains(_cantitate_antemasuratori)) {
         if (e.key === 'Enter') {
           e.preventDefault()
           e.target.blur()
@@ -2625,7 +2625,7 @@ class antemasuratori extends LitElement {
       }
 
       //arrow up and down
-      if (e.target.classList.contains('cantitate_antemasuratori')) {
+      if (e.target.classList.contains(_cantitate_antemasuratori)) {
         if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
           e.preventDefault()
           let td = e.target
@@ -2712,7 +2712,7 @@ class antemasuratori extends LitElement {
             }
             //cantitate antemasuratori contenteditable
             if (key == _cantitate_antemasuratori) {
-              let customClass = 'cantitate_antemasuratori'
+              let customClass = _cantitate_antemasuratori
               td.contentEditable = true
               td.spellcheck = false
               td.classList.add('border', 'text-primary')
