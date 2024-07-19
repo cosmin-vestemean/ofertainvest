@@ -224,8 +224,9 @@ function addOnChangeEvt(ds, delimiter, tableId) {
       //my-table component
       document.getElementById(tableId).ds = selected_ds
     } else {
-      //display a message in table
-      alert('Nu exista date pentru ierarhia selectata')
+      //all rows
+      document.getElementById(tableId).ds = ds
+      
     }
 
     //drawModalDialog(select.value.split(delimiter), selected_ds)
