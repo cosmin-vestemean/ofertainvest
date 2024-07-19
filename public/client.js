@@ -338,10 +338,14 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
   var maxNiv = 0
   //find lengthest tree in trees array of arrays
   trees.forEach(function (tree) {
-    if (tree.length > maxNiv) {
-      maxNiv = tree.length
-    }
+    tree.forEach(function (branch) {
+      if (branch.length > maxNiv) {
+        maxNiv = branch.length
+      }
+    })
   })
+
+  console.log('maxNiv', maxNiv)
   if (niveluri.length < maxNiv) {
     //add extra niveluri
     for (var i = 0; i < maxNiv - niveluri.length; i++) {
