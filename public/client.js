@@ -1041,22 +1041,6 @@ document.addEventListener('keydown', function (e) {
   }
 })
 
-//add to .cantitate_articol_antemasuratori on enter => move to next input
-/* 
-document.getElementById('my_table_antemasuratori').shadowRoot.addEventListener('keydown', function (e) {
-  if (e.key === 'Enter') {
-    //var inputs = document.querySelectorAll('cantitate_antemasuratori')
-    //get inputs from my_table_antemasuratori > shadowRoot > tbody
-    var inputs = document.getElementById('my_table_antemasuratori').shadowRoot.querySelectorAll('.cantitate_antemasuratori')
-    var index = Array.from(inputs).indexOf(document.activeElement)
-    if (index > -1) {
-      if (index < inputs.length - 1) {
-        inputs[index + 1].focus()
-      }
-    }
-  }
-}) */
-
 //add to .cantitate_articol_antemasuratori on focus => select all text
 document.addEventListener('focus', function (e) {
   if (e.target.classList.contains('cantitate_articol_antemasuratori')) {
@@ -1540,7 +1524,7 @@ export function init() {
           var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics.CANTITATE_ARTICOL_OFERTA : 0,
-            CANTITATE_ANTEMASURATORI: 0,
+            CANTITATE_ARTICOL_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
             UM_ARTICOL_OFERTA: activitate.object.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
