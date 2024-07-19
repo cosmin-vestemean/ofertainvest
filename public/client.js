@@ -81,7 +81,7 @@ var ds_antemasuratori = []
 var trees = []
 var niveluri = []
 var _nivel_oferta = 'NIVEL_OFERTA_'
-var _nivel_cantitate_articol_oferta = 'CANTITATE_ARTICOL_OFERTA'
+var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
 var visible_columns = []
 var denumireUnica_ds = []
@@ -1149,11 +1149,11 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
                   //loop through instanceSpecifics and find by WBS parent and sum their CANTITATE_ARTICOL_OFERTA
                   let foundParent = instance.instanceSpecifics.find((o) => o.object.WBS === parent)
                   if (foundParent) {
-                    sum_parent += foundParent.object.CANTITATE_ARTICOL_OFERTA
+                    sum_parent += foundParent.object[_cantitate_oferta]
                     //find by WBS child and sum their CANTITATE_ARTICOL_OFERTA
                     let foundChild = foundParent.children.find((o) => o.object.WBS === child.object.WBS)
                     if (foundChild) {
-                      sum_child += foundChild.object.CANTITATE_ARTICOL_OFERTA
+                      sum_child += foundChild.object[_cantitate_oferta]
                     }
                   }
                 }
@@ -1523,7 +1523,7 @@ export function init() {
         for (let n = 0; n < temps.length; n++) {
           var activit = {
             DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
-            CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics.CANTITATE_ARTICOL_OFERTA : 0,
+            CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0,
             CANTITATE_ARTICOL_ANTEMASURATORI: 0,
             CANTITATE_FL: 0,
             UM_ARTICOL_OFERTA: activitate.object.UM_ARTICOL_OFERTA,
@@ -1680,7 +1680,7 @@ export function init() {
               let o = child.object
               let material = {
                 DENUMIRE_ARTICOL_OFERTA: o.DENUMIRE_ARTICOL_OFERTA,
-                CANTITATE_ARTICOL_OFERTA: o.CANTITATE_ARTICOL_OFERTA,
+                CANTITATE_ARTICOL_OFERTA: o[_cantitate_oferta],
                 UM_ARTICOL_OFERTA: o.UM_ARTICOL_OFERTA
               }
               //check in listaMateriale if material already exists by denumire and um criteria; if yes, add CANTITATE_ARTICOL_OFERTA, else add material to listaMateriale
@@ -1690,7 +1690,7 @@ export function init() {
                   m.UM_ARTICOL_OFERTA === material.UM_ARTICOL_OFERTA
               )
               if (found) {
-                found.CANTITATE_ARTICOL_OFERTA += material.CANTITATE_ARTICOL_OFERTA
+                found[_cantitate_oferta] += material[_cantitate_oferta]
               } else {
                 listaMateriale.push(material)
               }
@@ -2707,7 +2707,7 @@ class antemasuratori extends LitElement {
           if (key != 'VARIATII') {
             var td = document.createElement('td')
             td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
-            if (key == 'CANTITATE_ARTICOL_OFERTA' || key == 'CANTITATE_ANTEMASURATORI') {
+            if (key == _cantitate_oferta || key == _cantitate_antemasuratori) {
               td.style.fontWeight = 'bold'
             }
             //cantitate antemasuratori contenteditable
