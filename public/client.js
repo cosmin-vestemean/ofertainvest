@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
 import '../node_modules/use-bootstrap-select/dist/use-bootstrap-select.css'
-import UseBootstrapSelect from 'use-bootstrap-select'
+import UseBootstrapSelect from '../node_modules/use-bootstrap-select/dist/use-bootstrap-select.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
