@@ -214,7 +214,7 @@ function addOnChangeEvt(ds, delimiter, tableId) {
     selected_ds = []
     let selected_options_arr = ierarhii.getValue()
     console.log('selected_options_arr', selected_options_arr)
-    if (selected_options_arr.length > 0) {
+    if (selected_options_arr && selected_options_arr.length > 0) {
       filterOptimalDs(selected_options_arr, ds, delimiter)
     }
 
@@ -335,6 +335,19 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
     return
   }
   //filter optimal_ds by selected option and display it in table
+  var maxNiv = 0
+  //find lengthest tree in trees array of arrays
+  trees.forEach(function (tree) {
+    if (tree.length > maxNiv) {
+      maxNiv = tree.length
+    }
+  })
+  if (niveluri.length < maxNiv) {
+    //add extra niveluri
+    for (var i = 0; i < maxNiv - niveluri.length; i++) {
+      extra_niveluri_count++
+      niveluri.push(_nivel_oferta + extra_niveluri_count)
+    }
   ds.forEach(function (object) {
     var combo = []
     niveluri.forEach(function (nivel) {
