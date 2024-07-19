@@ -323,7 +323,6 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
 
 function populateSelect(combinatii_unice_as_str, delimiter) {
   UseBootstrapSelect.clearAll(document.getElementById('ierarhii'))
-  ierarhii.addOption('1', 'Toate ierarhiile', true, 'first')
   //add combinatii_unice_as_str as options
   combinatii_unice_as_str.forEach(function (combo_str) {
     ierarhii.addOption(combo_str, combo_str.split(delimiter).join(' - '))
@@ -332,7 +331,7 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
 
 function filterOptimalDs(selected_options_arr, ds, delimiter) {
   console.log('selected_options', selected_options_arr)
-  if (selected_options_arr.length == 0) {
+  if (!selected_options_arr) {
     return
   }
   //filter optimal_ds by selected option and display it in table
@@ -987,20 +986,6 @@ async function saveOferta() {
 function populateSelectIerarhiiFromTrees() {
   //var select = document.getElementById('ierarhii')
   UseBootstrapSelect.clearAll(document.getElementById('ierarhii'))
-  //add default option
-  /* var option = document.createElement('option')
-  option.value = '1'
-  option.text = 'Toate ierarhiile'
-  select.appendChild(option)
-  trees.forEach(function (tree, index) {
-    tree.forEach(function (branch) {
-      var option = document.createElement('option')
-      option.value = branch.join('~~~~~~~~~~~~~~~')
-      option.text = branch.join(' - ')
-      select.appendChild(option)
-    })
-  }) */
-  ierarhii.addOption('1', 'Toate ierarhiile', true, 'first')
   trees.forEach(function (tree, index) {
     tree.forEach(function (branch) {
       ierarhii.addOption(branch.join('~~~~~~~~~~~~~~~'), branch.join(' - '))
