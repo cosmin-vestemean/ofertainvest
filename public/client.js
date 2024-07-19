@@ -1559,10 +1559,14 @@ export function init() {
           let keys = Object.keys(activit)
           let values = Object.values(activit)
           let index = keys.indexOf(_cantitate_oferta)
-          keys.splice(index + 1, 0, _cantitate_antemasuratori)
-          values.splice(index + 1, 0, activit[_cantitate_antemasuratori])
+          let newKeys = keys.splice(index + 1, 0, _cantitate_antemasuratori)
+          let newValues = values.splice(index + 1, 0, activit[_cantitate_antemasuratori])
+          let newActivit = {}
+          for (let p = 0; p < newKeys.length; p++) {
+            newActivit[newKeys[p]] = newValues[p]
+          }
 
-          ds_antemasuratori.push(activit)
+          ds_antemasuratori.push(newActivit)
         }
       }
     }
