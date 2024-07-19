@@ -1562,10 +1562,15 @@ export function init() {
           keys.splice(index + 1, 0, _cantitate_antemasuratori)
           values.splice(index + 1, 0, activit[_cantitate_antemasuratori])
           //delete key _cantitate_antemasuratori from the last position
-          keys.pop()
-          values.pop()
+          let last = keys.pop()
+          //reconstruct object
 
-          ds_antemasuratori.push(activit)
+          let new_activit = {}
+          for (let p = 0; p < keys.length; p++) {
+            new_activit[keys[p]] = values[p]
+          }
+
+          ds_antemasuratori.push(new_activit)
         }
       }
     }
