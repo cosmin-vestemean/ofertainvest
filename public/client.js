@@ -1561,6 +1561,9 @@ export function init() {
           let index = keys.indexOf(_cantitate_oferta)
           keys.splice(index + 1, 0, _cantitate_antemasuratori)
           values.splice(index + 1, 0, activit[_cantitate_antemasuratori])
+          //delete key _cantitate_antemasuratori from the last position
+          keys.pop()
+          values.pop()
 
           ds_antemasuratori.push(activit)
         }
@@ -2706,14 +2709,12 @@ class antemasuratori extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         for (var key in this.ds[0]) {
-          if (key != 'VARIATII') {
-            var th = document.createElement('th')
-            th.scope = 'col'
-            th.style.writingMode = 'vertical-rl'
-            th.style.rotate = '180deg'
-            th.innerHTML = key
-            tr.appendChild(th)
-          }
+          var th = document.createElement('th')
+          th.scope = 'col'
+          th.style.writingMode = 'vertical-rl'
+          th.style.rotate = '180deg'
+          th.innerHTML = key
+          tr.appendChild(th)
         }
       }
       //add tbody
@@ -2727,7 +2728,6 @@ class antemasuratori extends LitElement {
         td.innerHTML = counter
         tr.appendChild(td)
         for (var key in object) {
-          if (key != 'VARIATII') {
             var td = document.createElement('td')
             td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key]
             if (key == _cantitate_oferta || key == _cantitate_antemasuratori) {
@@ -2742,7 +2742,6 @@ class antemasuratori extends LitElement {
               td.classList.add(customClass)
               td.style.borderColor = 'lightgray'
             }
-          }
           tr.appendChild(td)
         }
       })
