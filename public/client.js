@@ -1500,6 +1500,7 @@ export function init() {
       newTree.push([...reteta])
       //find max array length in temps
       let max = Math.max(...trees.map((o) => o.length))
+      max--
       console.log('max', max)
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
