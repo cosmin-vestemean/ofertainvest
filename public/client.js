@@ -2757,12 +2757,19 @@ class antemasuratori extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         for (var key in this.ds[0]) {
-          var th = document.createElement('th')
-          th.scope = 'col'
-          th.style.writingMode = 'vertical-rl'
-          th.style.rotate = '180deg'
-          th.innerHTML = key
-          tr.appendChild(th)
+          //check key vs antemasuratoriDisplayMask
+          //first check if key exists in antemasuratoriDisplayMask
+          if (Object.keys(antemasuratoriDisplayMask).includes(key)) {
+            //check if visible
+            if (!antemasuratoriDisplayMask[key].visible) {
+              var th = document.createElement('th')
+              th.scope = 'col'
+              th.style.writingMode = 'vertical-rl'
+              th.style.rotate = '180deg'
+              th.innerHTML = key
+              tr.appendChild(th)
+            }
+          }
         }
       }
       //add tbody
