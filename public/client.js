@@ -1531,6 +1531,7 @@ export function init() {
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
           } */
          var activit = {...activitate.object}
+         activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
             if (o < niveluri.length) {
               activit[niveluri[o]] = temps[n][o]
