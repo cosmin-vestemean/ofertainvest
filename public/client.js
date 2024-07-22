@@ -1608,10 +1608,10 @@ export function init() {
           let old = ds_antemasuratori_old.find((o) => {
             let keys = Object.keys(o)
             //keep keys according to antemasuratoriDisplayMask
-            keys = keys.filter((key) => antemasuratoriDisplayMask.includes(key))
+            keys = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
             let values = Object.values(o)            
             let keys2 = Object.keys(activit)
-            keys2 = keys2.filter((key) => antemasuratoriDisplayMask.includes(key))
+            keys2 = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
             let values2 = Object.values(activit)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             return checker(keys, keys2) && checker(values, values2)
