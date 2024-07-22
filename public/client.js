@@ -1438,6 +1438,7 @@ export function init() {
     console.log('niveluri', niveluri)
     let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
+    let newTree = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
       var pointerToReteta = ds_instanteRetete[i].duplicateOf
@@ -1449,14 +1450,14 @@ export function init() {
         continue
       }
       console.log('reteta', reteta)
+      newTree.push([...reteta])
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
+        let new_activitate = [...reteta[j]]
         var instanceSpecifics = null
-        let wh = null
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
-            wh = ds_instanteRetete[i].instanceSpecifics[j]
             console.log('instanceSpecifics', instanceSpecifics)
           }
         }
@@ -1535,13 +1536,14 @@ export function init() {
           for (let o = 0; o < temps[n].length; o++) {
             if (o < niveluri.length) {
               activit[niveluri[o]] = temps[n][o]
+              new_activitate[niveluri[o]] = temps[n][o]
             } else {
               activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
+              new_activitate[_nivel_oferta + (o + 1).toString()] = temps[n][o]
               //push to niveluri too
               //niveluri.push(_nivel_oferta + (o + 1).toString())
             }
           }
-          activit.wh = wh
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
           let old = ds_antemasuratori_old.find((o) => { 
             let keys = Object.keys(o)
@@ -1554,8 +1556,10 @@ export function init() {
 
           if (old) {
             activit[_cantitate_antemasuratori] = old[_cantitate_antemasuratori]
+            new_activitate[_cantitate_antemasuratori] = old[_cantitate_antemasuratori]
           } else {
             activit[_cantitate_antemasuratori] = 0
+            new_activitate[_cantitate_antemasuratori] = 0
           }
 
           //push up _cantitate_antemasuratori, just below CANTITATE_ARTICOL_OFERTA
@@ -1573,12 +1577,28 @@ export function init() {
             new_activit[keys[p]] = values[p]
           }
 
+          //same for new_activitate
+          let keys2 = Object.keys(new_activitate)
+          let values2 = Object.values(new_activitate)
+          let index2 = keys2.indexOf(_cantitate_oferta)
+          keys2.splice(index2 + 1, 0, _cantitate_antemasuratori)
+          values2.splice(index2 + 1, 0, new_activitate[_cantitate_antemasuratori])
+          //delete key _cantitate_antemasuratori from the last position
+          let last2 = keys2.pop()
+          //reconstruct object
+          let new_activit2 = {}
+          for (let p = 0; p < keys2.length; p++) {
+            new_activit2[keys2[p]] = values2[p]
+          }
+
           ds_antemasuratori.push(new_activit)
+          new_activitate = new_activit2
         }
       }
     }
 
     console.log('ds_antemasuratori', ds_antemasuratori)
+    console.log('newTree', newTree)
     if (ds_antemasuratori.length > 0) {
       addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
       my_table2.style.display = 'none'
