@@ -1560,7 +1560,7 @@ export function init() {
             activit[_cantitate_antemasuratori] = 0
           }
 
-          //push up _cantitate_antemasuratori, just below CANTITATE_ARTICOL_OFERTA
+          /* //push up _cantitate_antemasuratori, just below CANTITATE_ARTICOL_OFERTA
           let keys = Object.keys(activit)
           let values = Object.values(activit)
           let index = keys.indexOf(_cantitate_oferta)
@@ -1573,10 +1573,10 @@ export function init() {
           let new_activit = {}
           for (let p = 0; p < keys.length; p++) {
             new_activit[keys[p]] = values[p]
-          }
+          } */
 
-          ds_antemasuratori.push(new_activit)
-          newTree[i][j].object = {...new_activit}
+          ds_antemasuratori.push(activit)
+          newTree[i][j].object = {activit}
         }
       }
     }
