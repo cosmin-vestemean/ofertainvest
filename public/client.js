@@ -2774,10 +2774,10 @@ class antemasuratori extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        for (var key in this.ds[0]) {
+        for (var key in antemasuratoriDisplayMask) {
           //check key vs antemasuratoriDisplayMask
           //first check if key exists in antemasuratoriDisplayMask
-          if (Object.keys(antemasuratoriDisplayMask).includes(key)) {
+          if (Object.keys(this.ds[0]).includes(key)) {
             //check if visible
             if (antemasuratoriDisplayMask[key].visible) {
               var th = document.createElement('th')
@@ -2800,10 +2800,10 @@ class antemasuratori extends LitElement {
         td.style.fontWeight = 'bold'
         td.innerHTML = counter
         tr.appendChild(td)
-        for (var key in object) {
+        for (var key in antemasuratoriDisplayMask) {
           //check key vs antemasuratoriDisplayMask
           //first check if key exists in antemasuratoriDisplayMask
-          if (Object.keys(antemasuratoriDisplayMask).includes(key)) {
+          if (Object.keys(object).includes(key)) {
             //check if visible
             if (antemasuratoriDisplayMask[key].visible) {
               var td = document.createElement('td')
