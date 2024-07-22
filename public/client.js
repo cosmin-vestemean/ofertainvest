@@ -143,7 +143,7 @@ const antemasuratoriDisplayMask = {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
-    label: 'Denumire articol'
+    label: 'Denumire'
   },
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
   TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Tip articol' },
@@ -168,7 +168,7 @@ const antemasuratoriDisplayMask = {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
     visible: true,
-    label: 'Cantitate antemasuratori'
+    label: 'Cantitate<br>antemasuratori'
   }
 }
 
