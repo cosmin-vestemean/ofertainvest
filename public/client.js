@@ -1609,9 +1609,11 @@ export function init() {
             let keys = Object.keys(o)
             //keep keys according to antemasuratoriDisplayMask
             keys = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
+            delete keys[_cantitate_antemasuratori]
             let values = Object.values(o)            
             let keys2 = Object.keys(activit)
             keys2 = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
+            delete keys2[_cantitate_antemasuratori]
             let values2 = Object.values(activit)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             return checker(keys, keys2) && checker(values, values2)
