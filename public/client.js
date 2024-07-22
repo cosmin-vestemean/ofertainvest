@@ -1581,6 +1581,7 @@ export function init() {
           temps = temps.filter((o, index) => !tempsToBeRemoved.includes(index))
         }
         console.log('temps', temps)
+        let antemas_branches = []
         for (let n = 0; n < temps.length; n++) {
           /* var activit =  {
             DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
@@ -1642,8 +1643,16 @@ export function init() {
           } */
 
           ds_antemasuratori.push(activit)
-          newTree[i][j].object = { ...activit }
+          //push to antemas_branches max numar niveluri / cantitate_articol_antemasuratori
+          let path = ''
+          for (let p = 0; p < max; p++) {
+            path += activit[_nivel_oferta + (p + 1).toString()] + '~~~~~~~~~~~~~~~'
+          }
+          path = path.slice(0, -14)
+          antemas_branches.push({path: path, qty: activit[_cantitate_antemasuratori]})
         }
+        //add to newTree
+        newTree[i][j].antemasuratori = antemas_branches
       }
     }
 
