@@ -1615,7 +1615,7 @@ export function init() {
             let keys2 = Object.keys(activit)
             keys2 = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
             delete keys2[_cantitate_antemasuratori]
-            console.log('keys', keys, 'keys2', keys2)
+            //console.log('keys', keys, 'keys2', keys2)
             let values2 = Object.values(activit)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             return checker(keys, keys2) && checker(values, values2)
