@@ -92,7 +92,6 @@ var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
 var niveluri = []
-let newTree = []
 const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
@@ -1450,10 +1449,8 @@ export function init() {
         continue
       }
       console.log('reteta', reteta)
-      newTree.push([...reteta])
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
-        let new_activitate = {...reteta[j]}
         var instanceSpecifics = null
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
@@ -1526,20 +1523,19 @@ export function init() {
         }
         console.log('temps', temps)
         for (let n = 0; n < temps.length; n++) {
-          var activit = {
+          /* var activit =  {
             DENUMIRE_ARTICOL_OFERTA: activitate.object.DENUMIRE_ARTICOL_OFERTA,
             CANTITATE_ARTICOL_OFERTA: instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0,
             UM_ARTICOL_OFERTA: activitate.object.UM_ARTICOL_OFERTA,
             TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
-          }
+          } */
+         var activit = {...activitate.object}
           for (let o = 0; o < temps[n].length; o++) {
             if (o < niveluri.length) {
               activit[niveluri[o]] = temps[n][o]
-              new_activitate[niveluri[o]] = temps[n][o]
             } else {
               activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
-              new_activitate[_nivel_oferta + (o + 1).toString()] = temps[n][o]
               //push to niveluri too
               //niveluri.push(_nivel_oferta + (o + 1).toString())
             }
@@ -1556,10 +1552,8 @@ export function init() {
 
           if (old) {
             activit[_cantitate_antemasuratori] = old[_cantitate_antemasuratori]
-            new_activitate[_cantitate_antemasuratori] = old[_cantitate_antemasuratori]
           } else {
             activit[_cantitate_antemasuratori] = 0
-            new_activitate[_cantitate_antemasuratori] = 0
           }
 
           //push up _cantitate_antemasuratori, just below CANTITATE_ARTICOL_OFERTA
@@ -1577,28 +1571,12 @@ export function init() {
             new_activit[keys[p]] = values[p]
           }
 
-          //same for new_activitate
-          let keys2 = Object.keys(new_activitate)
-          let values2 = Object.values(new_activitate)
-          let index2 = keys2.indexOf(_cantitate_oferta)
-          keys2.splice(index2 + 1, 0, _cantitate_antemasuratori)
-          values2.splice(index2 + 1, 0, new_activitate[_cantitate_antemasuratori])
-          //delete key _cantitate_antemasuratori from the last position
-          let last2 = keys2.pop()
-          //reconstruct object
-          let new_activit2 = {}
-          for (let p = 0; p < keys2.length; p++) {
-            new_activit2[keys2[p]] = values2[p]
-          }
-
           ds_antemasuratori.push(new_activit)
-          new_activitate = new_activit2
         }
       }
     }
 
     console.log('ds_antemasuratori', ds_antemasuratori)
-    console.log('newTree', newTree)
     if (ds_antemasuratori.length > 0) {
       addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
       my_table2.style.display = 'none'
