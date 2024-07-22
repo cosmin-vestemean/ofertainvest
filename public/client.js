@@ -151,7 +151,7 @@ const antemasuratoriDisplayMask = {
     visible: false,
     label: 'Cantitate'
   },
-  CANITATE_ARTICOL_ANTEMASURATORI: {
+  CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
     visible: true,
@@ -2797,7 +2797,7 @@ class antemasuratori extends LitElement {
           //first check if key exists in antemasuratoriDisplayMask
           if (Object.keys(antemasuratoriDisplayMask).includes(key)) {
             //check if visible
-            if (!antemasuratoriDisplayMask[key].visible) {
+            if (antemasuratoriDisplayMask[key].visible) {
               var td = document.createElement('td')
               td.innerHTML =
                 typeof object[key] === 'number' ? object[key].toFixed(2) : object[key] ? object[key] : ''
