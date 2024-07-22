@@ -1512,6 +1512,14 @@ export function init() {
           niveluri_activitate.push(activitate.object[niveluri[m]])
         }
         console.log('niveluri_activitate', niveluri_activitate)
+        //find max array length in temps
+        let max = Math.max(...trees.map((o) => o.length))
+        console.log('max', max)
+        //add empty string to niveluri for each missing level
+        for (let p = temps[n].length; p < max; p++) {
+          activit[_nivel_oferta + (p + 1).toString()] = ''
+          //niveluri.push(_nivel_oferta + (p + 1).toString())
+        }
         var temps = []
         for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
@@ -1586,14 +1594,6 @@ export function init() {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
             //push to niveluri too
             //niveluri.push(_nivel_oferta + (o + 1).toString())
-          }
-          //find max array length in temps
-          let max = Math.max(...trees.map((o) => o.length))
-          console.log('max', max)
-          //add empty string to niveluri for each missing level
-          for (let p = temps[n].length; p < max; p++) {
-            activit[_nivel_oferta + (p + 1).toString()] = ''
-            //niveluri.push(_nivel_oferta + (p + 1).toString())
           }
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
           let old = ds_antemasuratori_old.find((o) => {
