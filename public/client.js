@@ -145,12 +145,6 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Denumire articol'
   },
-  CANTITATE_ARTICOL_OFERTA: {
-    value: 'CANTITATE_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'Cantitate oferta'
-  },
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
   TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Tip articol' },
   SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Subtip articol' },
@@ -164,6 +158,12 @@ const antemasuratoriDisplayMask = {
   NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
   NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
   NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate oferta'
+  },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
