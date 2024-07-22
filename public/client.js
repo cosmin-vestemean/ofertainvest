@@ -1536,6 +1536,9 @@ export function init() {
          var activit = {...activitate.object}
          //delete key value GRUPARE_ARTICOL_OFERTA
           delete activit[_grupare_oferta]
+          delete activit['CANTITATE_UNITARA_ARTICOL_RETETA']
+          delete activit['PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA']
+          delete activit['PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA']
          activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
