@@ -1588,7 +1588,7 @@ export function init() {
             //niveluri.push(_nivel_oferta + (o + 1).toString())
           }
           //find max array length in temps
-          let max = Math.max(...temps.map((o) => o.length))
+          let max = Math.max(...trees.map((o) => o.length))
           console.log('max', max)
           //add empty string to niveluri for each missing level
           for (let p = temps[n].length; p < max; p++) {
