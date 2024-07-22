@@ -1592,9 +1592,11 @@ export function init() {
             //niveluri.push(_nivel_oferta + (o + 1).toString())
           }
           //add empty string to niveluri for each missing level
-          for (let p = temps[n].length; p < max; p++) {
-            activit[_nivel_oferta + (p + 1).toString()] = ''
-            //niveluri.push(_nivel_oferta + (p + 1).toString())
+          if (temps[n].length < max) {
+            for (let p = temps[n].length; p < max; p++) {
+              activit[_nivel_oferta + (p + 1).toString()] = ''
+              //niveluri.push(_nivel_oferta + (p + 1).toString())
+            }
           }
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
           let old = ds_antemasuratori_old.find((o) => {
