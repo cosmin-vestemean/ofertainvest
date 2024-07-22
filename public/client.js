@@ -1101,7 +1101,6 @@ document.addEventListener('input', function (e) {
     ).indexOf(e.target)
     console.log('index', index)
     ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
-    console.log('ds_antemasuratori', ds_antemasuratori)
   }
 })
 
@@ -1642,14 +1641,17 @@ export function init() {
             new_activit[keys[p]] = values[p]
           } */
 
+          activit.retetaRef = i
+          activit.activitateRef = j
+          activit.branch = temps[n]
           ds_antemasuratori.push(activit)
           //push to antemas_branches max numar niveluri / cantitate_articol_antemasuratori
-          let path = ''
+          let path = []
           for (let p = 0; p < max; p++) {
-            path += activit[_nivel_oferta + (p + 1).toString()] + '~~~~~~~~~~~~~~~'
+            path.push(activit[_nivel_oferta + (p + 1).toString()])
           }
           path = path.slice(0, -14)
-          antemas_branches.push({path: path, qty: activit[_cantitate_antemasuratori]})
+          antemas_branches.push({branch: path, qty: activit[_cantitate_antemasuratori], ref: ds_antemasuratori.length - 1})
         }
         //add to newTree
         newTree[i][j].antemasuratori = antemas_branches
