@@ -1584,7 +1584,6 @@ export function init() {
           activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o] ? temps[n][o] : '-'
-            //push to niveluri too
             //niveluri.push(_nivel_oferta + (o + 1).toString())
           }
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
