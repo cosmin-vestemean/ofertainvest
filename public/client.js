@@ -1450,7 +1450,7 @@ export function init() {
         continue
       }
       console.log('reteta', reteta)
-      newTree.push([...reteta])
+      newTree.push({...reteta})
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
         let new_activitate = [...reteta[j]]
