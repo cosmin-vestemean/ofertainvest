@@ -149,7 +149,7 @@ const antemasuratoriDisplayMask = {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
-    label: 'Cantitate'
+    label: 'Cantitate oferta'
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
