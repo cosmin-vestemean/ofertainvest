@@ -49,7 +49,6 @@ async function connectToS1Service() {
   return result
 }
 
-var extra_niveluri_count = 0
 var original_ds = []
 var compacted_ds = []
 var optimal_ds = []
@@ -83,6 +82,7 @@ var niveluri = []
 var _nivel_oferta = 'NIVEL_OFERTA_'
 var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
+var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'
 var visible_columns = []
 var denumireUnica_ds = []
 var activitati_oferta = []
@@ -1534,6 +1534,8 @@ export function init() {
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
           } */
          var activit = {...activitate.object}
+         //delete key value GRUPARE_ARTICOL_OFERTA
+          delete activit[_grupare_oferta]
          activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
