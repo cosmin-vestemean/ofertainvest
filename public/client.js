@@ -1583,8 +1583,17 @@ export function init() {
           //delete key value GRUPARE_ARTICOL_OFERTA
           activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
-            activit[_nivel_oferta + (o + 1).toString()] = temps[n][o] ? temps[n][o] : '-'
+            activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
+            //push to niveluri too
             //niveluri.push(_nivel_oferta + (o + 1).toString())
+          }
+          //find max array length in temps
+          let max = Math.max(...temps.map((o) => o.length))
+          console.log('max', max)
+          //add empty string to niveluri for each missing level
+          for (let p = temps[n].length; p < max; p++) {
+            activit[_nivel_oferta + (p + 1).toString()] = ''
+            //niveluri.push(_nivel_oferta + (p + 1).toString())
           }
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
           let old = ds_antemasuratori_old.find((o) => {
