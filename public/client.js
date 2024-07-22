@@ -1438,7 +1438,6 @@ export function init() {
     console.log('niveluri', niveluri)
     let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
-    let newTree = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
       var pointerToReteta = ds_instanteRetete[i].duplicateOf
@@ -1450,7 +1449,6 @@ export function init() {
         continue
       }
       console.log('reteta', reteta)
-      newTree.push([...reteta])
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
         var instanceSpecifics = null
@@ -1574,13 +1572,11 @@ export function init() {
             new_activit[keys[p]] = values[p]
           }
 
-          newTree[i][j].object = new_activit
-
           ds_antemasuratori.push(new_activit)
         }
       }
     }
-    console.log('newTree', newTree)
+
     console.log('ds_antemasuratori', ds_antemasuratori)
     if (ds_antemasuratori.length > 0) {
       addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
