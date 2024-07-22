@@ -1607,8 +1607,11 @@ export function init() {
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
           let old = ds_antemasuratori_old.find((o) => {
             let keys = Object.keys(o)
-            let values = Object.values(o)
+            //keep keys according to antemasuratoriDisplayMask
+            keys = keys.filter((key) => antemasuratoriDisplayMask.includes(key))
+            let values = Object.values(o)            
             let keys2 = Object.keys(activit)
+            keys2 = keys2.filter((key) => antemasuratoriDisplayMask.includes(key))
             let values2 = Object.values(activit)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             return checker(keys, keys2) && checker(values, values2)
