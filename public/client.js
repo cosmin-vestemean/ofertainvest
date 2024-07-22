@@ -130,6 +130,38 @@ const recipeDisplayMask = {
   }
 }
 
+const antemasuratoriDisplayMask = {
+  old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
+  WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
+  SERIE_ARTICOL_OFERTA: {
+    value: 'SERIE_ARTICOL_OFERTA',
+    RW: false,
+    visible: false,
+    label: 'Serie articol'
+  },
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Denumire articol'
+  },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: false,
+    label: 'Cantitate'
+  },
+  CANITATE_ARTICOL_ANTEMASURATORI: {
+    value: 'CANITATE_ARTICOL_ANTEMASURATORI',
+    RW: true,
+    visible: true,
+    label: 'Cantitate antemasuratori'
+  },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Tip articol' },
+  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Subtip articol' }
+}
+
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 let selectedTheme = 'yeti'
 let template = document.createElement('template')
@@ -226,7 +258,6 @@ function addOnChangeEvt(ds, delimiter, tableId) {
     } else {
       //all rows
       document.getElementById(tableId).ds = ds
-      
     }
 
     //drawModalDialog(select.value.split(delimiter), selected_ds)
@@ -1052,7 +1083,12 @@ document.addEventListener('focus', function (e) {
 document.addEventListener('input', function (e) {
   if (e.target.classList.contains(_cantitate_antemasuratori)) {
     //var index = Array.from(document.querySelectorAll(_cantitate_antemasuratori)).indexOf(e.target)
-    var index = Array.from(document.getElementById('my_table_antemasuratori').shadowRoot.getElementById('tbody_antemasuratori').querySelectorAll('.'+_cantitate_antemasuratori)).indexOf(e.target)
+    var index = Array.from(
+      document
+        .getElementById('my_table_antemasuratori')
+        .shadowRoot.getElementById('tbody_antemasuratori')
+        .querySelectorAll('.' + _cantitate_antemasuratori)
+    ).indexOf(e.target)
     console.log('index', index)
     ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
     console.log('ds_antemasuratori', ds_antemasuratori)
@@ -1533,20 +1569,16 @@ export function init() {
             TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
           } */
-         var activit = {...activitate.object}
-         //delete key value GRUPARE_ARTICOL_OFERTA
-          delete activit[_grupare_oferta]
-          delete activit['CANTITATE_UNITARA_ARTICOL_RETETA']
-          delete activit['PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA']
-          delete activit['PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA']
-         activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
+          var activit = { ...activitate.object }
+          //delete key value GRUPARE_ARTICOL_OFERTA
+          activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
-              //push to niveluri too
-              //niveluri.push(_nivel_oferta + (o + 1).toString())
+            //push to niveluri too
+            //niveluri.push(_nivel_oferta + (o + 1).toString())
           }
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
-          let old = ds_antemasuratori_old.find((o) => { 
+          let old = ds_antemasuratori_old.find((o) => {
             let keys = Object.keys(o)
             let values = Object.values(o)
             let keys2 = Object.keys(activit)
@@ -1577,7 +1609,7 @@ export function init() {
           } */
 
           ds_antemasuratori.push(activit)
-          newTree[i][j].object = {...activit}
+          newTree[i][j].object = { ...activit }
         }
       }
     }
@@ -2218,7 +2250,10 @@ class Recipe extends LitElement {
         //onchange, set activitate.isMain = checkbox.checked
         checkbox.onchange = function () {
           //unchecked all checkboxes from activitati_reteta; keep in mind shadowRoot of 'table_reteta
-          var checkboxes = document.getElementById('my_table_detalii_reteta').shadowRoot.getElementById('tbody_reteta').getElementsByClassName('activitati_reteta')
+          var checkboxes = document
+            .getElementById('my_table_detalii_reteta')
+            .shadowRoot.getElementById('tbody_reteta')
+            .getElementsByClassName('activitati_reteta')
           for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].id !== this.id) {
               checkboxes[i].checked = false
@@ -2741,21 +2776,32 @@ class antemasuratori extends LitElement {
         td.innerHTML = counter
         tr.appendChild(td)
         for (var key in object) {
-            var td = document.createElement('td')
-            td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key] ? object[key] : ''
-            if (key == _cantitate_oferta || key == _cantitate_antemasuratori) {
-              td.style.fontWeight = 'bold'
+          //check key vs antemasuratoriDisplayMask
+          //first check if key exists in antemasuratoriDisplayMask
+          if (Object.keys(antemasuratoriDisplayMask).includes(key)) {
+            //check if visible
+            if (!antemasuratoriDisplayMask[key].visible) {
+              var td = document.createElement('td')
+              td.innerHTML =
+                typeof object[key] === 'number' ? object[key].toFixed(2) : object[key] ? object[key] : ''
+              if (key == _cantitate_oferta || key == _cantitate_antemasuratori) {
+                td.style.fontWeight = 'bold'
+              }
+              //cantitate antemasuratori contenteditable
+              if (key == _cantitate_antemasuratori) {
+                let customClass = _cantitate_antemasuratori
+                td.spellcheck = false
+                td.classList.add('border', 'text-primary')
+                td.classList.add(customClass)
+                td.style.borderColor = 'lightgray'
+              }
+              //check if RW => td.contentEditable = true
+              if (antemasuratoriDisplayMask[key].RW) {
+                td.contentEditable = true
+              }
+              tr.appendChild(td)
             }
-            //cantitate antemasuratori contenteditable
-            if (key == _cantitate_antemasuratori) {
-              let customClass = _cantitate_antemasuratori
-              td.contentEditable = true
-              td.spellcheck = false
-              td.classList.add('border', 'text-primary')
-              td.classList.add(customClass)
-              td.style.borderColor = 'lightgray'
-            }
-          tr.appendChild(td)
+          }
         }
       })
 
@@ -2880,7 +2926,11 @@ function createTreesFromWBS(ds) {
     let matches = cloneDs.filter((object) => object.WBS == branch.join('.'))
     matches.forEach(function (match) {
       //check if branch/match is already in resultPlus
-      let found = resultPlus.find((obj) => obj.branch.join('.') == branch.join('.') && obj.object.DENUMIRE_ARTICOL_OFERTA == match.DENUMIRE_ARTICOL_OFERTA)
+      let found = resultPlus.find(
+        (obj) =>
+          obj.branch.join('.') == branch.join('.') &&
+          obj.object.DENUMIRE_ARTICOL_OFERTA == match.DENUMIRE_ARTICOL_OFERTA
+      )
       if (!found) {
         resultPlus.push({ branch: branch, object: match })
       }
