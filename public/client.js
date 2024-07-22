@@ -207,7 +207,7 @@ function loadDataFromFile(evt) {
 
     //each key represents a column, copy all objecys in compacted_ds but remove the ones with empty values
     original_ds = JSON.parse(excel_object)
-    console.log('original_ds', original_ds)
+    //console.log('original_ds', original_ds)
 
     compacted_ds = removeEmpty(original_ds)
     //console.log("compacted_ds", compacted_ds);
@@ -417,7 +417,7 @@ function filterOptimalDs(selected_options_arr, ds, delimiter) {
     }
   })
 
-  console.log('selected_ds', selected_ds)
+  //console.log('selected_ds', selected_ds)
 }
 
 function createGraphs(combinatii_unice) {
@@ -1484,9 +1484,9 @@ export function init() {
     if (ds_instanteRetete.length === 0) {
       detectieRetete(my_table1, my_table2, my_table3, my_table4)
     }
-    console.log('recipes_ds', recipes_ds)
-    console.log('instanteRetete', ds_instanteRetete)
-    console.log('trees', trees)
+    //console.log('recipes_ds', recipes_ds)
+    //console.log('instanteRetete', ds_instanteRetete)
+    //console.log('trees', trees)
     console.log('niveluri', niveluri)
     let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
@@ -1520,7 +1520,7 @@ export function init() {
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
-            console.log('instanceSpecifics', instanceSpecifics)
+            //console.log('instanceSpecifics', instanceSpecifics)
           }
         }
         var niveluri_activitate = []
@@ -1533,7 +1533,7 @@ export function init() {
           var tree = trees[k]
           for (let l = 0; l < tree.length; l++) {
             var branch = tree[l]
-            console.log('branch', branch)
+            //console.log('branch', branch)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             if (checker(branch, niveluri_activitate) === true) {
               console.log('accepted branch', branch)
@@ -1888,7 +1888,7 @@ class myTable extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    console.log('my-table element added to the DOM')
+    //console.log('my-table element added to the DOM')
   }
 
   render() {
@@ -2917,7 +2917,7 @@ function createTreesFromWBS(ds) {
   let cloneDs = JSON.parse(JSON.stringify(ds))
   cloneDs.sort(compareWBS)
 
-  console.log('cloneDs', cloneDs)
+  //console.log('cloneDs', cloneDs)
 
   const options = cloneDs.reduce(function (acc, object) {
     //create a tree for each object
@@ -2992,7 +2992,7 @@ function createTreesFromWBS(ds) {
   })
 
   //console.log('trees', trees)
-  console.log('result', [...result])
+  //console.log('result', [...result])
 
   //take result and add it to resultPlus array as branch property and add possible cloneDs object with the same WBS
   let resultPlus = []
@@ -3011,9 +3011,9 @@ function createTreesFromWBS(ds) {
     })
   })
 
-  console.log('instanteRetete4', [...resultPlus])
+  //console.log('instanteRetete4', [...resultPlus])
   let instanteRetete = applyFilterTipSubTip(resultPlus)
-  console.log('instanteRetete3', [...instanteRetete])
+  //console.log('instanteRetete3', [...instanteRetete])
 
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
@@ -3058,14 +3058,14 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  console.log('instanteRetete2', [...instanteRetete])
+  //console.log('instanteRetete2', [...instanteRetete])
 
   //returns old WBS and newly created WBS, if any
   instanteRetete = applyFilterChildrenEndsWith0(instanteRetete)
-  console.log('instanteRetete1', [...instanteRetete])
+  //console.log('instanteRetete1', [...instanteRetete])
 
   instanteRetete = prepareForMultipleActivities(instanteRetete)
-  console.log('instanteRetete', [...instanteRetete])
+  //console.log('instanteRetete', [...instanteRetete])
 
   instanteRetete = applyFilterEndsWithL(instanteRetete)
 
@@ -3312,9 +3312,9 @@ Activitate 1183.7.18.23.L
     let reteta = obj.reteta //array of objects
     reteta.forEach(function (activitate) {
       let children = activitate.children
-      console.log('children', children)
+      //console.log('children', children)
       let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
-      console.log('childrenEndsWithL', childrenEndsWithL)
+      //console.log('childrenEndsWithL', childrenEndsWithL)
       if (childrenEndsWithL.length > 0) {
         activitate.isMain = true
         childrenEndsWithL.forEach(function (child) {
