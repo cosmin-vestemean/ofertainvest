@@ -1602,6 +1602,7 @@ export function init() {
             for (let p = temps[n].length; p < max; p++) {
               activit[_nivel_oferta + (p + 1).toString()] = ''
               //niveluri.push(_nivel_oferta + (p + 1).toString())
+              temps[n].push('')
             }
           }
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
@@ -1650,7 +1651,7 @@ export function init() {
           for (let p = 0; p < max; p++) {
             path.push(activit[_nivel_oferta + (p + 1).toString()])
           }
-          antemas_branches.push({branch: path, qty: activit[_cantitate_antemasuratori], ref: ds_antemasuratori.length - 1})
+          antemas_branches.push({branch: path, qty: activit[_cantitate_antemasuratori], refInAnte: ds_antemasuratori.length - 1})
         }
         //add to newTree
         newTree[i][j].antemasuratori = antemas_branches
