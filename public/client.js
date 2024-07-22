@@ -1452,9 +1452,11 @@ export function init() {
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
         var instanceSpecifics = null
+        let wh = null
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
+            wh = ds_instanteRetete[i].instanceSpecifics[j]
             console.log('instanceSpecifics', instanceSpecifics)
           }
         }
@@ -1539,6 +1541,7 @@ export function init() {
               //niveluri.push(_nivel_oferta + (o + 1).toString())
             }
           }
+          activit.wh = wh
           //find old value for CANTITATE_ARTICOL_ANTEMASURATORI
           let old = ds_antemasuratori_old.find((o) => { 
             let keys = Object.keys(o)
