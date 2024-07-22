@@ -2776,7 +2776,7 @@ class antemasuratori extends LitElement {
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
-              th.innerHTML = key
+              th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               tr.appendChild(th)
             }
           }
