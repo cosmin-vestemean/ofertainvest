@@ -1573,7 +1573,7 @@ export function init() {
           }
 
           ds_antemasuratori.push(new_activit)
-          newTree[i][j].object = new_activit
+          newTree[i][j].object = {...new_activit}
         }
       }
     }
