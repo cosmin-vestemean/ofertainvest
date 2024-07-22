@@ -148,7 +148,7 @@ const antemasuratoriDisplayMask = {
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
-    visible: false,
+    visible: true,
     label: 'Cantitate'
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
