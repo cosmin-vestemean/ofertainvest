@@ -1641,16 +1641,15 @@ export function init() {
             new_activit[keys[p]] = values[p]
           } */
 
-          activit.retetaRef = i
-          activit.activitateRef = j
-          activit.branch = temps[n]
+          activit.refInstanta = i
+          activit.refActivitate = j
+          activit.refBranch = temps[n]
           ds_antemasuratori.push(activit)
           //push to antemas_branches max numar niveluri / cantitate_articol_antemasuratori
           let path = []
           for (let p = 0; p < max; p++) {
             path.push(activit[_nivel_oferta + (p + 1).toString()])
           }
-          path = path.slice(0, -14)
           antemas_branches.push({branch: path, qty: activit[_cantitate_antemasuratori], ref: ds_antemasuratori.length - 1})
         }
         //add to newTree
