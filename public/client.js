@@ -1583,7 +1583,7 @@ export function init() {
           //delete key value GRUPARE_ARTICOL_OFERTA
           activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
-            activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
+            activit[_nivel_oferta + (o + 1).toString()] = temps[n][o] ? temps[n][o] : '-'
             //push to niveluri too
             //niveluri.push(_nivel_oferta + (o + 1).toString())
           }
