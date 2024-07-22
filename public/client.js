@@ -99,7 +99,7 @@ const recipeDisplayMask = {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: true,
     visible: true,
-    label: 'Denumire articol'
+    label: 'Denumire'
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
@@ -161,7 +161,7 @@ const antemasuratoriDisplayMask = {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
-    label: 'Cantitate oferta'
+    label: 'Cantitate<br>oferta'
   },
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
