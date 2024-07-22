@@ -2978,9 +2978,9 @@ function createTreesFromWBS(ds) {
         if (!material.object.CANTITATE_UNITARA_ARTICOL_RETETA)
           material.object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
         if (!material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
-          material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
+          material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
         if (!material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
-          material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+          material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
       }
     }
   }
