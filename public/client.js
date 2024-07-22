@@ -1630,6 +1630,12 @@ export function init() {
 
           if (old) {
             activit[_cantitate_antemasuratori] = old[_cantitate_antemasuratori]
+            //update newTree
+            let branch = newTree[old.refInstanta][old.refActivitate].antemasuratori.find(
+              (o) => o.branch.join() === old.refBranch.join()
+            )
+            if (branch)
+              branch.qty = old[_cantitate_antemasuratori]
           } else {
             activit[_cantitate_antemasuratori] = 0
           }
