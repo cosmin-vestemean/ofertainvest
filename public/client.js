@@ -1485,6 +1485,16 @@ export function init() {
     let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
     let newTree = []
+     //find max array length in temps
+     let max = 0
+     trees.forEach((tree) => {
+       tree.forEach((branch) => {
+          if (branch.length > max) {
+            max = branch.length
+          }
+        })
+     })
+     console.log('max', max)
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
       var pointerToReteta = ds_instanteRetete[i].duplicateOf
@@ -1498,14 +1508,6 @@ export function init() {
       console.log('reteta', reteta)
 
       newTree.push([...reteta])
-      //find max array length in temps
-      let max = 0
-      trees.forEach((tree) => {
-        if (tree.length > max) {
-          max = tree.length
-        }
-      })
-      console.log('max', max)
       for (var j = 0; j < reteta.length; j++) {
         var activitate = reteta[j]
         var instanceSpecifics = null
