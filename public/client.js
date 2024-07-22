@@ -1106,7 +1106,8 @@ document.addEventListener('input', function (e) {
     let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find(
       (o) => o.branch.join() === ds_antemasuratori[index].refBranch.join()
     )
-    branch.qty = parseFloat(e.target.textContent)
+    if (branch)
+      branch.qty = parseFloat(e.target.textContent)
   }
 })
 
@@ -1661,6 +1662,16 @@ export function init() {
         }
         //add to newTree
         newTree[i][j].antemasuratori = antemas_branches
+        if (antemas_branches.length > 0) {
+          newTree[i][j].hasAntemas = true
+        } else {
+          newTree[i][j].hasAntemas = false
+        }
+        delete newTree[i][j].branch
+        //delete level
+        delete newTree[i][j].level
+        //delete virtual
+        delete newTree[i][j].virtual
       }
     }
 
