@@ -1573,10 +1573,12 @@ export function init() {
           }
 
           ds_antemasuratori.push(new_activit)
+          newTree[i][j].object = new_activit
         }
       }
     }
 
+    console.log('newTree', newTree)
     console.log('ds_antemasuratori', ds_antemasuratori)
     if (ds_antemasuratori.length > 0) {
       addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
