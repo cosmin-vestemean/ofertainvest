@@ -2771,7 +2771,7 @@ class antemasuratori extends LitElement {
           //first check if key exists in antemasuratoriDisplayMask
           if (Object.keys(antemasuratoriDisplayMask).includes(key)) {
             //check if visible
-            if (!antemasuratoriDisplayMask[key].visible) {
+            if (antemasuratoriDisplayMask[key].visible) {
               var th = document.createElement('th')
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
