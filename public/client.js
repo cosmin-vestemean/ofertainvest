@@ -92,6 +92,7 @@ var theadIsSet = true
 var retetaCurenta = {}
 var activitateCurenta = {}
 var niveluri = []
+let newTree = []
 const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
@@ -1438,7 +1439,6 @@ export function init() {
     console.log('niveluri', niveluri)
     let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
-    let newTree = []
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
       var pointerToReteta = ds_instanteRetete[i].duplicateOf
