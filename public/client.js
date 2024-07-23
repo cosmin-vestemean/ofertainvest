@@ -3025,7 +3025,14 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      let mainActivity = this.ds.map((o) => o.find((o) => o.isMain))
+      let mainActivity = null
+      this.ds.forEach(function (articol) {
+        articol.forEach(function (object) {
+          if (object.isMain) {
+            mainActivity = object
+          }
+        })
+      })
       if (!mainActivity) {
         console.log('Activitatea principala nu a fost gasita')
       } else {
@@ -3040,7 +3047,7 @@ class estimari extends LitElement {
 
       //create main row
       let counter = 0
-      tr = document.createElement('tr')
+      let tr = document.createElement('tr')
       tbody.appendChild(tr)
       let td = document.createElement('td')
 
