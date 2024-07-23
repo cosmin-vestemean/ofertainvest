@@ -2995,8 +2995,12 @@ class estimari extends LitElement {
         table.appendChild(thead)
         let tr = document.createElement('tr')
         thead.appendChild(tr)
-        //append counter
+        //append plus/minus icon
         let th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
+        //append counter
+        th = document.createElement('th')
         th.scope = 'col'
         th.innerHTML = '#'
         tr.appendChild(th)
