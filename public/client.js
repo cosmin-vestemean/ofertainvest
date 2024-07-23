@@ -2878,6 +2878,12 @@ class antemasuratori extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     console.log('antemasuratori element added to the DOM')
+    let key = 'DENUMIRE_ARTICOL_OFERTA'
+    let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
+    use_bootstrap_select.push(new UseBootstrapSelect(this.shadowRoot.getElementById(key)))
+    uniqueValues.forEach(function (item) {
+      use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
+    })
   }
 
   render() {
@@ -2936,11 +2942,6 @@ class antemasuratori extends LitElement {
                 th.appendChild(select)
               }
               tr.appendChild(th)
-              let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
-              use_bootstrap_select.push(new UseBootstrapSelect(this.shadowRoot.getElementById(key)))
-              uniqueValues.forEach(function (item) {
-                use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
-              })
             }
           }
         }
