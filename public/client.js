@@ -2898,6 +2898,7 @@ class antemasuratori extends LitElement {
                 th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               } else {
                 th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
+                //insert select element with multiple selections
               }
 
               tr.appendChild(th)
