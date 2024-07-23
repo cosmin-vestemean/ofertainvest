@@ -3008,6 +3008,7 @@ class estimari extends LitElement {
         checkbox.checked = true
         checkbox.style.marginLeft = '5px'
         th.appendChild(checkbox)
+        tr.appendChild(th)
         //append plus/minus icon
         th = document.createElement('th')
         th.scope = 'col'
@@ -3096,6 +3097,8 @@ class estimari extends LitElement {
             checkbox.classList.add('form-check-input')
             checkbox.checked = true
             checkbox.style.marginLeft = '5px'
+            td.appendChild(checkbox)
+            tr.appendChild(td)
             td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
