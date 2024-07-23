@@ -1527,7 +1527,7 @@ export function init() {
         for (let m = 0; m < niveluri.length; m++) {
           niveluri_activitate.push(activitate.object[niveluri[m]])
         }
-        console.log('niveluri_activitate', niveluri_activitate)
+        //console.log('niveluri_activitate', niveluri_activitate)
         var temps = []
         for (let k = 0; k < trees.length; k++) {
           var tree = trees[k]
@@ -1536,7 +1536,7 @@ export function init() {
             //console.log('branch', branch)
             let checker = (arr, target) => target.every((v) => arr.includes(v))
             if (checker(branch, niveluri_activitate) === true) {
-              console.log('accepted branch', branch)
+              //console.log('accepted branch', branch)
               temps.push(branch)
             }
           }
@@ -1577,7 +1577,7 @@ export function init() {
                 var values2 = Object.values(o2)
                 var checker = (arr, target) => target.every((v) => arr.includes(v))
                 if (checker(keys2, keys) === true && checker(values2, values) === true) {
-                  console.log('remove', o, 'beacause of', o2)
+                  //console.log('remove', o, 'beacause of', o2)
                   tempsToBeRemoved.push(n)
                   break
                 }
@@ -1586,7 +1586,7 @@ export function init() {
           }
           temps = temps.filter((o, index) => !tempsToBeRemoved.includes(index))
         }
-        console.log('temps', temps)
+        //console.log('temps', temps)
         let antemas_branches = []
         for (let n = 0; n < temps.length; n++) {
           /* var activit =  {
