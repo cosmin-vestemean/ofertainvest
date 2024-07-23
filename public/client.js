@@ -3036,9 +3036,7 @@ class estimari extends LitElement {
           if (activitate.isMain) {
             mainActivity = activitate
           }
-          if (!mainActivity) {
-            console.log('Activitatea principala nu a fost gasita')
-          } else {
+          if (mainActivity) {
             console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA)
             //create a table with columns according to estimariDisplayMask
             //each row has a plus/minus icon for unfolding/folding Arr[i]
@@ -3074,7 +3072,11 @@ class estimari extends LitElement {
               }
             }
             //exit for loop
+            break
           }
+        }
+        if (!mainActivity) {
+          console.log('Activitatea principala nu a fost gasita')
         }
       }
     }
