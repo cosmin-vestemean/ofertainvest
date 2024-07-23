@@ -3024,6 +3024,8 @@ class estimari extends LitElement {
             if (estimariDisplayMask[key].visible) {
               let th = document.createElement('th')
               th.scope = 'col'
+              th.style.writingMode = 'vertical-rl'
+              th.style.rotate = '180deg'
               th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
               tr.appendChild(th)
             }
