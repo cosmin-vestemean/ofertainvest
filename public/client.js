@@ -3006,7 +3006,6 @@ class estimari extends LitElement {
         checkbox.id = 'checkbox_all'
         checkbox.classList.add('form-check-input')
         checkbox.checked = true
-        checkbox.style.marginLeft = '5px'
         th.appendChild(checkbox)
         tr.appendChild(th)
         //append plus/minus icon
@@ -3101,16 +3100,15 @@ class estimari extends LitElement {
             let checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
             checkbox.id = 'checkbox_' + counter
-            checkbox.classList.add('form-check-input')
+            checkbox.classList.add('form-check-input', 'text-secondary')
             checkbox.checked = true
-            checkbox.style.marginLeft = '5px'
             td.appendChild(checkbox)
             tr.appendChild(td)
             td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
             plus_icon.classList.add('bi')
-            plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+            plus_icon.classList.add('bi-plus-square', 'text-secondary', 'fs-2')
             plus_icon.style.cursor = 'pointer'
             plus_icon.onclick = function () {}
             td.appendChild(plus_icon)
@@ -3139,7 +3137,7 @@ class estimari extends LitElement {
             td = document.createElement('td')
             //create type="date" input
             let div = document.createElement('div')
-            div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-primary')
+            div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-secondary')
             let input = document.createElement('input')
             input.type = 'date'
             input.id = 'start_date_' + counter
@@ -3152,7 +3150,7 @@ class estimari extends LitElement {
             td = document.createElement('td')
             //create type="date" input
             div = document.createElement('div')
-            div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-primary')
+            div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-secondary')
             input = document.createElement('input')
             input.type = 'date'
             input.id = 'end_date_' + counter
