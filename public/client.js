@@ -1711,6 +1711,12 @@ export function init() {
     }
   }
 
+  //btn_estimari
+  let btn_estimari = document.getElementById('btn_estimari')
+  btn_estimari.onclick = function () {
+    
+  }
+
   //btn_listaRetete
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
@@ -2885,6 +2891,194 @@ class antemasuratori extends LitElement {
 }
 
 customElements.define('my-antemasuratori', antemasuratori)
+
+class estimari extends LitElement {
+  //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
+  //newTree is an array Arr containing arrays Arr[i]; each Arr[i] contains arrays: one is object ,let's call it Arr1 and one is antemasuratori (Arr2)
+  //Arr1 is in a one to many relationship with Arr2
+  //find Arr[i] with isMain = true and the value of key "DENUMIRE_ARTICOL_OFERTA" is the name of the representation of Arr[i] (the root)
+  //each Arr has a plus/minus icon for unfolding/folding Arr[i]
+  //each Arr[i] has a plus/minus icon for unfolding/folding Arr3
+  //the keys of interest for representation of object are in antemasuratoriDisplayMask
+  //Arr2 contains the following keys: branch, qty
+  //every row of the table has two more columns: start date and end date with calendar icons
+
+  static properties = {
+    ds: { type: Array }
+  }
+
+  constructor() {
+    super()
+    this.ds = []
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    //add event listener for keydown for td class cantitate_antemasuratori
+    this.shadowRoot.addEventListener('keydown', function (e) {
+      if (e.target.classList.contains(_cantitate_antemasuratori)) {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          e.target.blur()
+        }
+      }
+
+      //arrow up and down
+      if (e.target.classList.contains(_cantitate_antemasuratori)) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault()
+          let td = e.target
+          let tr = td.parentElement
+          let tbody = tr.parentElement
+          let tds = tbody.getElementsByTagName('td')
+          let index = Array.prototype.indexOf.call(tds, td)
+          let trs = tbody.getElementsByTagName('tr')
+          let trIndex = Array.prototype.indexOf.call(trs, tr)
+          let nextTr = e.key === 'ArrowDown' ? trs[trIndex + 1] : trs[trIndex - 1]
+          let nextTd = nextTr.getElementsByTagName('td')[index]
+          if (nextTd) {
+            nextTd.focus()
+          }
+        }
+      }
+    })
+
+    //add event listener for click on plus/minus icon
+    this.shadowRoot.addEventListener('click', function (e) {
+      if (e.target.classList.contains('bi')) {
+        //find the parent tr and add class d-none to all trs with branch starting with parent branch
+        let tr = e.target.parentElement.parentElement
+        let trs = tr.parentElement.getElementsByTagName('tr')
+        let branch = tr.id.split('@')[1]
+        let found = false
+        for (let i = 0; i < trs.length; i++) {
+          if (trs[i] === tr) {
+            found = true
+          }
+          if (found) {
+            let trBranch = trs[i].id.split('@')[1]
+            if (trBranch.startsWith(branch)) {
+              if (trs[i].classList.contains('d-none')) {
+                trs[i].classList.remove('d-none')
+              } else {
+                trs[i].classList.add('d-none')
+              }
+            } else {
+              break
+            }
+          }
+        }
+      }
+    })
+
+    //add event listener for click on calendar icon
+    this.shadowRoot.addEventListener('click', function (e) {
+      if (e.target.classList.contains('bi-calendar')) {
+        //show date picker
+        var datepicker = document.getElementById('datepicker')
+        datepicker.style.display = 'block'
+        datepicker.style.position = 'absolute'
+        datepicker.style.top = e.clientY + 'px'
+        datepicker.style.left = e.clientX + 'px'
+      }
+    })
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('estimari element added to the DOM')
+  }
+
+  render() {
+    console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
+
+    if (!this.ds || this.ds.length == 0) {
+      return html`<p class="label label-danger">No data</p>`
+    } else {
+      //add table
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.id = 'table_estimari'
+      //font size
+      table.style.fontSize = 'small'
+      //get or create thead and tbody
+      var thead = document.createElement('thead')
+      thead.id = 'thead_estimari'
+      thead.classList.add('align-middle')
+      var tbody = document.createElement('tbody')
+      tbody.id = 'tbody_estimari'
+      if (theadIsSet) {
+        tbody.classList.add('table-group-divider')
+      }
+      table.appendChild(tbody)
+      //add thead
+      if (theadIsSet) {
+        table.appendChild(thead)
+        var tr = document.createElement('tr')
+        thead.appendChild(tr)
+        //append counter
+        var th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
+        for (var key in antemasuratoriDisplayMask) {
+          //check key vs antemasuratoriDisplayMask
+          //first check if key exists in antemasuratoriDisplayMask
+          if (Object.keys(this.ds[0].object).includes(key)) {
+            //check if visible
+            if (antemasuratoriDisplayMask[key].visible) {
+              var th = document.createElement('th')
+              th.scope = 'col'
+              th.style.writingMode = 'vertical-rl'
+              th.style.rotate = '180deg'
+              th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
+              tr.appendChild(th)
+            }
+          }
+        }
+        //add start date and end date columns
+        var th = document.createElement('th')
+        th.scope = 'col'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.innerHTML = 'Start date'
+        tr.appendChild(th)
+        var th = document.createElement('th')
+        th.scope = 'col'
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.innerHTML = 'End date'
+        tr.appendChild(th)
+
+        //add plus/minus icon
+        var th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'bi bi-plus-square'
+        tr.appendChild(th)
+
+        //add plus/minus icon
+        var th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'bi bi-minus-square'
+        tr.appendChild(th)
+
+        //add calendar icon
+        var th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'bi bi-calendar'
+        tr.appendChild(th)
+
+        //add calendar icon
+        var th = document.createElement('th')
+        th.scope = 'col'
+        th.innerHTML = 'bi bi-calendar'
+        tr.appendChild(th)
+      }
+
+      //add tbody
+    }
+  }
+}
+
+customElements.define('my-estimari', estimari)
 
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)
