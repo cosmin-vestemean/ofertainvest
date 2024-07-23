@@ -3043,11 +3043,11 @@ class estimari extends LitElement {
         th.appendChild(label)
         //add div 
         let div = document.createElement('div')
-        div.classList.add('input-group',  'input-group-sm', 'mb-3', 'primary')
+        div.classList.add('input-group',  'input-group-sm', 'mb-3', 'text-primary')
         let input = document.createElement('input')
         input.type = 'date'
         input.id = 'start_date'
-        input.classList.add('form-control')
+        input.classList.add('form-control', 'form-control-sm')
         input.value = ''
         div.appendChild(input)
         th.appendChild(div)
@@ -3061,11 +3061,11 @@ class estimari extends LitElement {
         label.innerHTML = 'End date'
         th.appendChild(label)
         div = document.createElement('div')
-        div.classList.add('input-group', 'input-group-sm', 'mb-3', 'secondary')
+        div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-primary')
         input = document.createElement('input')
         input.type = 'date'
         input.id = 'end_date'
-        input.classList.add('form-control')
+        input.classList.add('form-control', 'form-control-sm')
         input.value = ''
         div.appendChild(input)
         th.appendChild(div)
@@ -3138,22 +3138,28 @@ class estimari extends LitElement {
             //add start date and end date
             td = document.createElement('td')
             //create type="date" input
+            let div = document.createElement('div')
+            div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-primary')
             let input = document.createElement('input')
             input.type = 'date'
             input.id = 'start_date_' + counter
-            input.classList.add('form-control')
+            input.classList.add('form-control', 'form-control-sm')
             input.value = ''
-            td.appendChild(input)
+            div.appendChild(input)
+            td.appendChild(div)
             tr.appendChild(td)
 
             td = document.createElement('td')
             //create type="date" input
+            div = document.createElement('div')
+            div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-primary')
             input = document.createElement('input')
             input.type = 'date'
             input.id = 'end_date_' + counter
-            input.classList.add('form-control')
+            input.classList.add('form-control', 'form-control-sm')
             input.value = ''
-            td.appendChild(input)
+            div.appendChild(input)
+            td.appendChild(div)
             tr.appendChild(td)
 
             //exit for loop
