@@ -2907,6 +2907,7 @@ class antemasuratori extends LitElement {
                 input.setAttribute('list', key + '_list')
                 var datalist = document.createElement('datalist')
                 datalist.id = key + '_list'
+                datalist.placeholder = 'Select ' + key
                 var uniqueValues = []
                 this.ds.forEach(function (object) {
                   if (!uniqueValues.includes(object[key])) {
@@ -2917,6 +2918,7 @@ class antemasuratori extends LitElement {
                   }
                 })
                 th.appendChild(input)
+                th.appendChild(datalist)
               }
 
               tr.appendChild(th)
