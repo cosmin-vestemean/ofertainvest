@@ -1552,7 +1552,7 @@ export function init() {
 
       newTree.push([...reteta])
       for (var j = 0; j < reteta.length; j++) {
-        var activitate = reteta[j]
+        var activitate = { ...reteta[j] }
         var instanceSpecifics = null
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
@@ -1633,7 +1633,7 @@ export function init() {
             TIP_ARTICOL_OFERTA: activitate.object.TIP_ARTICOL_OFERTA,
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
           } */
-          var activit = { ...activitate.object }
+          let activit = { ...activitate.object }
           activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           //update _cantitate_oferta in newTree
           newTree[i][j].object = { ...activit }
