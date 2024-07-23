@@ -196,7 +196,7 @@ const estimariDisplayMask = {
     visible: true,
     label: 'Cantitate'
   },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' }
 }
 
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
@@ -1134,11 +1134,10 @@ document.addEventListener('input', function (e) {
     console.log('index', index)
     ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
     //update newTree
-    let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find(
-      (o) => o.branch.join() === ds_antemasuratori[index].refBranch.join()
-    )
-    if (branch)
-      branch.qty = parseFloat(e.target.textContent)
+    let branch = newTree[ds_antemasuratori[index].refInstanta][
+      ds_antemasuratori[index].refActivitate
+    ].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join())
+    if (branch) branch.qty = parseFloat(e.target.textContent)
   }
 })
 
@@ -1529,16 +1528,16 @@ export function init() {
     let ds_antemasuratori_old = [...ds_antemasuratori]
     ds_antemasuratori = []
     newTree = []
-     //find max array length in temps
-     let max = 0
-     trees.forEach((tree) => {
-       tree.forEach((branch) => {
-          if (branch.length > max) {
-            max = branch.length
-          }
-        })
-     })
-     console.log('max', max)
+    //find max array length in temps
+    let max = 0
+    trees.forEach((tree) => {
+      tree.forEach((branch) => {
+        if (branch.length > max) {
+          max = branch.length
+        }
+      })
+    })
+    console.log('max', max)
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
       var pointerToReteta = ds_instanteRetete[i].duplicateOf
@@ -1654,11 +1653,11 @@ export function init() {
           let old = ds_antemasuratori_old.find((o) => {
             let keys = Object.keys(o)
             //keep keys according to antemasuratoriDisplayMask
-            keys = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
+            keys = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key))
             delete keys[_cantitate_antemasuratori]
-            let values = Object.values(o)            
+            let values = Object.values(o)
             let keys2 = Object.keys(activit)
-            keys2 = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key));
+            keys2 = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key))
             delete keys2[_cantitate_antemasuratori]
             //console.log('keys', keys, 'keys2', keys2)
             let values2 = Object.values(activit)
@@ -1672,8 +1671,7 @@ export function init() {
             let branch = newTree[old.refInstanta][old.refActivitate].antemasuratori.find(
               (o) => o.branch.join() === old.refBranch.join()
             )
-            if (branch)
-              branch.qty = old[_cantitate_antemasuratori]
+            if (branch) branch.qty = old[_cantitate_antemasuratori]
           } else {
             activit[_cantitate_antemasuratori] = 0
           }
@@ -1702,7 +1700,11 @@ export function init() {
           for (let p = 0; p < max; p++) {
             path.push(activit[_nivel_oferta + (p + 1).toString()])
           }
-          antemas_branches.push({branch: path, qty: activit[_cantitate_antemasuratori], refInAnte: ds_antemasuratori.length - 1})
+          antemas_branches.push({
+            branch: path,
+            qty: activit[_cantitate_antemasuratori],
+            refInAnte: ds_antemasuratori.length - 1
+          })
         }
         //add to newTree
         newTree[i][j].antemasuratori = antemas_branches
@@ -3025,51 +3027,51 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      let mainActivity = null
-      this.ds.forEach(function (articol) {
-        articol.forEach(function (object) {
-          if (object.isMain) {
+      let counter = 0
+      for (let i = 0; i < this.ds.length; i++) {
+        counter++
+        let mainActivity = null
+        for (let j = 0; j < this.ds[i].length; j++) {
+          let activitate = this.ds[i][j]
+          if (activitate.isMain) {
             mainActivity = object
           }
-        })
-      })
-      if (!mainActivity) {
-        console.log('Activitatea principala nu a fost gasita')
-      } else {
-        console.log('Activitatea principala', mainActivity)
-      }
+          if (!mainActivity) {
+            console.log('Activitatea principala nu a fost gasita')
+          } else {
+            //create a table with columns according to estimariDisplayMask
+            //each row has a plus/minus icon for unfolding/folding Arr[i]
+            //Arr[i] is a table in a table
+            //Arr[i] has a plus/minus icon for unfolding/folding Arr3
+            //Arr3 is a table in a table
 
-      //create a table with columns according to estimariDisplayMask
-      //each row has a plus/minus icon for unfolding/folding Arr[i]
-      //Arr[i] is a table in a table
-      //Arr[i] has a plus/minus icon for unfolding/folding Arr3
-      //Arr3 is a table in a table
-
-      //create main row
-      let counter = 0
-      let tr = document.createElement('tr')
-      tbody.appendChild(tr)
-      let td = document.createElement('td')
-
-      //add plus/minus icon
-      let plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi')
-      plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
-      plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = function () {}
-      td.appendChild(plus_icon)
-      tr.appendChild(td)
-
-      //add columns based on estimariDisplayMask
-      for (var key in estimariDisplayMask) {
-        //check key vs estimariDisplayMask
-        //first check if key exists in estimariDisplayMask
-        if (Object.keys(mainActivity.object).includes(key)) {
-          //check if visible
-          if (estimariDisplayMask[key].visible) {
+            //create main row
+            let tr = document.createElement('tr')
+            tbody.appendChild(tr)
             let td = document.createElement('td')
-            td.innerHTML = mainActivity.object[key] || ''
+
+            //add plus/minus icon
+            let plus_icon = document.createElement('i')
+            plus_icon.classList.add('bi')
+            plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+            plus_icon.style.cursor = 'pointer'
+            plus_icon.onclick = function () {}
+            td.appendChild(plus_icon)
             tr.appendChild(td)
+
+            //add columns based on estimariDisplayMask
+            for (var key in estimariDisplayMask) {
+              //check key vs estimariDisplayMask
+              //first check if key exists in estimariDisplayMask
+              if (Object.keys(mainActivity.object).includes(key)) {
+                //check if visible
+                if (estimariDisplayMask[key].visible) {
+                  let td = document.createElement('td')
+                  td.innerHTML = mainActivity.object[key] || ''
+                  tr.appendChild(td)
+                }
+              }
+            }
           }
         }
       }
