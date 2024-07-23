@@ -3024,11 +3024,10 @@ class estimari extends LitElement {
       }
 
       //add tbody
-      //find main activity
-      let mainActivity = this.ds.find((o) => o.isMain)
+      //find main activity in ds[i]
+      let mainActivity = this.ds.map((o) => o.find((o) => o.isMain))
       if (!mainActivity) {
         console.log('Activitatea principala nu a fost gasita')
-        return
       } else {
         console.log('Activitatea principala', mainActivity)
       }
