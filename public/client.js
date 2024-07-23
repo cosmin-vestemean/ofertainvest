@@ -1764,6 +1764,7 @@ export function init() {
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
     my_table5.ds = newTree
+    addOnChangeEvt(newTree, '~~~~~~~~~~~~~~~', 'my_table_estimari')
   }
 
   //btn_listaRetete
