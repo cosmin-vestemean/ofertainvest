@@ -2996,9 +2996,9 @@ class estimari extends LitElement {
         let tr = document.createElement('tr')
         thead.appendChild(tr)
         //append counter
-        th.innerHTML = '#'
         let th = document.createElement('th')
         th.scope = 'col'
+        th.innerHTML = '#'
         tr.appendChild(th)
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
