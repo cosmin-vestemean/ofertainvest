@@ -3024,12 +3024,35 @@ class estimari extends LitElement {
         //add start date and end date
         th = document.createElement('th')
         th.scope = 'col'
-        th.innerHTML = 'Start date'
+        //create type="date" input
+        //cerate label
+        let label = document.createElement('label')
+        label.for = 'start_date'
+        label.innerHTML = 'Start date'
+        th.appendChild(label)
+        let input = document.createElement('input')
+        input.type = 'date'
+        input.id = 'start_date'
+        input.classList.add('form-control')
+        input.value = ''
+        th.appendChild(input)
         tr.appendChild(th)
         th = document.createElement('th')
         th.scope = 'col'
-        th.innerHTML = 'End date'
+        //create type="date" input
+        //cerate label
+        label = document.createElement('label')
+        label.for = 'end_date'
+        label.innerHTML = 'End date'
+        th.appendChild(label)
+        input = document.createElement('input')
+        input.type = 'date'
+        input.id = 'end_date'
+        input.classList.add('form-control')
+        input.value = ''
+        th.appendChild(input)
         tr.appendChild(th)
+
       }
 
       //add tbody
@@ -3083,6 +3106,28 @@ class estimari extends LitElement {
                 }
               }
             }
+
+            //add start date and end date
+            td = document.createElement('td')
+            //create type="date" input
+            let input = document.createElement('input')
+            input.type = 'date'
+            input.id = 'start_date_' + counter
+            input.classList.add('form-control')
+            input.value = ''
+            td.appendChild(input)
+            tr.appendChild(td)
+
+            td = document.createElement('td')
+            //create type="date" input
+            input = document.createElement('input')
+            input.type = 'date'
+            input.id = 'end_date_' + counter
+            input.classList.add('form-control')
+            input.value = ''
+            td.appendChild(input)
+            tr.appendChild(td)
+
             //exit for loop
             break
           }
