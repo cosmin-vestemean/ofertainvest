@@ -3058,6 +3058,11 @@ class estimari extends LitElement {
             td.appendChild(plus_icon)
             tr.appendChild(td)
 
+            //add counter
+            td = document.createElement('td')
+            td.innerHTML = counter
+            tr.appendChild(td)
+
             //add columns based on estimariDisplayMask
             for (var key in estimariDisplayMask) {
               //check key vs estimariDisplayMask
