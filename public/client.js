@@ -2929,19 +2929,18 @@ class antemasuratori extends LitElement {
               } else {
                 //add use-bootstrap-select with options as unique values from this.ds[i][key]
                 //create select with unique id
-                var select = document.createElement('select')
+                let select = document.createElement('select')
                 //data-clearable="true" data-searchable="true" multiple
                 select.id = key
                 select.classList.add('form-select', 'form-select-sm')
-                let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
-                use_bootstrap_select.push(new UseBootstrapSelect(select))
-                uniqueValues.forEach(function (item) {
-                  use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
-                })
                 th.appendChild(select)
               }
-
               tr.appendChild(th)
+              let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
+              use_bootstrap_select.push(new UseBootstrapSelect(document.getElementById(key)))
+              uniqueValues.forEach(function (item) {
+                use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
+              })
             }
           }
         }
