@@ -3034,43 +3034,6 @@ class estimari extends LitElement {
             }
           }
         }
-        //add start date and end date columns
-        var th = document.createElement('th')
-        th.scope = 'col'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.innerHTML = 'Start date'
-        tr.appendChild(th)
-        var th = document.createElement('th')
-        th.scope = 'col'
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.innerHTML = 'End date'
-        tr.appendChild(th)
-
-        //add plus/minus icon
-        var th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'bi bi-plus-square'
-        tr.appendChild(th)
-
-        //add plus/minus icon
-        var th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'bi bi-minus-square'
-        tr.appendChild(th)
-
-        //add calendar icon
-        var th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'bi bi-calendar'
-        tr.appendChild(th)
-
-        //add calendar icon
-        var th = document.createElement('th')
-        th.scope = 'col'
-        th.innerHTML = 'bi bi-calendar'
-        tr.appendChild(th)
       }
 
       //add tbody
