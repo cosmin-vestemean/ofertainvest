@@ -3039,6 +3039,7 @@ class estimari extends LitElement {
           if (!mainActivity) {
             console.log('Activitatea principala nu a fost gasita')
           } else {
+            console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA)
             //create a table with columns according to estimariDisplayMask
             //each row has a plus/minus icon for unfolding/folding Arr[i]
             //Arr[i] is a table in a table
