@@ -3016,11 +3016,11 @@ class estimari extends LitElement {
           }
         }
         //add start date and end date
-        var th = document.createElement('th')
+        th = document.createElement('th')
         th.scope = 'col'
         th.innerHTML = 'Start date'
         tr.appendChild(th)
-        var th = document.createElement('th')
+        th = document.createElement('th')
         th.scope = 'col'
         th.innerHTML = 'End date'
         tr.appendChild(th)
