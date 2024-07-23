@@ -3093,18 +3093,14 @@ class estimari extends LitElement {
             let checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
             checkbox.id = 'checkbox_' + counter
-            checkbox.classList.add('form-check-input')
-            //vertical align
-            checkbox.style.verticalAlign = 'middle'
+            checkbox.classList.add('form-check-input', 'align-middle')
             checkbox.checked = true
             td.appendChild(checkbox)
             tr.appendChild(td)
             td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
-            plus_icon.classList.add('bi','bi-plus-square', 'text-secondary', 'fs-6')
-            //vertical align
-            plus_icon.style.verticalAlign = 'middle'
+            plus_icon.classList.add('bi','bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
             plus_icon.style.cursor = 'pointer'
             plus_icon.onclick = function () {}
             td.appendChild(plus_icon)
@@ -3112,9 +3108,8 @@ class estimari extends LitElement {
 
             //add counter
             td = document.createElement('td')
+            td.classList.add('align-middle')
             td.innerHTML = counter
-            //vertical align
-            td.style.verticalAlign = 'middle'
             tr.appendChild(td)
 
             //add columns based on estimariDisplayMask
