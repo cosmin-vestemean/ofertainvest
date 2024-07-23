@@ -3108,7 +3108,7 @@ class estimari extends LitElement {
             //add plus/minus icon
             let plus_icon = document.createElement('i')
             plus_icon.classList.add('bi')
-            plus_icon.classList.add('bi-plus-square', 'text-secondary', 'fs-2')
+            plus_icon.classList.add('bi-plus-square', 'text-secondary', 'fs-6')
             plus_icon.style.cursor = 'pointer'
             plus_icon.onclick = function () {}
             td.appendChild(plus_icon)
