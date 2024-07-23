@@ -1788,7 +1788,7 @@ export function init() {
 
   //btn_estimari
   let btn_estimari = document.getElementById('btn_estimari')
-  btn_estimari.onclick = function () {
+  btn_estimari.onclick = async function () {
     //hide all tables but 5
     my_table1.style.display = 'none'
     my_table2.style.display = 'none'
@@ -1796,6 +1796,7 @@ export function init() {
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
     my_table5.ds = newTree
+    await my_table5.updateComplete
     addOnChangeEvt(newTree, '~~~~~~~~~~~~~~~', 'my_table_estimari')
   }
 
