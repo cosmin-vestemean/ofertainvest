@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js'
+import UseBootstrapSelect from 'use-bootstrap-select'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -2897,28 +2898,17 @@ class antemasuratori extends LitElement {
               if (!antemasuratoriDisplayMask[key].isEnumerable) {
                 th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               } else {
-                //add bootstrap datalistwith options as unique values from this.ds[i][key]
-                //add input with id = key
-                th.innerHTML = ''
-                var input = document.createElement('input')
-                input.id = key
-                input.classList.add('form-control')
-                input.classList.add('form-control-sm')
-                input.setAttribute('list', key + '_list')
-                var datalist = document.createElement('datalist')
-                datalist.id = key + '_list'
-                datalist.placeholder = 'Select ' + key
-                var uniqueValues = []
-                this.ds.forEach(function (object) {
-                  if (!uniqueValues.includes(object[key])) {
-                    uniqueValues.push(object[key])
-                    var option = document.createElement('option')
-                    option.value = object[key]
-                    datalist.appendChild(option)
-                  }
+                //add use-bootstrap-select with options as unique values from this.ds[i][key]
+                //create select with unique id
+                var select = document.createElement('select')
+                select.id = key
+                select.classList.add('form-select', 'form-select-sm')
+                let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
+                let use_bootstrap_select = new UseBootstrapSelect(select)
+                uniqueValues.forEach(function (item) {
+                  use_bootstrap_select.addOption(item, item)
                 })
-                th.appendChild(input)
-                th.appendChild(datalist)
+                th.appendChild(select)
               }
 
               tr.appendChild(th)
