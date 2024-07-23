@@ -2910,7 +2910,7 @@ class antemasuratori extends LitElement {
                 select.id = key
                 select.classList.add('form-select', 'form-select-sm')
                 let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
-                let use_bootstrap_select = new UseBootstrapSelect(document.getElementById(key))
+                let use_bootstrap_select = new UseBootstrapSelect(select)
                 uniqueValues.forEach(function (item) {
                   use_bootstrap_select.addOption(item, item)
                 })
