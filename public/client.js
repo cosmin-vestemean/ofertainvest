@@ -2881,6 +2881,7 @@ class antemasuratori extends LitElement {
   }
 
   updateComplete() {
+    super.updateComplete()
     let key = 'DENUMIRE_ARTICOL_OFERTA'
     let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
     use_bootstrap_select.push(new UseBootstrapSelect(this.shadowRoot.getElementById(key)))
