@@ -2996,16 +2996,17 @@ class estimari extends LitElement {
         let tr = document.createElement('tr')
         thead.appendChild(tr)
         //append counter
-        var th = document.createElement('th')
+        th.innerHTML = '#'
+        let th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        for (var key in estimariDisplayMask) {
+        for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
           if (Object.keys(this.ds[0][0].object).includes(key)) {
             //check if visible
             if (estimariDisplayMask[key].visible) {
-              var th = document.createElement('th')
+              let th = document.createElement('th')
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
