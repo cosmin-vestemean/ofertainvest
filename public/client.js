@@ -2937,7 +2937,7 @@ class antemasuratori extends LitElement {
               }
               tr.appendChild(th)
               let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
-              use_bootstrap_select.push(new UseBootstrapSelect(document.getElementById(key)))
+              use_bootstrap_select.push(new UseBootstrapSelect(this.shadowRoot.getElementById(key)))
               uniqueValues.forEach(function (item) {
                 use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
               })
