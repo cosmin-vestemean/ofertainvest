@@ -2998,14 +2998,23 @@ class estimari extends LitElement {
         table.appendChild(thead)
         let tr = document.createElement('tr')
         thead.appendChild(tr)
-        //append plus/minus icon
+        //add checkbox for main activity
         let th = document.createElement('th')
+        th.scope = 'col'
+        let checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.id = 'checkbox_all'
+        checkbox.classList.add('form-check-input')
+        checkbox.checked = true
+        checkbox.style.marginLeft = '5px'
+        th.appendChild(checkbox)
+        //append plus/minus icon
+        th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
         //append counter
         th = document.createElement('th')
         th.scope = 'col'
-        th.innerHTML = '#'
         tr.appendChild(th)
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
@@ -3075,11 +3084,19 @@ class estimari extends LitElement {
             //Arr[i] has a plus/minus icon for unfolding/folding Arr3
             //Arr3 is a table in a table
 
-            //create main row
+            //create main activity row
             let tr = document.createElement('tr')
             tbody.appendChild(tr)
+            //create a checkbox for main activity
             let td = document.createElement('td')
-
+            //create a checkbox
+            let checkbox = document.createElement('input')
+            checkbox.type = 'checkbox'
+            checkbox.id = 'checkbox_' + counter
+            checkbox.classList.add('form-check-input')
+            checkbox.checked = true
+            checkbox.style.marginLeft = '5px'
+            td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
             plus_icon.classList.add('bi')
