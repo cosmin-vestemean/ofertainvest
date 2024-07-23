@@ -14,7 +14,6 @@ const SUBTIP_ARTICOL_OFERTA = [
 console.log('client.js loaded')
 
 const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
-let use_bootstrap_select = []
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
@@ -149,20 +148,8 @@ const antemasuratoriDisplayMask = {
     label: 'Denumire',
     isEnumerable: true
   },
-  TIP_ARTICOL_OFERTA: {
-    value: TIP_ARTICOL_OFERTA,
-    RW: false,
-    visible: false,
-    label: 'Tip articol',
-    isEnumerable: true
-  },
-  SUBTIP_ARTICOL_OFERTA: {
-    value: SUBTIP_ARTICOL_OFERTA,
-    RW: false,
-    visible: false,
-    label: 'Subtip articol',
-    isEnumerable: true
-  },
+  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Tip articol', isEnumerable: true },
+  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Subtip articol', isEnumerable: true },
   NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', isEnumerable: true },
   NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', isEnumerable: true },
   NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', isEnumerable: true },
@@ -172,13 +159,7 @@ const antemasuratoriDisplayMask = {
   NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', isEnumerable: true },
   NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', isEnumerable: true },
   NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', isEnumerable: true },
-  NIVEL_OFERTA_10: {
-    value: 'NIVEL_OFERTA_10',
-    RW: false,
-    visible: true,
-    label: 'Nivel 10',
-    isEnumerable: true
-  },
+  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', isEnumerable: true },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
@@ -186,13 +167,7 @@ const antemasuratoriDisplayMask = {
     label: 'Cantitate<br>oferta',
     isEnumerable: false
   },
-  UM_ARTICOL_OFERTA: {
-    value: 'UM_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'UM',
-    isEnumerable: false
-  },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', isEnumerable: false },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
@@ -238,10 +213,7 @@ template.innerHTML = `
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
   crossorigin="anonymous">
-</script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.css">
-<script src="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.js"></script>
-`
+</script>`
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -1788,7 +1760,7 @@ export function init() {
 
   //btn_estimari
   let btn_estimari = document.getElementById('btn_estimari')
-  btn_estimari.onclick = async function () {
+  btn_estimari.onclick = function () {
     //hide all tables but 5
     my_table1.style.display = 'none'
     my_table2.style.display = 'none'
@@ -1796,7 +1768,6 @@ export function init() {
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
     my_table5.ds = newTree
-    await my_table5.updateComplete
     addOnChangeEvt(newTree, '~~~~~~~~~~~~~~~', 'my_table_estimari')
   }
 
@@ -2881,16 +2852,6 @@ class antemasuratori extends LitElement {
     console.log('antemasuratori element added to the DOM')
   }
 
-  updateComplete() {
-    super.updateComplete()
-    let key = 'DENUMIRE_ARTICOL_OFERTA'
-    let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
-    use_bootstrap_select.push(new UseBootstrapSelect(this.shadowRoot.getElementById(key)))
-    uniqueValues.forEach(function (item) {
-      use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
-    })
-  }
-
   render() {
     console.log('rendering antemasuratori element with following array', this.ds, 'added at', new Date())
 
@@ -2931,21 +2892,35 @@ class antemasuratori extends LitElement {
             if (antemasuratoriDisplayMask[key].visible) {
               var th = document.createElement('th')
               th.scope = 'col'
+              th.style.writingMode = 'vertical-rl'
+              th.style.rotate = '180deg'
               if (!antemasuratoriDisplayMask[key].isEnumerable) {
-                th.style.writingMode = 'vertical-rl'
-                th.style.rotate = '180deg'
-                th.innerHTML = antemasuratoriDisplayMask[key].label
-                  ? antemasuratoriDisplayMask[key].label
-                  : key
+                th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               } else {
-                //add use-bootstrap-select with options as unique values from this.ds[i][key]
-                //create select with unique id
-                let select = document.createElement('select')
-                //data-clearable="true" data-searchable="true" multiple
-                select.id = key
-                select.classList.add('form-select', 'form-select-sm')
-                th.appendChild(select)
+                //add use-bootstrap-select datalist with options as unique values from this.ds[i][key]
+                //add input with id = key
+                th.innerHTML = ''
+                var input = document.createElement('input')
+                input.id = key
+                input.classList.add('form-control')
+                input.classList.add('form-control-sm')
+                input.setAttribute('list', key + '_list')
+                var datalist = document.createElement('datalist')
+                datalist.id = key + '_list'
+                datalist.placeholder = 'Select ' + key
+                var uniqueValues = []
+                this.ds.forEach(function (object) {
+                  if (!uniqueValues.includes(object[key])) {
+                    uniqueValues.push(object[key])
+                    var option = document.createElement('option')
+                    option.value = object[key]
+                    datalist.appendChild(option)
+                  }
+                })
+                th.appendChild(input)
+                th.appendChild(datalist)
               }
+
               tr.appendChild(th)
             }
           }
@@ -3066,7 +3041,7 @@ class estimari extends LitElement {
         //append plus/minus icon
         th = document.createElement('th')
         let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
+        plus_icon.classList.add('bi','bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {}
         th.appendChild(plus_icon)
@@ -3122,6 +3097,7 @@ class estimari extends LitElement {
         input.value = ''
         th.appendChild(input)
         tr.appendChild(th)
+
       }
 
       //add tbody
@@ -3159,7 +3135,7 @@ class estimari extends LitElement {
             td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
-            plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+            plus_icon.classList.add('bi','bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
             plus_icon.style.cursor = 'pointer'
             plus_icon.onclick = function () {}
             td.appendChild(plus_icon)
