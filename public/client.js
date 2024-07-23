@@ -1682,7 +1682,7 @@ export function init() {
     }
 
     console.log('newTree', newTree)
-    console.log('ds_antemasuratori', ds_antemasuratori)
+    //console.log('ds_antemasuratori', ds_antemasuratori)
     if (ds_antemasuratori.length > 0) {
       addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
       my_table2.style.display = 'none'
