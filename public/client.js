@@ -1111,7 +1111,7 @@ document.addEventListener('input', function (e) {
   }
 })
 
-function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
+function detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5) {
   let rez = createDatasetForRecipes()
   console.log('rez', rez)
   activitati_oferta = []
@@ -1138,6 +1138,7 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4) {
   //hide table1
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
+  my_table5.style.display = 'none'
   //show table2
   my_table2.style.display = 'block'
   my_table3.style.display = 'block'
@@ -1226,6 +1227,7 @@ export function init() {
   const my_table2 = document.getElementById('my_table_recipes')
   const my_table3 = document.getElementById('my_table_detalii_reteta')
   const my_table4 = document.getElementById('my_table_antemasuratori')
+  const my_table5 = document.getElementById('my_table_estimari')
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -1256,7 +1258,7 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
-    detectieRetete(my_table1, my_table2, my_table3, my_table4)
+    detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5)
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
@@ -1270,6 +1272,7 @@ export function init() {
       my_table3.style.display = 'block'
       my_table1.style.display = 'none'
       my_table4.style.display = 'none'
+      my_table5.style.display = 'none'
       my_table2.ds = listaRetete
     }
   }
@@ -1286,6 +1289,7 @@ export function init() {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = orfani
   }
@@ -1295,6 +1299,7 @@ export function init() {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = original_ds
   }
@@ -1304,6 +1309,7 @@ export function init() {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = activitati_oferta
   }
@@ -1481,8 +1487,9 @@ export function init() {
     const my_table2 = document.getElementById('my_table_recipes')
     const my_table3 = document.getElementById('my_table_detalii_reteta')
     const my_table4 = document.getElementById('my_table_antemasuratori')
+    const my_table5 = document.getElementById('my_table_estimari')
     if (ds_instanteRetete.length === 0) {
-      detectieRetete(my_table1, my_table2, my_table3, my_table4)
+      detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5)
     }
     //console.log('recipes_ds', recipes_ds)
     //console.log('instanteRetete', ds_instanteRetete)
@@ -1689,6 +1696,7 @@ export function init() {
       my_table3.style.display = 'none'
       my_table1.style.display = 'none'
       my_table4.style.display = 'block'
+      my_table5.style.display = 'none'
       my_table4.ds = []
       my_table4.ds = ds_antemasuratori
     }
@@ -1714,7 +1722,13 @@ export function init() {
   //btn_estimari
   let btn_estimari = document.getElementById('btn_estimari')
   btn_estimari.onclick = function () {
-    
+    //hide all tables but 5
+    my_table1.style.display = 'none'
+    my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table5.style.display = 'block'
+    my_table5.ds = newTree
   }
 
   //btn_listaRetete
@@ -1847,6 +1861,7 @@ export function init() {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = listaMateriale
   }
