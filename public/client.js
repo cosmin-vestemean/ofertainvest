@@ -3044,6 +3044,7 @@ class estimari extends LitElement {
         //add div 
         let div = document.createElement('div')
         div.classList.add('input-group',  'input-group-sm', 'mb-3', 'primary')
+        input = document.createElement('input')
         input.type = 'date'
         input.id = 'start_date'
         input.classList.add('form-control')
