@@ -3010,6 +3010,11 @@ class estimari extends LitElement {
         tr.appendChild(th)
         //append plus/minus icon
         th = document.createElement('th')
+        let plus_icon = document.createElement('i')
+        plus_icon.classList.add('bi','bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
+        plus_icon.style.cursor = 'pointer'
+        plus_icon.onclick = function () {}
+        th.appendChild(plus_icon)
         th.scope = 'col'
         tr.appendChild(th)
         //append counter
