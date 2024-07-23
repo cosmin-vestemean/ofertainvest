@@ -1557,7 +1557,7 @@ export function init() {
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
-            console.log('instanceSpecifics', instanceSpecifics)
+            //console.log('instanceSpecifics', instanceSpecifics)
           }
         }
         var niveluri_activitate = []
