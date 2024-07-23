@@ -3037,7 +3037,7 @@ class estimari extends LitElement {
         for (var key in antemasuratoriDisplayMask) {
           //check key vs antemasuratoriDisplayMask
           //first check if key exists in antemasuratoriDisplayMask
-          if (Object.keys(this.ds[0].object).includes(key)) {
+          if (Object.keys(this.ds[0][0].object).includes(key)) {
             //check if visible
             if (antemasuratoriDisplayMask[key].visible) {
               var th = document.createElement('th')
