@@ -2991,7 +2991,7 @@ class estimari extends LitElement {
       //add thead
       if (theadIsSet) {
         table.appendChild(thead)
-        var tr = document.createElement('tr')
+        let tr = document.createElement('tr')
         thead.appendChild(tr)
         //append counter
         var th = document.createElement('th')
@@ -3041,7 +3041,7 @@ class estimari extends LitElement {
 
       //create main row
       let counter = 0
-      let tr = document.createElement('tr')
+      tr = document.createElement('tr')
       tbody.appendChild(tr)
       let td = document.createElement('td')
 
