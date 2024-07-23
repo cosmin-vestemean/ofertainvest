@@ -14,6 +14,7 @@ const SUBTIP_ARTICOL_OFERTA = [
 console.log('client.js loaded')
 
 const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
+let use_bootstrap_select = []
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
@@ -148,8 +149,20 @@ const antemasuratoriDisplayMask = {
     label: 'Denumire',
     isEnumerable: true
   },
-  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Tip articol', isEnumerable: true },
-  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Subtip articol', isEnumerable: true },
+  TIP_ARTICOL_OFERTA: {
+    value: TIP_ARTICOL_OFERTA,
+    RW: false,
+    visible: false,
+    label: 'Tip articol',
+    isEnumerable: true
+  },
+  SUBTIP_ARTICOL_OFERTA: {
+    value: SUBTIP_ARTICOL_OFERTA,
+    RW: false,
+    visible: false,
+    label: 'Subtip articol',
+    isEnumerable: true
+  },
   NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', isEnumerable: true },
   NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', isEnumerable: true },
   NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', isEnumerable: true },
@@ -159,7 +172,13 @@ const antemasuratoriDisplayMask = {
   NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', isEnumerable: true },
   NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', isEnumerable: true },
   NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', isEnumerable: true },
-  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', isEnumerable: true },
+  NIVEL_OFERTA_10: {
+    value: 'NIVEL_OFERTA_10',
+    RW: false,
+    visible: true,
+    label: 'Nivel 10',
+    isEnumerable: true
+  },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
@@ -167,7 +186,13 @@ const antemasuratoriDisplayMask = {
     label: 'Cantitate<br>oferta',
     isEnumerable: false
   },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', isEnumerable: false },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'UM',
+    isEnumerable: false
+  },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
@@ -2898,7 +2923,9 @@ class antemasuratori extends LitElement {
               if (!antemasuratoriDisplayMask[key].isEnumerable) {
                 th.style.writingMode = 'vertical-rl'
                 th.style.rotate = '180deg'
-                th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
+                th.innerHTML = antemasuratoriDisplayMask[key].label
+                  ? antemasuratoriDisplayMask[key].label
+                  : key
               } else {
                 //add use-bootstrap-select with options as unique values from this.ds[i][key]
                 //create select with unique id
@@ -2907,9 +2934,9 @@ class antemasuratori extends LitElement {
                 select.id = key
                 select.classList.add('form-select', 'form-select-sm')
                 let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
-                let use_bootstrap_select = new UseBootstrapSelect(select)
+                use_bootstrap_select.push(new UseBootstrapSelect(select))
                 uniqueValues.forEach(function (item) {
-                  use_bootstrap_select.addOption(item, item)
+                  use_bootstrap_select[use_bootstrap_select.length - 1].addOption(item, item)
                 })
                 th.appendChild(select)
               }
@@ -3034,7 +3061,7 @@ class estimari extends LitElement {
         //append plus/minus icon
         th = document.createElement('th')
         let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi','bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
+        plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {}
         th.appendChild(plus_icon)
@@ -3090,7 +3117,6 @@ class estimari extends LitElement {
         input.value = ''
         th.appendChild(input)
         tr.appendChild(th)
-
       }
 
       //add tbody
@@ -3128,7 +3154,7 @@ class estimari extends LitElement {
             td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
-            plus_icon.classList.add('bi','bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+            plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
             plus_icon.style.cursor = 'pointer'
             plus_icon.onclick = function () {}
             td.appendChild(plus_icon)
