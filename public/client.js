@@ -1511,7 +1511,7 @@ export function init() {
         console.log('Reteta cu id ', ds_instanteRetete[i].duplicateOf + ' nu a fost gasita')
         continue
       }
-      console.log('reteta', reteta)
+      //console.log('reteta', reteta)
 
       newTree.push([...reteta])
       for (var j = 0; j < reteta.length; j++) {
