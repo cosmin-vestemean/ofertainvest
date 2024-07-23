@@ -178,7 +178,12 @@ let selectedTheme = 'yeti'
 let template = document.createElement('template')
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/><link rel="stylesheet" href="${selectedTheme}.css">`
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/><link rel="stylesheet" href="${selectedTheme}.css">
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+  crossorigin="anonymous">
+</script>`
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
@@ -2927,74 +2932,6 @@ class estimari extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    //add event listener for keydown for td class cantitate_antemasuratori
-    this.shadowRoot.addEventListener('keydown', function (e) {
-      if (e.target.classList.contains(_cantitate_antemasuratori)) {
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          e.target.blur()
-        }
-      }
-
-      //arrow up and down
-      if (e.target.classList.contains(_cantitate_antemasuratori)) {
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-          e.preventDefault()
-          let td = e.target
-          let tr = td.parentElement
-          let tbody = tr.parentElement
-          let tds = tbody.getElementsByTagName('td')
-          let index = Array.prototype.indexOf.call(tds, td)
-          let trs = tbody.getElementsByTagName('tr')
-          let trIndex = Array.prototype.indexOf.call(trs, tr)
-          let nextTr = e.key === 'ArrowDown' ? trs[trIndex + 1] : trs[trIndex - 1]
-          let nextTd = nextTr.getElementsByTagName('td')[index]
-          if (nextTd) {
-            nextTd.focus()
-          }
-        }
-      }
-    })
-
-    //add event listener for click on plus/minus icon
-    this.shadowRoot.addEventListener('click', function (e) {
-      if (e.target.classList.contains('bi')) {
-        //find the parent tr and add class d-none to all trs with branch starting with parent branch
-        let tr = e.target.parentElement.parentElement
-        let trs = tr.parentElement.getElementsByTagName('tr')
-        let branch = tr.id.split('@')[1]
-        let found = false
-        for (let i = 0; i < trs.length; i++) {
-          if (trs[i] === tr) {
-            found = true
-          }
-          if (found) {
-            let trBranch = trs[i].id.split('@')[1]
-            if (trBranch.startsWith(branch)) {
-              if (trs[i].classList.contains('d-none')) {
-                trs[i].classList.remove('d-none')
-              } else {
-                trs[i].classList.add('d-none')
-              }
-            } else {
-              break
-            }
-          }
-        }
-      }
-    })
-
-    //add event listener for click on calendar icon
-    this.shadowRoot.addEventListener('click', function (e) {
-      if (e.target.classList.contains('bi-calendar')) {
-        //show date picker
-        var datepicker = document.getElementById('datepicker')
-        datepicker.style.display = 'block'
-        datepicker.style.position = 'absolute'
-        datepicker.style.top = e.clientY + 'px'
-        datepicker.style.left = e.clientX + 'px'
-      }
-    })
   }
 
   connectedCallback() {
