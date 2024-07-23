@@ -3034,7 +3034,7 @@ class estimari extends LitElement {
         for (let j = 0; j < this.ds[i].length; j++) {
           let activitate = this.ds[i][j]
           if (activitate.isMain) {
-            mainActivity = object
+            mainActivity = activitate
           }
           if (!mainActivity) {
             console.log('Activitatea principala nu a fost gasita')
