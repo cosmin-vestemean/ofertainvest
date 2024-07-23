@@ -2930,9 +2930,6 @@ class antemasuratori extends LitElement {
               if (antemasuratoriDisplayMask[key].RW) {
                 td.contentEditable = true
               }
-              if (object.isMain) {
-                td.style.fontWeight = 'bold'
-              }
               tr.appendChild(td)
             }
           }
@@ -3044,11 +3041,9 @@ class estimari extends LitElement {
         label.for = 'start_date'
         label.innerHTML = 'Start date'
         th.appendChild(label)
-        //add div with classes "input-group" and "date" and data-date-format="dd.mm.yyyy"
+        //add div 
         let div = document.createElement('div')
-        div.classList.add('input-group', 'date')
-        div.dataset.dateFormat = 'dd.mm.yyyy'
-        let input = document.createElement('input')
+        div.classList.add('input-group input-group-sm mb-3')
         input.type = 'date'
         input.id = 'start_date'
         input.classList.add('form-control')
@@ -3065,8 +3060,7 @@ class estimari extends LitElement {
         label.innerHTML = 'End date'
         th.appendChild(label)
         div = document.createElement('div')
-        div.classList.add('input-group', 'date')
-        div.dataset.dateFormat = 'dd.mm.yyyy'
+        div.classList.add('input-group input-group-sm mb-3')
         input = document.createElement('input')
         input.type = 'date'
         input.id = 'end_date'
