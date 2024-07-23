@@ -2895,9 +2895,9 @@ class antemasuratori extends LitElement {
             if (antemasuratoriDisplayMask[key].visible) {
               var th = document.createElement('th')
               th.scope = 'col'
-              th.style.writingMode = 'vertical-rl'
-              th.style.rotate = '180deg'
               if (!antemasuratoriDisplayMask[key].isEnumerable) {
+                th.style.writingMode = 'vertical-rl'
+                th.style.rotate = '180deg'
                 th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               } else {
                 //add use-bootstrap-select with options as unique values from this.ds[i][key]
