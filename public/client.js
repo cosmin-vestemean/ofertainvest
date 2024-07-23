@@ -1553,6 +1553,7 @@ export function init() {
       newTree.push([...reteta])
       for (var j = 0; j < reteta.length; j++) {
         var activitate = { ...reteta[j] }
+        newTree[i][j] = { ...activitate }
         var instanceSpecifics = null
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
