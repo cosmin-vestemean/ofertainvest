@@ -173,6 +173,32 @@ const antemasuratoriDisplayMask = {
   }
 }
 
+const estimariDisplayMask = {
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Denumire'
+  },
+  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1' },
+  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2' },
+  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3' },
+  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4' },
+  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5' },
+  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6' },
+  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7' },
+  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
+  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
+  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate'
+  },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+}
+
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 let selectedTheme = 'yeti'
 let template = document.createElement('template')
@@ -2971,17 +2997,17 @@ class estimari extends LitElement {
         var th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        for (var key in antemasuratoriDisplayMask) {
-          //check key vs antemasuratoriDisplayMask
-          //first check if key exists in antemasuratoriDisplayMask
+        for (var key in estimariDisplayMask) {
+          //check key vs estimariDisplayMask
+          //first check if key exists in estimariDisplayMask
           if (Object.keys(this.ds[0][0].object).includes(key)) {
             //check if visible
-            if (antemasuratoriDisplayMask[key].visible) {
+            if (estimariDisplayMask[key].visible) {
               var th = document.createElement('th')
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
-              th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
+              th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
               tr.appendChild(th)
             }
           }
@@ -2999,6 +3025,8 @@ class estimari extends LitElement {
 
       //add tbody
     }
+
+    return html`${table}`
   }
 }
 
