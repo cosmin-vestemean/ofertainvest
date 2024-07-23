@@ -2897,28 +2897,7 @@ class antemasuratori extends LitElement {
               if (!antemasuratoriDisplayMask[key].isEnumerable) {
                 th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               } else {
-                //add use-bootstrap-select datalist with options as unique values from this.ds[i][key]
-                //add input with id = key
-                th.innerHTML = ''
-                var input = document.createElement('input')
-                input.id = key
-                input.classList.add('form-control')
-                input.classList.add('form-control-sm')
-                input.setAttribute('list', key + '_list')
-                var datalist = document.createElement('datalist')
-                datalist.id = key + '_list'
-                datalist.placeholder = 'Select ' + key
-                var uniqueValues = []
-                this.ds.forEach(function (object) {
-                  if (!uniqueValues.includes(object[key])) {
-                    uniqueValues.push(object[key])
-                    var option = document.createElement('option')
-                    option.value = object[key]
-                    datalist.appendChild(option)
-                  }
-                })
-                th.appendChild(input)
-                th.appendChild(datalist)
+                th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
               }
 
               tr.appendChild(th)
