@@ -3091,7 +3091,7 @@ class estimari extends LitElement {
             let checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
             checkbox.id = 'checkbox_' + counter
-            checkbox.classList.add('form-check-input', 'text-secondary')
+            checkbox.classList.add('form-check-input', 'bg-secondary')
             checkbox.checked = true
             td.appendChild(checkbox)
             tr.appendChild(td)
