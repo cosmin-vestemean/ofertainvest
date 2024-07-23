@@ -3136,28 +3136,22 @@ class estimari extends LitElement {
             //add start date and end date
             td = document.createElement('td')
             //create type="date" input
-            let div = document.createElement('div')
-            div.classList.add('input-group', 'input-group-sm', 'text-secondary')
             let input = document.createElement('input')
             input.type = 'date'
             input.id = 'start_date_' + counter
             input.classList.add('form-control', 'form-control-sm', 'rounded')
             input.value = ''
-            div.appendChild(input)
-            td.appendChild(div)
+            td.appendChild(input)
             tr.appendChild(td)
 
             td = document.createElement('td')
             //create type="date" input
-            div = document.createElement('div')
-            div.classList.add('input-group', 'input-group-sm', 'rounded', 'text-secondary')
             input = document.createElement('input')
             input.type = 'date'
             input.id = 'end_date_' + counter
-            input.classList.add('form-control', 'form-control-sm')
+            input.classList.add('form-control', 'form-control-sm', 'rounded')
             input.value = ''
-            div.appendChild(input)
-            td.appendChild(div)
+            td.appendChild(input)
             tr.appendChild(td)
 
             //exit for loop
