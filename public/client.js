@@ -1634,8 +1634,9 @@ export function init() {
             SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
           } */
           var activit = { ...activitate.object }
-          //delete key value GRUPARE_ARTICOL_OFERTA
           activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
+          //update _cantitate_oferta in newTree
+          newTree[i][j][_cantitate_oferta] = activit[_cantitate_oferta]
           for (let o = 0; o < temps[n].length; o++) {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
             //push to niveluri too
