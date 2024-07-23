@@ -1796,7 +1796,6 @@ export function init() {
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
     my_table5.ds = newTree
-    my_table5.renderSelectInHeader()
     addOnChangeEvt(newTree, '~~~~~~~~~~~~~~~', 'my_table_estimari')
   }
 
@@ -2881,8 +2880,7 @@ class antemasuratori extends LitElement {
     console.log('antemasuratori element added to the DOM')
   }
 
-  async renderSelectInHeader() {
-    await this.updateComplete;
+  updateComplete() {
     let key = 'DENUMIRE_ARTICOL_OFERTA'
     let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
     use_bootstrap_select.push(new UseBootstrapSelect(this.shadowRoot.getElementById(key)))
