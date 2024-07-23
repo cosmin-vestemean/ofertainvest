@@ -3024,6 +3024,49 @@ class estimari extends LitElement {
       }
 
       //add tbody
+      //find main activity
+      let mainActivity = this.ds.find((o) => o.isMain)
+      if (!mainActivity) {
+        console.log('Activitatea principala nu a fost gasita')
+        return
+      } else {
+        console.log('Activitatea principala', mainActivity)
+      }
+
+      //create a table with columns according to estimariDisplayMask
+      //each row has a plus/minus icon for unfolding/folding Arr[i]
+      //Arr[i] is a table in a table
+      //Arr[i] has a plus/minus icon for unfolding/folding Arr3
+      //Arr3 is a table in a table
+
+      //create main row
+      let counter = 0
+      let tr = document.createElement('tr')
+      tbody.appendChild(tr)
+      let td = document.createElement('td')
+
+      //add plus/minus icon
+      let plus_icon = document.createElement('i')
+      plus_icon.classList.add('bi')
+      plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+      plus_icon.style.cursor = 'pointer'
+      plus_icon.onclick = function () {}
+      td.appendChild(plus_icon)
+      tr.appendChild(td)
+
+      //add columns based on estimariDisplayMask
+      for (var key in estimariDisplayMask) {
+        //check key vs estimariDisplayMask
+        //first check if key exists in estimariDisplayMask
+        if (Object.keys(mainActivity.object).includes(key)) {
+          //check if visible
+          if (estimariDisplayMask[key].visible) {
+            let td = document.createElement('td')
+            td.innerHTML = mainActivity.object[key] || ''
+            tr.appendChild(td)
+          }
+        }
+      }
     }
 
     return html`${table}`
