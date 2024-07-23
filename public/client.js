@@ -1557,7 +1557,7 @@ export function init() {
         if (ds_instanteRetete[i].instanceSpecifics[j] !== undefined) {
           if (Object.keys(ds_instanteRetete[i].instanceSpecifics[j]).includes('object')) {
             instanceSpecifics = ds_instanteRetete[i].instanceSpecifics[j].object
-            //console.log('instanceSpecifics', instanceSpecifics)
+            console.log('instanceSpecifics', instanceSpecifics)
           }
         }
         var niveluri_activitate = []
@@ -1635,7 +1635,7 @@ export function init() {
           } */
           var activit = { ...activitate.object }
           //delete key value GRUPARE_ARTICOL_OFERTA
-          activit.CANTITATE_ARTICOL_OFERTA = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
+          activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
           for (let o = 0; o < temps[n].length; o++) {
             activit[_nivel_oferta + (o + 1).toString()] = temps[n][o]
             //push to niveluri too
