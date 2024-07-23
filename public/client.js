@@ -2904,9 +2904,6 @@ class antemasuratori extends LitElement {
                 //create select with unique id
                 var select = document.createElement('select')
                 //data-clearable="true" data-searchable="true" multiple
-                select.setAttribute('data-clearable', 'true')
-                select.setAttribute('data-searchable', 'true')
-                select.setAttribute('multiple', 'true')
                 select.id = key
                 select.classList.add('form-select', 'form-select-sm')
                 let uniqueValues = [...new Set(this.ds.map((item) => item[key]))]
