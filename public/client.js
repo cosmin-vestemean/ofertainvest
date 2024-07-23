@@ -2930,6 +2930,9 @@ class antemasuratori extends LitElement {
               if (antemasuratoriDisplayMask[key].RW) {
                 td.contentEditable = true
               }
+              if (object.isMain) {
+                td.style.fontWeight = 'bold'
+              }
               tr.appendChild(td)
             }
           }
