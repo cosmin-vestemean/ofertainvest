@@ -3038,16 +3038,12 @@ class estimari extends LitElement {
         label.for = 'start_date'
         label.innerHTML = 'Start date'
         th.appendChild(label)
-        //add div 
-        let div = document.createElement('div')
-        div.classList.add('input-group',  'input-group-sm', 'mb-3', 'text-primary')
         let input = document.createElement('input')
         input.type = 'date'
         input.id = 'start_date'
         input.classList.add('form-control', 'form-control-sm')
         input.value = ''
-        div.appendChild(input)
-        th.appendChild(div)
+        th.appendChild(input)
         tr.appendChild(th)
         th = document.createElement('th')
         th.scope = 'col'
@@ -3057,15 +3053,12 @@ class estimari extends LitElement {
         label.for = 'end_date'
         label.innerHTML = 'End date'
         th.appendChild(label)
-        div = document.createElement('div')
-        div.classList.add('input-group', 'input-group-sm', 'mb-3', 'text-primary')
         input = document.createElement('input')
         input.type = 'date'
         input.id = 'end_date'
         input.classList.add('form-control', 'form-control-sm')
         input.value = ''
-        div.appendChild(input)
-        th.appendChild(div)
+        th.appendChild(input)
         tr.appendChild(th)
 
       }
