@@ -3160,7 +3160,7 @@ class estimari extends LitElement {
             //Arr3 is a table in a table
 
             let o = mainActivity.object
-            bg_color = counter % 2 == 0 ? 'bg-light' : 'bg-white'
+            let bg_color = counter % 2 == 0 ? 'bg-light' : 'bg-white'
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
               //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
