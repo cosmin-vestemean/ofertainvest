@@ -3160,7 +3160,7 @@ class estimari extends LitElement {
             //Arr3 is a table in a table
 
             let o = mainActivity.object
-            let bg_color = counter % 2 == 0 ? 'bg-light' : 'bg-white'
+            let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
               //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
@@ -3170,7 +3170,6 @@ class estimari extends LitElement {
               o[_cantitate_estimari] = 0
               //create main activity row
               let tr = document.createElement('tr')
-              tr.classList.add(bg_color)
               tbody.appendChild(tr)
               //create a checkbox for main activity
               let td = document.createElement('td')
@@ -3206,9 +3205,6 @@ class estimari extends LitElement {
                   if (estimariDisplayMask[key].visible) {
                     let td = document.createElement('td')
                     td.innerHTML = o[key] || ''
-                    if (key == _cantitate_oferta ||_cantitate_antemasuratori || key == _cantitate_estimari) {
-                      td.style.fontWeight = 'bold'
-                    }
                     //contenteditable if RW
                     if (estimariDisplayMask[key].RW) {
                       td.contentEditable = true
