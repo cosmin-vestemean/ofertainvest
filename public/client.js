@@ -3205,6 +3205,14 @@ class estimari extends LitElement {
                   if (estimariDisplayMask[key].visible) {
                     let td = document.createElement('td')
                     td.innerHTML = o[key] || ''
+                    if (key == _cantitate_oferta ||_cantitate_antemasuratori || key == _cantitate_estimari) {
+                      td.style.fontWeight = 'bold'
+                    }
+                    //contenteditable if RW
+                    if (estimariDisplayMask[key].RW) {
+                      td.contentEditable = true
+                    }
+
                     tr.appendChild(td)
                   }
                 }
