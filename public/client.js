@@ -3127,16 +3127,45 @@ class estimari extends LitElement {
             td.innerHTML = counter
             tr.appendChild(td)
 
-            //add columns based on estimariDisplayMask
-            for (var key in estimariDisplayMask) {
-              //check key vs estimariDisplayMask
-              //first check if key exists in estimariDisplayMask
-              if (Object.keys(mainActivity.object).includes(key)) {
-                //check if visible
-                if (estimariDisplayMask[key].visible) {
-                  let td = document.createElement('td')
-                  td.innerHTML = mainActivity.object[key] || ''
-                  tr.appendChild(td)
+            //create an inne join between mainActivity.object and mainActivity.antemasuratori and create rows for each object
+            //create a row for each object
+            for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
+              //add to mainActivity.object the properties from mainActivity.antemasuratori: branch, qty
+              let o = mainActivity.object
+              //branch: ["Constructii", "Exterior cladire", "Acoperis", etc]
+              //o are deja nivelurile initiale care este posibil sa fi fost prelungite prin adaugare de segmente noi
+              //identifica nivelul maxim din branch
+              let maxLevelA = 0;
+                mainActivity.antemasuratori.forEach(branch => {
+                  if (branch.length > maxLevelA) {
+                    maxLevelA = branch.length
+                  }
+                })
+              //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
+              //adauga la o diferenta de niveluri
+              let keys = Object.keys(o)
+              let maxLevelObject = 0
+              for (let key of keys) {
+                if (key.includes(_nivel_oferta)) {
+                  maxLevelObject ++
+                }
+              }
+              console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
+              //adauga la o niveluri noi
+              for (let i = maxLevelObject; i < maxLevelA; i++) {
+                o[_nivel_oferta + i] = ''
+              }
+              //add columns based on estimariDisplayMask
+              for (var key in estimariDisplayMask) {
+                //check key vs estimariDisplayMask
+                //first check if key exists in estimariDisplayMask
+                if (Object.keys(o).includes(key)) {
+                  //check if visible
+                  if (estimariDisplayMask[key].visible) {
+                    let td = document.createElement('td')
+                    td.innerHTML = o[key] || ''
+                    tr.appendChild(td)
+                  }
                 }
               }
             }
