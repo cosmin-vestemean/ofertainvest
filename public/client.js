@@ -83,6 +83,7 @@ var niveluri = []
 var _nivel_oferta = 'NIVEL_OFERTA_'
 var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
+var _cantitate_estimari = 'CANTITATE_ARTICOL_ESTIMARI'
 var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'
 var visible_columns = []
 var denumireUnica_ds = []
@@ -230,6 +231,12 @@ const estimariDisplayMask = {
     RW: false,
     visible: true,
     label: 'Cantitate<br>antemasuratori'
+  },
+  CANTITATE_ARTICOL_ESTIMARI: {
+    value: 'CANTITATE_ARTICOL_ESTIMARI',
+    RW: true,
+    visible: true,
+    label: 'Cantitate<br>estimari'
   }
 }
 
@@ -3159,6 +3166,7 @@ class estimari extends LitElement {
                 o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
               }
               o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
+              o[_cantitate_estimari] = 0
               //create main activity row
               let tr = document.createElement('tr')
               tbody.appendChild(tr)
