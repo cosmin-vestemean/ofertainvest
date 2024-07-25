@@ -3059,10 +3059,27 @@ class estimari extends LitElement {
         th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
+        let firstLine = this.ds[0][0].object
+        let maxLevelA = firstLine.antemasuratori[0].branch[0].length
+        //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
+        //adauga la o diferenta de niveluri
+        let keys = Object.keys(o)
+        let maxLevelObject = 0
+        for (let key of keys) {
+          if (key.includes(_nivel_oferta)) {
+            maxLevelObject++
+          }
+        }
+        console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
+
+        for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+          firstLine[_nivel_oferta + i] = _nivel_oferta + i
+        }
+
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
-          if (Object.keys(this.ds[0][0].object).includes(key)) {
+          if (Object.keys(firstLine).includes(key)) {
             //check if visible
             if (estimariDisplayMask[key].visible) {
               let th = document.createElement('th')
@@ -3127,94 +3144,75 @@ class estimari extends LitElement {
             //Arr3 is a table in a table
 
             let o = mainActivity.object
-            //branch: ["Constructii", "Exterior cladire", "Acoperis", etc]
-            //o are deja nivelurile initiale care este posibil sa fi fost prelungite prin adaugare de segmente noi
-            //identifica nivelul maxim din branch
-            let maxLevelA = 0
-            mainActivity.antemasuratori.forEach((ante) => {
-              if (ante.branch.length > maxLevelA) {
-                maxLevelA = ante.branch.length
-              }
-            })
-            //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
-            //adauga la o diferenta de niveluri
-            let keys = Object.keys(o)
-            let maxLevelObject = 0
-            for (let key of keys) {
-              if (key.includes(_nivel_oferta)) {
-                maxLevelObject++
-              }
-            }
-            console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
-           
+
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
-               //adauga la o niveluri noi
+              //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
                 o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
               }
-            //create main activity row
-            let tr = document.createElement('tr')
-            tbody.appendChild(tr)
-            //create a checkbox for main activity
-            let td = document.createElement('td')
-            //create a checkbox
-            let checkbox = document.createElement('input')
-            checkbox.type = 'checkbox'
-            checkbox.id = 'checkbox_' + counter
-            checkbox.classList.add('form-check-input', 'align-middle')
-            checkbox.checked = true
-            td.appendChild(checkbox)
-            tr.appendChild(td)
-            td = document.createElement('td')
-            //add plus/minus icon
-            let plus_icon = document.createElement('i')
-            plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
-            plus_icon.style.cursor = 'pointer'
-            plus_icon.onclick = function () {}
-            td.appendChild(plus_icon)
-            tr.appendChild(td)
+              //create main activity row
+              let tr = document.createElement('tr')
+              tbody.appendChild(tr)
+              //create a checkbox for main activity
+              let td = document.createElement('td')
+              //create a checkbox
+              let checkbox = document.createElement('input')
+              checkbox.type = 'checkbox'
+              checkbox.id = 'checkbox_' + counter
+              checkbox.classList.add('form-check-input', 'align-middle')
+              checkbox.checked = true
+              td.appendChild(checkbox)
+              tr.appendChild(td)
+              td = document.createElement('td')
+              //add plus/minus icon
+              let plus_icon = document.createElement('i')
+              plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+              plus_icon.style.cursor = 'pointer'
+              plus_icon.onclick = function () {}
+              td.appendChild(plus_icon)
+              tr.appendChild(td)
 
-            //add counter
-            td = document.createElement('td')
-            td.classList.add('align-middle')
-            td.innerHTML = counter
-            tr.appendChild(td)
+              //add counter
+              td = document.createElement('td')
+              td.classList.add('align-middle')
+              td.innerHTML = counter
+              tr.appendChild(td)
 
-            //add columns based on estimariDisplayMask
-            for (var key in estimariDisplayMask) {
-              //check key vs estimariDisplayMask
-              //first check if key exists in estimariDisplayMask
-              if (Object.keys(o).includes(key)) {
-                //check if visible
-                if (estimariDisplayMask[key].visible) {
-                  let td = document.createElement('td')
-                  td.innerHTML = o[key] || ''
-                  tr.appendChild(td)
+              //add columns based on estimariDisplayMask
+              for (var key in estimariDisplayMask) {
+                //check key vs estimariDisplayMask
+                //first check if key exists in estimariDisplayMask
+                if (Object.keys(o).includes(key)) {
+                  //check if visible
+                  if (estimariDisplayMask[key].visible) {
+                    let td = document.createElement('td')
+                    td.innerHTML = o[key] || ''
+                    tr.appendChild(td)
+                  }
                 }
               }
+
+              //add start date and end date
+              td = document.createElement('td')
+              //create type="date" input
+              let input = document.createElement('input')
+              input.type = 'date'
+              input.id = 'start_date_' + counter
+              input.classList.add('form-control', 'form-control-sm', 'rounded')
+              input.value = ''
+              td.appendChild(input)
+              tr.appendChild(td)
+
+              td = document.createElement('td')
+              //create type="date" input
+              input = document.createElement('input')
+              input.type = 'date'
+              input.id = 'end_date_' + counter
+              input.classList.add('form-control', 'form-control-sm', 'rounded')
+              input.value = ''
+              td.appendChild(input)
+              tr.appendChild(td)
             }
-
-            //add start date and end date
-            td = document.createElement('td')
-            //create type="date" input
-            let input = document.createElement('input')
-            input.type = 'date'
-            input.id = 'start_date_' + counter
-            input.classList.add('form-control', 'form-control-sm', 'rounded')
-            input.value = ''
-            td.appendChild(input)
-            tr.appendChild(td)
-
-            td = document.createElement('td')
-            //create type="date" input
-            input = document.createElement('input')
-            input.type = 'date'
-            input.id = 'end_date_' + counter
-            input.classList.add('form-control', 'form-control-sm', 'rounded')
-            input.value = ''
-            td.appendChild(input)
-            tr.appendChild(td)
-          }
 
             //exit for loop
             break
