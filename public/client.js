@@ -3090,6 +3090,7 @@ class estimari extends LitElement {
         }
 
         firstLine[_cantitate_antemasuratori] = 0
+        firstLine[_cantitate_estimari] = 0
 
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
