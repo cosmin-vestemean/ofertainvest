@@ -222,9 +222,15 @@ const estimariDisplayMask = {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
-    label: 'Cantitate'
+    label: 'Cantitate<br>oferta'
   },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' }
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+  CANTITATE_ARTICOL_ANTEMASURATORI: {
+    value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
+    RW: false,
+    visible: true,
+    label: 'Cantitate<br>antemasuratori'
+  }
 }
 
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
@@ -3076,6 +3082,8 @@ class estimari extends LitElement {
           firstLine[_nivel_oferta + i] = _nivel_oferta + i
         }
 
+        firstLine[_cantitate_antemasuratori] = 0
+
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
@@ -3150,6 +3158,7 @@ class estimari extends LitElement {
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
                 o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
               }
+              o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
               //create main activity row
               let tr = document.createElement('tr')
               tbody.appendChild(tr)
