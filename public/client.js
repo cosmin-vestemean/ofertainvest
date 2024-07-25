@@ -3136,9 +3136,9 @@ class estimari extends LitElement {
               //o are deja nivelurile initiale care este posibil sa fi fost prelungite prin adaugare de segmente noi
               //identifica nivelul maxim din branch
               let maxLevelA = 0;
-                mainActivity.antemasuratori.forEach(branch => {
-                  if (branch.length > maxLevelA) {
-                    maxLevelA = branch.length
+                mainActivity.antemasuratori.forEach(ante => {
+                  if (ante.branch.length > maxLevelA) {
+                    maxLevelA = ante.branch.length
                   }
                 })
               //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
