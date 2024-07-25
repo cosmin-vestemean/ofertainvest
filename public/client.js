@@ -3060,7 +3060,7 @@ class estimari extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         let firstLine = this.ds[0][0].object
-        let maxLevelA = firstLine.antemasuratori[0].branch[0].length
+        let maxLevelA = this.ds[0][0].antemasuratori[0].branch[0].length
         //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
         //adauga la o diferenta de niveluri
         let keys = Object.keys(o)
