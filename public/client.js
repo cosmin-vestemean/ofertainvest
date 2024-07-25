@@ -3170,6 +3170,7 @@ class estimari extends LitElement {
               o[_cantitate_estimari] = 0
               //create main activity row
               let tr = document.createElement('tr')
+              tr.classList.add(bg_color)
               tbody.appendChild(tr)
               //create a checkbox for main activity
               let td = document.createElement('td')
