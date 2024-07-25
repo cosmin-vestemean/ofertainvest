@@ -148,8 +148,20 @@ const antemasuratoriDisplayMask = {
     label: 'Denumire',
     isEnumerable: true
   },
-  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Tip articol', isEnumerable: true },
-  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: false, visible: false, label: 'Subtip articol', isEnumerable: true },
+  TIP_ARTICOL_OFERTA: {
+    value: TIP_ARTICOL_OFERTA,
+    RW: false,
+    visible: false,
+    label: 'Tip articol',
+    isEnumerable: true
+  },
+  SUBTIP_ARTICOL_OFERTA: {
+    value: SUBTIP_ARTICOL_OFERTA,
+    RW: false,
+    visible: false,
+    label: 'Subtip articol',
+    isEnumerable: true
+  },
   NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', isEnumerable: true },
   NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', isEnumerable: true },
   NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', isEnumerable: true },
@@ -159,7 +171,13 @@ const antemasuratoriDisplayMask = {
   NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', isEnumerable: true },
   NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', isEnumerable: true },
   NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', isEnumerable: true },
-  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', isEnumerable: true },
+  NIVEL_OFERTA_10: {
+    value: 'NIVEL_OFERTA_10',
+    RW: false,
+    visible: true,
+    label: 'Nivel 10',
+    isEnumerable: true
+  },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
@@ -167,7 +185,13 @@ const antemasuratoriDisplayMask = {
     label: 'Cantitate<br>oferta',
     isEnumerable: false
   },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', isEnumerable: false },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'UM',
+    isEnumerable: false
+  },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
@@ -2895,9 +2919,13 @@ class antemasuratori extends LitElement {
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
               if (!antemasuratoriDisplayMask[key].isEnumerable) {
-                th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
+                th.innerHTML = antemasuratoriDisplayMask[key].label
+                  ? antemasuratoriDisplayMask[key].label
+                  : key
               } else {
-                th.innerHTML = antemasuratoriDisplayMask[key].label ? antemasuratoriDisplayMask[key].label : key
+                th.innerHTML = antemasuratoriDisplayMask[key].label
+                  ? antemasuratoriDisplayMask[key].label
+                  : key
                 //insert select element with multiple selections
               }
 
@@ -3021,7 +3049,7 @@ class estimari extends LitElement {
         //append plus/minus icon
         th = document.createElement('th')
         let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi','bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
+        plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {}
         th.appendChild(plus_icon)
@@ -3077,7 +3105,6 @@ class estimari extends LitElement {
         input.value = ''
         th.appendChild(input)
         tr.appendChild(th)
-
       }
 
       //add tbody
@@ -3099,6 +3126,31 @@ class estimari extends LitElement {
             //Arr[i] has a plus/minus icon for unfolding/folding Arr3
             //Arr3 is a table in a table
 
+            let o = mainActivity.object
+            //branch: ["Constructii", "Exterior cladire", "Acoperis", etc]
+            //o are deja nivelurile initiale care este posibil sa fi fost prelungite prin adaugare de segmente noi
+            //identifica nivelul maxim din branch
+            let maxLevelA = 0
+            mainActivity.antemasuratori.forEach((ante) => {
+              if (ante.branch.length > maxLevelA) {
+                maxLevelA = ante.branch.length
+              }
+            })
+            //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
+            //adauga la o diferenta de niveluri
+            let keys = Object.keys(o)
+            let maxLevelObject = 0
+            for (let key of keys) {
+              if (key.includes(_nivel_oferta)) {
+                maxLevelObject++
+              }
+            }
+            console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
+            //adauga la o niveluri noi
+            for (let i = maxLevelObject; i < maxLevelA; i++) {
+              o[_nivel_oferta + i] = 'xxx'
+            }
+            for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
             //create main activity row
             let tr = document.createElement('tr')
             tbody.appendChild(tr)
@@ -3115,7 +3167,7 @@ class estimari extends LitElement {
             td = document.createElement('td')
             //add plus/minus icon
             let plus_icon = document.createElement('i')
-            plus_icon.classList.add('bi','bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+            plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
             plus_icon.style.cursor = 'pointer'
             plus_icon.onclick = function () {}
             td.appendChild(plus_icon)
@@ -3127,45 +3179,16 @@ class estimari extends LitElement {
             td.innerHTML = counter
             tr.appendChild(td)
 
-            //create an inne join between mainActivity.object and mainActivity.antemasuratori and create rows for each object
-            //create a row for each object
-            for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
-              //add to mainActivity.object the properties from mainActivity.antemasuratori: branch, qty
-              let o = mainActivity.object
-              //branch: ["Constructii", "Exterior cladire", "Acoperis", etc]
-              //o are deja nivelurile initiale care este posibil sa fi fost prelungite prin adaugare de segmente noi
-              //identifica nivelul maxim din branch
-              let maxLevelA = 0;
-                mainActivity.antemasuratori.forEach(ante => {
-                  if (ante.branch.length > maxLevelA) {
-                    maxLevelA = ante.branch.length
-                  }
-                })
-              //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
-              //adauga la o diferenta de niveluri
-              let keys = Object.keys(o)
-              let maxLevelObject = 0
-              for (let key of keys) {
-                if (key.includes(_nivel_oferta)) {
-                  maxLevelObject ++
-                }
-              }
-              console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
-              //adauga la o niveluri noi
-              for (let i = maxLevelObject; i < maxLevelA; i++) {
-                o[_nivel_oferta + i] = ''
-              }
-              //add columns based on estimariDisplayMask
-              for (var key in estimariDisplayMask) {
-                //check key vs estimariDisplayMask
-                //first check if key exists in estimariDisplayMask
-                if (Object.keys(o).includes(key)) {
-                  //check if visible
-                  if (estimariDisplayMask[key].visible) {
-                    let td = document.createElement('td')
-                    td.innerHTML = o[key] || ''
-                    tr.appendChild(td)
-                  }
+            //add columns based on estimariDisplayMask
+            for (var key in estimariDisplayMask) {
+              //check key vs estimariDisplayMask
+              //first check if key exists in estimariDisplayMask
+              if (Object.keys(o).includes(key)) {
+                //check if visible
+                if (estimariDisplayMask[key].visible) {
+                  let td = document.createElement('td')
+                  td.innerHTML = o[key] || ''
+                  tr.appendChild(td)
                 }
               }
             }
@@ -3190,6 +3213,7 @@ class estimari extends LitElement {
             input.value = ''
             td.appendChild(input)
             tr.appendChild(td)
+          }
 
             //exit for loop
             break
