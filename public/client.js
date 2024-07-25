@@ -3160,7 +3160,7 @@ class estimari extends LitElement {
             //Arr3 is a table in a table
 
             let o = mainActivity.object
-
+            bg_color = counter % 2 == 0 ? 'bg-light' : 'bg-white'
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
               //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
@@ -3170,6 +3170,7 @@ class estimari extends LitElement {
               o[_cantitate_estimari] = 0
               //create main activity row
               let tr = document.createElement('tr')
+              tr.classList.add(bg_color)
               tbody.appendChild(tr)
               //create a checkbox for main activity
               let td = document.createElement('td')
