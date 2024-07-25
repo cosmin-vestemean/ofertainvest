@@ -3146,11 +3146,12 @@ class estimari extends LitElement {
               }
             }
             console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
-            //adauga la o niveluri noi
-            for (let i = maxLevelObject; i < maxLevelA; i++) {
-              o[_nivel_oferta + i] = 'xxx'
-            }
+           
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
+               //adauga la o niveluri noi
+              for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+                o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
+              }
             //create main activity row
             let tr = document.createElement('tr')
             tbody.appendChild(tr)
