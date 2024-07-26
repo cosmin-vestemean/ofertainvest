@@ -3147,7 +3147,6 @@ class estimari extends LitElement {
 
       for (let i = 0; i < this.ds.length; i++) {
         counter++;
-        let mainActivity = null;
         let mainExists = false;
 
         for (let j = 0; j < this.ds[i].length; j++) {
@@ -3187,32 +3186,19 @@ class estimari extends LitElement {
 
       console.log('temp', temp)
 
-      //filter by isMain
-      let filtered = temp.filter(function (item) {
-        return item.isMain
-      })
-
-      //create table rows by using addTableRow function
-      for (let i = 0; i < filtered.length; i++) {
-        addTableRow(filtered[i].instanta, filtered[i].ramura, i, filtered[i].row_data)
-        //add children
-        for (let j = 0; j < temp.length; j++) {
-          if (temp[j].instanta == filtered[i].instanta && temp[j].ramura == filtered[i].ramura) {
-            addTableRow(temp[j].instanta, temp[j].ramura, i, temp[j].row_data)
-          }
-        }
-      }      
-    }
+     for (let i = 0; i < temp.length; i++) {
+      addTableRow(temp[i].instanta, temp[i].ramura, i, temp[i].row_data)
+     }
 
     return html`${table}`
 
-    function createMainRow(mainActivity, o, i, counter, temp, isMain) {
-      for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
+    function createMainRow(activitate, o, i, counter, temp, isMain) {
+      for (let k = 0; k < activitate.antemasuratori.length; k++) {
         //adauga la o niveluri noi
         for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-          o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
+          o[_nivel_oferta + i] = activitate.antemasuratori[k].branch[i - 1]
         }
-        o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
+        o[_cantitate_antemasuratori] = activitate.antemasuratori[k].qty
         o[_cantitate_estimari] = 0
         //create main activity row
         //addTableRow(i, k, counter, o)
