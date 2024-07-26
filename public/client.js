@@ -3163,7 +3163,7 @@ class estimari extends LitElement {
             let o = mainActivity.object
             createMainRow(mainActivity, o, i, counter, temp)
 
-            for (l = 0; l < this.ds[i].length; l++) {
+            for (let l = 0; l < this.ds[i].length; l++) {
               let activitate = this.ds[i][l]
               let o = activitate.object
               createMainRow(activitate, o, i, counter, temp)
