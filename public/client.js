@@ -3143,6 +3143,7 @@ class estimari extends LitElement {
       //add tbody
       //find main activity in ds[i]
       let counter = 0
+      let temp = []
       for (let i = 0; i < this.ds.length; i++) {
         counter++
         let mainActivity = null
@@ -3170,6 +3171,7 @@ class estimari extends LitElement {
               o[_cantitate_estimari] = 0
               //create main activity row
               addTableRow(i, k, bg_color, counter, o)
+              temp.push({instanta: i, nivel: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o})
             }
 
             //exit for loop
