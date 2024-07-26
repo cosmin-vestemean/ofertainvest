@@ -3163,7 +3163,7 @@ class estimari extends LitElement {
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
             for (let k = 0; k < antemasuratori.length; k++) {
               let branch = antemasuratori[k];
-              let ret_obj = createMainRow([branch], o, i, k,true);
+              let ret_obj = createMainRow(branch, o, i, k,true);
               if (ret_obj) {
                 temp.push(ret_obj);
               } else {
@@ -3173,7 +3173,7 @@ class estimari extends LitElement {
           } else {
             for (let k =0;k< antemasuratori.length; k++) {
               let branch = antemasuratori[k];
-              let ret_obj = createMainRow([branch], o, i, k, false);
+              let ret_obj = createMainRow(branch, o, i, k, false);
               if (ret_obj) {
                 temp.push(ret_obj);
               } else {
@@ -3249,9 +3249,9 @@ class estimari extends LitElement {
     function createMainRow(a, o, i, k, isMain) {
         //adauga la o niveluri noi
         for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-          o[_nivel_oferta + i] = a[k].branch[i - 1]
+          o[_nivel_oferta + i] = a.branch[i - 1]
         }
-        o[_cantitate_antemasuratori] = a[k].qty
+        o[_cantitate_antemasuratori] = a.qty
         o[_cantitate_estimari] = 0
         //create main activity row
         //addTableRow(i, k, counter, o)
