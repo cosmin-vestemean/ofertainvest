@@ -3175,17 +3175,15 @@ class estimari extends LitElement {
               let o1 = this.ds[i][j].object
               //add antemasuratori extensions
               let antemasuratori = this.ds[i][j].antemasuratori
-              for (let l = 0; l < antemasuratori.length; l++) {
-                let a = antemasuratori[l][k]
-                let bg_color = l % 2 == 0 ? 'table-light' : 'table-white'
-                //adauga la o niveluri noi
-                for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-                  o1[_nivel_oferta + i] = a.branch[i - 1]
-                }
-                o1[_cantitate_antemasuratori] = a.qty
-                o1[_cantitate_estimari] = 0
-                createTableRow(l, i, bg_color, counter, o1)
+              let a = antemasuratori[k]
+              let bg_color = l % 2 == 0 ? 'table-light' : 'table-white'
+              //adauga la o niveluri noi
+              for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+                o1[_nivel_oferta + i] = a.branch[i - 1]
               }
+              o1[_cantitate_antemasuratori] = a.qty
+              o1[_cantitate_estimari] = 0
+              createTableRow(l, i, bg_color, counter, o1)
             }
 
             //exit for loop
@@ -3221,7 +3219,7 @@ class estimari extends LitElement {
       plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
       plus_icon.style.cursor = 'pointer'
       plus_icon.id = 'plus_' + k + '@' + i
-      plus_icon.onclick = function () { }
+      plus_icon.onclick = function () {}
       td.appendChild(plus_icon)
       tr.appendChild(td)
 
