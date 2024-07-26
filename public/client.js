@@ -3153,7 +3153,10 @@ class estimari extends LitElement {
           let activitate = { ...this.ds[i][j] };
 
           let o = { ... activitate.object };
-          let antemasuratori = [ ...activitate.antemasuratori ];
+          let antemasuratori = [];
+          activitate.antemasuratori.forEach(function (a) {
+            antemasuratori.push({ branch: a.branch, qty: a.qty });
+          });
           if (activitate.isMain) {
             mainExists = true;
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
