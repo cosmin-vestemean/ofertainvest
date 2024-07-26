@@ -3237,7 +3237,7 @@ class estimari extends LitElement {
           let ramura = instanta[k]
           for (let i = 0; i < ramura.length; i++) {
             let o = ramura[i].row_data
-            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, o)
+            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, o, ramura[i].isMain)
             counter++
           }
         }
@@ -3258,7 +3258,7 @@ class estimari extends LitElement {
         return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain}
     }
 
-    function addTableRow(i, k, counter, o) {
+    function addTableRow(i, k, counter, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
       tr.id = i + '@' + k
