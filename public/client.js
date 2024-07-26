@@ -3186,19 +3186,41 @@ class estimari extends LitElement {
 
       console.log('temp', temp)
 
-     for (let i = 0; i < temp.length; i++) {
-      addTableRow(temp[i].instanta, temp[i].ramura, i, temp[i].row_data)
-     }
+      for (let i = 0; i < temp.length; i++) {
+        let instanta = temp[i].instanta
+        //filter temp by instanta
+        let filtered = temp.filter(function (item) {
+          return item.instanta == instanta
+        })
+        
+        let ramuri = []
+        filtered.forEach(function (item) {
+            let ramura = item.ramura
+            if (!ramuri.includes(ramura)) {
+              ramuri.push(ramura)
+            }
+        })
+
+        filtered.forEach(function (item) {
+          ramuri.forEach(function (ramura) {
+            if (item.isMain) {
+              addTableRow(item.instanta, ramura, item.instanta, item.row_data)
+            }
+            addTableRow(item.instanta, ramura, item.instanta, item.row_data)
+          })
+        })
+      }      
+    }
 
     return html`${table}`
 
-    function createMainRow(activitate, o, i, counter, temp, isMain) {
-      for (let k = 0; k < activitate.antemasuratori.length; k++) {
+    function createMainRow(mainActivity, o, i, counter, temp, isMain) {
+      for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
         //adauga la o niveluri noi
         for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-          o[_nivel_oferta + i] = activitate.antemasuratori[k].branch[i - 1]
+          o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
         }
-        o[_cantitate_antemasuratori] = activitate.antemasuratori[k].qty
+        o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
         o[_cantitate_estimari] = 0
         //create main activity row
         //addTableRow(i, k, counter, o)
