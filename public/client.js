@@ -3161,18 +3161,22 @@ class estimari extends LitElement {
           if (activitate.isMain) {
             mainExists = true;
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
-            let ret_obj = createMainRow(antemasuratori, o, i, true);
-            if (ret_obj) {
-              temp.push(ret_obj);
-            } else {
-              console.log('createMainRow returned null at ' + i + ' ' + j);
+            for (let branch of antemasuratori) {
+              let ret_obj = createMainRow(branch, o, i, true);
+              if (ret_obj) {
+                temp.push(ret_obj);
+              } else {
+                console.log('createMainRow returned null at ' + i + ' ' + j);
+              }
             }
           } else {
-            let ret_obj = createMainRow(antemasuratori, o, i, false);
-            if (ret_obj) {
-              temp.push(ret_obj);
-            } else {
-              console.log('createMainRow returned null at ' + i + ' ' + j);
+            for (let branch of antemasuratori) {
+              let ret_obj = createMainRow(branch, o, i, false);
+              if (ret_obj) {
+                temp.push(ret_obj);
+              } else {
+                console.log('createMainRow returned null at ' + i + ' ' + j);
+              }
             }
           }
         }
@@ -3181,10 +3185,6 @@ class estimari extends LitElement {
           console.log('Activitatea principala nu a fost gasita pentru instanta ', i);
         }
       }
-
-      temp.forEach(function (object) {
-        console.log('temp', object.instanta, object.ramura, object.denumire, object.row_data);
-      })
 
       //sort temp by instanta, ramura
       temp.sort(function (a, b) {
@@ -3275,12 +3275,16 @@ class estimari extends LitElement {
       td.appendChild(checkbox)
       tr.appendChild(td)
       td = document.createElement('td')
+      if (isMain) {
       //add plus/minus icon
       let plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
-      plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = function () { }
-      td.appendChild(plus_icon)
+        plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+        plus_icon.style.cursor = 'pointer'
+        plus_icon.onclick = function () { }
+        td.appendChild(plus_icon)
+      } else {
+        td.innerHTML = ''
+      }
       tr.appendChild(td)
 
       //add counter
