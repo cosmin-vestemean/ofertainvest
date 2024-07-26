@@ -3164,7 +3164,7 @@ class estimari extends LitElement {
         }
 
         if (!mainExists) {
-          console.log('Activitatea principala nu a fost gasita');
+          console.log('Activitatea principala nu a fost gasita pentru instanta ', i);
         }
       }
 
@@ -3186,6 +3186,16 @@ class estimari extends LitElement {
       })
 
       console.log('temp', temp)
+
+      //filter by isMain
+      let filtered = temp.filter(function (item) {
+        return item.isMain
+      })
+
+      //create table rows by using addTableRow function
+      for (let i = 0; i < filtered.length; i++) {
+        addTableRow(filtered[i].instanta, filtered[i].ramura, i, filtered[i].row_data)
+      }      
     }
 
     return html`${table}`
@@ -3199,7 +3209,7 @@ class estimari extends LitElement {
         o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
         o[_cantitate_estimari] = 0
         //create main activity row
-        addTableRow(i, k, counter, o)
+        //addTableRow(i, k, counter, o)
         temp.push({ instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain})
       }
     }
