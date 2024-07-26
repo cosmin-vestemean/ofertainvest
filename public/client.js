@@ -3270,6 +3270,9 @@ class estimari extends LitElement {
       let tr = document.createElement('tr')
       tr.id = i + '@' + k
       tr.classList.add(bg_color)
+      if (isMain) {
+        tr.classList.add('table-primary')
+      }
       tbody.appendChild(tr)
       //create a checkbox for main activity
       let td = document.createElement('td')
@@ -3297,7 +3300,11 @@ class estimari extends LitElement {
       //add counter
       td = document.createElement('td')
       td.classList.add('align-middle')
-      td.innerHTML = counter + '.' + counter2 + '.' + counter3
+      if (!isMain) {
+        td.innerHTML = counter + '.' + counter2 + '.' + counter3
+      } else {
+        td.innerHTML = counter + '.' + counter2
+      }
       tr.appendChild(td)
 
       //add columns based on estimariDisplayMask
