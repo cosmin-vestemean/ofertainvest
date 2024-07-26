@@ -3191,9 +3191,6 @@ class estimari extends LitElement {
           acc[object.instanta] = []
         }
         acc[object.instanta].push(object)
-        acc.instanta = object.instanta
-        //delete instanta from object
-        delete object.instanta
         return acc
       }, {})
 
@@ -3204,9 +3201,6 @@ class estimari extends LitElement {
             acc[object.ramura] = []
           }
           acc[object.ramura].push(object)
-          acc.ramura = object.ramura
-          //delete ramura from object
-          delete object.ramura
           return acc
         }, {})
       }
