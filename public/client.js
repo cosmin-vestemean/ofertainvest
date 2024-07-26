@@ -3161,17 +3161,12 @@ class estimari extends LitElement {
             //Arr3 is a table in a table
 
             let o = mainActivity.object
-            let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
-            for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
-              //adauga la o niveluri noi
-              for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-                o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
-              }
-              o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
-              o[_cantitate_estimari] = 0
-              //create main activity row
-              addTableRow(i, k, bg_color, counter, o)
-              temp.push({instanta: i, nivel: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o})
+            createMainRow(mainActivity, o, i, counter, temp)
+
+            for (l = 0; l < this.ds[i].length; l++) {
+              let activitate = this.ds[i][l]
+              let o = activitate.object
+              createMainRow(activitate, o, i, counter, temp)
             }
 
             //exit for loop
@@ -3182,11 +3177,28 @@ class estimari extends LitElement {
           console.log('Activitatea principala nu a fost gasita')
         }
       }
+
+      console.log('temp', temp)
     }
 
     return html`${table}`
 
-    function addTableRow(i, k, bg_color, counter, o) {
+    function createMainRow(mainActivity, o, i, counter, temp) {
+      for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
+        //adauga la o niveluri noi
+        for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+          o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
+        }
+        o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
+        o[_cantitate_estimari] = 0
+        //create main activity row
+        addTableRow(i, k, counter, o)
+        temp.push({ instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o })
+      }
+    }
+
+    function addTableRow(i, k, counter, o) {
+      let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
       tr.id = i + '@' + k
       tr.classList.add(bg_color)
