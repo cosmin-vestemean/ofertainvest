@@ -3195,6 +3195,12 @@ class estimari extends LitElement {
       //create table rows by using addTableRow function
       for (let i = 0; i < filtered.length; i++) {
         addTableRow(filtered[i].instanta, filtered[i].ramura, i, filtered[i].row_data)
+        //add children
+        for (let j = 0; j < temp.length; j++) {
+          if (temp[j].instanta == filtered[i].instanta && temp[j].ramura == filtered[i].ramura) {
+            addTableRow(temp[j].instanta, temp[j].ramura, i, temp[j].row_data)
+          }
+        }
       }      
     }
 
