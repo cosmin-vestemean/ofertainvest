@@ -3241,7 +3241,11 @@ class estimari extends LitElement {
           for (let i = 0; i < ramura.length; i++) {
             let o = ramura[i].row_data
             counter3++
-            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, ramura[i].isMain)
+            if (ramura[i].isMain) {
+              //add main activity row
+              addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, true)
+            }
+            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, false)
           }
         }
       }
