@@ -3160,8 +3160,8 @@ class estimari extends LitElement {
             //Arr3 is a table in a table
 
             let o = mainActivity.object
-            let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
+              let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
               //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
                 o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
@@ -3176,7 +3176,6 @@ class estimari extends LitElement {
               //add antemasuratori extensions
               let antemasuratori = this.ds[i][j].antemasuratori
               let a = antemasuratori[k]
-              let bg_color = l % 2 == 0 ? 'table-light' : 'table-white'
               //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
                 o1[_nivel_oferta + i] = a.branch[i - 1]
