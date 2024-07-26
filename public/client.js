@@ -3159,12 +3159,85 @@ class estimari extends LitElement {
             //Arr[i] has a plus/minus icon for unfolding/folding Arr3
             //Arr3 is a table in a table
 
-            generateTableRows(mainActivity, counter, i)
+            let o = mainActivity.object
+            let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
+            for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
+              //adauga la o niveluri noi
+              for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+                o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
+              }
+              o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
+              o[_cantitate_estimari] = 0
+              //create main activity row
+              let tr = document.createElement('tr')
+              tr.id = i + '@' + k
+              tr.classList.add(bg_color)
+              tbody.appendChild(tr)
+              //create a checkbox for main activity
+              let td = document.createElement('td')
+              //create a checkbox
+              let checkbox = document.createElement('input')
+              checkbox.type = 'checkbox'
+              checkbox.id = 'checkbox_' + counter
+              checkbox.classList.add('form-check-input', 'align-middle')
+              checkbox.checked = true
+              td.appendChild(checkbox)
+              tr.appendChild(td)
+              td = document.createElement('td')
+              //add plus/minus icon
+              let plus_icon = document.createElement('i')
+              plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+              plus_icon.style.cursor = 'pointer'
+              plus_icon.onclick = function () {}
+              td.appendChild(plus_icon)
+              tr.appendChild(td)
 
-            for (let k = 0; k < this.ds[i].length; k++) {
-              let activitate = this.ds[i][k]
-              generateTableRows(activitate, counter, i)
-            } 
+              //add counter
+              td = document.createElement('td')
+              td.classList.add('align-middle')
+              td.innerHTML = counter
+              tr.appendChild(td)
+
+              //add columns based on estimariDisplayMask
+              for (var key in estimariDisplayMask) {
+                //check key vs estimariDisplayMask
+                //first check if key exists in estimariDisplayMask
+                if (Object.keys(o).includes(key)) {
+                  //check if visible
+                  if (estimariDisplayMask[key].visible) {
+                    let td = document.createElement('td')
+                    td.innerHTML = o[key] || ''
+                    //contenteditable if RW
+                    if (estimariDisplayMask[key].RW) {
+                      td.contentEditable = true
+                    }
+
+                    tr.appendChild(td)
+                  }
+                }
+              }
+
+              //add start date and end date
+              td = document.createElement('td')
+              //create type="date" input
+              let input = document.createElement('input')
+              input.type = 'date'
+              input.id = 'start_date_' + counter
+              input.classList.add('form-control', 'form-control-sm', 'rounded')
+              input.value = ''
+              td.appendChild(input)
+              tr.appendChild(td)
+
+              td = document.createElement('td')
+              //create type="date" input
+              input = document.createElement('input')
+              input.type = 'date'
+              input.id = 'end_date_' + counter
+              input.classList.add('form-control', 'form-control-sm', 'rounded')
+              input.value = ''
+              td.appendChild(input)
+              tr.appendChild(td)
+            }
 
             //exit for loop
             break
@@ -3177,88 +3250,6 @@ class estimari extends LitElement {
     }
 
     return html`${table}`
-
-    function generateTableRows(mainActivity, counter, i) {
-      let o = mainActivity.object
-      let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
-      for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
-        //adauga la o niveluri noi
-        for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-          o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
-        }
-        o[_cantitate_antemasuratori] = mainActivity.antemasuratori[k].qty
-        o[_cantitate_estimari] = 0
-        //create main activity row
-        let tr = document.createElement('tr')
-        tr.id = i + '@' + k
-        tr.classList.add(bg_color)
-        tbody.appendChild(tr)
-        //create a checkbox for main activity
-        let td = document.createElement('td')
-        //create a checkbox
-        let checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        checkbox.id = 'checkbox_' + counter
-        checkbox.classList.add('form-check-input', 'align-middle')
-        checkbox.checked = true
-        td.appendChild(checkbox)
-        tr.appendChild(td)
-        td = document.createElement('td')
-        //add plus/minus icon
-        let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
-        plus_icon.style.cursor = 'pointer'
-        plus_icon.onclick = function () { }
-        td.appendChild(plus_icon)
-        tr.appendChild(td)
-
-        //add counter
-        td = document.createElement('td')
-        td.classList.add('align-middle')
-        td.innerHTML = counter
-        tr.appendChild(td)
-
-        //add columns based on estimariDisplayMask
-        for (var key in estimariDisplayMask) {
-          //check key vs estimariDisplayMask
-          //first check if key exists in estimariDisplayMask
-          if (Object.keys(o).includes(key)) {
-            //check if visible
-            if (estimariDisplayMask[key].visible) {
-              let td = document.createElement('td')
-              td.innerHTML = o[key] || ''
-              //contenteditable if RW
-              if (estimariDisplayMask[key].RW) {
-                td.contentEditable = true
-              }
-
-              tr.appendChild(td)
-            }
-          }
-        }
-
-        //add start date and end date
-        td = document.createElement('td')
-        //create type="date" input
-        let input = document.createElement('input')
-        input.type = 'date'
-        input.id = 'start_date_' + counter
-        input.classList.add('form-control', 'form-control-sm', 'rounded')
-        input.value = ''
-        td.appendChild(input)
-        tr.appendChild(td)
-
-        td = document.createElement('td')
-        //create type="date" input
-        input = document.createElement('input')
-        input.type = 'date'
-        input.id = 'end_date_' + counter
-        input.classList.add('form-control', 'form-control-sm', 'rounded')
-        input.value = ''
-        td.appendChild(input)
-        tr.appendChild(td)
-      }
-    }
   }
 }
 
