@@ -3142,7 +3142,7 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      let counter = 0
+      var counter = 0
       for (let i = 0; i < this.ds.length; i++) {
         counter++
         let mainActivity = null
@@ -3161,7 +3161,7 @@ class estimari extends LitElement {
 
             let o = mainActivity.object
             for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
-              let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
+              var bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
               //adauga la o niveluri noi
               for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
                 o[_nivel_oferta + i] = mainActivity.antemasuratori[k].branch[i - 1]
@@ -3173,8 +3173,8 @@ class estimari extends LitElement {
 
               //add all activities in another table inside this table, after the main activity, inner join with antemasuratori
 
-              for (let x = 0; x < this.ds.length; x++) {
-                  let o1 = this.ds[i][y].object
+              for (let l = 0; l < this.ds.length; l++) {
+                  let o1 = this.ds[i][l].object
                   //add antemasuratori extensions and qtys
                   createTableRow(k, i, bg_color, counter, o1)
               }
