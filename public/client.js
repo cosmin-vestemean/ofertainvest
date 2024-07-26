@@ -3182,7 +3182,7 @@ class estimari extends LitElement {
               }
               o1[_cantitate_antemasuratori] = a.qty
               o1[_cantitate_estimari] = 0
-              createTableRow(l, i, bg_color, counter, o1)
+              createTableRow(k, i, bg_color, counter, o1)
             }
 
             //exit for loop
