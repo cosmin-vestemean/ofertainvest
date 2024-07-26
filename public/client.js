@@ -3177,8 +3177,24 @@ class estimari extends LitElement {
         }
       }
 
-      console.log('temp', temp)
       //sort temp by instanta, ramura
+      temp.sort(function (a, b) {
+        if (a.instanta < b.instanta) {
+          return -1
+        }
+        if (a.instanta > b.instanta) {
+          return 1
+        }
+        if (a.ramura < b.ramura) {
+          return -1
+        }
+        if (a.ramura > b.ramura) {
+          return 1
+        }
+        return 0
+      })
+
+      console.log('temp', temp)
     }
 
     return html`${table}`
