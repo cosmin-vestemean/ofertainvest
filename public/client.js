@@ -3161,9 +3161,19 @@ class estimari extends LitElement {
           if (activitate.isMain) {
             mainExists = true;
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
-            createMainRow(antemasuratori, o, i, counter, temp, true);
+            let o = createMainRow(antemasuratori, o, i, true);
+            if (o) {
+              temp.push(o);
+            } else {
+              console.log('createMainRow returned null at ' + i + ' ' + j);
+            }
           } else {
-            createMainRow(antemasuratori, o, i, counter, temp, false);
+            let o = createMainRow(antemasuratori, o, i, false);
+            if (o) {
+              temp.push(o);
+            } else {
+              console.log('createMainRow returned null at ' + i + ' ' + j);
+            }
           }
         }
 
@@ -3234,7 +3244,7 @@ class estimari extends LitElement {
 
     return html`${table}`
 
-    function createMainRow(a, o, i, temp, isMain, maxLevelObject, maxLevelA) {
+    function createMainRow(a, o, i, isMain) {
       for (let k = 0; k < a.length; k++) {
         //adauga la o niveluri noi
         for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
@@ -3244,7 +3254,7 @@ class estimari extends LitElement {
         o[_cantitate_estimari] = 0
         //create main activity row
         //addTableRow(i, k, counter, o)
-        temp.push({ instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain})
+        return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain}
       }
     }
 
