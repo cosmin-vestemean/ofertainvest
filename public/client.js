@@ -3172,11 +3172,11 @@ class estimari extends LitElement {
               createTableRow(k, i, bg_color, counter, o)
 
               //add all activities in another table inside this table, after the main activity, inner join with antemasuratori
-              let o1 = ds[i][j].object
+              let o1 = this.ds[i][j].object
               //add antemasuratori extensions
-              let antemasuratori = ds[i][j].antemasuratori
+              let antemasuratori = this.ds[i][j].antemasuratori
               for (let l = 0; l < antemasuratori.length; l++) {
-                let a = antemasuratori[l]
+                let a = antemasuratori[l][k]
                 let bg_color = l % 2 == 0 ? 'table-light' : 'table-white'
                 //adauga la o niveluri noi
                 for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
