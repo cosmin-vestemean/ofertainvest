@@ -3144,6 +3144,7 @@ class estimari extends LitElement {
       //find main activity in ds[i]
       let counter = 0
       let temp = []
+      let temp1= []
       for (let i = 0; i < this.ds.length; i++) {
         counter++
         let mainActivity = null
@@ -3154,27 +3155,21 @@ class estimari extends LitElement {
           }
           if (mainActivity) {
             console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA)
-            //create a table with columns according to estimariDisplayMask
-            //each row has a plus/minus icon for unfolding/folding Arr[i]
-            //Arr[i] is a table in a table
-            //Arr[i] has a plus/minus icon for unfolding/folding Arr3
-            //Arr3 is a table in a table
 
             let o = mainActivity.object
-            createMainRow(mainActivity, o, i, counter, temp)
-
-            for (let l = 0; l < this.ds[i].length; l++) {
-              let activitate = this.ds[i][l]
-              let o = activitate.object
-              createMainRow(activitate, o, i, counter, temp)
-            }
-
-            //exit for loop
-            break
+            createMainRow(mainActivity, o, i, counter, temp, true)
+          } else {
+            let o = activitate.object
+            temp1.push({activitate, instanta: i, ramura: j, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o })
           }
         }
         if (!mainActivity) {
           console.log('Activitatea principala nu a fost gasita')
+        }  else {
+          //push temp1 in temp
+          for (let k = 0; k < temp1.length; k++) {
+            createMainRow(temp1[k].activitate, temp1[k].row_data, temp1[k].instanta, counter, temp, false)
+          }
         }
       }
 
@@ -3183,7 +3178,7 @@ class estimari extends LitElement {
 
     return html`${table}`
 
-    function createMainRow(mainActivity, o, i, counter, temp) {
+    function createMainRow(mainActivity, o, i, counter, temp, isMain) {
       for (let k = 0; k < mainActivity.antemasuratori.length; k++) {
         //adauga la o niveluri noi
         for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
