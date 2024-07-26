@@ -3161,6 +3161,11 @@ class estimari extends LitElement {
 
             generateTableRows(mainActivity, counter, i)
 
+            for (let k = 0; k < this.ds[i].length; k++) {
+              let activitate = this.ds[i][k]
+              generateTableRows(activitate, counter, i)
+            } 
+
             //exit for loop
             break
           }
