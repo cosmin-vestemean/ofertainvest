@@ -3148,17 +3148,23 @@ class estimari extends LitElement {
       for (let i = 0; i < this.ds.length; i++) {
         counter++;
         let mainActivity = null;
+        let mainExists = false;
 
         for (let j = 0; j < this.ds[i].length; j++) {
           let activitate = this.ds[i][j];
 
           let o = activitate.object;
           if (activitate.isMain) {
-            console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA);
+            mainExists = true;
+            console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
             createMainRow(activitate, o, i, counter, temp, true);
           } else {
             createMainRow(activitate, o, i, counter, temp, false);
           }
+        }
+
+        if (!mainExists) {
+          console.log('Activitatea principala nu a fost gasita');
         }
       }
 
