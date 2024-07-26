@@ -3269,9 +3269,10 @@ class estimari extends LitElement {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
       tr.id = i + '@' + k
-      tr.classList.add(bg_color)
       if (isMain) {
         tr.classList.add('table-primary')
+      } else {
+        tr.classList.add(bg_color)
       }
       tbody.appendChild(tr)
       //create a checkbox for main activity
@@ -3288,7 +3289,7 @@ class estimari extends LitElement {
       if (isMain) {
       //add plus/minus icon
       let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi', 'bi-plus-square', 'text-secondary', 'fs-6', 'align-middle')
+        plus_icon.classList.add('bi', 'bi-plus-square', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () { }
         td.appendChild(plus_icon)
