@@ -3162,6 +3162,7 @@ class estimari extends LitElement {
             mainExists = true;
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
             for (let k = 0; k < antemasuratori.length; k++) {
+              let branch = antemasuratori[k];
               let ret_obj = createMainRow([branch], o, i, k,true);
               if (ret_obj) {
                 temp.push(ret_obj);
@@ -3171,6 +3172,7 @@ class estimari extends LitElement {
             }
           } else {
             for (let k =0;k< antemasuratori.length; k++) {
+              let branch = antemasuratori[k];
               let ret_obj = createMainRow([branch], o, i, k, false);
               if (ret_obj) {
                 temp.push(ret_obj);
