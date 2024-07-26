@@ -3188,7 +3188,7 @@ class estimari extends LitElement {
         o[_cantitate_estimari] = 0
         //create main activity row
         addTableRow(i, k, counter, o)
-        temp.push({ instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o })
+        temp.push({ instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain})
       }
     }
 
