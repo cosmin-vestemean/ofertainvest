@@ -3142,38 +3142,43 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      let counter = 0
-      let temp = []
-      for (let i = 0; i < this.ds.length; i++) {
-        let temp1= []
-        counter++
-        let mainActivity = null
-        for (let j = 0; j < this.ds[i].length; j++) {
-          let activitate = this.ds[i][j]
-          if (activitate.isMain) {
-            mainActivity = activitate
-          } else {
-            mainActivity = null
-          }
-          if (mainActivity) {
-            console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA)
+      let counter = 0;
+      let temp = [];
 
-            let o = mainActivity.object
-            createMainRow(mainActivity, o, i, counter, temp, true)
+      for (let i = 0; i < this.ds.length; i++) {
+        let temp1 = [];
+        counter++;
+        let mainActivity = null;
+
+        for (let j = 0; j < this.ds[i].length; j++) {
+          let activitate = this.ds[i][j];
+
+          if (activitate.isMain) {
+            mainActivity = activitate;
           } else {
-            let o = activitate.object
-            temp1.push({activitate, i, o})
+            mainActivity = null;
+          }
+
+          if (mainActivity) {
+            console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA);
+            let o = mainActivity.object;
+            createMainRow(mainActivity, o, i, counter, temp, true);
+          } else {
+            let o = activitate.object;
+            temp1.push({ activitate, i, o });
           }
         }
+
         if (!mainActivity) {
-          console.log('Activitatea principala nu a fost gasita')
-        }  else {
-          //push temp1 in temp
+          console.log('Activitatea principala nu a fost gasita');
+        } else {
+          // push temp1 in temp
           for (let k = 0; k < temp1.length; k++) {
-            let activitate = temp1[k].activitate
-            let o = temp1[k].o
-            let i = temp1[k].i
-            createMainRow(activitate, o, i, counter, temp, false)      }
+            let activitate = temp1[k].activitate;
+            let o = temp1[k].o;
+            let i = temp1[k].i;
+            createMainRow(activitate, o, i, counter, temp, false);
+          }
         }
       }
 
