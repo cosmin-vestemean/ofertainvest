@@ -3150,9 +3150,10 @@ class estimari extends LitElement {
         let mainExists = false;
 
         for (let j = 0; j < this.ds[i].length; j++) {
-          let activitate = { ...this.ds[i][j] };
-
-          let o = { ... activitate.object };
+          let activitate = {};
+          activitate = { ...this.ds[i][j] };
+          let o = {};
+          o = { ... activitate.object };
           let antemasuratori = [];
           activitate.antemasuratori.forEach(function (a) {
             antemasuratori.push({ branch: a.branch, qty: a.qty });
@@ -3170,6 +3171,10 @@ class estimari extends LitElement {
           console.log('Activitatea principala nu a fost gasita pentru instanta ', i);
         }
       }
+
+      temp.forEach(function (object) {
+        console.log('temp', object.instanta, object.ramura, object.denumire, object.row_data);
+      })
 
       //sort temp by instanta, ramura
       temp.sort(function (a, b) {
@@ -3229,7 +3234,7 @@ class estimari extends LitElement {
 
     return html`${table}`
 
-    function createMainRow(a, o, i, counter, temp, isMain) {
+    function createMainRow(a, o, i, temp, isMain, maxLevelObject, maxLevelA) {
       for (let k = 0; k < a.length; k++) {
         //adauga la o niveluri noi
         for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
