@@ -3208,15 +3208,19 @@ class estimari extends LitElement {
       console.log('ds', ds)
       
       //create table rows instanta by instanta with addTableRow
-      for (let instanta in ds) {
-        for (let ramura in instanta) {
-          if (ramura.isMain) {
-          addTableRow(ramura.instanta, ramura, counter, articol_oferta)
+      //get instante in ds, then get ramura in instanta and then get activitate in ramura
+      //add activitate to table
+      for (let key in ds) {
+        let instanta = ds[key]
+        for (let k in instanta) {
+          let ramura = instanta[k]
+          for (let i = 0; i < ramura.length; i++) {
+            let o = ramura[i].row_data
+            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, o)
+            counter++
           }
-          addTableRow(ramura.instanta, ramura, counter, row_data)
         }
       }
-
     }
 
     return html`${table}`
