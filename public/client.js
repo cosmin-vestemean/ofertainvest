@@ -3145,10 +3145,10 @@ class estimari extends LitElement {
       let counter = 0
       let temp = []
       for (let i = 0; i < this.ds.length; i++) {
+        let temp1= []
         counter++
         let mainActivity = null
         for (let j = 0; j < this.ds[i].length; j++) {
-          let temp1= []
           let activitate = this.ds[i][j]
           if (activitate.isMain) {
             mainActivity = activitate
