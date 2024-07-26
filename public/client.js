@@ -3161,16 +3161,16 @@ class estimari extends LitElement {
           if (activitate.isMain) {
             mainExists = true;
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
-            let o = createMainRow(antemasuratori, o, i, true);
-            if (o) {
-              temp.push(o);
+            let ret_obj = createMainRow(antemasuratori, o, i, true);
+            if (ret_obj) {
+              temp.push(ret_obj);
             } else {
               console.log('createMainRow returned null at ' + i + ' ' + j);
             }
           } else {
-            let o = createMainRow(antemasuratori, o, i, false);
-            if (o) {
-              temp.push(o);
+            let ret_obj = createMainRow(antemasuratori, o, i, false);
+            if (ret_obj) {
+              temp.push(ret_obj);
             } else {
               console.log('createMainRow returned null at ' + i + ' ' + j);
             }
