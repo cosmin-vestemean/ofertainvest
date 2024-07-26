@@ -3160,7 +3160,7 @@ class estimari extends LitElement {
             createMainRow(mainActivity, o, i, counter, temp, true)
           } else {
             let o = activitate.object
-            temp1.push({activitate, instanta: i, ramura: j, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o })
+            temp1.push({activitate, i, o})
           }
         }
         if (!mainActivity) {
@@ -3168,12 +3168,15 @@ class estimari extends LitElement {
         }  else {
           //push temp1 in temp
           for (let k = 0; k < temp1.length; k++) {
-            createMainRow(temp1[k].activitate, temp1[k].row_data, temp1[k].instanta, counter, temp, false)
-          }
+            let activitate = temp1[k].activitate
+            let o = temp1[k].o
+            let i = temp1[k].i
+            createMainRow(activitate, o, i, counter, temp, false)      }
         }
       }
 
       console.log('temp', temp)
+      //sort temp by instanta, ramura
     }
 
     return html`${table}`
