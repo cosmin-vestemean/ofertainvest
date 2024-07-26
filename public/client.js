@@ -3152,6 +3152,8 @@ class estimari extends LitElement {
           let activitate = this.ds[i][j]
           if (activitate.isMain) {
             mainActivity = activitate
+          } else {
+            mainActivity = null
           }
           if (mainActivity) {
             console.log('Activitatea principala a fost gasita:', mainActivity.object.DENUMIRE_ARTICOL_OFERTA)
