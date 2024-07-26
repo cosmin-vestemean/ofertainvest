@@ -3142,11 +3142,9 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      let counter = 0;
       let temp = [];
 
       for (let i = 0; i < this.ds.length; i++) {
-        counter++;
         let mainExists = false;
 
         for (let j = 0; j < this.ds[i].length; j++) {
@@ -3231,14 +3229,19 @@ class estimari extends LitElement {
       //create table rows instanta by instanta with addTableRow
       //get instante in ds, then get ramura in instanta and then get activitate in ramura
       //add activitate to table
+      let counter = 0;
       for (let key in ds) {
         let instanta = ds[key]
+        counter++
+        let counter2 = 0
         for (let k in instanta) {
           let ramura = instanta[k]
+          counter2++
+          let counter3 = 0
           for (let i = 0; i < ramura.length; i++) {
             let o = ramura[i].row_data
-            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, o, ramura[i].isMain)
-            counter++
+            counter3++
+            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3 o, ramura[i].isMain)
           }
         }
       }
@@ -3258,7 +3261,7 @@ class estimari extends LitElement {
         return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain}
     }
 
-    function addTableRow(i, k, counter, o, isMain) {
+    function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
       tr.id = i + '@' + k
@@ -3269,7 +3272,7 @@ class estimari extends LitElement {
       //create a checkbox
       let checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
-      checkbox.id = 'checkbox_' + counter
+      checkbox.id = 'checkbox_' + counter3 + '@' + counter2 + '@' + counter
       checkbox.classList.add('form-check-input', 'align-middle')
       checkbox.checked = true
       td.appendChild(checkbox)
@@ -3290,7 +3293,7 @@ class estimari extends LitElement {
       //add counter
       td = document.createElement('td')
       td.classList.add('align-middle')
-      td.innerHTML = counter
+      td.innerHTML = counter + '.' + counter2 + '.' + counter3
       tr.appendChild(td)
 
       //add columns based on estimariDisplayMask
