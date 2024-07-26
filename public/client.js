@@ -3173,7 +3173,7 @@ class estimari extends LitElement {
 
               //add all activities in another table inside this table, after the main activity, inner join with antemasuratori
 
-              for (let l = 0; l < this.ds.length; l++) {
+              for (let l = 0; l < this.ds[i].length; l++) {
                   let o1 = this.ds[i][l].object
                   //add antemasuratori extensions and qtys
                   createTableRow(k, i, bg_color, counter, o1)
