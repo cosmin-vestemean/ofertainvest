@@ -1294,6 +1294,10 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
 
 //add onload event to window
 export function init() {
+  //this function executes when window is loaded
+  //get theme from local storage and set it
+  let theme = localStorage.getItem('theme')
+  changeTheme(theme)
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
   const my_table3 = document.getElementById('my_table_detalii_reteta')
@@ -1863,6 +1867,7 @@ export function init() {
     link.rel = 'stylesheet'
     link.href = theme + '.css'
     document.head.appendChild(link)
+    localStorage.setItem('theme', theme)
     console.log('Theme changed to:', theme)
     //navbarDropdownMenuLinkThemes caption is the selected theme
     let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
