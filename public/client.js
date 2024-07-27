@@ -1015,11 +1015,15 @@ document.addEventListener('input', function (e) {
     ).indexOf(e.target)
     console.log('index', index)
     ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
+    //replace in local storage
+    localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
     //update newTree
     let branch = newTree[ds_antemasuratori[index].refInstanta][
       ds_antemasuratori[index].refActivitate
     ].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join())
     if (branch) branch.qty = parseFloat(e.target.textContent)
+    //update newTree in local storage
+    localStorage.setItem('newTree', JSON.stringify(newTree))
   }
 })
 
