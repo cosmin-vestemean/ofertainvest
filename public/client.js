@@ -1307,8 +1307,7 @@ export function init() {
   if (excel_object) {
     //ask user if he wants to load previous data
     let answer = confirm('Load previous data?')
-    if (answer)
-      processExcelData(excel_object)
+    if (answer) processExcelData(excel_object)
   }
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
@@ -1347,29 +1346,40 @@ export function init() {
   scan_oferta_initiala.onclick = function () {
     //get recipes from local storage
     //ask user if he wants to load previous data
-    let answer = confirm('Load previous data?')
-    if (answer) {
-      recipes_ds = JSON.parse(localStorage.getItem('recipes_ds'))
-      activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
-      intrari_orfane = JSON.parse(localStorage.getItem('intrari_orfane'))
-      WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
-      ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
+    if (
+      localStorage.getItem('recipes_ds') &&
+      localStorage.getItem('activitati_oferta') &&
+      localStorage.getItem('intrari_orfane') &&
+      localStorage.getItem('WBSMap') &&
+      localStorage.getItem('ds_instanteRetete')
+    ) {
+      let answer = confirm('Load previous data?')
+      if (answer) {
+        recipes_ds = JSON.parse(localStorage.getItem('recipes_ds'))
+        activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
+        intrari_orfane = JSON.parse(localStorage.getItem('intrari_orfane'))
+        WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
+        ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
+      } else {
+        detectieRetete()
+      }
     } else {
       detectieRetete()
     }
 
-    //hide table1
-    my_table1.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    //show table2
-    my_table2.style.display = 'block'
-    my_table3.style.display = 'block'
-    let listaRetete = []
-    recipes_ds.forEach((o) => {
-      listaRetete.push({ Reteta: o.name })
-    })
-    my_table2.ds = listaRetete
+    if (recipes_ds && recipes_ds.length > 0) {
+      my_table1.style.display = 'none'
+      my_table4.style.display = 'none'
+      my_table5.style.display = 'none'
+      //show table2
+      my_table2.style.display = 'block'
+      my_table3.style.display = 'block'
+      let listaRetete = []
+      recipes_ds.forEach((o) => {
+        listaRetete.push({ Reteta: o.name })
+      })
+      my_table2.ds = listaRetete
+    }
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
@@ -1601,7 +1611,7 @@ export function init() {
     const my_table5 = document.getElementById('my_table_estimari')
     if (ds_instanteRetete.length === 0) {
       detectieRetete()
-       //hide table1
+      //hide table1
       my_table1.style.display = 'none'
       my_table4.style.display = 'none'
       my_table5.style.display = 'none'
@@ -3195,47 +3205,47 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      let temp = [];
+      let temp = []
 
       for (let i = 0; i < this.ds.length; i++) {
-        let mainExists = false;
+        let mainExists = false
 
         for (let j = 0; j < this.ds[i].length; j++) {
-          let activitate = {};
-          activitate = { ...this.ds[i][j] };
-          let o = {};
-          o = { ... activitate.object };
-          let antemasuratori = [];
+          let activitate = {}
+          activitate = { ...this.ds[i][j] }
+          let o = {}
+          o = { ...activitate.object }
+          let antemasuratori = []
           activitate.antemasuratori.forEach(function (a) {
-            antemasuratori.push({ branch: a.branch, qty: a.qty });
-          });
+            antemasuratori.push({ branch: a.branch, qty: a.qty })
+          })
           if (activitate.isMain) {
-            mainExists = true;
-            console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA);
+            mainExists = true
+            console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
             for (let k = 0; k < antemasuratori.length; k++) {
-              let branch = antemasuratori[k];
-              let ret_obj = createMainRow(branch, { ...o }, i, k,true);
+              let branch = antemasuratori[k]
+              let ret_obj = createMainRow(branch, { ...o }, i, k, true)
               if (ret_obj) {
-                temp.push(ret_obj);
+                temp.push(ret_obj)
               } else {
-                console.log('createMainRow returned null at ' + i + ' ' + j);
+                console.log('createMainRow returned null at ' + i + ' ' + j)
               }
             }
           } else {
-            for (let k =0;k< antemasuratori.length; k++) {
-              let branch = antemasuratori[k];
-              let ret_obj = createMainRow(branch, { ...o }, i, k, false);
+            for (let k = 0; k < antemasuratori.length; k++) {
+              let branch = antemasuratori[k]
+              let ret_obj = createMainRow(branch, { ...o }, i, k, false)
               if (ret_obj) {
-                temp.push(ret_obj);
+                temp.push(ret_obj)
               } else {
-                console.log('createMainRow returned null at ' + i + ' ' + j);
+                console.log('createMainRow returned null at ' + i + ' ' + j)
               }
             }
           }
         }
 
         if (!mainExists) {
-          console.log('Activitatea principala nu a fost gasita pentru instanta ', i);
+          console.log('Activitatea principala nu a fost gasita pentru instanta ', i)
         }
       }
 
@@ -3257,7 +3267,7 @@ class estimari extends LitElement {
       })
 
       console.log('temp', temp)
-     //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
+      //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
       ds_estimari_pool = temp.reduce(function (acc, object) {
         if (!acc[object.instanta]) {
           acc[object.instanta] = []
@@ -3267,7 +3277,7 @@ class estimari extends LitElement {
       }, {})
 
       //get rid of temp
-      temp = null;
+      temp = null
 
       //and then each instanta reduce by ramura
       for (let key in ds_estimari_pool) {
@@ -3284,11 +3294,11 @@ class estimari extends LitElement {
 
       //store ds in local storage
       localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
-      
+
       //create table rows instanta by instanta with addTableRow
       //get instante in ds, then get ramura in instanta and then get activitate in ramura
       //add activitate to table
-      let counter = 0;
+      let counter = 0
       for (let key in ds_estimari_pool) {
         let instanta = ds_estimari_pool[key]
         counter++
@@ -3313,15 +3323,15 @@ class estimari extends LitElement {
     return html`${table}`
 
     function createMainRow(a, o, i, k, isMain) {
-        //adauga la o niveluri noi
-        for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-          o[_nivel_oferta + i] = a.branch[i - 1]
-        }
-        o[_cantitate_antemasuratori] = a.qty
-        o[_cantitate_estimari] = 0
-        //create main activity row
-        //addTableRow(i, k, counter, o)
-        return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o , isMain: isMain}
+      //adauga la o niveluri noi
+      for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+        o[_nivel_oferta + i] = a.branch[i - 1]
+      }
+      o[_cantitate_antemasuratori] = a.qty
+      o[_cantitate_estimari] = 0
+      //create main activity row
+      //addTableRow(i, k, counter, o)
+      return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
     }
 
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
@@ -3346,11 +3356,11 @@ class estimari extends LitElement {
       tr.appendChild(td)
       td = document.createElement('td')
       if (isMain) {
-      //add plus/minus icon
-      let plus_icon = document.createElement('i')
+        //add plus/minus icon
+        let plus_icon = document.createElement('i')
         plus_icon.classList.add('bi', 'bi-plus-square', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
-        plus_icon.onclick = function () { }
+        plus_icon.onclick = function () {}
         td.appendChild(plus_icon)
       } else {
         td.innerHTML = ''
@@ -4068,6 +4078,9 @@ buton radio cu switch intre retete si orfani
 
 */
 function showRecipesList(data) {
+  if (!data || data.length == 0) {
+    return
+  }
   //afiseaza recipes_ds in table; root and children
   let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
   let modal_body = document.getElementById('modal-body3')
