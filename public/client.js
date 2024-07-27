@@ -310,8 +310,6 @@ function processExcelData(excel_object) {
   const unique_key = 'SERIE_ARTICOL_OFERTA'
   //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
   optimal_ds = sortByUniqueKey(original_ds, unique_key)
-  //get rid of original_ds
-  localStorage.setItem('original_ds', JSON.stringify(original_ds))
   original_ds = []
   //refresh ds in my-table component
   document.getElementById('my_table_oferta_initiala').ds = optimal_ds
@@ -649,7 +647,6 @@ function createGraphs(combinatii_unice) {
       }
 
       console.log(tree)
-      localStorage.setItem('trees', JSON.stringify(trees))
     })
 
     cy.layout({
@@ -769,198 +766,6 @@ create tree branches: SUPRATERAN -> INSTALATII ELECTRICE -> DISTRIBUTIE -> ETAJ 
   console.log('elements', elements)
 
   return elements
-}
-
-function pushDataToTable(data, thead, tbody) {
-  //create html table from array
-  //data > table id="table_oferta_initiala"
-  //thead id="thead_oferta_initiala" < first object's keys
-  //tbody id="tbody_oferta_initiala" < all objects as rows
-  var pg = document.getElementById('progress_bar')
-  var lbl = document.getElementById('progress_bar_label')
-  //var thead = document.getElementById(thead_name)
-  const thead_name = thead.id
-  thead.innerHTML = ''
-  //var tbody = document.getElementById(tbody_name)
-  const tbody_name = tbody.id
-  tbody.innerHTML = ''
-  //add delete icon to thead
-  var th = document.createElement('td')
-  //add class
-  //add burger icon
-  var enumKeys = ''
-  var keys = Object.keys(data[0])
-  keys.forEach(function (key) {
-    var is_checked = visible_columns.find((o) => o.column === key)
-      ? visible_columns.find((o) => o.column === key).state
-      : true
-    var state = is_checked ? 'checked' : ''
-    enumKeys += '<div class="form-check">'
-    enumKeys +=
-      '<input class="form-check-input" type="checkbox" value="" id="h' +
-      key +
-      '" ' +
-      state +
-      ' onclick="showHideColumn(this.checked, ' +
-      "'" +
-      key +
-      "', " +
-      "'" +
-      thead_name +
-      "', " +
-      "'" +
-      tbody_name +
-      "'" +
-      ')">'
-    enumKeys += '<label class="form-check-label w-100" for="h' + key + '">' + key + '</label>'
-    enumKeys += '</div>'
-  })
-  //add close icon
-  enumKeys += '<div><button type="button" class="btn-close" aria-label="Close"></button></div>'
-  th.innerHTML =
-    '<span id="table_menu" class="bi bi-list" style="cursor: pointer;"><div id="table_menu_content" class="text-decoration-none fw-lighter bg-light" style="display: none;">' +
-    enumKeys +
-    '</div></span>'
-  th.onclick = function () {
-    //show/hide menu
-    var menu = document.getElementById('table_menu')
-    var menu_content = document.getElementById('table_menu_content')
-    if (menu_content.style.display === 'none') {
-      menu_content.style.display = 'block'
-    } else {
-      menu_content.style.display = 'none'
-    }
-  }
-  thead.appendChild(th)
-  //add line number to thead
-  var th = document.createElement('td')
-  th.innerHTML = 'Nr'
-  thead.appendChild(th)
-  var keys = Object.keys(data[0])
-  keys.forEach(function (key) {
-    var th = document.createElement('td')
-    th.style.writingMode = 'vertical-rl'
-    th.style.rotate = '180deg'
-    /* //sticky top
-    th.style.position = "sticky";
-    th.style.top = "0";
-    th.style.backgroundColor = "white"; */
-    th.innerHTML = key
-    //add class header
-    th.classList.add('header')
-    //add scope col
-    th.setAttribute('scope', 'col')
-    thead.appendChild(th)
-  })
-
-  //create table rows
-  //prepare progress bar by setting attributes: aria-valuenow, aria-valuemin, aria-valuemax, inner html
-  pg.setAttribute('aria-valuenow', 0)
-  pg.setAttribute('aria-valuemin', 0)
-  pg.setAttribute('aria-valuemax', data.length)
-  pg.style.width = '0%'
-  lbl.innerHTML = '0%'
-  let linesCount = 0
-  data.forEach(function (object) {
-    linesCount++
-    //update progress bar
-    pg.setAttribute('aria-valuenow', data.indexOf(object) + 1)
-    pg.style.width = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
-    lbl.innerHTML = ((data.indexOf(object) + 1) / data.length) * 100 + '%'
-    //create row
-    var tr = document.createElement('tr')
-    //add td with delete icon
-    var td = document.createElement('td')
-    var icon = document.createElement('i')
-    icon.classList.add('bi')
-    icon.classList.add('bi-trash')
-    icon.classList.add('text-danger')
-    icon.style.cursor = 'pointer'
-    icon.onclick = function () {
-      //delete row
-    }
-    td.appendChild(icon)
-    tr.appendChild(td)
-    var td = document.createElement('td')
-    td.innerHTML = linesCount
-    tr.appendChild(td)
-    keys.forEach(function (key) {
-      var td = document.createElement('td')
-      var val = 0
-      //if object[key] is a number format it to 2 decimals
-      if (object[key]) {
-        val = object[key]
-        if (!isNaN(val)) {
-          val = parseFloat(val).toFixed(2)
-        } else {
-          val = object[key]
-        }
-      }
-      if (key == 'DENUMIRE_ARTICOL_OFERTA') {
-        //create small a button for each row. When clicked filter optimal_ds by selected_option resulting in denumireUnica_ds and display it in table
-        var button = document.createElement('button')
-        button.type = 'button'
-        button.classList.add('btn')
-        button.classList.add('btn-secondary')
-        button.classList.add('btn-sm')
-        //add filter icon
-        var filter_icon = document.createElement('i')
-        filter_icon.classList.add('bi')
-        filter_icon.classList.add('bi-filter')
-        button.appendChild(filter_icon)
-        //add event listener
-        button.onclick = function () {
-          //daca nr linii tabel < optimal_ds.length incarca din nou optimal_ds
-          if (document.getElementById(tbody_name).rows.length < optimal_ds.length) {
-            //pushDataToTable(optimal_ds, thead_name, tbody_name)
-            document.getElementById('my_table_oferta_initiala').ds = optimal_ds
-          } else {
-            var selected_option = object[key]
-            denumireUnica_ds = []
-            optimal_ds.forEach(function (object) {
-              if (object[key] == selected_option) {
-                denumireUnica_ds.push(object)
-              }
-            })
-            console.log('denumireUnica_ds', denumireUnica_ds)
-            //pushDataToTable(denumireUnica_ds, thead_name, tbody_name)
-            document.getElementById('my_table_oferta_initiala').ds = denumireUnica_ds
-          }
-        }
-        td.appendChild(button)
-        //add another button named Retetare
-        var button = document.createElement('button')
-        button.type = 'button'
-        button.classList.add('btn')
-        button.classList.add('btn-primary')
-        button.classList.add('btn-sm')
-        //add list icon
-        var list_icon = document.createElement('i')
-        list_icon.classList.add('bi')
-        list_icon.classList.add('bi-list')
-        button.appendChild(list_icon)
-        //add event listener
-        button.onclick = function () {
-          //alert('Reteta pentru ' + object[key])
-          creazaReteta(object)
-        }
-        td.appendChild(button)
-      }
-      //add val to td as span
-      var span = document.createElement('span')
-      span.innerHTML = val || ''
-      td.appendChild(span)
-      tr.appendChild(td)
-    })
-    tbody.appendChild(tr)
-  })
-
-  //config according to visible_columns
-  visible_columns.forEach((o) => {
-    showHideColumn(o.state, o.column, thead_name, tbody_name)
-  })
-
-  console.log('visible_columns', visible_columns)
 }
 
 function showHideColumn(checkbox_state, column, thead_name, tbody_name) {
@@ -1193,6 +998,21 @@ document.addEventListener('input', function (e) {
   }
 })
 
+function showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5) {
+  //hide table1
+  my_table1.style.display = 'none'
+  my_table4.style.display = 'none'
+  my_table5.style.display = 'none'
+  //show table2
+  my_table2.style.display = 'block'
+  my_table3.style.display = 'block'
+  let listaRetete = []
+  recipes_ds.forEach((o) => {
+    listaRetete.push({ Reteta: o.name })
+  })
+  my_table2.ds = listaRetete
+}
+
 function detectieRetete() {
   let rez = createDatasetForRecipes()
   console.log('rez', rez)
@@ -1216,14 +1036,6 @@ function detectieRetete() {
   ds_instanteRetete = rez.instanteRetete
 
   autocompleteRetete_1()
-
-  //save recipes_ds in local storage
-  localStorage.setItem('recipes_ds', JSON.stringify(recipes_ds))
-  //and the rest of the global variables
-  localStorage.setItem('activitati_oferta', JSON.stringify(activitati_oferta))
-  localStorage.setItem('intrari_orfane', JSON.stringify(intrari_orfane))
-  localStorage.setItem('WBSMap', JSON.stringify(WBSMap))
-  localStorage.setItem('ds_instanteRetete', JSON.stringify(ds_instanteRetete))
 
   function autocompleteRetete_1() {
     /*
@@ -1305,15 +1117,47 @@ export function init() {
   let theme = localStorage.getItem('theme')
   changeTheme(theme)
   //get excel data from local storage and set it
-  if (localStorage.getItem('excel_object')) {
+  let excel_object = JSON.parse(localStorage.getItem('excel_object'))
+  if (excel_object) {
     //ask user if he wants to load previous data
     let answer = confirm('Load previous data?')
     if (answer) {
-      let excel_object = localStorage.getItem('excel_object')
       processExcelData(excel_object)
+      //check trees, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete
       if (localStorage.getItem('trees')) {
         trees = JSON.parse(localStorage.getItem('trees'))
-        populateSelectIerarhiiFromTrees()
+        if (trees.length) {
+          populateSelectIerarhiiFromTrees()
+        }
+      }
+      if (localStorage.getItem('activitati_oferta')) {
+        activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
+      }
+      if (localStorage.getItem('intrari_orfane')) {
+        intrari_orfane = JSON.parse(localStorage.getItem('intrari_orfane'))
+      }
+      if (localStorage.getItem('WBSMap')) {
+        WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
+      }
+      if (localStorage.getItem('recipes_ds')) {
+        recipes_ds = JSON.parse(localStorage.getItem('recipes_ds'))
+      }
+      if (localStorage.getItem('ds_instanteRetete')) {
+        ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
+      }
+      if (localStorage.getItem('ds_antemasuratori')) {
+        ds_antemasuratori = JSON.parse(localStorage.getItem('ds_antemasuratori'))
+      }
+      //newTree
+      if (localStorage.getItem('newTree')) {
+        newTree = JSON.parse(localStorage.getItem('newTree'))
+      }
+      //estimari
+      if (localStorage.getItem('ds_estimari_pool')) {
+        ds_estimari_pool = JSON.parse(localStorage.getItem('ds_estimari_pool'))
+      }
+      if (localStorage.getItem('visible_columns')) {
+        visible_columns = JSON.parse(localStorage.getItem('visible_columns'))
       }
     }
   }
@@ -1352,41 +1196,15 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
-    //get recipes from local storage
-    //ask user if he wants to load previous data
-    if (
-      localStorage.getItem('recipes_ds') &&
-      localStorage.getItem('activitati_oferta') &&
-      localStorage.getItem('intrari_orfane') &&
-      localStorage.getItem('WBSMap') &&
-      localStorage.getItem('ds_instanteRetete')
-    ) {
-      let answer = confirm('Load previous data?')
-      if (answer) {
-        recipes_ds = JSON.parse(localStorage.getItem('recipes_ds'))
-        activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
-        intrari_orfane = JSON.parse(localStorage.getItem('intrari_orfane'))
-        WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
-        ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
-      } else {
-        detectieRetete()
-      }
-    } else {
-      detectieRetete()
-    }
-
     if (recipes_ds && recipes_ds.length > 0) {
-      my_table1.style.display = 'none'
-      my_table4.style.display = 'none'
-      my_table5.style.display = 'none'
-      //show table2
-      my_table2.style.display = 'block'
-      my_table3.style.display = 'block'
-      let listaRetete = []
-      recipes_ds.forEach((o) => {
-        listaRetete.push({ Reteta: o.name })
-      })
-      my_table2.ds = listaRetete
+      //ask user if he wants to scan again
+      let answer = confirm('Scan again?')
+      if (answer) {
+        detectieRetete()
+        showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
+      } else {
+        showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
+      }
     }
   }
   //lista_retete_scurta
@@ -1619,18 +1437,7 @@ export function init() {
     const my_table5 = document.getElementById('my_table_estimari')
     if (ds_instanteRetete.length === 0) {
       detectieRetete()
-      //hide table1
-      my_table1.style.display = 'none'
-      my_table4.style.display = 'none'
-      my_table5.style.display = 'none'
-      //show table2
-      my_table2.style.display = 'block'
-      my_table3.style.display = 'block'
-      let listaRetete = []
-      recipes_ds.forEach((o) => {
-        listaRetete.push({ Reteta: o.name })
-      })
-      my_table2.ds = listaRetete
+      showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
     }
     //console.log('recipes_ds', recipes_ds)
     //console.log('instanteRetete', ds_instanteRetete)
@@ -1836,6 +1643,8 @@ export function init() {
 
     console.log('newTree', newTree)
     //console.log('ds_antemasuratori', ds_antemasuratori)
+    localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
+    localStorage.setItem('newTree', JSON.stringify(newTree))
     if (ds_antemasuratori.length > 0) {
       addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
       my_table2.style.display = 'none'
@@ -4086,9 +3895,6 @@ buton radio cu switch intre retete si orfani
 
 */
 function showRecipesList(data) {
-  if (!data || data.length == 0) {
-    return
-  }
   //afiseaza recipes_ds in table; root and children
   let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
   let modal_body = document.getElementById('modal-body3')
