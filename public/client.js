@@ -1356,19 +1356,20 @@ export function init() {
       ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
     } else {
       detectieRetete()
-       //hide table1
-      my_table1.style.display = 'none'
-      my_table4.style.display = 'none'
-      my_table5.style.display = 'none'
-      //show table2
-      my_table2.style.display = 'block'
-      my_table3.style.display = 'block'
-      let listaRetete = []
-      recipes_ds.forEach((o) => {
-        listaRetete.push({ Reteta: o.name })
-      })
-      my_table2.ds = listaRetete
     }
+
+    //hide table1
+    my_table1.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
+    //show table2
+    my_table2.style.display = 'block'
+    my_table3.style.display = 'block'
+    let listaRetete = []
+    recipes_ds.forEach((o) => {
+      listaRetete.push({ Reteta: o.name })
+    })
+    my_table2.ds = listaRetete
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
