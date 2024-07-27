@@ -3057,7 +3057,7 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
-      if (!ds_estimari_pool) {
+      if (ds_estimari_pool.length == 0) {
         calculateEstimariPoolDS()
       }
 
