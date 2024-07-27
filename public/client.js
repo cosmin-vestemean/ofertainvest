@@ -1205,6 +1205,9 @@ export function init() {
       } else {
         showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
       }
+    } else {
+      detectieRetete()
+      showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
     }
   }
   //lista_retete_scurta
