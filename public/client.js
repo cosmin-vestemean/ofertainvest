@@ -1128,6 +1128,7 @@ export function init() {
         trees = JSON.parse(localStorage.getItem('trees'))
         if (trees.length) {
           populateSelectIerarhiiFromTrees()
+          createGraphs(trees)
         }
       }
       if (localStorage.getItem('activitati_oferta')) {
