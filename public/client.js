@@ -1457,12 +1457,15 @@ export function init() {
   //antemasuratori
   let nav_antemasuratori = document.getElementById('listaAntemasuratori')
   nav_antemasuratori.onclick = function () {
+    if (ds_antemasuratori.length === 0) {
+      calculateAntemasAndNewTree()
+    }
+    showAntemasuratori()
+    addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
+  }
+
+  function calculateAntemasAndNewTree() {
     //create ds_antemasuratori from recipes_ds, enum activities only, add CANTITATE_ARTICOL_OFERTA, add CANTITATE_ANTEMASURATORI = 0
-    const my_table1 = document.getElementById('my_table_oferta_initiala')
-    const my_table2 = document.getElementById('my_table_recipes')
-    const my_table3 = document.getElementById('my_table_detalii_reteta')
-    const my_table4 = document.getElementById('my_table_antemasuratori')
-    const my_table5 = document.getElementById('my_table_estimari')
     if (ds_instanteRetete.length === 0) {
       detectieRetete()
       showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
@@ -1670,8 +1673,15 @@ export function init() {
     //console.log('ds_antemasuratori', ds_antemasuratori)
     localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
     localStorage.setItem('newTree', JSON.stringify(newTree))
+  }
+
+  function showAntemasuratori() {
+    const my_table1 = document.getElementById('my_table_oferta_initiala')
+    const my_table2 = document.getElementById('my_table_recipes')
+    const my_table3 = document.getElementById('my_table_detalii_reteta')
+    const my_table4 = document.getElementById('my_table_antemasuratori')
+    const my_table5 = document.getElementById('my_table_estimari')
     if (ds_antemasuratori.length > 0) {
-      addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
       my_table2.style.display = 'none'
       my_table3.style.display = 'none'
       my_table1.style.display = 'none'
