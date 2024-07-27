@@ -1215,6 +1215,15 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5) {
 
   autocompleteRetete_1()
 
+  //save recipes_ds in local storage
+  localStorage.setItem('recipes_ds', JSON.stringify(recipes_ds))
+  //and the rest of the global variables
+  localStorage.setItem('activitati_oferta', JSON.stringify(activitati_oferta))
+  localStorage.setItem('intrari_orfane', JSON.stringify(intrari_orfane))
+  localStorage.setItem('WBSMap', JSON.stringify(WBSMap))
+  localStorage.setItem('ds_instanteRetete', JSON.stringify(ds_instanteRetete))
+
+
   //hide table1
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
@@ -1350,7 +1359,18 @@ export function init() {
   btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
-    detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5)
+    //get recipes from local storage
+    //ask user if he wants to load previous data
+    let answer = confirm('Load previous data?')
+    if (answer) {
+      recipes_ds = JSON.parse(localStorage.getItem('recipes_ds'))
+      activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
+      intrari_orfane = JSON.parse(localStorage.getItem('intrari_orfane'))
+      WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
+      ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
+    } else {
+      detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5)
+    }
   }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
