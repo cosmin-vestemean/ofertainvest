@@ -1191,7 +1191,7 @@ document.addEventListener('input', function (e) {
   }
 })
 
-function detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5) {
+function detectieRetete() {
   let rez = createDatasetForRecipes()
   console.log('rez', rez)
   activitati_oferta = []
@@ -1222,20 +1222,6 @@ function detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5) {
   localStorage.setItem('intrari_orfane', JSON.stringify(intrari_orfane))
   localStorage.setItem('WBSMap', JSON.stringify(WBSMap))
   localStorage.setItem('ds_instanteRetete', JSON.stringify(ds_instanteRetete))
-
-
-  //hide table1
-  my_table1.style.display = 'none'
-  my_table4.style.display = 'none'
-  my_table5.style.display = 'none'
-  //show table2
-  my_table2.style.display = 'block'
-  my_table3.style.display = 'block'
-  let listaRetete = []
-  recipes_ds.forEach((o) => {
-    listaRetete.push({ Reteta: o.name })
-  })
-  my_table2.ds = listaRetete
 
   function autocompleteRetete_1() {
     /*
@@ -1369,7 +1355,19 @@ export function init() {
       WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
       ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
     } else {
-      detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5)
+      detectieRetete()
+       //hide table1
+      my_table1.style.display = 'none'
+      my_table4.style.display = 'none'
+      my_table5.style.display = 'none'
+      //show table2
+      my_table2.style.display = 'block'
+      my_table3.style.display = 'block'
+      let listaRetete = []
+      recipes_ds.forEach((o) => {
+        listaRetete.push({ Reteta: o.name })
+      })
+      my_table2.ds = listaRetete
     }
   }
   //lista_retete_scurta
@@ -1601,7 +1599,19 @@ export function init() {
     const my_table4 = document.getElementById('my_table_antemasuratori')
     const my_table5 = document.getElementById('my_table_estimari')
     if (ds_instanteRetete.length === 0) {
-      detectieRetete(my_table1, my_table2, my_table3, my_table4, my_table5)
+      detectieRetete()
+       //hide table1
+      my_table1.style.display = 'none'
+      my_table4.style.display = 'none'
+      my_table5.style.display = 'none'
+      //show table2
+      my_table2.style.display = 'block'
+      my_table3.style.display = 'block'
+      let listaRetete = []
+      recipes_ds.forEach((o) => {
+        listaRetete.push({ Reteta: o.name })
+      })
+      my_table2.ds = listaRetete
     }
     //console.log('recipes_ds', recipes_ds)
     //console.log('instanteRetete', ds_instanteRetete)
