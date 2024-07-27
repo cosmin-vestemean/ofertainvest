@@ -3057,6 +3057,38 @@ class estimari extends LitElement {
 
       //add tbody
       //find main activity in ds[i]
+      if (!ds_estimari_pool) {
+        calculateEstimariPoolDS()
+      }
+
+      //create table rows instanta by instanta with addTableRow
+      //get instante in ds, then get ramura in instanta and then get activitate in ramura
+      //add activitate to table
+      let counter = 0
+      for (let key in ds_estimari_pool) {
+        let instanta = ds_estimari_pool[key]
+        counter++
+        let counter2 = 0
+        for (let k in instanta) {
+          let ramura = instanta[k]
+          counter2++
+          let counter3 = 0
+          for (let i = 0; i < ramura.length; i++) {
+            let o = ramura[i].row_data
+            counter3++
+            if (ramura[i].isMain) {
+              //add main activity row
+              addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, true)
+            }
+            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, false)
+          }
+        }
+      }
+    }
+
+    return html`${table}`
+
+    function calculateEstimariPoolDS() {
       let temp = []
 
       for (let i = 0; i < this.ds.length; i++) {
@@ -3146,33 +3178,7 @@ class estimari extends LitElement {
 
       //store ds in local storage
       localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
-
-      //create table rows instanta by instanta with addTableRow
-      //get instante in ds, then get ramura in instanta and then get activitate in ramura
-      //add activitate to table
-      let counter = 0
-      for (let key in ds_estimari_pool) {
-        let instanta = ds_estimari_pool[key]
-        counter++
-        let counter2 = 0
-        for (let k in instanta) {
-          let ramura = instanta[k]
-          counter2++
-          let counter3 = 0
-          for (let i = 0; i < ramura.length; i++) {
-            let o = ramura[i].row_data
-            counter3++
-            if (ramura[i].isMain) {
-              //add main activity row
-              addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, true)
-            }
-            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, false)
-          }
-        }
-      }
     }
-
-    return html`${table}`
 
     function createMainRow(a, o, i, k, isMain) {
       //adauga la o niveluri noi
