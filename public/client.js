@@ -57,6 +57,7 @@ var combinatii_unice = []
 var selected_ds = []
 var ds_instanteRetete = []
 var ds_antemasuratori = []
+var ds_estimari_pool = []
 let newTree = []
 /* var ds_AFL = [
   {
@@ -277,34 +278,8 @@ function loadDataFromFile(evt) {
     })
     //console.log("excel_object", excel_object);
 
-    //each key represents a column, copy all objecys in compacted_ds but remove the ones with empty values
-    original_ds = JSON.parse(excel_object)
-    //console.log('original_ds', original_ds)
-
-    compacted_ds = removeEmpty(original_ds)
-    //console.log("compacted_ds", compacted_ds);
-
-    const unique_key = 'SERIE_ARTICOL_OFERTA'
-    //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
-    optimal_ds = sortByUniqueKey(original_ds, unique_key)
-    //get rid of original_ds
-    original_ds = []
-    //refresh ds in my-table component
-    document.getElementById('my_table_oferta_initiala').ds = optimal_ds
-    //tableId
-    document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
-    console.log('optimal_ds', optimal_ds)
-
-    var delimiter = '~~~~~~~~~~~~~~~'
-    var result = creazaIerarhii(optimal_ds, delimiter)
-    niveluri = result.niveluri
-    var combinatii_unice_as_str = result.combinatii_unice_as_str
-    combinatii_unice = result.combinatii_unice
-
-    populateSelect(combinatii_unice_as_str, delimiter)
-    addOnChangeEvt(optimal_ds, delimiter, 'my_table_oferta_initiala')
-
-    createGraphs(combinatii_unice)
+    localStorage.setItem('excel_object', excel_object)
+    processExcelData(excel_object)
   }
 
   reader.onerror = function (ex) {
@@ -322,6 +297,38 @@ function loadDataFromFile(evt) {
   btn_oferta.innerHTML = 'Salveaza oferta initiala ' + dl
   btn_oferta.classList.remove('btn-success')
   btn_oferta.classList.add('btn-danger')
+}
+
+function processExcelData(excel_object) {
+  //each key represents a column, copy all objecys in compacted_ds but remove the ones with empty values
+  original_ds = JSON.parse(excel_object)
+  //console.log('original_ds', original_ds)
+
+  //compacted_ds = removeEmpty(original_ds)
+  //console.log("compacted_ds", compacted_ds);
+
+  const unique_key = 'SERIE_ARTICOL_OFERTA'
+  //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
+  optimal_ds = sortByUniqueKey(original_ds, unique_key)
+  //get rid of original_ds
+  localStorage.setItem('original_ds', JSON.stringify(original_ds))
+  original_ds = []
+  //refresh ds in my-table component
+  document.getElementById('my_table_oferta_initiala').ds = optimal_ds
+  //tableId
+  document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
+  console.log('optimal_ds', optimal_ds)
+
+  var delimiter = '~~~~~~~~~~~~~~~'
+  var result = creazaIerarhii(optimal_ds, delimiter)
+  niveluri = result.niveluri
+  var combinatii_unice_as_str = result.combinatii_unice_as_str
+  combinatii_unice = result.combinatii_unice
+
+  populateSelect(combinatii_unice_as_str, delimiter)
+  addOnChangeEvt(optimal_ds, delimiter, 'my_table_oferta_initiala')
+
+  createGraphs(combinatii_unice)
 }
 
 function addOnChangeEvt(ds, delimiter, tableId) {
@@ -1300,6 +1307,14 @@ export function init() {
   //get theme from local storage and set it
   let theme = localStorage.getItem('theme')
   changeTheme(theme)
+  //get excel data from local storage and set it
+  let excel_object = localStorage.getItem('excel_object')
+  if (excel_object) {
+    //ask user if he wants to load previous data
+    let answer = confirm('Load previous data?')
+    if (answer)
+      processExcelData(excel_object)
+  }
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
   const my_table3 = document.getElementById('my_table_detalii_reteta')
@@ -3212,7 +3227,7 @@ class estimari extends LitElement {
 
       console.log('temp', temp)
      //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
-      let ds = temp.reduce(function (acc, object) {
+      ds_estimari_pool = temp.reduce(function (acc, object) {
         if (!acc[object.instanta]) {
           acc[object.instanta] = []
         }
@@ -3224,8 +3239,8 @@ class estimari extends LitElement {
       temp = null;
 
       //and then each instanta reduce by ramura
-      for (let key in ds) {
-        ds[key] = ds[key].reduce(function (acc, object) {
+      for (let key in ds_estimari_pool) {
+        ds_estimari_pool[key] = ds_estimari_pool[key].reduce(function (acc, object) {
           if (!acc[object.ramura]) {
             acc[object.ramura] = []
           }
@@ -3234,14 +3249,17 @@ class estimari extends LitElement {
         }, {})
       }
 
-      console.log('ds', ds)
+      console.log('ds_estimari_pool', ds_estimari_pool)
+
+      //store ds in local storage
+      localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
       
       //create table rows instanta by instanta with addTableRow
       //get instante in ds, then get ramura in instanta and then get activitate in ramura
       //add activitate to table
       let counter = 0;
-      for (let key in ds) {
-        let instanta = ds[key]
+      for (let key in ds_estimari_pool) {
+        let instanta = ds_estimari_pool[key]
         counter++
         let counter2 = 0
         for (let k in instanta) {
