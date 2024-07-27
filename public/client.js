@@ -1276,7 +1276,7 @@ export function init() {
     my_table4.style.display = 'none'
     my_table5.style.display = 'none'
     my_table1.style.display = 'block'
-    my_table1.ds = original_ds
+    my_table1.ds = optimal_ds
   }
   //lista_activitati
   let lista_activitati = document.getElementById('lista_activitati')
