@@ -1297,7 +1297,6 @@ export function init() {
   //this function executes when window is loaded
   //get theme from local storage and set it
   let theme = localStorage.getItem('theme')
-  console.log('theme', theme)
   changeTheme(theme)
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
@@ -3218,6 +3217,9 @@ class estimari extends LitElement {
         acc[object.instanta].push(object)
         return acc
       }, {})
+
+      //get rid of temp
+      temp = null;
 
       //and then each instanta reduce by ramura
       for (let key in ds) {
