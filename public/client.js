@@ -3088,15 +3088,15 @@ class estimari extends LitElement {
 
     return html`${table}`
 
-    function calculateEstimariPoolDS() {
+    function calculateEstimariPoolDS(ds) {
       let temp = []
 
-      for (let i = 0; i < this.ds.length; i++) {
+      for (let i = 0; i < ds.length; i++) {
         let mainExists = false
 
-        for (let j = 0; j < this.ds[i].length; j++) {
+        for (let j = 0; j < ds[i].length; j++) {
           let activitate = {}
-          activitate = { ...this.ds[i][j] }
+          activitate = { ...ds[i][j] }
           let o = {}
           o = { ...activitate.object }
           let antemasuratori = []
