@@ -543,6 +543,7 @@ function createGraphs(combinatii_unice) {
   })
 
   console.log('trees', trees)
+  localStorage.setItem('trees', JSON.stringify(trees))
 
   //create a new select with tree roots
   var select = document.createElement('select')
@@ -648,6 +649,7 @@ function createGraphs(combinatii_unice) {
       }
 
       console.log(tree)
+      localStorage.setItem('trees', JSON.stringify(trees))
     })
 
     cy.layout({
@@ -1303,11 +1305,17 @@ export function init() {
   let theme = localStorage.getItem('theme')
   changeTheme(theme)
   //get excel data from local storage and set it
-  let excel_object = localStorage.getItem('excel_object')
-  if (excel_object) {
+  if (localStorage.getItem('excel_object')) {
     //ask user if he wants to load previous data
     let answer = confirm('Load previous data?')
-    if (answer) processExcelData(excel_object)
+    if (answer) {
+      let excel_object = localStorage.getItem('excel_object')
+      processExcelData(excel_object)
+      if (localStorage.getItem('trees')) {
+        trees = JSON.parse(localStorage.getItem('trees'))
+        populateSelectIerarhiiFromTrees()
+      }
+    }
   }
   const my_table1 = document.getElementById('my_table_oferta_initiala')
   const my_table2 = document.getElementById('my_table_recipes')
