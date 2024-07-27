@@ -1117,7 +1117,7 @@ export function init() {
   let theme = localStorage.getItem('theme')
   changeTheme(theme)
   //get excel data from local storage and set it
-  let excel_object = JSON.parse(localStorage.getItem('excel_object'))
+  let excel_object = localStorage.getItem('excel_object')
   if (excel_object) {
     //ask user if he wants to load previous data
     let answer = confirm('Load previous data?')
