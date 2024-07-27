@@ -318,10 +318,33 @@ function processExcelData(excel_object) {
   console.log('optimal_ds', optimal_ds)
 
   var delimiter = '~~~~~~~~~~~~~~~'
+  var combinatii_unice_as_str = []
+  if (trees.length == 0) {
   var result = creazaIerarhii(optimal_ds, delimiter)
   niveluri = result.niveluri
-  var combinatii_unice_as_str = result.combinatii_unice_as_str
+  combinatii_unice_as_str = result.combinatii_unice_as_str
   combinatii_unice = result.combinatii_unice
+  } else {
+    //recalculate combinatii_unice_as_str, niveluri, combinatii_unice from trees
+    niveluri = []
+    combinatii_unice_as_str = []
+    combinatii_unice = []
+    trees.forEach(function (tree) {
+      tree.forEach(function (branch) {
+        var combo = []
+        branch.forEach(function (nivel) {
+          if (nivel.includes(_nivel_oferta)) {
+            niveluri.push(nivel)
+            combo.push(nivel)
+          }
+        })
+        combinatii_unice.push(combo)
+      })
+    })
+    combinatii_unice.forEach(function (combo) {
+      combinatii_unice_as_str.push(combo.join(delimiter))
+    })
+  }
 
   populateSelect(combinatii_unice_as_str, delimiter)
   addOnChangeEvt(optimal_ds, delimiter, 'my_table_oferta_initiala')
@@ -640,6 +663,8 @@ function createGraphs(combinatii_unice) {
             tree.push(cl)
           }
         }
+
+        localStorage.setItem('trees', JSON.stringify(trees))
 
         //redraw graph
         var id = document.getElementById('cytoscape_graphs').id
@@ -1122,15 +1147,14 @@ export function init() {
     //ask user if he wants to load previous data
     let answer = confirm('Load previous data?')
     if (answer) {
-      processExcelData(excel_object)
-      //check trees, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete
       if (localStorage.getItem('trees')) {
         trees = JSON.parse(localStorage.getItem('trees'))
         if (trees.length) {
           populateSelectIerarhiiFromTrees()
-          createGraphs(trees)
         }
       }
+      processExcelData(excel_object)
+      //check trees, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete
       if (localStorage.getItem('activitati_oferta')) {
         activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
       }
