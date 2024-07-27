@@ -287,6 +287,8 @@ function loadDataFromFile(evt) {
     const unique_key = 'SERIE_ARTICOL_OFERTA'
     //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
     optimal_ds = sortByUniqueKey(original_ds, unique_key)
+    //get rid of original_ds
+    original_ds = []
     //refresh ds in my-table component
     document.getElementById('my_table_oferta_initiala').ds = optimal_ds
     //tableId
