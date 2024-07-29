@@ -360,8 +360,10 @@ function addOnChangeEvt(ds, delimiter, tableId) {
     let selected_options_arr = ierarhii.getValue()
     console.log('selected_options_arr', selected_options_arr)
     if (selected_options_arr && selected_options_arr.length > 0) {
-      deepFind(selected_options_arr, ds, delimiter)
+      flatFind(selected_options_arr, ds, delimiter)
     }
+
+    console.log('selected_ds', selected_ds)
 
     //create table rows
     if (selected_ds.length > 0) {
@@ -474,7 +476,7 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
   })
 }
 
-function deepFind(selected_options_arr, ds, delimiter) {
+function flatFind(selected_options_arr, ds, delimiter) {
   console.log('selected_options', selected_options_arr)
   if (!selected_options_arr || selected_options_arr.length == 0) {
     return
