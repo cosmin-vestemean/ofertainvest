@@ -3050,7 +3050,7 @@ class estimari extends LitElement {
       }
 
       //add activitati to table
-      dsFlat.forEach(function (o) {
+      this.ds.forEach(function (o) {
         let ramura = o.ramura
         let instanta = ramura.instanta
         let isMain = ramura.isMain
