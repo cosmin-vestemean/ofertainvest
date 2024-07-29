@@ -3071,123 +3071,6 @@ class estimari extends LitElement {
 
     return html`${table}`
 
-    function calculateEstimariPoolDS(ds) {
-      let ds_e = []
-      let firstLine = ds[0][0].object
-      let maxLevelA = ds[0][0].antemasuratori[0].branch.length
-      //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
-      //adauga la o diferenta de niveluri
-      let keys = Object.keys(firstLine)
-      let maxLevelObject = 0
-      for (let key of keys) {
-        if (key.includes(_nivel_oferta)) {
-          maxLevelObject++
-        }
-      }
-      console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
-      let temp = []
-
-      for (let i = 0; i < ds.length; i++) {
-        let mainExists = false
-
-        for (let j = 0; j < ds[i].length; j++) {
-          let activitate = {}
-          activitate = { ...ds[i][j] }
-          let o = {}
-          o = { ...activitate.object }
-          let antemasuratori = []
-          activitate.antemasuratori.forEach(function (a) {
-            antemasuratori.push({ branch: a.branch, qty: a.qty })
-          })
-          if (activitate.isMain) {
-            mainExists = true
-            console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
-            for (let k = 0; k < antemasuratori.length; k++) {
-              let branch = antemasuratori[k]
-              let ret_obj = createMainRow(branch, { ...o }, i, k, true, maxLevelA, maxLevelObject)
-              if (ret_obj) {
-                temp.push(ret_obj)
-              } else {
-                console.log('createMainRow returned null at ' + i + ' ' + j)
-              }
-            }
-          } else {
-            for (let k = 0; k < antemasuratori.length; k++) {
-              let branch = antemasuratori[k]
-              let ret_obj = createMainRow(branch, { ...o }, i, k, false, maxLevelA, maxLevelObject)
-              if (ret_obj) {
-                temp.push(ret_obj)
-              } else {
-                console.log('createMainRow returned null at ' + i + ' ' + j)
-              }
-            }
-          }
-        }
-
-        if (!mainExists) {
-          console.log('Activitatea principala nu a fost gasita pentru instanta ', i)
-        }
-      }
-
-      //sort temp by instanta, ramura
-      temp.sort(function (a, b) {
-        if (a.instanta < b.instanta) {
-          return -1
-        }
-        if (a.instanta > b.instanta) {
-          return 1
-        }
-        if (a.ramura < b.ramura) {
-          return -1
-        }
-        if (a.ramura > b.ramura) {
-          return 1
-        }
-        return 0
-      })
-
-      console.log('temp', temp)
-      //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
-      ds_e = temp.reduce(function (acc, object) {
-        if (!acc[object.instanta]) {
-          acc[object.instanta] = []
-        }
-        acc[object.instanta].push(object)
-        return acc
-      }, {})
-
-      //get rid of temp
-      temp = null
-
-      //and then each instanta reduce by ramura
-      for (let key in ds_e) {
-        ds_e[key] = ds_e[key].reduce(function (acc, object) {
-          if (!acc[object.ramura]) {
-            acc[object.ramura] = []
-          }
-          acc[object.ramura].push(object)
-          return acc
-        }, {})
-      }
-
-      console.log('ds_e', ds_e)
-      //store ds in local storage
-      localStorage.setItem('ds_e', JSON.stringify(ds_e))
-      return ds_e
-    }
-
-    function createMainRow(a, o, i, k, isMain, maxLevelA, maxLevelObject) {
-      //adauga la o niveluri noi
-      for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-        o[_nivel_oferta + i] = a.branch[i - 1]
-      }
-      o[_cantitate_antemasuratori] = a.qty
-      o[_cantitate_estimari] = 0
-      //create main activity row
-      //addTableRow(i, k, counter, o)
-      return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
-    }
-
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
@@ -3272,6 +3155,123 @@ class estimari extends LitElement {
       tr.appendChild(td)
     }
   }
+}
+
+function calculateEstimariPoolDS(ds) {
+  let ds_e = []
+  let firstLine = ds[0][0].object
+  let maxLevelA = ds[0][0].antemasuratori[0].branch.length
+  //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
+  //adauga la o diferenta de niveluri
+  let keys = Object.keys(firstLine)
+  let maxLevelObject = 0
+  for (let key of keys) {
+    if (key.includes(_nivel_oferta)) {
+      maxLevelObject++
+    }
+  }
+  console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
+  let temp = []
+
+  for (let i = 0; i < ds.length; i++) {
+    let mainExists = false
+
+    for (let j = 0; j < ds[i].length; j++) {
+      let activitate = {}
+      activitate = { ...ds[i][j] }
+      let o = {}
+      o = { ...activitate.object }
+      let antemasuratori = []
+      activitate.antemasuratori.forEach(function (a) {
+        antemasuratori.push({ branch: a.branch, qty: a.qty })
+      })
+      if (activitate.isMain) {
+        mainExists = true
+        console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
+        for (let k = 0; k < antemasuratori.length; k++) {
+          let branch = antemasuratori[k]
+          let ret_obj = createMainRow(branch, { ...o }, i, k, true, maxLevelA, maxLevelObject)
+          if (ret_obj) {
+            temp.push(ret_obj)
+          } else {
+            console.log('createMainRow returned null at ' + i + ' ' + j)
+          }
+        }
+      } else {
+        for (let k = 0; k < antemasuratori.length; k++) {
+          let branch = antemasuratori[k]
+          let ret_obj = createMainRow(branch, { ...o }, i, k, false, maxLevelA, maxLevelObject)
+          if (ret_obj) {
+            temp.push(ret_obj)
+          } else {
+            console.log('createMainRow returned null at ' + i + ' ' + j)
+          }
+        }
+      }
+    }
+
+    if (!mainExists) {
+      console.log('Activitatea principala nu a fost gasita pentru instanta ', i)
+    }
+  }
+
+  //sort temp by instanta, ramura
+  temp.sort(function (a, b) {
+    if (a.instanta < b.instanta) {
+      return -1
+    }
+    if (a.instanta > b.instanta) {
+      return 1
+    }
+    if (a.ramura < b.ramura) {
+      return -1
+    }
+    if (a.ramura > b.ramura) {
+      return 1
+    }
+    return 0
+  })
+
+  console.log('temp', temp)
+  //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
+  ds_e = temp.reduce(function (acc, object) {
+    if (!acc[object.instanta]) {
+      acc[object.instanta] = []
+    }
+    acc[object.instanta].push(object)
+    return acc
+  }, {})
+
+  //get rid of temp
+  temp = null
+
+  //and then each instanta reduce by ramura
+  for (let key in ds_e) {
+    ds_e[key] = ds_e[key].reduce(function (acc, object) {
+      if (!acc[object.ramura]) {
+        acc[object.ramura] = []
+      }
+      acc[object.ramura].push(object)
+      return acc
+    }, {})
+  }
+
+  console.log('ds_e', ds_e)
+  //store ds in local storage
+  localStorage.setItem('ds_e', JSON.stringify(ds_e))
+  return ds_e
+}
+
+function createMainRow(a, o, i, k, isMain, maxLevelA, maxLevelObject) {
+  //adauga la o niveluri noi
+  for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+    o[_nivel_oferta + i] = a.branch[i - 1]
+  }
+  o[_cantitate_antemasuratori] = a.qty
+  o[_cantitate_estimari] = 0
+  //create main activity row
+  //addTableRow(i, k, counter, o)
+  return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
 }
 
 customElements.define('my-estimari', estimari)
