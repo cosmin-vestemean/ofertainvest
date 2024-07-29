@@ -3074,7 +3074,7 @@ class estimari extends LitElement {
     function calculateEstimariPoolDS(ds) {
       let ds_estimari_pool = []
       let firstLine = ds[0][0].object
-      let maxLevelA = this.ds[0][0].antemasuratori[0].branch.length
+      let maxLevelA = ds[0][0].antemasuratori[0].branch.length
       //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
       //adauga la o diferenta de niveluri
       let keys = Object.keys(firstLine)
