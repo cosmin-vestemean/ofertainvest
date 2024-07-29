@@ -3074,7 +3074,7 @@ class estimari extends LitElement {
       if (isMain) {
         tr.id = i + '@' + k
       } else {
-          tr.id = i + '@' + k + '_' + counter3
+        tr.id = i + '@' + k + '_' + counter3
       }
       if (isMain) {
         tr.classList.add('table-primary')
@@ -3100,10 +3100,10 @@ class estimari extends LitElement {
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {
           //show hide all children, identified by same id and a "_some_number"
-          var children = document.getElementById('my_table_estimari')
-          .renderRoot
-          .getElementById('tbody_estimari')
-          .querySelectorAll('[id^="' + i + '@' + k + '_"]');
+          var children = document
+            .getElementById('my_table_estimari')
+            .renderRoot.getElementById('tbody_estimari')
+            .querySelectorAll('[id^="' + i + '@' + k + '_"]')
           for (let i = 0; i < children.length; i++) {
             if (children[i].classList.contains('d-none')) {
               children[i].classList.remove('d-none')
@@ -3150,37 +3150,25 @@ class estimari extends LitElement {
               td.contentEditable = true
             }
 
-            if (key == _cantitate_oferta || key == _cantitate_antemasuratori || key == _cantitate_estimari) {
+            if (key == _cantitate_estimari) {
               td.style.fontWeight = 'bold'
             }
 
-            //add class _cantitate_estimari
-            if (key == _cantitate_estimari) {
-              td.classList.add(_cantitate_estimari)
-            }
+            td.classList.add(key)
 
             //add event listener for input for td class cantitate_estimari
             td.addEventListener('input', function (e) {
               console.log('input event', e.target)
               //find tag name id and class
               var tagName = e.target.tagName
-              //var id = e.target.id
-              //var className = e.target.className
+              var id = e.target.id
+              var className = e.target.className
               if (tagName === 'TD') {
                 console.log(
                   'hey, a td was clicked',
                   className + ' ' + 'id: ' + id + ' ' + 'text: ' + e.target.textContent
                 )
-                //save to activitateCurenta
-                //check if activitate or material
-                //if material find index in activitateCurenta.children and update; if not found add
-                //if activitate, update activitateCurenta
-                var td = e.target
-                var key = e.target.id.split('@')[1]
-                if (td.classList.contains(_cantitate_estimari)) {
-                  //update activitateCurenta
-                  o[key] = e.target.textContent
-                }
+                o[key] = e.target.textContent
               }
             })
 
@@ -3229,7 +3217,14 @@ function generateTblRowsFromDsEstimariPool() {
       for (let i = 0; i < ramura.length; i++) {
         let o = ramura[i].row_data
         counter3++
-        let ramura_obj = {instanta: ramura[i].instanta,ramura: ramura[i].ramura, isMain: ramura[i].isMain, counter: counter, counter2: counter2, counter3: counter3}
+        let ramura_obj = {
+          instanta: ramura[i].instanta,
+          ramura: ramura[i].ramura,
+          isMain: ramura[i].isMain,
+          counter: counter,
+          counter2: counter2,
+          counter3: counter3
+        }
         dsFlat.push({ ...o, ramura: ramura_obj })
       }
     }
