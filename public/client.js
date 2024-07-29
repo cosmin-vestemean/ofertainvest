@@ -1728,11 +1728,7 @@ export function init() {
       //trasform newTree in ds_estimari_pool
       if (newTree.length > 0) {
         ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
-        //add to ds_estimari_pool two new columns: START_DATE and END_DATE
-        ds_estimari_pool.forEach((o) => {
-          o.START_DATE = ''
-          o.END_DATE = ''
-        })
+        console.log('ds_estimari_pool', ds_estimari_pool)
       } else {
         console.log('newTree is empty, run Antemasuratori first')
       }
