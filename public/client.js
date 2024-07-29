@@ -3167,7 +3167,7 @@ class estimari extends LitElement {
             td.classList.add(key)
 
             //add event listener for input for td class cantitate_estimari
-            td.addEventListener('input', function (e) {
+            td.addEventListener('blur', function (e) {
               console.log('input event', e.target)
               //find tag name id and class
               var tagName = e.target.tagName
