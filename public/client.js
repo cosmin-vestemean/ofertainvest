@@ -1467,6 +1467,12 @@ export function init() {
   nav_antemasuratori.onclick = function () {
     if (ds_antemasuratori.length === 0) {
       calculateAntemasAndNewTree()
+    } else {
+      //ask user if he wants to recalculate
+      let answer = confirm('Regenerez antemasuratorile?')
+      if (answer) {
+        calculateAntemasAndNewTree()
+      }
     }
     showAntemasuratori()
     addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
