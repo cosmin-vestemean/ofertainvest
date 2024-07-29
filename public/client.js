@@ -2954,6 +2954,7 @@ class estimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
+      let dsFlat = generateTblRowsFromDsEstimariPool()
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -2999,7 +3000,7 @@ class estimari extends LitElement {
         th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        let firstLine = ds_estimari_pool[0][0][0].row_data
+        let firstLine = dsFlat[0]
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
@@ -3048,10 +3049,7 @@ class estimari extends LitElement {
         tr.appendChild(th)
       }
 
-      //create table rows instanta by instanta with addTableRow
-      //get instante in ds, then get ramura in instanta and then get activitate in ramura
-      //add activitate to table
-      let dsFlat = generateTableRow()
+      //add activitati to table
       dsFlat.forEach(function (o) {
         let ramura = o.ramura
         let instanta = ramura.instanta
@@ -3155,7 +3153,9 @@ class estimari extends LitElement {
   }
 }
 
-function generateTableRow() {
+function generateTblRowsFromDsEstimariPool() {
+  //create table rows instanta by instanta with addTableRow
+  //get instante in ds, then get ramura in instanta and then get activitate in ramura
   let dsFlat = []
   let counter = 0
   for (let key in ds_estimari_pool) {
