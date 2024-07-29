@@ -320,10 +320,10 @@ function processExcelData(excel_object) {
   var delimiter = '~~~~~~~~~~~~~~~'
   var combinatii_unice_as_str = []
   if (trees.length == 0) {
-  var result = creazaIerarhii(optimal_ds, delimiter)
-  niveluri = result.niveluri
-  combinatii_unice_as_str = result.combinatii_unice_as_str
-  combinatii_unice = result.combinatii_unice
+    var result = creazaIerarhii(optimal_ds, delimiter)
+    niveluri = result.niveluri
+    combinatii_unice_as_str = result.combinatii_unice_as_str
+    combinatii_unice = result.combinatii_unice
   } else {
     //recalculate combinatii_unice_as_str, niveluri, combinatii_unice from trees
     niveluri = []
@@ -360,7 +360,7 @@ function addOnChangeEvt(ds, delimiter, tableId) {
     let selected_options_arr = ierarhii.getValue()
     console.log('selected_options_arr', selected_options_arr)
     if (selected_options_arr && selected_options_arr.length > 0) {
-      filterOptimalDs(selected_options_arr, ds, delimiter)
+      deepFind(selected_options_arr, ds, delimiter)
     }
 
     //create table rows
@@ -474,9 +474,9 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
   })
 }
 
-function filterOptimalDs(selected_options_arr, ds, delimiter) {
+function deepFind(selected_options_arr, ds, delimiter) {
   console.log('selected_options', selected_options_arr)
-  if (!selected_options_arr) {
+  if (!selected_options_arr || selected_options_arr.length == 0) {
     return
   }
   //filter optimal_ds by selected option and display it in table
@@ -2946,6 +2946,10 @@ class estimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
+      if (ds_estimari_pool.length == 0) {
+        //trasform newTree in ds_estimari_pool
+        ds_estimari_pool = calculateEstimariPoolDS(this.ds)
+      }
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -2991,26 +2995,7 @@ class estimari extends LitElement {
         th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        let firstLine = this.ds[0][0].object
-        var maxLevelA = this.ds[0][0].antemasuratori[0].branch.length
-        //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
-        //adauga la o diferenta de niveluri
-        let keys = Object.keys(firstLine)
-        var maxLevelObject = 0
-        for (let key of keys) {
-          if (key.includes(_nivel_oferta)) {
-            maxLevelObject++
-          }
-        }
-        console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
-
-        for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-          firstLine[_nivel_oferta + i] = _nivel_oferta + i
-        }
-
-        firstLine[_cantitate_antemasuratori] = 0
-        firstLine[_cantitate_estimari] = 0
-
+        let firstLine = ds_estimari_pool[0][0][0].row_data
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
@@ -3059,12 +3044,6 @@ class estimari extends LitElement {
         tr.appendChild(th)
       }
 
-      //add tbody
-      //find main activity in ds[i]
-      if (ds_estimari_pool.length == 0) {
-        calculateEstimariPoolDS(this.ds)
-      }
-
       //create table rows instanta by instanta with addTableRow
       //get instante in ds, then get ramura in instanta and then get activitate in ramura
       //add activitate to table
@@ -3093,6 +3072,19 @@ class estimari extends LitElement {
     return html`${table}`
 
     function calculateEstimariPoolDS(ds) {
+      let ds_estimari_pool = []
+      let firstLine = ds[0][0].object
+      let maxLevelA = this.ds[0][0].antemasuratori[0].branch.length
+      //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
+      //adauga la o diferenta de niveluri
+      let keys = Object.keys(firstLine)
+      let maxLevelObject = 0
+      for (let key of keys) {
+        if (key.includes(_nivel_oferta)) {
+          maxLevelObject++
+        }
+      }
+      console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
       let temp = []
 
       for (let i = 0; i < ds.length; i++) {
@@ -3179,6 +3171,8 @@ class estimari extends LitElement {
       }
 
       console.log('ds_estimari_pool', ds_estimari_pool)
+
+      return ds_estimari_pool
 
       //store ds in local storage
       localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
