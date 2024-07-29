@@ -2994,17 +2994,6 @@ class estimari extends LitElement {
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {
           //show hide all children, identified by same id and a "_some_number"
-          var children = document
-            .getElementById('my_table_estimari')
-            .renderRoot.getElementById('tbody_estimari')
-            .querySelectorAll('[id^="' + i + '@' + k + '_"]')
-          for (let i = 0; i < children.length; i++) {
-            if (children[i].classList.contains('d-none')) {
-              children[i].classList.remove('d-none')
-            } else {
-              children[i].classList.add('d-none')
-            }
-          }
           //change icon
           if (plus_icon.classList.contains('bi-dash-square')) {
             plus_icon.classList.remove('bi-dash-square')
