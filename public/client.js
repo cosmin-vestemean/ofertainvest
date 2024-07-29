@@ -3071,7 +3071,7 @@ class estimari extends LitElement {
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
-      tr.id = i + '@' + k
+      tr.id = i + '@' + k + '_' + counter3
       if (isMain) {
         tr.classList.add('table-primary')
       } else {
@@ -3094,7 +3094,25 @@ class estimari extends LitElement {
         let plus_icon = document.createElement('i')
         plus_icon.classList.add('bi', 'bi-plus-square', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
-        plus_icon.onclick = function () {}
+        plus_icon.onclick = function () {
+          //show hide all children, identified by same id and a "_some_number"
+          var children = this.renderRoot.getElementById('tbody_estimari').querySelectorAll('[id^=' + i + '@' + k + '_]')
+          for (let i = 0; i < children.length; i++) {
+            if (children[i].classList.contains('d-none')) {
+              children[i].classList.remove('d-none')
+            } else {
+              children[i].classList.add('d-none')
+            }
+          }
+          //change icon
+          if (plus_icon.classList.contains('bi-plus-square')) {
+            plus_icon.classList.remove('bi-plus-square')
+            plus_icon.classList.add('bi-dash-square')
+          } else {
+            plus_icon.classList.remove('bi-dash-square')
+            plus_icon.classList.add('bi-plus-square')
+          }
+        }
         td.appendChild(plus_icon)
       } else {
         td.innerHTML = ''
