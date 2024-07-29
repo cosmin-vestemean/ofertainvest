@@ -2943,57 +2943,6 @@ class estimari extends LitElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-    this.shadowRoot.addEventListener('keydown', function (e) {
-      if (e.target.classList.contains(_cantitate_estimari)) {
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          e.target.blur()
-        }
-      }
-
-      //arrow up and down
-      if (e.target.classList.contains(_cantitate_estimari)) {
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-          e.preventDefault()
-          let td = e.target
-          let tr = td.parentElement
-          let tbody = tr.parentElement
-          let tds = tbody.getElementsByTagName('td')
-          let index = Array.prototype.indexOf.call(tds, td)
-          let trs = tbody.getElementsByTagName('tr')
-          let trIndex = Array.prototype.indexOf.call(trs, tr)
-          let nextTr = e.key === 'ArrowDown' ? trs[trIndex + 1] : trs[trIndex - 1]
-          let nextTd = nextTr.getElementsByTagName('td')[index]
-          if (nextTd) {
-            nextTd.focus()
-          }
-        }
-      }
-    })
-
-    //add event listener for start_date and end_date to cascade the value to all elements starting with the same id
-    this.shadowRoot.addEventListener('input', function (e) {
-      if (e.target.id == 'start_date') {
-        let value = e.target.value
-        let id = e.target.id
-        let inputs = this.shadowRoot.getElementsByClassName('start_date')
-        for (let i = 0; i < inputs.length; i++) {
-          inputs[i].value = value
-        }
-      }
-    })
-
-    this.shadowRoot.addEventListener('input', function (e) {
-      if (e.target.id == 'end_date') {
-        let value = e.target.value
-        let id = e.target.id
-        let inputs = this.shadowRoot.getElementsByClassName('end_date')
-        for (let i = 0; i < inputs.length; i++) {
-          inputs[i].value = value
-        }
-      }
-    })
-
     console.log('events added to estimari element')
   }
 
@@ -3093,6 +3042,13 @@ class estimari extends LitElement {
         input.id = 'start_date'
         input.classList.add('form-control', 'form-control-sm')
         input.value = ''
+        input.onchange = function () {
+          //cascade value to similar inputs from tbody tds, class "start_date"
+          let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByTagName('td').filter(td => td.classList.contains('start_date')).getElementsByTagName('input')
+          for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = input.value
+          }
+        }
         th.appendChild(input)
         tr.appendChild(th)
         th = document.createElement('th')
