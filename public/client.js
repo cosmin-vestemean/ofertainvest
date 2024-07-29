@@ -3188,7 +3188,7 @@ class estimari extends LitElement {
                 if (position[1].includes('_')) {
                   const s = position[1].split('_')
                   ramura = s[0]
-                  activitateIndex = s[1]
+                  activitateIndex = s[1] - 1
                 } else {
                   ramura = position[1]
                 }
