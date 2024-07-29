@@ -1724,7 +1724,11 @@ export function init() {
     my_table5.style.display = 'block'
     if (ds_estimari_pool.length == 0) {
       //trasform newTree in ds_estimari_pool
-      ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+      if (newTree.length > 0) {
+        ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+      } else {
+        console.log('newTree is empty, run Antemasuratori first')
+      }
     }
     my_table5.ds = ds_estimari_pool
     addOnChangeEvt(ds_estimari_pool, '~~~~~~~~~~~~~~~', 'my_table_estimari')
@@ -3047,26 +3051,20 @@ class estimari extends LitElement {
       //create table rows instanta by instanta with addTableRow
       //get instante in ds, then get ramura in instanta and then get activitate in ramura
       //add activitate to table
-      let counter = 0
-      for (let key in ds_estimari_pool) {
-        let instanta = ds_estimari_pool[key]
-        counter++
-        let counter2 = 0
-        for (let k in instanta) {
-          let ramura = instanta[k]
-          counter2++
-          let counter3 = 0
-          for (let i = 0; i < ramura.length; i++) {
-            let o = ramura[i].row_data
-            counter3++
-            if (ramura[i].isMain) {
-              //add main activity row
-              addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, true)
-            }
-            addTableRow(ramura[i].instanta, ramura[i].ramura, counter, counter2, counter3, o, false)
-          }
+      let dsFlat = generateTableRow()
+      dsFlat.forEach(function (o) {
+        let ramura = o.ramura
+        let instanta = ramura.instanta
+        let isMain = ramura.isMain
+        let counter = ramura.counter
+        let counter2 = ramura.counter2
+        let counter3 = ramura.counter3
+        if (isMain) {
+          //add main activity row
+          addTableRow(instanta, ramura, counter, counter2, counter3, o, true)
         }
-      }
+        addTableRow(instanta, ramura, counter, counter2, counter3, o, false)
+      })
     }
 
     return html`${table}`
@@ -3155,6 +3153,29 @@ class estimari extends LitElement {
       tr.appendChild(td)
     }
   }
+}
+
+function generateTableRow() {
+  let dsFlat = []
+  let counter = 0
+  for (let key in ds_estimari_pool) {
+    let instanta = ds_estimari_pool[key]
+    counter++
+    let counter2 = 0
+    for (let k in instanta) {
+      let ramura = instanta[k]
+      counter2++
+      let counter3 = 0
+      for (let i = 0; i < ramura.length; i++) {
+        let o = ramura[i].row_data
+        counter3++
+        let ramura_obj = {instanta: ramura[i].instanta, isMain: ramura[i].isMain, counter: counter, counter2: counter2, counter3: counter3}
+        dsFlat.push({ ...o, ramura: ramura_obj })
+      }
+    }
+  }
+
+  return dsFlat
 }
 
 function transformNewTreeIntoEstimariPoolDS(ds) {
