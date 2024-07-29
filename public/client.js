@@ -2950,6 +2950,7 @@ class estimari extends LitElement {
   }
 
   firstUpdated() {
+    super.firstUpdated()
     //add event listener for keydown for td class cantitate_antemasuratori
     this.shadowRoot.addEventListener('keydown', function (e) {
       if (e.target.classList.contains(_cantitate_antemasuratori)) {
