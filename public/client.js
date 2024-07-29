@@ -3053,15 +3053,16 @@ class estimari extends LitElement {
       this.ds.forEach(function (o) {
         let ramura = o.ramura
         let instanta = ramura.instanta
+        let r = ramura.ramura
         let isMain = ramura.isMain
         let counter = ramura.counter
         let counter2 = ramura.counter2
         let counter3 = ramura.counter3
         if (isMain) {
           //add main activity row
-          addTableRow(instanta, ramura, counter, counter2, counter3, o, true)
+          addTableRow(instanta, r, counter, counter2, counter3, o, true)
         }
-        addTableRow(instanta, ramura, counter, counter2, counter3, o, false)
+        addTableRow(instanta, r, counter, counter2, counter3, o, false)
       })
     }
 
@@ -3169,7 +3170,7 @@ function generateTblRowsFromDsEstimariPool() {
       for (let i = 0; i < ramura.length; i++) {
         let o = ramura[i].row_data
         counter3++
-        let ramura_obj = {instanta: ramura[i].instanta, isMain: ramura[i].isMain, counter: counter, counter2: counter2, counter3: counter3}
+        let ramura_obj = {instanta: ramura[i].instanta,ramura: ramura[i].ramura, isMain: ramura[i].isMain, counter: counter, counter2: counter2, counter3: counter3}
         dsFlat.push({ ...o, ramura: ramura_obj })
       }
     }
