@@ -3178,7 +3178,15 @@ class estimari extends LitElement {
                   'hey, a td was clicked',
                   className + ' ' + 'id: ' + id + ' ' + 'text: ' + e.target.textContent
                 )
-                o[key] = e.target.textContent
+                //get parent tr
+                var tr = e.target.parentElement
+                const positionCoords = tr.id
+                const position = positionCoords.split('@')
+                const instanta = position[0]
+                const ramura = position.split('_')[0]
+                const activitateIndex = position[1] - 1
+                ds[instanta][ramura][activitateIndex][key] = e.target.textContent
+                localStorage.setItem('ds_estimari_pool', JSON.stringify(ds))
               }
             })
 
