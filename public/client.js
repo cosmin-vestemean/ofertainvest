@@ -2989,10 +2989,8 @@ class estimari extends LitElement {
         }
       }
     })
-  }
 
-  firstUpdated() {
-    
+    console.log('events added to estimari element')
   }
 
   render() {
