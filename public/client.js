@@ -3000,7 +3000,7 @@ class estimari extends LitElement {
         th = document.createElement('th')
         th.scope = 'col'
         tr.appendChild(th)
-        let firstLine = dsFlat[0]
+        let firstLine = this.ds[0]
         for (let key in estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
