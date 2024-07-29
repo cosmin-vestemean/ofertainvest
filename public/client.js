@@ -1728,6 +1728,11 @@ export function init() {
       //trasform newTree in ds_estimari_pool
       if (newTree.length > 0) {
         ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+        //add to ds_estimari_pool two new columns: START_DATE and END_DATE
+        ds_estimari_pool.forEach((o) => {
+          o.START_DATE = ''
+          o.END_DATE = ''
+        })
       } else {
         console.log('newTree is empty, run Antemasuratori first')
       }
@@ -3306,21 +3311,21 @@ function transformNewTreeIntoEstimariPoolDS(ds) {
         console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
         for (let k = 0; k < antemasuratori.length; k++) {
           let branch = antemasuratori[k]
-          let ret_obj = createMainRow(branch, { ...o }, i, k, true, maxLevelA, maxLevelObject)
+          let ret_obj = createNewRow(branch, { ...o }, i, j, k, true, maxLevelA, maxLevelObject)
           if (ret_obj) {
             temp.push(ret_obj)
           } else {
-            console.log('createMainRow returned null at ' + i + ' ' + j)
+            console.log('createNewRow returned null at ' + i + ' ' + j)
           }
         }
       } else {
         for (let k = 0; k < antemasuratori.length; k++) {
           let branch = antemasuratori[k]
-          let ret_obj = createMainRow(branch, { ...o }, i, k, false, maxLevelA, maxLevelObject)
+          let ret_obj = createNewRow(branch, { ...o }, i, j, k, false, maxLevelA, maxLevelObject)
           if (ret_obj) {
             temp.push(ret_obj)
           } else {
-            console.log('createMainRow returned null at ' + i + ' ' + j)
+            console.log('createNewRow returned null at ' + i + ' ' + j)
           }
         }
       }
@@ -3378,7 +3383,7 @@ function transformNewTreeIntoEstimariPoolDS(ds) {
   return ds_e
 }
 
-function createMainRow(a, o, i, k, isMain, maxLevelA, maxLevelObject) {
+function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObject) {
   //adauga la o niveluri noi
   for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
     o[_nivel_oferta + i] = a.branch[i - 1]
@@ -3387,7 +3392,7 @@ function createMainRow(a, o, i, k, isMain, maxLevelA, maxLevelObject) {
   o[_cantitate_estimari] = 0
   //create main activity row
   //addTableRow(i, k, counter, o)
-  return { instanta: i, ramura: k, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
+  return { instanta: i, ramura: k, activitate: indexActivit, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
 }
 
 customElements.define('my-estimari', estimari)
