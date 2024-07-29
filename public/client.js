@@ -3096,7 +3096,7 @@ class estimari extends LitElement {
       if (isMain) {
         //add plus/minus icon
         let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi', 'bi-plus-square', 'fs-6', 'align-middle')
+        plus_icon.classList.add('bi', 'bi-dash-square', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {
           //show hide all children, identified by same id and a "_some_number"
@@ -3112,12 +3112,12 @@ class estimari extends LitElement {
             }
           }
           //change icon
-          if (plus_icon.classList.contains('bi-plus-square')) {
-            plus_icon.classList.remove('bi-plus-square')
-            plus_icon.classList.add('bi-dash-square')
-          } else {
+          if (plus_icon.classList.contains('bi-dash-square')) {
             plus_icon.classList.remove('bi-dash-square')
             plus_icon.classList.add('bi-plus-square')
+          } else {
+            plus_icon.classList.remove('bi-plus-square')
+            plus_icon.classList.add('bi-dash-square')
           }
         }
         td.appendChild(plus_icon)
@@ -3149,6 +3149,40 @@ class estimari extends LitElement {
             if (estimariDisplayMask[key].RW) {
               td.contentEditable = true
             }
+
+            if (key == _cantitate_oferta || key == _cantitate_antemasuratori || key == _cantitate_estimari) {
+              td.style.fontWeight = 'bold'
+            }
+
+            //add class _cantitate_estimari
+            if (key == _cantitate_estimari) {
+              td.classList.add(_cantitate_estimari)
+            }
+
+            //add event listener for input for td class cantitate_estimari
+            td.addEventListener('input', function (e) {
+              console.log('input event', e.target)
+              //find tag name id and class
+              var tagName = e.target.tagName
+              //var id = e.target.id
+              //var className = e.target.className
+              if (tagName === 'TD') {
+                console.log(
+                  'hey, a td was clicked',
+                  className + ' ' + 'id: ' + id + ' ' + 'text: ' + e.target.textContent
+                )
+                //save to activitateCurenta
+                //check if activitate or material
+                //if material find index in activitateCurenta.children and update; if not found add
+                //if activitate, update activitateCurenta
+                var td = e.target
+                var key = e.target.id.split('@')[1]
+                if (td.classList.contains(_cantitate_estimari)) {
+                  //update activitateCurenta
+                  o[key] = e.target.textContent
+                }
+              }
+            })
 
             tr.appendChild(td)
           }
