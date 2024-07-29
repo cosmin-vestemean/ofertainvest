@@ -2949,6 +2949,51 @@ class estimari extends LitElement {
     console.log('estimari element added to the DOM')
   }
 
+  firstUpdated() {
+    //add event listener for keydown for td class cantitate_antemasuratori
+    this.shadowRoot.addEventListener('keydown', function (e) {
+      if (e.target.classList.contains(_cantitate_antemasuratori)) {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          e.target.blur()
+        }
+      }
+
+      //arrow up and down
+      if (e.target.classList.contains(_cantitate_antemasuratori)) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault()
+          let td = e.target
+          let tr = td.parentElement
+          let tbody = tr.parentElement
+          let tds = tbody.getElementsByTagName('td')
+          let index = Array.prototype.indexOf.call(tds, td)
+          let trs = tbody.getElementsByTagName('tr')
+          let trIndex = Array.prototype.indexOf.call(trs, tr)
+          let nextTr = e.key === 'ArrowDown' ? trs[trIndex + 1] : trs[trIndex - 1]
+          let nextTd = nextTr.getElementsByTagName('td')[index]
+          if (nextTd) {
+            nextTd.focus()
+          }
+        }
+      }
+    })
+
+    //add event listener for start_date and end_date to cascade the value to all elements starting with the same id
+    this.shadowRoot.addEventListener('input', function (e) {
+      if (e.target.id.startsWith('start_date') || e.target.id.startsWith('end_date')) {
+        let value = e.target.value
+        let id = e.target.id
+        let inputs = document.getElementsByTagName('input')
+        for (let i = 0; i < inputs.length; i++) {
+          if (inputs[i].id.startsWith(id)) {
+            inputs[i].value = value
+          }
+        }
+      }
+    })
+  }
+
   render() {
     console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
 
@@ -3208,7 +3253,7 @@ class estimari extends LitElement {
       //create type="date" input
       let input = document.createElement('input')
       input.type = 'date'
-      input.id = 'start_date_' + counter
+      input.id = 'start_date_' + counter + '@' + counter2 + '@' + counter3
       input.classList.add('form-control', 'form-control-sm', 'rounded')
       input.value = ''
       td.appendChild(input)
@@ -3218,7 +3263,7 @@ class estimari extends LitElement {
       //create type="date" input
       input = document.createElement('input')
       input.type = 'date'
-      input.id = 'end_date_' + counter
+      input.id = 'end_date_' + counter + '@' + counter2 + '@' + counter3
       input.classList.add('form-control', 'form-control-sm', 'rounded')
       input.value = ''
       td.appendChild(input)
