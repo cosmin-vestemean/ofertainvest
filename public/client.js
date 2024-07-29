@@ -2990,9 +2990,30 @@ class estimari extends LitElement {
         //append plus/minus icon
         th = document.createElement('th')
         let plus_icon = document.createElement('i')
-        plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-6', 'align-middle')
+        plus_icon.classList.add('bi', 'bi-dash-square', 'text-primary', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
-        plus_icon.onclick = function () {}
+        plus_icon.onclick = function () {
+          //show hide all children, identified by same id and a "_some_number"
+          var children = document
+            .getElementById('my_table_estimari')
+            .renderRoot.getElementById('tbody_estimari')
+            .querySelectorAll('[id^="' + i + '@' + k + '_"]')
+          for (let i = 0; i < children.length; i++) {
+            if (children[i].classList.contains('d-none')) {
+              children[i].classList.remove('d-none')
+            } else {
+              children[i].classList.add('d-none')
+            }
+          }
+          //change icon
+          if (plus_icon.classList.contains('bi-dash-square')) {
+            plus_icon.classList.remove('bi-dash-square')
+            plus_icon.classList.add('bi-plus-square')
+          } else {
+            plus_icon.classList.remove('bi-plus-square')
+            plus_icon.classList.add('bi-dash-square')
+          }
+        }
         th.appendChild(plus_icon)
         th.scope = 'col'
         tr.appendChild(th)
