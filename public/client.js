@@ -86,6 +86,8 @@ var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
 var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
 var _cantitate_estimari = 'CANTITATE_ARTICOL_ESTIMARI'
 var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'
+var _start_date = 'DATA_START'
+var _end_date = 'DATA_END'
 var visible_columns = []
 var denumireUnica_ds = []
 var activitati_oferta = []
@@ -3383,9 +3385,7 @@ function transformNewTreeIntoEstimariPoolDS(ds) {
     }, {})
   }
 
-  console.log('ds_e', ds_e)
-  //store ds in local storage
-  localStorage.setItem('ds_e', JSON.stringify(ds_e))
+  //console.log('ds_e', ds_e)
   return ds_e
 }
 
@@ -3396,6 +3396,8 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
   }
   o[_cantitate_antemasuratori] = a.qty
   o[_cantitate_estimari] = 0
+  o[_start_date] = ''
+  o[_end_date] = ''
   //create main activity row
   //addTableRow(i, k, counter, o)
   return { instanta: i, ramura: k, activitate: indexActivit, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
