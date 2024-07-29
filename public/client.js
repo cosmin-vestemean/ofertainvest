@@ -3043,8 +3043,7 @@ class estimari extends LitElement {
         input.classList.add('form-control', 'form-control-sm')
         input.value = ''
         input.onchange = function () {
-          //cascade value to similar inputs from tbody tds, class "start_date"
-          let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByTagName('td').filter(td => td.classList.contains('start_date')).getElementsByTagName('input')
+          let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByClassName('start_date')
           for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = input.value
           }
@@ -3217,8 +3216,7 @@ class estimari extends LitElement {
       //create type="date" input
       let input = document.createElement('input')
       input.type = 'date'
-      input.id = 'start_date_' + counter + '@' + counter2 + '@' + counter3
-      input.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date_')
+      input.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
       input.value = ''
       td.appendChild(input)
       tr.appendChild(td)
@@ -3227,8 +3225,7 @@ class estimari extends LitElement {
       //create type="date" input
       input = document.createElement('input')
       input.type = 'date'
-      input.id = 'end_date_' + counter + '@' + counter2 + '@' + counter3
-      input.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date_')
+      input.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date')
       input.value = ''
       td.appendChild(input)
       tr.appendChild(td)
