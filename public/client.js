@@ -3071,7 +3071,11 @@ class estimari extends LitElement {
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
-      tr.id = i + '@' + k + '_' + counter3
+      if (isMain) {
+        tr.id = i + '@' + k
+      } else {
+          tr.id = i + '@' + k + '_' + counter3
+      }
       if (isMain) {
         tr.classList.add('table-primary')
       } else {
