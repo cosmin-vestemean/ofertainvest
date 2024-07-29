@@ -3192,7 +3192,7 @@ class estimari extends LitElement {
                 } else {
                   ramura = position[1]
                 }
-                ds_estimari_pool[instanta][ramura][activitateIndex][key] = parseFloat(e.target.textContent.trim());
+                ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(e.target.textContent.trim());
                 localStorage.setItem('ds_estimari_pool', JSON.stringify(ds))
               }
             })
