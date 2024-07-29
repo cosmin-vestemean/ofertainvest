@@ -3183,8 +3183,15 @@ class estimari extends LitElement {
                 const positionCoords = tr.id
                 const position = positionCoords.split('@')
                 const instanta = position[0]
-                const ramura = position[1].split('_')[0]
-                const activitateIndex = position[1].split('_')[1]
+                let ramura = 0
+                let activitateIndex = 0
+                if (position[1].includes('_')) {
+                  const s = position[1].split('_')
+                  ramura = s[0]
+                  activitateIndex = s[1]
+                } else {
+                  ramura = position[1]
+                }
                 ds[instanta][ramura][activitateIndex][key] = e.target.textContent
                 localStorage.setItem('ds_estimari_pool', JSON.stringify(ds))
               }
