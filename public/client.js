@@ -3072,7 +3072,7 @@ class estimari extends LitElement {
     return html`${table}`
 
     function calculateEstimariPoolDS(ds) {
-      let ds_estimari_pool = []
+      let ds_e = []
       let firstLine = ds[0][0].object
       let maxLevelA = ds[0][0].antemasuratori[0].branch.length
       //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
@@ -3148,7 +3148,7 @@ class estimari extends LitElement {
 
       console.log('temp', temp)
       //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
-      ds_estimari_pool = temp.reduce(function (acc, object) {
+      ds_e = temp.reduce(function (acc, object) {
         if (!acc[object.instanta]) {
           acc[object.instanta] = []
         }
@@ -3160,8 +3160,8 @@ class estimari extends LitElement {
       temp = null
 
       //and then each instanta reduce by ramura
-      for (let key in ds_estimari_pool) {
-        ds_estimari_pool[key] = ds_estimari_pool[key].reduce(function (acc, object) {
+      for (let key in ds_e) {
+        ds_e[key] = ds_e[key].reduce(function (acc, object) {
           if (!acc[object.ramura]) {
             acc[object.ramura] = []
           }
@@ -3170,12 +3170,10 @@ class estimari extends LitElement {
         }, {})
       }
 
-      console.log('ds_estimari_pool', ds_estimari_pool)
-
-      return ds_estimari_pool
-
+      console.log('ds_e', ds_e)
       //store ds in local storage
-      localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+      localStorage.setItem('ds_e', JSON.stringify(ds_e))
+      return ds_e
     }
 
     function createMainRow(a, o, i, k, isMain, maxLevelA, maxLevelObject) {
