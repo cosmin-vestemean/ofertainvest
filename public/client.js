@@ -2942,11 +2942,6 @@ class estimari extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-  }
-
-  connectedCallback() {
-    super.connectedCallback()
-    console.log('estimari element added to the DOM')
 
     this.shadowRoot.addEventListener('keydown', function (e) {
       if (e.target.classList.contains(_cantitate_antemasuratori)) {
@@ -2991,6 +2986,11 @@ class estimari extends LitElement {
     })
 
     console.log('events added to estimari element')
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('estimari element added to the DOM')
   }
 
   render() {
