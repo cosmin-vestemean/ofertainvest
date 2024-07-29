@@ -1730,8 +1730,9 @@ export function init() {
         console.log('newTree is empty, run Antemasuratori first')
       }
     }
-    my_table5.ds = ds_estimari_pool
-    addOnChangeEvt(ds_estimari_pool, '~~~~~~~~~~~~~~~', 'my_table_estimari')
+    let dsFlat = generateTblRowsFromDsEstimariPool()
+    my_table5.ds = dsFlat
+    addOnChangeEvt(dsFlat, '~~~~~~~~~~~~~~~', 'my_table_estimari')
   }
 
   //btn_listaRetete
@@ -2954,7 +2955,6 @@ class estimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
-      let dsFlat = generateTblRowsFromDsEstimariPool()
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
