@@ -3074,11 +3074,11 @@ class estimari extends LitElement {
     function calculateEstimariPoolDS(ds) {
       let ds_estimari_pool = []
       let firstLine = ds[0][0].object
-      var maxLevelA = ds[0][0].antemasuratori[0].branch.length
+      let maxLevelA = ds[0][0].antemasuratori[0].branch.length
       //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
       //adauga la o diferenta de niveluri
       let keys = Object.keys(firstLine)
-      var maxLevelObject = 0
+      let maxLevelObject = 0
       for (let key of keys) {
         if (key.includes(_nivel_oferta)) {
           maxLevelObject++
@@ -3104,7 +3104,7 @@ class estimari extends LitElement {
             console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
             for (let k = 0; k < antemasuratori.length; k++) {
               let branch = antemasuratori[k]
-              let ret_obj = createMainRow(branch, { ...o }, i, k, true)
+              let ret_obj = createMainRow(branch, { ...o }, i, k, true, maxLevelA, maxLevelObject)
               if (ret_obj) {
                 temp.push(ret_obj)
               } else {
@@ -3114,7 +3114,7 @@ class estimari extends LitElement {
           } else {
             for (let k = 0; k < antemasuratori.length; k++) {
               let branch = antemasuratori[k]
-              let ret_obj = createMainRow(branch, { ...o }, i, k, false)
+              let ret_obj = createMainRow(branch, { ...o }, i, k, false, maxLevelA, maxLevelObject)
               if (ret_obj) {
                 temp.push(ret_obj)
               } else {
@@ -3178,7 +3178,7 @@ class estimari extends LitElement {
       localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
     }
 
-    function createMainRow(a, o, i, k, isMain) {
+    function createMainRow(a, o, i, k, isMain, maxLevelA, maxLevelObject) {
       //adauga la o niveluri noi
       for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
         o[_nivel_oferta + i] = a.branch[i - 1]
