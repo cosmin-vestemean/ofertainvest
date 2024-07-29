@@ -2973,14 +2973,23 @@ class estimari extends LitElement {
 
     //add event listener for start_date and end_date to cascade the value to all elements starting with the same id
     this.shadowRoot.addEventListener('input', function (e) {
-      if (e.target.id == 'start_date' || e.target.id == 'end_date') {
+      if (e.target.id == 'start_date') {
         let value = e.target.value
         let id = e.target.id
-        let inputs = document.getElementsByTagName('input')
+        let inputs = this.shadowRoot.getElementsByClassName('start_date')
         for (let i = 0; i < inputs.length; i++) {
-          if (inputs[i].id.startsWith(id)) {
-            inputs[i].value = value
-          }
+          inputs[i].value = value
+        }
+      }
+    })
+
+    this.shadowRoot.addEventListener('input', function (e) {
+      if (e.target.id == 'end_date') {
+        let value = e.target.value
+        let id = e.target.id
+        let inputs = this.shadowRoot.getElementsByClassName('end_date')
+        for (let i = 0; i < inputs.length; i++) {
+          inputs[i].value = value
         }
       }
     })
@@ -3253,7 +3262,7 @@ class estimari extends LitElement {
       let input = document.createElement('input')
       input.type = 'date'
       input.id = 'start_date_' + counter + '@' + counter2 + '@' + counter3
-      input.classList.add('form-control', 'form-control-sm', 'rounded')
+      input.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date_')
       input.value = ''
       td.appendChild(input)
       tr.appendChild(td)
@@ -3263,7 +3272,7 @@ class estimari extends LitElement {
       input = document.createElement('input')
       input.type = 'date'
       input.id = 'end_date_' + counter + '@' + counter2 + '@' + counter3
-      input.classList.add('form-control', 'form-control-sm', 'rounded')
+      input.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date_')
       input.value = ''
       td.appendChild(input)
       tr.appendChild(td)
