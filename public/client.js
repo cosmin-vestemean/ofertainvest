@@ -3035,20 +3035,20 @@ class estimari extends LitElement {
         //cerate label
         let label = document.createElement('label')
         label.for = 'start_date'
-        label.innerHTML = 'Start date'
+        label.innerHTML = 'Start estimare'
         th.appendChild(label)
-        let input = document.createElement('input')
-        input.type = 'date'
-        input.id = 'start_date'
-        input.classList.add('form-control', 'form-control-sm')
-        input.value = ''
-        input.onchange = function () {
+        let input1 = document.createElement('input')
+        input1.type = 'date'
+        input1.id = 'start_date'
+        input1.classList.add('form-control', 'form-control-sm')
+        input1.value = ''
+        input1.onchange = function () {
           let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByClassName('start_date')
           for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = input.value
+            inputs[i].value = input1.value
           }
         }
-        th.appendChild(input)
+        th.appendChild(input1)
         tr.appendChild(th)
         th = document.createElement('th')
         th.scope = 'col'
@@ -3056,14 +3056,20 @@ class estimari extends LitElement {
         //cerate label
         label = document.createElement('label')
         label.for = 'end_date'
-        label.innerHTML = 'End date'
+        label.innerHTML = 'End estimare'
         th.appendChild(label)
-        input = document.createElement('input')
-        input.type = 'date'
-        input.id = 'end_date'
-        input.classList.add('form-control', 'form-control-sm')
-        input.value = ''
-        th.appendChild(input)
+        let input2 = document.createElement('input')
+        input2.type = 'date'
+        input2.id = 'end_date'
+        input2.classList.add('form-control', 'form-control-sm')
+        input2.value = ''
+        input2.onchange = function () {
+          let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByClassName('end_date')
+          for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = input2.value
+          }
+        }
+        th.appendChild(input2)
         tr.appendChild(th)
       }
 
