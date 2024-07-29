@@ -1722,8 +1722,12 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
-    my_table5.ds = newTree
-    addOnChangeEvt(newTree, '~~~~~~~~~~~~~~~', 'my_table_estimari')
+    if (ds_estimari_pool.length == 0) {
+      //trasform newTree in ds_estimari_pool
+      ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+    }
+    my_table5.ds = ds_estimari_pool
+    addOnChangeEvt(ds_estimari_pool, '~~~~~~~~~~~~~~~', 'my_table_estimari')
   }
 
   //btn_listaRetete
@@ -2946,10 +2950,6 @@ class estimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
-      if (ds_estimari_pool.length == 0) {
-        //trasform newTree in ds_estimari_pool
-        ds_estimari_pool = calculateEstimariPoolDS(this.ds)
-      }
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -3157,7 +3157,7 @@ class estimari extends LitElement {
   }
 }
 
-function calculateEstimariPoolDS(ds) {
+function transformNewTreeIntoEstimariPoolDS(ds) {
   let ds_e = []
   let firstLine = ds[0][0].object
   let maxLevelA = ds[0][0].antemasuratori[0].branch.length
