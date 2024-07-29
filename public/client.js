@@ -2949,6 +2949,26 @@ class estimari extends LitElement {
     console.log('estimari element added to the DOM')
   }
 
+  _plusMinusHandler(i, k) {
+    //show hide all children, identified by same id and a "_some_number"
+    var children = this.renderRoot.getElementById('tbody_estimari').querySelectorAll('[id^=' + i + '@' + k + '_]')
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].classList.contains('d-none')) {
+        children[i].classList.remove('d-none')
+      } else {
+        children[i].classList.add('d-none')
+      }
+    }
+    //change icon
+    if (plus_icon.classList.contains('bi-plus-square')) {
+      plus_icon.classList.remove('bi-plus-square')
+      plus_icon.classList.add('bi-dash-square')
+    } else {
+      plus_icon.classList.remove('bi-dash-square')
+      plus_icon.classList.add('bi-plus-square')
+    }
+  }
+
   render() {
     console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
 
@@ -3093,25 +3113,10 @@ class estimari extends LitElement {
         //add plus/minus icon
         let plus_icon = document.createElement('i')
         plus_icon.classList.add('bi', 'bi-plus-square', 'fs-6', 'align-middle')
+        plus_icon.id
         plus_icon.style.cursor = 'pointer'
         plus_icon.onclick = function () {
-          //show hide all children, identified by same id and a "_some_number"
-          var children = this.renderRoot.getElementById('tbody_estimari').querySelectorAll('[id^=' + i + '@' + k + '_]')
-          for (let i = 0; i < children.length; i++) {
-            if (children[i].classList.contains('d-none')) {
-              children[i].classList.remove('d-none')
-            } else {
-              children[i].classList.add('d-none')
-            }
-          }
-          //change icon
-          if (plus_icon.classList.contains('bi-plus-square')) {
-            plus_icon.classList.remove('bi-plus-square')
-            plus_icon.classList.add('bi-dash-square')
-          } else {
-            plus_icon.classList.remove('bi-dash-square')
-            plus_icon.classList.add('bi-plus-square')
-          }
+          this._plusMinusHandler(i, k)
         }
         td.appendChild(plus_icon)
       } else {
