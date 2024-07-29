@@ -2944,7 +2944,7 @@ class estimari extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
 
     this.shadowRoot.addEventListener('keydown', function (e) {
-      if (e.target.classList.contains(_cantitate_antemasuratori)) {
+      if (e.target.classList.contains(_cantitate_estimari)) {
         if (e.key === 'Enter') {
           e.preventDefault()
           e.target.blur()
@@ -2952,7 +2952,7 @@ class estimari extends LitElement {
       }
 
       //arrow up and down
-      if (e.target.classList.contains(_cantitate_antemasuratori)) {
+      if (e.target.classList.contains(_cantitate_estimari)) {
         if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
           e.preventDefault()
           let td = e.target
@@ -2973,7 +2973,7 @@ class estimari extends LitElement {
 
     //add event listener for start_date and end_date to cascade the value to all elements starting with the same id
     this.shadowRoot.addEventListener('input', function (e) {
-      if (e.target.id.startsWith('start_date') || e.target.id.startsWith('end_date')) {
+      if (e.target.id == 'start_date' || e.target.id == 'end_date') {
         let value = e.target.value
         let id = e.target.id
         let inputs = document.getElementsByTagName('input')
