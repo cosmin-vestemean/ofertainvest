@@ -2987,7 +2987,7 @@ class estimari extends LitElement {
     } else {
       //Create a floating button right positioned with save icon
       var floatingButton = document.createElement('div')
-      floatingButton.classList.add('position-fixed', 'middle', 'end-0', 'p-3')
+      floatingButton.classList.add('position-fixed', 'align-middle', 'top-50', 'end-0', 'p-3')
       var save_icon = document.createElement('i')
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
