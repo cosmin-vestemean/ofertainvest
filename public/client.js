@@ -1705,7 +1705,6 @@ export function init() {
       //trasform newTree in ds_estimari_pool
       if (newTree.length > 0) {
         ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
-        console.log('ds_estimari_pool', ds_estimari_pool)
       } else {
         console.log('newTree is empty, run Antemasuratori first')
         alert('Genereaza antemasuratorile inainte de a genera estimarile')
@@ -1714,6 +1713,7 @@ export function init() {
     let dsFlat = generateTblRowsFromDsEstimariPool()
     my_table5.ds = dsFlat
     addOnChangeEvt(dsFlat, '~~~~~~~~~~~~~~~', 'my_table_estimari')
+    console.log('ds_estimari_pool', ds_estimari_pool)
   }
 
   //btn_listaRetete
