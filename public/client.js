@@ -981,32 +981,6 @@ function populateSelectIerarhiiFromTrees() {
   })
 }
 
-//add to .cantitate_articol_antemasuratori on arrow up/down => move to next/previous input
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-    var inputs = document.querySelectorAll('.cantitate_articol_antemasuratori')
-    var index = Array.from(inputs).indexOf(document.activeElement)
-    if (index > -1) {
-      if (e.key === 'ArrowUp') {
-        if (index > 0) {
-          inputs[index - 1].focus()
-        }
-      } else if (e.key === 'ArrowDown') {
-        if (index < inputs.length - 1) {
-          inputs[index + 1].focus()
-        }
-      }
-    }
-  }
-})
-
-//add to .cantitate_articol_antemasuratori on focus => select all text
-document.addEventListener('focus', function (e) {
-  if (e.target.classList.contains('cantitate_articol_antemasuratori')) {
-    e.target.select()
-  }
-})
-
 function showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5) {
   //hide table1
   my_table1.style.display = 'none'
@@ -2797,25 +2771,6 @@ class antemasuratori extends LitElement {
           e.target.blur()
         }
       }
-
-      //arrow up and down
-      if (e.target.classList.contains(_cantitate_antemasuratori)) {
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-          e.preventDefault()
-          let td = e.target
-          let tr = td.parentElement
-          let tbody = tr.parentElement
-          let tds = tbody.getElementsByTagName('td')
-          let index = Array.prototype.indexOf.call(tds, td)
-          let trs = tbody.getElementsByTagName('tr')
-          let trIndex = Array.prototype.indexOf.call(trs, tr)
-          let nextTr = e.key === 'ArrowDown' ? trs[trIndex + 1] : trs[trIndex - 1]
-          let nextTd = nextTr.getElementsByTagName('td')[index]
-          if (nextTd) {
-            nextTd.focus()
-          }
-        }
-      }
     })
   }
 
@@ -2931,6 +2886,52 @@ class antemasuratori extends LitElement {
                   //update newTree in local storage
                   localStorage.setItem('newTree', JSON.stringify(newTree))
                 })
+
+                //add keydown event arrow up/down to move to prior/next td _cantitate_antemasuratori
+                td.addEventListener('keydown', function (e) {
+                  if (e.key === 'ArrowUp') {
+                    e.preventDefault()
+                    var index = Array.from(
+                      document
+                        .getElementById('my_table_antemasuratori')
+                        .shadowRoot.getElementById('tbody_antemasuratori')
+                        .querySelectorAll('.' + _cantitate_antemasuratori)
+                    ).indexOf(e.target)
+                    if (index > 0) {
+                      var tds = document
+                        .getElementById('my_table_antemasuratori')
+                        .shadowRoot.getElementById('tbody_antemasuratori')
+                        .querySelectorAll('.' + _cantitate_antemasuratori)
+                      tds[index - 1].focus()
+                    }
+                  }
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault()
+                    var index = Array.from(
+                      document
+                        .getElementById('my_table_antemasuratori')
+                        .shadowRoot.getElementById('tbody_antemasuratori')
+                        .querySelectorAll('.' + _cantitate_antemasuratori)
+                    ).indexOf(e.target)
+                    if (index < ds_antemasuratori.length - 1) {
+                      var tds = document
+                        .getElementById('my_table_antemasuratori')
+                        .shadowRoot.getElementById('tbody_antemasuratori')
+                        .querySelectorAll('.' + _cantitate_antemasuratori)
+                      tds[index + 1].focus()
+                    }
+                  }
+                })
+
+                //select all inner html in cell on focusin
+                td.addEventListener('focusin', function (e) {
+                  var range = document.createRange()
+                  range.selectNodeContents(e.target)
+                  var sel = window.getSelection()
+                  sel.removeAllRanges()
+                  sel.addRange(range)
+                })
+
               }
               //check if RW => td.contentEditable = true
               if (antemasuratoriDisplayMask[key].RW) {
