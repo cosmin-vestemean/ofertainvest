@@ -3249,7 +3249,7 @@ class estimari extends LitElement {
       input1.type = 'date'
       input1.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
       input1.value = ''
-      input1.onchange = function () {
+      input1.addEventListener('change', function () {
         //update ds_estimari_pool and newTree
         let position = locateTrInEstimariPool(input1)
         let instanta = position.instanta
@@ -3258,7 +3258,7 @@ class estimari extends LitElement {
         ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value
         localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
         //TODO:newTree
-      }
+      })
       td.appendChild(input1)
       tr.appendChild(td)
 
