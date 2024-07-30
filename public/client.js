@@ -1727,7 +1727,6 @@ export function init() {
       console.log('ds_estimari_pool', ds_estimari_pool)
     }
     btn_estimari.click()
-
   }
 
   //btn_regenerare_antemas
@@ -3075,7 +3074,10 @@ class estimari extends LitElement {
         input1.classList.add('form-control', 'form-control-sm')
         input1.value = ''
         input1.onchange = function () {
-          let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByClassName('start_date')
+          let inputs = document
+            .getElementById('my_table_estimari')
+            .shadowRoot.getElementById('tbody_estimari')
+            .getElementsByClassName('start_date')
           for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = input1.value
           }
@@ -3096,7 +3098,10 @@ class estimari extends LitElement {
         input2.classList.add('form-control', 'form-control-sm')
         input2.value = ''
         input2.onchange = function () {
-          let inputs = document.getElementById('my_table_estimari').shadowRoot.getElementById('tbody_estimari').getElementsByClassName('end_date')
+          let inputs = document
+            .getElementById('my_table_estimari')
+            .shadowRoot.getElementById('tbody_estimari')
+            .getElementsByClassName('end_date')
           for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = input2.value
           }
@@ -3224,22 +3229,13 @@ class estimari extends LitElement {
                   'hey, a td was clicked',
                   className + ' ' + 'id: ' + id + ' ' + 'text: ' + e.target.textContent
                 )
-                //get parent tr
-                var tr = e.target.parentElement
-                const positionCoords = tr.id
-                const position = positionCoords.split('@')
-                const instanta = position[0]
-                let ramura = 0
-                let activitateIndex = 0
-                if (position[1].includes('_')) {
-                  const s = position[1].split('_')
-                  ramura = s[0]
-                  activitateIndex = s[1] - 1
-                } else {
-                  ramura = position[1]
-                }
-                console.log('instanta', instanta, 'ramura', ramura, 'activitateIndex', activitateIndex, 'key', key, 'value', e.target.textContent)
-                ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(e.target.textContent.trim());
+                let position = locateTrInEstimariPool(e.target)
+                let instanta = position.instanta
+                let ramura = position.ramura
+                let activitateIndex = position.activitateIndex
+                ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
+                  e.target.textContent.trim()
+                )
                 localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
               }
             })
@@ -3252,23 +3248,72 @@ class estimari extends LitElement {
       //add start date and end date
       td = document.createElement('td')
       //create type="date" input
-      let input = document.createElement('input')
-      input.type = 'date'
-      input.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
-      input.value = ''
-      td.appendChild(input)
+      let input1 = document.createElement('input')
+      input1.type = 'date'
+      input1.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
+      input1.value = ''
+      input1.onchange = function () {
+        //update ds_estimari_pool and newTree
+        let position = locateTrInEstimariPool(input1)
+        let instanta = position.instanta
+        let ramura = position.ramura
+        let activitateIndex = position.activitateIndex
+        ds_estimari_pool[instanta][ramura][activitateIndex].row_data['start_date'] = input1.value
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+        //TODO:newTree
+      }
+      td.appendChild(input1)
       tr.appendChild(td)
 
       td = document.createElement('td')
       //create type="date" input
-      input = document.createElement('input')
-      input.type = 'date'
-      input.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date')
-      input.value = ''
-      td.appendChild(input)
+      let input2 = document.createElement('input')
+      input2.type = 'date'
+      input2.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date')
+      input2.value = ''
+      input2.onchange = function () {
+        //update ds_estimari_pool and newTree
+        let position = locateTrInEstimariPool(input2)
+        let instanta = position.instanta
+        let ramura = position.ramura
+        let activitateIndex = position.activitateIndex
+        ds_estimari_pool[instanta][ramura][activitateIndex].row_data['end_date'] = input2.value
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+      }
+      td.appendChild(input2)
       tr.appendChild(td)
     }
   }
+}
+
+function locateTrInEstimariPool(htmlElement) {
+  let tr = htmlElement.parentElement.parentElement
+  const positionCoords = tr.id
+  const position = positionCoords.split('@')
+  const instanta = position[0]
+  let ramura = 0
+  let activitateIndex = 0
+  if (position[1].includes('_')) {
+    const s = position[1].split('_')
+    ramura = s[0]
+    activitateIndex = s[1] - 1
+  } else {
+    ramura = position[1]
+  }
+  console.log(
+    'instanta',
+    instanta,
+    'ramura',
+    ramura,
+    'activitateIndex',
+    activitateIndex,
+    'key',
+    'start_date',
+    'value',
+    input1.value
+  )
+
+  return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
 }
 
 function generateTblRowsFromDsEstimariPool() {
@@ -3417,7 +3462,14 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
   o[_end_date] = ''
   //create main activity row
   //addTableRow(i, k, counter, o)
-  return { instanta: i, ramura: k, activitate: indexActivit, denumire: o.DENUMIRE_ARTICOL_OFERTA, row_data: o, isMain: isMain }
+  return {
+    instanta: i,
+    ramura: k,
+    activitate: indexActivit,
+    denumire: o.DENUMIRE_ARTICOL_OFERTA,
+    row_data: o,
+    isMain: isMain
+  }
 }
 
 customElements.define('my-estimari', estimari)
