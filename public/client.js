@@ -3291,7 +3291,7 @@ function locateTrInEstimariPool(htmlElement) {
     return null
   }
 
-  let tr = htmlElement.parentElement.parentElement
+  let tr = htmlElement.parentElement
   const positionCoords = tr.id
   const position = positionCoords.split('@')
   const instanta = position[0]
