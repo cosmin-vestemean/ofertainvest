@@ -1647,7 +1647,7 @@ export function init() {
       my_table5.style.display = 'none'
       my_table4.ds = []
       my_table4.ds = ds_antemasuratori
-      let selected_options_arr = ierarhii.getValues();
+      let selected_options_arr = ierarhii.getValue();
       if (selected_options_arr && selected_options_arr.length > 0) {
         flatFind(selected_options_arr, ds, delimiter)
       }
@@ -1718,7 +1718,7 @@ export function init() {
     my_table5.ds = dsFlat
     addOnChangeEvt(dsFlat, '~~~~~~~~~~~~~~~', 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
-    let selected_options_arr = ierarhii.getValues();
+    let selected_options_arr = ierarhii.getValue();
     if (selected_options_arr && selected_options_arr.length > 0) {
       flatFind(selected_options_arr, ds, delimiter)
     }
