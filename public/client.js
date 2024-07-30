@@ -1007,30 +1007,6 @@ document.addEventListener('focus', function (e) {
   }
 })
 
-//add to .cantitate_articol_antemasuratori on input => ds_antemasuratori[index][CANTITATE_ARTICOL_ANTEMASURATORI] = input.value
-document.addEventListener('blur', function (e) {
-  if (e.target.classList.contains(_cantitate_antemasuratori)) {
-    //var index = Array.from(document.querySelectorAll(_cantitate_antemasuratori)).indexOf(e.target)
-    var index = Array.from(
-      document
-        .getElementById('my_table_antemasuratori')
-        .shadowRoot.getElementById('tbody_antemasuratori')
-        .querySelectorAll('.' + _cantitate_antemasuratori)
-    ).indexOf(e.target)
-    console.log('index', index)
-    ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
-    //replace in local storage
-    localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
-    //update newTree
-    let branch = newTree[ds_antemasuratori[index].refInstanta][
-      ds_antemasuratori[index].refActivitate
-    ].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join())
-    if (branch) branch.qty = parseFloat(e.target.textContent)
-    //update newTree in local storage
-    localStorage.setItem('newTree', JSON.stringify(newTree))
-  }
-})
-
 function showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5) {
   //hide table1
   my_table1.style.display = 'none'
@@ -2935,6 +2911,26 @@ class antemasuratori extends LitElement {
                 td.classList.add('border', 'text-primary')
                 td.classList.add(customClass)
                 td.style.borderColor = 'lightgray'
+                //add blur (focusout) event
+                td.addEventListener('focusout', function (e) {
+                  var index = Array.from(
+                    document
+                      .getElementById('my_table_antemasuratori')
+                      .shadowRoot.getElementById('tbody_antemasuratori')
+                      .querySelectorAll('.' + _cantitate_antemasuratori)
+                  ).indexOf(e.target)
+                  console.log('index tr antemas', index)
+                  ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent)
+                  //replace in local storage
+                  localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
+                  //update newTree
+                  let branch = newTree[ds_antemasuratori[index].refInstanta][
+                    ds_antemasuratori[index].refActivitate
+                  ].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join())
+                  if (branch) branch.qty = parseFloat(e.target.textContent)
+                  //update newTree in local storage
+                  localStorage.setItem('newTree', JSON.stringify(newTree))
+                })
               }
               //check if RW => td.contentEditable = true
               if (antemasuratoriDisplayMask[key].RW) {
