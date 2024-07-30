@@ -2985,6 +2985,17 @@ class estimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
+      //Create a floating button right positioned with save icon
+      var floatingButton = document.createElement('div')
+      floatingButton.classList.add('position-fixed', 'bottom-0', 'end-0', 'p-3')
+      var save_icon = document.createElement('i')
+      save_icon.classList.add('bi')
+      save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
+      save_icon.style.cursor = 'pointer'
+      save_icon.onclick = function () {
+        //save all changes to local storage
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+      }
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
