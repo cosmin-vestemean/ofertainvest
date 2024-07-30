@@ -3244,14 +3244,12 @@ class estimari extends LitElement {
             //add event listener for input for td class cantitate_estimari
             td.addEventListener('focusout', function (e) {
               // Get cell with class _cantitate_antemasuratori
-              let cantitateAntemasuratoriCell = e.target.closest('tr').querySelector('.cantitate_antemasuratori')
+              let cantitateAntemasuratoriCell = e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)
               let cantitateAntemasuratori = cantitateAntemasuratoriCell.textContent.trim()
               let diff = parseFloat(cantitateAntemasuratori) - parseFloat(e.target.textContent)
               cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red'
               //find tag name id and class
               var tagName = e.target.tagName
-              var id = e.target.id
-              var className = e.target.className
               if (tagName === 'TD') {
                 let position = locateTrInEstimariPool(e.target)
                 let instanta = position.instanta
