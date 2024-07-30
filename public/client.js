@@ -2996,6 +2996,8 @@ class estimari extends LitElement {
         //save all changes to local storage
         localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
       }
+      floatingButton.appendChild(save_icon)
+      this.shadowRoot.appendChild(floatingButton)
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
