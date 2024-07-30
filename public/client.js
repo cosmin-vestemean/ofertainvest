@@ -1721,6 +1721,20 @@ export function init() {
   let btn_regenerare_estimari = document.getElementById('btn_regenerare_estimari')
   btn_regenerare_estimari.onclick = function () {
     //ask user if he wants to recalculate
+    let answer = confirm('Regenerez estimarile?')
+    if (answer) {
+      ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+      console.log('ds_estimari_pool', ds_estimari_pool)
+    }
+    let dsFlat = generateTblRowsFromDsEstimariPool()
+    my_table5.ds = dsFlat
+    addOnChangeEvt(dsFlat, '~~~~~~~~~~~~~~~', 'my_table_estimari')
+  }
+
+  //btn_regenerare_antemas
+  let btn_regenerare_antemas = document.getElementById('btn_regenerare_estimari')
+  btn_regenerare_antemas.onclick = function () {
+    //ask user if he wants to recalculate
     let answer = confirm('Regenerez antemasuratorile?')
     if (answer) {
       calculateAntemasAndNewTree()
@@ -1746,16 +1760,7 @@ export function init() {
         console.log('ds_estimari_pool', ds_estimari_pool)
       } else {
         console.log('newTree is empty, run Antemasuratori first')
-      }
-    } else {
-      console.log('ds_estimari_pool already exists')
-      //ask user if he wants to recalculate estimari
-      let answer = confirm('Regenerez estimarile?')
-      if (answer) {
-        ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
-        console.log('ds_estimari_pool', ds_estimari_pool)
-      } else {
-        console.log('Estimari existente')
+        alert('Genereaza antemasuratorile inainte de a genera estimarile')
       }
     }
     let dsFlat = generateTblRowsFromDsEstimariPool()
