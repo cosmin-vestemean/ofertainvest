@@ -3214,7 +3214,7 @@ class estimari extends LitElement {
             td.classList.add(key)
 
             //add event listener for input for td class cantitate_estimari
-            td.addEventListener('blur', function (e) {
+            td.addEventListener('focusout', function (e) {
               console.log('blur event', e.target)
               //find tag name id and class
               var tagName = e.target.tagName
@@ -3230,7 +3230,7 @@ class estimari extends LitElement {
                 let ramura = position.ramura
                 let activitateIndex = position.activitateIndex
                 ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
-                  e.target.textContent.trim()
+                  e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
                 )
                 localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
               }
@@ -3283,6 +3283,14 @@ class estimari extends LitElement {
 }
 
 function locateTrInEstimariPool(htmlElement) {
+  //check for undefined, null, empty or NaN
+  if (!htmlElement) {
+    return null
+  }
+  if (!htmlElement.parentElement) {
+    return null
+  }
+
   let tr = htmlElement.parentElement.parentElement
   const positionCoords = tr.id
   const position = positionCoords.split('@')
