@@ -1732,7 +1732,7 @@ export function init() {
   }
 
   //btn_regenerare_antemas
-  let btn_regenerare_antemas = document.getElementById('btn_regenerare_estimari')
+  let btn_regenerare_antemas = document.getElementById('btn_regenerare_antemas')
   btn_regenerare_antemas.onclick = function () {
     //ask user if he wants to recalculate
     let answer = confirm('Regenerez antemasuratorile?')
