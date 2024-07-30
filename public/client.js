@@ -1647,10 +1647,13 @@ export function init() {
       my_table4.style.display = 'block'
       my_table5.style.display = 'none'
       my_table4.ds = []
-      my_table4.ds = ds_antemasuratori
+      //my_table4.ds = ds_antemasuratori
       let selected_options_arr = ierarhii.getValue();
       if (selected_options_arr && selected_options_arr.length > 0) {
         flatFind(selected_options_arr, ds_antemasuratori, delimiter)
+        my_table4.ds = selected_ds
+      } else {
+        my_table4.ds = ds_antemasuratori
       }
     }
   }
@@ -1716,12 +1719,15 @@ export function init() {
       }
     }
     let dsFlat = generateTblRowsFromDsEstimariPool()
-    my_table5.ds = dsFlat
+    //my_table5.ds = dsFlat
     addOnChangeEvt(dsFlat, delimiter, 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
     let selected_options_arr = ierarhii.getValue();
     if (selected_options_arr && selected_options_arr.length > 0) {
       flatFind(selected_options_arr, dsFlat, delimiter)
+      my_table5.ds = selected_ds
+    } else {
+      my_table5.ds = dsFlat
     }
   }
 
