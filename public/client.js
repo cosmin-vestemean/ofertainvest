@@ -1467,12 +1467,6 @@ export function init() {
   nav_antemasuratori.onclick = function () {
     if (ds_antemasuratori.length === 0) {
       calculateAntemasAndNewTree()
-    } else {
-      //ask user if he wants to recalculate
-      let answer = confirm('Regenerez antemasuratorile?')
-      if (answer) {
-        calculateAntemasAndNewTree()
-      }
     }
     showAntemasuratori()
     addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
@@ -1721,6 +1715,19 @@ export function init() {
       console.log('Calcul antemasuratori')
       nav_antemasuratori.click()
     }
+  }
+
+  //btn_regenerare_estimari
+  let btn_regenerare_estimari = document.getElementById('btn_regenerare_estimari')
+  btn_regenerare_estimari.onclick = function () {
+    //ask user if he wants to recalculate
+    let answer = confirm('Regenerez antemasuratorile?')
+    if (answer) {
+      calculateAntemasAndNewTree()
+    }
+
+    showAntemasuratori()
+    addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
   }
 
   //btn_estimari
