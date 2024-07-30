@@ -243,6 +243,8 @@ const estimariDisplayMask = {
   }
 }
 
+const delimiter = '~~~~~~~~~~~~~~~'
+
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 let selectedTheme = 'yeti'
 let template = document.createElement('template')
@@ -319,7 +321,6 @@ function processExcelData(excel_object) {
   document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
   console.log('optimal_ds', optimal_ds)
 
-  var delimiter = '~~~~~~~~~~~~~~~'
   var combinatii_unice_as_str = []
   if (trees.length == 0) {
     var result = creazaIerarhii(optimal_ds, delimiter)
@@ -976,7 +977,7 @@ function populateSelectIerarhiiFromTrees() {
   UseBootstrapSelect.clearAll(document.getElementById('ierarhii'))
   trees.forEach(function (tree, index) {
     tree.forEach(function (branch) {
-      ierarhii.addOption(branch.join('~~~~~~~~~~~~~~~'), branch.join(' - '))
+      ierarhii.addOption(branch.join(delimiter), branch.join(' - '))
     })
   })
 }
@@ -1419,7 +1420,7 @@ export function init() {
       calculateAntemasAndNewTree()
     }
     showAntemasuratori()
-    addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
+    addOnChangeEvt(ds_antemasuratori, delimiter, 'my_table_antemasuratori')
   }
 
   function calculateAntemasAndNewTree() {
@@ -1649,7 +1650,7 @@ export function init() {
       my_table4.ds = ds_antemasuratori
       let selected_options_arr = ierarhii.getValue();
       if (selected_options_arr && selected_options_arr.length > 0) {
-        flatFind(selected_options_arr, ds, delimiter)
+        flatFind(selected_options_arr, ds_antemasuratori, delimiter)
       }
     }
   }
@@ -1693,7 +1694,7 @@ export function init() {
     }
 
     showAntemasuratori()
-    addOnChangeEvt(ds_antemasuratori, '~~~~~~~~~~~~~~~', 'my_table_antemasuratori')
+    addOnChangeEvt(ds_antemasuratori, delimiter, 'my_table_antemasuratori')
   }
 
   //btn_estimari
@@ -1716,11 +1717,11 @@ export function init() {
     }
     let dsFlat = generateTblRowsFromDsEstimariPool()
     my_table5.ds = dsFlat
-    addOnChangeEvt(dsFlat, '~~~~~~~~~~~~~~~', 'my_table_estimari')
+    addOnChangeEvt(dsFlat, delimiter, 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
     let selected_options_arr = ierarhii.getValue();
     if (selected_options_arr && selected_options_arr.length > 0) {
-      flatFind(selected_options_arr, ds, delimiter)
+      flatFind(selected_options_arr, dsFlat, delimiter)
     }
   }
 
