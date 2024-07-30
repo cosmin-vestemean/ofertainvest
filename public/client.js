@@ -3084,6 +3084,7 @@ class estimari extends LitElement {
             let activitateIndex = position.activitateIndex
             ds_estimari_pool[instanta][ramura][activitateIndex].row_data['start_date'] = input1.value
           }
+          localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
         }
         th.appendChild(input1)
         tr.appendChild(th)
@@ -3114,6 +3115,7 @@ class estimari extends LitElement {
             let activitateIndex = position.activitateIndex
             ds_estimari_pool[instanta][ramura][activitateIndex].row_data['end_date'] = input2.value
           }
+          localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
         }
         th.appendChild(input2)
         tr.appendChild(th)
@@ -3362,18 +3364,6 @@ function locateTrInEstimariPool(htmlElement) {
   } else {
     ramura = position[1]
   }
-  console.log(
-    'instanta',
-    instanta,
-    'ramura',
-    ramura,
-    'activitateIndex',
-    activitateIndex,
-    'key',
-    'start_date',
-    'value',
-    htmlElement.value
-  )
 
   return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
 }
