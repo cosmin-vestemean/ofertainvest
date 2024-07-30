@@ -2987,7 +2987,7 @@ class estimari extends LitElement {
     } else {
       //Create a floating button right positioned with save icon
       var floatingButton = document.createElement('div')
-      floatingButton.classList.add('position-fixed', 'top-50', 'end-0', 'p-3')
+      floatingButton.classList.add('p-3')
       var save_icon = document.createElement('i')
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
@@ -3244,11 +3244,10 @@ class estimari extends LitElement {
             //add event listener for input for td class cantitate_estimari
             td.addEventListener('focusout', function (e) {
               // Get cell with class _cantitate_antemasuratori
-              let cantitateAntemasuratoriCell = e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)
+              let cantitateAntemasuratoriCell = e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0]
               let cantitateAntemasuratori = cantitateAntemasuratoriCell.textContent.trim()
               let diff = parseFloat(cantitateAntemasuratori) - parseFloat(e.target.textContent)
               cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red'
-              //find tag name id and class
               var tagName = e.target.tagName
               if (tagName === 'TD') {
                 let position = locateTrInEstimariPool(e.target)
