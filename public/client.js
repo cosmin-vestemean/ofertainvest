@@ -1726,9 +1726,8 @@ export function init() {
       ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
       console.log('ds_estimari_pool', ds_estimari_pool)
     }
-    let dsFlat = generateTblRowsFromDsEstimariPool()
-    my_table5.ds = dsFlat
-    addOnChangeEvt(dsFlat, '~~~~~~~~~~~~~~~', 'my_table_estimari')
+    btn_estimari.click()
+
   }
 
   //btn_regenerare_antemas
