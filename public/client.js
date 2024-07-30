@@ -3263,7 +3263,7 @@ class estimari extends LitElement {
                     .shadowRoot.getElementById('tbody_estimari')
                     .querySelectorAll('.' + _cantitate_estimari)
                 ).indexOf(e.target)
-                if (index < ds_estimari_pool[instanta][ramura].length - 1) {
+                if (index < ds_estimari_pool.length - 1) {
                   var tds = document
                     .getElementById('my_table_estimari')
                     .shadowRoot.getElementById('tbody_estimari')
