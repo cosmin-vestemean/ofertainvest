@@ -2987,7 +2987,7 @@ class estimari extends LitElement {
     } else {
       //Create a floating button right positioned with save icon
       var floatingButton = document.createElement('div')
-      floatingButton.classList.add('position-fixed', 'bottom-0', 'end-0', 'p-3')
+      floatingButton.classList.add('position-fixed', 'middle', 'end-0', 'p-3')
       var save_icon = document.createElement('i')
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
@@ -2997,7 +2997,7 @@ class estimari extends LitElement {
         localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
       }
       floatingButton.appendChild(save_icon)
-      this.shadowRoot.appendChild(floatingButton)
+      document.body.appendChild(floatingButton)
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -3151,7 +3151,7 @@ class estimari extends LitElement {
       })
     }
 
-    return html`${table}`
+    return html`${table}${floatingButton}`
 
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
