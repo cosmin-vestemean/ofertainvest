@@ -3310,7 +3310,7 @@ function locateTrInEstimariPool(htmlElement) {
     'key',
     'start_date',
     'value',
-    input1.value
+    htmlElement.value
   )
 
   return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
