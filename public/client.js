@@ -3237,6 +3237,51 @@ class estimari extends LitElement {
               }
             })
 
+            //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
+            td.addEventListener('keydown', function (e) {
+              if (e.key === 'ArrowUp') {
+                e.preventDefault()
+                var index = Array.from(
+                  document
+                    .getElementById('my_table_estimari')
+                    .shadowRoot.getElementById('tbody_estimari')
+                    .querySelectorAll('.' + _cantitate_estimari)
+                ).indexOf(e.target)
+                if (index > 0) {
+                  var tds = document
+                    .getElementById('my_table_estimari')
+                    .shadowRoot.getElementById('tbody_estimari')
+                    .querySelectorAll('.' + _cantitate_estimari)
+                  tds[index - 1].focus()
+                }
+              }
+              if (e.key === 'ArrowDown') {
+                e.preventDefault()
+                var index = Array.from(
+                  document
+                    .getElementById('my_table_estimari')
+                    .shadowRoot.getElementById('tbody_estimari')
+                    .querySelectorAll('.' + _cantitate_estimari)
+                ).indexOf(e.target)
+                if (index < ds_estimari_pool[instanta][ramura].length - 1) {
+                  var tds = document
+                    .getElementById('my_table_estimari')
+                    .shadowRoot.getElementById('tbody_estimari')
+                    .querySelectorAll('.' + _cantitate_estimari)
+                  tds[index + 1].focus()
+                }
+              }
+            })
+
+            //select all inner html in cell on focusin
+            td.addEventListener('focusin', function (e) {
+              var range = document.createRange()
+              range.selectNodeContents(e.target)
+              var sel = window.getSelection()
+              sel.removeAllRanges()
+              sel.addRange(range)
+            })
+
             tr.appendChild(td)
           }
         }
