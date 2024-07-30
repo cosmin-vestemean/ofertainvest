@@ -359,7 +359,6 @@ function addOnChangeEvt(ds, delimiter, tableId) {
   //var select = document.getElementById('ierarhii')
   let select = ierarhii.selectElement
   select.onchange = function () {
-    selected_ds = []
     let selected_options_arr = ierarhii.getValue()
     console.log('selected_options_arr', selected_options_arr)
     if (selected_options_arr && selected_options_arr.length > 0) {
@@ -480,6 +479,7 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
 }
 
 function flatFind(selected_options_arr, ds, delimiter) {
+  selected_ds = []
   console.log('selected_options', selected_options_arr)
   if (!selected_options_arr || selected_options_arr.length == 0) {
     return
@@ -3001,18 +3001,7 @@ class estimari extends LitElement {
       return html`<p class="label label-danger">No data</p>`
     } else {
       //Create a floating button right positioned with save icon
-      var floatingButton = document.createElement('div')
-      floatingButton.classList.add('p-3')
-      var save_icon = document.createElement('i')
-      save_icon.classList.add('bi')
-      save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
-      save_icon.style.cursor = 'pointer'
-      save_icon.onclick = function () {
-        //save all changes to local storage
-        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
-      }
-      floatingButton.appendChild(save_icon)
-      document.body.appendChild(floatingButton)
+      
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -3166,7 +3155,7 @@ class estimari extends LitElement {
       })
     }
 
-    return html`${table}${floatingButton}`
+    return html`${table}`
 
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
