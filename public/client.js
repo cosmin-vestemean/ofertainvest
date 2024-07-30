@@ -3293,7 +3293,7 @@ class estimari extends LitElement {
       let input1 = document.createElement('input')
       input1.type = 'date'
       input1.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
-      input1.value = ''
+      input1.value = o[_start_date] || ''
       input1.addEventListener('input', function () {
         //update ds_estimari_pool and newTree
         let position = locateTrInEstimariPool(input1.parentElement)
@@ -3312,7 +3312,7 @@ class estimari extends LitElement {
       let input2 = document.createElement('input')
       input2.type = 'date'
       input2.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date')
-      input2.value = ''
+      input2.value = o[_end_date] || ''
       input2.addEventListener('input', function () {
         //update ds_estimari_pool and newTree
         let position = locateTrInEstimariPool(input2.parentElement)
