@@ -3082,7 +3082,7 @@ class estimari extends LitElement {
             let instanta = position.instanta
             let ramura = position.ramura
             let activitateIndex = position.activitateIndex
-            ds_estimari_pool[instanta][ramura][activitateIndex].row_data['start_date'] = input1.value
+            ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value
           }
           localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
         }
@@ -3113,7 +3113,7 @@ class estimari extends LitElement {
             let instanta = position.instanta
             let ramura = position.ramura
             let activitateIndex = position.activitateIndex
-            ds_estimari_pool[instanta][ramura][activitateIndex].row_data['end_date'] = input2.value
+            ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value
           }
           localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
         }
