@@ -3066,6 +3066,8 @@ class estimari extends LitElement {
           if (tdEstimari && tdCantitateAntemasuratori) {
             if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
               tdEstimari.classList.add('table-warning')
+            } else {
+              tdEstimari.classList.remove('table-warning')
             }
           }
           var iputInside = tdRowSelected.getElementsByTagName('input')[0]
@@ -3073,9 +3075,13 @@ class estimari extends LitElement {
             if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0) {
               tdEstimari.classList.add('table-danger')
               //iputInside.checked = false
+            } else {
+              tdEstimari.classList.remove('table-danger')
             }
             if (!iputInside.checked) {
               tdEstimari.classList.add('table-danger')
+            } else {
+              tdEstimari.classList.remove('table-danger')
             }
           }
         }
