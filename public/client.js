@@ -3113,7 +3113,7 @@ class estimari extends LitElement {
           ds_estimari_flat_filterd.forEach(function (object) {
             let refInstanta = object.ramura.instanta
             let refActivitate = object.ramura.activitateIndex
-            let antemasuratoriBranch = object.ramura
+            let antemasuratoriBranch = object.ramura.ramura
             let estimareIndex = Object.keys(antemasuratoriBranch).find((key) => key.includes('estimareIndex'))
               ? antemasuratoriBranch.estimareIndex
               : 0
