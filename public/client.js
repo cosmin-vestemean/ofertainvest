@@ -3014,7 +3014,7 @@ class estimari extends LitElement {
       buttonsPannel.appendChild(btnList)
       var list_icon = document.createElement('i')
       list_icon.classList.add('bi')
-      list_icon.classList.add('bi-list', 'text-warning', 'fs-4', 'mb-3')
+      list_icon.classList.add('bi-list', 'text-success', 'fs-4', 'mb-3')
       list_icon.style.cursor = 'pointer'
       list_icon.onclick = function () {}
       btnList.appendChild(list_icon)
@@ -3502,6 +3502,7 @@ function generateTblRowsFromDsEstimariPool() {
         let ramura_obj = {
           instanta: ramura[i].instanta,
           ramura: ramura[i].ramura,
+          activitateIndex: i,
           isMain: ramura[i].isMain,
           counter: counter,
           counter2: counter2,
