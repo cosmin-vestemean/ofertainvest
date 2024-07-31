@@ -1719,17 +1719,19 @@ export function init() {
         alert('Genereaza antemasuratorile inainte de a genera estimarile')
       }
     }
-    let dsFlat = generateTblRowsFromDsEstimariPool()
-    //my_table5.ds = dsFlat
-    addOnChangeEvt(dsFlat, delimiter, 'my_table_estimari')
+    let ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+    //my_table5.ds = ds_estimari_flat
+    addOnChangeEvt(ds_estimari_flat, delimiter, 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
     let selected_options_arr = ierarhii.getValue();
     if (selected_options_arr && selected_options_arr.length > 0) {
-      flatFind(selected_options_arr, dsFlat, delimiter)
+      flatFind(selected_options_arr, ds_estimari_flat, delimiter)
       my_table5.ds = selected_ds
     } else {
-      my_table5.ds = dsFlat
+      my_table5.ds = ds_estimari_flat
     }
+
+    console.log('ds_estimari_flat', ds_estimari_flat)
   }
 
   //btn_listaRetete
@@ -3050,7 +3052,7 @@ class estimari extends LitElement {
       save_icon.style.cursor = 'pointer'
       save_icon.style.marginLeft = '5px'
       save_icon.onclick = function () {
-        
+        //loop through ds_
       }
       btnSave.appendChild(save_icon)
       //add plus-square icon
@@ -3484,7 +3486,7 @@ function locateTrInEstimariPool(htmlElement) {
 function generateTblRowsFromDsEstimariPool() {
   //create table rows instanta by instanta with addTableRow
   //get instante in ds, then get ramura in instanta and then get activitate in ramura
-  let dsFlat = []
+  let ds_estimari_flat = []
   let counter = 0
   for (let key in ds_estimari_pool) {
     let instanta = ds_estimari_pool[key]
@@ -3505,12 +3507,12 @@ function generateTblRowsFromDsEstimariPool() {
           counter2: counter2,
           counter3: counter3
         }
-        dsFlat.push({ ...o, ramura: ramura_obj })
+        ds_estimari_flat.push({ ...o, ramura: ramura_obj })
       }
     }
   }
 
-  return dsFlat
+  return ds_estimari_flat
 }
 
 function transformNewTreeIntoEstimariPoolDS(ds) {
