@@ -3148,6 +3148,7 @@ class estimari extends LitElement {
               }
             }
           })
+          console.log('newTree after update with estimari', newTree)
         }
         this._nrOfClicksOnSave++;
       }
