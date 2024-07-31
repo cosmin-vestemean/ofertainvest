@@ -3144,6 +3144,7 @@ class estimari extends LitElement {
                 //push estimare to newTreeAntemasBranch.estimari
                 newTreeAntemasBranch.estimari.push(estimare)
                 object.ramura.estimareIndex = newTreeAntemasBranch.estimari.length - 1
+                ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex = newTreeAntemasBranch.estimari.length - 1
               }
             }
           })
