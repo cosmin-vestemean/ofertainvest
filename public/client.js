@@ -3122,8 +3122,8 @@ class estimari extends LitElement {
             let refInstanta = object.ramura.instanta
             let refActivitate = object.ramura.activitateIndex
             let antemasuratoriBranch = object.ramura.ramura
-            let estimareIndex = Object.keys(antemasuratoriBranch).find((key) => key.includes('estimareIndex'))
-              ? antemasuratoriBranch.estimareIndex
+            let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
+              ? object.ramura.estimareIndex
               : -1
             let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
             if (newTreeAntemasBranch) {
