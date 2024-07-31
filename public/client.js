@@ -3139,7 +3139,10 @@ class estimari extends LitElement {
               estimare.datetime = dt
 
               if (estimareIndex > -1) {
-                newTreeAntemasBranch.estimari[estimareIndex] = estimare
+                if (estimari[estimareIndex][_start_date] === object[_start_date] && estimari[estimareIndex][_end_date] === object[_end_date]) {
+                  //update estimare
+                  newTreeAntemasBranch.estimari[estimareIndex] = estimare
+                }
               } else {
                 //push estimare to newTreeAntemasBranch.estimari
                 newTreeAntemasBranch.estimari.push(estimare)
