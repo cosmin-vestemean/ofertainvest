@@ -3124,7 +3124,7 @@ class estimari extends LitElement {
             let antemasuratoriBranch = object.ramura.ramura
             let estimareIndex = Object.keys(antemasuratoriBranch).find((key) => key.includes('estimareIndex'))
               ? antemasuratoriBranch.estimareIndex
-              : 0
+              : -1
             let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
             if (newTreeAntemasBranch) {
               //create key estimari of antemasuratori branch as an array if does not exist
@@ -3138,7 +3138,7 @@ class estimari extends LitElement {
               estimare.qty = parseFloat(object[_cantitate_estimari])
               estimare.datetime = dt
 
-              if (estimareIndex > 0) {
+              if (estimareIndex > -1) {
                 newTreeAntemasBranch.estimari[estimareIndex] = estimare
               } else {
                 //push estimare to newTreeAntemasBranch.estimari
