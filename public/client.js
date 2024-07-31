@@ -3079,7 +3079,7 @@ class estimari extends LitElement {
             if (tdEstimari && tdRowSelected) {
               if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0) {
                 tdEstimari.classList.add('table-danger')
-                iputInside.checked = false
+                //iputInside.checked = false
               }
               if (!iputInside.checked) {
                 tdEstimari.classList.add('table-danger')
@@ -3260,7 +3260,7 @@ class estimari extends LitElement {
         input1.type = 'date'
         input1.id = 'start_date'
         input1.classList.add('form-control', 'form-control-sm')
-        input1.value = ''
+        input1.value = firstLine[_start_date] || ''
         input1.onchange = function () {
           let inputs = document
             .getElementById('my_table_estimari')
@@ -3291,7 +3291,7 @@ class estimari extends LitElement {
         input2.type = 'date'
         input2.id = 'end_date'
         input2.classList.add('form-control', 'form-control-sm')
-        input2.value = ''
+        input2.value = firstLine[_end_date] || ''
         input2.onchange = function () {
           let inputs = document
             .getElementById('my_table_estimari')
