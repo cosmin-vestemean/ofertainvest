@@ -3273,6 +3273,7 @@ class estimari extends LitElement {
         let activitateIndex = position.activitateIndex
         ds_estimari_pool[instanta][ramura][activitateIndex].row_data[ROW_SELECTED] = checkbox.checked
         localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+      }
       td.appendChild(checkbox)
       tr.appendChild(td)
       td = document.createElement('td')
