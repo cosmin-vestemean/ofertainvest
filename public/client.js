@@ -3299,6 +3299,10 @@ class estimari extends LitElement {
                   tds[index + 1].focus()
                 }
               }
+              if (e.key == 'Enter') {
+                e.preventDefault()
+                e.target.blur()
+              }
             })
 
             //select all inner html in cell on focusin
