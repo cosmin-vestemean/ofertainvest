@@ -3110,13 +3110,8 @@ class estimari extends LitElement {
         localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
         //push ds_estimari_flat to ds_estimari as an object with keys datetime, ds_estimari_flat
         let dt = new Date()
-        let object_doc = {
-          datetime: dt,
-          ds_estimari_flat: ds_estimari_flat_filterd
-        }
-        ds_estimari.push(object_doc)
-        //save ds_estimari to local storage
-        localStorage.setItem('ds_estimari', JSON.stringify(ds_estimari))
+        //TODO: push ds_estimari_flat_filterd to ds_estimari as an object with keys datetime, ds_estimari_flat
+        //but only if ds_estimari_flat_filterd is not empty and does not exist in ds_estimari
         //update newTree with ds_estimari_flat
         ds_estimari_flat_filterd.forEach(function (object) {
           let refInstanta = object.ramura.instanta
