@@ -3075,6 +3075,14 @@ class estimari extends LitElement {
             var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
             //get td with class "ROW_SELECTED"
             var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
+            //_cantitate_antemasuratori
+            var tdCantitateAntemasuratori = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
+            //antemasuratori - estimari != 0 => add class table-warning
+            if (tdEstimari && tdCantitateAntemasuratori) {
+              if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
+                tdEstimari.classList.add('table-warning')
+              }
+            }
             var iputInside = tdRowSelected.getElementsByTagName('input')[0]
             if (tdEstimari && tdRowSelected) {
               if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0) {
