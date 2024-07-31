@@ -3056,14 +3056,14 @@ class estimari extends LitElement {
       save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
       save_icon.style.cursor = 'pointer'
       save_icon.style.marginLeft = '5px'
-      save_icon.onclick = function () {
+      save_icon.onclick = () => {
+        this._nrOfClicksOnSave++;
         //filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
         let ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         )
         if (this._nrOfClicksOnSave % 2 === 0) {
           //change color to red
-          this._nrOfClicksOnSave++
           save_icon.classList.remove('text-success')
           save_icon.classList.add('text-danger')
           //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
@@ -3089,7 +3089,6 @@ class estimari extends LitElement {
           }
           return
         } else {
-          this._nrOfClicksOnSave++
           //change color to green
           save_icon.classList.remove('text-danger')
           save_icon.classList.add('text-success')
