@@ -3070,8 +3070,9 @@ class estimari extends LitElement {
         //filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
         let ds_estimari_flat = ds_estimari_pool.filter((o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0)
         //push ds_estimari_flat to ds_estimari as an object with keys datetime, ds_estimari_flat
+        let dt = new Date()
         let object_doc = {
-          datetime: new Date(),
+          datetime: dt,
           ds_estimari_flat: ds_estimari_flat
         }
         ds_estimari.push(object_doc)
@@ -3082,13 +3083,27 @@ class estimari extends LitElement {
           let refInstanta = object.ramura.instanta
           let refActivitate = object.ramura.activitateIndex
           let antemasuratoriBranch = object.ramura
-          let branchAntemasuratori = newTree[refInstanta][refActivitate][antemasuratoriBranch]
-          if (branchAntemasuratori) {
+          let estimareIndex = Object.keys(antemasuratoriBranch).find((key) => key.includes('estimareIndex')) ? antemasuratoriBranch.estimareIndex : 0
+          let newTreeAntemasBranch = newTree[refInstanta][refActivitate][antemasuratoriBranch]
+          if (newTreeAntemasBranch) {
             //create key estimari of antemasuratori branch as an array if does not exist
-            if (!branchAntemasuratori.estimari) {
-              branchAntemasuratori.estimari = []
+            if (!newTreeAntemasBranch.estimari) {
+              newTreeAntemasBranch.estimari = []
             }
+            //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
+            let estimare = {}
+            estimare[_start_date] = object[_start_date]
+            estimare[_end_date] = object[_end_date]
+            estimare.qty = parseFloat(object[_cantitate_estimari])
+            estimare.datetime = dt
 
+            if (estimareIndex > 0) {
+              newTreeAntemasBranch.estimari[estimareIndex] = estimare
+            } else {
+              //push estimare to newTreeAntemasBranch.estimari
+              newTreeAntemasBranch.estimari.push(estimare) 
+              object.ramura.estimareIndex = newTreeAntemasBranch.estimari.length - 1
+            }
           }
         })
       }
