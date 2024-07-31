@@ -2984,8 +2984,7 @@ class estimari extends LitElement {
   //every row of the table has two more columns: start date and end date with calendar icons
 
   static properties = {
-    ds: { type: Array },
-    nrOfClicksOnSave: { type: Number }
+    ds: { type: Array }
   }
 
   constructor() {
