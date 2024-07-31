@@ -58,6 +58,7 @@ var selected_ds = []
 var ds_instanteRetete = []
 var ds_antemasuratori = []
 var ds_estimari_pool = []
+var ds_estimari = []
 let newTree = []
 /* var ds_AFL = [
   {
@@ -3011,7 +3012,7 @@ class estimari extends LitElement {
       buttonsPannel.appendChild(btnList)
       var list_icon = document.createElement('i')
       list_icon.classList.add('bi')
-      list_icon.classList.add('bi-list', 'text-primary', 'fs-4', 'mb-3')
+      list_icon.classList.add('bi-list', 'text-warning', 'fs-4', 'mb-3')
       list_icon.style.cursor = 'pointer'
       list_icon.onclick = function () {}
       btnList.appendChild(list_icon)
@@ -3027,6 +3028,17 @@ class estimari extends LitElement {
       plus_icon.onclick = function () {
       }
       btnAdd.appendChild(plus_icon)
+      //add thrahs icon
+      var btnTrash = document.createElement('div')
+      btnTrash.classList.add('col')
+      buttonsPannel.appendChild(btnTrash)
+      var trash_icon = document.createElement('i')
+      trash_icon.classList.add('bi')
+      trash_icon.classList.add('bi-trash', 'text-danger', 'fs-4', 'mb-3')
+      trash_icon.style.cursor = 'pointer'
+      trash_icon.onclick = function () {}
+      btnTrash.appendChild(trash_icon)
+      buttonsPannel.appendChild(btnTrash)
       //add save icon
       var btnSave = document.createElement('div')
       btnSave.classList.add('col')
@@ -3037,7 +3049,9 @@ class estimari extends LitElement {
       save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
       save_icon.style.cursor = 'pointer'
       save_icon.style.marginLeft = '5px'
-      save_icon.onclick = function () {}
+      save_icon.onclick = function () {
+        
+      }
       btnSave.appendChild(save_icon)
       //add plus-square icon
       var btnRefresh = document.createElement('div')
@@ -3230,11 +3244,13 @@ class estimari extends LitElement {
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
       let tr = document.createElement('tr')
+      let id = '';
       if (isMain) {
-        tr.id = i + '@' + k
+        id = i + '@' + k
       } else {
-        tr.id = i + '@' + k + '_' + counter3
+        id = i + '@' + k + '_' + counter3
       }
+      tr.id = id
       if (isMain) {
         tr.classList.add('table-primary')
       } else {
@@ -3246,9 +3262,17 @@ class estimari extends LitElement {
       //create a checkbox
       let checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
-      checkbox.id = 'checkbox_' + counter3 + '@' + counter2 + '@' + counter
+      checkbox.id = 'checkbox-' + id
       checkbox.classList.add('form-check-input', 'align-middle')
-      checkbox.checked = true
+      checkbox.checked = o.row_data[ROW_SELECTED]
+      checkbox.onchange = function () {
+        //change ds_estimari_pool
+        let position = locateTrInEstimariPool(checkbox.parentElement)
+        let instanta = position.instanta
+        let ramura = position.ramura
+        let activitateIndex = position.activitateIndex
+        ds_estimari_pool[instanta][ramura][activitateIndex].row_data[ROW_SELECTED] = checkbox.checked
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
       td.appendChild(checkbox)
       tr.appendChild(td)
       td = document.createElement('td')
@@ -3600,6 +3624,7 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
   o[_cantitate_estimari] = 0
   o[_start_date] = ''
   o[_end_date] = ''
+  o.ROW_SELECTED = true
   //create main activity row
   //addTableRow(i, k, counter, o)
   return {
