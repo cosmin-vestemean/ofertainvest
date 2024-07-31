@@ -2985,7 +2985,7 @@ class estimari extends LitElement {
 
   static properties = {
     ds: { type: Array },
-    _nrOfClicksOnSave: { type: Number }
+    nrOfClicksOnSave: { type: Number }
   }
 
   constructor() {
