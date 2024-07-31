@@ -3264,7 +3264,7 @@ class estimari extends LitElement {
       checkbox.type = 'checkbox'
       checkbox.id = 'checkbox-' + id
       checkbox.classList.add('form-check-input', 'align-middle')
-      checkbox.checked = o.row_data[ROW_SELECTED]
+      checkbox.checked = o.row_data['ROW_SELECTED']
       checkbox.onchange = function () {
         //change ds_estimari_pool
         let position = locateTrInEstimariPool(checkbox.parentElement)
