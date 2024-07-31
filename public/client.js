@@ -2993,7 +2993,6 @@ class estimari extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    this._nrOfClicksOnSave = 0
 
     console.log('events added to estimari element')
   }
@@ -3035,17 +3034,52 @@ class estimari extends LitElement {
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {}
       btnAdd.appendChild(plus_icon)
-      //add thrahs icon
-      var btnTrash = document.createElement('div')
-      btnTrash.classList.add('col')
-      buttonsPannel.appendChild(btnTrash)
-      var trash_icon = document.createElement('i')
-      trash_icon.classList.add('bi')
-      trash_icon.classList.add('bi-trash', 'text-danger', 'fs-4', 'mb-3')
-      trash_icon.style.cursor = 'pointer'
-      trash_icon.onclick = function () {}
-      btnTrash.appendChild(trash_icon)
-      buttonsPannel.appendChild(btnTrash)
+      //add validate icon
+      var btnValidate = document.createElement('div')
+      btnValidate.classList.add('col')
+      buttonsPannel.appendChild(btnValidate)
+      var validate_icon = document.createElement('i')
+      validate_icon.classList.add('bi')
+      validate_icon.classList.add('bi-check2', 'text-success', 'fs-4', 'mb-3')
+      validate_icon.style.cursor = 'pointer'
+      validate_icon.onclick = function () {
+        //change color to red
+        save_icon.classList.remove('text-success')
+        save_icon.classList.add('text-danger')
+        //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
+        var table = document.getElementById('my_table_estimari').shadowRoot.getElementById('table_estimari')
+        var tbody = table.getElementsByTagName('tbody')[0]
+        var trs = tbody.getElementsByTagName('tr')
+        for (let i = 0; i < trs.length; i++) {
+          var tds = trs[i].getElementsByTagName('td')
+          //get td with class _cantitate_estimari
+          var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+          //get td with class "ROW_SELECTED"
+          var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
+          //_cantitate_antemasuratori
+          var tdCantitateAntemasuratori = Array.from(tds).find((o) =>
+            o.classList.contains(_cantitate_antemasuratori)
+          )
+          //antemasuratori - estimari != 0 => add class table-warning
+          if (tdEstimari && tdCantitateAntemasuratori) {
+            if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
+              tdEstimari.classList.add('table-warning')
+            }
+          }
+          var iputInside = tdRowSelected.getElementsByTagName('input')[0]
+          if (tdEstimari && tdRowSelected) {
+            if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0) {
+              tdEstimari.classList.add('table-danger')
+              //iputInside.checked = false
+            }
+            if (!iputInside.checked) {
+              tdEstimari.classList.add('table-danger')
+            }
+          }
+        }
+      }
+      btnValidate.appendChild(validate_icon)
+      buttonsPannel.appendChild(btnValidate)
       //add save icon
       var btnSave = document.createElement('div')
       btnSave.classList.add('col')
@@ -3061,101 +3095,81 @@ class estimari extends LitElement {
         let ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         )
-        if (this._nrOfClicksOnSave % 2 === 0) {
-          //change color to red
-          save_icon.classList.remove('text-success')
-          save_icon.classList.add('text-danger')
-          //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
-          var table = document.getElementById('my_table_estimari').shadowRoot.getElementById('table_estimari')
-          var tbody = table.getElementsByTagName('tbody')[0]
-          var trs = tbody.getElementsByTagName('tr')
-          for (let i = 0; i < trs.length; i++) {
-            var tds = trs[i].getElementsByTagName('td')
-            //get td with class _cantitate_estimari
-            var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
-            //get td with class "ROW_SELECTED"
-            var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
-            //_cantitate_antemasuratori
-            var tdCantitateAntemasuratori = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
-            //antemasuratori - estimari != 0 => add class table-warning
-            if (tdEstimari && tdCantitateAntemasuratori) {
-              if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
-                tdEstimari.classList.add('table-warning')
-              }
-            }
-            var iputInside = tdRowSelected.getElementsByTagName('input')[0]
-            if (tdEstimari && tdRowSelected) {
-              if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0) {
-                tdEstimari.classList.add('table-danger')
-                //iputInside.checked = false
-              }
-              if (!iputInside.checked) {
-                tdEstimari.classList.add('table-danger')
-              }
-            }
-          }
-        } else {
-          //change color to green
-          save_icon.classList.remove('text-danger')
-          save_icon.classList.add('text-success')
-          //pseudo code
-          //1. save ds_estimari_pool to local storage
-          //2. filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-          //3. push ds_estimari_flat_filterd to ds_estimari as an objectwith keys datetime, ds_estimari_flat
-          //4. save ds_estimari to local storage
-          //5. update newTree with ds_estimari_flat
-          //6. save newTree to local storage
+        //change color to green
+        save_icon.classList.remove('text-danger')
+        save_icon.classList.add('text-success')
+        //pseudo code
+        //1. save ds_estimari_pool to local storage
+        //2. filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
+        //3. push ds_estimari_flat_filterd to ds_estimari as an objectwith keys datetime, ds_estimari_flat
+        //4. save ds_estimari to local storage
+        //5. update newTree with ds_estimari_flat
+        //6. save newTree to local storage
 
-          //save ds_estimari_pool to local storage
-          localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
-          //push ds_estimari_flat to ds_estimari as an object with keys datetime, ds_estimari_flat
-          let dt = new Date()
-          let object_doc = {
-            datetime: dt,
-            ds_estimari_flat: ds_estimari_flat_filterd
-          }
-          ds_estimari.push(object_doc)
-          //save ds_estimari to local storage
-          localStorage.setItem('ds_estimari', JSON.stringify(ds_estimari))
-          //update newTree with ds_estimari_flat
-          ds_estimari_flat_filterd.forEach(function (object) {
-            let refInstanta = object.ramura.instanta
-            let refActivitate = object.ramura.activitateIndex
-            let antemasuratoriBranch = object.ramura.ramura
-            let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
-              ? object.ramura.estimareIndex
-              : -1
-            let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
-            if (newTreeAntemasBranch) {
-              //create key estimari of antemasuratori branch as an array if does not exist
-              if (!newTreeAntemasBranch.estimari) {
-                newTreeAntemasBranch.estimari = []
-              }
-              //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
-              let estimare = {}
-              estimare[_start_date] = object[_start_date]
-              estimare[_end_date] = object[_end_date]
-              estimare.qty = parseFloat(object[_cantitate_estimari])
-              estimare.datetime = dt
-
-              if (estimareIndex > -1 && newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] && newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]) {
-                newTreeAntemasBranch.estimari[estimareIndex] = estimare
-              } else {
-                //push estimare to newTreeAntemasBranch.estimari
-                newTreeAntemasBranch.estimari.push(estimare)
-                object.ramura.estimareIndex = newTreeAntemasBranch.estimari.length - 1
-                ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex = newTreeAntemasBranch.estimari.length - 1
-              }
-            }
-          })
-          console.log('ds_estimari_pool after update', ds_estimari_pool)
-          console.log('ds_estimari after update', ds_estimari)
-          console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
-          console.log('newTree after update with estimari', newTree)
+        //save ds_estimari_pool to local storage
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+        //push ds_estimari_flat to ds_estimari as an object with keys datetime, ds_estimari_flat
+        let dt = new Date()
+        let object_doc = {
+          datetime: dt,
+          ds_estimari_flat: ds_estimari_flat_filterd
         }
-        this._nrOfClicksOnSave++;
+        ds_estimari.push(object_doc)
+        //save ds_estimari to local storage
+        localStorage.setItem('ds_estimari', JSON.stringify(ds_estimari))
+        //update newTree with ds_estimari_flat
+        ds_estimari_flat_filterd.forEach(function (object) {
+          let refInstanta = object.ramura.instanta
+          let refActivitate = object.ramura.activitateIndex
+          let antemasuratoriBranch = object.ramura.ramura
+          let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
+            ? object.ramura.estimareIndex
+            : -1
+          let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
+          if (newTreeAntemasBranch) {
+            //create key estimari of antemasuratori branch as an array if does not exist
+            if (!newTreeAntemasBranch.estimari) {
+              newTreeAntemasBranch.estimari = []
+            }
+            //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
+            let estimare = {}
+            estimare[_start_date] = object[_start_date]
+            estimare[_end_date] = object[_end_date]
+            estimare.qty = parseFloat(object[_cantitate_estimari])
+            estimare.datetime = dt
+
+            if (
+              estimareIndex > -1 &&
+              newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
+              newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
+            ) {
+              newTreeAntemasBranch.estimari[estimareIndex] = estimare
+            } else {
+              //push estimare to newTreeAntemasBranch.estimari
+              newTreeAntemasBranch.estimari.push(estimare)
+              object.ramura.estimareIndex = newTreeAntemasBranch.estimari.length - 1
+              ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
+                newTreeAntemasBranch.estimari.length - 1
+            }
+          }
+        })
+        console.log('ds_estimari_pool after update', ds_estimari_pool)
+        console.log('ds_estimari after update', ds_estimari)
+        console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
+        console.log('newTree after update with estimari', newTree)
       }
       btnSave.appendChild(save_icon)
+      //add thrahs icon
+      var btnTrash = document.createElement('div')
+      btnTrash.classList.add('col')
+      buttonsPannel.appendChild(btnTrash)
+      var trash_icon = document.createElement('i')
+      trash_icon.classList.add('bi')
+      trash_icon.classList.add('bi-trash', 'text-danger', 'fs-4', 'mb-3')
+      trash_icon.style.cursor = 'pointer'
+      trash_icon.onclick = function () {}
+      btnTrash.appendChild(trash_icon)
+      buttonsPannel.appendChild(btnTrash)
       //add plus-square icon
       var btnRefresh = document.createElement('div')
       btnRefresh.classList.add('col')
