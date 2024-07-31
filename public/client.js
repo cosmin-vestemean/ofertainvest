@@ -3138,11 +3138,8 @@ class estimari extends LitElement {
               estimare.qty = parseFloat(object[_cantitate_estimari])
               estimare.datetime = dt
 
-              if (estimareIndex > -1) {
-                if (estimari[estimareIndex][_start_date] === object[_start_date] && estimari[estimareIndex][_end_date] === object[_end_date]) {
-                  //update estimare
-                  newTreeAntemasBranch.estimari[estimareIndex] = estimare
-                }
+              if (estimareIndex > -1 && newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] && newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]) {
+                newTreeAntemasBranch.estimari[estimareIndex] = estimare
               } else {
                 //push estimare to newTreeAntemasBranch.estimari
                 newTreeAntemasBranch.estimari.push(estimare)
