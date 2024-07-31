@@ -3603,9 +3603,6 @@ function generateTblRowsFromDsEstimariPool() {
           ramura: ramura[i].ramura,
           activitateIndex: i,
           isMain: ramura[i].isMain,
-          counter: counter,
-          counter2: counter2,
-          counter3: counter3
         }
         ds_estimari_flat.push({ ...o, ramura: ramura_obj })
       }
