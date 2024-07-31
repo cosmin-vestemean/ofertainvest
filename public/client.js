@@ -3005,6 +3005,17 @@ class estimari extends LitElement {
       var buttonsPannel = document.createElement('div')
       buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
       buttonsPannel.id = 'buttonsPannel'
+      //add list icon
+      var btnList = document.createElement('div')
+      btnList.classList.add('col')
+      buttonsPannel.appendChild(btnList)
+      var list_icon = document.createElement('i')
+      list_icon.classList.add('bi')
+      list_icon.classList.add('bi-list', 'text-primary', 'fs-4', 'mb-3')
+      list_icon.style.cursor = 'pointer'
+      list_icon.onclick = function () {}
+      btnList.appendChild(list_icon)
+      buttonsPannel.appendChild(btnList)
       //add plus-square icon
       var btnAdd = document.createElement('div')
       btnAdd.classList.add('col')
