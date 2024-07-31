@@ -58,6 +58,7 @@ var selected_ds = []
 var ds_instanteRetete = []
 var ds_antemasuratori = []
 var ds_estimari_pool = []
+var ds_estimari_flat = []
 var ds_estimari = []
 let newTree = []
 /* var ds_AFL = [
@@ -1722,7 +1723,7 @@ export function init() {
         alert('Genereaza antemasuratorile inainte de a genera estimarile')
       }
     }
-    let ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+    ds_estimari_flat = generateTblRowsFromDsEstimariPool()
     //my_table5.ds = ds_estimari_flat
     addOnChangeEvt(ds_estimari_flat, delimiter, 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
@@ -3057,7 +3058,7 @@ class estimari extends LitElement {
       save_icon.style.marginLeft = '5px'
       save_icon.onclick = function () {
         //filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-        let ds_estimari_flat = ds_estimari_pool.filter(
+        let ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         )
         if (this._nrOfClicksOnSave % 2 === 0) {
@@ -3095,7 +3096,7 @@ class estimari extends LitElement {
           //pseudo code
           //1. save ds_estimari_pool to local storage
           //2. filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-          //3. push ds_estimari_flat to ds_estimari as an objectwith keys datetime, ds_estimari_flat
+          //3. push ds_estimari_flat_filterd to ds_estimari as an objectwith keys datetime, ds_estimari_flat
           //4. save ds_estimari to local storage
           //5. update newTree with ds_estimari_flat
           //6. save newTree to local storage
@@ -3106,13 +3107,13 @@ class estimari extends LitElement {
           let dt = new Date()
           let object_doc = {
             datetime: dt,
-            ds_estimari_flat: ds_estimari_flat
+            ds_estimari_flat: ds_estimari_flat_filterd
           }
           ds_estimari.push(object_doc)
           //save ds_estimari to local storage
           localStorage.setItem('ds_estimari', JSON.stringify(ds_estimari))
           //update newTree with ds_estimari_flat
-          ds_estimari_flat.forEach(function (object) {
+          ds_estimari_flat_filterd.forEach(function (object) {
             let refInstanta = object.ramura.instanta
             let refActivitate = object.ramura.activitateIndex
             let antemasuratoriBranch = object.ramura
