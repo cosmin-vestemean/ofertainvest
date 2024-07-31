@@ -3070,14 +3070,9 @@ class estimari extends LitElement {
           }
           var iputInside = tdRowSelected.getElementsByTagName('input')[0]
           if (tdEstimari && tdRowSelected) {
-            if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0) {
+            if (isNaN(parseFloat(tdEstimari.textContent)) || parseFloat(tdEstimari.textContent) === 0 || !iputInside.checked) {
               tdEstimari.classList.add('table-danger')
               //iputInside.checked = false
-            } else {
-              tdEstimari.classList.remove('table-danger')
-            }
-            if (!iputInside.checked) {
-              tdEstimari.classList.add('table-danger')
             } else {
               tdEstimari.classList.remove('table-danger')
             }
