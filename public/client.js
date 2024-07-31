@@ -3086,7 +3086,6 @@ class estimari extends LitElement {
               }
             }
           }
-          return
         } else {
           //change color to green
           save_icon.classList.remove('text-danger')
