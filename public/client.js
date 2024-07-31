@@ -1144,6 +1144,10 @@ export function init() {
       if (localStorage.getItem('visible_columns')) {
         visible_columns = JSON.parse(localStorage.getItem('visible_columns'))
       }
+      if (localStorage.getItem('ds_estimari')) {
+        ds_estimari = JSON.parse(localStorage.getItem('ds_estimari'))
+      
+      }
     }
   }
   const my_table1 = document.getElementById('my_table_oferta_initiala')
@@ -1723,6 +1727,7 @@ export function init() {
     //my_table5.ds = ds_estimari_flat
     addOnChangeEvt(ds_estimari_flat, delimiter, 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
+    console.log('newTree', newTree)
     let selected_options_arr = ierarhii.getValue();
     if (selected_options_arr && selected_options_arr.length > 0) {
       flatFind(selected_options_arr, ds_estimari_flat, delimiter)
@@ -3052,7 +3057,40 @@ class estimari extends LitElement {
       save_icon.style.cursor = 'pointer'
       save_icon.style.marginLeft = '5px'
       save_icon.onclick = function () {
-        //loop through ds_
+        //pseudo code
+        //1. save ds_estimari_pool to local storage
+        //2. filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
+        //3. push ds_estimari_flat to ds_estimari as an objectwith keys datetime, ds_estimari_flat
+        //4. save ds_estimari to local storage
+        //5. update newTree with ds_estimari_flat
+        //6. save newTree to local storage
+
+        //save ds_estimari_pool to local storage
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool))
+        //filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
+        let ds_estimari_flat = ds_estimari_pool.filter((o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0)
+        //push ds_estimari_flat to ds_estimari as an object with keys datetime, ds_estimari_flat
+        let object_doc = {
+          datetime: new Date(),
+          ds_estimari_flat: ds_estimari_flat
+        }
+        ds_estimari.push(object_doc)
+        //save ds_estimari to local storage
+        localStorage.setItem('ds_estimari', JSON.stringify(ds_estimari))
+        //update newTree with ds_estimari_flat
+        ds_estimari_flat.forEach(function (object) {
+          let refInstanta = object.ramura.instanta
+          let refActivitate = object.ramura.activitateIndex
+          let antemasuratoriBranch = object.ramura
+          let branchAntemasuratori = newTree[refInstanta][refActivitate][antemasuratoriBranch]
+          if (branchAntemasuratori) {
+            //create key estimari of antemasuratori branch as an array if does not exist
+            if (!branchAntemasuratori.estimari) {
+              branchAntemasuratori.estimari = []
+            }
+
+          }
+        })
       }
       btnSave.appendChild(save_icon)
       //add plus-square icon
