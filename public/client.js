@@ -3081,7 +3081,6 @@ class estimari extends LitElement {
         }
       }
       btnValidate.appendChild(validate_icon)
-      buttonsPannel.appendChild(btnValidate)
       //add save icon
       var btnSave = document.createElement('div')
       btnSave.classList.add('col')
