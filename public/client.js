@@ -3125,7 +3125,7 @@ class estimari extends LitElement {
             let estimareIndex = Object.keys(antemasuratoriBranch).find((key) => key.includes('estimareIndex'))
               ? antemasuratoriBranch.estimareIndex
               : 0
-            let newTreeAntemasBranch = newTree[refInstanta][refActivitate][antemasuratoriBranch]
+            let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
             if (newTreeAntemasBranch) {
               //create key estimari of antemasuratori branch as an array if does not exist
               if (!newTreeAntemasBranch.estimari) {
