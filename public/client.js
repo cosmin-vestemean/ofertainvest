@@ -259,6 +259,8 @@ template.innerHTML = `
   crossorigin="anonymous">
 </script>`
 
+var _nrOfClicksOnSave = 0
+
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
@@ -2987,8 +2989,6 @@ class estimari extends LitElement {
     ds: { type: Array }
   }
 
-  _nrOfClicksOnSave = 0
-
   constructor() {
     super()
     this.ds = []
@@ -3061,7 +3061,7 @@ class estimari extends LitElement {
         let ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         )
-        if (this._nrOfClicksOnSave % 2 === 0) {
+        if (_nrOfClicksOnSave % 2 === 0) {
           //change color to red
           save_icon.classList.remove('text-success')
           save_icon.classList.add('text-danger')
@@ -3141,7 +3141,7 @@ class estimari extends LitElement {
             }
           })
         }
-        this._nrOfClicksOnSave++;
+        _nrOfClicksOnSave++;
       }
       btnSave.appendChild(save_icon)
       //add plus-square icon
