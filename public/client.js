@@ -259,8 +259,6 @@ template.innerHTML = `
   crossorigin="anonymous">
 </script>`
 
-var _nrOfClicksOnSave = 0
-
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
@@ -2986,7 +2984,8 @@ class estimari extends LitElement {
   //every row of the table has two more columns: start date and end date with calendar icons
 
   static properties = {
-    ds: { type: Array }
+    ds: { type: Array },
+    _nrOfClicksOnSave: { type: Number }
   }
 
   constructor() {
@@ -2994,6 +2993,7 @@ class estimari extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this._nrOfClicksOnSave = 0
 
     console.log('events added to estimari element')
   }
@@ -3061,7 +3061,7 @@ class estimari extends LitElement {
         let ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         )
-        if (_nrOfClicksOnSave % 2 === 0) {
+        if (this._nrOfClicksOnSave % 2 === 0) {
           //change color to red
           save_icon.classList.remove('text-success')
           save_icon.classList.add('text-danger')
@@ -3141,7 +3141,7 @@ class estimari extends LitElement {
             }
           })
         }
-        _nrOfClicksOnSave++;
+        this._nrOfClicksOnSave++;
       }
       btnSave.appendChild(save_icon)
       //add plus-square icon
