@@ -3350,11 +3350,12 @@ class estimari extends LitElement {
       tbody.appendChild(tr)
       //create a checkbox for main activity
       let td = document.createElement('td')
+      td.classList.add('ROW_SELECTED')
       //create a checkbox
       let checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
       checkbox.id = 'checkbox-' + id
-      checkbox.classList.add('form-check-input', 'align-middle', 'ROW_SELECTED')
+      checkbox.classList.add('form-check-input', 'align-middle')
       checkbox.checked = o['ROW_SELECTED']
       checkbox.onchange = function () {
         //change ds_estimari_pool
