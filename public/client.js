@@ -3000,8 +3000,67 @@ class estimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
-      //Create a floating button right positioned with save icon
-      
+      //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
+      //add buttons
+      var buttonsPannel = document.createElement('div')
+      buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
+      buttonsPannel.id = 'buttonsPannel'
+      //add plus-square icon
+      var btnAdd = document.createElement('div')
+      btnAdd.classList.add('col')
+      buttonsPannel.appendChild(btnAdd)
+      var plus_icon = document.createElement('i')
+      plus_icon.classList.add('bi')
+      plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+      plus_icon.style.cursor = 'pointer'
+      plus_icon.onclick = function () {
+      }
+      btnAdd.appendChild(plus_icon)
+      //add save icon
+      var btnSave = document.createElement('div')
+      btnSave.classList.add('col')
+      buttonsPannel.appendChild(btnSave)
+      var save_icon = document.createElement('i')
+      save_icon.id = 'save_icon'
+      save_icon.classList.add('bi')
+      save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
+      save_icon.style.cursor = 'pointer'
+      save_icon.style.marginLeft = '5px'
+      save_icon.onclick = function () {}
+      btnSave.appendChild(save_icon)
+      //add plus-square icon
+      var btnRefresh = document.createElement('div')
+      btnRefresh.classList.add('col')
+      buttonsPannel.appendChild(btnRefresh)
+      var refresh_icon = document.createElement('i')
+      refresh_icon.classList.add('bi')
+      refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary', 'fs-4', 'mb-3')
+      refresh_icon.style.cursor = 'pointer'
+      refresh_icon.style.marginLeft = '5px'
+      refresh_icon.onclick = function () {}
+      btnRefresh.appendChild(refresh_icon)
+      //add forward and backward icons for navigation between estimari
+      var btnBack = document.createElement('div')
+      btnBack.classList.add('col')
+      buttonsPannel.appendChild(btnBack)
+      var backward_icon = document.createElement('i')
+      backward_icon.classList.add('bi')
+      backward_icon.classList.add('bi-arrow-left-circle', 'text-primary', 'fs-4', 'mb-3')
+      backward_icon.style.cursor = 'pointer'
+      backward_icon.style.marginLeft = '5px'
+      backward_icon.onclick = function () {}
+      btnBack.appendChild(backward_icon)
+      var btnForward = document.createElement('div')
+      btnForward.classList.add('col')
+      buttonsPannel.appendChild(btnForward)
+      var forward_icon = document.createElement('i')
+      forward_icon.classList.add('bi')
+      forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
+      forward_icon.style.cursor = 'pointer'
+      forward_icon.style.marginLeft = '5px'
+      forward_icon.onclick = function () {}
+      btnForward.appendChild(forward_icon)
+      buttonsPannel.appendChild(btnForward)      
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -3155,7 +3214,7 @@ class estimari extends LitElement {
       })
     }
 
-    return html`${table}`
+    return html`${buttonsPannel}${table}`
 
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
