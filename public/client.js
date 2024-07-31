@@ -3148,6 +3148,9 @@ class estimari extends LitElement {
               }
             }
           })
+          console.log('ds_estimari_pool after update', ds_estimari_pool)
+          console.log('ds_estimari after update', ds_estimari)
+          console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
           console.log('newTree after update with estimari', newTree)
         }
         this._nrOfClicksOnSave++;
