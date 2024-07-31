@@ -3042,8 +3042,7 @@ class estimari extends LitElement {
       validate_icon.classList.add('bi-check2', 'text-success', 'fs-4', 'mb-3')
       validate_icon.style.cursor = 'pointer'
       validate_icon.onclick = () => {
-        let btn_estimari = document.getElementById('btn_estimari')
-        btn_estimari.click()
+        //this web component needs update?
         //change color to red
         save_icon.classList.remove('text-success')
         save_icon.classList.add('text-danger')
