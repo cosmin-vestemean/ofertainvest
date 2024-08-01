@@ -251,11 +251,12 @@ export const estimariDisplayMask = {
 const delimiter = '~~~~~~~~~~~~~~~'
 
 const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
-let selectedTheme = 'yeti'
+let selectedTheme = 'default'
 export let template = document.createElement('template')
+let themeLink = selectedTheme === 'default' ? '' : `<link rel="stylesheet" href="${selectedTheme}.css">`
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/><link rel="stylesheet" href="${selectedTheme}.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>${themeLink}
 <script
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -1793,6 +1794,10 @@ export function init() {
       my_table5.requestUpdate()
     }
   })
+
+  //set selected theme
+  let selectedTheme = localStorage.getItem('theme') || 'default'
+  themesUl.textContent = selectedTheme
 
   function changeTheme(theme) {
     //remove all stylesheets with names equal to themes array and add the one with the selected theme
