@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { estimari } from './estimari'
 
+customElements.define('my-estimari', estimari)
+
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
   'PRINCIPAL',
@@ -3159,8 +3161,6 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
     isMain: isMain
   }
 }
-
-customElements.define('my-estimari', estimari)
 
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)
