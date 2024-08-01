@@ -65,3 +65,8 @@ realizare zilnica pe programarea de mai sus
 materiale:
 lista materiale din antemasuratori/estimare/programare
 sortare/grupare dupa denumire si um => cantitate totala necesara
+
+01.08.2024
+-----------------
+Estimari:
+O estimare se prezinta folded, exceptie cele care au activitati de tip rezultate din impachetarile in retete de tip L-urile si/sau gruparea de articole

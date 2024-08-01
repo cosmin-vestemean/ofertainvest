@@ -1942,6 +1942,7 @@ class myTable extends LitElement {
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-hover')
+      table.classList.add('table-responsive')
       table.id = 'table_' + this.tableId
       //get or create thead and tbody
       var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead')
@@ -2812,6 +2813,7 @@ class antemasuratori extends LitElement {
       var table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
+      table.classList.add('table-responsive')
       table.id = 'table_antemasuratori'
       //font size
       table.style.fontSize = 'small'
@@ -3202,6 +3204,7 @@ class estimari extends LitElement {
       var table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
+      table.classList.add('table-responsive')
       table.id = 'table_estimari'
       //font size
       table.style.fontSize = 'small'
