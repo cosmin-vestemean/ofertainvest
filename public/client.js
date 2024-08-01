@@ -1779,21 +1779,11 @@ export function init() {
       selectedTheme = theme
       changeTheme(theme)
       console.log('Theme changed to:', selectedTheme)
-      if (my_table1.style.display === 'block') {
-        my_table1.requestUpdate()
-      }
-      if (my_table2.style.display === 'block') {
-        my_table2.requestUpdate()
-      }
-      if (my_table3.style.display === 'block') {
-        my_table3.requestUpdate()
-      }
-      if (my_table4.style.display === 'block') {
-        my_table4.requestUpdate()
-      }
-      if (my_table5.style.display === 'block') {
-        my_table5.requestUpdate()
-      }
+      my_table1.requestUpdate()
+      my_table2.requestUpdate()
+      my_table3.requestUpdate()
+      my_table4.requestUpdate()
+      my_table5.requestUpdate()
     }
   })
 
