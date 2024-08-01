@@ -1783,6 +1783,7 @@ export function init() {
   //add event listener
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
+    let link = null
     console.log('new theme', theme, 'prior theme', selectedTheme, 'template', template)
     if (theme != selectedTheme) {
       selectedTheme = theme
@@ -1791,7 +1792,7 @@ export function init() {
       if (selectedTheme !== 'default') {
         //themeLink = `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
         //create themeLink as a node
-        let link = document.createElement('link')
+        link = document.createElement('link')
         link.rel = 'stylesheet'
         link.href = selectedTheme + '.css'
         link.id = 'theme_link'
@@ -1804,9 +1805,10 @@ export function init() {
         }
       })
       //add themeLink to childNodes
-      my_table5.shadowRoot.childNodes.appendChild(link)
-
-      my_table5.requestUpdate()
+      if (link) {
+        my_table5.shadowRoot.childNodes.appendChild(link)
+        //my_table5.requestUpdate()
+      }
     }
   })
 
