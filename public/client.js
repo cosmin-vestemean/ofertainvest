@@ -1785,7 +1785,7 @@ export function init() {
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
     let link = null
-    console.log('new theme', theme, 'prior theme', selectedTheme, 'template', template)
+    console.log('new theme', theme, 'prior theme', selectedTheme)
     if (theme != selectedTheme) {
       selectedTheme = theme
       changeTheme(theme)
@@ -1799,20 +1799,28 @@ export function init() {
         link.id = 'theme_link'
       }
 
-      my_table5.shadowRoot.childNodes.forEach((child) => {
-        //find id="theme_link" and remove it, then add it again
-        if (child.id === 'theme_link') {
-          child.remove()
-        }
-      })
-      //add themeLink to childNodes
-      if (link) {
-        //append link to shadowRoot
-        my_table5.shadowRoot.appendChild(link)
-        //my_table5.requestUpdate()
-      }
+      changeStyleInTheShadow(my_table1, link)
+      changeStyleInTheShadow(my_table2, link)
+      changeStyleInTheShadow(my_table3, link)
+      changeStyleInTheShadow(my_table4, link)
+      changeStyleInTheShadow(my_table5, link)
     }
   })
+
+  function changeStyleInTheShadow(table, link) {
+    table.shadowRoot.childNodes.forEach((child) => {
+      //find id="theme_link" and remove it, then add it again
+      if (child.id === 'theme_link') {
+        child.remove()
+      }
+    })
+    //add themeLink to childNodes
+    if (link) {
+      //append link to shadowRoot
+      table.shadowRoot.appendChild(link)
+      //my_table5.requestUpdate()
+    }
+  }
 
   //set selected theme
   let selectedTheme = localStorage.getItem('theme') || 'default'
