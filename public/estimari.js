@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { _template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client.js";
+import { template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client.js";
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -12,15 +12,14 @@ export class estimari extends LitElement {
   //Arr2 contains the following keys: branch, qty
   //every row of the table has two more columns: start date and end date with calendar icons
   static properties = {
-    ds: { type: Array },
-    _template: { type: Object },
+    ds: { type: Array }
   };
 
   constructor() {
     super();
     this.ds = [];
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(_template.content.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     console.log('events added to estimari element');
   }

@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { _template, _cantitate_antemasuratori, theadIsSet, antemasuratoriDisplayMask, _cantitate_oferta, ds_antemasuratori, newTree } from "./client.js";
+import { template, _cantitate_antemasuratori, theadIsSet, antemasuratoriDisplayMask, _cantitate_oferta, ds_antemasuratori, newTree } from "./client.js";
 
 export class antemasuratori extends LitElement {
   static properties = {
@@ -10,7 +10,7 @@ export class antemasuratori extends LitElement {
     super();
     this.ds = [];
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(_template.content.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
     //add event listener for keydown for td class cantitate_antemasuratori
     this.shadowRoot.addEventListener('keydown', function (e) {
       if (e.target.classList.contains(_cantitate_antemasuratori)) {

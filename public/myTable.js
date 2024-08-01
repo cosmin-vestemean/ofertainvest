@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { _template, theadIsSet } from "./client.js";
+import { template, theadIsSet } from "./client.js";
 
 export class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
@@ -12,7 +12,7 @@ export class myTable extends LitElement {
     this.tableId = 'my-table';
     this.ds = [];
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(_template.content.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   //css
