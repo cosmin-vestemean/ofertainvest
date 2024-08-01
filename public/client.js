@@ -1158,6 +1158,12 @@ export function init() {
   const my_table3 = document.getElementById('my_table_detalii_reteta')
   const my_table4 = document.getElementById('my_table_antemasuratori')
   const my_table5 = document.getElementById('my_table_estimari')
+  //hide all tables
+  my_table1.style.display = 'none'
+  my_table2.style.display = 'none'
+  my_table3.style.display = 'none'
+  my_table4.style.display = 'none'
+  my_table5.style.display = 'none'
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
