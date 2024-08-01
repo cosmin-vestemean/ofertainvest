@@ -1789,7 +1789,12 @@ export function init() {
       changeTheme(theme)
       console.log('Theme changed to:', selectedTheme)
       if (selectedTheme !== 'default') {
-        themeLink = `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
+        //themeLink = `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
+        //create themeLink as a node
+        let link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = selectedTheme + '.css'
+        link.id = 'theme_link'
       }
 
       my_table5.shadowRoot.childNodes.forEach((child) => {
@@ -1799,7 +1804,7 @@ export function init() {
         }
       })
       //add themeLink to childNodes
-      my_table5.shadowRoot.childNodes[0].insertAdjacentHTML('afterbegin', themeLink)
+      my_table5.shadowRoot.childNodes.appendChild(link)
 
       my_table5.requestUpdate()
     }
