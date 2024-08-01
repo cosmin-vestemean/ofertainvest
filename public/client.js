@@ -1806,7 +1806,8 @@ export function init() {
       })
       //add themeLink to childNodes
       if (link) {
-        my_table5.shadowRoot.childNodes.appendChild(link)
+        //append link to shadowRoot
+        my_table5.shadowRoot.appendChild(link)
         //my_table5.requestUpdate()
       }
     }
