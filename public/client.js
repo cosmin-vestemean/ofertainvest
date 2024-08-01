@@ -250,7 +250,7 @@ export const estimariDisplayMask = {
 
 const delimiter = '~~~~~~~~~~~~~~~'
 
-const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
+const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti', 'business-casual', 'slate', 'solar']
 let selectedTheme = localStorage.getItem('theme') || 'default'
 export let template = document.createElement('template')
 template.id = 'shadowRootTemplate'
