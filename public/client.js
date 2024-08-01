@@ -250,7 +250,7 @@ export const estimariDisplayMask = {
 
 const delimiter = '~~~~~~~~~~~~~~~'
 
-const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
+const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 let selectedTheme = 'yeti'
 export let template = document.createElement('template')
 template.innerHTML = `
@@ -1807,16 +1807,18 @@ export function init() {
         })
       }
     }
-    //add the selected theme
-    let link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = theme + '.css'
-    document.head.appendChild(link)
-    localStorage.setItem('theme', theme)
-    console.log('Theme changed to:', theme)
-    //navbarDropdownMenuLinkThemes caption is the selected theme
-    let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
-    navbarDropdownMenuLinkThemes.textContent = theme
+    if (theme !== 'default') {
+      //add the selected theme
+      let link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = theme + '.css'
+      document.head.appendChild(link)
+      localStorage.setItem('theme', theme)
+      console.log('Theme changed to:', theme)
+      //navbarDropdownMenuLinkThemes caption is the selected theme
+      let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
+      navbarDropdownMenuLinkThemes.textContent = theme
+    }
   }
 
   //zenView
