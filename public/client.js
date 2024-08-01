@@ -1104,7 +1104,8 @@ export function init() {
   //this function executes when window is loaded
   //get theme from local storage and set it
   let theme = localStorage.getItem('theme')
-  changeTheme(theme)
+  if (theme)
+    changeTheme(theme)
   //get excel data from local storage and set it
   let excel_object = localStorage.getItem('excel_object')
   if (excel_object) {
