@@ -222,14 +222,12 @@ export class estimari extends LitElement {
       forward_icon.onclick = function () { };
       btnForward.appendChild(forward_icon);
       buttonsPannel.appendChild(btnForward);
-      //add table to div table-responsive
-      var divResponsive = document.createElement('div');
-      divResponsive.classList.add('table-responsive');
+      //add table
       var table = document.createElement('table');
-      divResponsive.appendChild(table);
       table.classList.add('table');
       table.classList.add('table-sm');
       table.classList.add('table-hover');
+      table.classList.add('table-mobile-responsive');
       table.id = 'table_estimari';
       //font size
       table.style.fontSize = 'small';
@@ -379,7 +377,7 @@ export class estimari extends LitElement {
       });
     }
 
-    return html`${buttonsPannel}${divResponsive}`;
+    return html`${buttonsPannel}${table}`;
 
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white';
