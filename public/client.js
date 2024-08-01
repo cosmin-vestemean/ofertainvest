@@ -1782,7 +1782,7 @@ export function init() {
   //add event listener
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
-    console.log('theme', theme, 'selectedTheme', selectedTheme)
+    console.log('theme', theme, 'selectedTheme', selectedTheme, 'template', template)
     if (theme != selectedTheme) {
       selectedTheme = theme
       changeTheme(theme)
