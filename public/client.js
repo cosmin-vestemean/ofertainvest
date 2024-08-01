@@ -282,6 +282,7 @@ template.innerHTML = `
   }
   input[type="date"][readonly] {
     background-color: #ffffff;
+    color: #f0f0f0;
   }
   input[type="date"][readonly]:hover {
     cursor: not-allowed;
