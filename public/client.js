@@ -1798,7 +1798,8 @@ export function init() {
           child.remove()
         }
       })
-      my_table5.shadowRoot.childNodes.push(themeLink)
+      //add themeLink to childNodes
+      my_table5.shadowRoot.childNodes[0].insertAdjacentHTML('afterbegin', themeLink)
 
       my_table5.requestUpdate()
     }
