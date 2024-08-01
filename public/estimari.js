@@ -379,7 +379,7 @@ export class estimari extends LitElement {
       });
     }
 
-    return html`${buttonsPannel}${table}`;
+    return html`${buttonsPannel}${divResponsive}`;
 
     function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
       let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white';
