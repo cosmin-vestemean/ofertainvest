@@ -263,7 +263,32 @@ template.innerHTML = `
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
   crossorigin="anonymous">
-</script>`
+</script>
+<style>
+  .table-group-divider tbody tr:first-child td {
+    border-top: 0;
+  }
+  .table-group-divider tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .table-group-divider tbody tr td {
+    border-top: 1px solid #dee2e6;
+  }
+  .table-group-divider thead tr th {
+    border-top: 0;
+  }
+  .table-group-divider thead tr th {
+    border-bottom: 0;
+  }
+  input[type="date"][readonly] {
+    color: #ff0000; /* Change this to your desired color */
+    background-color: #f0f0f0; /* Optional: Change the background color */
+  }
+  input[type="date"][readonly]:hover {
+    cursor: not-allowed;
+  }
+</style>`
+    
 
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
