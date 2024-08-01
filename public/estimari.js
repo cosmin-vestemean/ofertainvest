@@ -20,7 +20,7 @@ export class estimari extends LitElement {
     super();
     this.ds = [];
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(this._template.content.cloneNode(true));
 
     console.log('events added to estimari element');
   }

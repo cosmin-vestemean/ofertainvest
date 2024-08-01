@@ -1797,7 +1797,6 @@ export function init() {
           crossorigin="anonymous">
         </script>`
     }
-    console.log('changed template', template)
   })
 
   //set selected theme
