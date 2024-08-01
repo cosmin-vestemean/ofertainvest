@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client";
+import { template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client.js";
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
