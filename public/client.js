@@ -1830,18 +1830,16 @@ export function init() {
         })
       }
     }
-    if (theme !== 'default') {
-      //add the selected theme
-      let link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = theme + '.css'
-      document.head.appendChild(link)
-      localStorage.setItem('theme', theme)
-      console.log('Theme changed to:', theme)
-      //navbarDropdownMenuLinkThemes caption is the selected theme
-      let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
-      navbarDropdownMenuLinkThemes.textContent = theme
-    }
+    //add the selected theme
+    let link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = theme + '.css'
+    document.head.appendChild(link)
+    localStorage.setItem('theme', theme)
+    console.log('Theme changed to:', theme)
+    //navbarDropdownMenuLinkThemes caption is the selected theme
+    let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
+    navbarDropdownMenuLinkThemes.textContent = theme
   }
 
   //zenView
