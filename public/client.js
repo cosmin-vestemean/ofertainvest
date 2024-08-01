@@ -2,7 +2,6 @@ import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/li
 import { estimari } from './estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
-import { Recipe } from './Recipe.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
