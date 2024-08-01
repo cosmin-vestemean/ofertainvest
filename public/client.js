@@ -1797,7 +1797,7 @@ export function init() {
 
   //set selected theme
   let selectedTheme = localStorage.getItem('theme') || 'default'
-  themesUl.textContent = selectedTheme
+  themesUl.selectedIndex = themes.indexOf(selectedTheme)
 
   function changeTheme(theme) {
     //remove all stylesheets with names equal to themes array and add the one with the selected theme
