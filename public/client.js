@@ -251,7 +251,7 @@ export const estimariDisplayMask = {
 const delimiter = '~~~~~~~~~~~~~~~'
 
 const themes = ['cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
-let selectedTheme = 'yeti'
+let selectedTheme = 'cerulean'
 export let template = document.createElement('template')
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -1776,8 +1776,10 @@ export function init() {
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
     console.log('theme', theme)
-    selectedTheme = theme
-    changeTheme(theme)
+    if (theme != selectedTheme) {
+      selectedTheme = theme
+      changeTheme(theme)
+    }
   })
 
   function changeTheme(theme) {
