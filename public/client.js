@@ -1792,18 +1792,14 @@ export function init() {
         themeLink = `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
       }
 
-      my_table5.shadowRoot.children.forEach((child) => {
+      my_table5.shadowRoot.childNodes.forEach((child) => {
         //find id="theme_link" and remove it, then add it again
         if (child.id === 'theme_link') {
           child.remove()
         }
       })
-      my_table5.shadowRoot.children.push(themeLink)
+      my_table5.shadowRoot.childNodes.push(themeLink)
 
-      my_table1.requestUpdate()
-      my_table2.requestUpdate()
-      my_table3.requestUpdate()
-      my_table4.requestUpdate()
       my_table5.requestUpdate()
     }
   })
