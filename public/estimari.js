@@ -222,8 +222,11 @@ export class estimari extends LitElement {
       forward_icon.onclick = function () { };
       btnForward.appendChild(forward_icon);
       buttonsPannel.appendChild(btnForward);
-      //add table
+      //add table to div table-responsive
+      let divResponsive = document.createElement('div');
+      divResponsive.classList.add('table-responsive');
       var table = document.createElement('table');
+      divResponsive.appendChild(table);
       table.classList.add('table');
       table.classList.add('table-sm');
       table.classList.add('table-hover');
