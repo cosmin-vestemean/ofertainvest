@@ -281,8 +281,7 @@ template.innerHTML = `
     border-bottom: 0;
   }
   input[type="date"][readonly] {
-    color: #ff0000; /* Change this to your desired color */
-    background-color: #f0f0f0; /* Optional: Change the background color */
+    background-color: #ffffff;
   }
   input[type="date"][readonly]:hover {
     cursor: not-allowed;
