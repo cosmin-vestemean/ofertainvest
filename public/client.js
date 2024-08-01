@@ -252,10 +252,10 @@ const delimiter = '~~~~~~~~~~~~~~~'
 
 const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 let selectedTheme = localStorage.getItem('theme') || 'default'
-export let template = document.createElement('template')
-template.id = 'shadowRootTemplate'
+export let _template = document.createElement('_template')
+_template.id = 'shadowRoot_template'
 let themeLink = selectedTheme === 'default' ? '' : `<link rel="stylesheet" href="${selectedTheme}.css">`
-template.innerHTML = `
+_template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>${themeLink}
 <script
@@ -1782,13 +1782,13 @@ export function init() {
   //add event listener
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
-    console.log('new theme', theme, 'prior theme', selectedTheme, 'template', template)
+    console.log('new theme', theme, 'prior theme', selectedTheme, '_template', _template)
     if (theme != selectedTheme) {
       selectedTheme = theme
       changeTheme(theme)
       console.log('Theme changed to:', selectedTheme)
       themeLink = selectedTheme === 'default' ? '' : `<link rel="stylesheet" href="${selectedTheme}.css">`
-      template.innerHTML = `
+      _template.innerHTML = `
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>${themeLink}
         <script
@@ -1924,7 +1924,7 @@ class Activity extends LitElement {
     super()
     this.activitate = {}
     this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.shadowRoot.appendChild(_template.content.cloneNode(true))
     //add a listener any cell text change resulting hasChanged = true
     this.shadowRoot.addEventListener('input', function (e) {
       //console.log('input event', e.target)
@@ -3412,7 +3412,7 @@ class Recipe extends LitElement {
     super()
     this.reteta = []
     this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.shadowRoot.appendChild(_template.content.cloneNode(true))
   }
 
   connectedCallback() {

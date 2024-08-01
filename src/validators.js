@@ -12,7 +12,7 @@ const formats = [
   'uri',
   'uri-reference',
   'uuid',
-  'uri-template',
+  'uri-_template',
   'json-pointer',
   'relative-json-pointer',
   'regex'
