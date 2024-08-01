@@ -254,7 +254,7 @@ const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 let selectedTheme = localStorage.getItem('theme') || 'default'
 export let template = document.createElement('template')
 template.id = 'shadowRootTemplate'
-let themeLink = selectedTheme === 'default' ? '' : `<link rel="stylesheet" href="${selectedTheme}.css">`
+let themeLink = selectedTheme === 'default' ? '' : `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>${themeLink}
@@ -1788,14 +1788,7 @@ export function init() {
       changeTheme(theme)
       console.log('Theme changed to:', selectedTheme)
       themeLink = selectedTheme === 'default' ? '' : `<link rel="stylesheet" href="${selectedTheme}.css">`
-      template.innerHTML = `
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>${themeLink}
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-          crossorigin="anonymous">
-        </script>`
+      
         my_table1.requestUpdate()
         my_table2.requestUpdate()
         my_table3.requestUpdate()
