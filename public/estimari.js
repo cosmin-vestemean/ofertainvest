@@ -226,7 +226,6 @@ export class estimari extends LitElement {
       var table = document.createElement('table');
       table.classList.add('table');
       table.classList.add('table-sm');
-      table.classList.add('table-responsive');
       table.classList.add('table-hover');
       table.id = 'table_estimari';
       //font size
