@@ -2813,6 +2813,7 @@ class antemasuratori extends LitElement {
       var table = document.createElement('table')
       table.classList.add('table')
       table.classList.add('table-sm')
+      table.classList.add('table-hover')
       table.classList.add('table-responsive')
       table.id = 'table_antemasuratori'
       //font size
@@ -3205,6 +3206,7 @@ class estimari extends LitElement {
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-responsive')
+      table.classList.add('table-hover')
       table.id = 'table_estimari'
       //font size
       table.style.fontSize = 'small'
