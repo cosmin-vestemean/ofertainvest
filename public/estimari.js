@@ -163,7 +163,9 @@ export class estimari extends LitElement {
             if (estimareIndex > -1 &&
               newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
               newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]) {
-              newTreeAntemasBranch.estimari[estimareIndex] = estimare;
+                if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
+                  newTreeAntemasBranch.estimari[estimareIndex] = estimare;
+                }
             } else {
               //push estimare to newTreeAntemasBranch.estimari
               newTreeAntemasBranch.estimari.push(estimare);
@@ -173,8 +175,9 @@ export class estimari extends LitElement {
             }
           }
         });
-        transformNewTreeIntoEstimariPoolDS(newTree);
-        generateTblRowsFromDsEstimariPool();
+        transformNewTreeIntoEstimariPoolDS(newTree);  //tree to ds_estimari_pool
+        generateTblRowsFromDsEstimariPool();  //ds_estimari_pool to ds_estimari_flat
+        this.ds = ds_estimari_flat; //and back to this.ds
         console.log('ds_estimari_pool after update', ds_estimari_pool);
         console.log('ds_estimari after update', ds_estimari);
         console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd);
