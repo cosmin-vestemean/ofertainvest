@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { estimari } from './estimari.js'
+import { estimari, context } from './estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
 
@@ -1105,15 +1105,13 @@ export function init() {
       }
       //estimari
       if (localStorage.getItem('ds_estimari_pool')) {
-        let my_table5 = document.getElementById('my_table_estimari')
-        my_table5.ds_estimari_pool = JSON.parse(localStorage.getItem('ds_estimari_pool'))
+        context.setDsEstimariPool(JSON.parse(localStorage.getItem('ds_estimari_pool')))
       }
       if (localStorage.getItem('visible_columns')) {
         visible_columns = JSON.parse(localStorage.getItem('visible_columns'))
       }
       if (localStorage.getItem('ds_estimari')) {
-        let my_table5 = document.getElementById('my_table_estimari')
-        my_table5.ds_estimari = JSON.parse(localStorage.getItem('ds_estimari'))
+        context.setDsEstimari(JSON.parse(localStorage.getItem('ds_estimari')))
       }
     }
   }
@@ -1659,8 +1657,8 @@ export function init() {
     //ask user if he wants to recalculate
     let answer = confirm('Regenerez estimarile?')
     if (answer) {
-      my_table5.createNewEstimariPool(newTree)
-      console.log('my_table5.ds_estimari_pool', my_table5.ds_estimari_pool)
+      context.createNewEstimariPool(newTree)
+      console.log('context.getDsEstimariPool', context.getDsEstimariPool())
     }
     btn_estimari.click()
   }
@@ -1687,29 +1685,28 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
-    if (my_table5.ds_estimari_pool.length == 0) {
+    if (context.getDsEstimariPool().length == 0) {
       //trasform newTree in ds_estimari_pool
       if (newTree.length > 0) {
-        my_table5.createNewEstimariPool(newTree)
+        context.createNewEstimariPool(newTree)
       } else {
         console.log('newTree is empty, run Antemasuratori first')
         alert('Genereaza antemasuratorile inainte de a genera estimarile')
       }
     }
-    my_table5.createNewEstimariFlat()
-    //my_table5.ds = ds_estimari_flat
-    addOnChangeEvt(ds_estimari_flat, delimiter, 'my_table_estimari')
-    console.log('my_table5.ds_estimari_pool', my_table5.ds_estimari_pool)
+    context.createNewEstimariFlat()
+    addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
+    console.log('context.getDsEstimariPool', context.getDsEstimariPool())
     console.log('newTree', newTree)
     let selected_options_arr = ierarhii.getValue()
     if (selected_options_arr && selected_options_arr.length > 0) {
-      flatFind(selected_options_arr, my_table5.ds_estimari_flat, delimiter)
+      flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
       my_table5.ds = selected_ds
     } else {
-      my_table5.ds = my_table5.ds_estimari_flat
+      my_table5.ds = context.getDsEstimariFlat()
     }
 
-    console.log('my_table5.ds_estimari_flat', my_table5.ds_estimari_flat)
+    console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
   }
 
   //btn_listaRetete
