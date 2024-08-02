@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { estimari } from './estimari.js'
+import { ds_estimari, ds_estimari_flat, ds_estimari_pool, setNewEstimariPool, createNewEstimariFlat } from './estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
 
@@ -53,16 +53,13 @@ async function connectToS1Service() {
 }
 
 var original_ds = []
-var compacted_ds = []
+//var compacted_ds = []
 var optimal_ds = []
 var recipes_ds = []
 var combinatii_unice = []
 var selected_ds = []
 var ds_instanteRetete = []
 export var ds_antemasuratori = []
-export var ds_estimari_pool = []
-export var ds_estimari_flat = []
-export var ds_estimari = []
 export let newTree = []
 /* var ds_AFL = [
   {
@@ -207,44 +204,6 @@ export const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Cantitate<br>antemasuratori',
     isEnumerable: false
-  }
-}
-
-export const estimariDisplayMask = {
-  DENUMIRE_ARTICOL_OFERTA: {
-    value: 'DENUMIRE_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'Denumire'
-  },
-  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1' },
-  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2' },
-  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3' },
-  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4' },
-  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5' },
-  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6' },
-  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7' },
-  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
-  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
-  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
-  CANTITATE_ARTICOL_OFERTA: {
-    value: 'CANTITATE_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'Cantitate<br>oferta'
-  },
-  CANTITATE_ARTICOL_ANTEMASURATORI: {
-    value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
-    RW: false,
-    visible: true,
-    label: 'Cantitate<br>antemasuratori'
-  },
-  CANTITATE_ARTICOL_ESTIMARI: {
-    value: 'CANTITATE_ARTICOL_ESTIMARI',
-    RW: true,
-    visible: true,
-    label: 'Cantitate<br>estimari'
   }
 }
 
@@ -1699,7 +1658,7 @@ export function init() {
     //ask user if he wants to recalculate
     let answer = confirm('Regenerez estimarile?')
     if (answer) {
-      ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+      setNewEstimariPool(newTree)
       console.log('ds_estimari_pool', ds_estimari_pool)
     }
     btn_estimari.click()
@@ -1730,13 +1689,13 @@ export function init() {
     if (ds_estimari_pool.length == 0) {
       //trasform newTree in ds_estimari_pool
       if (newTree.length > 0) {
-        ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+        setNewEstimariPool(newTree)
       } else {
         console.log('newTree is empty, run Antemasuratori first')
         alert('Genereaza antemasuratorile inainte de a genera estimarile')
       }
     }
-    ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+    createNewEstimariFlat()
     //my_table5.ds = ds_estimari_flat
     addOnChangeEvt(ds_estimari_flat, delimiter, 'my_table_estimari')
     console.log('ds_estimari_pool', ds_estimari_pool)
@@ -2288,190 +2247,6 @@ class Activity extends LitElement {
 }
 
 customElements.define('my-activity', Activity)
-
-export function locateTrInEstimariPool(htmlElement) {
-  //check for undefined, null, empty or NaN
-  if (!htmlElement) {
-    return null
-  }
-  if (!htmlElement.parentElement) {
-    return null
-  }
-
-  let tr = htmlElement.parentElement
-  const positionCoords = tr.id
-  const position = positionCoords.split('@')
-  const instanta = position[0]
-  let ramura = 0
-  let activitateIndex = 0
-  if (position[1].includes('_')) {
-    const s = position[1].split('_')
-    ramura = s[0]
-    activitateIndex = s[1] - 1
-  } else {
-    ramura = position[1]
-  }
-
-  return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
-}
-
-export function generateTblRowsFromDsEstimariPool() {
-  //create table rows instanta by instanta with addTableRow
-  //get instante in ds, then get ramura in instanta and then get activitate in ramura
-  let ds_estimari_flat = []
-  let counter = 0
-  for (let key in ds_estimari_pool) {
-    let instanta = ds_estimari_pool[key]
-    counter++
-    let counter2 = 0
-    for (let k in instanta) {
-      let ramura = instanta[k]
-      counter2++
-      let counter3 = 0
-      for (let i = 0; i < ramura.length; i++) {
-        let o = ramura[i].row_data
-        counter3++
-        let ramura_obj = {
-          instanta: ramura[i].instanta,
-          ramura: ramura[i].ramura,
-          activitateIndex: i,
-          isMain: ramura[i].isMain,
-          counter: counter,
-          counter2: counter2,
-          counter3: counter3
-        }
-        ds_estimari_flat.push({ ...o, ramura: ramura_obj })
-      }
-    }
-  }
-
-  return ds_estimari_flat
-}
-
-export function transformNewTreeIntoEstimariPoolDS(ds) {
-  let ds_e = []
-  let firstLine = ds[0][0].object
-  let maxLevelA = ds[0][0].antemasuratori[0].branch.length
-  //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
-  //adauga la o diferenta de niveluri
-  let keys = Object.keys(firstLine)
-  let maxLevelObject = 0
-  for (let key of keys) {
-    if (key.includes(_nivel_oferta)) {
-      maxLevelObject++
-    }
-  }
-  console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
-  let temp = []
-
-  for (let i = 0; i < ds.length; i++) {
-    let mainExists = false
-
-    for (let j = 0; j < ds[i].length; j++) {
-      let activitate = {}
-      activitate = { ...ds[i][j] }
-      let o = {}
-      o = { ...activitate.object }
-      let antemasuratori = []
-      activitate.antemasuratori.forEach(function (a) {
-        antemasuratori.push({ branch: a.branch, qty: a.qty })
-      })
-      if (activitate.isMain) {
-        mainExists = true
-        //console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
-        for (let k = 0; k < antemasuratori.length; k++) {
-          let branch = antemasuratori[k]
-          let ret_obj = createNewRow(branch, { ...o }, i, j, k, true, maxLevelA, maxLevelObject)
-          if (ret_obj) {
-            temp.push(ret_obj)
-          } else {
-            console.log('createNewRow returned null at ' + i + ' ' + j)
-          }
-        }
-      } else {
-        for (let k = 0; k < antemasuratori.length; k++) {
-          let branch = antemasuratori[k]
-          let ret_obj = createNewRow(branch, { ...o }, i, j, k, false, maxLevelA, maxLevelObject)
-          if (ret_obj) {
-            temp.push(ret_obj)
-          } else {
-            console.log('createNewRow returned null at ' + i + ' ' + j)
-          }
-        }
-      }
-    }
-
-    if (!mainExists) {
-      console.log('Activitatea principala nu a fost gasita pentru instanta ', i)
-    }
-  }
-
-  //sort temp by instanta, ramura
-  temp.sort(function (a, b) {
-    if (a.instanta < b.instanta) {
-      return -1
-    }
-    if (a.instanta > b.instanta) {
-      return 1
-    }
-    if (a.ramura < b.ramura) {
-      return -1
-    }
-    if (a.ramura > b.ramura) {
-      return 1
-    }
-    return 0
-  })
-
-  console.log('temp', temp)
-  //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
-  ds_e = temp.reduce(function (acc, object) {
-    if (!acc[object.instanta]) {
-      acc[object.instanta] = []
-    }
-    acc[object.instanta].push(object)
-    return acc
-  }, {})
-
-  //get rid of temp
-  temp = null
-
-  //and then each instanta reduce by ramura
-  for (let key in ds_e) {
-    ds_e[key] = ds_e[key].reduce(function (acc, object) {
-      if (!acc[object.ramura]) {
-        acc[object.ramura] = []
-      }
-      acc[object.ramura].push(object)
-      return acc
-    }, {})
-  }
-
-  //console.log('ds_e', ds_e)
-  return ds_e
-}
-
-function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObject) {
-  //adauga la o niveluri noi
-  for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
-    o[_nivel_oferta + i] = a.branch[i - 1]
-  }
-  o[_cantitate_antemasuratori] = a.qty
-  o[_cantitate_estimari] = 0
-  o[_start_date] = ''
-  o[_end_date] = ''
-  o.ROW_SELECTED = true
-  //create main activity row
-  //addTableRow(i, k, counter, o)
-  return {
-    instanta: i,
-    ramura: k,
-    activitate: indexActivit,
-    denumire: o.DENUMIRE_ARTICOL_OFERTA,
-    row_data: o,
-    isMain: isMain
-  }
-}
 
 function compareWBS(a, b) {
   const aParts = a.WBS.split('.').map(Number)

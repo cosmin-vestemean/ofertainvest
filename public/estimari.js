@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, generateTblRowsFromDsEstimariPool, transformNewTreeIntoEstimariPoolDS, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client.js";
+import { template, _cantitate_estimari, _cantitate_antemasuratori, newTree, _start_date, _end_date, theadIsSet } from "./client.js";
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -12,7 +12,48 @@ export class estimari extends LitElement {
   //Arr2 contains the following keys: branch, qty
   //every row of the table has two more columns: start date and end date with calendar icons
   static properties = {
-    ds: { type: Array }
+    ds: { type: Array },
+    ds_estimari_pool: { type: Array },
+    ds_estimari_flat: { type: Array },
+    ds_estimari: { type: Array }
+  };
+
+  _estimariDisplayMask = {
+    DENUMIRE_ARTICOL_OFERTA: {
+      value: 'DENUMIRE_ARTICOL_OFERTA',
+      RW: false,
+      visible: true,
+      label: 'Denumire'
+    },
+    NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1' },
+    NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2' },
+    NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3' },
+    NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4' },
+    NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5' },
+    NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6' },
+    NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7' },
+    NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
+    NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
+    NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
+    UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+    CANTITATE_ARTICOL_OFERTA: {
+      value: 'CANTITATE_ARTICOL_OFERTA',
+      RW: false,
+      visible: true,
+      label: 'Cantitate<br>oferta'
+    },
+    CANTITATE_ARTICOL_ANTEMASURATORI: {
+      value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
+      RW: false,
+      visible: true,
+      label: 'Cantitate<br>antemasuratori'
+    },
+    CANTITATE_ARTICOL_ESTIMARI: {
+      value: 'CANTITATE_ARTICOL_ESTIMARI',
+      RW: true,
+      visible: true,
+      label: 'Cantitate<br>estimari'
+    }
   };
 
   constructor() {
@@ -20,6 +61,9 @@ export class estimari extends LitElement {
     this.ds = [];
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.ds_estimari_pool = [];
+    this.ds_estimari_flat = [];
+    this.ds_estimari = [];
 
     console.log('events added to estimari element');
   }
@@ -118,8 +162,8 @@ export class estimari extends LitElement {
       save_icon.style.cursor = 'pointer';
       save_icon.style.marginLeft = '5px';
       save_icon.onclick = () => {
-        //filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-        const ds_estimari_flat_filterd = ds_estimari_flat.filter(
+        //filter this.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
+        const ds_estimari_flat_filterd = this.ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         );
         //this.ds = ds_estimari_flat_filterd;
@@ -128,18 +172,18 @@ export class estimari extends LitElement {
         save_icon.classList.add('text-success');
         //pseudo code
         //1. save ds_estimari_pool to local storage
-        //2. filter ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-        //3. push ds_estimari_flat_filterd to ds_estimari as an objectwith keys datetime, ds_estimari_flat
+        //2. filter this.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
+        //3. push ds_estimari_flat_filterd to ds_estimari as an objectwith keys datetime, this.ds_estimari_flat
         //4. save ds_estimari to local storage
-        //5. update newTree with ds_estimari_flat
+        //5. update newTree with this.ds_estimari_flat
         //6. save newTree to local storage
         //save ds_estimari_pool to local storage
-        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
-        //push ds_estimari_flat to ds_estimari as an object with keys datetime, ds_estimari_flat
+        localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
+        //push this.ds_estimari_flat to ds_estimari as an object with keys datetime, this.ds_estimari_flat
         let dt = new Date();
-        //TODO: push ds_estimari_flat_filterd to ds_estimari as an object with keys datetime, ds_estimari_flat
+        //TODO: push ds_estimari_flat_filterd to ds_estimari as an object with keys datetime, this.ds_estimari_flat
         //but only if ds_estimari_flat_filterd is not empty and does not exist in ds_estimari
-        //update newTree with ds_estimari_flat
+        //update newTree with this.ds_estimari_flat
         ds_estimari_flat_filterd.forEach(function (object) {
           let refInstanta = object.ramura.instanta;
           let refActivitate = object.ramura.activitateIndex;
@@ -170,16 +214,16 @@ export class estimari extends LitElement {
               //push estimare to newTreeAntemasBranch.estimari
               newTreeAntemasBranch.estimari.push(estimare);
               object.ramura.estimareIndex = newTreeAntemasBranch.estimari.length - 1;
-              ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
+              this.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
                 newTreeAntemasBranch.estimari.length - 1;
             }
           }
         });
-        ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree);  
-        ds_estimari_flat = generateTblRowsFromDsEstimariPool();
-        this.ds = ds_estimari_flat;
-        console.log('ds_estimari_pool after update', ds_estimari_pool);
-        console.log('ds_estimari after update', ds_estimari);
+        this.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree);  
+        this.ds_estimari_flat = generateTblRowsFromDsEstimariPool();
+        this.ds = this.ds_estimari_flat;
+        console.log('this.ds_estimari_pool after update', this.ds_estimari_pool);
+        console.log('this.ds_estimari after update', this.ds_estimari);
         console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd);
         console.log('newTree after update with estimari', newTree);
       };
@@ -286,17 +330,17 @@ export class estimari extends LitElement {
         th.scope = 'col';
         tr.appendChild(th);
         let firstLine = this.ds[0];
-        for (let key in estimariDisplayMask) {
-          //check key vs estimariDisplayMask
-          //first check if key exists in estimariDisplayMask
+        for (let key in this.this._estimariDisplayMask) {
+          //check key vs this._estimariDisplayMask
+          //first check if key exists in this._estimariDisplayMask
           if (Object.keys(firstLine).includes(key)) {
             //check if visible
-            if (estimariDisplayMask[key].visible) {
+            if (this._estimariDisplayMask[key].visible) {
               let th = document.createElement('th');
               th.scope = 'col';
               th.style.writingMode = 'vertical-rl';
               th.style.rotate = '180deg';
-              th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key;
+              th.innerHTML = this._estimariDisplayMask[key].label ? this._estimariDisplayMask[key].label : key;
               tr.appendChild(th);
             }
           }
@@ -322,14 +366,14 @@ export class estimari extends LitElement {
             .getElementsByClassName('start_date');
           for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = input1.value;
-            //change ds_estimari_pool
+            //change this.ds_estimari_pool
             let position = locateTrInEstimariPool(inputs[i].parentElement);
             let instanta = position.instanta;
             let ramura = position.ramura;
             let activitateIndex = position.activitateIndex;
-            ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value;
+            this.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value;
           }
-          localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
+          localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
         };
         th.appendChild(input1);
         tr.appendChild(th);
@@ -353,14 +397,14 @@ export class estimari extends LitElement {
             .getElementsByClassName('end_date');
           for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = input2.value;
-            //change ds_estimari_pool
+            //change this.ds_estimari_pool
             let position = locateTrInEstimariPool(inputs[i].parentElement);
             let instanta = position.instanta;
             let ramura = position.ramura;
             let activitateIndex = position.activitateIndex;
-            ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value;
+            this.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value;
           }
-          localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
+          localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
         };
         th.appendChild(input2);
         tr.appendChild(th);
@@ -411,13 +455,13 @@ export class estimari extends LitElement {
       checkbox.classList.add('form-check-input', 'align-middle');
       checkbox.checked = o['ROW_SELECTED'];
       checkbox.onchange = function () {
-        //change ds_estimari_pool
+        //change this.ds_estimari_pool
         let position = locateTrInEstimariPool(checkbox.parentElement);
         let instanta = position.instanta;
         let ramura = position.ramura;
         let activitateIndex = position.activitateIndex;
-        ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked;
-        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
+        this.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked;
+        localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
       };
       td.appendChild(checkbox);
       tr.appendChild(td);
@@ -465,17 +509,17 @@ export class estimari extends LitElement {
       }
       tr.appendChild(td);
 
-      //add columns based on estimariDisplayMask
-      for (var key in estimariDisplayMask) {
-        //check key vs estimariDisplayMask
-        //first check if key exists in estimariDisplayMask
+      //add columns based on this._estimariDisplayMask
+      for (var key in this._estimariDisplayMask) {
+        //check key vs this._estimariDisplayMask
+        //first check if key exists in this._estimariDisplayMask
         if (Object.keys(o).includes(key)) {
           //check if visible
-          if (estimariDisplayMask[key].visible) {
+          if (this._estimariDisplayMask[key].visible) {
             let td = document.createElement('td');
             td.innerHTML = o[key] || '';
             //contenteditable if RW
-            if (estimariDisplayMask[key].RW) {
+            if (this._estimariDisplayMask[key].RW) {
               td.contentEditable = true;
             }
 
@@ -498,10 +542,10 @@ export class estimari extends LitElement {
                 let instanta = position.instanta;
                 let ramura = position.ramura;
                 let activitateIndex = position.activitateIndex;
-                ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
+                this.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
                   e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
                 );
-                localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
+                localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
               }
             });
 
@@ -569,13 +613,13 @@ export class estimari extends LitElement {
       //readonly
       input1.readOnly = true;
       input1.addEventListener('change', function () {
-        //update ds_estimari_pool and newTree
+        //update this.ds_estimari_pool and newTree
         let position = locateTrInEstimariPool(input1.parentElement);
         let instanta = position.instanta;
         let ramura = position.ramura;
         let activitateIndex = position.activitateIndex;
-        ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value;
-        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
+        this.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value;
+        localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
         //TODO:newTree
       });
       td.appendChild(input1);
@@ -590,16 +634,208 @@ export class estimari extends LitElement {
       //readonly
       input2.readOnly = true;
       input2.addEventListener('change', function () {
-        //update ds_estimari_pool and newTree
+        //update this.ds_estimari_pool and newTree
         let position = locateTrInEstimariPool(input2.parentElement);
         let instanta = position.instanta;
         let ramura = position.ramura;
         let activitateIndex = position.activitateIndex;
-        ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value;
-        localStorage.setItem('ds_estimari_pool', JSON.stringify(ds_estimari_pool));
+        this.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value;
+        localStorage.setItem('this.ds_estimari_pool', JSON.stringify(this.ds_estimari_pool));
       });
       td.appendChild(input2);
       tr.appendChild(td);
     }
   }
+}
+
+function locateTrInEstimariPool(htmlElement) {
+  //check for undefined, null, empty or NaN
+  if (!htmlElement) {
+    return null
+  }
+  if (!htmlElement.parentElement) {
+    return null
+  }
+
+  let tr = htmlElement.parentElement
+  const positionCoords = tr.id
+  const position = positionCoords.split('@')
+  const instanta = position[0]
+  let ramura = 0
+  let activitateIndex = 0
+  if (position[1].includes('_')) {
+    const s = position[1].split('_')
+    ramura = s[0]
+    activitateIndex = s[1] - 1
+  } else {
+    ramura = position[1]
+  }
+
+  return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
+}
+
+function generateTblRowsFromDsEstimariPool() {
+  //create table rows instanta by instanta with addTableRow
+  //get instante in ds, then get ramura in instanta and then get activitate in ramura
+  let ds = []
+  let counter = 0
+  for (let key in this.ds_estimari_pool) {
+    let instanta = this.ds_estimari_pool[key]
+    counter++
+    let counter2 = 0
+    for (let k in instanta) {
+      let ramura = instanta[k]
+      counter2++
+      let counter3 = 0
+      for (let i = 0; i < ramura.length; i++) {
+        let o = ramura[i].row_data
+        counter3++
+        let ramura_obj = {
+          instanta: ramura[i].instanta,
+          ramura: ramura[i].ramura,
+          activitateIndex: i,
+          isMain: ramura[i].isMain,
+          counter: counter,
+          counter2: counter2,
+          counter3: counter3
+        }
+        ds.push({ ...o, ramura: ramura_obj })
+      }
+    }
+  }
+
+  return ds
+}
+
+function transformNewTreeIntoEstimariPoolDS(ds) {
+  let ds_e = []
+  let firstLine = ds[0][0].object
+  let maxLevelA = ds[0][0].antemasuratori[0].branch.length
+  //gaseste nivelul maxim din o; adica numara cate _nivel_oferta sunt in o
+  //adauga la o diferenta de niveluri
+  let keys = Object.keys(firstLine)
+  let maxLevelObject = 0
+  for (let key of keys) {
+    if (key.includes(_nivel_oferta)) {
+      maxLevelObject++
+    }
+  }
+  console.log('maxLevelA', maxLevelA, 'maxLevelObject', maxLevelObject)
+  let temp = []
+
+  for (let i = 0; i < ds.length; i++) {
+    let mainExists = false
+
+    for (let j = 0; j < ds[i].length; j++) {
+      let activitate = {}
+      activitate = { ...ds[i][j] }
+      let o = {}
+      o = { ...activitate.object }
+      let antemasuratori = []
+      activitate.antemasuratori.forEach(function (a) {
+        antemasuratori.push({ branch: a.branch, qty: a.qty })
+      })
+      if (activitate.isMain) {
+        mainExists = true
+        //console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
+        for (let k = 0; k < antemasuratori.length; k++) {
+          let branch = antemasuratori[k]
+          let ret_obj = createNewRow(branch, { ...o }, i, j, k, true, maxLevelA, maxLevelObject)
+          if (ret_obj) {
+            temp.push(ret_obj)
+          } else {
+            console.log('createNewRow returned null at ' + i + ' ' + j)
+          }
+        }
+      } else {
+        for (let k = 0; k < antemasuratori.length; k++) {
+          let branch = antemasuratori[k]
+          let ret_obj = createNewRow(branch, { ...o }, i, j, k, false, maxLevelA, maxLevelObject)
+          if (ret_obj) {
+            temp.push(ret_obj)
+          } else {
+            console.log('createNewRow returned null at ' + i + ' ' + j)
+          }
+        }
+      }
+    }
+
+    if (!mainExists) {
+      console.log('Activitatea principala nu a fost gasita pentru instanta ', i)
+    }
+  }
+
+  //sort temp by instanta, ramura
+  temp.sort(function (a, b) {
+    if (a.instanta < b.instanta) {
+      return -1
+    }
+    if (a.instanta > b.instanta) {
+      return 1
+    }
+    if (a.ramura < b.ramura) {
+      return -1
+    }
+    if (a.ramura > b.ramura) {
+      return 1
+    }
+    return 0
+  })
+
+  console.log('temp', temp)
+  //recreate dataset but grouped by instanta and ramura in own object; above is an example of dataset temp
+  ds_e = temp.reduce(function (acc, object) {
+    if (!acc[object.instanta]) {
+      acc[object.instanta] = []
+    }
+    acc[object.instanta].push(object)
+    return acc
+  }, {})
+
+  //get rid of temp
+  temp = null
+
+  //and then each instanta reduce by ramura
+  for (let key in ds_e) {
+    ds_e[key] = ds_e[key].reduce(function (acc, object) {
+      if (!acc[object.ramura]) {
+        acc[object.ramura] = []
+      }
+      acc[object.ramura].push(object)
+      return acc
+    }, {})
+  }
+
+  //console.log('ds_e', ds_e)
+  return ds_e
+}
+
+function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObject) {
+  //adauga la o niveluri noi
+  for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
+    o[_nivel_oferta + i] = a.branch[i - 1]
+  }
+  o[_cantitate_antemasuratori] = a.qty
+  o[_cantitate_estimari] = 0
+  o[_start_date] = ''
+  o[_end_date] = ''
+  o.ROW_SELECTED = true
+  //create main activity row
+  //addTableRow(i, k, counter, o)
+  return {
+    instanta: i,
+    ramura: k,
+    activitate: indexActivit,
+    denumire: o.DENUMIRE_ARTICOL_OFERTA,
+    row_data: o,
+    isMain: isMain
+  }
+}
+
+export function setNewEstimariPool(newTree) {
+  ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+}
+
+export function createNewEstimariFlat() {
+  ds_estimari_flat = generateTblRowsFromDsEstimariPool()
 }
