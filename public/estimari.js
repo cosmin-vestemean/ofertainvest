@@ -663,16 +663,16 @@ export class estimari extends LitElement {
         let counter3 = ramura.counter3
         if (isMain) {
           //add main activity row
-          this.addTableRow(instanta, r, counter, counter2, counter3, o, true)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true)
         }
-        this.addTableRow(instanta, r, counter, counter2, counter3, o, false)
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false)
       }, this)
     }
 
     return html`${buttonsPannel}${table}`
   }
 
-  addTableRow(i, k, counter, counter2, counter3, o, isMain) {
+  addTableRow(tbody, i, k, counter, counter2, counter3, o, isMain) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
