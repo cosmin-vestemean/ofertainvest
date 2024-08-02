@@ -2315,7 +2315,7 @@ export function locateTrInEstimariPool(htmlElement) {
   return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
 }
 
-function generateTblRowsFromDsEstimariPool() {
+export function generateTblRowsFromDsEstimariPool() {
   //create table rows instanta by instanta with addTableRow
   //get instante in ds, then get ramura in instanta and then get activitate in ramura
   let ds_estimari_flat = []
@@ -2348,7 +2348,7 @@ function generateTblRowsFromDsEstimariPool() {
   return ds_estimari_flat
 }
 
-function transformNewTreeIntoEstimariPoolDS(ds) {
+export function transformNewTreeIntoEstimariPoolDS(ds) {
   let ds_e = []
   let firstLine = ds[0][0].object
   let maxLevelA = ds[0][0].antemasuratori[0].branch.length

@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client.js";
+import { template, _cantitate_estimari, _cantitate_antemasuratori, ds_estimari_flat, generateTblRowsFromDsEstimariPool, transformNewTreeIntoEstimariPoolDS, ds_estimari_pool, newTree, _start_date, _end_date, ds_estimari, theadIsSet, estimariDisplayMask, locateTrInEstimariPool } from "./client.js";
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -122,8 +122,7 @@ export class estimari extends LitElement {
         const ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         );
-        ds_estimari_flat = ds_estimari_flat_filterd;
-        this.ds = ds_estimari_flat;
+        //this.ds = ds_estimari_flat_filterd;
         //change color to green
         save_icon.classList.remove('text-danger');
         save_icon.classList.add('text-success');
@@ -174,6 +173,8 @@ export class estimari extends LitElement {
             }
           }
         });
+        transformNewTreeIntoEstimariPoolDS();
+        generateTblRowsFromDsEstimariPool();
         console.log('ds_estimari_pool after update', ds_estimari_pool);
         console.log('ds_estimari after update', ds_estimari);
         console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd);
