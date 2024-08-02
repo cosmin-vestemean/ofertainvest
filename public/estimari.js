@@ -239,6 +239,262 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
   }
 }
 
+function addTableRow(i, k, counter, counter2, counter3, o, isMain) {
+  let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
+  let tr = document.createElement('tr')
+  let id = ''
+  if (isMain) {
+    id = i + '@' + k
+  } else {
+    id = i + '@' + k + '_' + counter3
+  }
+  tr.id = id
+  if (isMain) {
+    tr.classList.add('table-primary')
+  } else {
+    tr.classList.add(bg_color)
+  }
+  tbody.appendChild(tr)
+  //create a checkbox for main activity
+  let td = document.createElement('td')
+  td.classList.add('ROW_SELECTED')
+  //create a checkbox
+  let checkbox = document.createElement('input')
+  checkbox.type = 'checkbox'
+  checkbox.id = 'checkbox-' + id
+  checkbox.classList.add('form-check-input', 'align-middle')
+  checkbox.checked = o['ROW_SELECTED']
+  checkbox.onchange = function () {
+    //change context.ds_estimari_pool
+    let position = locateTrInEstimariPool(checkbox.parentElement)
+    let instanta = position.instanta
+    let ramura = position.ramura
+    let activitateIndex = position.activitateIndex
+    context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked
+    localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+  }
+  td.appendChild(checkbox)
+  tr.appendChild(td)
+  td = document.createElement('td')
+  if (isMain) {
+    //add plus/minus icon
+    let plus_icon = document.createElement('i')
+    plus_icon.classList.add('bi', 'bi-dash-square', 'fs-6', 'align-middle')
+    plus_icon.style.cursor = 'pointer'
+    plus_icon.onclick = function () {
+      //show hide all children, identified by same id and a "_some_number"
+      var children = document
+        .getElementById('my_table_estimari')
+        .renderRoot.getElementById('tbody_estimari')
+        .querySelectorAll('[id^="' + i + '@' + k + '_"]')
+      for (let i = 0; i < children.length; i++) {
+        if (children[i].classList.contains('d-none')) {
+          children[i].classList.remove('d-none')
+        } else {
+          children[i].classList.add('d-none')
+        }
+      }
+      //change icon
+      if (plus_icon.classList.contains('bi-dash-square')) {
+        plus_icon.classList.remove('bi-dash-square')
+        plus_icon.classList.add('bi-plus-square')
+      } else {
+        plus_icon.classList.remove('bi-plus-square')
+        plus_icon.classList.add('bi-dash-square')
+      }
+    }
+    td.appendChild(plus_icon)
+  } else {
+    td.innerHTML = ''
+  }
+  tr.appendChild(td)
+
+  //add counter
+  td = document.createElement('td')
+  td.classList.add('align-middle')
+  if (!isMain) {
+    td.innerHTML = counter + '.' + counter2 + '.' + counter3
+  } else {
+    td.innerHTML = counter + '.' + counter2
+  }
+  tr.appendChild(td)
+
+  //add columns based on estimariDisplayMask
+  for (var key in estimariDisplayMask) {
+    //check key vs estimariDisplayMask
+    //first check if key exists in estimariDisplayMask
+    if (Object.keys(o).includes(key)) {
+      //check if visible
+      if (estimariDisplayMask[key].visible) {
+        let td = document.createElement('td')
+        td.innerHTML = o[key] || ''
+        //contenteditable if RW
+        if (estimariDisplayMask[key].RW) {
+          td.contentEditable = true
+        }
+
+        if (key == _cantitate_estimari) {
+          td.style.fontWeight = 'bold'
+        }
+
+        td.classList.add(key)
+
+        //add event listener for input for td class cantitate_estimari
+        td.addEventListener('focusout', function (e) {
+          // Get cell with class _cantitate_antemasuratori
+          let cantitateAntemasuratoriCell =
+            e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0]
+          let cantitateAntemasuratori = cantitateAntemasuratoriCell.textContent.trim()
+          let diff = parseFloat(cantitateAntemasuratori) - parseFloat(e.target.textContent)
+          cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red'
+          var tagName = e.target.tagName
+          if (tagName === 'TD') {
+            let position = locateTrInEstimariPool(e.target)
+            let instanta = position.instanta
+            let ramura = position.ramura
+            let activitateIndex = position.activitateIndex
+            context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
+              e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
+            )
+            localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+          }
+        })
+
+        //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
+        td.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            var index = Array.from(
+              document
+                .getElementById('my_table_estimari')
+                .shadowRoot.getElementById('tbody_estimari')
+                .querySelectorAll('.' + _cantitate_estimari)
+            ).indexOf(e.target)
+            if (index > 0) {
+              var tds = document
+                .getElementById('my_table_estimari')
+                .shadowRoot.getElementById('tbody_estimari')
+                .querySelectorAll('.' + _cantitate_estimari)
+              tds[index - 1].focus()
+            }
+          }
+          if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            var index = Array.from(
+              document
+                .getElementById('my_table_estimari')
+                .shadowRoot.getElementById('tbody_estimari')
+                .querySelectorAll('.' + _cantitate_estimari)
+            ).indexOf(e.target)
+            if (index < e.target.parentElement.parentElement.children.length - 1) {
+              var tds = document
+                .getElementById('my_table_estimari')
+                .shadowRoot.getElementById('tbody_estimari')
+                .querySelectorAll('.' + _cantitate_estimari)
+              tds[index + 1].focus()
+            }
+          }
+          if (e.key == 'Enter') {
+            e.preventDefault()
+            e.target.blur()
+          }
+        })
+
+        //select all inner html in cell on focusin
+        td.addEventListener('focusin', function (e) {
+          var range = document.createRange()
+          range.selectNodeContents(e.target)
+          var sel = window.getSelection()
+          sel.removeAllRanges()
+          sel.addRange(range)
+        })
+
+        tr.appendChild(td)
+      }
+    }
+  }
+
+  //add start date and end date
+  td = document.createElement('td')
+  //create type="date" input
+  let input1 = document.createElement('input')
+  input1.type = 'date'
+  input1.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
+  input1.value = o[_start_date] || ''
+  //readonly
+  input1.readOnly = true
+  input1.addEventListener('change', function () {
+    //update context.ds_estimari_pool and newTree
+    let position = locateTrInEstimariPool(input1.parentElement)
+    let instanta = position.instanta
+    let ramura = position.ramura
+    let activitateIndex = position.activitateIndex
+    context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value
+    localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+    //TODO:newTree
+  })
+  td.appendChild(input1)
+  tr.appendChild(td)
+
+  td = document.createElement('td')
+  //create type="date" input
+  let input2 = document.createElement('input')
+  input2.type = 'date'
+  input2.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date')
+  input2.value = o[_end_date] || ''
+  //readonly
+  input2.readOnly = true
+  input2.addEventListener('change', function () {
+    //update context.ds_estimari_pool and newTree
+    let position = locateTrInEstimariPool(input2.parentElement)
+    let instanta = position.instanta
+    let ramura = position.ramura
+    let activitateIndex = position.activitateIndex
+    context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value
+    localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+  })
+  td.appendChild(input2)
+  tr.appendChild(td)
+}
+
+const estimariDisplayMask = {
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Denumire'
+  },
+  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1' },
+  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2' },
+  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3' },
+  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4' },
+  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5' },
+  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6' },
+  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7' },
+  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
+  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
+  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate<br>oferta'
+  },
+  CANTITATE_ARTICOL_ANTEMASURATORI: {
+    value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
+    RW: false,
+    visible: true,
+    label: 'Cantitate<br>antemasuratori'
+  },
+  CANTITATE_ARTICOL_ESTIMARI: {
+    value: 'CANTITATE_ARTICOL_ESTIMARI',
+    RW: true,
+    visible: true,
+    label: 'Cantitate<br>estimari'
+  }
+}
+
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
   //newTree is an array Arr containing arrays Arr[i]; each Arr[i] contains arrays: one is object ,let's call it Arr1 and one is antemasuratori (Arr2)
@@ -251,44 +507,6 @@ export class estimari extends LitElement {
   //every row of the table has two more columns: start date and end date with calendar icons
   static properties = {
     ds: { type: Array }
-  }
-
-  _estimariDisplayMask = {
-    DENUMIRE_ARTICOL_OFERTA: {
-      value: 'DENUMIRE_ARTICOL_OFERTA',
-      RW: false,
-      visible: true,
-      label: 'Denumire'
-    },
-    NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1' },
-    NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2' },
-    NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3' },
-    NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4' },
-    NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5' },
-    NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6' },
-    NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7' },
-    NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
-    NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
-    NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
-    UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
-    CANTITATE_ARTICOL_OFERTA: {
-      value: 'CANTITATE_ARTICOL_OFERTA',
-      RW: false,
-      visible: true,
-      label: 'Cantitate<br>oferta'
-    },
-    CANTITATE_ARTICOL_ANTEMASURATORI: {
-      value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
-      RW: false,
-      visible: true,
-      label: 'Cantitate<br>antemasuratori'
-    },
-    CANTITATE_ARTICOL_ESTIMARI: {
-      value: 'CANTITATE_ARTICOL_ESTIMARI',
-      RW: true,
-      visible: true,
-      label: 'Cantitate<br>estimari'
-    }
   }
 
   constructor() {
@@ -572,17 +790,17 @@ export class estimari extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         let firstLine = this.ds[0]
-        for (let key in this._estimariDisplayMask) {
-          //check key vs this._estimariDisplayMask
-          //first check if key exists in this._estimariDisplayMask
+        for (let key in estimariDisplayMask) {
+          //check key vs estimariDisplayMask
+          //first check if key exists in estimariDisplayMask
           if (Object.keys(firstLine).includes(key)) {
             //check if visible
-            if (this._estimariDisplayMask[key].visible) {
+            if (estimariDisplayMask[key].visible) {
               let th = document.createElement('th')
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
-              th.innerHTML = this._estimariDisplayMask[key].label ? this._estimariDisplayMask[key].label : key
+              th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
               tr.appendChild(th)
             }
           }
@@ -663,230 +881,12 @@ export class estimari extends LitElement {
         let counter3 = ramura.counter3
         if (isMain) {
           //add main activity row
-          this.addTableRow(instanta, r, counter, counter2, counter3, o, true)
+          addTableRow(instanta, r, counter, counter2, counter3, o, true)
         }
-        this.addTableRow(instanta, r, counter, counter2, counter3, o, false)
+        addTableRow(instanta, r, counter, counter2, counter3, o, false)
       })
     }
 
     return html`${buttonsPannel}${table}`
-  }
-
-  addTableRow(i, k, counter, counter2, counter3, o, isMain) {
-    let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
-    let tr = document.createElement('tr')
-    let id = ''
-    if (isMain) {
-      id = i + '@' + k
-    } else {
-      id = i + '@' + k + '_' + counter3
-    }
-    tr.id = id
-    if (isMain) {
-      tr.classList.add('table-primary')
-    } else {
-      tr.classList.add(bg_color)
-    }
-    tbody.appendChild(tr)
-    //create a checkbox for main activity
-    let td = document.createElement('td')
-    td.classList.add('ROW_SELECTED')
-    //create a checkbox
-    let checkbox = document.createElement('input')
-    checkbox.type = 'checkbox'
-    checkbox.id = 'checkbox-' + id
-    checkbox.classList.add('form-check-input', 'align-middle')
-    checkbox.checked = o['ROW_SELECTED']
-    checkbox.onchange = function () {
-      //change context.ds_estimari_pool
-      let position = locateTrInEstimariPool(checkbox.parentElement)
-      let instanta = position.instanta
-      let ramura = position.ramura
-      let activitateIndex = position.activitateIndex
-      context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked
-      localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-    }
-    td.appendChild(checkbox)
-    tr.appendChild(td)
-    td = document.createElement('td')
-    if (isMain) {
-      //add plus/minus icon
-      let plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi', 'bi-dash-square', 'fs-6', 'align-middle')
-      plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = function () {
-        //show hide all children, identified by same id and a "_some_number"
-        var children = document
-          .getElementById('my_table_estimari')
-          .renderRoot.getElementById('tbody_estimari')
-          .querySelectorAll('[id^="' + i + '@' + k + '_"]')
-        for (let i = 0; i < children.length; i++) {
-          if (children[i].classList.contains('d-none')) {
-            children[i].classList.remove('d-none')
-          } else {
-            children[i].classList.add('d-none')
-          }
-        }
-        //change icon
-        if (plus_icon.classList.contains('bi-dash-square')) {
-          plus_icon.classList.remove('bi-dash-square')
-          plus_icon.classList.add('bi-plus-square')
-        } else {
-          plus_icon.classList.remove('bi-plus-square')
-          plus_icon.classList.add('bi-dash-square')
-        }
-      }
-      td.appendChild(plus_icon)
-    } else {
-      td.innerHTML = ''
-    }
-    tr.appendChild(td)
-
-    //add counter
-    td = document.createElement('td')
-    td.classList.add('align-middle')
-    if (!isMain) {
-      td.innerHTML = counter + '.' + counter2 + '.' + counter3
-    } else {
-      td.innerHTML = counter + '.' + counter2
-    }
-    tr.appendChild(td)
-
-    //add columns based on this._estimariDisplayMask
-    for (var key in this._estimariDisplayMask) {
-      //check key vs this._estimariDisplayMask
-      //first check if key exists in this._estimariDisplayMask
-      if (Object.keys(o).includes(key)) {
-        //check if visible
-        if (this._estimariDisplayMask[key].visible) {
-          let td = document.createElement('td')
-          td.innerHTML = o[key] || ''
-          //contenteditable if RW
-          if (this._estimariDisplayMask[key].RW) {
-            td.contentEditable = true
-          }
-
-          if (key == _cantitate_estimari) {
-            td.style.fontWeight = 'bold'
-          }
-
-          td.classList.add(key)
-
-          //add event listener for input for td class cantitate_estimari
-          td.addEventListener('focusout', function (e) {
-            // Get cell with class _cantitate_antemasuratori
-            let cantitateAntemasuratoriCell =
-              e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0]
-            let cantitateAntemasuratori = cantitateAntemasuratoriCell.textContent.trim()
-            let diff = parseFloat(cantitateAntemasuratori) - parseFloat(e.target.textContent)
-            cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red'
-            var tagName = e.target.tagName
-            if (tagName === 'TD') {
-              let position = locateTrInEstimariPool(e.target)
-              let instanta = position.instanta
-              let ramura = position.ramura
-              let activitateIndex = position.activitateIndex
-              context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
-                e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
-              )
-              localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-            }
-          })
-
-          //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
-          td.addEventListener('keydown', function (e) {
-            if (e.key === 'ArrowUp') {
-              e.preventDefault()
-              var index = Array.from(
-                document
-                  .getElementById('my_table_estimari')
-                  .shadowRoot.getElementById('tbody_estimari')
-                  .querySelectorAll('.' + _cantitate_estimari)
-              ).indexOf(e.target)
-              if (index > 0) {
-                var tds = document
-                  .getElementById('my_table_estimari')
-                  .shadowRoot.getElementById('tbody_estimari')
-                  .querySelectorAll('.' + _cantitate_estimari)
-                tds[index - 1].focus()
-              }
-            }
-            if (e.key === 'ArrowDown') {
-              e.preventDefault()
-              var index = Array.from(
-                document
-                  .getElementById('my_table_estimari')
-                  .shadowRoot.getElementById('tbody_estimari')
-                  .querySelectorAll('.' + _cantitate_estimari)
-              ).indexOf(e.target)
-              if (index < e.target.parentElement.parentElement.children.length - 1) {
-                var tds = document
-                  .getElementById('my_table_estimari')
-                  .shadowRoot.getElementById('tbody_estimari')
-                  .querySelectorAll('.' + _cantitate_estimari)
-                tds[index + 1].focus()
-              }
-            }
-            if (e.key == 'Enter') {
-              e.preventDefault()
-              e.target.blur()
-            }
-          })
-
-          //select all inner html in cell on focusin
-          td.addEventListener('focusin', function (e) {
-            var range = document.createRange()
-            range.selectNodeContents(e.target)
-            var sel = window.getSelection()
-            sel.removeAllRanges()
-            sel.addRange(range)
-          })
-
-          tr.appendChild(td)
-        }
-      }
-    }
-
-    //add start date and end date
-    td = document.createElement('td')
-    //create type="date" input
-    let input1 = document.createElement('input')
-    input1.type = 'date'
-    input1.classList.add('form-control', 'form-control-sm', 'rounded', 'start_date')
-    input1.value = o[_start_date] || ''
-    //readonly
-    input1.readOnly = true
-    input1.addEventListener('change', function () {
-      //update context.ds_estimari_pool and newTree
-      let position = locateTrInEstimariPool(input1.parentElement)
-      let instanta = position.instanta
-      let ramura = position.ramura
-      let activitateIndex = position.activitateIndex
-      context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_start_date] = input1.value
-      localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-      //TODO:newTree
-    })
-    td.appendChild(input1)
-    tr.appendChild(td)
-
-    td = document.createElement('td')
-    //create type="date" input
-    let input2 = document.createElement('input')
-    input2.type = 'date'
-    input2.classList.add('form-control', 'form-control-sm', 'rounded', 'end_date')
-    input2.value = o[_end_date] || ''
-    //readonly
-    input2.readOnly = true
-    input2.addEventListener('change', function () {
-      //update context.ds_estimari_pool and newTree
-      let position = locateTrInEstimariPool(input2.parentElement)
-      let instanta = position.instanta
-      let ramura = position.ramura
-      let activitateIndex = position.activitateIndex
-      context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[_end_date] = input2.value
-      localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-    })
-    td.appendChild(input2)
-    tr.appendChild(td)
   }
 }
