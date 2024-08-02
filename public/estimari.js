@@ -175,10 +175,9 @@ export class estimari extends LitElement {
             }
           }
         });
-        transformNewTreeIntoEstimariPoolDS(newTree);  //tree to ds_estimari_pool
-        generateTblRowsFromDsEstimariPool();  //ds_estimari_pool to ds_estimari_flat
-        console.log('ds_estimari_flat after update', ds_estimari_flat);
-        this.ds = ds_estimari_flat; //and back to this.ds
+        ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree);  
+        ds_estimari_flat = generateTblRowsFromDsEstimariPool();
+        this.ds = ds_estimari_flat;
         console.log('ds_estimari_pool after update', ds_estimari_pool);
         console.log('ds_estimari after update', ds_estimari);
         console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd);

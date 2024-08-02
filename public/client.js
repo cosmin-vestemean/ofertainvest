@@ -2378,7 +2378,7 @@ export function transformNewTreeIntoEstimariPoolDS(ds) {
       })
       if (activitate.isMain) {
         mainExists = true
-        console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
+        //console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
         for (let k = 0; k < antemasuratori.length; k++) {
           let branch = antemasuratori[k]
           let ret_obj = createNewRow(branch, { ...o }, i, j, k, true, maxLevelA, maxLevelObject)
