@@ -173,7 +173,7 @@ export class estimari extends LitElement {
             }
           }
         });
-        transformNewTreeIntoEstimariPoolDS();
+        transformNewTreeIntoEstimariPoolDS(newTree);
         generateTblRowsFromDsEstimariPool();
         console.log('ds_estimari_pool after update', ds_estimari_pool);
         console.log('ds_estimari after update', ds_estimari);
