@@ -663,9 +663,9 @@ export class estimari extends LitElement {
         let counter3 = ramura.counter3
         if (isMain) {
           //add main activity row
-          addTableRow(instanta, r, counter, counter2, counter3, o, true)
+          this.addTableRow(instanta, r, counter, counter2, counter3, o, true)
         }
-        addTableRow(instanta, r, counter, counter2, counter3, o, false)
+        this.addTableRow(instanta, r, counter, counter2, counter3, o, false)
       })
     }
 
