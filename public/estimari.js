@@ -572,7 +572,7 @@ export class estimari extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         let firstLine = this.ds[0]
-        for (let key in this.this._estimariDisplayMask) {
+        for (let key in this._estimariDisplayMask) {
           //check key vs this._estimariDisplayMask
           //first check if key exists in this._estimariDisplayMask
           if (Object.keys(firstLine).includes(key)) {
