@@ -122,6 +122,7 @@ export class estimari extends LitElement {
         const ds_estimari_flat_filterd = ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         );
+        this.ds = ds_estimari_flat_filterd;
         //change color to green
         save_icon.classList.remove('text-danger');
         save_icon.classList.add('text-success');
