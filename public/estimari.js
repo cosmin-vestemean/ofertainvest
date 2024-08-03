@@ -816,6 +816,7 @@ export class estimari extends LitElement {
               //get index of tr in tbody
               let index = Array.from(e.target.parentElement.parentElement.children).indexOf(e.target.parentElement)
               //get type from estimariDisplayMask
+              let key = e.target.classList[0]
               let type = estimariDisplayMask[key].type
               let val = null
               switch (type) {
