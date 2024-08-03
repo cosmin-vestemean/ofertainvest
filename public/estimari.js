@@ -684,6 +684,7 @@ export class estimari extends LitElement {
       }
 
       //add activitati to table
+      let indexOfFlat = 0
       this.ds.forEach(function (o) {
         let ramura = o.ramura
         let instanta = ramura.instanta
@@ -694,16 +695,17 @@ export class estimari extends LitElement {
         let counter3 = ramura.counter3
         if (isMain) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false)
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, indexOfFlat)
+        indexOfFlat++
       }, this)
     }
 
     return html`${buttonsPannel}${table}`
   }
 
-  addTableRow(tbody, i, k, counter, counter2, counter3, o, isMain) {
+  addTableRow(tbody, i, k, counter, counter2, counter3, o, isMain, indexOfFlat) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
@@ -713,6 +715,7 @@ export class estimari extends LitElement {
       id = i + '@' + k + '_' + counter3
     }
     tr.id = id
+    td.setAttribute('data-index-of-flat', indexOfFlat);
     if (isMain) {
       tr.classList.add('table-primary')
     } else {
@@ -814,9 +817,9 @@ export class estimari extends LitElement {
             var tagName = e.target.tagName
             if (tagName === 'TD') {
               //get index of tr in tbody
-              let index = Array.from(e.target.parentElement.parentElement.children).indexOf(e.target.parentElement)
-              //get type from estimariDisplayMask
-              let key = e.target.classList[0]
+                let index = parseInt(e.target.parentElement.getAttribute('data-index-of-flat'));
+                //get type from estimariDisplayMask
+                let key = e.target.classList[0];
               let type = estimariDisplayMask[key].type
               let val = null
               switch (type) {
@@ -839,9 +842,7 @@ export class estimari extends LitElement {
               let instanta = position.instanta
               let ramura = position.ramura
               let activitateIndex = position.activitateIndex
-              context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
-                e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
-              )
+              context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
               localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
             }
           })
