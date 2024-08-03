@@ -804,7 +804,7 @@ export class estimari extends LitElement {
           td.classList.add(key)
 
           //add event listener for input for td class cantitate_estimari
-          td.addEventListener('focusout', function (e) {
+          td.onfocusout = (e) => {
             // Get cell with class _cantitate_antemasuratori
             let cantitateAntemasuratoriCell =
               e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0]
