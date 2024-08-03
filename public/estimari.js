@@ -843,7 +843,7 @@ export class estimari extends LitElement {
               )
               localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool)) */
             }
-          })
+          }
 
           //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
           td.addEventListener('keydown', function (e) {
