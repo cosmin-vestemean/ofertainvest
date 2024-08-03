@@ -476,6 +476,9 @@ export class estimari extends LitElement {
             } else {
               //push estimare to newTreeAntemasBranch.estimari
               newTreeAntemasBranch.estimari.push(estimare)
+              //estimareIndex is the last index of newTreeAntemasBranch.estimari
+              newTreeAntemasBranch.estimari[newTreeAntemasBranch.estimari.length - 1].estimareIndex =
+                newTreeAntemasBranch.estimari.length - 1
             }
 
             //add cantitate_estimari to ds_estimari_pool row_data
