@@ -715,7 +715,7 @@ export class estimari extends LitElement {
       id = i + '@' + k + '_' + counter3
     }
     tr.id = id
-    td.setAttribute('data-index-of-flat', indexOfFlat);
+    tr.setAttribute('data-index-of-flat', indexOfFlat);
     if (isMain) {
       tr.classList.add('table-primary')
     } else {
