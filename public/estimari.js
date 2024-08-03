@@ -259,36 +259,40 @@ export class estimari extends LitElement {
       value: 'DENUMIRE_ARTICOL_OFERTA',
       RW: false,
       visible: true,
-      label: 'Denumire'
+      label: 'Denumire',
+      type: 'string'
     },
-    NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1' },
-    NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2' },
-    NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3' },
-    NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4' },
-    NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5' },
-    NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6' },
-    NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7' },
-    NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8' },
-    NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9' },
-    NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10' },
-    UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM' },
+    NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string' },
+    NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string' },
+    NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string' },
+    NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string' },
+    NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string' },
+    NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string' },
+    NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string' },
+    NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string' },
+    NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string' },
+    NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string' },
+    UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string' },
     CANTITATE_ARTICOL_OFERTA: {
       value: 'CANTITATE_ARTICOL_OFERTA',
       RW: false,
       visible: true,
-      label: 'Cantitate<br>oferta'
+      label: 'Cantitate<br>oferta',
+      type: 'number'
     },
     CANTITATE_ARTICOL_ANTEMASURATORI: {
       value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
       RW: false,
       visible: true,
-      label: 'Cantitate<br>antemasuratori'
+      label: 'Cantitate<br>antemasuratori',
+      type: 'number'
     },
     CANTITATE_ARTICOL_ESTIMARI: {
       value: 'CANTITATE_ARTICOL_ESTIMARI',
       RW: true,
       visible: true,
-      label: 'Cantitate<br>estimari'
+      label: 'Cantitate<br>estimari',
+      type: 'number'
     }
   }
 
@@ -300,6 +304,22 @@ export class estimari extends LitElement {
     /* context.ds_estimari_pool = [];
     context.ds_estimari_flat = [];
     context.ds_estimari = []; */
+
+    _estimariDisplayMask[_start_date] = {
+      value: _start_date,
+      RW: false,
+      visible: true,
+      label: 'Start<br>estimare',
+      type: 'date'
+    }
+
+    _estimariDisplayMask[_end_date] = {
+      value: _end_date,
+      RW: false,
+      visible: true,
+      label: 'End<br>estimare',
+      type: 'date'
+    }
 
     console.log('events added to estimari element')
   }
@@ -793,14 +813,35 @@ export class estimari extends LitElement {
             cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red'
             var tagName = e.target.tagName
             if (tagName === 'TD') {
-              let position = locateTrInEstimariPool(e.target)
+              //get index of tr in tbody
+              let index = Array.from(e.target.parentElement.parentElement.children).indexOf(e.target.parentElement)
+              //get type from _estimariDisplayMask
+              let type = this._estimariDisplayMask[key].type
+              let val = null
+              switch (type) {
+                case 'number':
+                  val = parseFloat(e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0)
+                  break
+                case 'string':
+                  val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null
+                  break
+                case 'date':
+                  val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null
+                  break
+                default:
+                  val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null
+              end
+
+              }
+              context.ds_estimari_flat[index][key] = val
+              /* let position = locateTrInEstimariPool(e.target)
               let instanta = position.instanta
               let ramura = position.ramura
               let activitateIndex = position.activitateIndex
               context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
                 e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
               )
-              localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+              localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool)) */
             }
           })
 
