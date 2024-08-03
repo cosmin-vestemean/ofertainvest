@@ -79,7 +79,8 @@ function generateTblRowsFromDsEstimariPool() {
           isMain: ramura[i].isMain,
           counter: counter,
           counter2: counter2,
-          counter3: counter3
+          counter3: counter3,
+          estimareIndex: ramura[i].estimareIndex
         }
         ds.push({ ...o, ramura: ramura_obj })
       }
