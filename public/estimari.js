@@ -835,14 +835,14 @@ export class estimari extends LitElement {
 
               }
               context.ds_estimari_flat[index][key] = val
-              /* let position = locateTrInEstimariPool(e.target)
+              let position = locateTrInEstimariPool(e.target)
               let instanta = position.instanta
               let ramura = position.ramura
               let activitateIndex = position.activitateIndex
               context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = parseFloat(
                 e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0
               )
-              localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool)) */
+              localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
             }
           })
 
