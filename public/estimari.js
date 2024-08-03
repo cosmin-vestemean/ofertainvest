@@ -305,7 +305,7 @@ export class estimari extends LitElement {
     context.ds_estimari_flat = [];
     context.ds_estimari = []; */
 
-    _estimariDisplayMask[_start_date] = {
+    this._estimariDisplayMask[_start_date] = {
       value: _start_date,
       RW: false,
       visible: true,
@@ -313,7 +313,7 @@ export class estimari extends LitElement {
       type: 'date'
     }
 
-    _estimariDisplayMask[_end_date] = {
+    this._estimariDisplayMask[_end_date] = {
       value: _end_date,
       RW: false,
       visible: true,
