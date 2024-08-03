@@ -240,6 +240,48 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
   }
 }
 
+let estimariDisplayMask = {
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Denumire',
+    type: 'string'
+  },
+  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string' },
+  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string' },
+  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string' },
+  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string' },
+  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string' },
+  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string' },
+  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string' },
+  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string' },
+  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string' },
+  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string' },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string' },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate<br>oferta',
+    type: 'number'
+  },
+  CANTITATE_ARTICOL_ANTEMASURATORI: {
+    value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
+    RW: false,
+    visible: true,
+    label: 'Cantitate<br>antemasuratori',
+    type: 'number'
+  },
+  CANTITATE_ARTICOL_ESTIMARI: {
+    value: 'CANTITATE_ARTICOL_ESTIMARI',
+    RW: true,
+    visible: true,
+    label: 'Cantitate<br>estimari',
+    type: 'number'
+  }
+}
+
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
   //newTree is an array Arr containing arrays Arr[i]; each Arr[i] contains arrays: one is object ,let's call it Arr1 and one is antemasuratori (Arr2)
@@ -254,48 +296,6 @@ export class estimari extends LitElement {
     ds: { type: Array }
   }
 
-  _estimariDisplayMask = {
-    DENUMIRE_ARTICOL_OFERTA: {
-      value: 'DENUMIRE_ARTICOL_OFERTA',
-      RW: false,
-      visible: true,
-      label: 'Denumire',
-      type: 'string'
-    },
-    NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string' },
-    NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string' },
-    NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string' },
-    NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string' },
-    NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string' },
-    NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string' },
-    NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string' },
-    NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string' },
-    NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string' },
-    NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string' },
-    UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string' },
-    CANTITATE_ARTICOL_OFERTA: {
-      value: 'CANTITATE_ARTICOL_OFERTA',
-      RW: false,
-      visible: true,
-      label: 'Cantitate<br>oferta',
-      type: 'number'
-    },
-    CANTITATE_ARTICOL_ANTEMASURATORI: {
-      value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
-      RW: false,
-      visible: true,
-      label: 'Cantitate<br>antemasuratori',
-      type: 'number'
-    },
-    CANTITATE_ARTICOL_ESTIMARI: {
-      value: 'CANTITATE_ARTICOL_ESTIMARI',
-      RW: true,
-      visible: true,
-      label: 'Cantitate<br>estimari',
-      type: 'number'
-    }
-  }
-
   constructor() {
     super()
     this.ds = []
@@ -305,7 +305,7 @@ export class estimari extends LitElement {
     context.ds_estimari_flat = [];
     context.ds_estimari = []; */
 
-    this._estimariDisplayMask[_start_date] = {
+    estimariDisplayMask[_start_date] = {
       value: _start_date,
       RW: false,
       visible: true,
@@ -313,7 +313,7 @@ export class estimari extends LitElement {
       type: 'date'
     }
 
-    this._estimariDisplayMask[_end_date] = {
+    estimariDisplayMask[_end_date] = {
       value: _end_date,
       RW: false,
       visible: true,
@@ -603,17 +603,17 @@ export class estimari extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         let firstLine = this.ds[0]
-        for (let key in this._estimariDisplayMask) {
-          //check key vs this._estimariDisplayMask
-          //first check if key exists in this._estimariDisplayMask
+        for (let key in estimariDisplayMask) {
+          //check key vs estimariDisplayMask
+          //first check if key exists in estimariDisplayMask
           if (Object.keys(firstLine).includes(key)) {
             //check if visible
-            if (this._estimariDisplayMask[key].visible) {
+            if (estimariDisplayMask[key].visible) {
               let th = document.createElement('th')
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
-              th.innerHTML = this._estimariDisplayMask[key].label ? this._estimariDisplayMask[key].label : key
+              th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
               tr.appendChild(th)
             }
           }
@@ -783,17 +783,17 @@ export class estimari extends LitElement {
     }
     tr.appendChild(td)
 
-    //add columns based on this._estimariDisplayMask
-    for (var key in this._estimariDisplayMask) {
-      //check key vs this._estimariDisplayMask
-      //first check if key exists in this._estimariDisplayMask
+    //add columns based on estimariDisplayMask
+    for (var key in estimariDisplayMask) {
+      //check key vs estimariDisplayMask
+      //first check if key exists in estimariDisplayMask
       if (Object.keys(o).includes(key)) {
         //check if visible
-        if (this._estimariDisplayMask[key].visible) {
+        if (estimariDisplayMask[key].visible) {
           let td = document.createElement('td')
           td.innerHTML = o[key] || ''
           //contenteditable if RW
-          if (this._estimariDisplayMask[key].RW) {
+          if (estimariDisplayMask[key].RW) {
             td.contentEditable = true
           }
 
@@ -815,8 +815,8 @@ export class estimari extends LitElement {
             if (tagName === 'TD') {
               //get index of tr in tbody
               let index = Array.from(e.target.parentElement.parentElement.children).indexOf(e.target.parentElement)
-              //get type from _estimariDisplayMask
-              let type = this._estimariDisplayMask[key].type
+              //get type from estimariDisplayMask
+              let type = estimariDisplayMask[key].type
               let val = null
               switch (type) {
                 case 'number':
