@@ -804,7 +804,7 @@ export class estimari extends LitElement {
           td.classList.add(key)
 
           //add event listener for input for td class cantitate_estimari
-          td.onfocusout = (e) => {
+          td.addEventListener('focusout', function (e) {
             // Get cell with class _cantitate_antemasuratori
             let cantitateAntemasuratoriCell =
               e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0]
@@ -843,7 +843,7 @@ export class estimari extends LitElement {
               )
               localStorage.setItem('context.ds_estimari_pool', JSON.stringify(context.ds_estimari_pool)) */
             }
-          }
+          })
 
           //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
           td.addEventListener('keydown', function (e) {
