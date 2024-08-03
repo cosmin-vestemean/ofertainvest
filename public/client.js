@@ -1421,7 +1421,7 @@ export function init() {
         }
       })
     })
-    console.log('max', max)
+    //console.log('max', max)
     //activitate = reteta.object
     for (let i = 0; i < ds_instanteRetete.length; i++) {
       var pointerToReteta = ds_instanteRetete[i].duplicateOf
