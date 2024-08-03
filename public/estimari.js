@@ -6,7 +6,8 @@ import {
   newTree,
   _start_date,
   _end_date,
-  theadIsSet
+  theadIsSet,
+  _nivel_oferta
 } from './client.js'
 
 export let context = {

@@ -83,7 +83,7 @@ export let newTree = []
 ] */
 var trees = []
 var niveluri = []
-var _nivel_oferta = 'NIVEL_OFERTA_'
+export var _nivel_oferta = 'NIVEL_OFERTA_'
 export var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
 export var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
 export var _cantitate_estimari = 'CANTITATE_ARTICOL_ESTIMARI'
