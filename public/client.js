@@ -3196,12 +3196,12 @@ class Recipe extends LitElement {
 
   render() {
     console.log('rendering recipe element with following array', this.reteta, 'added at', new Date())
-      my_table2.style.display = 'block'
-      my_table3.style.display = 'block'
-      my_table1.style.display = 'none'
-      my_table4.style.display = 'none'
-      my_table5.style.display = 'none'
-      my_table6.style.display = 'none'
+    my_table2.style.display = 'block'
+    my_table3.style.display = 'block'
+    my_table1.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
+    my_table6.style.display = 'none'
 
     if (!this.reteta || this.reteta.length == 0) {
       return html`<p class="label label-danger">No data</p>`
@@ -3464,9 +3464,9 @@ class Recipe extends LitElement {
 
 const listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
- active: { label: 'Activ', visible: true, type: 'boolean' },
- createDate : { label: 'Data creare', visible: true, type: 'date' },
- updateDate : { label: 'Data actualizare', visible: true, type: 'date' },
+  active: { label: 'Activ', visible: true, type: 'boolean' },
+  createDate: { label: 'Data creare', visible: true, type: 'date' },
+  updateDate: { label: 'Data actualizare', visible: true, type: 'date' }
 }
 
 //create and export class listaEstimari
@@ -3528,6 +3528,11 @@ class listaEstimari extends LitElement {
           let td = document.createElement('td')
           if (listaEstimariDisplayMask[key].type === 'date') {
             td.innerHTML = new Date(o[key]).toLocaleDateString()
+          } else if (listaEstimariDisplayMask[key].type === 'boolean') {
+            //add icon
+            let icon = document.createElement('i')
+            icon.classList.add('bi')
+            icon.classList.add(o[key] ? 'bi-check' : 'bi-x')
           } else {
             td.innerHTML = o[key] || ''
           }
