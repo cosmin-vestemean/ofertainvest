@@ -512,10 +512,14 @@ export class estimari extends LitElement {
         let activitateIndex = position.activitateIndex
         context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
         //get data-index-of-flat from tr
-        let indexOfFlat = inputs[i].parentElement.getAttribute('data-index-of-flat')
+        let indexOfFlat = inputs[i].parentElement.parentElement.getAttribute('data-index-of-flat')
         //change context.ds_estimari_flat
         let aDate = key === _start_date ? _start_date : _end_date
-        context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
+        if (indexOfFlat) {
+          context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
+        } else {
+          console.log('indexOfFlat is undefined')
+        }
       }
       localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
     }
