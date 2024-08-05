@@ -16,7 +16,8 @@ import {
   my_table2,
   my_table3,
   my_table4,
-  my_table5
+  my_table5,
+  my_table6,
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -295,36 +296,10 @@ export class estimari extends LitElement {
       my_table3.style.display = 'none'
       my_table2.style.display = 'none'
       my_table1.style.display = 'none'
+      my_table6.style.display = 'block'
+
       //read ds_estimari array and create a list with all estimari
-      //create a list with all estimari
-      let timeline = document.getElementById('timeline')
-      //if invisible make it visible
-      if (timeline.style.display === 'none') {
-        timeline.style.display = 'block'
-      }
-      context.ds_estimari.forEach(function (o) {
-        //create a simple list with all estimari and add a click event to each list item
-        let li = document.createElement('li')
-        li.classList.add('list-group-item')
-        li.innerHTML = o.id + 1 + ' ' + o.createDate + ' ' + o.updateDate
-        li.style.cursor = 'pointer'
-        li.onclick = function () {
-          //set ds_estimari_pool and ds_estimari_flat
-          context.ds_estimari_pool = o.ds_estimari_pool
-          context.ds_estimari_flat = o.ds_estimari_flat
-          //set active in ds_estimari
-          context.ds_estimari.forEach(function (o) {
-            o.active = false
-          })
-          o.active = true
-          //i'm invisible now
-          timeline.style.display = 'none'
-          //set ds in my_table5
-          my_table5.style.display = 'block'
-          my_table5.ds = context.ds_estimari_flat
-        }
-        timeline.appendChild(li)
-      })
+      my_table6.ds = context.ds_estimari
       console.log('ds_estimari', context.ds_estimari)
     }
   }

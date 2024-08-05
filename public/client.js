@@ -20,6 +20,7 @@ export const my_table2 = document.getElementById('my_table_recipes')
 export const my_table3 = document.getElementById('my_table_detalii_reteta')
 export const my_table4 = document.getElementById('my_table_antemasuratori')
 export const my_table5 = document.getElementById('my_table_estimari')
+export const my_table6 = document.getElementById('my_table_lista_estimari')
 
 console.log('client.js loaded')
 
@@ -3456,6 +3457,71 @@ class Recipe extends LitElement {
   }
 }
 
+//create and export class listaEstimari
+class listaEstimari extends LitElement {
+  static properties = {
+    ds: { type: Array }
+  }
+
+  constructor() {
+    super()
+    this.ds = []
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    console.log('events added to listaEstimari element')
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('listaEstimari element added to the DOM')
+  }
+
+  render() {
+    my_table1.style.display = 'none'
+    my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table5.style.display = 'none'
+    let my_table6 = document.getElementById('my_table_lista_estimari')
+    my_table6.style.display = 'block'
+    console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
+    //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
+    //add buttons
+    var buttonsPannel = this.createButtonsPanel()
+
+    if (!this.ds || this.ds.length == 0) {
+      return html`${buttonsPannel}
+        <div class="container"><h3 class="text-center text-danger">No data</h3></div>`
+    } else {
+      //add table
+      var table = document.createElement('table')
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-hover')
+      //table.classList.add('table-mobile-responsive');
+      table.id = 'table_lista_estimari'
+      //font size
+      table.style.fontSize = 'small'
+      //get or create thead and tbody
+      var tbody = document.createElement('tbody')
+      tbody.id = 'tbody_lista_estimari'
+      table.appendChild(tbody)
+      this.ds.forEach(function (o) {
+        let tr = document.createElement('tr')
+        tbody.appendChild(tr)
+        for (let key in o) {
+          let td = document.createElement('td')
+          td.innerHTML = o[key] || ''
+          tr.appendChild(td)
+        }
+      })
+    }
+
+    return html`${buttonsPannel}${table}`
+  }
+}
+
+customElements.define('my-lista-estimari', listaEstimari)
 customElements.define('my-table', myTable)
 customElements.define('my-recipe', Recipe)
 customElements.define('my-antemasuratori', antemasuratori)
