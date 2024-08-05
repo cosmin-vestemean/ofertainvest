@@ -319,9 +319,7 @@ export class estimari extends LitElement {
         id: context.ds_estimari.length,
         active: true,
         ds_estimari_pool: [],
-        ds_estimari_flat: [],
-        _start_date: '',
-        _end_date: ''
+        ds_estimari_flat: []
       })
       if (context.getDsEstimariPool().length == 0) {
         //trasform newTree in ds_estimari_pool
@@ -437,8 +435,6 @@ export class estimari extends LitElement {
         active.ds_estimari_pool = context.ds_estimari_pool
         active.ds_estimari_flat = context.ds_estimari_flat
         active.updateDate = new Date()
-        active['start_date'] = context.ds_estimari_flat[0].row_data[_start_date]
-        active['end_date'] = context.ds_estimari_flat[0].row_data[_end_date]
       }
 
       localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
