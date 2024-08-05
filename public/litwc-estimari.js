@@ -298,6 +298,10 @@ export class estimari extends LitElement {
       //read ds_estimari array and create a list with all estimari
       //create a list with all estimari
       let timeline = document.getElementById('timeline')
+      //if invisible make it visible
+      if (timeline.style.display === 'none') {
+        timeline.style.display = 'block'
+      }
       context.ds_estimari.forEach(function (o) {
         //create a simple list with all estimari and add a click event to each list item
         let li = document.createElement('li')
