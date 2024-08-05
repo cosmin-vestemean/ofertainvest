@@ -3524,9 +3524,61 @@ class listaEstimari extends LitElement {
       var tbody = document.createElement('tbody')
       tbody.id = 'tbody_lista_estimari'
       table.appendChild(tbody)
-      this.ds.forEach(function (o) {
+      //add thead
+      var thead = document.createElement('thead')
+      thead.id = 'thead_lista_estimari'
+      thead.classList.add('align-middle')
+      table.appendChild(thead)
+      var tr = document.createElement('tr')
+      thead.appendChild(tr)
+      //append counter
+      var th = document.createElement('th')
+      th.scope = 'col'
+      tr.appendChild(th)
+      //add thrash icon
+      var th = document.createElement('th')
+      th.scope = 'col'
+      tr.appendChild(th)
+      for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
+        let label = value.label
+        let visible = value.visible
+        let th = document.createElement('th')
+        if (!visible) {
+          th.classList.add('d-none')
+        }
+        th.scope = 'col'
+        th.innerHTML = label ? label : key
+        th.style.writingMode = 'vertical-rl'
+        th.style.rotate = '180deg'
+        th.style.fontWeight = 'normal'
+        tr.appendChild(th)
+      }
+
+      //add tbody
+      for (let i = 0; i < this.ds.length; i++) {
         let tr = document.createElement('tr')
         tbody.appendChild(tr)
+        //add counter
+        let td = document.createElement('td')
+        td.innerHTML = i + 1
+        tr.appendChild(td)
+        //add thrash icon
+        let td2 = document.createElement('td')
+        let trash = document.createElement('i')
+        trash.classList.add('bi')
+        trash.classList.add('bi-trash')
+        trash.classList.add('text-danger')
+        trash.style.cursor = 'pointer'
+        trash.onclick = function () {
+          //delete ds[i]
+          //remove tr from tbody
+          let id = tr.getAttribute('data-id')
+          if (id) {
+            delete ds[id]
+            let tr = document.getElementById('table_lista_estimari').shadowRoot.getElementById('tbody_lista_estimari').querySelector('tr[data-id="' + id + '"]')
+            tr.remove()
+          }
+        }
         for (let key in o) {
           //check with listaEstimariDisplayMask
           if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
@@ -3584,7 +3636,7 @@ class listaEstimari extends LitElement {
           }
         }
         tbody.appendChild(tr)
-      })
+      }
     }
 
     return html`${table}`
