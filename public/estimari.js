@@ -278,5 +278,3 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
     isMain: isMain
   }
 }
-
-
