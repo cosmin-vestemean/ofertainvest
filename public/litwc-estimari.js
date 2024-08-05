@@ -350,11 +350,10 @@ export class estimari extends LitElement {
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
               th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
-              tr.appendChild(th)
               } else {
                 //refactor code bellow to a function
                 //add start date and end date
-                th = document.createElement('th')
+                let th = document.createElement('th')
                 th.scope = 'col'
                 //create type="date" input
                 //cerate label
@@ -384,6 +383,7 @@ export class estimari extends LitElement {
                   localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
                 }
               }
+              tr.appendChild(th)
             }
           }
         }
