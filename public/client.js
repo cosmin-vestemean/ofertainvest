@@ -3699,14 +3699,18 @@ class listaEstimari extends LitElement {
             console.log('id not found')
           }
         }
-        //add start estimare column from this.ds[0].ds_estimari_flat.row[0][_start_date]
-        let td3 = document.createElement('td')
-        td3.innerHTML = this.ds[i].ds_estimari_flat[0][_start_date]
-        tr.appendChild(td3)
-        //add end estimare column from this.ds[0].ds_estimari_flat.row[0][_end_date]
-        let td4 = document.createElement('td')
-        td4.innerHTML = this.ds[i].ds_estimari_flat[0][_end_date]
-        tr.appendChild(td4)
+        try {
+          //add start estimare column from this.ds[0].ds_estimari_flat.row[0][_start_date]
+          let td3 = document.createElement('td')
+          td3.innerHTML = this.ds[i].ds_estimari_flat[0][_start_date]
+          tr.appendChild(td3)
+          //add end estimare column from this.ds[0].ds_estimari_flat.row[0][_end_date]
+          let td4 = document.createElement('td')
+          td4.innerHTML = this.ds[i].ds_estimari_flat[0][_end_date]
+          tr.appendChild(td4)
+        } catch (e) {
+          console.log(e)
+        }
         tbody.appendChild(tr)
       }
     }
