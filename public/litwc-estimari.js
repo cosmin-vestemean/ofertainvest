@@ -289,15 +289,14 @@ export class estimari extends LitElement {
   }
 
   renderEstimariList(list_icon) {
-    my_table5.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table2.style.display = 'none'
-    my_table1.style.display = 'block'
     list_icon.onclick = function () {
       //read ds_estimari array and create a list with all estimari
-      //create ds for my_table5
-      my_table1.ds = context.ds_estimari    
+      //create a list with all estimari
+      var tempStr = ''
+      context.ds_estimari_flat.forEach(function (o) {
+        tempStr += o[_start_date] + ' - ' + o[_end_date] + '<br>'
+      })
+      alert(tempStr)
     }
   }
 
