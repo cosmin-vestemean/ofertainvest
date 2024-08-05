@@ -962,6 +962,7 @@ function showRecipes() {
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
   my_table5.style.display = 'none'
+  my_table6.style.display = 'none'
   //show table2
   my_table2.style.display = 'block'
   my_table3.style.display = 'block'
@@ -1129,6 +1130,7 @@ export function init() {
   my_table3.style.display = 'none'
   my_table4.style.display = 'none'
   my_table5.style.display = 'none'
+  my_table6.style.display = 'none'
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -1198,6 +1200,7 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'none'
+    my_table6.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = orfani
   }
@@ -1208,6 +1211,7 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'none'
+    my_table6.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = optimal_ds
   }
@@ -1218,6 +1222,7 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'none'
+    my_table6.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = activitati_oferta
   }
@@ -1620,6 +1625,7 @@ export function init() {
       my_table1.style.display = 'none'
       my_table4.style.display = 'block'
       my_table5.style.display = 'none'
+      my_table6.style.display = 'none'
       my_table4.ds = []
       //my_table4.ds = ds_antemasuratori
       let selected_options_arr = ierarhii.getValue()
@@ -1682,6 +1688,7 @@ export function init() {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
+    my_table6.style.display = 'none'
     my_table5.style.display = 'block'
   }
 
@@ -1854,6 +1861,7 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'none'
+    my_table6.style.display = 'none'
     my_table1.style.display = 'block'
     my_table1.ds = listaMateriale
   }
@@ -3197,6 +3205,7 @@ class Recipe extends LitElement {
       my_table1.style.display = 'none'
       my_table4.style.display = 'none'
       my_table5.style.display = 'none'
+      my_table6.style.display = 'none'
 
     if (!this.reteta || this.reteta.length == 0) {
       return html`<p class="label label-danger">No data</p>`
@@ -3482,7 +3491,6 @@ class listaEstimari extends LitElement {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'none'
-    let my_table6 = document.getElementById('my_table_lista_estimari')
     my_table6.style.display = 'block'
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
     //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
