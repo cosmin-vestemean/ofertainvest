@@ -379,7 +379,7 @@ export function addOnChangeEvt(ds, delimiter, tableId) {
 } */
 
 function sortByUniqueKey(compacted_ds, unique_key) {
-  //return [...array.reduce((r, o) => r.set(this.ds[i][key], o), new Map()).values()];
+  //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
 
   //rearrange data so all objects with same key unique_key are displayed together
   let optimal_ds = []
@@ -3609,7 +3609,7 @@ class listaEstimari extends LitElement {
           }
           td.classList.add(key)
           //add attribute data-id
-          tr.setAttribute('data-id', o.id)
+          tr.setAttribute('data-id', this.ds[i].id)
           tr.appendChild(td)
         }
         //add on click event for each row
