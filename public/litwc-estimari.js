@@ -72,7 +72,7 @@ export class estimari extends LitElement {
     var buttonsPannel = this.createButtonsPanel()
 
     if (!this.ds || this.ds.length == 0) {
-      return html`${buttonsPannel}<p class="label label-danger">No data</p>`
+      return html`${buttonsPannel}<h3 class="text-center text-danger">No data</h3>`
     } else {
       //add table
       var table = document.createElement('table')
