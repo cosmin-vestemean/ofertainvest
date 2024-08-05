@@ -3548,9 +3548,6 @@ class listaEstimari extends LitElement {
         }
         th.scope = 'col'
         th.innerHTML = label ? label : key
-        th.style.writingMode = 'vertical-rl'
-        th.style.rotate = '180deg'
-        th.style.fontWeight = 'normal'
         tr.appendChild(th)
       }
 
