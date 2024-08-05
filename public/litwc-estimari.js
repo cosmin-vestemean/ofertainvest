@@ -6,7 +6,11 @@ import {
   _cantitate_estimari,
   _cantitate_antemasuratori,
   newTree,
-  theadIsSet
+  theadIsSet,
+  addOnChangeEvt,
+  ierarhii,
+  flatFind,
+  selected_ds,
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -201,7 +205,30 @@ export class estimari extends LitElement {
     plus_icon.classList.add('bi')
     plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
     plus_icon.style.cursor = 'pointer'
-    plus_icon.onclick = function () { }
+    plus_icon.onclick = function () {
+      if (context.getDsEstimariPool().length == 0) {
+        //trasform newTree in ds_estimari_pool
+        if (newTree.length > 0) {
+          context.createNewEstimariPool(newTree)
+        } else {
+          console.log('newTree is empty, run Antemasuratori first')
+          alert('Genereaza antemasuratorile inainte de a genera estimarile')
+        }
+      }
+      context.createNewEstimariFlat()
+      addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
+      console.log('context.getDsEstimariPool', context.getDsEstimariPool())
+      console.log('newTree', newTree)
+      let selected_options_arr = ierarhii.getValue()
+      if (selected_options_arr && selected_options_arr.length > 0) {
+        flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
+        my_table5.ds = selected_ds
+      } else {
+        my_table5.ds = context.getDsEstimariFlat()
+      }
+  
+      console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
+    }
     btnAdd.appendChild(plus_icon)
     //add validate icon
     var btnValidate = document.createElement('div')
@@ -391,6 +418,10 @@ export class estimari extends LitElement {
             object[_end_date]
         }
       })
+
+      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      localStorage.setItem('newTree', JSON.stringify(newTree))
+
       //context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
       context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
       this.ds = context.ds_estimari_flat

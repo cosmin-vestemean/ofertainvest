@@ -15,9 +15,15 @@ const SUBTIP_ARTICOL_OFERTA = [
   'CUSTOM'
 ]
 
+export const my_table1 = document.getElementById('my_table_oferta_initiala')
+export const my_table2 = document.getElementById('my_table_recipes')
+export const my_table3 = document.getElementById('my_table_detalii_reteta')
+export const my_table4 = document.getElementById('my_table_antemasuratori')
+export const my_table5 = document.getElementById('my_table_estimari')
+
 console.log('client.js loaded')
 
-const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
+export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
@@ -58,7 +64,7 @@ var original_ds = []
 var optimal_ds = []
 var recipes_ds = []
 var combinatii_unice = []
-var selected_ds = []
+export var selected_ds = []
 var ds_instanteRetete = []
 export var ds_antemasuratori = []
 export let newTree = []
@@ -323,7 +329,7 @@ function processExcelData(excel_object) {
   createGraphs(combinatii_unice)
 }
 
-function addOnChangeEvt(ds, delimiter, tableId) {
+export function addOnChangeEvt(ds, delimiter, tableId) {
   //var select = document.getElementById('ierarhii')
   let select = ierarhii.selectElement
   select.onchange = function () {
@@ -446,7 +452,7 @@ function populateSelect(combinatii_unice_as_str, delimiter) {
   })
 }
 
-function flatFind(selected_options_arr, ds, delimiter) {
+export function flatFind(selected_options_arr, ds, delimiter) {
   selected_ds = []
   console.log('selected_options', selected_options_arr)
   if (!selected_options_arr || selected_options_arr.length == 0) {
@@ -1116,11 +1122,6 @@ export function init() {
       }
     }
   }
-  const my_table1 = document.getElementById('my_table_oferta_initiala')
-  const my_table2 = document.getElementById('my_table_recipes')
-  const my_table3 = document.getElementById('my_table_detalii_reteta')
-  const my_table4 = document.getElementById('my_table_antemasuratori')
-  const my_table5 = document.getElementById('my_table_estimari')
   //hide all tables
   //my_table1.style.display = 'none'
   my_table2.style.display = 'none'
@@ -1686,28 +1687,6 @@ export function init() {
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
-    if (context.getDsEstimariPool().length == 0) {
-      //trasform newTree in ds_estimari_pool
-      if (newTree.length > 0) {
-        context.createNewEstimariPool(newTree)
-      } else {
-        console.log('newTree is empty, run Antemasuratori first')
-        alert('Genereaza antemasuratorile inainte de a genera estimarile')
-      }
-    }
-    context.createNewEstimariFlat()
-    addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
-    console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-    console.log('newTree', newTree)
-    let selected_options_arr = ierarhii.getValue()
-    if (selected_options_arr && selected_options_arr.length > 0) {
-      flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-      my_table5.ds = selected_ds
-    } else {
-      my_table5.ds = context.getDsEstimariFlat()
-    }
-
-    console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
   }
 
   //btn_listaRetete
