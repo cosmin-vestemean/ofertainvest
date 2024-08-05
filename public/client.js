@@ -3592,9 +3592,7 @@ class listaEstimari extends LitElement {
       plus_icon.classList.add('bi-plus-square')
       plus_icon.classList.add('text-primary')
       plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = function () {
-        addNewEstimare()
-      }
+      plus_icon.onclick = addNewEstimare
       th.appendChild(plus_icon)
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
