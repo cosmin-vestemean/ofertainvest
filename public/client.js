@@ -3462,6 +3462,13 @@ class Recipe extends LitElement {
   }
 }
 
+const listaEstimariDisplayMask = {
+  id: { label: 'ID', visible: false },
+ active: { label: 'Activ', visible: true },
+ createDate : { label: 'Data creare', visible: true },
+ updateDate : { label: 'Data actualizare', visible: true },
+}
+
 //create and export class listaEstimari
 class listaEstimari extends LitElement {
   static properties = {
@@ -3510,6 +3517,14 @@ class listaEstimari extends LitElement {
         let tr = document.createElement('tr')
         tbody.appendChild(tr)
         for (let key in o) {
+          //check with listaEstimariDisplayMask
+          if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
+            continue
+          }
+          //visibility
+          if (!listaEstimariDisplayMask[key].visible) {
+            continue
+          }
           let td = document.createElement('td')
           td.innerHTML = o[key] || ''
           td.classList.add(key)
@@ -3522,8 +3537,12 @@ class listaEstimari extends LitElement {
         tr.onclick = function () {
           //get attribute data-id from tr
           let id = tr.getAttribute('data-id')
-          let ds = context.ds_estimari[id].ds_estimari_flat
-          my_table5.ds = ds
+          if (id) {
+            let ds = context.ds_estimari[id].ds_estimari_flat
+            my_table5.ds = ds
+          } else {
+            console.log('id not found')
+          }
         }
         tbody.appendChild(tr)
       })
