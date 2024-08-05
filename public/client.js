@@ -1112,10 +1112,6 @@ export function init() {
       if (localStorage.getItem('newTree')) {
         newTree = JSON.parse(localStorage.getItem('newTree'))
       }
-      //estimari
-      if (localStorage.getItem('ds_estimari_pool')) {
-        context.setDsEstimariPool(JSON.parse(localStorage.getItem('ds_estimari_pool')))
-      }
       if (localStorage.getItem('visible_columns')) {
         visible_columns = JSON.parse(localStorage.getItem('visible_columns'))
       }
