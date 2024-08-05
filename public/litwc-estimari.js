@@ -67,13 +67,13 @@ export class estimari extends LitElement {
 
   render() {
     console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
+    //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
+    //add buttons
+    var buttonsPannel = this.createButtonsPanel()
 
     if (!this.ds || this.ds.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
-      //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
-      //add buttons
-      var buttonsPannel = this.createButtonsPanel()
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
