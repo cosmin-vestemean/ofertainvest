@@ -306,6 +306,8 @@ export class estimari extends LitElement {
         updateDate: new Date(),
         id: context.ds_estimari.length,
         active: true,
+        ds_estimari_pool: [],
+        ds_estimari_flat: []
       })
       if (context.getDsEstimariPool().length == 0) {
         //trasform newTree in ds_estimari_pool
@@ -329,61 +331,6 @@ export class estimari extends LitElement {
       }
 
       console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
-    }
-  }
-
-  toggleExpandAllIcon(plus_icon) {
-    plus_icon.onclick = function () {
-      //show hide all children, identified by same id and a "_some_number"
-      //change icon
-      if (plus_icon.classList.contains('bi-dash-square')) {
-        plus_icon.classList.remove('bi-dash-square')
-        plus_icon.classList.add('bi-plus-square')
-      } else {
-        plus_icon.classList.remove('bi-plus-square')
-        plus_icon.classList.add('bi-dash-square')
-      }
-    }
-  }
-
-  handleValidateIconClick(validate_icon) {
-    validate_icon.onclick = () => {
-      //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
-      var table = document.getElementById('my_table_estimari').shadowRoot.getElementById('table_estimari')
-      var tbody = table.getElementsByTagName('tbody')[0]
-      var trs = tbody.getElementsByTagName('tr')
-      for (let i = 0; i < trs.length; i++) {
-        var tds = trs[i].getElementsByTagName('td')
-        //get td with class _cantitate_estimari
-        var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
-        //get td with class "ROW_SELECTED"
-        var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
-        //_cantitate_antemasuratori
-        var tdCantitateAntemasuratori = Array.from(tds).find((o) =>
-          o.classList.contains(_cantitate_antemasuratori)
-        )
-        //antemasuratori - estimari != 0 => add class table-warning
-        if (tdEstimari && tdCantitateAntemasuratori) {
-          if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
-            tdEstimari.classList.add('table-warning')
-          } else {
-            tdEstimari.classList.remove('table-warning')
-          }
-        }
-        var iputInside = tdRowSelected.getElementsByTagName('input')[0]
-        if (tdEstimari && tdRowSelected) {
-          if (
-            isNaN(parseFloat(tdEstimari.textContent)) ||
-            parseFloat(tdEstimari.textContent) === 0 ||
-            !iputInside.checked
-          ) {
-            tdEstimari.classList.add('table-danger')
-            //iputInside.checked = false
-          } else {
-            tdEstimari.classList.remove('table-danger')
-          }
-        }
-      }
     }
   }
 
@@ -477,7 +424,65 @@ export class estimari extends LitElement {
         active.ds_estimari_flat = context.ds_estimari_flat
       }
 
+      //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
+      context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+
       localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
+    }
+  }
+
+  toggleExpandAllIcon(plus_icon) {
+    plus_icon.onclick = function () {
+      //show hide all children, identified by same id and a "_some_number"
+      //change icon
+      if (plus_icon.classList.contains('bi-dash-square')) {
+        plus_icon.classList.remove('bi-dash-square')
+        plus_icon.classList.add('bi-plus-square')
+      } else {
+        plus_icon.classList.remove('bi-plus-square')
+        plus_icon.classList.add('bi-dash-square')
+      }
+    }
+  }
+
+  handleValidateIconClick(validate_icon) {
+    validate_icon.onclick = () => {
+      //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
+      var table = document.getElementById('my_table_estimari').shadowRoot.getElementById('table_estimari')
+      var tbody = table.getElementsByTagName('tbody')[0]
+      var trs = tbody.getElementsByTagName('tr')
+      for (let i = 0; i < trs.length; i++) {
+        var tds = trs[i].getElementsByTagName('td')
+        //get td with class _cantitate_estimari
+        var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+        //get td with class "ROW_SELECTED"
+        var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
+        //_cantitate_antemasuratori
+        var tdCantitateAntemasuratori = Array.from(tds).find((o) =>
+          o.classList.contains(_cantitate_antemasuratori)
+        )
+        //antemasuratori - estimari != 0 => add class table-warning
+        if (tdEstimari && tdCantitateAntemasuratori) {
+          if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
+            tdEstimari.classList.add('table-warning')
+          } else {
+            tdEstimari.classList.remove('table-warning')
+          }
+        }
+        var iputInside = tdRowSelected.getElementsByTagName('input')[0]
+        if (tdEstimari && tdRowSelected) {
+          if (
+            isNaN(parseFloat(tdEstimari.textContent)) ||
+            parseFloat(tdEstimari.textContent) === 0 ||
+            !iputInside.checked
+          ) {
+            tdEstimari.classList.add('table-danger')
+            //iputInside.checked = false
+          } else {
+            tdEstimari.classList.remove('table-danger')
+          }
+        }
+      }
     }
   }
 
