@@ -3463,10 +3463,10 @@ class Recipe extends LitElement {
 }
 
 const listaEstimariDisplayMask = {
-  id: { label: 'ID', visible: false },
- active: { label: 'Activ', visible: true },
- createDate : { label: 'Data creare', visible: true },
- updateDate : { label: 'Data actualizare', visible: true },
+  id: { label: 'ID', visible: false, type: 'number' },
+ active: { label: 'Activ', visible: true, type: 'boolean' },
+ createDate : { label: 'Data creare', visible: true, type: 'date' },
+ updateDate : { label: 'Data actualizare', visible: true, type: 'date' },
 }
 
 //create and export class listaEstimari
@@ -3526,7 +3526,11 @@ class listaEstimari extends LitElement {
             continue
           }
           let td = document.createElement('td')
-          td.innerHTML = o[key] || ''
+          if (listaEstimariDisplayMask[key].type === 'date') {
+            td.innerHTML = new Date(o[key]).toLocaleDateString()
+          } else {
+            td.innerHTML = o[key] || ''
+          }
           td.classList.add(key)
           //add attribute data-id
           tr.setAttribute('data-id', o.id)
