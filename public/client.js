@@ -3535,9 +3535,18 @@ class listaEstimari extends LitElement {
       var th = document.createElement('th')
       th.scope = 'col'
       tr.appendChild(th)
-      //add thrash icon
+      //add add icon
       var th = document.createElement('th')
       th.scope = 'col'
+      //add icon
+      var plus_icon = document.createElement('i')
+      plus_icon.classList.add('bi')
+      plus_icon.classList.add('bi-plus-square')
+      plus_icon.classList.add('text-primary')
+      plus_icon.style.cursor = 'pointer'
+      plus_icon.onclick = function () {
+        
+      }
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
         let label = value.label
