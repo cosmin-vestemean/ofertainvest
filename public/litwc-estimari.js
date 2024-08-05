@@ -359,7 +359,7 @@ export class estimari extends LitElement {
                 //cerate label
                 let label = document.createElement('label')
                 label.for = 'start_date'
-                label.innerHTML = 'Start estimare'
+                label.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
                 th.appendChild(label)
                 let input1 = document.createElement('input')
                 input1.type = 'date'
