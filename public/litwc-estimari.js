@@ -293,7 +293,7 @@ export class estimari extends LitElement {
       //read ds_estimari array and create a list with all estimari
       //create a list with all estimari
       var tempStr = ''
-      context.ds_estimari_flat.forEach(function (o) {
+      context.ds_estimari.forEach(function (o) {
         tempStr += o[_start_date] + ' - ' + o[_end_date] + '<br>'
       })
       alert(tempStr)
