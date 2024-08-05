@@ -3495,8 +3495,7 @@ class listaEstimari extends LitElement {
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
 
     if (!this.ds || this.ds.length == 0) {
-      return html`${buttonsPannel}
-        <div class="container"><h3 class="text-center text-danger">No data</h3></div>`
+      return html`<div class="container"><h3 class="text-center text-danger">No data</h3></div>`
     } else {
       //add table
       var table = document.createElement('table')
@@ -3522,7 +3521,7 @@ class listaEstimari extends LitElement {
       })
     }
 
-    return html`${buttonsPannel}${table}`
+    return html`${table}`
   }
 }
 
