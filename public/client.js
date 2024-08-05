@@ -3518,6 +3518,13 @@ class listaEstimari extends LitElement {
           td.innerHTML = o[key] || ''
           tr.appendChild(td)
         }
+        //add on click event for each row
+        //load my_table5 with the selected o.ds_estimari_flat
+        tr.onclick = function () {
+          var ds = o.ds_estimari_flat
+          my_table5.ds = ds
+        }
+        tbody.appendChild(tr)
       })
     }
 
