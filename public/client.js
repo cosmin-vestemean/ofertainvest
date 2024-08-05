@@ -1693,8 +1693,10 @@ export function init() {
     my_table2.style.display = 'none'
     my_table3.style.display = 'none'
     my_table4.style.display = 'none'
-    my_table6.style.display = 'none'
-    my_table5.style.display = 'block'
+    my_table6.style.display = 'block'
+    my_table5.style.display = 'none'
+    my_table6.ds = context.ds_estimari
+    console.log('ds_estimari', context.ds_estimari)
   }
 
   //btn_listaRetete
