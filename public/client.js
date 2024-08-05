@@ -3560,6 +3560,12 @@ class listaEstimari extends LitElement {
             context.ds_estimari.forEach(function (o) {
               o.active = false
             })
+            my_table1.style.display = 'none'
+            my_table2.style.display = 'none'
+            my_table3.style.display = 'none'
+            my_table4.style.display = 'none'
+            my_table5.style.display = 'block'
+            my_table6.style.display = 'none'
             context.ds_estimari[id].active = true
             my_table5.ds = ds
           } else {
