@@ -382,6 +382,7 @@ export class estimari extends LitElement {
                   }
                   localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
                 }
+                th.appendChild(input1)
               }
               tr.appendChild(th)
             }
