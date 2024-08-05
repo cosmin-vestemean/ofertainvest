@@ -367,22 +367,7 @@ export class estimari extends LitElement {
                 input1.id = key === _start_date ? 'start_date' : 'end_date'
                 input1.classList.add('form-control', 'form-control-sm')
                 input1.value = firstLine[key] || ''
-                input1.onchange = function () {
-                  let inputs = document
-                    .getElementById('my_table_estimari')
-                    .shadowRoot.getElementById('tbody_estimari')
-                    .getElementsByClassName(key === _start_date ? 'start_date' : 'end_date')
-                  for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].value = input1.value
-                    //change context.ds_estimari_pool
-                    let position = locateTrInEstimariPool(inputs[i].parentElement)
-                    let instanta = position.instanta
-                    let ramura = position.ramura
-                    let activitateIndex = position.activitateIndex
-                    context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
-                  }
-                  localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-                }
+                this.updateDateInputs(input1)
                 th.appendChild(input1)
                 tr.appendChild(th)
               }
@@ -474,6 +459,26 @@ export class estimari extends LitElement {
     }
 
     return html`${buttonsPannel}${table}`
+  }
+
+  updateDateInputs(input1) {
+    input1.onchange = function () {
+      let key = input1.classList.contains('start_date') ? _start_date : _end_date
+      let inputs = document
+        .getElementById('my_table_estimari')
+        .shadowRoot.getElementById('tbody_estimari')
+        .getElementsByClassName(key === _start_date ? 'start_date' : 'end_date')
+      for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = input1.value
+        //change context.ds_estimari_pool
+        let position = locateTrInEstimariPool(inputs[i].parentElement)
+        let instanta = position.instanta
+        let ramura = position.ramura
+        let activitateIndex = position.activitateIndex
+        context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
+      }
+      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+    }
   }
 
   addTableRow(tbody, i, k, counter, counter2, counter3, o, isMain, indexOfFlat) {
