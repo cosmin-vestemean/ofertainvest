@@ -1408,7 +1408,7 @@ export function init() {
     //create ds_antemasuratori from recipes_ds, enum activities only, add CANTITATE_ARTICOL_OFERTA, add CANTITATE_ANTEMASURATORI = 0
     if (ds_instanteRetete.length === 0) {
       detectieRetete()
-      showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
+      showRecipes()
     }
     //console.log('recipes_ds', recipes_ds)
     //console.log('instanteRetete', ds_instanteRetete)
@@ -1616,11 +1616,6 @@ export function init() {
   }
 
   function showAntemasuratori() {
-    const my_table1 = document.getElementById('my_table_oferta_initiala')
-    const my_table2 = document.getElementById('my_table_recipes')
-    const my_table3 = document.getElementById('my_table_detalii_reteta')
-    const my_table4 = document.getElementById('my_table_antemasuratori')
-    const my_table5 = document.getElementById('my_table_estimari')
     if (ds_antemasuratori.length > 0) {
       my_table2.style.display = 'none'
       my_table3.style.display = 'none'
@@ -1748,6 +1743,7 @@ export function init() {
       changeStyleInTheShadow(my_table3, link)
       changeStyleInTheShadow(my_table4, link)
       changeStyleInTheShadow(my_table5, link)
+      changeStyleInTheShadow(my_table6, link)
     }
   })
 
