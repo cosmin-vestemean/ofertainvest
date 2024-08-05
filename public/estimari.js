@@ -7,7 +7,10 @@ import {
   delimiter,
   selected_ds,
   addOnChangeEvt,
-  flatFind
+  flatFind,
+  my_table5,
+  ierarhii,
+  newTree
 } from './client.js'
 
 export let context = {
