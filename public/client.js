@@ -3544,11 +3544,20 @@ class listaEstimari extends LitElement {
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
 
     if (!this.ds || this.ds.length == 0) {
-      return html`<div class="container"><h3 class="text-center text-danger">No data</h3>
-      <div class="d-flex justify-content-center">
-        <button class="btn btn-primary" onclick="${addNewEstimare}">Adauga estimare</button>
-      </div>
-      </div>`
+      let div = document.createElement('div')
+      div.classList.add('container')
+      let h3 = document.createElement('h3')
+      h3.classList.add('text-center')
+      h3.classList.add('text-danger')
+      h3.innerHTML = 'No data'
+      div.appendChild(h3)
+      let button = document.createElement('button')
+      button.classList.add('btn')
+      button.classList.add('btn-primary')
+      button.innerHTML = 'Adauga estimare'
+      button.onclick = addNewEstimare
+      div.appendChild(button)
+      return `${div}`
     } else {
       //add table
       var table = document.createElement('table')
