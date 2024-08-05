@@ -3545,6 +3545,7 @@ class listaEstimari extends LitElement {
       plus_icon.classList.add('text-primary')
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {}
+      th.appendChild(plus_icon)
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
         let label = value.label
