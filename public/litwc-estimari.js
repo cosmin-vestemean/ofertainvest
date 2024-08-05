@@ -16,7 +16,7 @@ import {
   my_table2,
   my_table3,
   my_table4,
-  my_table5,
+  my_table5
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -289,12 +289,12 @@ export class estimari extends LitElement {
   }
 
   renderEstimariList(list_icon) {
-    my_table5.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table2.style.display = 'none'
-    my_table1.style.display = 'none'
     list_icon.onclick = function () {
+      my_table5.style.display = 'none'
+      my_table4.style.display = 'none'
+      my_table3.style.display = 'none'
+      my_table2.style.display = 'none'
+      my_table1.style.display = 'none'
       //read ds_estimari array and create a list with all estimari
       //create a list with all estimari
       let timeline = document.getElementById('timeline')
@@ -306,7 +306,7 @@ export class estimari extends LitElement {
         //create a simple list with all estimari and add a click event to each list item
         let li = document.createElement('li')
         li.classList.add('list-group-item')
-        li.innerHTML = (o.id + 1) + ' ' + o.createDate + ' ' + o.updateDate
+        li.innerHTML = o.id + 1 + ' ' + o.createDate + ' ' + o.updateDate
         li.style.cursor = 'pointer'
         li.onclick = function () {
           //set ds_estimari_pool and ds_estimari_flat
