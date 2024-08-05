@@ -1111,15 +1111,12 @@ export function init() {
       if (localStorage.getItem('ds_instanteRetete')) {
         ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
       }
-      if (localStorage.getItem('ds_antemasuratori')) {
-        ds_antemasuratori = JSON.parse(localStorage.getItem('ds_antemasuratori'))
-      }
       //newTree
       if (localStorage.getItem('newTree')) {
         newTree = JSON.parse(localStorage.getItem('newTree'))
       }
-      if (localStorage.getItem('visible_columns')) {
-        visible_columns = JSON.parse(localStorage.getItem('visible_columns'))
+      if (localStorage.getItem('ds_antemasuratori')) {
+        ds_antemasuratori = JSON.parse(localStorage.getItem('ds_antemasuratori'))
       }
       if (localStorage.getItem('ds_estimari')) {
         context.setDsEstimari(JSON.parse(localStorage.getItem('ds_estimari')))
