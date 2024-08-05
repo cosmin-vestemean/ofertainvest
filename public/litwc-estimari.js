@@ -344,16 +344,50 @@ export class estimari extends LitElement {
           if (Object.keys(firstLine).includes(key)) {
             //check if visible
             if (estimariDisplayMask[key].visible) {
+              if (estimariDisplayMask[key].type !== 'date') {
               let th = document.createElement('th')
               th.scope = 'col'
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
               th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
               tr.appendChild(th)
+              } else {
+                //refactor code bellow to a function
+                //add start date and end date
+                th = document.createElement('th')
+                th.scope = 'col'
+                //create type="date" input
+                //cerate label
+                let label = document.createElement('label')
+                label.for = 'start_date'
+                label.innerHTML = 'Start estimare'
+                th.appendChild(label)
+                let input1 = document.createElement('input')
+                input1.type = 'date'
+                input1.id = key === _start_date ? 'start_date' : 'end_date'
+                input1.classList.add('form-control', 'form-control-sm')
+                input1.value = firstLine[key] || ''
+                input1.onchange = function () {
+                  let inputs = document
+                    .getElementById('my_table_estimari')
+                    .shadowRoot.getElementById('tbody_estimari')
+                    .getElementsByClassName(key === _start_date ? 'start_date' : 'end_date')
+                  for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].value = input1.value
+                    //change context.ds_estimari_pool
+                    let position = locateTrInEstimariPool(inputs[i].parentElement)
+                    let instanta = position.instanta
+                    let ramura = position.ramura
+                    let activitateIndex = position.activitateIndex
+                    context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
+                  }
+                  localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+                }
+              }
             }
           }
         }
-        //add start date and end date
+        /* //add start date and end date
         th = document.createElement('th')
         th.scope = 'col'
         //create type="date" input
@@ -415,7 +449,7 @@ export class estimari extends LitElement {
           localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
         }
         th.appendChild(input2)
-        tr.appendChild(th)
+        tr.appendChild(th) */
       }
 
       //add activitati to table
