@@ -3512,12 +3512,17 @@ class listaEstimari extends LitElement {
         for (let key in o) {
           let td = document.createElement('td')
           td.innerHTML = o[key] || ''
+          td.classList.add(key)
+          //add attribute data-id
+          td.setAttribute('data-id', o.id)
           tr.appendChild(td)
         }
         //add on click event for each row
         //load my_table5 with the selected o.ds_estimari_flat
         tr.onclick = function () {
-          var ds = o.ds_estimari_flat
+          //get attribute data-id from tr
+          let id = tr.getAttribute('data-id')
+          let ds = context.ds_estimari[id].ds_estimari_flat
           my_table5.ds = ds
         }
         tbody.appendChild(tr)

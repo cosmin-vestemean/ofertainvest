@@ -424,6 +424,8 @@ export class estimari extends LitElement {
       if (active) {
         active.ds_estimari_pool = context.ds_estimari_pool
         active.ds_estimari_flat = context.ds_estimari_flat
+        active.updateDate = new Date()
+        active.active = false
       }
 
       localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
