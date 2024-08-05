@@ -292,11 +292,10 @@ export class estimari extends LitElement {
     list_icon.onclick = function () {
       //read ds_estimari array and create a list with all estimari
       //create a list with all estimari
-      var tempStr = ''
       context.ds_estimari.forEach(function (o) {
-        tempStr += o[_start_date] + ' - ' + o[_end_date] + '\n'
+        //
       })
-      alert(tempStr)
+      console.log('ds_estimari', context.ds_estimari)
     }
   }
 
