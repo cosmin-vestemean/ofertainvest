@@ -289,11 +289,25 @@ export class estimari extends LitElement {
   }
 
   renderEstimariList(list_icon) {
+    my_table5.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table3.style.display = 'none'
+    my_table2.style.display = 'none'
+    my_table1.style.display = 'none'
     list_icon.onclick = function () {
       //read ds_estimari array and create a list with all estimari
       //create a list with all estimari
+      let timeline = document.getElementById('timeline')
       context.ds_estimari.forEach(function (o) {
-        //
+        //create a simple list with all estimari and add a click event to each list item
+        let li = document.createElement('li')
+        li.classList.add('list-group-item')
+        li.innerHTML = (o.id + 1).toString + ' - ' + o.createDate + ' - ' + o.updateDate
+        li.style.cursor = 'pointer'
+        li.onclick = function () {
+          //set ds_estimari_pool and ds_estimari_flat
+        }
+        timeline.appendChild(li)
       })
       console.log('ds_estimari', context.ds_estimari)
     }
@@ -303,7 +317,7 @@ export class estimari extends LitElement {
     plus_icon.onclick = function () {
       //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
       context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
-      
+
       context.ds_estimari.push({
         createDate: new Date(),
         updateDate: new Date(),

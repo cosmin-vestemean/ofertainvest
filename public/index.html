@@ -30,6 +30,11 @@
     <script type="module" src="client.js"></script>
     <!--<link rel="stylesheet" href="client.css" />-->
     <link rel="stylesheet" href="cerulean.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['timeline']});
+      google.charts.setOnLoadCallback(drawChart);
+    </script>
     <style>
       .cy {
         height: 100%;
@@ -362,6 +367,7 @@
         </div>
         <my-antemasuratori id="my_table_antemasuratori" style="display: none;"></my-antemasuratori>
         <my-estimari id="my_table_estimari" style="display: none;"></my-estimari>
+        <div id="timeline" class="d-none"></div>
       </div>
       <!-- Modal generic -->
       <div
