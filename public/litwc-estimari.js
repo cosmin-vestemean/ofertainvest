@@ -69,137 +69,7 @@ export class estimari extends LitElement {
     } else {
       //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
       //add buttons
-      var buttonsPannel = document.createElement('div')
-      buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
-      buttonsPannel.id = 'buttonsPannel'
-      //add list icon
-      var btnList = document.createElement('div')
-      btnList.classList.add('col')
-      buttonsPannel.appendChild(btnList)
-      var list_icon = document.createElement('i')
-      list_icon.classList.add('bi')
-      list_icon.classList.add('bi-list', 'text-success', 'fs-4', 'mb-3')
-      list_icon.style.cursor = 'pointer'
-      list_icon.onclick = function () {}
-      btnList.appendChild(list_icon)
-      buttonsPannel.appendChild(btnList)
-      //add plus-square icon
-      var btnAdd = document.createElement('div')
-      btnAdd.classList.add('col')
-      buttonsPannel.appendChild(btnAdd)
-      var plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi')
-      plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
-      plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = function () {}
-      btnAdd.appendChild(plus_icon)
-      //add validate icon
-      var btnValidate = document.createElement('div')
-      btnValidate.classList.add('col')
-      buttonsPannel.appendChild(btnValidate)
-      var validate_icon = document.createElement('i')
-      validate_icon.classList.add('bi')
-      validate_icon.classList.add('bi-check2', 'text-success', 'fs-4', 'mb-3')
-      validate_icon.style.cursor = 'pointer'
-      validate_icon.onclick = () => {
-        //this web component needs update?
-        //change color to red
-        save_icon.classList.remove('text-success')
-        save_icon.classList.add('text-danger')
-        //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
-        var table = document.getElementById('my_table_estimari').shadowRoot.getElementById('table_estimari')
-        var tbody = table.getElementsByTagName('tbody')[0]
-        var trs = tbody.getElementsByTagName('tr')
-        for (let i = 0; i < trs.length; i++) {
-          var tds = trs[i].getElementsByTagName('td')
-          //get td with class _cantitate_estimari
-          var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
-          //get td with class "ROW_SELECTED"
-          var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
-          //_cantitate_antemasuratori
-          var tdCantitateAntemasuratori = Array.from(tds).find((o) =>
-            o.classList.contains(_cantitate_antemasuratori)
-          )
-          //antemasuratori - estimari != 0 => add class table-warning
-          if (tdEstimari && tdCantitateAntemasuratori) {
-            if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
-              tdEstimari.classList.add('table-warning')
-            } else {
-              tdEstimari.classList.remove('table-warning')
-            }
-          }
-          var iputInside = tdRowSelected.getElementsByTagName('input')[0]
-          if (tdEstimari && tdRowSelected) {
-            if (
-              isNaN(parseFloat(tdEstimari.textContent)) ||
-              parseFloat(tdEstimari.textContent) === 0 ||
-              !iputInside.checked
-            ) {
-              tdEstimari.classList.add('table-danger')
-              //iputInside.checked = false
-            } else {
-              tdEstimari.classList.remove('table-danger')
-            }
-          }
-        }
-      }
-      btnValidate.appendChild(validate_icon)
-      //add save icon
-      var btnSave = document.createElement('div')
-      btnSave.classList.add('col')
-      buttonsPannel.appendChild(btnSave)
-      var save_icon = document.createElement('i')
-      save_icon.id = 'save_icon'
-      save_icon.classList.add('bi')
-      save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
-      save_icon.style.cursor = 'pointer'
-      save_icon.style.marginLeft = '5px'
-      this.handleSaveIconClick(save_icon)
-      btnSave.appendChild(save_icon)
-      //add thrahs icon
-      var btnTrash = document.createElement('div')
-      btnTrash.classList.add('col')
-      buttonsPannel.appendChild(btnTrash)
-      var trash_icon = document.createElement('i')
-      trash_icon.classList.add('bi')
-      trash_icon.classList.add('bi-trash', 'text-danger', 'fs-4', 'mb-3')
-      trash_icon.style.cursor = 'pointer'
-      trash_icon.onclick = function () {}
-      btnTrash.appendChild(trash_icon)
-      buttonsPannel.appendChild(btnTrash)
-      //add plus-square icon
-      var btnRefresh = document.createElement('div')
-      btnRefresh.classList.add('col')
-      buttonsPannel.appendChild(btnRefresh)
-      var refresh_icon = document.createElement('i')
-      refresh_icon.classList.add('bi')
-      refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary', 'fs-4', 'mb-3')
-      refresh_icon.style.cursor = 'pointer'
-      refresh_icon.style.marginLeft = '5px'
-      refresh_icon.onclick = function () {}
-      btnRefresh.appendChild(refresh_icon)
-      //add forward and backward icons for navigation between estimari
-      var btnBack = document.createElement('div')
-      btnBack.classList.add('col')
-      buttonsPannel.appendChild(btnBack)
-      var backward_icon = document.createElement('i')
-      backward_icon.classList.add('bi')
-      backward_icon.classList.add('bi-arrow-left-circle', 'text-primary', 'fs-4', 'mb-3')
-      backward_icon.style.cursor = 'pointer'
-      backward_icon.style.marginLeft = '5px'
-      backward_icon.onclick = function () {}
-      btnBack.appendChild(backward_icon)
-      var btnForward = document.createElement('div')
-      btnForward.classList.add('col')
-      buttonsPannel.appendChild(btnForward)
-      var forward_icon = document.createElement('i')
-      forward_icon.classList.add('bi')
-      forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
-      forward_icon.style.cursor = 'pointer'
-      forward_icon.style.marginLeft = '5px'
-      forward_icon.onclick = function () {}
-      btnForward.appendChild(forward_icon)
-      buttonsPannel.appendChild(btnForward)
+      var buttonsPannel = this.createButtonsPanel()
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -239,17 +109,7 @@ export class estimari extends LitElement {
         let plus_icon = document.createElement('i')
         plus_icon.classList.add('bi', 'bi-dash-square', 'text-primary', 'fs-6', 'align-middle')
         plus_icon.style.cursor = 'pointer'
-        plus_icon.onclick = function () {
-          //show hide all children, identified by same id and a "_some_number"
-          //change icon
-          if (plus_icon.classList.contains('bi-dash-square')) {
-            plus_icon.classList.remove('bi-dash-square')
-            plus_icon.classList.add('bi-plus-square')
-          } else {
-            plus_icon.classList.remove('bi-plus-square')
-            plus_icon.classList.add('bi-dash-square')
-          }
-        }
+        this.toggleExpandAllIcon(plus_icon)
         th.appendChild(plus_icon)
         th.scope = 'col'
         tr.appendChild(th)
@@ -318,6 +178,152 @@ export class estimari extends LitElement {
     return html`${buttonsPannel}${table}`
   }
 
+  createButtonsPanel() {
+    var buttonsPannel = document.createElement('div')
+    buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
+    buttonsPannel.id = 'buttonsPannel'
+    //add list icon
+    var btnList = document.createElement('div')
+    btnList.classList.add('col')
+    buttonsPannel.appendChild(btnList)
+    var list_icon = document.createElement('i')
+    list_icon.classList.add('bi')
+    list_icon.classList.add('bi-list', 'text-success', 'fs-4', 'mb-3')
+    list_icon.style.cursor = 'pointer'
+    list_icon.onclick = function () { }
+    btnList.appendChild(list_icon)
+    buttonsPannel.appendChild(btnList)
+    //add plus-square icon
+    var btnAdd = document.createElement('div')
+    btnAdd.classList.add('col')
+    buttonsPannel.appendChild(btnAdd)
+    var plus_icon = document.createElement('i')
+    plus_icon.classList.add('bi')
+    plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+    plus_icon.style.cursor = 'pointer'
+    plus_icon.onclick = function () { }
+    btnAdd.appendChild(plus_icon)
+    //add validate icon
+    var btnValidate = document.createElement('div')
+    btnValidate.classList.add('col')
+    buttonsPannel.appendChild(btnValidate)
+    var validate_icon = document.createElement('i')
+    validate_icon.classList.add('bi')
+    validate_icon.classList.add('bi-check2', 'text-success', 'fs-4', 'mb-3')
+    validate_icon.style.cursor = 'pointer'
+    this.handleValidateIconClick(validate_icon)
+    btnValidate.appendChild(validate_icon)
+    //add save icon
+    var btnSave = document.createElement('div')
+    btnSave.classList.add('col')
+    buttonsPannel.appendChild(btnSave)
+    var save_icon = document.createElement('i')
+    save_icon.id = 'save_icon'
+    save_icon.classList.add('bi')
+    save_icon.classList.add('bi-save', 'text-success', 'fs-4', 'mb-3')
+    save_icon.style.cursor = 'pointer'
+    save_icon.style.marginLeft = '5px'
+    this.handleSaveIconClick(save_icon)
+    btnSave.appendChild(save_icon)
+    //add thrahs icon
+    var btnTrash = document.createElement('div')
+    btnTrash.classList.add('col')
+    buttonsPannel.appendChild(btnTrash)
+    var trash_icon = document.createElement('i')
+    trash_icon.classList.add('bi')
+    trash_icon.classList.add('bi-trash', 'text-danger', 'fs-4', 'mb-3')
+    trash_icon.style.cursor = 'pointer'
+    trash_icon.onclick = function () { }
+    btnTrash.appendChild(trash_icon)
+    buttonsPannel.appendChild(btnTrash)
+    //add plus-square icon
+    var btnRefresh = document.createElement('div')
+    btnRefresh.classList.add('col')
+    buttonsPannel.appendChild(btnRefresh)
+    var refresh_icon = document.createElement('i')
+    refresh_icon.classList.add('bi')
+    refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary', 'fs-4', 'mb-3')
+    refresh_icon.style.cursor = 'pointer'
+    refresh_icon.style.marginLeft = '5px'
+    refresh_icon.onclick = function () { }
+    btnRefresh.appendChild(refresh_icon)
+    //add forward and backward icons for navigation between estimari
+    var btnBack = document.createElement('div')
+    btnBack.classList.add('col')
+    buttonsPannel.appendChild(btnBack)
+    var backward_icon = document.createElement('i')
+    backward_icon.classList.add('bi')
+    backward_icon.classList.add('bi-arrow-left-circle', 'text-primary', 'fs-4', 'mb-3')
+    backward_icon.style.cursor = 'pointer'
+    backward_icon.style.marginLeft = '5px'
+    backward_icon.onclick = function () { }
+    btnBack.appendChild(backward_icon)
+    var btnForward = document.createElement('div')
+    btnForward.classList.add('col')
+    buttonsPannel.appendChild(btnForward)
+    var forward_icon = document.createElement('i')
+    forward_icon.classList.add('bi')
+    forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
+    forward_icon.style.cursor = 'pointer'
+    forward_icon.style.marginLeft = '5px'
+    forward_icon.onclick = function () { }
+    btnForward.appendChild(forward_icon)
+    buttonsPannel.appendChild(btnForward)
+    return buttonsPannel
+  }
+
+  toggleExpandAllIcon(plus_icon) {
+    plus_icon.onclick = function () {
+      //show hide all children, identified by same id and a "_some_number"
+      //change icon
+      if (plus_icon.classList.contains('bi-dash-square')) {
+        plus_icon.classList.remove('bi-dash-square')
+        plus_icon.classList.add('bi-plus-square')
+      } else {
+        plus_icon.classList.remove('bi-plus-square')
+        plus_icon.classList.add('bi-dash-square')
+      }
+    }
+  }
+
+  handleValidateIconClick(validate_icon) {
+    validate_icon.onclick = () => {
+      //add class table-danger to table_estimari where _cantitate_estimari is not a number or is 0 and checkboxes are not checked
+      var table = document.getElementById('my_table_estimari').shadowRoot.getElementById('table_estimari')
+      var tbody = table.getElementsByTagName('tbody')[0]
+      var trs = tbody.getElementsByTagName('tr')
+      for (let i = 0; i < trs.length; i++) {
+        var tds = trs[i].getElementsByTagName('td')
+        //get td with class _cantitate_estimari
+        var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+        //get td with class "ROW_SELECTED"
+        var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
+        //_cantitate_antemasuratori
+        var tdCantitateAntemasuratori = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori)
+        )
+        //antemasuratori - estimari != 0 => add class table-warning
+        if (tdEstimari && tdCantitateAntemasuratori) {
+          if (parseFloat(tdEstimari.textContent) !== parseFloat(tdCantitateAntemasuratori.textContent)) {
+            tdEstimari.classList.add('table-warning')
+          } else {
+            tdEstimari.classList.remove('table-warning')
+          }
+        }
+        var iputInside = tdRowSelected.getElementsByTagName('input')[0]
+        if (tdEstimari && tdRowSelected) {
+          if (isNaN(parseFloat(tdEstimari.textContent)) ||
+            parseFloat(tdEstimari.textContent) === 0 ||
+            !iputInside.checked) {
+            tdEstimari.classList.add('table-danger')
+            //iputInside.checked = false
+          } else {
+            tdEstimari.classList.remove('table-danger')
+          }
+        }
+      }
+    }
+  }
+
   handleSaveIconClick(save_icon) {
     save_icon.onclick = () => {
       //filter context.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
@@ -325,9 +331,6 @@ export class estimari extends LitElement {
         (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
       )
       //this.ds = ds_estimari_flat_filterd;
-      //change color to green
-      save_icon.classList.remove('text-danger')
-      save_icon.classList.add('text-success')
       //pseudo code
       //1. save context.ds_estimari_pool to local storage
       //2. filter context.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
