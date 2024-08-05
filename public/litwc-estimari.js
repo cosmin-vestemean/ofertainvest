@@ -463,7 +463,7 @@ export class estimari extends LitElement {
 
   updateDateInputs(input1) {
     return function () {
-      let key = input1.classList.contains('start_date') ? _start_date : _end_date
+      let key = input1.id === 'start_date' ? _start_date : _end_date
       let inputs = document
         .getElementById('my_table_estimari')
         .shadowRoot.getElementById('tbody_estimari')
