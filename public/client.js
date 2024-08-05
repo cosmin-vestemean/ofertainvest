@@ -3549,7 +3549,7 @@ class listaEstimari extends LitElement {
     if (!this.ds || this.ds.length == 0) {
       return html`<div class="container"><h3 class="text-center text-danger">No data</h3>
       <div class="d-flex justify-content-center">
-        <button class="btn btn-primary" onclick="addNewEstimare()">Adauga estimare</button>
+        <button class="btn btn-primary" onclick="${addNewEstimare()}">Adauga estimare</button>
       </div>
       </div>`
     } else {
