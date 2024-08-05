@@ -3629,7 +3629,7 @@ class listaEstimari extends LitElement {
         trash.classList.add('bi-trash')
         trash.classList.add('text-danger')
         trash.style.cursor = 'pointer'
-        trash.onclick = function () {
+        trash.onclick = () => {
           //delete ds[i]
           //remove tr from tbody
           let id = tr.getAttribute('data-id')
