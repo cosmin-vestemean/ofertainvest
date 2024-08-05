@@ -359,7 +359,7 @@ export class estimari extends LitElement {
                 //create type="date" input
                 //cerate label
                 let label = document.createElement('label')
-                label.for = 'start_date'
+                label.for = key === _start_date ? 'start_date' : 'end_date'
                 label.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
                 th.appendChild(label)
                 let input1 = document.createElement('input')
@@ -384,6 +384,7 @@ export class estimari extends LitElement {
                   localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
                 }
                 th.appendChild(input1)
+                tr.appendChild(th)
               }
             }
           }
