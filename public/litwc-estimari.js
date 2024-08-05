@@ -294,6 +294,12 @@ export class estimari extends LitElement {
     list_icon.onclick = function () {
       //clean
       context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+      my_table1.style.display = 'none'
+      my_table2.style.display = 'none'
+      my_table3.style.display = 'none'
+      my_table4.style.display = 'none'
+      my_table5.style.display = 'none'
+      my_table6.style.display = 'block'
       //read ds_estimari array and create a list with all estimari
       my_table6.ds = context.ds_estimari
       console.log('ds_estimari', context.ds_estimari)
