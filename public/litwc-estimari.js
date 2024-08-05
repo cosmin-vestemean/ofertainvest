@@ -188,7 +188,7 @@ export class estimari extends LitElement {
     buttonsPannel.appendChild(btnList)
     var list_icon = document.createElement('i')
     list_icon.classList.add('bi')
-    list_icon.classList.add('bi-list', 'text-success', 'fs-4', 'mb-3')
+    list_icon.classList.add('bi-list-ol', 'text-success', 'fs-4', 'mb-3')
     list_icon.style.cursor = 'pointer'
     list_icon.onclick = function () { }
     btnList.appendChild(list_icon)
