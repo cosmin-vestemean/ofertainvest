@@ -350,6 +350,7 @@ export class estimari extends LitElement {
               th.style.writingMode = 'vertical-rl'
               th.style.rotate = '180deg'
               th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
+              tr.appendChild(th)
               } else {
                 //refactor code bellow to a function
                 //add start date and end date
@@ -384,7 +385,6 @@ export class estimari extends LitElement {
                 }
                 th.appendChild(input1)
               }
-              tr.appendChild(th)
             }
           }
         }
