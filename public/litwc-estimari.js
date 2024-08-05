@@ -306,7 +306,7 @@ export class estimari extends LitElement {
         //create a simple list with all estimari and add a click event to each list item
         let li = document.createElement('li')
         li.classList.add('list-group-item')
-        li.innerHTML = (o.id + 1).toString + ' - ' + o.createDate + ' - ' + o.updateDate
+        li.innerHTML = (o.id + 1) + ' ' + o.createDate + ' ' + o.updateDate
         li.style.cursor = 'pointer'
         li.onclick = function () {
           //set ds_estimari_pool and ds_estimari_flat
