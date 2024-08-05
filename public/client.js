@@ -3527,7 +3527,13 @@ class listaEstimari extends LitElement {
           }
           let td = document.createElement('td')
           if (listaEstimariDisplayMask[key].type === 'date') {
-            td.innerHTML = new Date(o[key]).toLocaleDateString()
+            //td.innerHTML = add human readable date and time. from "2024-08-05T13:05:08.428Z" to "5 august 2024, 13:05"
+            let date = new Date(o[key])
+            td.innerHTML = date.toLocaleDateString('ro-RO', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
           } else if (listaEstimariDisplayMask[key].type === 'boolean') {
             //add icon
             let icon = document.createElement('i')
