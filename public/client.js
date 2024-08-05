@@ -3493,9 +3493,6 @@ class listaEstimari extends LitElement {
     my_table5.style.display = 'none'
     my_table6.style.display = 'block'
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
-    //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
-    //add buttons
-    var buttonsPannel = this.createButtonsPanel()
 
     if (!this.ds || this.ds.length == 0) {
       return html`${buttonsPannel}
