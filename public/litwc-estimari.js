@@ -12,7 +12,11 @@ import {
   flatFind,
   selected_ds,
   delimiter,
-  my_table5
+  my_table1,
+  my_table2,
+  my_table3,
+  my_table4,
+  my_table5,
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -68,13 +72,19 @@ export class estimari extends LitElement {
   }
 
   render() {
+    my_table1.style.display = 'none'
+    my_table2.style.display = 'none'
+    my_table3.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table5.style.display = 'block'
     console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
     //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
     //add buttons
     var buttonsPannel = this.createButtonsPanel()
 
     if (!this.ds || this.ds.length == 0) {
-      return html`${buttonsPannel}<div class="container"><h3 class="text-center text-danger">No data</h3></div>`
+      return html`${buttonsPannel}
+        <div class="container"><h3 class="text-center text-danger">No data</h3></div>`
     } else {
       //add table
       var table = document.createElement('table')
@@ -131,12 +141,12 @@ export class estimari extends LitElement {
             //check if visible
             if (estimariDisplayMask[key].visible) {
               if (estimariDisplayMask[key].type !== 'date') {
-              let th = document.createElement('th')
-              th.scope = 'col'
-              th.style.writingMode = 'vertical-rl'
-              th.style.rotate = '180deg'
-              th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
-              tr.appendChild(th)
+                let th = document.createElement('th')
+                th.scope = 'col'
+                th.style.writingMode = 'vertical-rl'
+                th.style.rotate = '180deg'
+                th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
+                tr.appendChild(th)
               } else {
                 //refactor code bellow to a function
                 //add start date and end date
@@ -196,7 +206,7 @@ export class estimari extends LitElement {
     list_icon.classList.add('bi')
     list_icon.classList.add('bi-list-ol', 'text-success', 'fs-4', 'mb-3')
     list_icon.style.cursor = 'pointer'
-    list_icon.onclick = function () { }
+    this.renderEstimariList(list_icon)
     btnList.appendChild(list_icon)
     buttonsPannel.appendChild(btnList)
     //add plus-square icon
@@ -207,30 +217,7 @@ export class estimari extends LitElement {
     plus_icon.classList.add('bi')
     plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
     plus_icon.style.cursor = 'pointer'
-    plus_icon.onclick = function () {
-      if (context.getDsEstimariPool().length == 0) {
-        //trasform newTree in ds_estimari_pool
-        if (newTree.length > 0) {
-          context.createNewEstimariPool(newTree)
-        } else {
-          console.log('newTree is empty, run Antemasuratori first')
-          alert('Genereaza antemasuratorile inainte de a genera estimarile')
-        }
-      }
-      context.createNewEstimariFlat()
-      addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
-      console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-      console.log('newTree', newTree)
-      let selected_options_arr = ierarhii.getValue()
-      if (selected_options_arr && selected_options_arr.length > 0) {
-        flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-        my_table5.ds = selected_ds
-      } else {
-        my_table5.ds = context.getDsEstimariFlat()
-      }
-  
-      console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
-    }
+    this.addNewEstimate(plus_icon)
     btnAdd.appendChild(plus_icon)
     //add validate icon
     var btnValidate = document.createElement('div')
@@ -262,7 +249,7 @@ export class estimari extends LitElement {
     trash_icon.classList.add('bi')
     trash_icon.classList.add('bi-trash', 'text-danger', 'fs-4', 'mb-3')
     trash_icon.style.cursor = 'pointer'
-    trash_icon.onclick = function () { }
+    trash_icon.onclick = function () {}
     btnTrash.appendChild(trash_icon)
     buttonsPannel.appendChild(btnTrash)
     //add plus-square icon
@@ -274,7 +261,7 @@ export class estimari extends LitElement {
     refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary', 'fs-4', 'mb-3')
     refresh_icon.style.cursor = 'pointer'
     refresh_icon.style.marginLeft = '5px'
-    refresh_icon.onclick = function () { }
+    refresh_icon.onclick = function () {}
     btnRefresh.appendChild(refresh_icon)
     //add forward and backward icons for navigation between estimari
     var btnBack = document.createElement('div')
@@ -285,7 +272,7 @@ export class estimari extends LitElement {
     backward_icon.classList.add('bi-arrow-left-circle', 'text-primary', 'fs-4', 'mb-3')
     backward_icon.style.cursor = 'pointer'
     backward_icon.style.marginLeft = '5px'
-    backward_icon.onclick = function () { }
+    backward_icon.onclick = function () {}
     btnBack.appendChild(backward_icon)
     var btnForward = document.createElement('div')
     btnForward.classList.add('col')
@@ -295,10 +282,56 @@ export class estimari extends LitElement {
     forward_icon.classList.add('bi-arrow-right-circle', 'text-primary', 'fs-4', 'mb-3')
     forward_icon.style.cursor = 'pointer'
     forward_icon.style.marginLeft = '5px'
-    forward_icon.onclick = function () { }
+    forward_icon.onclick = function () {}
     btnForward.appendChild(forward_icon)
     buttonsPannel.appendChild(btnForward)
     return buttonsPannel
+  }
+
+  renderEstimariList(list_icon) {
+    my_table5.style.display = 'none'
+    my_table4.style.display = 'none'
+    my_table3.style.display = 'none'
+    my_table2.style.display = 'none'
+    my_table1.style.display = 'block'
+    list_icon.onclick = function () {
+      //read ds_estimari array and create a list with all estimari
+      //create ds for my_table5
+      my_table1.ds = context.ds_estimari    
+    }
+  }
+
+  addNewEstimate(plus_icon) {
+    plus_icon.onclick = function () {
+      context.ds_estimari.push({
+        createDate: new Date(),
+        updateDate: new Date(),
+        id: context.ds_estimari.length,
+        active: true,
+      })
+      if (context.getDsEstimariPool().length == 0) {
+        //trasform newTree in ds_estimari_pool
+        if (newTree.length > 0) {
+          context.createNewEstimariPool(newTree)
+        } else {
+          console.log('newTree is empty, run Antemasuratori first')
+          alert('Genereaza antemasuratorile inainte de a genera estimarile')
+        }
+      }
+      context.createNewEstimariFlat()
+      addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
+      console.log('context.getDsEstimariPool', context.getDsEstimariPool())
+      console.log('newTree', newTree)
+      let selected_options_arr = ierarhii.getValue()
+      if (selected_options_arr && selected_options_arr.length > 0) {
+        flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
+        my_table5.ds = selected_ds
+      } else {
+        my_table5.ds = context.getDsEstimariFlat()
+      }
+
+      console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
+    }
   }
 
   toggleExpandAllIcon(plus_icon) {
@@ -328,7 +361,8 @@ export class estimari extends LitElement {
         //get td with class "ROW_SELECTED"
         var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
         //_cantitate_antemasuratori
-        var tdCantitateAntemasuratori = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori)
+        var tdCantitateAntemasuratori = Array.from(tds).find((o) =>
+          o.classList.contains(_cantitate_antemasuratori)
         )
         //antemasuratori - estimari != 0 => add class table-warning
         if (tdEstimari && tdCantitateAntemasuratori) {
@@ -340,9 +374,11 @@ export class estimari extends LitElement {
         }
         var iputInside = tdRowSelected.getElementsByTagName('input')[0]
         if (tdEstimari && tdRowSelected) {
-          if (isNaN(parseFloat(tdEstimari.textContent)) ||
+          if (
+            isNaN(parseFloat(tdEstimari.textContent)) ||
             parseFloat(tdEstimari.textContent) === 0 ||
-            !iputInside.checked) {
+            !iputInside.checked
+          ) {
             tdEstimari.classList.add('table-danger')
             //iputInside.checked = false
           } else {
@@ -394,9 +430,11 @@ export class estimari extends LitElement {
           estimare.qty = parseFloat(object[_cantitate_estimari])
           estimare.datetime = dt
 
-          if (estimareIndex > -1 &&
+          if (
+            estimareIndex > -1 &&
             newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
-            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]) {
+            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
+          ) {
             if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
               newTreeAntemasBranch.estimari[estimareIndex] = estimare
             }
@@ -409,7 +447,9 @@ export class estimari extends LitElement {
           }
 
           //add cantitate_estimari to ds_estimari_pool row_data
-          context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_cantitate_estimari] = estimare.qty
+          context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
+            _cantitate_estimari
+          ] = estimare.qty
 
           //add start_date to ds_estimari_pool row_data
           context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_start_date] =
@@ -431,6 +471,15 @@ export class estimari extends LitElement {
       console.log('context.ds_estimari after update', context.ds_estimari)
       console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
       console.log('newTree after update with estimari', newTree)
+
+      //find active in ds_estimari and set ds_estimari_pool
+      let active = context.ds_estimari.find((o) => o.active)
+      if (active) {
+        active.ds_estimari_pool = context.ds_estimari_pool
+        active.ds_estimari_flat = context.ds_estimari_flat
+      }
+
+      localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
     }
   }
 

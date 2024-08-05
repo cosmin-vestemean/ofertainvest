@@ -956,7 +956,7 @@ function populateSelectIerarhiiFromTrees() {
   })
 }
 
-function showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5) {
+function showRecipes() {
   //hide table1
   my_table1.style.display = 'none'
   my_table4.style.display = 'none'
@@ -1163,13 +1163,13 @@ export function init() {
       let answer = confirm('Scan again?')
       if (answer) {
         detectieRetete()
-        showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
+        showRecipes()
       } else {
-        showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
+        showRecipes()
       }
     } else {
       detectieRetete()
-      showRecipes(my_table1, my_table2, my_table3, my_table4, my_table5)
+      showRecipes()
     }
   }
   //lista_retete_scurta
@@ -1180,11 +1180,6 @@ export function init() {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
-      my_table2.style.display = 'block'
-      my_table3.style.display = 'block'
-      my_table1.style.display = 'none'
-      my_table4.style.display = 'none'
-      my_table5.style.display = 'none'
       my_table2.ds = listaRetete
     }
   }
@@ -3196,6 +3191,11 @@ class Recipe extends LitElement {
 
   render() {
     console.log('rendering recipe element with following array', this.reteta, 'added at', new Date())
+      my_table2.style.display = 'block'
+      my_table3.style.display = 'block'
+      my_table1.style.display = 'none'
+      my_table4.style.display = 'none'
+      my_table5.style.display = 'none'
 
     if (!this.reteta || this.reteta.length == 0) {
       return html`<p class="label label-danger">No data</p>`
