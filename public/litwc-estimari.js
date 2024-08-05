@@ -310,6 +310,18 @@ export class estimari extends LitElement {
         li.style.cursor = 'pointer'
         li.onclick = function () {
           //set ds_estimari_pool and ds_estimari_flat
+          context.ds_estimari_pool = o.ds_estimari_pool
+          context.ds_estimari_flat = o.ds_estimari_flat
+          //set active in ds_estimari
+          context.ds_estimari.forEach(function (o) {
+            o.active = false
+          })
+          o.active = true
+          //i'm invisible
+          timeline.style.display = 'none'
+          //set ds in my_table5
+          my_table5.style.display = 'block'
+          my_table5.ds = context.ds_estimari_flat
         }
         timeline.appendChild(li)
       })
