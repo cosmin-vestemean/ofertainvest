@@ -3579,7 +3579,7 @@ class listaEstimari extends LitElement {
             tr.remove()
           }
         }
-        for (let key in o) {
+        for (let key in this.ds[i]) {
           //check with listaEstimariDisplayMask
           if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
             continue
