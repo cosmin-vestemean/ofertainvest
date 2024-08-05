@@ -3544,7 +3544,43 @@ class listaEstimari extends LitElement {
       plus_icon.classList.add('bi-plus-square')
       plus_icon.classList.add('text-primary')
       plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = function () {}
+      plus_icon.onclick = function () {
+        //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
+        context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+
+        //active = false for all objects in ds_estimari
+        context.ds_estimari.forEach((o) => (o.active = false))
+        context.ds_estimari.push({
+          createDate: new Date(),
+          updateDate: new Date(),
+          id: context.ds_estimari.length,
+          active: true,
+          ds_estimari_pool: [],
+          ds_estimari_flat: []
+        })
+        if (context.getDsEstimariPool().length == 0) {
+          //trasform newTree in ds_estimari_pool
+          if (newTree.length > 0) {
+            context.createNewEstimariPool(newTree)
+          } else {
+            console.log('newTree is empty, run Antemasuratori first')
+            alert('Genereaza antemasuratorile inainte de a genera estimarile')
+          }
+        }
+        context.createNewEstimariFlat()
+        addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
+        console.log('context.getDsEstimariPool', context.getDsEstimariPool())
+        //console.log('newTree', newTree)
+        let selected_options_arr = ierarhii.getValue()
+        if (selected_options_arr && selected_options_arr.length > 0) {
+          flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
+          my_table5.ds = selected_ds
+        } else {
+          my_table5.ds = context.getDsEstimariFlat()
+        }
+
+        console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
+      }
       th.appendChild(plus_icon)
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
@@ -3590,7 +3626,10 @@ class listaEstimari extends LitElement {
           let id = tr.getAttribute('data-id')
           if (id) {
             delete ds[id]
-            let tr = document.getElementById('table_lista_estimari').shadowRoot.getElementById('tbody_lista_estimari').querySelector('tr[data-id="' + id + '"]')
+            let tr = document
+              .getElementById('table_lista_estimari')
+              .shadowRoot.getElementById('tbody_lista_estimari')
+              .querySelector('tr[data-id="' + id + '"]')
             tr.remove()
           }
         }
