@@ -1124,6 +1124,9 @@ export function init() {
       if (localStorage.getItem('ds_estimari')) {
         context.setDsEstimari(JSON.parse(localStorage.getItem('ds_estimari')))
       }
+    } else {
+      //clear local storage
+      localStorage.clear()
     }
   }
   //hide all tables
