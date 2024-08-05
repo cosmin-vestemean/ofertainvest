@@ -333,7 +333,7 @@ export class estimari extends LitElement {
       context.createNewEstimariFlat()
       addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
       console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-      console.log('newTree', newTree)
+      //console.log('newTree', newTree)
       let selected_options_arr = ierarhii.getValue()
       if (selected_options_arr && selected_options_arr.length > 0) {
         flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
