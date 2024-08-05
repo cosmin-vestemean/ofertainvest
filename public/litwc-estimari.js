@@ -522,44 +522,7 @@ export class estimari extends LitElement {
           td.classList.add(key);
 
           //add event listener for input for td class cantitate_estimari
-          td.addEventListener('focusout', function (e) {
-            // Get cell with class _cantitate_antemasuratori
-            let cantitateAntemasuratoriCell = e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0];
-            let cantitateAntemasuratori = cantitateAntemasuratoriCell.textContent.trim();
-            let diff = parseFloat(cantitateAntemasuratori) - parseFloat(e.target.textContent);
-            cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red';
-            var tagName = e.target.tagName;
-            if (tagName === 'TD') {
-              //get index of tr in tbody
-              let index = parseInt(e.target.parentElement.getAttribute('data-index-of-flat'));
-              //get type from estimariDisplayMask
-              let key = e.target.classList[0];
-              let type = estimariDisplayMask[key].type;
-              let val = null;
-              switch (type) {
-                case 'number':
-                  val = parseFloat(e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0);
-                  break;
-                case 'string':
-                  val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null;
-                  break;
-                case 'date':
-                  val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null;
-                  break;
-                default:
-                  val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null;
-                  end;
-
-              }
-              context.ds_estimari_flat[index][key] = val;
-              let position = locateTrInEstimariPool(e.target);
-              let instanta = position.instanta;
-              let ramura = position.ramura;
-              let activitateIndex = position.activitateIndex;
-              context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val;
-              localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool));
-            }
-          });
+          td.addEventListener('focusout', this._onFocusOut());
 
           //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
           td.addEventListener('keydown', function (e) {
@@ -656,5 +619,46 @@ export class estimari extends LitElement {
     });
     td.appendChild(input2);
     tr.appendChild(td);
+  }
+
+  _onFocusOut() {
+    return function (e) {
+      // Get cell with class _cantitate_antemasuratori
+      let cantitateAntemasuratoriCell = e.target.parentElement.getElementsByClassName(_cantitate_antemasuratori)[0];
+      let cantitateAntemasuratori = cantitateAntemasuratoriCell.textContent.trim();
+      let diff = parseFloat(cantitateAntemasuratori) - parseFloat(e.target.textContent);
+      cantitateAntemasuratoriCell.style.color = diff === 0 ? 'green' : 'red';
+      var tagName = e.target.tagName;
+      if (tagName === 'TD') {
+        //get index of tr in tbody
+        let index = parseInt(e.target.parentElement.getAttribute('data-index-of-flat'));
+        //get type from estimariDisplayMask
+        let key = e.target.classList[0];
+        let type = estimariDisplayMask[key].type;
+        let val = null;
+        switch (type) {
+          case 'number':
+            val = parseFloat(e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : 0);
+            break;
+          case 'string':
+            val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null;
+            break;
+          case 'date':
+            val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null;
+            break;
+          default:
+            val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null;
+            end;
+
+        }
+        context.ds_estimari_flat[index][key] = val;
+        let position = locateTrInEstimariPool(e.target);
+        let instanta = position.instanta;
+        let ramura = position.ramura;
+        let activitateIndex = position.activitateIndex;
+        context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val;
+        localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool));
+      }
+    };
   }
 }
