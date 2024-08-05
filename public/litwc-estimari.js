@@ -303,6 +303,8 @@ export class estimari extends LitElement {
       //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
       context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
 
+      //active = false for all objects in ds_estimari
+      context.ds_estimari.forEach((o) => (o.active = false))
       context.ds_estimari.push({
         createDate: new Date(),
         updateDate: new Date(),
