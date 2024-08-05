@@ -3579,6 +3579,8 @@ class listaEstimari extends LitElement {
             tr.remove()
           }
         }
+        td2.appendChild(trash)
+        tr.appendChild(td2)
         for (let key in this.ds[i]) {
           //check with listaEstimariDisplayMask
           if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
