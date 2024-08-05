@@ -3473,9 +3473,11 @@ class Recipe extends LitElement {
 
 const listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
-  active: { label: 'Activ', visible: true, type: 'boolean' },
-  createDate: { label: 'Data creare', visible: true, type: 'date' },
-  updateDate: { label: 'Data actualizare', visible: true, type: 'date' }
+  active: { label: 'Activ', visible: false, type: 'boolean' },
+  createDate: { label: 'Creare', visible: true, type: 'date' },
+  updateDate: { label: 'Actualizare', visible: true, type: 'date' },
+  _start_date: { label: 'Start', visible: true, type: 'date' },
+  _end_date: { label: 'Stop', visible: true, type: 'date' },
 }
 
 //create and export class listaEstimari
