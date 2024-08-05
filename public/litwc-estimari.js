@@ -437,8 +437,8 @@ export class estimari extends LitElement {
         active.ds_estimari_pool = context.ds_estimari_pool
         active.ds_estimari_flat = context.ds_estimari_flat
         active.updateDate = new Date()
-        active['start_date'] = active.ds_estimari_flat[0][_start_date]
-        active['end_date'] = active.ds_estimari_flat[0][_end_date]
+        active['start_date'] = active.ds_estimari_flat[0].row_data[_start_date]
+        active['end_date'] = active.ds_estimari_flat[0].row_data[_end_date]
       }
 
       localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
