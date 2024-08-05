@@ -367,7 +367,7 @@ export class estimari extends LitElement {
                 input1.id = key === _start_date ? 'start_date' : 'end_date'
                 input1.classList.add('form-control', 'form-control-sm')
                 input1.value = firstLine[key] || ''
-                this.updateDateInputs(input1)
+                input1.onchange = this.updateDateInputs(input1)
                 th.appendChild(input1)
                 tr.appendChild(th)
               }
@@ -462,7 +462,7 @@ export class estimari extends LitElement {
   }
 
   updateDateInputs(input1) {
-    input1.onchange = function () {
+    return function () {
       let key = input1.classList.contains('start_date') ? _start_date : _end_date
       let inputs = document
         .getElementById('my_table_estimari')
