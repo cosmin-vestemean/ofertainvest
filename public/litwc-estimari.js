@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { template, _start_date, _end_date, _cantitate_estimari, _cantitate_antemasuratori, newTree, theadIsSet } from "./client";
-import { estimariDisplayMask, context, generateTblRowsFromDsEstimariPool, locateTrInEstimariPool } from "./estimari";
+import { template, _start_date, _end_date, _cantitate_estimari, _cantitate_antemasuratori, newTree, theadIsSet } from "./client.js";
+import { estimariDisplayMask, context, generateTblRowsFromDsEstimariPool, locateTrInEstimariPool } from "./estimari.js";
 
 
 export class estimari extends LitElement {
