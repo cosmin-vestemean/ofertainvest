@@ -291,7 +291,13 @@ function processExcelData(excel_object) {
   optimal_ds = sortByUniqueKey(original_ds, unique_key)
   original_ds = []
   //refresh ds in my-table component
-  document.getElementById('my_table_oferta_initiala').ds = optimal_ds
+  my_table1.style.display = 'block'
+  my_table2.style.display = 'none'
+  my_table3.style.display = 'none'
+  my_table4.style.display = 'none'
+  my_table5.style.display = 'none'
+  my_table6.style.display = 'none'
+  my_table1.ds = optimal_ds
   //tableId
   document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
   console.log('optimal_ds', optimal_ds)
