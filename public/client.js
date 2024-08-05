@@ -1685,7 +1685,6 @@ export function init() {
   //btn_estimari
   let btn_estimari = document.getElementById('btn_estimari')
   btn_estimari.onclick = function () {
-    localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
     //hide all tables but 5
     my_table1.style.display = 'none'
     my_table2.style.display = 'none'
