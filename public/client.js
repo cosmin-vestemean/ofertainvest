@@ -3514,7 +3514,7 @@ class listaEstimari extends LitElement {
           td.innerHTML = o[key] || ''
           td.classList.add(key)
           //add attribute data-id
-          td.setAttribute('data-id', o.id)
+          tr.setAttribute('data-id', o.id)
           tr.appendChild(td)
         }
         //add on click event for each row
