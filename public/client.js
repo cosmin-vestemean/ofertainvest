@@ -3200,12 +3200,6 @@ class Recipe extends LitElement {
 
   render() {
     console.log('rendering recipe element with following array', this.reteta, 'added at', new Date())
-    my_table2.style.display = 'block'
-    my_table3.style.display = 'block'
-    my_table1.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'none'
 
     if (!this.reteta || this.reteta.length == 0) {
       return html`<p class="label label-danger">No data</p>`
@@ -3531,12 +3525,6 @@ class listaEstimari extends LitElement {
   }
 
   render() {
-    my_table1.style.display = 'none'
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'block'
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
 
     if (!this.ds || this.ds.length == 0) {

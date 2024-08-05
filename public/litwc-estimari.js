@@ -73,12 +73,6 @@ export class estimari extends LitElement {
   }
 
   render() {
-    my_table1.style.display = 'none'
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'block'
-    my_table6.style.display = 'none'
     console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
     //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
     //add buttons
