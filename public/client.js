@@ -3553,7 +3553,7 @@ class listaEstimari extends LitElement {
         //load my_table5 with the selected o.ds_estimari_flat
         tr.onclick = function () {
           //get attribute data-id from tr
-          let id = tr.getAttribute('data-id')
+          let id = tr.getAttribute('data-id') || null
           if (id) {
             let ds = context.ds_estimari[id].ds_estimari_flat
             //set active false for all ds_estimari
