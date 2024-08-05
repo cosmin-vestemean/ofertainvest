@@ -239,7 +239,7 @@ function loadDataFromFile(evt) {
   reader.onload = function (e) {
     var excel_object = null
     original_ds = []
-    compacted_ds = []
+    //compacted_ds = []
     optimal_ds = []
     combinatii_unice = []
     var data = e.target.result
@@ -356,7 +356,7 @@ export function addOnChangeEvt(ds, delimiter, tableId) {
   }
 }
 
-function removeEmpty(original_ds) {
+/* function removeEmpty(original_ds) {
   var keys = Object.keys(original_ds[0])
   var compacted_ds = []
   original_ds.forEach(function (object) {
@@ -370,7 +370,7 @@ function removeEmpty(original_ds) {
   })
 
   return compacted_ds
-}
+} */
 
 function sortByUniqueKey(compacted_ds, unique_key) {
   //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
