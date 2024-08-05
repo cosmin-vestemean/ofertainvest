@@ -3557,7 +3557,7 @@ class listaEstimari extends LitElement {
       button.innerHTML = 'Adauga estimare'
       button.onclick = addNewEstimare
       div.appendChild(button)
-      return `${div}`
+      return html`${div}`
     } else {
       //add table
       var table = document.createElement('table')
