@@ -301,6 +301,9 @@ export class estimari extends LitElement {
 
   addNewEstimate(plus_icon) {
     plus_icon.onclick = function () {
+      //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
+      context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+      
       context.ds_estimari.push({
         createDate: new Date(),
         updateDate: new Date(),
@@ -423,9 +426,6 @@ export class estimari extends LitElement {
         active.ds_estimari_pool = context.ds_estimari_pool
         active.ds_estimari_flat = context.ds_estimari_flat
       }
-
-      //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
-      context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
 
       localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
     }
