@@ -3556,6 +3556,11 @@ class listaEstimari extends LitElement {
           let id = tr.getAttribute('data-id')
           if (id) {
             let ds = context.ds_estimari[id].ds_estimari_flat
+            //set active false for all ds_estimari
+            context.ds_estimari.forEach(function (o) {
+              o.active = false
+            })
+            context.ds_estimari[id].active = true
             my_table5.ds = ds
           } else {
             console.log('id not found')
