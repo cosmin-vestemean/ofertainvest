@@ -379,7 +379,7 @@ export function addOnChangeEvt(ds, delimiter, tableId) {
 } */
 
 function sortByUniqueKey(compacted_ds, unique_key) {
-  //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
+  //return [...array.reduce((r, o) => r.set(this.ds[i][key], o), new Map()).values()];
 
   //rearrange data so all objects with same key unique_key are displayed together
   let optimal_ds = []
@@ -3591,7 +3591,7 @@ class listaEstimari extends LitElement {
           let td = document.createElement('td')
           if (listaEstimariDisplayMask[key].type === 'date') {
             //td.innerHTML = add human readable date and time. from "2024-08-05T13:05:08.428Z" to "5 august 2024, 13:05"
-            let date = new Date(o[key])
+            let date = new Date(this.ds[i][key])
             td.innerHTML = date.toLocaleDateString('ro-RO', {
               year: 'numeric',
               month: 'long',
@@ -3601,11 +3601,11 @@ class listaEstimari extends LitElement {
             //add icon
             let icon = document.createElement('i')
             icon.classList.add('bi')
-            icon.classList.add(o[key] ? 'bi-check' : 'bi-x')
-            icon.classList.add(o[key] ? 'text-success' : 'text-danger')
+            icon.classList.add(this.ds[i][key] ? 'bi-check' : 'bi-x')
+            icon.classList.add(this.ds[i][key] ? 'text-success' : 'text-danger')
             td.appendChild(icon)
           } else {
-            td.innerHTML = o[key] || ''
+            td.innerHTML = this.ds[i][key] || ''
           }
           td.classList.add(key)
           //add attribute data-id
