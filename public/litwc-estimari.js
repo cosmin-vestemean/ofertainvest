@@ -317,7 +317,7 @@ export class estimari extends LitElement {
             o.active = false
           })
           o.active = true
-          //i'm invisible
+          //i'm invisible now
           timeline.style.display = 'none'
           //set ds in my_table5
           my_table5.style.display = 'block'
