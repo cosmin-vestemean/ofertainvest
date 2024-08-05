@@ -214,7 +214,7 @@ export const antemasuratoriDisplayMask = {
   }
 }
 
-const delimiter = '~~~~~~~~~~~~~~~'
+export const delimiter = '~~~~~~~~~~~~~~~'
 
 const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti', 'slate', 'solar']
 let selectedTheme = localStorage.getItem('theme') || 'default'
