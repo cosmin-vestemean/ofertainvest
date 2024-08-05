@@ -3473,6 +3473,44 @@ class Recipe extends LitElement {
   }
 }
 
+function addNewEstimare() {
+  //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
+  context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+
+  //active = false for all objects in ds_estimari
+  context.ds_estimari.forEach((o) => (o.active = false))
+  context.ds_estimari.push({
+    createDate: new Date(),
+    updateDate: new Date(),
+    id: context.ds_estimari.length,
+    active: true,
+    ds_estimari_pool: [],
+    ds_estimari_flat: []
+  })
+  if (context.getDsEstimariPool().length == 0) {
+    //trasform newTree in ds_estimari_pool
+    if (newTree.length > 0) {
+      context.createNewEstimariPool(newTree)
+    } else {
+      console.log('newTree is empty, run Antemasuratori first')
+      alert('Genereaza antemasuratorile inainte de a genera estimarile')
+    }
+  }
+  context.createNewEstimariFlat()
+  addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
+  console.log('context.getDsEstimariPool', context.getDsEstimariPool())
+  //console.log('newTree', newTree)
+  let selected_options_arr = ierarhii.getValue()
+  if (selected_options_arr && selected_options_arr.length > 0) {
+    flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
+    my_table5.ds = selected_ds
+  } else {
+    my_table5.ds = context.getDsEstimariFlat()
+  }
+
+  console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
+}
+
 const listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
   active: { label: 'Activ', visible: false, type: 'boolean' },
@@ -3509,7 +3547,11 @@ class listaEstimari extends LitElement {
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
 
     if (!this.ds || this.ds.length == 0) {
-      return html`<div class="container"><h3 class="text-center text-danger">No data</h3></div>`
+      return html`<div class="container"><h3 class="text-center text-danger">No data</h3>
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-primary" onclick="addNewEstimare()">Adauga estimare</button>
+      </div>
+      </div>`
     } else {
       //add table
       var table = document.createElement('table')
@@ -3545,41 +3587,7 @@ class listaEstimari extends LitElement {
       plus_icon.classList.add('text-primary')
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = function () {
-        //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
-        context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
-
-        //active = false for all objects in ds_estimari
-        context.ds_estimari.forEach((o) => (o.active = false))
-        context.ds_estimari.push({
-          createDate: new Date(),
-          updateDate: new Date(),
-          id: context.ds_estimari.length,
-          active: true,
-          ds_estimari_pool: [],
-          ds_estimari_flat: []
-        })
-        if (context.getDsEstimariPool().length == 0) {
-          //trasform newTree in ds_estimari_pool
-          if (newTree.length > 0) {
-            context.createNewEstimariPool(newTree)
-          } else {
-            console.log('newTree is empty, run Antemasuratori first')
-            alert('Genereaza antemasuratorile inainte de a genera estimarile')
-          }
-        }
-        context.createNewEstimariFlat()
-        addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
-        console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-        //console.log('newTree', newTree)
-        let selected_options_arr = ierarhii.getValue()
-        if (selected_options_arr && selected_options_arr.length > 0) {
-          flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-          my_table5.ds = selected_ds
-        } else {
-          my_table5.ds = context.getDsEstimariFlat()
-        }
-
-        console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
+        addNewEstimare()
       }
       th.appendChild(plus_icon)
       tr.appendChild(th)
