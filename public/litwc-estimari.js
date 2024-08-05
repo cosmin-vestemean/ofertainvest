@@ -12,6 +12,7 @@ import {
   flatFind,
   selected_ds,
   delimiter,
+  my_table5
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -73,7 +74,7 @@ export class estimari extends LitElement {
     var buttonsPannel = this.createButtonsPanel()
 
     if (!this.ds || this.ds.length == 0) {
-      return html`${buttonsPannel}<h3 class="text-center text-danger">No data</h3>`
+      return html`${buttonsPannel}<div class="container"><h3 class="text-center text-danger">No data</h3></div>`
     } else {
       //add table
       var table = document.createElement('table')
