@@ -3539,6 +3539,8 @@ class listaEstimari extends LitElement {
             let icon = document.createElement('i')
             icon.classList.add('bi')
             icon.classList.add(o[key] ? 'bi-check' : 'bi-x')
+            icon.classList.add(o[key] ? 'text-success' : 'text-danger')
+            td.appendChild(icon)
           } else {
             td.innerHTML = o[key] || ''
           }
