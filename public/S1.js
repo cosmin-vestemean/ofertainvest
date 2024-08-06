@@ -1,4 +1,4 @@
-import { client } from './client'
+import { client } from './client.js'
 
 export const S1 = {
   connectToS1Service: async function () {
