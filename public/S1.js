@@ -2,7 +2,15 @@ import { client } from './client.js';
 
 class S1 {
     static async connectToS1Service() {
+        if (!client) {
+            throw new Error('Client is not defined');
+        }
+
         const connectToS1 = client.service('connectToS1');
+        if (!connectToS1) {
+            throw new Error('connectToS1 service is not defined');
+        }
+
         const result = await connectToS1.find();
         return result;
     }
@@ -30,12 +38,7 @@ class S1 {
                 option.text = object['NAME'];
                 select_trdr.appendChild(option);
             });
-            select_trdr.selectedIndex = -1;
-        } else {
-            console.log('error', result1.error);
         }
-
-        // ... continue populating other selects
     }
 
     static async S1_InsertDocument(UIElement, jsonToSend) {
@@ -58,25 +61,4 @@ class S1 {
             UIElement.classList.add('btn-danger');
         }
     }
-
-    static async S1_getValFromQuery(query) {
-        const result = await this.connectToS1Service();
-        const clientID = result.token;
-
-        const result1 = await client.service('getValFromQuery').find({
-            query: {
-                clientID: clientID,
-                appId: 1001,
-                sqlQuery: query
-            }
-        });
-
-        if (result1.success) {
-            return result1.data;
-        } else {
-            console.log('error', result1.error);
-        }
-    }
 }
-
-export const { S1_populateSelects, S1_InsertDocument, S1_getValFromQuery } = S1;
