@@ -69,7 +69,7 @@ export class estimari extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    console.log('estimari element added to the DOM')
+    //console.log('estimari element added to the DOM')
   }
 
   render() {

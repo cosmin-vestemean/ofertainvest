@@ -24,7 +24,7 @@ export class antemasuratori extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    console.log('antemasuratori element added to the DOM');
+    //console.log('antemasuratori element added to the DOM');
   }
 
   render() {

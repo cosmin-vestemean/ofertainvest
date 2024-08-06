@@ -1779,7 +1779,7 @@ class Activity extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    console.log('activity element added to the DOM')
+    //console.log('activity element added to the DOM')
   }
 
   render() {
@@ -3032,7 +3032,7 @@ class Recipe extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    console.log('recipe element added to the DOM')
+    //console.log('recipe element added to the DOM')
   }
 
   render() {
@@ -3358,7 +3358,7 @@ class listaEstimari extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    console.log('listaEstimari element added to the DOM')
+    //console.log('listaEstimari element added to the DOM')
   }
 
   render() {
