@@ -846,26 +846,7 @@ async function saveOferta() {
   btn_oferta.classList.add('btn-info')
   //exec getValFromQuery and get findoc from result.value
   var findoc = 0
-  await connectToS1Service().then(async (result) => {
-    const clientID = result.token
-    console.log('clientID', clientID)
-    await client
-      .service('getValFromQuery')
-      .find({
-        query: {
-          clientID: clientID,
-          appId: 1001,
-          sqlQuery: "select ident_current('findoc') + ident_incr('findoc')"
-        }
-      })
-      .then((result) => {
-        console.log('result', result)
-        findoc = result.value
-      })
-      .catch((error) => {
-        console.log('error', error)
-      })
-  })
+  findoc = S1.getValFromQuery("select ident_current('findoc') + ident_incr('findoc')")
 
   var CCCOFERTELINII = []
   original_ds.forEach(function (object) {
@@ -915,35 +896,7 @@ async function saveOferta() {
 
   console.log('jsonToSend', jsonToSend)
 
-  await connectToS1Service()
-    .then(async (result) => {
-      const clientID = result.token
-      console.log('clientID', clientID)
-      jsonToSend.clientID = clientID
-      await client
-        .service('setDocument')
-        .create(jsonToSend)
-        .then((result) => {
-          console.log('result', result)
-          if (result.success) {
-            btn_oferta.innerHTML = 'Oferta salvata cu findoc=' + result.id
-            btn_oferta.classList.remove('btn-info')
-            btn_oferta.classList.add('btn-success')
-            //disable button
-            btn_oferta.disabled = true
-          } else {
-            btn_oferta.innerHTML = 'Eroare'
-            btn_oferta.classList.remove('btn-info')
-            btn_oferta.classList.add('btn-danger')
-          }
-        })
-        .catch((error) => {
-          console.log('error', error)
-        })
-    })
-    .catch((error) => {
-      console.log('error', error)
-    })
+  S1.insertDocument(jsonToSend, btn_oferta)
 }
 
 function populateSelectIerarhiiFromTrees() {
@@ -3601,8 +3554,9 @@ const S1 = {
     connectToS1Service()
     .then(async (result) => {
       const clientID = result.token
-      console.log('clientID', clientID)
-      var params = {
+      //console.log('clientID', clientID)
+
+      let params = {
         query: {
           clientID: clientID,
           appID: '1001',
@@ -3629,7 +3583,7 @@ const S1 = {
             console.log('error', result.error)
           }
           //select id="prjc" populate by calling S1 service getDataset
-          var params = {
+          let params = {
             query: {
               clientID: clientID,
               appID: '1001',
@@ -3657,7 +3611,7 @@ const S1 = {
                 })
                 select_prjc.selectedIndex = -1
                 //populate saldoc by calling S1 service getDataset
-                var params = {
+                let params = {
                   query: {
                     clientID: clientID,
                     appID: '1001',
@@ -3702,6 +3656,63 @@ const S1 = {
     })
     .catch((error) => {
       console.log('error', error)
+    })
+  },
+  insertDocument: async function (UIElement) {
+    await connectToS1Service()
+    .then(async (result) => {
+      const clientID = result.token
+      console.log('clientID', clientID)
+      jsonToSend.clientID = clientID
+      await client
+        .service('setDocument')
+        .create(jsonToSend)
+        .then((result) => {
+          console.log('result', result)
+          if (result.success) {
+            UIElement.innerHTML = 'Oferta salvata'
+            UIElement.classList.remove('btn-info')
+            UIElement.classList.add('btn-success')
+            //disable button
+            UIElement.disabled = true
+          } else {
+            UIElement.innerHTML = 'Eroare salvare oferta'
+            UIElement.classList.remove('btn-info')
+            UIElement.classList.add('btn-danger')
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
+  },
+  getValFromQuery: async function (query) {
+    await connectToS1Service().then(async (result) => {
+      const clientID = result.token
+      //console.log('clientID', clientID)
+      await client
+        .service('getValFromQuery')
+        .find({
+          query: {
+            clientID: clientID,
+            appId: 1001,
+            sqlQuery: query
+          }
+        })
+        .then((result) => {
+          //console.log('result', result)
+          if (result.success) {
+            return result.data
+          } else {
+            console.log('error', result.error)
+          }
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
     })
   }
 }
