@@ -1,6 +1,6 @@
 import { client } from './client.js'
 
-export async function connectToS1Service() {
+async function connectToS1Service() {
   if (!client) {
     console.log('client not found')
     return { error: 'client not found' }
