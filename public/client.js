@@ -3,7 +3,7 @@ import { context } from './estimari.js'
 import { estimari } from './litwc-estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
-import { S1 } from './S1.js'
+import { populateSelects, insertDocument, getValFromQuery } from './S1.js';
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -841,7 +841,7 @@ async function saveOferta() {
   btn_oferta.classList.add('btn-info')
   //exec getValFromQuery and get findoc from result.value
   var findoc = 0
-  findoc = S1.getValFromQuery("select ident_current('findoc') + ident_incr('findoc')")
+  findoc = getValFromQuery("select ident_current('findoc') + ident_incr('findoc')")
 
   var CCCOFERTELINII = []
   original_ds.forEach(function (object) {
@@ -891,7 +891,7 @@ async function saveOferta() {
 
   console.log('jsonToSend', jsonToSend)
 
-  S1.insertDocument(jsonToSend, btn_oferta)
+  insertDocument(jsonToSend, btn_oferta)
 }
 
 function populateSelectIerarhiiFromTrees() {
@@ -1209,7 +1209,7 @@ export function init() {
   }
   document.getElementById('trndate').valueAsDate = new Date()
   //populate selects trdr, prjc, oferta by calling S1 service getDataset
-  S1.populateSelects()
+  populateSelects()
 
   //add on hover to my_table2 rows and get index of row and look in recipes_ds[index] for reteta to display in my_table2
   //do not forget shadowRoot
