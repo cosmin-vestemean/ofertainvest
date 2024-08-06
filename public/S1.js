@@ -30,7 +30,7 @@ export async function populateSelects() {
         .service('getDataset')
         .find(params)
         .then((result) => {
-          console.log('result', result)
+          //console.log('result', result)
           if (result.success) {
             var select_trdr = document.getElementById('trdr')
             //populate select_trdr
@@ -42,7 +42,7 @@ export async function populateSelects() {
             })
             select_trdr.selectedIndex = -1
           } else {
-            console.log('error', result.error)
+            //console.log('error', result.error)
           }
           //select id="prjc" populate by calling S1 service getDataset
           let params = {
@@ -61,7 +61,7 @@ export async function populateSelects() {
             .service('getDataset')
             .find(params)
             .then((result) => {
-              console.log('result', result)
+              //console.log('result', result)
               if (result.success) {
                 var select_prjc = document.getElementById('prjc')
                 //populate select_prjc
@@ -86,7 +86,7 @@ export async function populateSelects() {
                   .service('getDataset')
                   .find(params)
                   .then((result) => {
-                    console.log('result', result)
+                    //console.log('result', result)
                     if (result.success) {
                       var select_saldoc = document.getElementById('saldoc')
                       //populate select_saldoc
