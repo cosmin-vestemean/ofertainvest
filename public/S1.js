@@ -1,10 +1,15 @@
 import { client } from './client.js'
 
 export async function connectToS1Service() {
-  if (!client.io.connected) {
-    await client.io.connect()
+  if (!client) {
+    console.log('client not found')
+    return { error: 'client not found' }
   }
   const connectToS1 = client.service('connectToS1')
+  if (!connectToS1) {
+    console.log('connectToS1 service not found')
+    return
+  }
   const result = await connectToS1.find()
   return result
 }
