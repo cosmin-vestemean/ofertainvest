@@ -7,7 +7,7 @@ class S1 {
         return result;
     }
 
-    static async populateSelects() {
+    static async S1_populateSelects() {
         const result = await this.connectToS1Service();
         const clientID = result.token;
 
@@ -38,7 +38,7 @@ class S1 {
         // ... continue populating other selects
     }
 
-    static async insertDocument(UIElement, jsonToSend) {
+    static async S1_InsertDocument(UIElement, jsonToSend) {
         const result = await this.connectToS1Service();
         const clientID = result.token;
         //console.log('clientID', clientID);
@@ -59,7 +59,7 @@ class S1 {
         }
     }
 
-    static async getValFromQuery(query) {
+    static async S1_getValFromQuery(query) {
         const result = await this.connectToS1Service();
         const clientID = result.token;
 
@@ -79,4 +79,4 @@ class S1 {
     }
 }
 
-export const { populateSelects, insertDocument, getValFromQuery } = S1;
+export const { S1_populateSelects, S1_InsertDocument, S1_getValFromQuery } = S1;
