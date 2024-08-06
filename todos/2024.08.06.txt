@@ -1,0 +1,34 @@
+stack replaces tree - 2 zile
+
+ESTIMARE
+
+-!time overlaping
+-ends in L si grupare articol unfolded
+-restul folded
+-completare automata conform excel clickup de la articol la componente sau invers
+-coloana estimate interior (vezi displayMask)
+
+- 4 zile : 13.08.2024 ora 10:00
+
+PLANIFICARE:
+
+-planificator (user); per planificator nu am time overlaping
+-ends in L si grupare articol unfolded
+-restul folded
+-completare automata conform excel clickup de la articol la componente sau invers
+-coloana planificate anterior
+-visualizare dropdown
+1. cele estimate
+2. cele NEestimate
+3. necompletate
+4. completate diferit de cantitatea de la pasul anterior
+5. completate
+
+RZL:
+-users
+-realizat electricean
+-realizat conform verificarii
+-finalizat (bool)
+-verificat de catre (inginer santier)
+-interval manopera sau spinner ore
+=>pontaje

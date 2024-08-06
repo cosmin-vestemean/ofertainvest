@@ -53,6 +53,13 @@ export let estimariDisplayMask = {
     label: 'Cantitate<br>antemasuratori',
     type: 'number'
   },
+  TOTAL_CANTITATE_ARTICOL_ESTIMARE_ANTERIOR: {
+    value: 'TOTAL_CANTITATE_ARTICOL_ESTIMARE_ANTERIOR',
+    RW: false,
+    visible: true,
+    label: 'Total<br>estimare<br>anterioara',
+    type: 'number'
+  },
   CANTITATE_ARTICOL_ESTIMARI: {
     value: 'CANTITATE_ARTICOL_ESTIMARI',
     RW: true,
