@@ -51,7 +51,7 @@ function runSQLTransaction(obj) {
     return result
   } else {
     try {
-      strSql = 'BEGIN TRY;' //start sq transaction with commit and rollback
+      var strSql = 'BEGIN TRY;' //start sq transaction with commit and rollback
       //start sq transaction with commit and rollback
       strSql += 'BEGIN TRANSACTION ;'
       for (var i = 0; i < obj.sqlList.length; i++) {
