@@ -347,7 +347,7 @@ async function salveazaOfertaInDB(optimal_ds) {
       return res
     }
     let ofertaExista = res.value
-    if (ofertaExista == 0) {
+    if (ofertaExista > 0) {
       sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
     } else {
       sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
