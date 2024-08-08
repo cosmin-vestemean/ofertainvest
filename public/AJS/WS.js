@@ -46,6 +46,7 @@ function convertDatasetToArray(dataset) {
 function runSQLTransaction(obj) {
   var result = { success: false, error: '' }
   if (!obj.sqlList || obj.sqlList.length == 0) {
+    result.success = false
     result.error = 'No sql query transmited.'
     return result
   } else {

@@ -350,7 +350,7 @@ async function salveazaOfertaInDB(optimal_ds) {
   } else {
     sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
   }
-  runSQLTransaction({ sqlList: sqlList }).then((result) => {
+  await runSQLTransaction({ sqlList: sqlList }).then((result) => {
     return result
   })
 }
