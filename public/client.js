@@ -345,7 +345,7 @@ async function salveazaOfertaInDB(optimal_ds) {
   //if not insert it
   //if yes update JSONSTR
   let ofertaExista = await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
-  if (ofertaExista.value == 0) {
+  if (ofertaExista == 0) {
     sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
   } else {
     sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
