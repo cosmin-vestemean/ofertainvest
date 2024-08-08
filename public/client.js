@@ -3124,6 +3124,14 @@ export function changeStyleInTheShadow(table, link) {
   }
 }
 
+export function setRetetaCurenta(oReteta) {
+  retetaCurenta = oReteta
+}
+
+export function getRetetaCurenta() {
+  return retetaCurenta
+}
+
 customElements.define('my-lista-estimari', listaEstimari)
 customElements.define('my-table', myTable)
 customElements.define('my-recipe', Recipe)

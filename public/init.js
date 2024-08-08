@@ -1,4 +1,4 @@
-import { contextOferta, changeTheme, trees, populateSelectIerarhiiFromTrees, processExcelData, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete, ds_antemasuratori, newTree, my_table2, my_table3, my_table4, my_table5, my_table6, my_table1, saveOferta, loadDataFromFile, detectieRetete, showRecipes, optimal_ds, showRecipesList, theadIsSet, retetaCurenta, showHideHeader, calculateAntemasAndNewTree, showAntemasuratori, addOnChangeEvt, delimiter, themes, changeStyleInTheShadow, _cantitate_oferta } from "./client.js";
+import { contextOferta, changeTheme, trees, populateSelectIerarhiiFromTrees, processExcelData, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete, ds_antemasuratori, newTree, my_table2, my_table3, my_table4, my_table5, my_table6, my_table1, saveOferta, loadDataFromFile, detectieRetete, showRecipes, optimal_ds, showRecipesList, theadIsSet, setRetetaCurenta, getRetetaCurenta, showHideHeader, calculateAntemasAndNewTree, showAntemasuratori, addOnChangeEvt, delimiter, themes, changeStyleInTheShadow, _cantitate_oferta } from "./client.js";
 import { context } from "./estimari.js";
 import { populateSelects } from "./S1.js";
 
@@ -212,7 +212,8 @@ export function init() {
       var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0);
       console.log('index', index);
       console.log('recipes_ds[index]', recipes_ds[index]);
-      retetaCurenta = recipes_ds[index];
+      setRetetaCurenta(recipes_ds[index]);
+      let retetaCurenta = getRetetaCurenta();
       console.log('retetaCurenta', retetaCurenta);
       var reteta = retetaCurenta.reteta;
       my_table3.reteta = reteta;
