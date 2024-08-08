@@ -292,23 +292,7 @@ function processExcelData(excel_object) {
   const unique_key = 'SERIE_ARTICOL_OFERTA'
   //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
   optimal_ds = sortByUniqueKey(original_ds, unique_key)
-  let sqlList = []
-  //check if entry exists in table by PRJC
-  //if not insert it
-  //if yes update JSONSTR
-  const ofertaExista = getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
-  if (ofertaExista.value == 0) {
-    sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
-  } else {
-    sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
-  }
-  runSQLTransaction({ sqlList: sqlList }).then((result) => {
-    if (result.success) {
-      console.log('result', result)
-    } else {
-      console.log('error', result.error)
-    }
-  })
+  salveazaOfertaInDB(optimal_ds)
   original_ds = []
   //refresh ds in my-table component
   my_table1.style.display = 'block'
@@ -354,6 +338,26 @@ function processExcelData(excel_object) {
   addOnChangeEvt(optimal_ds, delimiter, 'my_table_oferta_initiala')
 
   createGraphs(combinatii_unice)
+}
+
+async function salveazaOfertaInDB(optimal_ds) {
+  let sqlList = []
+  //check if entry exists in table by PRJC
+  //if not insert it
+  //if yes update JSONSTR
+  let ofertaExista = await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
+  if (ofertaExista.value == 0) {
+    sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
+  } else {
+    sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
+  }
+  await runSQLTransaction({ sqlList: sqlList }).then((result) => {
+    if (result.success) {
+      console.log('result', result)
+    } else {
+      console.log('error', result.error)
+    }
+  })
 }
 
 export function addOnChangeEvt(ds, delimiter, tableId) {
