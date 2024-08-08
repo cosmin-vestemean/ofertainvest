@@ -178,3 +178,31 @@ export async function getValFromQuery(query) {
       })
   })
 }
+
+export async function runSQLTransaction(objSqlList) {
+  if (!objSqlList || !objSqlList.sqlList || objSqlList.sqlList.length == 0) {
+    console.log('No sql query transmited.')
+    return { success: false, error: 'No sql query transmited.' }
+  }
+  await connectToS1Service().then(async (result) => {
+    const clientID = result.token
+    await client
+      .service('runSQLTransaction')
+      .create({
+        clientID: clientID,
+        sqlList: objSqlList.sqlList
+      })
+      .then((result) => {
+        //console.log('result', result)
+        if (result.success) {
+          return result
+        } else {
+          console.log('error', result.error)
+          return result.error
+        }
+      })
+      .catch((error) => {
+        console.log('error', error)
+      })
+  })
+}

@@ -176,4 +176,19 @@ class getValFromQueryServiceClass {
 //register the service
 app.use('getValFromQuery', new getValFromQueryServiceClass())
 
+class runSQLTransactionServiceClass {
+  async create(data, params) {
+    const url = mainURL + '/JS/WS/runSQLTransaction'
+    const method = 'POST'
+    const body = data
+    const response = await fetch(url, { method: method, body: JSON.stringify(body) })
+    const json = await response.json()
+    console.log(json)
+    return json
+  }
+}
+
+// Register the service
+app.use('runSQLTransaction', new runSQLTransactionServiceClass())
+
 export { app }

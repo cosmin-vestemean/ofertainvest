@@ -3,7 +3,7 @@ import { context } from './estimari.js'
 import { estimari } from './litwc-estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
-import { populateSelects, insertDocument, getValFromQuery } from './S1.js';
+import { populateSelects, insertDocument, getValFromQuery, runSQLTransaction } from './S1.js';
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -54,6 +54,17 @@ client.use('getDataset', socketClient.service('getDataset'), {
 client.use('getValFromQuery', socketClient.service('getValFromQuery'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
+
+//runSQLTransaction
+client.use('runSQLTransaction', socketClient.service('runSQLTransaction'), {
+  methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
+})
+
+var contextOferta = {
+  PRJC: 0,
+  TRDR: 0,
+  FILENAME: ''
+}
 
 var original_ds = []
 //var compacted_ds = []
@@ -230,6 +241,7 @@ template.innerHTML = `
 // 1. load excel file by file chooser xlsx.js
 function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
+  contextOferta.FILENAME = file.name
   var reader = new FileReader()
   reader.onload = function (e) {
     var excel_object = null
@@ -280,6 +292,23 @@ function processExcelData(excel_object) {
   const unique_key = 'SERIE_ARTICOL_OFERTA'
   //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
   optimal_ds = sortByUniqueKey(original_ds, unique_key)
+  let sqlList = []
+  //check if entry exists in table by PRJC
+  //if not insert it
+  //if yes update JSONSTR
+  const ofertaExista = getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
+  if (ofertaExista.value == 0) {
+    sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
+  } else {
+    sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
+  }
+  runSQLTransaction({ sqlList: sqlList }).then((result) => {
+    if (result.success) {
+      console.log('result', result)
+    } else {
+      console.log('error', result.error)
+    }
+  })
   original_ds = []
   //refresh ds in my-table component
   my_table1.style.display = 'block'
@@ -1020,6 +1049,15 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
 //add onload event to window
 export function init() {
   //this function executes when window is loaded
+  //add event listener to select id="trdr" and select id="prjc"
+  var trdr = document.getElementById('trdr')
+  trdr.onchange = function () {
+    contextOferta.TRDR = trdr.value
+  }
+  var prjc = document.getElementById('prjc')
+  prjc.onchange = function () {
+    contextOferta.PRJC = prjc.value
+  }
   //get theme from local storage and set it
   let theme = localStorage.getItem('theme')
   if (theme) changeTheme(theme)
