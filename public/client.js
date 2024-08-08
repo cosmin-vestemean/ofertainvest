@@ -350,7 +350,7 @@ async function salveazaOfertaInDB(optimal_ds) {
   }
   if (ofertaExista.value > 0) {
     sqlList.push(
-      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(optimal_ds)}' WHERE PRJC = ${contextOferta.PRJC}`
+      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(optimal_ds)}', FILENAME = '${contextOferta.FILENAME}', TRDR = ${contextOferta.TRDR}, PRJC = ${contextOferta.PRJC} WHERE PRJC = ${contextOferta.PRJC};`
     )
   } else {
     sqlList.push(
