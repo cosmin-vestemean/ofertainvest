@@ -350,12 +350,8 @@ async function salveazaOfertaInDB(optimal_ds) {
   } else {
     sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
   }
-  await runSQLTransaction({ sqlList: sqlList }).then((result) => {
-    if (result.success) {
-      console.log('result', result)
-    } else {
-      console.log('error', result.error)
-    }
+  runSQLTransaction({ sqlList: sqlList }).then((result) => {
+    return result
   })
 }
 
@@ -831,9 +827,9 @@ function showHideColumn(checkbox_state, column, thead_name, tbody_name) {
 }
 
 async function saveOferta() {
-  var trdr = document.getElementById('trdr').value
-  var trndate = document.getElementById('trndate').value
-  var prjc = document.getElementById('prjc').value
+  let trdr = document.getElementById('trdr').value
+  let trndate = document.getElementById('trndate').value
+  let prjc = document.getElementById('prjc').value
   if (!trdr) {
     alert('Selectati un client')
     return
@@ -849,7 +845,29 @@ async function saveOferta() {
     return
   }
 
-  salveazaOfertaInDB(optimal_ds)
+  if (!optimal_ds.length) {
+    alert('Nu exista date pentru salvare')
+    return
+  }
+
+  let hourglassIcon = '<i class="bi bi-hourglass-split"></i>'
+  let btn_oferta = document.getElementById('btn_oferta')
+  btn_oferta.innerHTML = hourglassIcon + ' Salvare...'
+  //bg-warning
+  btn_oferta.classList.remove('btn-danger')
+  btn_oferta.classList.add('btn-info')
+  
+  let result = await salveazaOfertaInDB(optimal_ds)
+  if (result.success) {
+    btn_oferta.innerHTML = 'Salveaza oferta'
+    btn_oferta.classList.remove('btn-info')
+    btn_oferta.classList.add('btn-success')
+  } else {
+    btn_oferta.innerHTML = 'Eroare la salvare'
+    btn_oferta.classList.remove('btn-info')
+    btn_oferta.classList.add('btn-danger')
+    console.log('Eroare la savarea ofertei', result.error)
+  }
 }
 
 function populateSelectIerarhiiFromTrees() {
@@ -1055,7 +1073,7 @@ export function init() {
     }
   }
   let btn_oferta = document.getElementById('btn_oferta')
-  //btn_oferta.onclick = saveOferta
+  btn_oferta.onclick = saveOferta
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
   file_oferta_initiala.onchange = loadDataFromFile
   //btn_oferta text = 'left arrow' + 'Incarca oferta initiala'

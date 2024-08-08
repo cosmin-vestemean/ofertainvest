@@ -194,15 +194,11 @@ export async function runSQLTransaction(objSqlList) {
       })
       .then((result) => {
         //console.log('result', result)
-        if (result.success) {
-          return result
-        } else {
-          console.log('error', result.error)
-          return result.error
-        }
+        return result
       })
       .catch((error) => {
         console.log('error', error)
+        return { success: false, error: error }
       })
   })
 }
