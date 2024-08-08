@@ -153,27 +153,27 @@ export async function insertDocument(UIElement) {
 }
 
 export async function getValFromQuery(query) {
-  connectToS1Service().then(async (result) => {
-    const clientID = result.token
-    console.log('clientID', clientID)
-    await client
-      .service('getValFromQuery')
-      .find({
-        query: {
-          clientID: clientID,
-          appId: 1001,
-          sqlQuery: query
-        }
-      })
-      .then((result) => {
-        console.log('result', result)
-        return result
-      })
-      .catch((error) => {
-        console.log('error', error)
-        return { success: false, error: error }
-      })
-  })
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await connectToS1Service();
+      const clientID = result.token;
+      console.log('clientID', clientID);
+      const queryResult = await client
+        .service('getValFromQuery')
+        .find({
+          query: {
+            clientID: clientID,
+            appId: 1001,
+            sqlQuery: query
+          }
+        });
+      console.log('result', queryResult);
+      resolve(queryResult);
+    } catch (error) {
+      console.log('error', error);
+      reject({ success: false, error: error });
+    }
+  });
 }
 
 export async function runSQLTransaction(objSqlList) {
