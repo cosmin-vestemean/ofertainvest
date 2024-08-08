@@ -3,7 +3,7 @@ import { context } from './estimari.js'
 import { estimari } from './litwc-estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
-import { populateSelects, insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js';
+import { populateSelects, insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -275,8 +275,8 @@ function loadDataFromFile(evt) {
   reader.readAsArrayBuffer(file)
 
   var btn_oferta = document.getElementById('btn_oferta')
-  var dl = `<i class="bi bi-download"></i>`;
-  btn_oferta.innerHTML = 'Salveaza oferta ' + dl;
+  var dl = `<i class="bi bi-download"></i>`
+  btn_oferta.innerHTML = 'Salveaza oferta ' + dl
   btn_oferta.classList.remove('btn-success')
   btn_oferta.classList.add('btn-danger')
 }
@@ -341,19 +341,32 @@ function processExcelData(excel_object) {
 
 async function salveazaOfertaInDB(optimal_ds) {
   let sqlList = []
-  const ofertaExista = await getValFromS1Query(`select count(*) from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`)
+  const ofertaExista = await getValFromS1Query(
+    `select count(*) from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`
+  )
   if (!ofertaExista.success) {
     console.log('error', ofertaExista.error)
     return ofertaExista
   }
   if (ofertaExista.value > 0) {
-    sqlList.push(`UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(optimal_ds)}' WHERE PRJC = ${contextOferta.PRJC}`)
+    sqlList.push(
+      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(optimal_ds)}' WHERE PRJC = ${contextOferta.PRJC}`
+    )
   } else {
-    sqlList.push(`INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(optimal_ds)}');`)
+    sqlList.push(
+      `INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(optimal_ds)}');`
+    )
   }
-  const result = await runSQLTransaction({ sqlList: sqlList })
-  console.log('result', result)
-  return result
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await runSQLTransaction({ sqlList: sqlList })
+      console.log('result', result)
+      resolve(result)
+    } catch (error) {
+      console.log('error', error)
+      reject(error)
+    }
+  })
 }
 
 export function addOnChangeEvt(ds, delimiter, tableId) {
@@ -857,18 +870,24 @@ async function saveOferta() {
   //bg-warning
   btn_oferta.classList.remove('btn-danger')
   btn_oferta.classList.add('btn-info')
-  
-  let result = await salveazaOfertaInDB(optimal_ds)
-  if (result.success) {
-    btn_oferta.innerHTML = 'Salveaza oferta'
-    btn_oferta.classList.remove('btn-info')
-    btn_oferta.classList.add('btn-success')
-  } else {
+
+  salveazaOfertaInDB(optimal_ds).then((result) => {
+    if (result.success) {
+      btn_oferta.innerHTML = 'Salveaza oferta'
+      btn_oferta.classList.remove('btn-info')
+      btn_oferta.classList.add('btn-success')
+    } else {
+      btn_oferta.innerHTML = 'Eroare la salvare'
+      btn_oferta.classList.remove('btn-info')
+      btn_oferta.classList.add('btn-danger')
+      console.log('Eroare la savarea ofertei', result.error)
+    }
+  }).catch((error) => {
     btn_oferta.innerHTML = 'Eroare la salvare'
     btn_oferta.classList.remove('btn-info')
     btn_oferta.classList.add('btn-danger')
-    console.log('Eroare la savarea ofertei', result.error)
-  }
+    console.log('Eroare la savarea ofertei', error)
+  })
 }
 
 function populateSelectIerarhiiFromTrees() {

@@ -176,26 +176,26 @@ export async function getValFromS1Query(query) {
   });
 }
 
-export async function runSQLTransaction(objSqlList) {
-  if (!objSqlList || !objSqlList.sqlList || objSqlList.sqlList.length == 0) {
-    console.log('No sql query transmited.')
-    return { success: false, error: 'No sql query transmited.' }
-  }
-  await connectToS1Service().then(async (result) => {
-    const clientID = result.token
-    await client
-      .service('runSQLTransaction')
-      .create({
-        clientID: clientID,
-        sqlList: objSqlList.sqlList
-      })
-      .then((result) => {
-        //console.log('result', result)
-        return result
-      })
-      .catch((error) => {
-        console.log('error', error)
-        return { success: false, error: error }
-      })
-  })
+export function runSQLTransaction(objSqlList) {
+  return new Promise(async (resolve, reject) => {
+    if (!objSqlList || !objSqlList.sqlList || objSqlList.sqlList.length == 0) {
+      console.log('No sql query transmited.')
+      reject({ success: false, error: 'No sql query transmited.' })
+    }
+    try {
+      const result = await connectToS1Service();
+      const clientID = result.token;
+      const response = await client
+        .service('runSQLTransaction')
+        .create({
+          clientID: clientID,
+          sqlList: objSqlList.sqlList
+        });
+      //console.log('result', response)
+      resolve(response);
+    } catch (error) {
+      console.log('error', error);
+      reject({ success: false, error: error });
+    }
+  });
 }
