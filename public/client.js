@@ -3,7 +3,7 @@ import { context } from './estimari.js'
 import { estimari } from './litwc-estimari.js'
 import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
-import { populateSelects, insertDocument, getValFromQuery, runSQLTransaction } from './S1.js';
+import { populateSelects, insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js';
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -341,24 +341,7 @@ function processExcelData(excel_object) {
 
 async function salveazaOfertaInDB(optimal_ds) {
   let sqlList = []
-  //check if entry exists in table by PRJC
-  //if not insert it
-  //if yes update JSONSTR
-  /* let res = await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
-  if (!res.success) {
-    console.log('error', res.error)
-    return res
-  }
-  let ofertaExista = res.value
-  if (ofertaExista == 0) {
-    sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
-  } else {
-    sqlList.push('INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (' + contextOferta.FILENAME + ',' + contextOferta.FILENAME + ',' + contextOferta.TRDR + ',' + contextOferta.PRJC + ',' + JSON.stringify(optimal_ds) + ');')
-  }
-  await runSQLTransaction({ sqlList: sqlList }).then((result) => {
-    return result
-  }) */
- await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC).then((res) => {
+ await getValFromS1Query('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC).then((res) => {
     if (!res.success) {
       console.log('error', res.error)
       return res

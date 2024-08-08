@@ -152,7 +152,7 @@ export async function insertDocument(UIElement) {
     })
 }
 
-export async function getValFromQuery(query) {
+export async function getValFromS1Query(query) {
   return new Promise(async (resolve, reject) => {
     try {
       const result = await connectToS1Service();
