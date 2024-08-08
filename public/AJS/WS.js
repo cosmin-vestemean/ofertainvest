@@ -55,7 +55,7 @@ if (!obj.sqlList || obj.sqlList.length == 0) {
         //start sql transaction with commit and rollback
         strSql += 'BEGIN TRANSACTION ;'
         for (var i = 0; i < obj.sqlList.length; i++) {
-            strSql += obj.sqlList[i] + ';'
+            strSql += obj.sqlList[i] + ';';
         }
         strSql += 'COMMIT;'
         strSql += 'END TRY;'
@@ -68,6 +68,7 @@ if (!obj.sqlList || obj.sqlList.length == 0) {
         strSql += 'ROLLBACK;'
         strSql += 'END'
         strSql += 'END CATCH;'
+        console.log('strSql', strSql)
         X.RUNSQL(strSql)
         result.success = true
         return result
