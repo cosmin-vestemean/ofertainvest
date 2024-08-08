@@ -78,7 +78,7 @@ export async function populateSelects() {
                     clientID: clientID,
                     appID: '1001',
                     sqlQuery:
-                      'select FINDOC, FINCODE from findoc where iscancel=0 and sosource=1351 and fprms=4001 and series=4002 order by trndate desc, findoc desc'
+                      'select FILENAME, PRJC from cccoferteweb by trndate desc'
                   }
                 }
 
@@ -92,8 +92,8 @@ export async function populateSelects() {
                       //populate select_saldoc
                       result.data.forEach(function (object) {
                         var option = document.createElement('option')
-                        option.value = object['FINDOC']
-                        option.text = object['FINCODE']
+                        option.value = object['PRJC']
+                        option.text = object['FILENAME']
                         select_saldoc.appendChild(option)
                       })
                       select_saldoc.selectedIndex = -1
