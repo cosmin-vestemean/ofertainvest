@@ -341,7 +341,7 @@ function processExcelData(excel_object) {
 
 async function salveazaOfertaInDB(optimal_ds) {
   let sqlList = []
-  const ofertaExista = await getValFromS1Query('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
+  const ofertaExista = await getValFromS1Query(`select count(*) from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`)
   if (!ofertaExista.success) {
     console.log('error', ofertaExista.error)
     return ofertaExista
@@ -349,7 +349,7 @@ async function salveazaOfertaInDB(optimal_ds) {
   if (ofertaExista.value > 0) {
     sqlList.push(`UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(optimal_ds)}' WHERE PRJC = ${contextOferta.PRJC}`)
   } else {
-    sqlList.push(`INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES (${contextOferta.FILENAME}, ${contextOferta.FILENAME}, ${contextOferta.TRDR}, ${contextOferta.PRJC}, ${JSON.stringify(optimal_ds)});`)
+    sqlList.push(`INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(optimal_ds)}');`)
   }
   const result = await runSQLTransaction({ sqlList: sqlList })
   return result
