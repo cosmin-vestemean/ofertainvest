@@ -68,9 +68,9 @@ if (!obj.sqlList || obj.sqlList.length == 0) {
         strSql += 'ROLLBACK;'
         strSql += 'END'
         strSql += 'END CATCH;'
-        console.log('strSql', strSql)
         X.RUNSQL(strSql)
         result.success = true
+        result.sql = strSql
         return result
     } catch (e) {
         result.error = e.message
