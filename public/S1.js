@@ -166,9 +166,9 @@ export async function getValFromQuery(query) {
         }
       })
       .then((result) => {
-        //console.log('result', result)
+        console.log('result', result)
         if (result.success) {
-          return result.data
+          return result.value
         } else {
           console.log('error', result.error)
         }

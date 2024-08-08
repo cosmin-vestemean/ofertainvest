@@ -292,7 +292,6 @@ function processExcelData(excel_object) {
   const unique_key = 'SERIE_ARTICOL_OFERTA'
   //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
   optimal_ds = sortByUniqueKey(original_ds, unique_key)
-  salveazaOfertaInDB(optimal_ds)
   original_ds = []
   //refresh ds in my-table component
   my_table1.style.display = 'block'
@@ -850,81 +849,7 @@ async function saveOferta() {
     return
   }
 
-  //CCCOFERTELINII array of objects, a object is a row from original_ds astfel (mapare original_ds => CCCOFERTELINII)
-  //1. original_ds ARTICOL => ART
-  //2. OFERTA => OFRT
-  //3. replace all "_" with "" in keys
-  //4. NORMA => NORM
-  //5. MATERIAL => MTRL
-  //5. UNTITARA => UNITA
-  //6. MANOPERA => MANOP
-  //7. VANZARE => VANZ
-  //8. TRANSPORT => TRANSP
-
-  if (!optimal_ds.length) {
-    alert('Nu exista date pentru salvare')
-    return
-  }
-
-  var hourglassIcon = '<i class="bi bi-hourglass-split"></i>'
-  var btn_oferta = document.getElementById('btn_oferta')
-  btn_oferta.innerHTML = hourglassIcon + ' Salvare...'
-  //bg-warning
-  btn_oferta.classList.remove('btn-danger')
-  btn_oferta.classList.add('btn-info')
-  //exec getValFromQuery and get findoc from result.value
-  var findoc = 0
-  findoc = getValFromQuery("select ident_current('findoc') + ident_incr('findoc')")
-
-  var CCCOFERTELINII = []
-  original_ds.forEach(function (object) {
-    //read object key, apply 1..8
-    var new_object = {}
-    var keys = Object.keys(object)
-    keys.forEach(function (key) {
-      var new_key = key
-      new_key = new_key.replace('ARTICOL', 'ART')
-      new_key = new_key.replace('OFERTA', 'OFRT')
-      new_key = new_key.replace('NORMA', 'NORM')
-      new_key = new_key.replace('MATERIAL', 'MTRL')
-      new_key = new_key.replace('UNTITARA', 'UNITA')
-      new_key = new_key.replace('MANOPERA', 'MANOP')
-      new_key = new_key.replace('VANZARE', 'VANZ')
-      new_key = new_key.replace('TRANSPORT', 'TRANSP')
-      //replace all _
-      new_key = new_key.replace(/_/g, '')
-      new_object[new_key] = object[key]
-      new_object['PRJC'] = prjc
-      new_object['FINDOC'] = findoc
-    })
-    CCCOFERTELINII.push(new_object)
-  })
-
-  console.log('CCCOFERTELINII', CCCOFERTELINII)
-
-  var jsonToSend = {
-    service: 'setData',
-    appId: 1001,
-    OBJECT: 'CCCOFERTE',
-    FORM: 'Oferte',
-    KEY: '',
-    DATA: {
-      SALDOC: [
-        {
-          SERIES: '4002',
-          TRDR: trdr,
-          TRNDATE: trndate,
-          PRJC: prjc,
-          COMMENTS: 'From the web app'
-        }
-      ],
-      CCCOFERTELINII: CCCOFERTELINII
-    }
-  }
-
-  console.log('jsonToSend', jsonToSend)
-
-  insertDocument(jsonToSend, btn_oferta)
+  salveazaOfertaInDB(optimal_ds)
 }
 
 function populateSelectIerarhiiFromTrees() {
@@ -1130,7 +1055,7 @@ export function init() {
     }
   }
   let btn_oferta = document.getElementById('btn_oferta')
-  btn_oferta.onclick = saveOferta
+  //btn_oferta.onclick = saveOferta
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
   file_oferta_initiala.onchange = loadDataFromFile
   //btn_oferta text = 'left arrow' + 'Incarca oferta initiala'
