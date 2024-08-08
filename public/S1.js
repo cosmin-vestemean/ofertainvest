@@ -78,7 +78,7 @@ export async function populateSelects() {
                     clientID: clientID,
                     appID: '1001',
                     sqlQuery:
-                      'select FILENAME, PRJC from cccoferteweb by trndate desc'
+                      'select FILENAME, PRJC from CCCOFERTEWEB ORDER by trndate desc'
                   }
                 }
 
