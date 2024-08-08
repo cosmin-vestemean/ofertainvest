@@ -358,7 +358,7 @@ async function salveazaOfertaInDB(optimal_ds) {
   await runSQLTransaction({ sqlList: sqlList }).then((result) => {
     return result
   }) */
- getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC).then((res) => {
+ await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC).then((res) => {
     if (!res.success) {
       console.log('error', res.error)
       return res

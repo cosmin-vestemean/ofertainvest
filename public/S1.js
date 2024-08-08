@@ -153,9 +153,9 @@ export async function insertDocument(UIElement) {
 }
 
 export async function getValFromQuery(query) {
-  await connectToS1Service().then(async (result) => {
+  connectToS1Service().then(async (result) => {
     const clientID = result.token
-    //console.log('clientID', clientID)
+    console.log('clientID', clientID)
     await client
       .service('getValFromQuery')
       .find({
