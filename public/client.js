@@ -861,7 +861,7 @@ async function saveOferta() {
   //7. VANZARE => VANZ
   //8. TRANSPORT => TRANSP
 
-  if (!original_ds.length) {
+  if (!optimal_ds.length) {
     alert('Nu exista date pentru salvare')
     return
   }
