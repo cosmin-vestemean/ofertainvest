@@ -167,14 +167,11 @@ export async function getValFromQuery(query) {
       })
       .then((result) => {
         console.log('result', result)
-        if (result.success) {
-          return result.value
-        } else {
-          console.log('error', result.error)
-        }
+        return result
       })
       .catch((error) => {
         console.log('error', error)
+        return { success: false, error: error }
       })
   })
 }

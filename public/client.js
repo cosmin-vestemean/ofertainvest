@@ -344,7 +344,12 @@ async function salveazaOfertaInDB(optimal_ds) {
   //check if entry exists in table by PRJC
   //if not insert it
   //if yes update JSONSTR
-  let ofertaExista = await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
+  let res = await getValFromQuery('select count(*) from CCCOFERTEWEB where PRJC = ' + contextOferta.PRJC)
+  if (!res.success) {
+    console.log('error', res.error)
+    return res
+  }
+  let ofertaExista = res.value
   if (ofertaExista == 0) {
     sqlList.push('UPDATE CCCOFERTEWEB SET JSONSTR = \'' + JSON.stringify(optimal_ds) + '\' WHERE PRJC = ' + contextOferta.PRJC)
   } else {
