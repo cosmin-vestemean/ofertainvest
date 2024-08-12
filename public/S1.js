@@ -199,3 +199,25 @@ export function runSQLTransaction(objSqlList) {
     }
   });
 }
+
+export function getOferta(filename) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await connectToS1Service();
+      const clientID = result.token;
+      const response = await client
+        .service('getDataset')
+        .find({
+          query: {
+            clientID: clientID,
+            sqlQuery: `select * from CCCOFERTEWEB where FILENAME='${filename}'`
+          }
+        });
+      //console.log('result', response)
+      resolve(response);
+    } catch (error) {
+      console.log('error', error);
+      reject({ success: false, error: error });
+    }
+  });
+}

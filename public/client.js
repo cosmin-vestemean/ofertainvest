@@ -265,7 +265,8 @@ export function loadDataFromFile(evt) {
     //console.log("excel_object", excel_object);
 
     localStorage.setItem('excel_object', excel_object)
-    processExcelData(excel_object)
+    excel_object2ds(excel_object)
+    processExcelData(optimal_ds)
   }
 
   reader.onerror = function (ex) {
@@ -281,7 +282,7 @@ export function loadDataFromFile(evt) {
   btn_oferta.classList.add('btn-danger')
 }
 
-export function processExcelData(excel_object) {
+export function excel_object2ds(excel_object) {
   //each key represents a column, copy all objecys in compacted_ds but remove the ones with empty values
   original_ds = JSON.parse(excel_object)
   //console.log('original_ds', original_ds)
@@ -293,6 +294,10 @@ export function processExcelData(excel_object) {
   //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
   optimal_ds = sortByUniqueKey(original_ds, unique_key)
   original_ds = []
+}
+
+export function processExcelData(optimal_ds) {
+  
   //refresh ds in my-table component
   my_table1.style.display = 'block'
   my_table2.style.display = 'none'
@@ -339,7 +344,7 @@ export function processExcelData(excel_object) {
   createGraphs(combinatii_unice)
 }
 
-async function salveazaOfertaInDB(optimal_ds) {
+async function salveazaOfertaInDB(ds) {
   let sqlList = []
   const ofertaExista = await getValFromS1Query(
     `select count(*) from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`
@@ -350,11 +355,11 @@ async function salveazaOfertaInDB(optimal_ds) {
   }
   if (ofertaExista.value > 0) {
     sqlList.push(
-      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(optimal_ds)}', FILENAME = '${contextOferta.FILENAME}', TRDR = ${contextOferta.TRDR}, PRJC = ${contextOferta.PRJC} WHERE PRJC = ${contextOferta.PRJC};`
+      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(ds)}', FILENAME = '${contextOferta.FILENAME}', TRDR = ${contextOferta.TRDR}, PRJC = ${contextOferta.PRJC} WHERE PRJC = ${contextOferta.PRJC};`
     )
   } else {
     sqlList.push(
-      `INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(optimal_ds)}');`
+      `INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(ds)}');`
     )
   }
   return new Promise(async (resolve, reject) => {
