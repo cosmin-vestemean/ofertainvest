@@ -292,6 +292,9 @@ export var local_storage = {
 var original_ds = []
 //var compacted_ds = []
 export var optimal_ds = []
+export function setOptimalDs(value) {
+  optimal_ds = value
+}
 export var recipes_ds = []
 var combinatii_unice = []
 export var selected_ds = []

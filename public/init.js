@@ -22,6 +22,7 @@ import {
   detectieRetete,
   showRecipes,
   optimal_ds,
+  setOptimalDs,
   showRecipesList,
   theadIsSet,
   setRetetaCurenta,
@@ -150,7 +151,7 @@ export function init() {
           trdr.value = firstLine.TRDR
           prjc.value = firstLine.PRJC
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
-          optimal_ds = JSON.parse(firstLine.JSONSTR)
+          setOptimalDs(JSON.parse(firstLine.JSONSTR))
           processExcelData(optimal_ds)
         }
       } else {
