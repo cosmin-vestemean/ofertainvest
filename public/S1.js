@@ -200,7 +200,7 @@ export function runSQLTransaction(objSqlList) {
   });
 }
 
-export function getOferta(filename) {
+export async function getOferta(filename) {
   return new Promise(async (resolve, reject) => {
     try {
       const result = await connectToS1Service();
