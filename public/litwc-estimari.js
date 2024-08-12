@@ -65,30 +65,6 @@ export class estimari extends LitElement {
       type: 'date'
     }
 
-    //add floatingTableFilter style for floatingTableFilter
-    var style = document.createElement('style')
-    style.textContent = `
-      .floatingTableFilter {
-        position: fixed;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
-        background-color: white;
-        border: 1px solid black;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 5px 5px 5px 5px #888888;
-      }
-      .floatingTableFilter input[type="radio"] {  
-        margin-right: 5px;
-      }
-      .floatingTableFilter label {
-        margin-right: 10px;
-      }
-    `
-
-    this.shadowRoot.appendChild(style)
-
     console.log('events added to estimari element')
   }
 
@@ -514,7 +490,7 @@ export class estimari extends LitElement {
     let floatingTableFilter = document.createElement('div')
     //radio buttons are stacked vertically4
     //panel floats on the right side of the table, scroll independent
-    floatingTableFilter.classList.add('floatingTableFilter')
+    floatingTableFilter.classList.add('d-flex', 'flex-column', 'position-fixed', 'top-50', 'end-0', 'p-2', 'bg-light')
     //add radio buttons
     let radio1 = document.createElement('input')
     radio1.type = 'radio'
@@ -523,7 +499,8 @@ export class estimari extends LitElement {
     radio1.value = 'gt_0'
     radio1.checked = true
     let label1 = document.createElement('label')
-    label1.innerHTML = 'Estimari > 0'
+    //take label from estimariDisplayMask
+    label1.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
     label1.htmlFor = _cantitate_estimari + '_gt_0'
     floatingTableFilter.appendChild(radio1)
     floatingTableFilter.appendChild(label1)
@@ -533,7 +510,8 @@ export class estimari extends LitElement {
     radio2.name = 'filter'
     radio2.value = 'eq_0'
     let label2 = document.createElement('label')
-    label2.innerHTML = 'Estimari = 0'
+    //take label from estimariDisplayMask
+    label2.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
     label2.htmlFor = _cantitate_estimari + '_eq_0'
     floatingTableFilter.appendChild(radio2)
     floatingTableFilter.appendChild(label2)
@@ -543,7 +521,8 @@ export class estimari extends LitElement {
     radio3.name = 'filter'
     radio3.value = 'neq_antemas'
     let label3 = document.createElement('label')
-    label3.innerHTML = 'Estimari <> Antemasuratori'
+    //take label from estimariDisplayMask
+    label3.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
     floatingTableFilter.appendChild(radio3)
     floatingTableFilter.appendChild(label3)
@@ -553,7 +532,8 @@ export class estimari extends LitElement {
     radio4.name = 'filter'
     radio4.value = 'eq_antemas'
     let label4 = document.createElement('label')
-    label4.innerHTML = 'Estimari = Antemasuratori'
+    //take label from estimariDisplayMask
+    label4.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
     label4.htmlFor = _cantitate_estimari + '_eq_antemas'
     floatingTableFilter.appendChild(radio4)
     floatingTableFilter.appendChild(label4)
