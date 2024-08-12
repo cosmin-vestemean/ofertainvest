@@ -498,9 +498,10 @@ export class estimari extends LitElement {
     radio1.name = 'filter'
     radio1.value = 'gt_0'
     radio1.checked = true
+    //add function to filter rows with _cantitate_estimari > 0
+    radio1.onchange = filterRowsByEstimari(true)
     let label1 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label1.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label1.innerHTML = 'Estimari > 0'
     label1.htmlFor = _cantitate_estimari + '_gt_0'
     floatingTableFilter.appendChild(radio1)
     floatingTableFilter.appendChild(label1)
@@ -509,9 +510,9 @@ export class estimari extends LitElement {
     radio2.id = _cantitate_estimari + '_eq_0'
     radio2.name = 'filter'
     radio2.value = 'eq_0'
+    radio2.onchange = filterRowsByEstimari(false)
     let label2 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label2.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label2.innerHTML = 'Estimari = 0'
     label2.htmlFor = _cantitate_estimari + '_eq_0'
     floatingTableFilter.appendChild(radio2)
     floatingTableFilter.appendChild(label2)
@@ -520,9 +521,9 @@ export class estimari extends LitElement {
     radio3.id = _cantitate_estimari + '_neq_antemas'
     radio3.name = 'filter'
     radio3.value = 'neq_antemas'
+    radio3.onchange = filterRowsByAntemasuratori(true)
     let label3 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label3.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label3.innerHTML = 'Estimari != Antemasuratori'
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
     floatingTableFilter.appendChild(radio3)
     floatingTableFilter.appendChild(label3)
@@ -531,13 +532,73 @@ export class estimari extends LitElement {
     radio4.id = _cantitate_estimari + '_eq_antemas'
     radio4.name = 'filter'
     radio4.value = 'eq_antemas'
+    radio4.onchange = filterRowsByAntemasuratori(false)
     let label4 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label4.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label4.innerHTML = 'Estimari = Antemasuratori'
     label4.htmlFor = _cantitate_estimari + '_eq_antemas'
     floatingTableFilter.appendChild(radio4)
     floatingTableFilter.appendChild(label4)
     return floatingTableFilter
+
+    function filterRowsByEstimari() {
+      return function (equal) {
+        //filter rows with _cantitate_estimari > 0 when equal = true and _cantitate_estimari = 0 when equal = false
+        let table = my_table5.shadowRoot.getElementById('table_estimari')
+        let tbody = table.getElementsByTagName('tbody')[0]
+        let trs = tbody.getElementsByTagName('tr')
+        for (let i = 0; i < trs.length; i++) {
+          let tds = trs[i].getElementsByTagName('td')
+          let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
+          if (td && iputInside) {
+            if (equal) {
+              if (parseFloat(td.textContent) > 0) {
+                trs[i].style.display = 'table-row'
+              } else {
+                trs[i].style.display = 'none'
+              }
+            } else {
+              if (parseFloat(td.textContent) === 0) {
+                trs[i].style.display = 'table-row'
+              } else {
+                trs[i].style.display = 'none'
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function filterRowsByAntemasuratori(equal) {
+      return function (equal) {
+        //filter rows with _cantitate_estimari > 0 when equal = true and _cantitate_estimari = 0 when equal = false
+        let table = my_table5.shadowRoot.getElementById('table_estimari')
+        let tbody = table.getElementsByTagName('tbody')[0]
+        let trs = tbody.getElementsByTagName('tr')
+        for (let i = 0; i < trs.length; i++) {
+          let tds = trs[i].getElementsByTagName('td')
+          let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+          let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
+          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
+          if (td && iputInside) {
+            if (equal) {
+              if (parseFloat(td.textContent) !== parseFloat(tda.textContent)) {
+                trs[i].style.display = 'table-row'
+              } else {
+                trs[i].style.display = 'none'
+              }
+            } else {
+              if (parseFloat(td.textContent) === parseFloat(tda.textContent)) {
+                trs[i].style.display = 'table-row'
+              } else {
+                trs[i].style.display = 'none'
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 
   updateDateInputs(input1) {
