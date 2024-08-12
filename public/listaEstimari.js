@@ -45,17 +45,16 @@ function addNewEstimare() {
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
   addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
   console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-  //console.log('newTree', newTree)
+  my_table1.style.display = 'none'
+  my_table2.style.display = 'none'
+  my_table3.style.display = 'none'
+  my_table4.style.display = 'none'
+  my_table5.style.display = 'block'
+  my_table6.style.display = 'none'
+  //just to create propperly commit message
   let selected_options_arr = ierarhii.getValue()
   if (selected_options_arr && selected_options_arr.length > 0) {
     flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-    my_table1.style.display = 'none'
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'block'
-    my_table6.style.display = 'none'
-    //just to create propperly commit message
     my_table5.ds = selected_ds
   } else {
     my_table5.ds = context.getDsEstimariFlat()
