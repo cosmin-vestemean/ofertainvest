@@ -131,24 +131,28 @@ export function init() {
     }
     let raspuns = await getOferta(contextOferta.FILENAME)
     console.log('raspuns', raspuns)
-    if (raspuns && raspuns.length > 0) {
+    if (raspuns && raspuns.total > 0) {
       //set contextOferta with raspuns[0]
       const isSuccessful = raspuns.success
       if (isSuccessful) {
         const data = raspuns.data
-        const firstLine = data[0]
-        console.log('firstLine', firstLine)
-        contextOferta.TRDR = firstLine.TRDR
-        contextOferta.PRJC = firstLine.PRJC
-        contextOferta.TRNDATE = firstLine.TRNDATE
-        const trdr = document.getElementById('trdr')
-        const prjc = document.getElementById('prjc')
-        const trndate = document.getElementById('trndate')
-        trdr.value = firstLine.TRDR
-        prjc.value = firstLine.PRJC
-        trndate.valueAsDate = new Date(firstLine.TRNDATE)
-        optimal_ds = JSON.parse(firstLine.JSONSTR)
-        processExcelData(optimal_ds)
+        if (raspuns.total > 1) {
+          console.log('Exista mai multe oferte cu acest nume')
+        } else {
+          const firstLine = data[0]
+          console.log('firstLine', firstLine)
+          contextOferta.TRDR = firstLine.TRDR
+          contextOferta.PRJC = firstLine.PRJC
+          contextOferta.TRNDATE = firstLine.TRNDATE
+          const trdr = document.getElementById('trdr')
+          const prjc = document.getElementById('prjc')
+          const trndate = document.getElementById('trndate')
+          trdr.value = firstLine.TRDR
+          prjc.value = firstLine.PRJC
+          trndate.valueAsDate = new Date(firstLine.TRNDATE)
+          optimal_ds = JSON.parse(firstLine.JSONSTR)
+          processExcelData(optimal_ds)
+        }
       } else {
         alert('Nu exista oferta cu acest nume')
       }
