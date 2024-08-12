@@ -124,7 +124,11 @@ export function init() {
   //saldoc: load data from S1 service getDataset, table CCCOFERTEWEB with columns FILENAME
   let saldoc = document.getElementById('saldoc')
   saldoc.onchange = function () {
-    contextOferta.FILENAME = saldoc.text
+    if (saldoc.selectedIndex > -1) {
+      contextOferta.FILENAME = saldoc.options[saldoc.selectedIndex].text
+    } else {
+      return
+    }
     let raspuns = getOferta(contextOferta.FILENAME)
     console.log('raspuns', raspuns)
     if (raspuns && raspuns.length > 0) {
