@@ -500,7 +500,6 @@ export class estimari extends LitElement {
     radio1.id = _cantitate_estimari + '_gt_0'
     radio1.name = 'filter'
     radio1.value = 'gt_0'
-    radio1.checked = true
     radio1.classList.add('form-check-input')
     //add function to filter rows with _cantitate_estimari > 0
     radio1.onchange = filterRowsByEstimari(true)
@@ -568,6 +567,7 @@ export class estimari extends LitElement {
     radio5.name = 'filter'
     radio5.value = 'all'
     radio5.classList.add('form-check-input')
+    radio5.checked = true
     let label5 = document.createElement('label')
     label5.innerHTML = 'All'
     label5.htmlFor = 'all'
@@ -596,7 +596,7 @@ export class estimari extends LitElement {
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
-            if (!isEqual) {
+            if (isEqual) {
               if (val > 0) {
                 trs[i].style.display = 'table-row'
               } else {
@@ -629,7 +629,7 @@ export class estimari extends LitElement {
           let vala = tda.textContent.trim() === '' ? 0 : parseFloat(tda.textContent)
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
-            if (!isEqual) {
+            if (isEqual) {
               if (val !== vala) {
                 trs[i].style.display = 'table-row'
               } else {
