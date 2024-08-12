@@ -502,9 +502,9 @@ export class estimari extends LitElement {
     radio1.value = 'gt_0'
     radio1.classList.add('form-check-input')
     //add function to filter rows with _cantitate_estimari > 0
-    radio1.onchange = filterRowsByEstimari(true)
+    radio1.onchange = filterRowsByColumnName(true, _cantitate_estimari)
     let label1 = document.createElement('label')
-    label1.innerHTML = '> 0'
+    label1.innerHTML = 'e > 0'
     label1.htmlFor = _cantitate_estimari + '_gt_0'
     label1.classList.add('form-check-label')
     div1.appendChild(radio1)
@@ -516,11 +516,11 @@ export class estimari extends LitElement {
     radio2.type = 'radio'
     radio2.id = _cantitate_estimari + '_eq_0'
     radio2.name = 'filter'
-    radio2.value = 'eq_0'
+    radio2.value = 'e_eq_0'
     radio2.classList.add('form-check-input')
-    radio2.onchange = filterRowsByEstimari(false)
+    radio2.onchange = filterRowsByColumnName(false, _cantitate_estimari)
     let label2 = document.createElement('label')
-    label2.innerHTML = '= 0'
+    label2.innerHTML = 'e = 0'
     label2.htmlFor = _cantitate_estimari + '_eq_0'
     label2.classList.add('form-check-label')
     div2.appendChild(radio2)
@@ -582,9 +582,22 @@ export class estimari extends LitElement {
     }
     div5.appendChild(radio5)
     div5.appendChild(label5)
+    //add radio for _cantitate_antemasuratori = 0
+    let div6 = document.createElement('div')
+    div6.classList.add('form-check')
+    floatingTableFilter.appendChild(div6)
+    let radio6 = document.createElement('input')
+    radio6.type = 'radio'
+    radio6.id = _cantitate_antemasuratori + '_eq_0'
+    radio6.name = 'filter'
+    radio6.value = 'a_eq_0'
+    radio6.classList.add('form-check-input')
+    radio6.onchange = filterRowsByColumnName(true, _cantitate_antemasuratori)
+    let label6 = document.createElement('label')
+    label6.innerHTML = 'a = 0'
     return floatingTableFilter
 
-    function filterRowsByEstimari(isEqual) {
+    function filterRowsByColumnName(isEqual, columnName) {
       return function () {
         //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
         let table = my_table5.shadowRoot.getElementById('table_estimari')
@@ -592,7 +605,7 @@ export class estimari extends LitElement {
         let trs = tbody.getElementsByTagName('tr')
         for (let i = 0; i < trs.length; i++) {
           let tds = trs[i].getElementsByTagName('td')
-          let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+          let td = Array.from(tds).find((o) => o.classList.contains(columnName))
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
