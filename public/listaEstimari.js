@@ -19,7 +19,7 @@ import {
 import { context } from './estimari.js'
 
 function addNewEstimare() {
-  //cleanupEstimari()
+  cleanupEstimari()
 
   //active = false for all objects in ds_estimari
   context.ds_estimari.forEach((o) => (o.active = false))
@@ -41,6 +41,8 @@ function addNewEstimare() {
     }
   }
   context.createNewEstimariFlat()
+  context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
+  context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
   addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
   console.log('context.getDsEstimariPool', context.getDsEstimariPool())
   //console.log('newTree', newTree)
@@ -265,7 +267,6 @@ export class listaEstimari extends LitElement {
   }
 }
 function cleanupEstimari() {
-    //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
-    context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+  //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
+  context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
 }
-
