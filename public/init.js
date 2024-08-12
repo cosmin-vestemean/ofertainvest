@@ -335,8 +335,9 @@ export function init() {
   let btn_regenerare_estimari = document.getElementById('btn_regenerare_estimari')
   btn_regenerare_estimari.onclick = function () {
     //ask user if he wants to recalculate
-    let answer = confirm('Regenerez estimarile?')
+    let answer = confirm('Regenerez estimarile?\nVor fi sterse toate estimarile anterioare')
     if (answer) {
+      context.setDsEstimari([])
       context.createNewEstimariPool(newTree)
       console.log('context.getDsEstimariPool', context.getDsEstimariPool())
     }

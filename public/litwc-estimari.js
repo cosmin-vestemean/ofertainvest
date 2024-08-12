@@ -38,7 +38,7 @@ export class estimari extends LitElement {
   //Arr2 contains the following keys: branch, qty
   //every row of the table has two more columns: start date and end date with calendar icons
   static properties = {
-    ds: { type: Array }
+    ds: { type: Array },
   }
 
   constructor() {

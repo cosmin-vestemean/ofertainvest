@@ -21,6 +21,7 @@ export let context = {
 }
 
 export let estimariDisplayMask = {
+  WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string' },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: false,
