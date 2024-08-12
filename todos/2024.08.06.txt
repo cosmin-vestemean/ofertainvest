@@ -6,7 +6,7 @@ ESTIMARE
 -ends in L si grupare articol unfolded
 -restul folded
 -completare automata conform excel clickup de la articol la componente sau invers
--coloana estimate interior (vezi displayMask)
+-coloana estimate interior (vezi displayMask) = total estimate anterior
 
 - 4 zile : 13.08.2024 ora 10:00
 

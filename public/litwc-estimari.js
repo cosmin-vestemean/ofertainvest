@@ -439,7 +439,20 @@ export class estimari extends LitElement {
     refresh_icon.classList.add('bi-arrow-clockwise', 'text-primary', 'fs-4', 'mb-3')
     refresh_icon.style.cursor = 'pointer'
     refresh_icon.style.marginLeft = '5px'
-    refresh_icon.onclick = function () {}
+    refresh_icon.onclick = function () {
+      //refresh ds_estimari_flat
+      context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+      this.ds = context.ds_estimari_flat
+      //refresh ds_estimari
+      let active = context.ds_estimari.find((o) => o.active)
+      if (active) {
+        active.ds_estimari_pool = context.ds_estimari_pool
+        active.ds_estimari_flat = context.ds_estimari_flat
+        active.updateDate = new Date()
+      }
+      //localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
+      local_storage.ds_estimari.set(JSON.stringify(context.ds_estimari))
+    }
     btnRefresh.appendChild(refresh_icon)
     //add forward and backward icons for navigation between estimari
     var btnBack = document.createElement('div')
