@@ -65,6 +65,30 @@ export class estimari extends LitElement {
       type: 'date'
     }
 
+    //add floatingTableFilter style for floatingTableFilter
+    var style = document.createElement('style')
+    style.textContent = `
+      .floatingTableFilter {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        background-color: white;
+        border: 1px solid black;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 5px 5px 5px 5px #888888;
+      }
+      .floatingTableFilter input[type="radio"] {  
+        margin-right: 5px;
+      }
+      .floatingTableFilter label {
+        margin-right: 10px;
+      }
+    `
+
+    this.shadowRoot.appendChild(style)
+
     console.log('events added to estimari element')
   }
 
@@ -488,8 +512,9 @@ export class estimari extends LitElement {
     //4. only rows with _cantitate_estimari = _cantitate_antemasuratori
     
     let floatingTableFilter = document.createElement('div')
-    //radio buttons are stavked vertically
-    floatingTableFilter.classList.add('d-flex', 'flex-column', 'justify-content-center', 'align-items-center')
+    //radio buttons are stacked vertically4
+    //panel floats on the right side of the table, scroll independent
+    floatingTableFilter.classList.add('floatingTableFilter')
     //add radio buttons
     let radio1 = document.createElement('input')
     radio1.type = 'radio'
