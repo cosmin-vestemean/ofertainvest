@@ -555,7 +555,7 @@ export class estimari extends LitElement {
     let label5 = document.createElement('label')
     //add bootstrap icon for list
     let icon5 = document.createElement('i')
-    icon5.classList.add('bi bi-list')
+    icon5.classList.add('bi', 'bi-list')
     label5.appendChild(icon5)
     let radio5 = document.createElement('input')
     radio5.type = 'radio'
