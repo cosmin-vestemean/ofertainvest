@@ -2961,8 +2961,7 @@ export function calculateAntemasAndNewTree() {
           SUBTIP_ARTICOL_OFERTA: activitate.object.SUBTIP_ARTICOL_OFERTA
         } */
         let activit = { ...activitate.object }
-        activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
-        activit.WBS = instanceSpecifics ? instanceSpecifics.WBS : ''
+        processInstanceSpecifics(activit, instanceSpecifics)
         //update _cantitate_oferta in newTree
         newTree[i][j].object = { ...activit }
         for (let o = 0; o < temps[n].length; o++) {
@@ -3053,6 +3052,11 @@ export function calculateAntemasAndNewTree() {
   local_storage.ds_antemasuratori.set(JSON.stringify(ds_antemasuratori))
   //localStorage.setItem('newTree', JSON.stringify(newTree))
   local_storage.newTree.set(JSON.stringify(newTree))
+}
+
+function processInstanceSpecifics(activit, instanceSpecifics) {
+  activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
+  activit.WBS = instanceSpecifics ? instanceSpecifics.WBS : ''
 }
 
 export function showAntemasuratori() {
