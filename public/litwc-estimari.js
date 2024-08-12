@@ -585,8 +585,8 @@ export class estimari extends LitElement {
     return floatingTableFilter
 
     function filterRowsByEstimari() {
-      return function (equal) {
-        //filter rows with _cantitate_estimari > 0 when equal = true and _cantitate_estimari = 0 when equal = false
+      return function (isEqual) {
+        //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
         let table = my_table5.shadowRoot.getElementById('table_estimari')
         let tbody = table.getElementsByTagName('tbody')[0]
         let trs = tbody.getElementsByTagName('tr')
@@ -595,7 +595,7 @@ export class estimari extends LitElement {
           let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
-            if (equal) {
+            if (isEqual) {
               if (parseFloat(td.textContent) > 0) {
                 trs[i].style.display = 'table-row'
               } else {
@@ -613,9 +613,9 @@ export class estimari extends LitElement {
       }
     }
 
-    function filterRowsByAntemasuratori(equal) {
-      return function (equal) {
-        //filter rows with _cantitate_estimari > 0 when equal = true and _cantitate_estimari = 0 when equal = false
+    function filterRowsByAntemasuratori() {
+      return function (isEqual) {
+        //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
         let table = my_table5.shadowRoot.getElementById('table_estimari')
         let tbody = table.getElementsByTagName('tbody')[0]
         let trs = tbody.getElementsByTagName('tr')
@@ -625,7 +625,7 @@ export class estimari extends LitElement {
           let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
-            if (equal) {
+            if (isEqual) {
               if (parseFloat(td.textContent) !== parseFloat(tda.textContent)) {
                 trs[i].style.display = 'table-row'
               } else {
