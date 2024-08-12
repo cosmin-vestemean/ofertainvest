@@ -490,7 +490,7 @@ export class estimari extends LitElement {
     let floatingTableFilter = document.createElement('div')
     //radio buttons are stacked vertically4
     //panel floats on the right side of the table, scroll independent
-    floatingTableFilter.classList.add('d-flex', 'flex-column', 'position-fixed', 'top-50', 'end-0', 'p-2', 'bg-light')
+    floatingTableFilter.classList.add('d-flex', 'flex-column', 'position-fixed', 'top-50', 'end-0', 'p-2', 'bg-light', 'border', 'rounded')
     //add radio buttons
     let div1 = document.createElement('div')
     div1.classList.add('form-check')
