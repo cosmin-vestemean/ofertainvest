@@ -593,16 +593,17 @@ export class estimari extends LitElement {
         for (let i = 0; i < trs.length; i++) {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+          let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
-            if (isEqual) {
-              if (parseFloat(td.textContent) > 0) {
+            if (!isEqual) {
+              if (val > 0) {
                 trs[i].style.display = 'table-row'
               } else {
                 trs[i].style.display = 'none'
               }
             } else {
-              if (parseFloat(td.textContent) === 0) {
+              if (val === 0) {
                 trs[i].style.display = 'table-row'
               } else {
                 trs[i].style.display = 'none'
@@ -622,17 +623,20 @@ export class estimari extends LitElement {
         for (let i = 0; i < trs.length; i++) {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
+          //let val = parseFloat(td.textContent)
+          let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
+          let vala = tda.textContent.trim() === '' ? 0 : parseFloat(tda.textContent)
           let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
-            if (isEqual) {
-              if (parseFloat(td.textContent) !== parseFloat(tda.textContent)) {
+            if (!isEqual) {
+              if (val !== vala) {
                 trs[i].style.display = 'table-row'
               } else {
                 trs[i].style.display = 'none'
               }
             } else {
-              if (parseFloat(td.textContent) === parseFloat(tda.textContent)) {
+              if (val === vala) {
                 trs[i].style.display = 'table-row'
               } else {
                 trs[i].style.display = 'none'
