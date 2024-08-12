@@ -578,6 +578,7 @@ export class estimari extends LitElement {
     radio5.name = 'filter'
     radio5.value = 'all'
     radio5.classList.add('form-check-input')
+    radio5.checked = true
     let label5 = document.createElement('label')
     label5.innerHTML = 'All'
     label5.htmlFor = 'all'
@@ -609,12 +610,6 @@ export class estimari extends LitElement {
     label6.classList.add('form-check-label')
     div6.appendChild(radio6)
     div6.appendChild(label6)
-    //get radio with this.id = this.filter_id and set checked = true
-    let radio = floatingTableFilter.querySelector('#' + this.filter_id)
-    if (radio) {
-      //mimic click event
-      radio.click()
-    }
     return floatingTableFilter
 
     function filterRowsByColumnName(isEqual, columnName) {
