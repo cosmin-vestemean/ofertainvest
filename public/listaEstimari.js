@@ -55,6 +55,7 @@ function addNewEstimare() {
     my_table4.style.display = 'none'
     my_table5.style.display = 'block'
     my_table6.style.display = 'none'
+    //just to create propperly commit message
     my_table5.ds = selected_ds
   } else {
     my_table5.ds = context.getDsEstimariFlat()
