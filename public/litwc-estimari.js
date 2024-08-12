@@ -584,8 +584,8 @@ export class estimari extends LitElement {
     div5.appendChild(label5)
     return floatingTableFilter
 
-    function filterRowsByEstimari() {
-      return function (isEqual) {
+    function filterRowsByEstimari(isEqual) {
+      return function () {
         //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
         let table = my_table5.shadowRoot.getElementById('table_estimari')
         let tbody = table.getElementsByTagName('tbody')[0]
@@ -613,8 +613,8 @@ export class estimari extends LitElement {
       }
     }
 
-    function filterRowsByAntemasuratori() {
-      return function (isEqual) {
+    function filterRowsByAntemasuratori(isEqual) {
+      return function () {
         //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
         let table = my_table5.shadowRoot.getElementById('table_estimari')
         let tbody = table.getElementsByTagName('tbody')[0]
