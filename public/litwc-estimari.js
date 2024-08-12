@@ -536,7 +536,7 @@ export class estimari extends LitElement {
     radio3.classList.add('form-check-input')
     radio3.onchange = filterRowsByAntemasuratori(true)
     let label3 = document.createElement('label')
-    label3.innerHTML = '!='
+    label3.innerHTML = 'e<>a'
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
     label3.classList.add('form-check-label')
     div3.appendChild(radio3)
@@ -552,7 +552,7 @@ export class estimari extends LitElement {
     radio4.classList.add('form-check-input')
     radio4.onchange = filterRowsByAntemasuratori(false)
     let label4 = document.createElement('label')
-    label4.innerHTML = '='
+    label4.innerHTML = 'e=a'
     label4.htmlFor = _cantitate_estimari + '_eq_antemas'
     label4.classList.add('form-check-label')
     div4.appendChild(radio4)
