@@ -15,8 +15,8 @@ import {
   my_table6,
   _start_date,
   _end_date
-} from './client'
-import { context } from './estimari'
+} from './client.js'
+import { context } from './estimari.js'
 
 function addNewEstimare() {
   //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
