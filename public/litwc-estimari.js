@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
+import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import {
   template,
   _start_date,
@@ -40,26 +40,6 @@ export class estimari extends LitElement {
   static properties = {
     ds: { type: Array }
   }
-
-  //add style to floatingTableFilter
-  static styles = css`
-    .floting-table-filter {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 5px;
-      z-index: 1000;
-    }
-
-    .floting-table-filter input[type='radio'] {
-      margin-right: 5px;
-    }
-
-    .floting-table-filter label {
-      cursor: pointer;
-      display: flex;
-      justify-content: flex-end;
-    }
-  `
 
   constructor() {
     super()
@@ -506,20 +486,11 @@ export class estimari extends LitElement {
     //2. only rows with _cantitate_estimari = 0
     //3. only rows with _cantitate_estimari != _cantitate_antemasuratori
     //4. only rows with _cantitate_estimari = _cantitate_antemasuratori
-
+    
     let floatingTableFilter = document.createElement('div')
     //radio buttons are stacked vertically4
     //panel floats on the right side of the table, scroll independent
-    floatingTableFilter.classList.add(
-      'd-flex',
-      'flex-column',
-      'position-fixed',
-      'top-50',
-      'end-0',
-      'p-2',
-      'bg-light',
-      'floting-table-filter'
-    )
+    floatingTableFilter.classList.add('d-flex', 'flex-column', 'position-fixed', 'top-50', 'end-0', 'p-2', 'bg-light')
     //add radio buttons
     let radio1 = document.createElement('input')
     radio1.type = 'radio'
@@ -530,10 +501,7 @@ export class estimari extends LitElement {
     //add function to filter rows with _cantitate_estimari > 0
     radio1.onchange = filterRowsByEstimari(true)
     let label1 = document.createElement('label')
-    //add icon right
-    let icon1 = document.createElement('i')
-    icon1.classList.add('bi', 'bi-chevron-right')
-    label1.appendChild(icon1)
+    label1.innerHTML = '> 0'
     label1.htmlFor = _cantitate_estimari + '_gt_0'
     floatingTableFilter.appendChild(radio1)
     floatingTableFilter.appendChild(label1)
@@ -544,10 +512,7 @@ export class estimari extends LitElement {
     radio2.value = 'eq_0'
     radio2.onchange = filterRowsByEstimari(false)
     let label2 = document.createElement('label')
-    //add bootstrap icon for zero
-    let icon2 = document.createElement('i')
-    icon2.classList.add('bi', 'bi-circle')
-    label2.appendChild(icon2)
+    label2.innerHTML = '= 0'
     label2.htmlFor = _cantitate_estimari + '_eq_0'
     floatingTableFilter.appendChild(radio2)
     floatingTableFilter.appendChild(label2)
@@ -558,10 +523,7 @@ export class estimari extends LitElement {
     radio3.value = 'neq_antemas'
     radio3.onchange = filterRowsByAntemasuratori(true)
     let label3 = document.createElement('label')
-    //add bootstrap icon for different
-    let icon3 = document.createElement('i')
-    icon3.classList.add('bi', 'bi-code')
-    label3.appendChild(icon3)
+    label3.innerHTML = '!='
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
     floatingTableFilter.appendChild(radio3)
     floatingTableFilter.appendChild(label3)
@@ -572,20 +534,15 @@ export class estimari extends LitElement {
     radio4.value = 'eq_antemas'
     radio4.onchange = filterRowsByAntemasuratori(false)
     let label4 = document.createElement('label')
-    label4.innerHTML = 'Estimari = Antemasuratori'
-    //add bootstrap icon for equal sign
-    let icon4 = document.createElement('i')
-    icon4.classList.add('bi', 'bi-copy')
-    label4.appendChild(icon4)
+    label4.innerHTML = '='
+    label4.htmlFor = _cantitate_estimari + '_eq_antemas'
     floatingTableFilter.appendChild(radio4)
     floatingTableFilter.appendChild(label4)
     //all
     //label for all
     let label5 = document.createElement('label')
-    //add bootstrap icon for list
-    let icon5 = document.createElement('i')
-    icon5.classList.add('bi', 'bi-list')
-    label5.appendChild(icon5)
+    label5.innerHTML = 'All'
+    label5.htmlFor = 'all'
     let radio5 = document.createElement('input')
     radio5.type = 'radio'
     radio5.id = 'all'
@@ -612,9 +569,7 @@ export class estimari extends LitElement {
         for (let i = 0; i < trs.length; i++) {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
-          let iputInside = Array.from(tds)
-            .find((o) => o.classList.contains('ROW_SELECTED'))
-            .getElementsByTagName('input')[0]
+          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
             if (equal) {
               if (parseFloat(td.textContent) > 0) {
@@ -644,9 +599,7 @@ export class estimari extends LitElement {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
           let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
-          let iputInside = Array.from(tds)
-            .find((o) => o.classList.contains('ROW_SELECTED'))
-            .getElementsByTagName('input')[0]
+          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
           if (td && iputInside) {
             if (equal) {
               if (parseFloat(td.textContent) !== parseFloat(tda.textContent)) {
@@ -665,6 +618,7 @@ export class estimari extends LitElement {
         }
       }
     }
+
   }
 
   updateDateInputs(input1) {
