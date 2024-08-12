@@ -523,8 +523,7 @@ export class estimari extends LitElement {
     radio1.value = 'gt_0'
     radio1.checked = true
     let label1 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label1.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label1.innerHTML = 'Estimari > 0'
     label1.htmlFor = _cantitate_estimari + '_gt_0'
     floatingTableFilter.appendChild(radio1)
     floatingTableFilter.appendChild(label1)
@@ -534,8 +533,7 @@ export class estimari extends LitElement {
     radio2.name = 'filter'
     radio2.value = 'eq_0'
     let label2 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label2.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label2.innerHTML = 'Estimari = 0'
     label2.htmlFor = _cantitate_estimari + '_eq_0'
     floatingTableFilter.appendChild(radio2)
     floatingTableFilter.appendChild(label2)
@@ -545,8 +543,7 @@ export class estimari extends LitElement {
     radio3.name = 'filter'
     radio3.value = 'neq_antemas'
     let label3 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label3.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label3.innerHTML = 'Estimari <> Antemasuratori'
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
     floatingTableFilter.appendChild(radio3)
     floatingTableFilter.appendChild(label3)
@@ -556,8 +553,7 @@ export class estimari extends LitElement {
     radio4.name = 'filter'
     radio4.value = 'eq_antemas'
     let label4 = document.createElement('label')
-    //take label from estimariDisplayMask
-    label4.innerHTML = estimariDisplayMask[_cantitate_estimari].label || _cantitate_estimari
+    label4.innerHTML = 'Estimari = Antemasuratori'
     label4.htmlFor = _cantitate_estimari + '_eq_antemas'
     floatingTableFilter.appendChild(radio4)
     floatingTableFilter.appendChild(label4)
