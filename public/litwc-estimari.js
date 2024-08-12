@@ -595,6 +595,10 @@ export class estimari extends LitElement {
     radio6.onchange = filterRowsByColumnName(true, _cantitate_antemasuratori)
     let label6 = document.createElement('label')
     label6.innerHTML = 'a = 0'
+    label6.htmlFor = _cantitate_antemasuratori + '_eq_0'
+    label6.classList.add('form-check-label')
+    div6.appendChild(radio6)
+    div6.appendChild(label6)
     return floatingTableFilter
 
     function filterRowsByColumnName(isEqual, columnName) {
