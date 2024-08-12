@@ -19,8 +19,7 @@ import {
 import { context } from './estimari.js'
 
 function addNewEstimare() {
-  //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
-  context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+  //cleanupEstimari()
 
   //active = false for all objects in ds_estimari
   context.ds_estimari.forEach((o) => (o.active = false))
@@ -265,3 +264,8 @@ export class listaEstimari extends LitElement {
     return html`${table}`
   }
 }
+function cleanupEstimari() {
+    //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
+    context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
+}
+
