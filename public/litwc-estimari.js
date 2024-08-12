@@ -592,7 +592,7 @@ export class estimari extends LitElement {
     radio6.name = 'filter'
     radio6.value = 'a_eq_0'
     radio6.classList.add('form-check-input')
-    radio6.onchange = filterRowsByColumnName(true, _cantitate_antemasuratori)
+    radio6.onchange = filterRowsByColumnName(false, _cantitate_antemasuratori)
     let label6 = document.createElement('label')
     label6.innerHTML = 'a = 0'
     label6.htmlFor = _cantitate_antemasuratori + '_eq_0'
