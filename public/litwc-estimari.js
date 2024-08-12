@@ -612,7 +612,8 @@ export class estimari extends LitElement {
     //get radio with this.id = this.filter_id and set checked = true
     let radio = floatingTableFilter.querySelector('#' + this.filter_id)
     if (radio) {
-      radio.checked = true
+      //mimic click event
+      radio.click()
     }
     return floatingTableFilter
 
