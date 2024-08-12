@@ -39,6 +39,7 @@ export class estimari extends LitElement {
   //every row of the table has two more columns: start date and end date with calendar icons
   static properties = {
     ds: { type: Array },
+    filter_id: { type: String }
   }
 
   constructor() {
@@ -486,11 +487,21 @@ export class estimari extends LitElement {
     //2. only rows with _cantitate_estimari = 0
     //3. only rows with _cantitate_estimari != _cantitate_antemasuratori
     //4. only rows with _cantitate_estimari = _cantitate_antemasuratori
-    
+
     let floatingTableFilter = document.createElement('div')
     //radio buttons are stacked vertically4
     //panel floats on the right side of the table, scroll independent
-    floatingTableFilter.classList.add('d-flex', 'flex-column', 'position-fixed', 'top-50', 'end-0', 'p-2', 'bg-light', 'border', 'rounded')
+    floatingTableFilter.classList.add(
+      'd-flex',
+      'flex-column',
+      'position-fixed',
+      'top-50',
+      'end-0',
+      'p-2',
+      'bg-light',
+      'border',
+      'rounded'
+    )
     //add radio buttons
     let div1 = document.createElement('div')
     div1.classList.add('form-check')
@@ -567,7 +578,6 @@ export class estimari extends LitElement {
     radio5.name = 'filter'
     radio5.value = 'all'
     radio5.classList.add('form-check-input')
-    radio5.checked = true
     let label5 = document.createElement('label')
     label5.innerHTML = 'All'
     label5.htmlFor = 'all'
@@ -599,6 +609,11 @@ export class estimari extends LitElement {
     label6.classList.add('form-check-label')
     div6.appendChild(radio6)
     div6.appendChild(label6)
+    //get radio with this.id = this.filter_id and set checked = true
+    let radio = floatingTableFilter.querySelector('#' + this.filter_id)
+    if (radio) {
+      radio.checked = true
+    }
     return floatingTableFilter
 
     function filterRowsByColumnName(isEqual, columnName) {
@@ -611,7 +626,9 @@ export class estimari extends LitElement {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(columnName))
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
-          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
+          let iputInside = Array.from(tds)
+            .find((o) => o.classList.contains('ROW_SELECTED'))
+            .getElementsByTagName('input')[0]
           if (td && iputInside) {
             if (isEqual) {
               if (val > 0) {
@@ -644,7 +661,9 @@ export class estimari extends LitElement {
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
           let vala = tda.textContent.trim() === '' ? 0 : parseFloat(tda.textContent)
-          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
+          let iputInside = Array.from(tds)
+            .find((o) => o.classList.contains('ROW_SELECTED'))
+            .getElementsByTagName('input')[0]
           if (td && iputInside) {
             if (isEqual) {
               if (val !== vala) {
@@ -663,7 +682,6 @@ export class estimari extends LitElement {
         }
       }
     }
-
   }
 
   updateDateInputs(input1) {

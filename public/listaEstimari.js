@@ -248,10 +248,8 @@ export class listaEstimari extends LitElement {
             my_table5.style.display = 'block'
             my_table6.style.display = 'none'
             context.ds_estimari[id].active = true
+            my_table5.filter_id = 'CANTITATE_ARTICOL_ESTIMARI_gt_0'
             my_table5.ds = ds
-            //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
-            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = my_table5.shadowRoot.getElementById('CANTITATE_ARTICOL_ESTIMARI_gt_0')
-            CANTITATE_ARTICOL_ESTIMARI_gt_0.checked = true
           } else {
             console.log('id not found')
           }
