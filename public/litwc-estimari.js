@@ -501,7 +501,10 @@ export class estimari extends LitElement {
     //add function to filter rows with _cantitate_estimari > 0
     radio1.onchange = filterRowsByEstimari(true)
     let label1 = document.createElement('label')
-    label1.innerHTML = 'Estimari > 0'
+    //add icon right
+    let icon1 = document.createElement('i')
+    icon1.classList.add('bi', 'bi-chevron-right')
+    label1.appendChild(icon1)
     label1.htmlFor = _cantitate_estimari + '_gt_0'
     floatingTableFilter.appendChild(radio1)
     floatingTableFilter.appendChild(label1)
@@ -512,7 +515,10 @@ export class estimari extends LitElement {
     radio2.value = 'eq_0'
     radio2.onchange = filterRowsByEstimari(false)
     let label2 = document.createElement('label')
-    label2.innerHTML = 'Estimari = 0'
+    //add bootstrap icon for zero
+    let icon2 = document.createElement('i')
+    icon2.classList.add('bi', 'bi-circle')
+    label2.appendChild(icon2)
     label2.htmlFor = _cantitate_estimari + '_eq_0'
     floatingTableFilter.appendChild(radio2)
     floatingTableFilter.appendChild(label2)
@@ -523,7 +529,10 @@ export class estimari extends LitElement {
     radio3.value = 'neq_antemas'
     radio3.onchange = filterRowsByAntemasuratori(true)
     let label3 = document.createElement('label')
-    label3.innerHTML = 'Estimari != Antemasuratori'
+    //add bootstrap icon for different
+    let icon3 = document.createElement('i')
+    icon3.classList.add('bi', 'bi-code')
+    label3.appendChild(icon3)
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
     floatingTableFilter.appendChild(radio3)
     floatingTableFilter.appendChild(label3)
@@ -535,9 +544,34 @@ export class estimari extends LitElement {
     radio4.onchange = filterRowsByAntemasuratori(false)
     let label4 = document.createElement('label')
     label4.innerHTML = 'Estimari = Antemasuratori'
-    label4.htmlFor = _cantitate_estimari + '_eq_antemas'
+    //add bootstrap icon for equal sign
+    let icon4 = document.createElement('i')
+    icon4.classList.add('bi', 'bi-copy')
+    label4.appendChild(icon4)
     floatingTableFilter.appendChild(radio4)
     floatingTableFilter.appendChild(label4)
+    //all
+    //label for all
+    let label5 = document.createElement('label')
+    //add bootstrap icon for list
+    let icon5 = document.createElement('i')
+    icon5.classList.add('bi bi-list')
+    label5.appendChild(icon5)
+    let radio5 = document.createElement('input')
+    radio5.type = 'radio'
+    radio5.id = 'all'
+    radio5.name = 'filter'
+    radio5.value = 'all'
+    radio5.onchange = function () {
+      let table = my_table5.shadowRoot.getElementById('table_estimari')
+      let tbody = table.getElementsByTagName('tbody')[0]
+      let trs = tbody.getElementsByTagName('tr')
+      for (let i = 0; i < trs.length; i++) {
+        trs[i].style.display = 'table-row'
+      }
+    }
+    floatingTableFilter.appendChild(label5)
+    floatingTableFilter.appendChild(radio5)
     return floatingTableFilter
 
     function filterRowsByEstimari() {
