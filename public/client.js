@@ -2962,6 +2962,7 @@ export function calculateAntemasAndNewTree() {
         } */
         let activit = { ...activitate.object }
         activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
+        activit.WBS = instanceSpecifics ? instanceSpecifics.WBS : ''
         //update _cantitate_oferta in newTree
         newTree[i][j].object = { ...activit }
         for (let o = 0; o < temps[n].length; o++) {
