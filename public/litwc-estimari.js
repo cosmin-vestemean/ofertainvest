@@ -498,11 +498,13 @@ export class estimari extends LitElement {
     radio1.name = 'filter'
     radio1.value = 'gt_0'
     radio1.checked = true
+    radio1.classList.add('form-check-input')
     //add function to filter rows with _cantitate_estimari > 0
     radio1.onchange = filterRowsByEstimari(true)
     let label1 = document.createElement('label')
     label1.innerHTML = '> 0'
     label1.htmlFor = _cantitate_estimari + '_gt_0'
+    label1.classList.add('form-check-label')
     floatingTableFilter.appendChild(radio1)
     floatingTableFilter.appendChild(label1)
     let radio2 = document.createElement('input')
@@ -510,10 +512,12 @@ export class estimari extends LitElement {
     radio2.id = _cantitate_estimari + '_eq_0'
     radio2.name = 'filter'
     radio2.value = 'eq_0'
+    radio2.classList.add('form-check-input')
     radio2.onchange = filterRowsByEstimari(false)
     let label2 = document.createElement('label')
     label2.innerHTML = '= 0'
     label2.htmlFor = _cantitate_estimari + '_eq_0'
+    label2.classList.add('form-check-label')
     floatingTableFilter.appendChild(radio2)
     floatingTableFilter.appendChild(label2)
     let radio3 = document.createElement('input')
@@ -521,10 +525,12 @@ export class estimari extends LitElement {
     radio3.id = _cantitate_estimari + '_neq_antemas'
     radio3.name = 'filter'
     radio3.value = 'neq_antemas'
+    radio3.classList.add('form-check-input')
     radio3.onchange = filterRowsByAntemasuratori(true)
     let label3 = document.createElement('label')
     label3.innerHTML = '!='
     label3.htmlFor = _cantitate_estimari + '_neq_antemas'
+    label3.classList.add('form-check-label')
     floatingTableFilter.appendChild(radio3)
     floatingTableFilter.appendChild(label3)
     let radio4 = document.createElement('input')
@@ -532,22 +538,25 @@ export class estimari extends LitElement {
     radio4.id = _cantitate_estimari + '_eq_antemas'
     radio4.name = 'filter'
     radio4.value = 'eq_antemas'
+    radio4.classList.add('form-check-input')
     radio4.onchange = filterRowsByAntemasuratori(false)
     let label4 = document.createElement('label')
     label4.innerHTML = '='
     label4.htmlFor = _cantitate_estimari + '_eq_antemas'
+    label4.classList.add('form-check-label')
     floatingTableFilter.appendChild(radio4)
     floatingTableFilter.appendChild(label4)
     //all
-    //label for all
-    let label5 = document.createElement('label')
-    label5.innerHTML = 'All'
-    label5.htmlFor = 'all'
     let radio5 = document.createElement('input')
     radio5.type = 'radio'
     radio5.id = 'all'
     radio5.name = 'filter'
     radio5.value = 'all'
+    radio5.classList.add('form-check-input')
+    let label5 = document.createElement('label')
+    label5.innerHTML = 'All'
+    label5.htmlFor = 'all'
+    label5.classList.add('form-check-label')
     radio5.onchange = function () {
       let table = my_table5.shadowRoot.getElementById('table_estimari')
       let tbody = table.getElementsByTagName('tbody')[0]
@@ -556,8 +565,8 @@ export class estimari extends LitElement {
         trs[i].style.display = 'table-row'
       }
     }
-    floatingTableFilter.appendChild(label5)
     floatingTableFilter.appendChild(radio5)
+    floatingTableFilter.appendChild(label5)
     return floatingTableFilter
 
     function filterRowsByEstimari() {
