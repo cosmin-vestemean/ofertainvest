@@ -18,6 +18,7 @@ import {
   my_table4,
   my_table5,
   my_table6,
+  local_storage
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -334,7 +335,8 @@ export class estimari extends LitElement {
       //5. update newTree with context.ds_estimari_flat
       //6. save newTree to local storage
       //save context.ds_estimari_pool to local storage
-      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
       //push context.ds_estimari_flat to context.ds_estimari as an object with keys datetime, context.ds_estimari_flat
       let dt = new Date()
       //TODO: push ds_estimari_flat_filterd to context.ds_estimari as an object with keys datetime, context.ds_estimari_flat
@@ -391,8 +393,10 @@ export class estimari extends LitElement {
         }
       })
 
-      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-      localStorage.setItem('newTree', JSON.stringify(newTree))
+      //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
+      //localStorage.setItem('newTree', JSON.stringify(newTree))
+      local_storage.newTree.set(JSON.stringify(newTree))
 
       //context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
       context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
@@ -410,7 +414,8 @@ export class estimari extends LitElement {
         active.updateDate = new Date()
       }
 
-      localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
+      //localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
+      local_storage.ds_estimari.set(JSON.stringify(context.ds_estimari))
     }
     btnSave.appendChild(save_icon)
     //add thrahs icon
@@ -499,7 +504,8 @@ export class estimari extends LitElement {
           console.log('indexOfFlat is undefined')
         }
       }
-      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
     }
   }
 
@@ -620,7 +626,8 @@ export class estimari extends LitElement {
       let ramura = position.ramura
       let activitateIndex = position.activitateIndex
       context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
-      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
     })
   }
 
@@ -658,7 +665,8 @@ export class estimari extends LitElement {
       let ramura = position.ramura
       let activitateIndex = position.activitateIndex
       context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked
-      localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+      local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
     }
   }
 
@@ -749,7 +757,8 @@ export class estimari extends LitElement {
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
         context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
-        localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+        //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+        local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
       }
     }
   }

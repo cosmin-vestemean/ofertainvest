@@ -34,7 +34,8 @@ import {
   themes,
   changeStyleInTheShadow,
   _cantitate_oferta,
-  excel_object2ds
+  excel_object2ds,
+  local_storage
 } from './client.js'
 import { context } from './estimari.js'
 import { populateSelects, getOferta } from './S1.js'
@@ -53,16 +54,16 @@ export function init() {
     contextOferta.PRJC = prjc.value
   }
   //get theme from local storage and set it
-  let theme = localStorage.getItem('theme')
+  let theme = local_storage.selectedTheme.get()
   if (theme) changeTheme(theme)
   //get excel data from local storage and set it
-  let excel_object = localStorage.getItem('excel_object')
+  let excel_object = local_storage.excel_object.get()
   if (excel_object) {
     //ask user if he wants to load previous data
     let answer = confirm('Load previous data?')
     if (answer) {
-      if (localStorage.getItem('trees')) {
-        trees = JSON.parse(localStorage.getItem('trees'))
+      if (local_storage.trees.get()) {
+        trees = JSON.parse(local_storage.trees.get())
         if (trees.length) {
           populateSelectIerarhiiFromTrees()
         }
@@ -70,30 +71,30 @@ export function init() {
       excel_object2ds(excel_object)
       processExcelData(optimal_ds)
       //check trees, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete
-      if (localStorage.getItem('activitati_oferta')) {
-        activitati_oferta = JSON.parse(localStorage.getItem('activitati_oferta'))
+      if (local_storage.activitati_oferta.get()) {
+        activitati_oferta = JSON.parse(local_storage.activitati_oferta.get())
       }
-      if (localStorage.getItem('intrari_orfane')) {
-        intrari_orfane = JSON.parse(localStorage.getItem('intrari_orfane'))
+      if (local_storage.intrari_orfane.get()) {
+        intrari_orfane = JSON.parse(local_storage.intrari_orfane.get())
       }
-      if (localStorage.getItem('WBSMap')) {
-        WBSMap = JSON.parse(localStorage.getItem('WBSMap'))
+      if (local_storage.WBSMap.get()) {
+        WBSMap = JSON.parse(local_storage.WBSMap.get())
       }
-      if (localStorage.getItem('recipes_ds')) {
-        recipes_ds = JSON.parse(localStorage.getItem('recipes_ds'))
+      if (local_storage.recipes_ds.get()) {
+        recipes_ds = JSON.parse(local_storage.recipes_ds.get())
       }
-      if (localStorage.getItem('ds_instanteRetete')) {
-        ds_instanteRetete = JSON.parse(localStorage.getItem('ds_instanteRetete'))
+      if (local_storage.ds_instanteRetete.get()) {
+        ds_instanteRetete = JSON.parse(local_storage.ds_instanteRetete.get())
       }
-      if (localStorage.getItem('ds_antemasuratori')) {
-        ds_antemasuratori = JSON.parse(localStorage.getItem('ds_antemasuratori'))
+      if (local_storage.ds_antemasuratori.get()) {
+        ds_antemasuratori = JSON.parse(local_storage.ds_antemasuratori.get())
       }
       //newTree
-      if (localStorage.getItem('newTree')) {
-        newTree = JSON.parse(localStorage.getItem('newTree'))
+      if (local_storage.newTree.get()) {
+        newTree = JSON.parse(local_storage.newTree.get())
       }
-      if (localStorage.getItem('ds_estimari')) {
-        context.setDsEstimari(JSON.parse(localStorage.getItem('ds_estimari')))
+      if (local_storage.ds_estimari_pool.get()) {
+        context.setDsEstimari(JSON.parse(local_storage.ds_estimari_pool.get()))
       }
     } else {
       //clear local storage
@@ -417,7 +418,7 @@ export function init() {
   })
 
   //set selected theme
-  let selectedTheme = localStorage.getItem('theme') || 'default'
+  let selectedTheme = local_storage.selectedTheme.get() || 'default'
   themesUl.selectedIndex = themes.indexOf(selectedTheme)
 
   //zenView
