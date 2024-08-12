@@ -37,7 +37,7 @@ import {
   excel_object2ds
 } from './client.js'
 import { context } from './estimari.js'
-import { populateSelects } from './S1.js'
+import { populateSelects, getOferta } from './S1.js'
 
 //add onload event to window
 
@@ -124,7 +124,7 @@ export function init() {
   let saldoc = document.getElementById('saldoc')
   saldoc.onchange = function () {
     contextOferta.FILENAME = saldoc.text
-    let raspuns = context.getOferta(contextOferta.FILENAME)
+    let raspuns = getOferta(contextOferta.FILENAME)
     console.log('raspuns', raspuns)
     if (raspuns && raspuns.length > 0) {
       //set contextOferta with raspuns[0]
