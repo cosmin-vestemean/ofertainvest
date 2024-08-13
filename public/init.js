@@ -160,7 +160,7 @@ export function init() {
           }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it exists
-          context.setDsEstimari(getEstimariFromDB(CCCOFERTEWEB))
+          context.setDsEstimari(await getEstimariFromDB(CCCOFERTEWEB))
         }
       } else {
         alert('Nu exista oferta cu acest nume')
