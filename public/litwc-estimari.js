@@ -29,7 +29,7 @@ import {
   locateTrInEstimariPool
 } from './estimari.js'
 import { runSQLTransaction, getValFromS1Query } from './S1.js'
-import moment from "https://unpkg.com/moment@2.29.4/dist/moment.js"
+import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -355,67 +355,73 @@ export class estimari extends LitElement {
         let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
           ? object.ramura.estimareIndex
           : -1
-        let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
-        if (newTreeAntemasBranch) {
-          //create key estimari of antemasuratori branch as an array if does not exist
-          if (!newTreeAntemasBranch.estimari) {
-            newTreeAntemasBranch.estimari = []
-          }
-          //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
-          let estimare = {}
-          estimare[_start_date] = object[_start_date]
-          estimare[_end_date] = object[_end_date]
-          estimare.qty = parseFloat(object[_cantitate_estimari])
-          estimare.datetime = dt
-
-          if (
-            estimareIndex > -1 &&
-            newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
-            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
-          ) {
-            if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
-              newTreeAntemasBranch.estimari[estimareIndex] = estimare
+        if (newTree.length > 0) {
+          let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
+          if (newTreeAntemasBranch) {
+            //create key estimari of antemasuratori branch as an array if does not exist
+            if (!newTreeAntemasBranch.estimari) {
+              newTreeAntemasBranch.estimari = []
             }
-          } else {
-            //push estimare to newTreeAntemasBranch.estimari
-            newTreeAntemasBranch.estimari.push(estimare)
-            //add estimare to context.ds_estimari_pool
-            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
-              newTreeAntemasBranch.estimari.length - 1
+            //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
+            let estimare = {}
+            estimare[_start_date] = object[_start_date]
+            estimare[_end_date] = object[_end_date]
+            estimare.qty = parseFloat(object[_cantitate_estimari])
+            estimare.datetime = dt
+
+            if (
+              estimareIndex > -1 &&
+              newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
+              newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
+            ) {
+              if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
+                newTreeAntemasBranch.estimari[estimareIndex] = estimare
+              }
+            } else {
+              //push estimare to newTreeAntemasBranch.estimari
+              newTreeAntemasBranch.estimari.push(estimare)
+              //add estimare to context.ds_estimari_pool
+              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
+                newTreeAntemasBranch.estimari.length - 1
+            }
+
+            //add cantitate_estimari to ds_estimari_pool row_data
+            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
+              _cantitate_estimari
+            ] = estimare.qty
+
+            //add start_date to ds_estimari_pool row_data
+            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_start_date] =
+              object[_start_date]
+
+            //add end_date to ds_estimari_pool row_data
+            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
+              object[_end_date]
           }
-
-          //add cantitate_estimari to ds_estimari_pool row_data
-          context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
-            _cantitate_estimari
-          ] = estimare.qty
-
-          //add start_date to ds_estimari_pool row_data
-          context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_start_date] =
-            object[_start_date]
-
-          //add end_date to ds_estimari_pool row_data
-          context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
-            object[_end_date]
         }
       })
 
-      //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-      local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
-      //localStorage.setItem('newTree', JSON.stringify(newTree))
-      local_storage.newTree.set(JSON.stringify(newTree))
+      if (newTree.length > 0) {
+        //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+        local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
+        //localStorage.setItem('newTree', JSON.stringify(newTree))
+        local_storage.newTree.set(JSON.stringify(newTree))
 
-      //context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
-      context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
-      this.ds = context.ds_estimari_flat
-      console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
-      console.log('context.ds_estimari after update', context.ds_estimari)
+        //context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+        context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+        this.ds = context.ds_estimari_flat
+        console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
+        console.log('newTree after update with estimari', newTree)
+      }
+
       console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
-      console.log('newTree after update with estimari', newTree)
+      console.log('context.ds_estimari after update', context.ds_estimari)
 
       //find active in ds_estimari and set ds_estimari_pool
       let active = context.ds_estimari.find((o) => o.active)
       if (active) {
-        active.ds_estimari_pool = context.ds_estimari_pool
+        if (context.ds_estimari_pool.length > 0)
+          active.ds_estimari_pool = context.ds_estimari_pool
         active.ds_estimari_flat = context.ds_estimari_flat
         active.updateDate = new Date()
       }
@@ -1032,28 +1038,30 @@ export class estimari extends LitElement {
           console.error('Error deleting estimari lines:', result.error, result.sql)
         }
         //CCCESIMARIL
-        let ds_flat = estimare.ds_estimari_flat.filter((o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0)
+        let ds_flat = estimare.ds_estimari_flat.filter(
+          (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
+        )
         let sqlList = []
         ds_flat.forEach((o) => {
           let row_data = o
-            let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD');
-            let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD');
-            let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
-            for (let i = 1; i <= 10; i++) {
-              if (row_data[_nivel_oferta + i] === undefined) {
-              } else {
-                insertLineQuery += `${_nivel_oferta + i}, `
-              }
+          let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD')
+          let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD')
+          let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
+          for (let i = 1; i <= 10; i++) {
+            if (row_data[_nivel_oferta + i] === undefined) {
+            } else {
+              insertLineQuery += `${_nivel_oferta + i}, `
             }
-            insertLineQuery += `REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL) `
-            insertLineQuery += `VALUES (${headerId}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `;
+          }
+          insertLineQuery += `REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL) `
+          insertLineQuery += `VALUES (${headerId}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
           for (let i = 1; i <= 10; i++) {
             if (row_data[_nivel_oferta + i] === undefined) {
             } else {
               insertLineQuery += `'${row_data[_nivel_oferta + i]}', `
             }
           }
-          insertLineQuery += `${row_data.ramura.instanta >= 0 ? row_data.ramura.instanta : -1}, ${row_data.ramura.ramura >= 0 ? row_data.ramura.ramura : -1 }, ${row_data.ramura.activitateIndex >= 0 ? row_data.ramura.activitateIndex : -1}, ${row_data.ramura.estimareIndex >= 0 ? row_data.ramura.estimareIndex : -1}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
+          insertLineQuery += `${row_data.ramura.instanta >= 0 ? row_data.ramura.instanta : -1}, ${row_data.ramura.ramura >= 0 ? row_data.ramura.ramura : -1}, ${row_data.ramura.activitateIndex >= 0 ? row_data.ramura.activitateIndex : -1}, ${row_data.ramura.estimareIndex >= 0 ? row_data.ramura.estimareIndex : -1}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
           sqlList.push(insertLineQuery)
         })
         let objSqlList = {
