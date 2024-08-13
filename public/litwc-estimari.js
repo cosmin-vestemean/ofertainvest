@@ -42,6 +42,8 @@ export class estimari extends LitElement {
     ds: { type: Array },
   }
 
+  trs = []
+
   constructor() {
     super()
     this.ds = []
@@ -185,12 +187,19 @@ export class estimari extends LitElement {
         if (isMain) {
           //add main activity row
           tr = this.addTableRow(instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
-          tbody.appendChild(tr)
+          trs.push(tr)
         }
         tr = this.addTableRow(instanta, r, counter, counter2, counter3, o, false, indexOfFlat)
-        tbody.appendChild(tr)
+        trs.push(tr)
         indexOfFlat++
       }, this)
+
+      //add trs to tbody via virtualizer
+      let virtualizer = document.createElement('lit-virtualizer')
+      virtualizer.items = trs
+      virtualizer.style.height = '100vh'
+      virtualizer.style.width = '100%'
+      tbody.appendChild(virtualizer)      
     }
 
     return html`${buttonsPannel}${table}${floatingTableFilter}`
