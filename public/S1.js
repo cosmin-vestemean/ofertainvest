@@ -257,7 +257,7 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
         .find({
           query: {
             clientID: clientID,
-            sqlQuery: `select * from CCCESTIMARIH where CCCOFERTEWEB='${CCCOFERTEWEB}'`
+            sqlQuery: `select CCCOFERTEWEB, DSESTIMARIFLAT, FORMAT(CREATEDATE, 'yyyy-MM-dd') as CREATEDATE, FORMAT(UPDATEDATE, 'yyyy-MM-dd') as UPDATEDATE, FORMAT(STARTDATE, 'yyyy-MM-dd') as STARTDATE, FORMAT(ENDDATE, 'yyyy-MM-dd') as ENDDATE, ID, ACTIVE from CCCESTIMARIH where CCCOFERTEWEB='${CCCOFERTEWEB}'`
           }
         });
       //console.log('result', response)
