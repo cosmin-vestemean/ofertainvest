@@ -1018,6 +1018,17 @@ export class estimari extends LitElement {
         let headerId = CCCESTIMARIH.value
         console.log('headerId:', headerId)
         estimare.CCCESTIMARIH = headerId
+        //delete all lines from CCCESTIMARIL where CCCESTIMARIH = headerId
+        let deleteLinesQuery = `DELETE FROM CCCESTIMARIL WHERE CCCESTIMARIH = ${headerId};`
+        objSqlList = {
+          sqlList: [deleteLinesQuery]
+        }
+        var result = await runSQLTransaction(objSqlList)
+        if (result.success) {
+          console.log('Estimari lines deleted successfully')
+        } else {
+          console.error('Error deleting estimari lines:', result.error, result.sql)
+        }
         //CCCESIMARIL
         let ds_flat = estimare.ds_estimari_flat.filter((o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0)
         let sqlList = []
