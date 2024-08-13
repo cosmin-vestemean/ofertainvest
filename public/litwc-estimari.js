@@ -993,14 +993,20 @@ export class estimari extends LitElement {
       CREATEDATE: moment(estimare.createDate).format('YYYY-MM-DD'),
       UPDATEDATE: moment(estimare.updateDate).format('YYYY-MM-DD'),
       DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat),
-      CCCOFERTEWEB: contextOferta.CCCOFERTEWEB
+      CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
+      CCCESTIMARIH: estimare.CCCESTIMARIH
     }
 
     const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
     VALUES (${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
+    const updateHeaderQuery = `UPDATE CCCESTIMARIH SET ACTIVE = ${headerData.ACTIVE}, STARTDATE = '${headerData.STARTDATE}', ENDDATE = '${headerData.ENDDATE}', UPDATEDATE = '${headerData.UPDATEDATE}', DSESTIMARIFLAT = '${headerData.DSESTIMARIFLAT}' WHERE ID = ${headerData.CCCESTIMARIH};`
     const getId = `SELECT IDENT_CURRENT('CCCESTIMARIH') AS ID;`
     let sqlList = []
-    sqlList.push(insertHeaderQuery)
+    if (estimare.CCCESTIMARIH) {
+      sqlList.push(updateHeaderQuery)
+    } else {
+      sqlList.push(insertHeaderQuery)
+    }
     let objSqlList = {
       sqlList: sqlList
     }
@@ -1020,7 +1026,6 @@ export class estimari extends LitElement {
             let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD');
             let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD');
             let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
-            //NIVEL1, NIVEL2, NIVEL3, NIVEL4, NIVEL5, NIVEL6, NIVEL7, NIVEL8, NIVEL9, NIVEL10, REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL)
             for (let i = 1; i <= 10; i++) {
               if (row_data[_nivel_oferta + i] === undefined) {
               } else {
