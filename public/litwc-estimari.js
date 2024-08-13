@@ -993,7 +993,7 @@ export class estimari extends LitElement {
     }
 
     const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
-    VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE()}', '${headerData.ENDDATE()}', '${headerData.CREATEDATE()}', '${headerData.UPDATEDATE()}', '${headerData.DSESTIMARIFLAT}');`
+    VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
     const getId = `SELECT last_insert_rowid() as headerId;`
     let sqlList = []
     sqlList.push(insertHeaderQuery)
