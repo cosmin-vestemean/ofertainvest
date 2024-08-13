@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import {virtualize} from 'https://cdn.jsdelivr.net/npm/@lit-labs/virtualizer/virtualize.js'
+import litLabsvirtualizer from 'https://cdn.jsdelivr.net/npm/@lit-labs/virtualizer@2.0.14/+esm'
 import {
   template,
   _start_date,
@@ -194,11 +194,11 @@ export class estimari extends LitElement {
         indexOfFlat++
       }, this)
 
-      //add trs to tbody via virtualize directive
-      tbody.innerHTML = html`${virtualize({
-        items: this.trs,
-        renderItem: (tr) => tr
-      })}`     
+      //add trs to tbody via virtualizer
+      let virtualizer = document.createElement('lit-virtualizer')
+      virtualizer.items = this.trs
+      virtualizer.renderItem = (item) => item.cloneNode(true)
+      tbody.appendChild(virtualizer)     
     }
 
     return html`${buttonsPannel}${table}${floatingTableFilter}`
