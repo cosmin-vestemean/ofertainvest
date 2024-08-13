@@ -244,6 +244,7 @@ export class listaEstimari extends LitElement {
           let id = tr.getAttribute('data-id') || null
           if (id) {
             let ds = context.ds_estimari[id].ds_estimari_flat
+            context.setDsEstimariFlat(ds)
             //set active false for all ds_estimari
             context.ds_estimari.forEach(function (o) {
               o.active = false
