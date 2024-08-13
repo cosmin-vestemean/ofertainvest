@@ -27,7 +27,7 @@ import {
   locateTrInEstimariPool
 } from './estimari.js'
 import { runSQLTransaction, getValFromS1Query } from './S1.js'
-import moment from 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js'
+import moment from 'https://momentjs.com/downloads/moment-with-locales.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
