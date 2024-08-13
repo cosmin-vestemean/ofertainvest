@@ -1043,7 +1043,7 @@ export class estimari extends LitElement {
         let ds_flat = estimare.ds_estimari_flat.filter(
           (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
         )
-        let sqlList = []
+        let sqlListL = []
         ds_flat.forEach((o) => {
           let row_data = o
           let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD')
@@ -1068,9 +1068,10 @@ export class estimari extends LitElement {
           sqlList.push(insertLineQuery)
         })
         objSqlList = {
-          sqlList: sqlList
+          sqlList: sqlListL
         }
         var result = await runSQLTransaction(objSqlList)
+        console.log('result:', result)
         if (result.success) {
           console.log('Estimari lines saved successfully')
         } else {
