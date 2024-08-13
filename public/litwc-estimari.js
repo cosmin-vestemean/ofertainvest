@@ -19,7 +19,8 @@ import {
   my_table5,
   my_table6,
   local_storage,
-  _nivel_oferta
+  _nivel_oferta,
+  contextOferta
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -991,11 +992,12 @@ export class estimari extends LitElement {
       ENDDATE: moment(estimare.ds_estimari_flat[0][_end_date]).format('YYYY-MM-DD'),
       CREATEDATE: moment(estimare.createDate).format('YYYY-MM-DD'),
       UPDATEDATE: moment(estimare.updateDate).format('YYYY-MM-DD'),
-      DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat)
+      DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat),
+      CCCOFERTEWEB: contextOferta.CCCOFERTEWEB
     }
 
-    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
-    VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
+    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
+    VALUES (${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
     const getId = `SELECT IDENT_CURRENT('CCCESTIMARIH') AS ID;`
     let sqlList = []
     sqlList.push(insertHeaderQuery)

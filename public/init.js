@@ -39,7 +39,7 @@ import {
   local_storage
 } from './client.js'
 import { context } from './estimari.js'
-import { populateSelects, getOferta, saveAntemasuratoriToDB } from './S1.js'
+import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
 
 //add onload event to window
 
@@ -127,6 +127,7 @@ export function init() {
   saldoc.onchange = async function () {
     if (saldoc.selectedIndex > -1) {
       contextOferta.FILENAME = saldoc.options[saldoc.selectedIndex].text
+      contextOferta.CCCOFERTEWEB = saldoc.value
     } else {
       return
     }
@@ -153,6 +154,12 @@ export function init() {
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           processExcelData(optimal_ds)
+          if (firstLine.JSONANTESTR) {
+            ds_antemasuratori = JSON.parse(firstLine.JSONANTESTR)
+          }
+          let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
+          //add data to ds_estimari, if it exists
+          ds_estimari = getEstimariFromDB(CCCOFERTEWEB)
         }
       } else {
         alert('Nu exista oferta cu acest nume')

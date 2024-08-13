@@ -99,7 +99,7 @@ export class listaEstimari extends LitElement {
 
     if (!this.ds || this.ds.length == 0) {
       let div = document.createElement('div')
-      div.classList.add('container')
+      div.classList.add('d-flex justify-content-around')
       let h3 = document.createElement('h3')
       h3.classList.add('text-center')
       h3.classList.add('text-danger')
@@ -109,7 +109,7 @@ export class listaEstimari extends LitElement {
       button.classList.add('btn', 'btn-primary-sm')
       //add plus icon
       let plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi', 'bi-plus-square', 'fs-6')
+      plus_icon.classList.add('bi', 'bi-plus-square', 'fs-4')
       plus_icon.classList.add('text-primary')
       button.appendChild(plus_icon)
       button.onclick = addNewEstimare

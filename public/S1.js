@@ -78,7 +78,7 @@ export async function populateSelects() {
                     clientID: clientID,
                     appID: '1001',
                     sqlQuery:
-                      'select FILENAME, PRJC from CCCOFERTEWEB ORDER by trndate desc'
+                      'select * from CCCOFERTEWEB ORDER by trndate desc'
                   }
                 }
 
@@ -92,7 +92,7 @@ export async function populateSelects() {
                       //populate select_saldoc
                       result.data.forEach(function (object) {
                         var option = document.createElement('option')
-                        option.value = object['PRJC']
+                        option.value = object['CCCOFERTEWEB']
                         option.text = object['FILENAME']
                         select_saldoc.appendChild(option)
                       })
@@ -238,6 +238,49 @@ export async function saveAntemasuratoriToDB() {
       } else {
         console.log('Eroare actualizare antemasuratori in baza de date');
         reject(result);
+      }
+    } catch (error) {
+      console.log('error', error);
+      reject({ success: false, error: error });
+    }
+  });
+}
+
+export async function getEstimariFromDB(CCCOFERTEWEB) {
+  //CCCESTIMARIH WHERE CCCOFERTEWEB = CCCOFERTEWEB => DSESTIMARIFLAT, CREATEDATE, UPDATEDATE, STARTDATE, ENDDATE, ID, ACTIVE
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await connectToS1Service();
+      const clientID = result.token;
+      const response = await client
+        .service('getDataset')
+        .find({
+          query: {
+            clientID: clientID,
+            sqlQuery: `select * from CCCESTIMARIH where CCCOFERTEWEB='${CCCOFERTEWEB}'`
+          }
+        });
+      //console.log('result', response)
+      if (response.success) {
+        let estimari = response.data;
+        let dsEstimari = [];
+        estimari.forEach((estimare) => {
+          console.log('estimare', estimare);
+          let estimareObj = {
+            ds_estimari_flat: estimare.DSESTIMARIFLAT,
+            createDate: estimare.CREATEDATE,
+            updateDate: estimare.UPDATEDATE,
+            startDate: estimare.STARTDATE,
+            endDate: estimare.ENDDATE,
+            id: estimare.ID,
+            active: estimare.ACTIVE,
+            CCCESTIMARIH: estimare.CCCESTIMARIH
+          };
+          dsEstimari.push(estimareObj);
+        });
+        resolve(dsEstimari);
+      } else {
+        reject(response);
       }
     } catch (error) {
       console.log('error', error);
