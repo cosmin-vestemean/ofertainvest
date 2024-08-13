@@ -105,7 +105,7 @@ export class estimari extends LitElement {
       if (theadIsSet) {
         tbody.classList.add('table-group-divider')
       }
-      //table.appendChild(tbody)
+      table.appendChild(tbody)
       //add thead
       if (theadIsSet) {
         table.appendChild(thead)
@@ -194,13 +194,11 @@ export class estimari extends LitElement {
         indexOfFlat++
       }, this)
 
-      //add trs to tbody via virtualizer
-      let virtualizer = document.createElement('lit-virtualizer')
-      virtualizer.id = 'virtualizer'
-      virtualizer.classList.add('table', 'table-sm', 'table-hover')
-      virtualizer.items = this.trs
-      virtualizer.renderItem = (item) => item
-      table.appendChild(virtualizer)     
+      //add trs to tbody via virtualize directive
+      tbody.innerHTML = html`${virtualize({
+        items: this.trs,
+        renderItem: (tr) => tr
+      })}`     
     }
 
     return html`${buttonsPannel}${table}${floatingTableFilter}`
