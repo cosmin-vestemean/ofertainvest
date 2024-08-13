@@ -382,8 +382,10 @@ export class estimari extends LitElement {
               //push estimare to newTreeAntemasBranch.estimari
               newTreeAntemasBranch.estimari.push(estimare)
               //add estimare to context.ds_estimari_pool
+              if (context.ds_estimari_pool.length > 0) {
               context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
                 newTreeAntemasBranch.estimari.length - 1
+              }
             }
 
             //add cantitate_estimari to ds_estimari_pool row_data
