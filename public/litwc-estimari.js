@@ -1028,7 +1028,7 @@ export class estimari extends LitElement {
         estimare.CCCESTIMARIH = headerId
         //delete all lines from CCCESTIMARIL where CCCESTIMARIH = headerId
         let deleteLinesQuery = `DELETE FROM CCCESTIMARIL WHERE CCCESTIMARIH = ${headerId};`
-        objSqlList = {
+        let objSqlList = {
           sqlList: [deleteLinesQuery]
         }
         var result = await runSQLTransaction(objSqlList)
@@ -1064,7 +1064,7 @@ export class estimari extends LitElement {
           insertLineQuery += `${row_data.ramura.instanta >= 0 ? row_data.ramura.instanta : -1}, ${row_data.ramura.ramura >= 0 ? row_data.ramura.ramura : -1}, ${row_data.ramura.activitateIndex >= 0 ? row_data.ramura.activitateIndex : -1}, ${row_data.ramura.estimareIndex >= 0 ? row_data.ramura.estimareIndex : -1}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
           sqlList.push(insertLineQuery)
         })
-        let objSqlList = {
+        objSqlList = {
           sqlList: sqlList
         }
         var result = await runSQLTransaction(objSqlList)
