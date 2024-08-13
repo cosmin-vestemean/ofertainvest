@@ -10,6 +10,7 @@ import {
   recipes_ds,
   ds_instanteRetete,
   ds_antemasuratori,
+  setDsAntemasuratori,
   newTree,
   my_table2,
   my_table3,
@@ -155,11 +156,11 @@ export function init() {
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           processExcelData(optimal_ds)
           if (firstLine.JSONANTESTR) {
-            ds_antemasuratori = JSON.parse(firstLine.JSONANTESTR)
+            setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
           }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it exists
-          ds_estimari = getEstimariFromDB(CCCOFERTEWEB)
+          context.setDsEstimari(getEstimariFromDB(CCCOFERTEWEB))
         }
       } else {
         alert('Nu exista oferta cu acest nume')

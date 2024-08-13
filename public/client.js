@@ -300,7 +300,10 @@ var combinatii_unice = []
 export var selected_ds = []
 export var ds_instanteRetete = []
 export var ds_antemasuratori = []
-export let newTree = []
+export const setDsAntemasuratori = (value) => {
+  ds_antemasuratori = value
+}
+export var newTree = []
 /* var ds_AFL = [
   {
     header: { denumire: 'DS1233354', data: '20.06.2024' },
