@@ -197,8 +197,7 @@ export class estimari extends LitElement {
       //add trs to tbody via virtualizer
       let virtualizer = document.createElement('lit-virtualizer')
       virtualizer.items = this.trs
-      virtualizer.style.height = '100vh'
-      virtualizer.style.width = '100%'
+      virtualizer.renderItem = (item) => item
       tbody.appendChild(virtualizer)      
     }
 
