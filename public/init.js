@@ -39,7 +39,7 @@ import {
   local_storage
 } from './client.js'
 import { context } from './estimari.js'
-import { populateSelects, getOferta } from './S1.js'
+import { populateSelects, getOferta, saveAntemasuratoriToDB } from './S1.js'
 
 //add onload event to window
 
@@ -328,6 +328,8 @@ export function init() {
       scan_oferta_initiala.click()
       console.log('Calcul antemasuratori')
       nav_antemasuratori.click()
+      let result = saveAntemasuratoriToDB()
+      console.log('result', result)
     }
   }
 
@@ -347,11 +349,13 @@ export function init() {
 
   //btn_regenerare_antemas
   let btn_regenerare_antemas = document.getElementById('btn_regenerare_antemas')
-  btn_regenerare_antemas.onclick = function () {
+  btn_regenerare_antemas.onclick = async function () {
     //ask user if he wants to recalculate
     let answer = confirm('Regenerez antemasuratorile?')
     if (answer) {
       calculateAntemasAndNewTree()
+      let result = saveAntemasuratoriToDB()
+      console.log('result', result)
     }
 
     showAntemasuratori()

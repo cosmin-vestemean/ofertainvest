@@ -176,7 +176,7 @@ export async function getValFromS1Query(query) {
   });
 }
 
-export function runSQLTransaction(objSqlList) {
+export async function runSQLTransaction(objSqlList) {
   return new Promise(async (resolve, reject) => {
     if (!objSqlList || !objSqlList.sqlList || objSqlList.sqlList.length == 0) {
       console.log('No sql query transmited.')
@@ -215,6 +215,30 @@ export async function getOferta(filename) {
         });
       //console.log('result', response)
       resolve(response);
+    } catch (error) {
+      console.log('error', error);
+      reject({ success: false, error: error });
+    }
+  });
+}
+
+export async function saveAntemasuratoriToDB() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // UPDATE CCCOFERTEWEB:JSONANTESTR with ds_antemasuratori using runSQLTransaction
+      let sqlList = [];
+      sqlList.push(
+        `UPDATE CCCOFERTEWEB SET JSONANTESTR='${JSON.stringify(ds_antemasuratori)}' WHERE FILENAME='${contextOferta.FILENAME}'`
+      );
+      let objSqlList = { sqlList: sqlList };
+      let result = await runSQLTransaction(objSqlList);
+      if (result.success) {
+        console.log('Antemasuratori actualizati in baza de date');
+        resolve(result);
+      } else {
+        console.log('Eroare actualizare antemasuratori in baza de date');
+        reject(result);
+      }
     } catch (error) {
       console.log('error', error);
       reject({ success: false, error: error });
