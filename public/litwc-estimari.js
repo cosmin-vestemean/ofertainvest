@@ -1011,7 +1011,7 @@ export class estimari extends LitElement {
         console.log('headerId:', headerId)
         active.CCCESTIMARIH = headerId
         //CCCESIMARIL
-        let ds_flat = estimare.ds_estimari_flat
+        let ds_flat = estimare.ds_estimari_flat.filter((o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0)
         let sqlList = []
         ds_flat.forEach((o) => {
           let row_data = o
