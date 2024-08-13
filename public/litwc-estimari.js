@@ -1022,7 +1022,7 @@ export class estimari extends LitElement {
     if (result.success) {
       console.log('Estimari saved successfully')
       let CCCESTIMARIH = estimare.CCCESTIMARIH
-        ? { success: true, values: estimare.CCCESTIMARIH }
+        ? { success: true, value: estimare.CCCESTIMARIH }
         : await getValFromS1Query(getId)
       if (CCCESTIMARIH.success) {
         let headerId = CCCESTIMARIH.value
