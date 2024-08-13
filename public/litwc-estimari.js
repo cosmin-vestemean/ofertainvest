@@ -1,4 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
+import litLabsvirtualizer from 'https://cdn.jsdelivr.net/npm/@lit-labs/virtualizer@2.0.14/+esm'
 import {
   template,
   _start_date,
@@ -180,11 +181,14 @@ export class estimari extends LitElement {
         let counter = ramura.counter
         let counter2 = ramura.counter2
         let counter3 = ramura.counter3
+        var tr;
         if (isMain) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
+          tr = this.addTableRow(instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
+          tbody.appendChild(tr)
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, indexOfFlat)
+        tr = this.addTableRow(instanta, r, counter, counter2, counter3, o, false, indexOfFlat)
+        tbody.appendChild(tr)
         indexOfFlat++
       }, this)
     }
@@ -709,7 +713,7 @@ export class estimari extends LitElement {
     }
   }
 
-  addTableRow(tbody, i, k, counter, counter2, counter3, o, isMain, indexOfFlat) {
+  addTableRow(i, k, counter, counter2, counter3, o, isMain, indexOfFlat) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
@@ -725,7 +729,7 @@ export class estimari extends LitElement {
     } else {
       tr.classList.add(bg_color)
     }
-    tbody.appendChild(tr)
+    //tbody.appendChild(tr)
     //create a checkbox for main activity
     let td = document.createElement('td')
     td.classList.add('ROW_SELECTED')
@@ -815,6 +819,8 @@ export class estimari extends LitElement {
         }
       }
     }
+
+    return tr
   }
 
   updateEstimariDate(input1) {
