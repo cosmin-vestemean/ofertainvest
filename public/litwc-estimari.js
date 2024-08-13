@@ -92,7 +92,6 @@ export class estimari extends LitElement {
       //add thead
       if (theadIsSet) {
         let tr = document.createElement('tr')
-        thead.appendChild(tr)
         //add checkbox for main activity
         let th = document.createElement('th')
         th.scope = 'col'
