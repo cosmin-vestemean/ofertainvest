@@ -17,9 +17,16 @@ import {
   _end_date
 } from './client.js'
 import { context } from './estimari.js'
+import { saveAntemasuratoriToDB } from './S1.js'
 
 function addNewEstimare() {
   cleanupEstimari()
+
+  //la prima estimare pot presupune ca ai inceput sa creezi estimari fiindca ai antemasuratorile dimensionate, deci le salvez in baza de date
+  if (context.ds_estimari.length == 0) {
+    let result = saveAntemasuratoriToDB()
+    console.log('result', result)
+  }
 
   //active = false for all objects in ds_estimari
   context.ds_estimari.forEach((o) => (o.active = false))

@@ -328,8 +328,6 @@ export function init() {
       scan_oferta_initiala.click()
       console.log('Calcul antemasuratori')
       nav_antemasuratori.click()
-      let result = saveAntemasuratoriToDB()
-      console.log('result', result)
     }
   }
 
@@ -343,6 +341,9 @@ export function init() {
       //TODO: remove from db
       context.createNewEstimariPool(newTree)
       console.log('context.getDsEstimariPool', context.getDsEstimariPool())
+      //presupun ca daca regeneram estimarile, o facem cu un motiv, si acela ar fi ca am redimensionat antemasuratorile fie cu ramuri fie cu valori
+      let result = saveAntemasuratoriToDB()
+      console.log('result', result)
     }
     btn_estimari.click()
   }
@@ -354,8 +355,6 @@ export function init() {
     let answer = confirm('Regenerez antemasuratorile?')
     if (answer) {
       calculateAntemasAndNewTree()
-      let result = saveAntemasuratoriToDB()
-      console.log('result', result)
     }
 
     showAntemasuratori()
