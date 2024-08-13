@@ -278,9 +278,9 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
           };
           dsEstimari.push(estimareObj);
         });
-        resolve(dsEstimari);
+        resolve({ success: true, data: dsEstimari });
       } else {
-        reject(response);
+        reject({ success: false, error: response.error });
       }
     } catch (error) {
       console.log('error', error);
