@@ -383,23 +383,26 @@ export class estimari extends LitElement {
               newTreeAntemasBranch.estimari.push(estimare)
               //add estimare to context.ds_estimari_pool
               if (context.ds_estimari_pool.length > 0) {
-              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
-                newTreeAntemasBranch.estimari.length - 1
+                context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
+                  newTreeAntemasBranch.estimari.length - 1
               }
             }
 
             //add cantitate_estimari to ds_estimari_pool row_data
-            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
-              _cantitate_estimari
-            ] = estimare.qty
+            if (context.ds_estimari_pool.length > 0) {
+              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
+                _cantitate_estimari
+              ] = estimare.qty
 
-            //add start_date to ds_estimari_pool row_data
-            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_start_date] =
-              object[_start_date]
+              //add start_date to ds_estimari_pool row_data
+              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
+                _start_date
+              ] = object[_start_date]
 
-            //add end_date to ds_estimari_pool row_data
-            context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
-              object[_end_date]
+              //add end_date to ds_estimari_pool row_data
+              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
+                object[_end_date]
+            }
           }
         }
       })
