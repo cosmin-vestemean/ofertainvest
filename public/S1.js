@@ -267,7 +267,7 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
         estimari.forEach((estimare) => {
           console.log('estimare', estimare);
           let estimareObj = {
-            ds_estimari_flat: estimare.DSESTIMARIFLAT,
+            ds_estimari_flat: JSON.parse(estimare.DSESTIMARIFLAT),
             createDate: estimare.CREATEDATE,
             updateDate: estimare.UPDATEDATE,
             startDate: estimare.STARTDATE,
