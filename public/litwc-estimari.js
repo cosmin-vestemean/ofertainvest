@@ -198,6 +198,8 @@ export class estimari extends LitElement {
       let virtualizer = document.createElement('lit-virtualizer')
       virtualizer.items = this.trs
       virtualizer.renderItem = (item) => item
+      virtualizer.style.height = '100vh'
+      virtualizer.style.overflow = 'auto'
       tbody.appendChild(virtualizer)      
     }
 
