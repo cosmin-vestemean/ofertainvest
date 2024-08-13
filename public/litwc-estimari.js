@@ -371,6 +371,7 @@ export class estimari extends LitElement {
 
             if (
               estimareIndex > -1 &&
+              newTreeAntemasBranch.estimari[estimareIndex] !== undefined &&
               newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
               newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
             ) {
