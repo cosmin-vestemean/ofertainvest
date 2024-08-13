@@ -984,7 +984,7 @@ export class estimari extends LitElement {
     //active to runSQLTransaction: ds_estimari in CCCESTIMARIH(eader) and ds_estimari_flat in CCCESTIMARIL(ines)
     const headerData = {
       ID: estimare.id,
-      ACTIVE: estimare.active,
+      ACTIVE: estimare.active ? 1 : 0,
       STARTDATE: moment(estimare.ds_estimari_flat[0][_start_date]).format('YYYY-MM-DD'),
       ENDDATE: moment(estimare.ds_estimari_flat[0][_end_date]).format('YYYY-MM-DD'),
       CREATEDATE: moment(estimare.createDate).format('YYYY-MM-DD'),
@@ -1022,7 +1022,7 @@ export class estimari extends LitElement {
               insertLineQuery += `'${row_data['NIVEL' + i]}', `
             }
           }
-          insertLineQuery += `${row_data.ramura.instanta}, ${row_data.ramura.ramura}, ${row_data.ramura.activitateIndex}, ${row_data.ramura.estimareIndex}, ${row_data.ROW_SELECTED}, '${row_data.TIP_ARTICOL_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
+          insertLineQuery += `${row_data.ramura.instanta}, ${row_data.ramura.ramura}, ${row_data.ramura.activitateIndex}, ${row_data.ramura.estimareIndex}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
           sqlList.push(insertLineQuery)
         })
         let objSqlList = {
