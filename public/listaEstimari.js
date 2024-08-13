@@ -99,7 +99,7 @@ export class listaEstimari extends LitElement {
 
     if (!this.ds || this.ds.length == 0) {
       let div = document.createElement('div')
-      div.classList.add('d-flex justify-content-around')
+      div.classList.add('d-flex', 'justify-content-around')
       let h3 = document.createElement('h3')
       h3.classList.add('text-center')
       h3.classList.add('text-danger')
