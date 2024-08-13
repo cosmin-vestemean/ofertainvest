@@ -18,7 +18,8 @@ import {
   my_table4,
   my_table5,
   my_table6,
-  local_storage
+  local_storage,
+  _nivel_oferta
 } from './client.js'
 import {
   estimariDisplayMask,
@@ -1017,9 +1018,9 @@ export class estimari extends LitElement {
             let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, NIVEL1, NIVEL2, NIVEL3, NIVEL4, NIVEL5, NIVEL6, NIVEL7, NIVEL8, NIVEL9, NIVEL10, REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL)
             VALUES (${headerId}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `;
           for (let i = 1; i <= 10; i++) {
-            if (row_data['NIVEL_OFERTA_' + i] === undefined) {
+            if (row_data[_nivel_oferta + i] === undefined) {
             } else {
-              insertLineQuery += `'${row_data['NIVEL' + i]}', `
+              insertLineQuery += `'${row_data[_nivel_oferta + i]}', `
             }
           }
           insertLineQuery += `${row_data.ramura.instanta}, ${row_data.ramura.ramura}, ${row_data.ramura.activitateIndex}, ${row_data.ramura.estimareIndex}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
