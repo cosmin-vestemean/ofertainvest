@@ -157,7 +157,7 @@ export async function getValFromS1Query(query) {
     try {
       const result = await connectToS1Service();
       const clientID = result.token;
-      console.log('clientID', clientID);
+      //console.log('clientID', clientID);
       const queryResult = await client
         .service('getValFromQuery')
         .find({

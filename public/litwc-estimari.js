@@ -26,6 +26,7 @@ import {
   generateTblRowsFromDsEstimariPool,
   locateTrInEstimariPool
 } from './estimari.js'
+import { runSQLTransaction, getValFromS1Query } from './S1.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -38,7 +39,7 @@ export class estimari extends LitElement {
   //Arr2 contains the following keys: branch, qty
   //every row of the table has two more columns: start date and end date with calendar icons
   static properties = {
-    ds: { type: Array },
+    ds: { type: Array }
   }
 
   constructor() {
@@ -415,6 +416,8 @@ export class estimari extends LitElement {
         active.updateDate = new Date()
       }
 
+      this.salveazaEstimareaInBazaDeDate(active)
+
       //localStorage.setItem('ds_estimari', JSON.stringify(context.ds_estimari))
       local_storage.ds_estimari.set(JSON.stringify(context.ds_estimari))
     }
@@ -499,11 +502,21 @@ export class estimari extends LitElement {
     //2. only rows with _cantitate_estimari = 0
     //3. only rows with _cantitate_estimari != _cantitate_antemasuratori
     //4. only rows with _cantitate_estimari = _cantitate_antemasuratori
-    
+
     let floatingTableFilter = document.createElement('div')
     //radio buttons are stacked vertically4
     //panel floats on the right side of the table, scroll independent
-    floatingTableFilter.classList.add('d-flex', 'flex-column', 'position-fixed', 'top-50', 'end-0', 'p-2', 'bg-light', 'border', 'rounded')
+    floatingTableFilter.classList.add(
+      'd-flex',
+      'flex-column',
+      'position-fixed',
+      'top-50',
+      'end-0',
+      'p-2',
+      'bg-light',
+      'border',
+      'rounded'
+    )
     //add radio buttons
     let div1 = document.createElement('div')
     div1.classList.add('form-check')
@@ -624,7 +637,9 @@ export class estimari extends LitElement {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(columnName))
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
-          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
+          let iputInside = Array.from(tds)
+            .find((o) => o.classList.contains('ROW_SELECTED'))
+            .getElementsByTagName('input')[0]
           if (td && iputInside) {
             if (isEqual) {
               if (val > 0) {
@@ -657,7 +672,9 @@ export class estimari extends LitElement {
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
           let vala = tda.textContent.trim() === '' ? 0 : parseFloat(tda.textContent)
-          let iputInside = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED')).getElementsByTagName('input')[0]
+          let iputInside = Array.from(tds)
+            .find((o) => o.classList.contains('ROW_SELECTED'))
+            .getElementsByTagName('input')[0]
           if (td && iputInside) {
             if (isEqual) {
               if (val !== vala) {
@@ -676,7 +693,6 @@ export class estimari extends LitElement {
         }
       }
     }
-
   }
 
   updateDateInputs(input1) {
@@ -960,6 +976,66 @@ export class estimari extends LitElement {
         //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
         local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
       }
+    }
+  }
+
+  async salveazaEstimareaInBazaDeDate(estimare) {
+    //active to runSQLTransaction: ds_estimari in CCCESTIMARIH(eader) and ds_estimari_flat in CCCESTIMARIL(ines)
+    const headerData = {
+      ID: estimare.id,
+      ACTIVE: estimare.active,
+      STARTDATE: estimare.ds_estimari_flat[0][_start_date],
+      ENDDATE: estimare.ds_estimari_flat[0][_end_date],
+      CREATEDATE: estimare.createDate,
+      UPDATEDATE: estimare.updateDate,
+      DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat)
+    }
+
+    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
+    VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE.toISOString()}', '${headerData.ENDDATE.toISOString()}', '${headerData.CREATEDATE.toISOString()}', '${headerData.UPDATEDATE.toISOString()}', '${headerData.DSESTIMARIFLAT}');`
+    const getId = `SELECT last_insert_rowid() as headerId;`
+    let sqlList = []
+    sqlList.push(insertHeaderQuery)
+    let objSqlList = {
+      sqlList: sqlList
+    }
+    var result = await runSQLTransaction(objSqlList)
+    if (result.success) {
+      console.log('Estimari saved successfully')
+      let CCCESTIMARIH = await getValFromS1Query(getId)
+      if (CCCESTIMARIH.success) {
+        let headerId = CCCESTIMARIH.value
+        console.log('headerId:', headerId)
+        //CCCESIMARIL
+        let ds_flat = estimare.ds_estimari_flat
+        let sqlList = []
+        ds_flat.forEach((o) => {
+          let row_data = o
+          let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, NIVEL1, NIVEL2, NIVEL3, NIVEL4, NIVEL5, NIVEL6, NIVEL7, NIVEL8, NIVEL9, NIVEL10, REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL)
+            VALUES (${headerId}, '${row_data[_start_date].toISOString()}', '${row_data[_end_date].toISOString()}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
+          for (let i = 1; i <= 10; i++) {
+            if (row_data['NIVEL_OFERTA_' + i] === undefined) {
+            } else {
+              insertLineQuery += `'${row_data['NIVEL' + i]}', `
+            }
+          }
+          insertLineQuery += `${row_data.ramura.instanta}, ${row_data.ramura.ramura}, ${row_data.ramura.activitateIndex}, ${row_data.ramura.estimareIndex}, ${row_data.ROW_SELECTED}, '${row_data.TIP_ARTICOL_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
+          sqlList.push(insertLineQuery)
+        })
+        let objSqlList = {
+          sqlList: sqlList
+        }
+        var result = await runSQLTransaction(objSqlList)
+        if (result.success) {
+          console.log('Estimari lines saved successfully')
+        } else {
+          console.error('Error saving estimari lines:', result.error, result.sql)
+        }
+      } else {
+        console.error('Error getting headerId:', CCCESTIMARIH.error)
+      }
+    } else {
+      console.error('Error saving estimari:', result.error, result.sql)
     }
   }
 }
