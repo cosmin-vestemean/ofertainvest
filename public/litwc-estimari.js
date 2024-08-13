@@ -420,8 +420,7 @@ export class estimari extends LitElement {
       //find active in ds_estimari and set ds_estimari_pool
       let active = context.ds_estimari.find((o) => o.active)
       if (active) {
-        if (context.ds_estimari_pool.length > 0)
-          active.ds_estimari_pool = context.ds_estimari_pool
+        if (context.ds_estimari_pool.length > 0) active.ds_estimari_pool = context.ds_estimari_pool
         active.ds_estimari_flat = context.ds_estimari_flat
         active.updateDate = new Date()
       }
@@ -1022,7 +1021,9 @@ export class estimari extends LitElement {
     var result = await runSQLTransaction(objSqlList)
     if (result.success) {
       console.log('Estimari saved successfully')
-      let CCCESTIMARIH = await getValFromS1Query(getId)
+      let CCCESTIMARIH = estimare.CCCESTIMARIH
+        ? { success: true, values: estimare.CCCESTIMARIH }
+        : await getValFromS1Query(getId)
       if (CCCESTIMARIH.success) {
         let headerId = CCCESTIMARIH.value
         console.log('headerId:', headerId)
