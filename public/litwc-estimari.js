@@ -198,8 +198,7 @@ export class estimari extends LitElement {
       let virtualizer = document.createElement('lit-virtualizer')
       virtualizer.items = this.trs
       virtualizer.renderItem = (item) => item
-      virtualizer.style.width = '100%'
-      tbody.appendChild(virtualizer)      
+      table.appendChild(virtualizer)     
     }
 
     return html`${buttonsPannel}${table}${floatingTableFilter}`
