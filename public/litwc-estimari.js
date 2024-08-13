@@ -27,6 +27,7 @@ import {
   locateTrInEstimariPool
 } from './estimari.js'
 import { runSQLTransaction, getValFromS1Query } from './S1.js'
+import moment from 'https://cdn.jsdelivr.net/npm/moment@2.30.1/moment.min.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -984,15 +985,15 @@ export class estimari extends LitElement {
     const headerData = {
       ID: estimare.id,
       ACTIVE: estimare.active,
-      STARTDATE: estimare.ds_estimari_flat[0][_start_date],
-      ENDDATE: estimare.ds_estimari_flat[0][_end_date],
-      CREATEDATE: estimare.createDate,
-      UPDATEDATE: estimare.updateDate,
+      STARTDATE: moment(estimare.ds_estimari_flat[0][_start_date]).format('YYYY-MM-DD'),
+      ENDDATE: moment(estimare.ds_estimari_flat[0][_end_date]).format('YYYY-MM-DD'),
+      CREATEDATE: moment(estimare.createDate).format('YYYY-MM-DD'),
+      UPDATEDATE: moment(estimare.updateDate).format('YYYY-MM-DD'),
       DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat)
     }
 
     const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
-    VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE.toISOString()}', '${headerData.ENDDATE.toISOString()}', '${headerData.CREATEDATE.toISOString()}', '${headerData.UPDATEDATE.toISOString()}', '${headerData.DSESTIMARIFLAT}');`
+    VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE()}', '${headerData.ENDDATE()}', '${headerData.CREATEDATE()}', '${headerData.UPDATEDATE()}', '${headerData.DSESTIMARIFLAT}');`
     const getId = `SELECT last_insert_rowid() as headerId;`
     let sqlList = []
     sqlList.push(insertHeaderQuery)
@@ -1011,8 +1012,10 @@ export class estimari extends LitElement {
         let sqlList = []
         ds_flat.forEach((o) => {
           let row_data = o
-          let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, NIVEL1, NIVEL2, NIVEL3, NIVEL4, NIVEL5, NIVEL6, NIVEL7, NIVEL8, NIVEL9, NIVEL10, REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL)
-            VALUES (${headerId}, '${row_data[_start_date].toISOString()}', '${row_data[_end_date].toISOString()}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
+            let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD');
+            let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD');
+            let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, NIVEL1, NIVEL2, NIVEL3, NIVEL4, NIVEL5, NIVEL6, NIVEL7, NIVEL8, NIVEL9, NIVEL10, REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL)
+            VALUES (${headerId}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `;
           for (let i = 1; i <= 10; i++) {
             if (row_data['NIVEL_OFERTA_' + i] === undefined) {
             } else {
