@@ -1031,7 +1031,7 @@ export class estimari extends LitElement {
               insertLineQuery += `'${row_data[_nivel_oferta + i]}', `
             }
           }
-          insertLineQuery += `${row_data.ramura.instanta ? row_data.ramura.instanta : -1}, ${row_data.ramura.ramura ? row_data.ramura.ramura : -1 }, ${row_data.ramura.activitateIndex ? row_data.ramura.activitateIndex : -1}, ${row_data.ramura.estimareIndex ? row_data.ramura.estimareIndex : -1}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
+          insertLineQuery += `${row_data.ramura.instanta > 0 ? row_data.ramura.instanta : -1}, ${row_data.ramura.ramura > 0 ? row_data.ramura.ramura : -1 }, ${row_data.ramura.activitateIndex > 0 ? row_data.ramura.activitateIndex : -1}, ${row_data.ramura.estimareIndex > 0 ? row_data.ramura.estimareIndex : -1}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}');`
           sqlList.push(insertLineQuery)
         })
         let objSqlList = {
