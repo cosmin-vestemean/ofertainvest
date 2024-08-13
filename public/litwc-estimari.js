@@ -177,7 +177,7 @@ export class estimari extends LitElement {
       }, this)
 
       //add trs to tbody via virtualizer
-      let table = document.createElement('lit-virtualizer')
+      var table = document.createElement('lit-virtualizer')
       table.id = 'table_estimari'
       table.classList.add('table')
       table.classList.add('table-sm')
