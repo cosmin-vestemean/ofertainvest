@@ -50,19 +50,19 @@ function runSQLTransaction(obj) {
     result.error = 'No sql query transmitted.'
     return result
   } else {
+    var strSql = 'BEGIN TRY;' //start sql transaction with commit and rollback
+    //start sql transaction with commit and rollback
+    strSql += 'BEGIN TRANSACTION ;'
+    for (var i = 0; i < obj.sqlList.length; i++) {
+      strSql += obj.sqlList[i] + ';' //add each sql query to the transaction
+    }
+    strSql += 'COMMIT '
+    strSql += 'END TRY '
+    strSql += 'BEGIN CATCH '
+    strSql += 'IF @@TRANCOUNT > 0 '
+    strSql += 'ROLLBACK '
+    strSql += 'END CATCH '
     try {
-      var strSql = 'BEGIN TRY;' //start sql transaction with commit and rollback
-      //start sql transaction with commit and rollback
-      strSql += 'BEGIN TRANSACTION ;'
-      for (var i = 0; i < obj.sqlList.length; i++) {
-        strSql += obj.sqlList[i] + ';' //add each sql query to the transaction
-      }
-      strSql += 'COMMIT '
-      strSql += 'END TRY '
-      strSql += 'BEGIN CATCH '
-      strSql += 'IF @@TRANCOUNT > 0 '
-      strSql += 'ROLLBACK '
-      strSql += 'END CATCH '
       X.RUNSQL(strSql)
       result.success = true
       result.sql = strSql
@@ -75,7 +75,7 @@ function runSQLTransaction(obj) {
       strSql +=
         'SELECT ERROR_NUMBER() AS ErrorNumber, ERROR_SEVERITY() AS ErrorSeverity, ERROR_STATE() AS ErrorState, ERROR_PROCEDURE() AS ErrorProcedure, ERROR_LINE() AS ErrorLine, ERROR_MESSAGE() AS ErrorMessage '
       X.RUNSQL(strSql)
-      return result
     }
+    return result
   }
 }
