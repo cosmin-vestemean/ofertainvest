@@ -1,4 +1,4 @@
-import { client } from './client.js'
+import { client, ds_antemasuratori, contextOferta } from './client.js'
 
 async function connectToS1Service() {
   if (!client) {
