@@ -242,7 +242,8 @@ export class estimari extends LitElement {
         id: context.ds_estimari.length,
         active: true,
         ds_estimari_pool: [],
-        ds_estimari_flat: []
+        ds_estimari_flat: [],
+        CCCESTIMARIH: -1
       })
       if (context.getDsEstimariPool().length == 0) {
         //trasform newTree in ds_estimari_pool
@@ -1008,6 +1009,7 @@ export class estimari extends LitElement {
       if (CCCESTIMARIH.success) {
         let headerId = CCCESTIMARIH.value
         console.log('headerId:', headerId)
+        active.CCCESTIMARIH = headerId
         //CCCESIMARIL
         let ds_flat = estimare.ds_estimari_flat
         let sqlList = []
