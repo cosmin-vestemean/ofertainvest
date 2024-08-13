@@ -976,9 +976,11 @@ export class estimari extends LitElement {
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
-        context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
-        //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
-        local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
+        if (context.ds_estimari_pool.length > 0) {
+          context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
+          //localStorage.setItem('ds_estimari_pool', JSON.stringify(context.ds_estimari_pool))
+          local_storage.ds_estimari_pool.set(JSON.stringify(context.ds_estimari_pool))
+        }
       }
     }
   }
