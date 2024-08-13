@@ -994,7 +994,7 @@ export class estimari extends LitElement {
 
     const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
     VALUES (${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
-    const getId = `SELECT SCOPE_IDENTITY() AS ID;`
+    const getId = `SELECT IDENT_CURRENT('CCCESTIMARIH') AS ID;`
     let sqlList = []
     sqlList.push(insertHeaderQuery)
     let objSqlList = {
