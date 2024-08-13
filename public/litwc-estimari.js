@@ -1067,10 +1067,10 @@ export class estimari extends LitElement {
           insertLineQuery += `${row_data.CANTITATE_ARTICOL_ANTEMASURATORI}, ${row_data.CANTITATE_ARTICOL_ESTIMARI});`
           sqlList.push(insertLineQuery)
         })
-        objSqlList = {
+        let objSqlListL = {
           sqlList: sqlListL
         }
-        var result = await runSQLTransaction(objSqlList)
+        var result = await runSQLTransaction(objSqlListL)
         console.log('result:', result)
         if (result.success) {
           console.log('Estimari lines saved successfully')
