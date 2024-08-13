@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import {virtualize} from 'https://cdn.jsdelivr.net/npm/@lit-labs/virtualizer?virtualize.js'
+import {virtualize} from 'https://cdn.jsdelivr.net/npm/@lit-labs/virtualizer/virtualize.js'
 import {
   template,
   _start_date,
