@@ -185,7 +185,8 @@ export class estimari extends LitElement {
       table.items = this.trs
       table.renderItem = (item) => {
         //add style to tr: width: 100%
-        item.style.width = '100%'
+        item.classList.add('w-100')
+        item.classList.add('table-row')
         return item
       }
     }
