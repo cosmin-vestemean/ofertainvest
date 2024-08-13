@@ -338,6 +338,7 @@ export function init() {
     let answer = confirm('Regenerez estimarile?\nVor fi sterse toate estimarile anterioare')
     if (answer) {
       context.setDsEstimari([])
+      //TODO: remove from db
       context.createNewEstimariPool(newTree)
       console.log('context.getDsEstimariPool', context.getDsEstimariPool())
     }
