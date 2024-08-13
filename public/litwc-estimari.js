@@ -88,27 +88,9 @@ export class estimari extends LitElement {
         <div class="container"><h3 class="text-center text-danger">No data</h3></div>`
     } else {
       //add table
-      var table = document.createElement('table')
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.classList.add('table-hover')
-      //table.classList.add('table-mobile-responsive');
-      table.id = 'table_estimari'
-      //font size
-      table.style.fontSize = 'small'
-      //get or create thead and tbody
-      var thead = document.createElement('thead')
-      thead.id = 'thead_estimari'
-      thead.classList.add('align-middle')
-      var tbody = document.createElement('tbody')
-      tbody.id = 'tbody_estimari'
-      if (theadIsSet) {
-        tbody.classList.add('table-group-divider')
-      }
-      table.appendChild(tbody)
+      
       //add thead
       if (theadIsSet) {
-        table.appendChild(thead)
         let tr = document.createElement('tr')
         thead.appendChild(tr)
         //add checkbox for main activity
@@ -171,6 +153,7 @@ export class estimari extends LitElement {
             }
           }
         }
+        this.trs.push(tr)
       }
 
       //add activitati to table
@@ -195,14 +178,17 @@ export class estimari extends LitElement {
       }, this)
 
       //add trs to tbody via virtualizer
-      let virtualizer = document.createElement('lit-virtualizer')
-      virtualizer.items = this.trs
-      virtualizer.renderItem = (item) => {
+      let table = document.createElement('lit-virtualizer')
+      table.id = 'table_estimari'
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-hover')
+      table.items = this.trs
+      table.renderItem = (item) => {
         //add style to tr: width: 100%
         item.style.width = '100%'
         return item
       }
-      tbody.appendChild(virtualizer)     
     }
 
     return html`${buttonsPannel}${table}${floatingTableFilter}`
