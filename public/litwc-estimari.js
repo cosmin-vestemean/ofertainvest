@@ -193,7 +193,7 @@ export class estimari extends LitElement {
       }, this)
     }
 
-    return html`${buttonsPannel}${table}${floatingTableFilter}`
+    return html`${buttonsPannel}${floatingTableFilter}${table}`
   }
 
   createButtonsPanel() {
