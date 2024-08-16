@@ -5,14 +5,7 @@ import {
   delimiter,
   ierarhii,
   flatFind,
-  my_table5,
-  selected_ds,
-  template,
-  my_table1,
-  my_table2,
-  my_table3,
-  my_table4,
-  my_table6,
+  tables,
   _start_date,
   _end_date
 } from './client.js'
@@ -52,19 +45,14 @@ function addNewEstimare() {
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
   addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
   console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-  my_table1.style.display = 'none'
-  my_table2.style.display = 'none'
-  my_table3.style.display = 'none'
-  my_table4.style.display = 'none'
-  my_table5.style.display = 'block'
-  my_table6.style.display = 'none'
+  tables.hideAllBut([tables.my_table5])
   //just to create propperly commit message
   let selected_options_arr = ierarhii.getValue()
   if (selected_options_arr && selected_options_arr.length > 0) {
     flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-    my_table5.ds = selected_ds
+    tables.my_table5.element.ds = selected_ds
   } else {
-    my_table5.ds = context.getDsEstimariFlat()
+    tables.my_table5.element.ds = context.getDsEstimariFlat()
   }
 
   console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
@@ -249,16 +237,11 @@ export class listaEstimari extends LitElement {
             context.ds_estimari.forEach(function (o) {
               o.active = false
             })
-            my_table1.style.display = 'none'
-            my_table2.style.display = 'none'
-            my_table3.style.display = 'none'
-            my_table4.style.display = 'none'
-            my_table5.style.display = 'block'
-            my_table6.style.display = 'none'
+            tables.hideAllBut([tables.my_table5])
             context.ds_estimari[id].active = true
-            my_table5.ds = ds
+            tables.my_table5.element.ds = ds
             //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
-            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = my_table5.shadowRoot.getElementById('CANTITATE_ARTICOL_ESTIMARI_gt_0')
+            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById('CANTITATE_ARTICOL_ESTIMARI_gt_0')
             CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
           } else {
             console.log('id not found')

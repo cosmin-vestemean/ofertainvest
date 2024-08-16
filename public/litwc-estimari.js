@@ -12,12 +12,7 @@ import {
   flatFind,
   selected_ds,
   delimiter,
-  my_table1,
-  my_table2,
-  my_table3,
-  my_table4,
-  my_table5,
-  my_table6,
+  tables,
   local_storage,
   _nivel_oferta,
   contextOferta
@@ -211,14 +206,9 @@ export class estimari extends LitElement {
     list_icon.onclick = function () {
       //clean
       context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
-      my_table1.style.display = 'none'
-      my_table2.style.display = 'none'
-      my_table3.style.display = 'none'
-      my_table4.style.display = 'none'
-      my_table5.style.display = 'none'
-      my_table6.style.display = 'block'
+      tables.hideAllBut([tables.my_table6])
       //read ds_estimari array and create a list with all estimari
-      my_table6.ds = context.ds_estimari
+      tables.my_table6.element.ds = context.ds_estimari
       console.log('ds_estimari', context.ds_estimari)
     }
     btnList.appendChild(list_icon)
@@ -262,9 +252,9 @@ export class estimari extends LitElement {
       let selected_options_arr = ierarhii.getValue()
       if (selected_options_arr && selected_options_arr.length > 0) {
         flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-        my_table5.ds = selected_ds
+        tables.my_table5.element.ds = selected_ds
       } else {
-        my_table5.ds = context.getDsEstimariFlat()
+        tables.my_table5.element.ds = context.getDsEstimariFlat()
       }
 
       console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
@@ -614,7 +604,7 @@ export class estimari extends LitElement {
     label5.htmlFor = 'all'
     label5.classList.add('form-check-label')
     radio5.onchange = function () {
-      let table = my_table5.shadowRoot.getElementById('table_estimari')
+      let table = tables.my_table5.element.shadowRoot.getElementById('table_estimari')
       let tbody = table.getElementsByTagName('tbody')[0]
       let trs = tbody.getElementsByTagName('tr')
       for (let i = 0; i < trs.length; i++) {
@@ -645,7 +635,7 @@ export class estimari extends LitElement {
     function filterRowsByColumnName(isEqual, columnName) {
       return function () {
         //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
-        let table = my_table5.shadowRoot.getElementById('table_estimari')
+        let table = tables.my_table5.element.shadowRoot.getElementById('table_estimari')
         let tbody = table.getElementsByTagName('tbody')[0]
         let trs = tbody.getElementsByTagName('tr')
         for (let i = 0; i < trs.length; i++) {
@@ -713,9 +703,8 @@ export class estimari extends LitElement {
   updateDateInputs(input1) {
     return function () {
       let key = input1.id === 'start_date' ? _start_date : _end_date
-      let inputs = document
-        .getElementById('my_table_estimari')
-        .shadowRoot.getElementById('tbody_estimari')
+      let inputs = tables.my_table5.element.shadowRoot
+        .getElementById('tbody_estimari')
         .getElementsByClassName(key === _start_date ? 'start_date' : 'end_date')
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = input1.value
@@ -866,9 +855,8 @@ export class estimari extends LitElement {
   toggleChildrenVisibility(plus_icon, i, k) {
     plus_icon.onclick = function () {
       //show hide all children, identified by same id and a "_some_number"
-      var children = document
-        .getElementById('my_table_estimari')
-        .renderRoot.getElementById('tbody_estimari')
+      var children = tables.my_table5.element.shadowRoot
+        .getElementById('tbody_estimari')
         .querySelectorAll('[id^="' + i + '@' + k + '_"]')
       for (let i = 0; i < children.length; i++) {
         if (children[i].classList.contains('d-none')) {
@@ -917,14 +905,12 @@ export class estimari extends LitElement {
       if (e.key === 'ArrowUp') {
         e.preventDefault()
         var index = Array.from(
-          document
-            .getElementById('my_table_estimari')
+          tables.my_table5.element
             .shadowRoot.getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
         ).indexOf(e.target)
         if (index > 0) {
-          var tds = document
-            .getElementById('my_table_estimari')
+          var tds = tables.my_table5.element
             .shadowRoot.getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
           tds[index - 1].focus()
@@ -933,14 +919,12 @@ export class estimari extends LitElement {
       if (e.key === 'ArrowDown') {
         e.preventDefault()
         var index = Array.from(
-          document
-            .getElementById('my_table_estimari')
+          tables.my_table5.element
             .shadowRoot.getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
         ).indexOf(e.target)
         if (index < e.target.parentElement.parentElement.children.length - 1) {
-          var tds = document
-            .getElementById('my_table_estimari')
+          var tds = tables.my_table5.element
             .shadowRoot.getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
           tds[index + 1].focus()

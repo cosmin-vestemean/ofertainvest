@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { template, theadIsSet } from "./client.js";
+import { template, theadIsSet, tables } from "./client.js";
 
 export class myTable extends LitElement {
   //see https://pwp.stevecassidy.net/javascript/lit/ => custom class myTable -with ds as a reactive propertiy that would trigger a re-render when it changes; uses connectedCallback to set up the initial render
@@ -46,7 +46,7 @@ export class myTable extends LitElement {
     console.log('rendering my-table element with following array', this.ds, 'added at', new Date());
     console.log('tableId', this.tableId);
 
-    var my_table_oferta_initiala = document.getElementById('my_table_oferta_initiala');
+    var my_table_oferta_initiala = tables.my_table1.element
     //if this element has div with id = table_menu_content, remove it
     var table_menu_content = my_table_oferta_initiala.shadowRoot.getElementById('table_menu_content');
     if (table_menu_content) {

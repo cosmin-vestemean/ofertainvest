@@ -16,12 +16,45 @@ const SUBTIP_ARTICOL_OFERTA = [
   'CUSTOM'
 ]
 
-export const my_table1 = document.getElementById('my_table_oferta_initiala')
-export const my_table2 = document.getElementById('my_table_recipes')
-export const my_table3 = document.getElementById('my_table_detalii_reteta')
-export const my_table4 = document.getElementById('my_table_antemasuratori')
-export const my_table5 = document.getElementById('my_table_estimari')
-export const my_table6 = document.getElementById('my_table_lista_estimari')
+export const tables = {
+  my_table1: {
+    element: document.getElementById('my_table_oferta_initiala'),
+    visible: true,
+    dataset: null
+  },
+  my_table2: {
+    element: document.getElementById('my_table_recipes'),
+    visible: true,
+  },
+  my_table3: {
+    element: document.getElementById('my_table_detalii_reteta'),
+    visible: true,
+  },
+  my_table4: {
+    element: document.getElementById('my_table_antemasuratori'),
+    visible: true,
+  },
+  my_table5: {
+    element: document.getElementById('my_table_estimari'),
+    visible: true,
+  },
+  my_table6: {
+    element: document.getElementById('my_table_lista_estimari'),
+    visible: true,
+  },
+  allTables: [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6],
+  hideAllBut: function (tablesExcept) {
+    this.allTables.forEach(function (table) {
+      if (!tablesExcept.includes(table)) {
+        table.visible = false
+        this.element.style.display = 'none'
+      } else {
+        table.visible = true
+        this.element.style.display = 'block'
+      }
+    })
+  }
+};
 
 console.log('client.js loaded')
 
@@ -527,16 +560,12 @@ export function excel_object2ds(excel_object) {
 }
 
 export function processExcelData(optimal_ds) {
-  //refresh ds in my-table component
-  my_table1.style.display = 'block'
-  my_table2.style.display = 'none'
-  my_table3.style.display = 'none'
-  my_table4.style.display = 'none'
-  my_table5.style.display = 'none'
-  my_table6.style.display = 'none'
-  my_table1.ds = optimal_ds
+  //refresh ds in my-table component  
+  //hide all tables but my_table_oferta_initiala
+  tables.hideAllBut([tables.my_table1])
+  tables.my_table1.element.ds = optimal_ds
   //tableId
-  document.getElementById('my_table_oferta_initiala').tableId = 'oferta_initiala'
+  tables.my_table1.tableId = 'oferta_initiala'
   console.log('optimal_ds', optimal_ds)
 
   var combinatii_unice_as_str = []
@@ -1140,18 +1169,12 @@ export function populateSelectIerarhiiFromTrees() {
 
 export function showRecipes() {
   //hide table1
-  my_table1.style.display = 'none'
-  my_table4.style.display = 'none'
-  my_table5.style.display = 'none'
-  my_table6.style.display = 'none'
-  //show table2
-  my_table2.style.display = 'block'
-  my_table3.style.display = 'block'
+  tables.hideAllBut([tables.my_table2, tables.my_table3])
   let listaRetete = []
   recipes_ds.forEach((o) => {
     listaRetete.push({ Reteta: o.name })
   })
-  my_table2.ds = listaRetete
+  tables.my_table2.element.ds = listaRetete
 }
 
 export function detectieRetete() {
@@ -3064,20 +3087,13 @@ function processInstanceSpecifics(activit, instanceSpecifics) {
 
 export function showAntemasuratori() {
   if (ds_antemasuratori.length > 0) {
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table1.style.display = 'none'
-    my_table4.style.display = 'block'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'none'
-    my_table4.ds = []
-    //my_table4.ds = ds_antemasuratori
+    tables.hideAllBut([tables.my_table4])
     let selected_options_arr = ierarhii.getValue()
     if (selected_options_arr && selected_options_arr.length > 0) {
       flatFind(selected_options_arr, ds_antemasuratori, delimiter)
-      my_table4.ds = selected_ds
+      tables.my_table4.element.ds = selected_ds
     } else {
-      my_table4.ds = ds_antemasuratori
+      tables.my_table4.element.ds = ds_antemasuratori
     }
   }
 }

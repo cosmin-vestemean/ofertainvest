@@ -12,12 +12,7 @@ import {
   ds_antemasuratori,
   setDsAntemasuratori,
   newTree,
-  my_table2,
-  my_table3,
-  my_table4,
-  my_table5,
-  my_table6,
-  my_table1,
+  tables,
   saveOferta,
   loadDataFromFile,
   detectieRetete,
@@ -104,12 +99,7 @@ export function init() {
     }
   }
   //hide all tables
-  //my_table1.style.display = 'none'
-  my_table2.style.display = 'none'
-  my_table3.style.display = 'none'
-  my_table4.style.display = 'none'
-  my_table5.style.display = 'none'
-  my_table6.style.display = 'none'
+  tables.hideAllBut([])
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -217,7 +207,7 @@ export function init() {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
-      my_table2.ds = listaRetete
+        tables.my_table2.element.ds = listaRetete
     }
   }
   let orfani = document.getElementById('orfani')
@@ -230,35 +220,20 @@ export function init() {
       })
     }
 
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'none'
-    my_table1.style.display = 'block'
-    my_table1.ds = orfani
+    tables.hideAllBut([tables.my_table1])
+    tables.my_table1.element.ds = orfani
   }
   //vizualizare_oferta_initiala
   let vizulizare_oferta_initiala = document.getElementById('vizualizare_oferta_initiala')
   vizulizare_oferta_initiala.onclick = function () {
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'none'
-    my_table1.style.display = 'block'
-    my_table1.ds = optimal_ds
+    tables.hideAllBut([tables.my_table1])
+    tables.my_table1.element.ds = optimal_ds
   }
   //lista_activitati
   let lista_activitati = document.getElementById('lista_activitati')
   lista_activitati.onclick = function () {
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'none'
-    my_table1.style.display = 'block'
-    my_table1.ds = activitati_oferta
+    tables.hideAllBut([tables.my_table1])
+    tables.my_table1.element.ds = activitati_oferta
   }
   //WBSMap
   let WBSMapBtn = document.getElementById('WBSMap')
@@ -304,7 +279,7 @@ export function init() {
 
   //add on hover to my_table2 rows and get index of row and look in recipes_ds[index] for reteta to display in my_table2
   //do not forget shadowRoot
-  my_table2.shadowRoot.addEventListener('mouseover', function (e) {
+  tables.my_table2.element.shadowRoot.addEventListener('mouseover', function (e) {
     if (e.target.tagName === 'TD') {
       var index = e.target.parentElement.rowIndex - (theadIsSet ? 1 : 0)
       console.log('index', index)
@@ -313,7 +288,7 @@ export function init() {
       let retetaCurenta = getRetetaCurenta()
       console.log('retetaCurenta', retetaCurenta)
       var reteta = retetaCurenta.reteta
-      my_table3.reteta = reteta
+      tables.my_table3.element.reteta = reteta
     }
   })
 
@@ -383,14 +358,9 @@ export function init() {
   //btn_estimari
   let btn_estimari = document.getElementById('btn_estimari')
   btn_estimari.onclick = function () {
-    //hide all tables but 5
-    my_table1.style.display = 'none'
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table6.style.display = 'block'
-    my_table5.style.display = 'none'
-    my_table6.ds = context.ds_estimari
+    //hide all tables but 6
+    tables.hideAllBut([tables.my_table6])
+    tables.my_table6.element.ds = context.ds_estimari
     console.log('ds_estimari', context.ds_estimari)
   }
 
@@ -441,12 +411,12 @@ export function init() {
         link.id = 'theme_link'
       }
 
-      changeStyleInTheShadow(my_table1, link)
-      changeStyleInTheShadow(my_table2, link)
-      changeStyleInTheShadow(my_table3, link)
-      changeStyleInTheShadow(my_table4, link)
-      changeStyleInTheShadow(my_table5, link)
-      changeStyleInTheShadow(my_table6, link)
+      changeStyleInTheShadow(tables.my_table1.element, link)
+      changeStyleInTheShadow(tables.my_table2.element, link)
+      changeStyleInTheShadow(tables.my_table3.element, link)
+      changeStyleInTheShadow(tables.my_table4.element, link)
+      changeStyleInTheShadow(tables.my_table5.element, link)
+      changeStyleInTheShadow(tables.my_table6.element, link)
     }
   })
 
@@ -520,12 +490,7 @@ export function init() {
       })
     }
     //display listaMateriale in my_table1
-    my_table2.style.display = 'none'
-    my_table3.style.display = 'none'
-    my_table4.style.display = 'none'
-    my_table5.style.display = 'none'
-    my_table6.style.display = 'none'
-    my_table1.style.display = 'block'
-    my_table1.ds = listaMateriale
+    tables.hideAllBut([tables.my_table1])
+    tables.my_table1.element.ds = listaMateriale
   }
 }
