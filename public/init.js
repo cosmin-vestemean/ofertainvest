@@ -137,6 +137,8 @@ export function init() {
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           processExcelData(optimal_ds)
+          tables.hideAllBut([tables.my_table1])
+          tables.my_table1.element.ds = optimal_ds
           if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
           }
