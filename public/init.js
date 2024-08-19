@@ -206,6 +206,7 @@ export function init() {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
+      tables.hideAllBut([tables.my_table2])
       tables.my_table2.element.ds = listaRetete
     }
   }
