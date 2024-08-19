@@ -33,7 +33,7 @@ import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
 import { tables } from './tables.js'
 
-var selectedTheme = local_storage.selectedTheme.get() || 'default'
+export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
 function changeTheme(theme) {
   //remove all stylesheets with names equal to themes array and add the one with the selected theme

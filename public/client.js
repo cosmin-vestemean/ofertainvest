@@ -5,6 +5,7 @@ import { antemasuratori } from './antemasuratori.js'
 import { insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js'
 import { listaEstimari } from './listaEstimari.js'
 import { tables } from './tables.js'
+import { selectedTheme } from './init.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
