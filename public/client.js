@@ -1,7 +1,7 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { estimari } from './litwc-estimari.js'
 import { myTable } from './myTable.js'
-import { antemasuratori } from './antemasuratori.js'
+import { antemasuratori } from './litwc-antemasuratori.js'
 import { insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js'
 import { listaEstimari } from './listaEstimari.js'
 import { tables } from './tables.js'
