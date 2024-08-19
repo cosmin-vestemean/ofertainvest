@@ -12,7 +12,6 @@ import {
   ds_antemasuratori,
   setDsAntemasuratori,
   newTree,
-  tables,
   saveOferta,
   loadDataFromFile,
   detectieRetete,
