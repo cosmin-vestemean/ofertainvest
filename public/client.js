@@ -128,7 +128,7 @@ const recipeDisplayMask = {
 
 export const delimiter = '~~~~~~~~~~~~~~~'
 
-export const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti', 'slate', 'solar']
+export const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti']
 export var template = document.createElement('template')
 template.id = 'shadowRootTemplate'
 let themeLink =
@@ -163,9 +163,8 @@ export function loadDataFromFile(evt) {
     workbook.SheetNames.forEach(function (sheetName) {
       var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], opts)
       xlsStr = JSON.stringify(XL_row_object)
+      fromXls2Recipes(XL_row_object)
     })
-
-    fromXls2Recipes(XL_row_object)
   }
 
   reader.onerror = function (ex) {
