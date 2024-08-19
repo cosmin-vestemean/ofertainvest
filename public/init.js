@@ -288,7 +288,7 @@ export function init() {
       let retetaCurenta = getRetetaCurenta()
       console.log('retetaCurenta', retetaCurenta)
       var reteta = retetaCurenta.reteta
-      tables.hideAllBut([tables.my_table3, tables.my_table3])
+      tables.hideAllBut([tables.my_table2, tables.my_table3])
       tables.my_table3.element.reteta = reteta
     }
   })
