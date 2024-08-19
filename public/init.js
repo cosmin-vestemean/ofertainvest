@@ -30,9 +30,8 @@ import {
   themes,
   changeStyleInTheShadow,
   _cantitate_oferta,
-  excel_object2ds,
-  local_storage
-} from './client.js'
+  excel_object2ds} from './client.js'
+import { local_storage } from './local_storage.js'
 import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
 import { tables } from './tables.js'
