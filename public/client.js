@@ -152,6 +152,7 @@ export function loadDataFromFile(evt) {
   ).then((result) => {
     if (result.success) {
       alert('Oferta cu acest nume exista deja in baza de date')
+      return
     } else {
       console.log('error', result.error)
     }
