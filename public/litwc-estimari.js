@@ -5,7 +5,6 @@ import {
   _end_date,
   _cantitate_estimari,
   _cantitate_antemasuratori,
-  newTree,
   theadIsSet,
   addOnChangeEvt,
   ierarhii,
@@ -24,6 +23,7 @@ import {
 } from './estimari.js'
 import { runSQLTransaction, getValFromS1Query } from './S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
+import { newTree } from './antemasuratori.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -887,13 +887,13 @@ export class estimari extends LitElement {
       if (e.key === 'ArrowUp') {
         e.preventDefault()
         var index = Array.from(
-          tables.my_table5.element
-            .shadowRoot.getElementById('tbody_estimari')
+          tables.my_table5.element.shadowRoot
+            .getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
         ).indexOf(e.target)
         if (index > 0) {
-          var tds = tables.my_table5.element
-            .shadowRoot.getElementById('tbody_estimari')
+          var tds = tables.my_table5.element.shadowRoot
+            .getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
           tds[index - 1].focus()
         }
@@ -901,13 +901,13 @@ export class estimari extends LitElement {
       if (e.key === 'ArrowDown') {
         e.preventDefault()
         var index = Array.from(
-          tables.my_table5.element
-            .shadowRoot.getElementById('tbody_estimari')
+          tables.my_table5.element.shadowRoot
+            .getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
         ).indexOf(e.target)
         if (index < e.target.parentElement.parentElement.children.length - 1) {
-          var tds = tables.my_table5.element
-            .shadowRoot.getElementById('tbody_estimari')
+          var tds = tables.my_table5.element.shadowRoot
+            .getElementById('tbody_estimari')
             .querySelectorAll('.' + _cantitate_estimari)
           tds[index + 1].focus()
         }
