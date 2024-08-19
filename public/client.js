@@ -43,16 +43,16 @@ export const tables = {
     visible: true,
   },
   allTables: [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6],
-  hideAllBut: function (tablesExcept) {
-    this.allTables.forEach(function (table) {
-      if (!tablesExcept.includes(table)) {
-        table.visible = false
-        this.element.style.display = 'none'
-      } else {
-        table.visible = true
-        this.element.style.display = 'block'
-      }
-    })
+  hideAllBut: (tablesExcept) => {
+      this.allTables.forEach((table) => {
+          if (!tablesExcept.includes(table)) {
+              table.visible = false
+              this.element.style.display = 'none'
+          } else {
+              table.visible = true
+              this.element.style.display = 'block'
+          }
+      })
   }
 };
 
