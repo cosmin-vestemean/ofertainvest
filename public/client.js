@@ -202,7 +202,7 @@ export const antemasuratoriDisplayMask = {
 export const delimiter = '~~~~~~~~~~~~~~~'
 
 export const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti', 'slate', 'solar']
-export let template = document.createElement('template')
+export var template = document.createElement('template')
 template.id = 'shadowRootTemplate'
 let themeLink =
   selectedTheme === 'default' ? '' : `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
