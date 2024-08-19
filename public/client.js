@@ -5,7 +5,6 @@ import { antemasuratori } from './antemasuratori.js'
 import { insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js'
 import { listaEstimari } from './listaEstimari.js'
 import { tables } from './tables.js'
-import { local_storage } from './local_storage.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -74,26 +73,6 @@ export const setDsAntemasuratori = (value) => {
   ds_antemasuratori = value
 }
 export var newTree = []
-/* var ds_AFL = [
-  {
-    header: { denumire: 'DS1233354', data: '20.06.2024' },
-    linii: [
-      {
-        WBS_Intern: '',
-        WBS_Extern: '',
-        Denumire: '',
-        Cantitate: '',
-        UM: '',
-        PretUnitar: '',
-        PretTotal: '',
-        PretTotalFaraTVA: '',
-        PretTotalTVA: '',
-        PretTotalRON: '',
-        PretTotal
-      }
-    ]
-  }
-] */
 export var trees = []
 var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'

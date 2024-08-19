@@ -33,7 +33,7 @@ import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
 import { tables } from './tables.js'
 
-//add onload event to window
+let selectedTheme = local_storage.selectedTheme.get() || 'default'
 
 function changeTheme(theme) {
   //remove all stylesheets with names equal to themes array and add the one with the selected theme
@@ -400,12 +400,10 @@ export function init() {
     console.log('new theme', theme, 'prior theme', selectedTheme)
     if (theme != selectedTheme) {
       selectedTheme = applyTheme(theme)
+      themesUl.selectedIndex = themes.indexOf(selectedTheme)
     }
   })
-
-  //set selected theme
-  var selectedTheme = local_storage.selectedTheme.get() || 'default'
-  themesUl.selectedIndex = themes.indexOf(selectedTheme)
+  
 
   //zenView
   let zenView = document.getElementById('zenView')
