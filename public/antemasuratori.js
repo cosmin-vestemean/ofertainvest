@@ -40,14 +40,14 @@ export const antemasuratoriDisplayMask = {
     isEnumerable: true
   },
   TIP_ARTICOL_OFERTA: {
-    value: TIP_ARTICOL_OFERTA,
+    value: "TIP_ARTICOL_OFERTA",
     RW: false,
     visible: false,
     label: 'Tip articol',
     isEnumerable: true
   },
   SUBTIP_ARTICOL_OFERTA: {
-    value: SUBTIP_ARTICOL_OFERTA,
+    value: "SUBTIP_ARTICOL_OFERTA",
     RW: false,
     visible: false,
     label: 'Subtip articol',
