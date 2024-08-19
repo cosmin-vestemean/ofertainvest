@@ -1,6 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
 import { template, _cantitate_antemasuratori, theadIsSet, antemasuratoriDisplayMask, _cantitate_oferta, ds_antemasuratori, newTree } from "./client.js";
-import { local_storage } from './local_storage.js';
 
 export class antemasuratori extends LitElement {
   static properties = {
@@ -127,13 +126,9 @@ export class antemasuratori extends LitElement {
                   ).indexOf(e.target);
                   console.log('index tr antemas', index);
                   ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent);
-                  //replace in local storage
-                  local_storage.ds_antemasuratori.set(JSON.stringify(ds_antemasuratori));
                   //update newTree
                   let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join());
                   if (branch) branch.qty = parseFloat(e.target.textContent);
-                  //update newTree in local storage
-                  local_storage.newTree.set(JSON.stringify(newTree));
                 });
 
                 //add keydown event arrow up/down to move to prior/next td _cantitate_antemasuratori

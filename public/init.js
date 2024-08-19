@@ -1,7 +1,5 @@
 import {
   contextOferta,
-  changeTheme,
-  trees,
   populateSelectIerarhiiFromTrees,
   processExcelData,
   activitati_oferta,
@@ -28,9 +26,7 @@ import {
   addOnChangeEvt,
   delimiter,
   themes,
-  changeStyleInTheShadow,
-  _cantitate_oferta,
-  excel_object2optimal_ds,
+  _cantitate_oferta
 } from './client.js'
 import { local_storage } from './local_storage.js'
 import { context } from './estimari.js'
@@ -38,6 +34,47 @@ import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB }
 import { tables } from './tables.js'
 
 //add onload event to window
+
+function changeTheme(theme) {
+  //remove all stylesheets with names equal to themes array and add the one with the selected theme
+  let links = document.getElementsByTagName('link')
+  for (let i = 0; i < links.length; i++) {
+    let link = links[i]
+    if (link.rel === 'stylesheet') {
+      themes.forEach((theme) => {
+        if (link.href.includes(theme)) {
+          link.remove()
+        }
+      })
+    }
+  }
+  //add the selected theme
+  let link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = theme + '.css'
+  document.head.appendChild(link)
+  //localStorage.setItem('theme', theme)
+  local_storage.selectedTheme.set(theme)
+  console.log('Theme changed to:', theme)
+  //navbarDropdownMenuLinkThemes caption is the selected theme
+  let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
+  navbarDropdownMenuLinkThemes.textContent = theme
+}
+
+function changeStyleInTheShadow(table, link) {
+  table.shadowRoot.childNodes.forEach((child) => {
+    //find id="theme_link" and remove it, then add it again
+    if (child.id === 'theme_link') {
+      child.remove()
+    }
+  })
+  //add themeLink to childNodes
+  if (link) {
+    //append link to shadowRoot
+    table.shadowRoot.appendChild(link)
+    //my_table5.requestUpdate()
+  }
+}
 
 export function init() {
   //this function executes when window is loaded
@@ -53,55 +90,7 @@ export function init() {
   //get theme from local storage and set it
   let theme = local_storage.selectedTheme.get()
   if (theme) changeTheme(theme)
-  //get excel data from local storage and set it
-  let excel_object = local_storage.excel_object.get()
-  if (excel_object) {
-    //ask user if he wants to load previous data
-    let answer = confirm('Load previous data?')
-    if (answer) {
-      if (local_storage.trees.get()) {
-        trees = JSON.parse(local_storage.trees.get())
-        if (trees.length) {
-          populateSelectIerarhiiFromTrees()
-        }
-      }
-      optimal_ds = excel_object2optimal_ds(excel_object)
-      tables.hideAllBut([tables.my_table1])
-      tables.my_table1.tableId = 'oferta_initiala'
-      tables.my_table1.element.ds = optimal_ds
-      processExcelData(optimal_ds)
-      //check trees, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete
-      if (local_storage.activitati_oferta.get()) {
-        activitati_oferta = JSON.parse(local_storage.activitati_oferta.get())
-      }
-      if (local_storage.intrari_orfane.get()) {
-        intrari_orfane = JSON.parse(local_storage.intrari_orfane.get())
-      }
-      if (local_storage.WBSMap.get()) {
-        WBSMap = JSON.parse(local_storage.WBSMap.get())
-      }
-      if (local_storage.recipes_ds.get()) {
-        recipes_ds = JSON.parse(local_storage.recipes_ds.get())
-      }
-      if (local_storage.ds_instanteRetete.get()) {
-        ds_instanteRetete = JSON.parse(local_storage.ds_instanteRetete.get())
-      }
-      if (local_storage.ds_antemasuratori.get()) {
-        ds_antemasuratori = JSON.parse(local_storage.ds_antemasuratori.get())
-      }
-      //newTree
-      if (local_storage.newTree.get()) {
-        newTree = JSON.parse(local_storage.newTree.get())
-      }
-      if (local_storage.ds_estimari_pool.get()) {
-        context.setDsEstimari(JSON.parse(local_storage.ds_estimari_pool.get()))
-      }
-    } else {
-      //clear local storage
-      localStorage.clear()
-    }
-  }
-  //hide all tables
+  //hide all tables, they are shown when needed
   tables.hideAllBut([])
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
@@ -408,32 +397,14 @@ export function init() {
   //add event listener
   themesUl.addEventListener('click', function (e) {
     let theme = e.target.textContent
-    let link = null
     console.log('new theme', theme, 'prior theme', selectedTheme)
     if (theme != selectedTheme) {
-      selectedTheme = theme
-      changeTheme(theme)
-      console.log('Theme changed to:', selectedTheme)
-      if (selectedTheme !== 'default') {
-        //themeLink = `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
-        //create themeLink as a node
-        link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = selectedTheme + '.css'
-        link.id = 'theme_link'
-      }
-
-      changeStyleInTheShadow(tables.my_table1.element, link)
-      changeStyleInTheShadow(tables.my_table2.element, link)
-      changeStyleInTheShadow(tables.my_table3.element, link)
-      changeStyleInTheShadow(tables.my_table4.element, link)
-      changeStyleInTheShadow(tables.my_table5.element, link)
-      changeStyleInTheShadow(tables.my_table6.element, link)
+      selectedTheme = applyTheme(theme)
     }
   })
 
   //set selected theme
-  let selectedTheme = local_storage.selectedTheme.get() || 'default'
+  var selectedTheme = local_storage.selectedTheme.get() || 'default'
   themesUl.selectedIndex = themes.indexOf(selectedTheme)
 
   //zenView
@@ -506,3 +477,21 @@ export function init() {
     tables.my_table1.element.ds = listaMateriale
   }
 }
+function applyTheme(theme) {
+  let link = null
+  selectedTheme = theme
+  changeTheme(theme)
+  console.log('Theme changed to:', selectedTheme)
+  if (selectedTheme !== 'default') {
+    link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = selectedTheme + '.css'
+    link.id = 'theme_link'
+  }
+
+  tables.allTables().forEach((table) => {
+    changeStyleInTheShadow(table.element, link)
+  })
+  return selectedTheme
+}
+

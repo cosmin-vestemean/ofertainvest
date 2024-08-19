@@ -61,8 +61,6 @@ export var contextOferta = {
   FILENAME: ''
 }
 
-var original_ds = []
-//var compacted_ds = []
 export var optimal_ds = []
 export function setOptimalDs(value) {
   optimal_ds = value
@@ -225,7 +223,6 @@ export const antemasuratoriDisplayMask = {
 export const delimiter = '~~~~~~~~~~~~~~~'
 
 export const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 'yeti', 'slate', 'solar']
-let selectedTheme = local_storage.selectedTheme.get() || 'default'
 export let template = document.createElement('template')
 template.id = 'shadowRootTemplate'
 let themeLink =
@@ -243,11 +240,9 @@ template.innerHTML = `
 export function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
   contextOferta.FILENAME = file.name
+  var xlsStr = ''
   var reader = new FileReader()
   reader.onload = function (e) {
-    var excel_object = null
-    original_ds = []
-    //compacted_ds = []
     optimal_ds = []
     combinatii_unice = []
     var data = e.target.result
@@ -261,19 +256,10 @@ export function loadDataFromFile(evt) {
     }
     workbook.SheetNames.forEach(function (sheetName) {
       var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], opts)
-      excel_object = JSON.stringify(XL_row_object)
+      xlsStr = JSON.stringify(XL_row_object)
     })
-    //console.log("excel_object", excel_object);
 
-    //localStorage.setItem('excel_object', excel_object)
-    local_storage.excel_object.set(excel_object)
-
-    optimal_ds = excel_object2optimal_ds(excel_object)
-    tables.hideAllBut([tables.my_table1])
-    tables.my_table1.tableId = 'oferta_initiala'
-    tables.my_table1.element.ds = optimal_ds
-    processExcelData(optimal_ds)
-    detectieRetete()  //recipes_ds, instanteRetete
+    fromXls2Recipes(XL_row_object)
   }
 
   reader.onerror = function (ex) {
@@ -293,37 +279,13 @@ export function loadDataFromFile(evt) {
   }
 }
 
-export function excel_object2optimal_ds(excel_object) {
-  //each key represents a column, copy all objecys in compacted_ds but remove the ones with empty values
-  original_ds = JSON.parse(excel_object)
-  //console.log('original_ds', original_ds)
-
-  //compacted_ds = removeEmpty(original_ds)
-  //console.log("compacted_ds", compacted_ds);
-
-  const unique_key = 'SERIE_ARTICOL_OFERTA'
-  //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
-  const ds = sortByUniqueKey(original_ds, unique_key)
-  original_ds = []
-
-  return ds
-
-  function sortByUniqueKey(compacted_ds, unique_key) {
-    //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
-
-    //rearrange data so all objects with same key unique_key are displayed together
-    let ds = []
-    var distinct = [...new Set(compacted_ds.map((x) => x[unique_key]))]
-    distinct.forEach(function (item) {
-      compacted_ds.forEach(function (object) {
-        if (object[unique_key] == item) {
-          ds.push(object)
-        }
-      })
-    })
-
-    return ds
-  }
+export function fromXls2Recipes(excel_object) {
+    optimal_ds = excel_object
+    tables.hideAllBut([tables.my_table1])
+    tables.my_table1.tableId = 'oferta_initiala'
+    tables.my_table1.element.ds = optimal_ds
+    processExcelData(optimal_ds)
+    detectieRetete()  //recipes_ds, instanteRetete
 }
 
 export function processExcelData(optimal_ds) {
@@ -416,22 +378,6 @@ export function addOnChangeEvt(ds, delimiter, tableId) {
     //drawModalDialog(select.value.split(delimiter), selected_ds)
   }
 }
-
-/* function removeEmpty(original_ds) {
-  var keys = Object.keys(original_ds[0])
-  var compacted_ds = []
-  original_ds.forEach(function (object) {
-    var obj = {}
-    keys.forEach(function (key) {
-      if (object[key]) {
-        obj[key] = object[key]
-      }
-    })
-    compacted_ds.push(obj)
-  })
-
-  return compacted_ds
-} */
 
 function creazaIerarhii(optimal_ds, delimiter = ' ') {
   /*
@@ -588,8 +534,6 @@ function createGraphs(combinatii_unice) {
   })
 
   console.log('trees', trees)
-  //localStorage.setItem('trees', JSON.stringify(trees))
-  local_storage.trees.set(JSON.stringify(trees))
 
   //create a new select with tree roots
   var select = document.createElement('select')
@@ -688,9 +632,6 @@ function createGraphs(combinatii_unice) {
             tree.push(cl)
           }
         }
-
-        //localStorage.setItem('trees', JSON.stringify(trees))
-        local_storage.trees.set(JSON.stringify(trees))
 
         //redraw graph
         var id = document.getElementById('cytoscape_graphs').id
@@ -2816,11 +2757,6 @@ export function calculateAntemasAndNewTree() {
   }
 
   console.log('newTree', newTree)
-  //console.log('ds_antemasuratori', ds_antemasuratori)
-  //localStorage.setItem('ds_antemasuratori', JSON.stringify(ds_antemasuratori))
-  local_storage.ds_antemasuratori.set(JSON.stringify(ds_antemasuratori))
-  //localStorage.setItem('newTree', JSON.stringify(newTree))
-  local_storage.newTree.set(JSON.stringify(newTree))
 }
 
 function processInstanceSpecifics(activit, instanceSpecifics) {
@@ -2838,47 +2774,6 @@ export function showAntemasuratori() {
     } else {
       tables.my_table4.element.ds = ds_antemasuratori
     }
-  }
-}
-
-export function changeTheme(theme) {
-  //remove all stylesheets with names equal to themes array and add the one with the selected theme
-  let links = document.getElementsByTagName('link')
-  for (let i = 0; i < links.length; i++) {
-    let link = links[i]
-    if (link.rel === 'stylesheet') {
-      themes.forEach((theme) => {
-        if (link.href.includes(theme)) {
-          link.remove()
-        }
-      })
-    }
-  }
-  //add the selected theme
-  let link = document.createElement('link')
-  link.rel = 'stylesheet'
-  link.href = theme + '.css'
-  document.head.appendChild(link)
-  //localStorage.setItem('theme', theme)
-  local_storage.selectedTheme.set(theme)
-  console.log('Theme changed to:', theme)
-  //navbarDropdownMenuLinkThemes caption is the selected theme
-  let navbarDropdownMenuLinkThemes = document.getElementById('navbarDropdownMenuLinkThemes')
-  navbarDropdownMenuLinkThemes.textContent = theme
-}
-
-export function changeStyleInTheShadow(table, link) {
-  table.shadowRoot.childNodes.forEach((child) => {
-    //find id="theme_link" and remove it, then add it again
-    if (child.id === 'theme_link') {
-      child.remove()
-    }
-  })
-  //add themeLink to childNodes
-  if (link) {
-    //append link to shadowRoot
-    table.shadowRoot.appendChild(link)
-    //my_table5.requestUpdate()
   }
 }
 
