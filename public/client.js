@@ -71,7 +71,6 @@ var combinatii_unice = []
 export var selected_ds = []
 export var ds_instanteRetete = []
 
-export var newTree = []
 export var trees = []
 var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'

@@ -7,7 +7,6 @@ import {
   WBSMap,
   recipes_ds,
   ds_instanteRetete,
-  newTree,
   saveOferta,
   loadDataFromFile,
   detectieRetete,
@@ -28,7 +27,7 @@ import { local_storage } from './local_storage.js'
 import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
 import { tables } from './tables.js'
-import { ds_antemasuratori, calculateAntemasAndNewTree,  setDsAntemasuratori, showAntemasuratori } from './antemasuratori.js'
+import { ds_antemasuratori, calculateAntemasAndNewTree,  setDsAntemasuratori, showAntemasuratori, newTree } from './antemasuratori.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 

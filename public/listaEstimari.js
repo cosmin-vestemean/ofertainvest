@@ -1,6 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import {
-  newTree,
   addOnChangeEvt,
   delimiter,
   ierarhii,
@@ -12,6 +11,7 @@ import {
 import { tables } from './tables.js'
 import { context } from './estimari.js'
 import { saveAntemasuratoriToDB } from './S1.js'
+import { newTree } from './antemasuratori.js'
 
 function addNewEstimare() {
   cleanupEstimari()

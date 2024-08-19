@@ -7,7 +7,6 @@ import {
   trees,
   ds_instanteRetete,
   recipes_ds,
-  newTree,
   _cantitate_antemasuratori,
   _nivel_oferta,
   niveluri,
@@ -20,6 +19,8 @@ export var ds_antemasuratori = []
 export const setDsAntemasuratori = (value) => {
   ds_antemasuratori = value
 }
+
+export var newTree = []
 
 export const antemasuratoriDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
