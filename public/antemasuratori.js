@@ -20,6 +20,10 @@ export const setDsAntemasuratori = (value) => {
   ds_antemasuratori = value
 }
 
+export const setDsAntemasuratoriValue = (index, key, value) => {
+    ds_antemasuratori[index][key] = value
+}
+
 export var newTree = []
 
 export const antemasuratoriDisplayMask = {

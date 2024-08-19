@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
 import { template, _cantitate_antemasuratori, theadIsSet, _cantitate_oferta } from "./client.js";
-import { antemasuratoriDisplayMask, newTree } from './antemasuratori.js';
+import { ds_antemasuratori, antemasuratoriDisplayMask, newTree, setDsAntemasuratoriValue } from './antemasuratori.js';
 
 export class antemasuratori extends LitElement {
   static properties = {
@@ -126,7 +126,7 @@ export class antemasuratori extends LitElement {
                       .querySelectorAll('.' + _cantitate_antemasuratori)
                   ).indexOf(e.target);
                   console.log('index tr antemas', index);
-                  ds_antemasuratori[index][_cantitate_antemasuratori] = parseFloat(e.target.textContent);
+                  setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
                   //update newTree
                   let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join());
                   if (branch) branch.qty = parseFloat(e.target.textContent);
