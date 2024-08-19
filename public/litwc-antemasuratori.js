@@ -1,5 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
 import { template, _cantitate_antemasuratori, theadIsSet, antemasuratoriDisplayMask, _cantitate_oferta, ds_antemasuratori, newTree } from "./client.js";
+import { antemasuratoriDisplayMask} from './antemasuratori.js';
 
 export class antemasuratori extends LitElement {
   static properties = {

@@ -1,4 +1,5 @@
-import { client, ds_antemasuratori, contextOferta } from './client.js'
+import { client, contextOferta } from './client.js'
+import { ds_antemasuratori } from './antemasuratori.js'
 
 async function connectToS1Service() {
   if (!client) {
@@ -120,7 +121,7 @@ export async function populateSelects() {
       console.log('error', error)
     })
 }
-export async function insertDocument(UIElement) {
+export async function insertDocument(jsonToSend, UIElement) {
   await connectToS1Service()
     .then(async (result) => {
       const clientID = result.token
