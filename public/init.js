@@ -30,7 +30,7 @@ import {
   themes,
   changeStyleInTheShadow,
   _cantitate_oferta,
-  excel_object2ds
+  excel_object2optimal_ds,
 } from './client.js'
 import { local_storage } from './local_storage.js'
 import { context } from './estimari.js'
