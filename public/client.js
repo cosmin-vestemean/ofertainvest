@@ -146,6 +146,16 @@ template.innerHTML = `
 export function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
   contextOferta.FILENAME = file.name
+  //check if CCCOFERTEWEB has FILENAME for this file with S1/getValFromQuery
+  getValFromS1Query(
+    `select count(*) from CCCOFERTEWEB where FILENAME = '${contextOferta.FILENAME}'`
+  ).then((result) => {
+    if (result.success) {
+      alert('Oferta cu acest nume exista deja in baza de date')
+    } else {
+      console.log('error', result.error)
+    }
+  })
   var xlsStr = ''
   var reader = new FileReader()
   reader.onload = function (e) {
