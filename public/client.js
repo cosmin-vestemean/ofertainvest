@@ -147,17 +147,45 @@ export function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
   contextOferta.FILENAME = file.name
   //check if CCCOFERTEWEB has FILENAME for this file with S1/getValFromQuery
-  getValFromS1Query(
-    `select count(*) from CCCOFERTEWEB where FILENAME = '${contextOferta.FILENAME}'`
-  ).then((result) => {
-    if (result.success) {
-      alert('Oferta cu acest nume exista deja in baza de date')
-      return
-    } else {
-      console.log('error', result.error)
+  getValFromS1Query(`select count(*) from CCCOFERTEWEB where FILENAME = '${contextOferta.FILENAME}'`).then(
+    (result) => {
+      if (result.success) {
+        if (result.value > 0) {
+          alert('Oferta cu acest nume exista deja in baza de date')
+        } else {
+          var reader = new FileReader()
+          reader.onload = function (e) {
+            optimal_ds = []
+            combinatii_unice = []
+            var data = e.target.result
+            var workbook = XLSX.read(data, {
+              type: 'binary'
+            })
+            var opts = {
+              header: 0,
+              raw: true,
+              defval: ''
+            }
+            workbook.SheetNames.forEach(function (sheetName) {
+              var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], opts)
+              fromXls2Recipes(XL_row_object)
+            })
+          }
+
+          reader.onerror = function (ex) {
+            console.log(ex)
+          }
+
+          reader.readAsArrayBuffer(file)
+
+          changeBtnOferta()
+        }
+        return
+      } else {
+        console.log('error', result.error)
+      }
     }
-  })
-  var xlsStr = ''
+  )
   var reader = new FileReader()
   reader.onload = function (e) {
     optimal_ds = []
@@ -173,7 +201,6 @@ export function loadDataFromFile(evt) {
     }
     workbook.SheetNames.forEach(function (sheetName) {
       var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], opts)
-      xlsStr = JSON.stringify(XL_row_object)
       fromXls2Recipes(XL_row_object)
     })
   }
@@ -196,12 +223,12 @@ export function loadDataFromFile(evt) {
 }
 
 export function fromXls2Recipes(excel_object) {
-    optimal_ds = excel_object
-    tables.hideAllBut([tables.my_table1])
-    tables.my_table1.tableId = 'oferta_initiala'
-    tables.my_table1.element.ds = optimal_ds
-    processExcelData(optimal_ds)
-    detectieRetete()  //recipes_ds, instanteRetete
+  optimal_ds = excel_object
+  tables.hideAllBut([tables.my_table1])
+  tables.my_table1.tableId = 'oferta_initiala'
+  tables.my_table1.element.ds = optimal_ds
+  processExcelData(optimal_ds)
+  detectieRetete() //recipes_ds, instanteRetete
 }
 
 export function processExcelData(optimal_ds) {
