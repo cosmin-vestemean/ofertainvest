@@ -72,7 +72,7 @@ export var selected_ds = []
 export var ds_instanteRetete = []
 
 export var trees = []
-var niveluri = []
+export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
 export var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
 export var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
@@ -88,7 +88,6 @@ export var WBSMap = []
 export var theadIsSet = true
 export var retetaCurenta = {}
 var activitateCurenta = {}
-var niveluri = []
 const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
