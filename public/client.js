@@ -267,6 +267,7 @@ export function loadDataFromFile(evt) {
 
     //localStorage.setItem('excel_object', excel_object)
     local_storage.excel_object.set(excel_object)
+    
     optimal_ds = excel_object2optimal_ds(excel_object)
     tables.hideAllBut([tables.my_table1])
     tables.my_table1.tableId = 'oferta_initiala'
@@ -280,11 +281,15 @@ export function loadDataFromFile(evt) {
 
   reader.readAsArrayBuffer(file)
 
-  var btn_oferta = document.getElementById('btn_oferta')
-  var dl = `<i class="bi bi-download"></i>`
-  btn_oferta.innerHTML = 'Salveaza oferta ' + dl
-  btn_oferta.classList.remove('btn-success')
-  btn_oferta.classList.add('btn-danger')
+  changeBtnOferta()
+
+  function changeBtnOferta() {
+    var btn_oferta = document.getElementById('btn_oferta')
+    var dl = `<i class="bi bi-download"></i>`
+    btn_oferta.innerHTML = 'Salveaza oferta ' + dl
+    btn_oferta.classList.remove('btn-success')
+    btn_oferta.classList.add('btn-danger')
+  }
 }
 
 export function excel_object2optimal_ds(excel_object) {
