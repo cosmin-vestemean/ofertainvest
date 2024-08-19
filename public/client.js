@@ -267,12 +267,13 @@ export function loadDataFromFile(evt) {
 
     //localStorage.setItem('excel_object', excel_object)
     local_storage.excel_object.set(excel_object)
-    
+
     optimal_ds = excel_object2optimal_ds(excel_object)
     tables.hideAllBut([tables.my_table1])
     tables.my_table1.tableId = 'oferta_initiala'
     tables.my_table1.element.ds = optimal_ds
     processExcelData(optimal_ds)
+    detectieRetete()  //recipes_ds, instanteRetete
   }
 
   reader.onerror = function (ex) {
