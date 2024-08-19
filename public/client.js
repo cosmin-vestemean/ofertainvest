@@ -741,7 +741,7 @@ export async function saveOferta() {
         btn_oferta.innerHTML = 'Oferta'
         btn_oferta.classList.remove('btn-info')
         btn_oferta.classList.add('btn-success')
-        btn_oferta.attributes.add('data-saved', 'true')
+        btn_oferta.setAttribute('data-saved', 'true')
       } else {
         btn_oferta.innerHTML = 'Eroare la salvare'
         btn_oferta.classList.remove('btn-info')
