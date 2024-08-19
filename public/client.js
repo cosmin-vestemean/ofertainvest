@@ -42,7 +42,9 @@ export const tables = {
     element: document.getElementById('my_table_lista_estimari'),
     visible: true,
   },
-  allTables: [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6],
+  allTables : () => {
+    return [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6]
+  },
   hideAllBut: (tablesExcept) => {
       this.allTables.forEach((table) => {
           if (!tablesExcept.includes(table)) {
