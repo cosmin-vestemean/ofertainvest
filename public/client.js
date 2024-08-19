@@ -267,7 +267,10 @@ export function loadDataFromFile(evt) {
 
     //localStorage.setItem('excel_object', excel_object)
     local_storage.excel_object.set(excel_object)
-    excel_object2ds(excel_object)
+    optimal_ds = excel_object2optimal_ds(excel_object)
+    tables.hideAllBut([tables.my_table1])
+    tables.my_table1.tableId = 'oferta_initiala'
+    tables.my_table1.element.ds = optimal_ds
     processExcelData(optimal_ds)
   }
 
@@ -284,7 +287,7 @@ export function loadDataFromFile(evt) {
   btn_oferta.classList.add('btn-danger')
 }
 
-export function excel_object2ds(excel_object) {
+export function excel_object2optimal_ds(excel_object) {
   //each key represents a column, copy all objecys in compacted_ds but remove the ones with empty values
   original_ds = JSON.parse(excel_object)
   //console.log('original_ds', original_ds)
@@ -294,19 +297,30 @@ export function excel_object2ds(excel_object) {
 
   const unique_key = 'SERIE_ARTICOL_OFERTA'
   //optimal_ds = sortByUniqueKey(compacted_ds, unique_key)
-  optimal_ds = sortByUniqueKey(original_ds, unique_key)
+  const ds = sortByUniqueKey(original_ds, unique_key)
   original_ds = []
+
+  return ds
+
+  function sortByUniqueKey(compacted_ds, unique_key) {
+    //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
+
+    //rearrange data so all objects with same key unique_key are displayed together
+    let ds = []
+    var distinct = [...new Set(compacted_ds.map((x) => x[unique_key]))]
+    distinct.forEach(function (item) {
+      compacted_ds.forEach(function (object) {
+        if (object[unique_key] == item) {
+          ds.push(object)
+        }
+      })
+    })
+
+    return ds
+  }
 }
 
 export function processExcelData(optimal_ds) {
-  //refresh ds in my-table component  
-  //hide all tables but my_table_oferta_initiala
-  tables.hideAllBut([tables.my_table1])
-  tables.my_table1.element.ds = optimal_ds
-  //tableId
-  tables.my_table1.tableId = 'oferta_initiala'
-  console.log('optimal_ds', optimal_ds)
-
   var combinatii_unice_as_str = []
   if (trees.length == 0) {
     var result = creazaIerarhii(optimal_ds, delimiter)
@@ -412,23 +426,6 @@ export function addOnChangeEvt(ds, delimiter, tableId) {
 
   return compacted_ds
 } */
-
-function sortByUniqueKey(compacted_ds, unique_key) {
-  //return [...array.reduce((r, o) => r.set(o[key], o), new Map()).values()];
-
-  //rearrange data so all objects with same key unique_key are displayed together
-  let optimal_ds = []
-  var distinct = [...new Set(compacted_ds.map((x) => x[unique_key]))]
-  distinct.forEach(function (item) {
-    compacted_ds.forEach(function (object) {
-      if (object[unique_key] == item) {
-        optimal_ds.push(object)
-      }
-    })
-  })
-
-  return optimal_ds
-}
 
 function creazaIerarhii(optimal_ds, delimiter = ' ') {
   /*
@@ -878,9 +875,10 @@ export async function saveOferta() {
   salveazaOfertaInDB(optimal_ds)
     .then((result) => {
       if (result.success) {
-        btn_oferta.innerHTML = 'Salveaza oferta'
+        btn_oferta.innerHTML = 'Oferta'
         btn_oferta.classList.remove('btn-info')
         btn_oferta.classList.add('btn-success')
+        btn_oferta.attributes.add('data-saved', 'true')
       } else {
         btn_oferta.innerHTML = 'Eroare la salvare'
         btn_oferta.classList.remove('btn-info')

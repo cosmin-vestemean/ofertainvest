@@ -30,7 +30,8 @@ import {
   themes,
   changeStyleInTheShadow,
   _cantitate_oferta,
-  excel_object2ds} from './client.js'
+  excel_object2ds
+} from './client.js'
 import { local_storage } from './local_storage.js'
 import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
@@ -64,7 +65,10 @@ export function init() {
           populateSelectIerarhiiFromTrees()
         }
       }
-      excel_object2ds(excel_object)
+      optimal_ds = excel_object2optimal_ds(excel_object)
+      tables.hideAllBut([tables.my_table1])
+      tables.my_table1.tableId = 'oferta_initiala'
+      tables.my_table1.element.ds = optimal_ds
       processExcelData(optimal_ds)
       //check trees, activitati_oferta, intrari_orfane, WBSMap, recipes_ds, ds_instanteRetete
       if (local_storage.activitati_oferta.get()) {
@@ -148,11 +152,11 @@ export function init() {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
           }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
-          //add data to ds_estimari, if it 
+          //add data to ds_estimari, if it
           getEstimariFromDB(CCCOFERTEWEB).then((result) => {
             if (result.success) {
               if (result.data && result.data.length > 0) {
-              context.setDsEstimari(result.data)
+                context.setDsEstimari(result.data)
               } else {
                 console.log('Nu exista estimari in baza de date')
                 //setDsEstimari(createNewEstimariPool(newTree))
@@ -168,7 +172,16 @@ export function init() {
     }
   }
   let btn_oferta = document.getElementById('btn_oferta')
-  btn_oferta.onclick = saveOferta
+  //btn_oferta.onclick = saveOferta
+  //if btn_oferta has attribute data-saved="true" then show my_table1 with optimal_ds else saveOferta
+  btn_oferta.onclick = function () {
+    if (btn_oferta.getAttribute('data-saved') === 'true') {
+      tables.hideAllBut([tables.my_table1])
+      tables.my_table1.element.ds = optimal_ds
+    } else {
+      saveOferta()
+    }
+  }
   let file_oferta_initiala = document.getElementById('file_oferta_initiala')
   file_oferta_initiala.onchange = loadDataFromFile
   //btn_oferta text = 'left arrow' + 'Incarca oferta initiala'
@@ -206,7 +219,7 @@ export function init() {
       recipes_ds.forEach((o) => {
         listaRetete.push({ Reteta: o.name })
       })
-        tables.my_table2.element.ds = listaRetete
+      tables.my_table2.element.ds = listaRetete
     }
   }
   let orfani = document.getElementById('orfani')
