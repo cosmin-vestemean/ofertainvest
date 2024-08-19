@@ -6,7 +6,8 @@ import {
   ierarhii,
   flatFind,
   _start_date,
-  _end_date
+  _end_date,
+  template
 } from './client.js'
 import { tables } from './tables.js'
 import { context } from './estimari.js'
