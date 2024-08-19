@@ -5,10 +5,10 @@ import {
   delimiter,
   ierarhii,
   flatFind,
-  tables,
   _start_date,
   _end_date
 } from './client.js'
+import { tables } from './tables.js'
 import { context } from './estimari.js'
 import { saveAntemasuratoriToDB } from './S1.js'
 

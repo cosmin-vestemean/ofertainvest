@@ -4,6 +4,7 @@ import { myTable } from './myTable.js'
 import { antemasuratori } from './antemasuratori.js'
 import { insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js'
 import { listaEstimari } from './listaEstimari.js'
+import { tables } from './tables.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -15,48 +16,6 @@ const SUBTIP_ARTICOL_OFERTA = [
   'UTILAJ',
   'CUSTOM'
 ]
-
-export const tables = {
-  my_table1: {
-    element: document.getElementById('my_table_oferta_initiala'),
-    visible: true,
-    dataset: null
-  },
-  my_table2: {
-    element: document.getElementById('my_table_recipes'),
-    visible: true,
-  },
-  my_table3: {
-    element: document.getElementById('my_table_detalii_reteta'),
-    visible: true,
-  },
-  my_table4: {
-    element: document.getElementById('my_table_antemasuratori'),
-    visible: true,
-  },
-  my_table5: {
-    element: document.getElementById('my_table_estimari'),
-    visible: true,
-  },
-  my_table6: {
-    element: document.getElementById('my_table_lista_estimari'),
-    visible: true,
-  },
-  allTables : () => {
-    return [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6]
-  },
-  hideAllBut: (tablesExcept) => {
-      this.allTables().forEach((table) => {
-          if (!tablesExcept.includes(table)) {
-              table.visible = false
-              table.element.style.display = 'none'
-          } else {
-              table.visible = true
-              table.element.style.display = 'block'
-          }
-      })
-  }
-};
 
 console.log('client.js loaded')
 

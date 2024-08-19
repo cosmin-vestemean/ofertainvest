@@ -12,11 +12,11 @@ import {
   flatFind,
   selected_ds,
   delimiter,
-  tables,
   local_storage,
   _nivel_oferta,
   contextOferta
 } from './client.js'
+import { tables } from './tables.js'
 import {
   estimariDisplayMask,
   context,

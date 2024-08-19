@@ -36,6 +36,7 @@ import {
 } from './client.js'
 import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
+import { tables } from './tables.js'
 
 //add onload event to window
 
