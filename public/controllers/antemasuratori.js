@@ -13,7 +13,7 @@ import {
   _cantitate_oferta,
   _cantitate_estimari,
   _start_date
-} from './client.js'
+} from '../client.js'
 
 export var ds_antemasuratori = []
 export const setDsAntemasuratori = (value) => {

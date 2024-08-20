@@ -4,7 +4,7 @@ import {
   _start_date,
   _end_date,
   _nivel_oferta
-} from './client.js'
+} from '../client.js'
 
 export let context = {
   ds_estimari_pool: [],

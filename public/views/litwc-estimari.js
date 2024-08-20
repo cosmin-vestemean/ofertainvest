@@ -13,7 +13,7 @@ import {
   delimiter,
   _nivel_oferta,
   contextOferta
-} from './client.js'
+} from '../client.js'
 import { tables } from '../utils/tables.js'
 import {
   estimariDisplayMask,
