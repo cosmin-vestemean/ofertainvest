@@ -71,10 +71,10 @@ function runSQLTransaction(obj) {
       result.error = e.message
       result.success = false
       result.sql = strSql
-      strSql = 'INSERT INTO CCCWEBERRORS '
+      /* strSql = 'INSERT INTO CCCWEBERRORS '
       strSql +=
         'SELECT ERROR_NUMBER() AS ErrorNumber, ERROR_SEVERITY() AS ErrorSeverity, ERROR_STATE() AS ErrorState, ERROR_PROCEDURE() AS ErrorProcedure, ERROR_LINE() AS ErrorLine, ERROR_MESSAGE() AS ErrorMessage '
-      X.RUNSQL(strSql)
+      X.RUNSQL(strSql) */
     }
     return result
   }
