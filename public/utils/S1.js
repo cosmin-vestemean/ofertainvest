@@ -248,6 +248,17 @@ export function saveRecipesAndInstanteAndTrees() {
       ds_instanteRetete
     )}', JSONTREE='${JSON.stringify(trees)}' WHERE FILENAME='${contextOferta.FILENAME}'`
   )
+
+  let objSqlList = { sqlList: sqlList }
+  runSQLTransaction(objSqlList).then((result) => {
+    if (result.success) {
+      console.log('Recipes, Instante and Trees updated in database')
+      resolve(result)
+    } else {
+      console.log('Error updating Recipes, Instante and Trees in database')
+      reject(result)
+    }
+  })
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
