@@ -313,12 +313,12 @@ export function init() {
   //btn_antemasuratori
   let btn_antemasuratori = document.getElementById('btn_antemasuratori')
   btn_antemasuratori.onclick = function () {
-    if (ds_instanteRetete && ds_instanteRetete.length > 0) {
-      console.log('Exista instante retete, se afiseaza antemasuratori')
+    if (ds_antemasuratori && ds_antemasuratori.length > 0) {
+      console.log('Exista antemasuratori')
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
       nav_antemasuratori.click()
     } else {
-      console.log('Nu exista instante retete, se scaneaza oferta initiala')
+      console.log('Nu exista antemasuratori, se scaneaza oferta initiala')
       //scan_oferta_initiala
       let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
       scan_oferta_initiala.click()
