@@ -14,16 +14,16 @@ import {
   _nivel_oferta,
   contextOferta
 } from './client.js'
-import { tables } from './tables.js'
+import { tables } from '../utils/tables.js'
 import {
   estimariDisplayMask,
   context,
   generateTblRowsFromDsEstimariPool,
   locateTrInEstimariPool
-} from './estimari.js'
-import { runSQLTransaction, getValFromS1Query } from './S1.js'
+} from '../controllers/estimari.js'
+import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
-import { newTree } from './antemasuratori.js'
+import { newTree } from '../controllers/antemasuratori.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask

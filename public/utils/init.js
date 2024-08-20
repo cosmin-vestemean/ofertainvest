@@ -23,11 +23,11 @@ import {
   themes,
   _cantitate_oferta
 } from '../client.js'
-import { local_storage } from './local_storage.js'
-import { context } from './estimari.js'
-import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
-import { tables } from './tables.js'
-import { ds_antemasuratori, calculateAntemasAndNewTree,  setDsAntemasuratori, showAntemasuratori, newTree } from './antemasuratori.js'
+import { local_storage } from '../utils/local_storage.js'
+import { context } from '../controllers/estimari.js'
+import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from '../utils/S1.js'
+import { tables } from '../utils/tables.js'
+import { ds_antemasuratori, calculateAntemasAndNewTree,  setDsAntemasuratori, showAntemasuratori, newTree } from '../controllers/antemasuratori.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 

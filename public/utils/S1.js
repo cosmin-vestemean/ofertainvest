@@ -1,5 +1,5 @@
 import { client, contextOferta } from '../client.js'
-import { ds_antemasuratori } from './antemasuratori.js'
+import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 
 async function connectToS1Service() {
   if (!client) {

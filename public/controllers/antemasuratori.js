@@ -1,4 +1,4 @@
-import { tables } from './tables.js'
+import { tables } from '../utils/tables.js'
 import {
   ierarhii,
   flatFind,

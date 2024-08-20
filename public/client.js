@@ -6,7 +6,7 @@ import { insertDocument, getValFromS1Query, runSQLTransaction } from './utils/S1
 import { listaEstimari } from './views/listaEstimari.js'
 import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
-import { setDsAntemasuratori } from './antemasuratori.js'
+import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [

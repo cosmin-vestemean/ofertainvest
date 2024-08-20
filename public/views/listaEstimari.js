@@ -9,9 +9,9 @@ import {
   template
 } from '../client.js'
 import { tables } from '../utils/tables.js'
-import { context } from './estimari.js'
+import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriToDB } from '../utils/S1.js'
-import { newTree } from './antemasuratori.js'
+import { newTree } from '../controllers/antemasuratori.js'
 
 function addNewEstimare() {
   cleanupEstimari()
