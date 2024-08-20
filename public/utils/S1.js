@@ -1,4 +1,4 @@
-import { client, contextOferta } from '../client.js'
+import { client, contextOferta, ds_instanteRetete, recipes_ds, trees } from '../client.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 
 async function connectToS1Service() {
@@ -78,8 +78,7 @@ export async function populateSelects() {
                   query: {
                     clientID: clientID,
                     appID: '1001',
-                    sqlQuery:
-                      'select * from CCCOFERTEWEB ORDER by trndate desc'
+                    sqlQuery: 'select * from CCCOFERTEWEB ORDER by trndate desc'
                   }
                 }
 
@@ -156,25 +155,23 @@ export async function insertDocument(jsonToSend, UIElement) {
 export async function getValFromS1Query(query) {
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await connectToS1Service();
-      const clientID = result.token;
+      const result = await connectToS1Service()
+      const clientID = result.token
       //console.log('clientID', clientID);
-      const queryResult = await client
-        .service('getValFromQuery')
-        .find({
-          query: {
-            clientID: clientID,
-            appId: 1001,
-            sqlQuery: query
-          }
-        });
-      console.log('result', queryResult);
-      resolve(queryResult);
+      const queryResult = await client.service('getValFromQuery').find({
+        query: {
+          clientID: clientID,
+          appId: 1001,
+          sqlQuery: query
+        }
+      })
+      console.log('result', queryResult)
+      resolve(queryResult)
     } catch (error) {
-      console.log('error', error);
-      reject({ success: false, error: error });
+      console.log('error', error)
+      reject({ success: false, error: error })
     }
-  });
+  })
 }
 
 export async function runSQLTransaction(objSqlList) {
@@ -184,89 +181,93 @@ export async function runSQLTransaction(objSqlList) {
       reject({ success: false, error: 'No sql query transmited.' })
     }
     try {
-      const result = await connectToS1Service();
-      const clientID = result.token;
-      const response = await client
-        .service('runSQLTransaction')
-        .create({
-          clientID: clientID,
-          sqlList: objSqlList.sqlList
-        });
+      const result = await connectToS1Service()
+      const clientID = result.token
+      const response = await client.service('runSQLTransaction').create({
+        clientID: clientID,
+        sqlList: objSqlList.sqlList
+      })
       //console.log('result', response)
-      resolve(response);
+      resolve(response)
     } catch (error) {
-      console.log('error', error);
-      reject({ success: false, error: error });
+      console.log('error', error)
+      reject({ success: false, error: error })
     }
-  });
+  })
 }
 
 export async function getOferta(filename) {
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await connectToS1Service();
-      const clientID = result.token;
-      const response = await client
-        .service('getDataset')
-        .find({
-          query: {
-            clientID: clientID,
-            sqlQuery: `select * from CCCOFERTEWEB where FILENAME='${filename}'`
-          }
-        });
+      const result = await connectToS1Service()
+      const clientID = result.token
+      const response = await client.service('getDataset').find({
+        query: {
+          clientID: clientID,
+          sqlQuery: `select * from CCCOFERTEWEB where FILENAME='${filename}'`
+        }
+      })
       //console.log('result', response)
-      resolve(response);
+      resolve(response)
     } catch (error) {
-      console.log('error', error);
-      reject({ success: false, error: error });
+      console.log('error', error)
+      reject({ success: false, error: error })
     }
-  });
+  })
 }
 
 export async function saveAntemasuratoriToDB() {
   return new Promise(async (resolve, reject) => {
     try {
       // UPDATE CCCOFERTEWEB:JSONANTESTR with ds_antemasuratori using runSQLTransaction
-      let sqlList = [];
+      let sqlList = []
       sqlList.push(
         `UPDATE CCCOFERTEWEB SET JSONANTESTR='${JSON.stringify(ds_antemasuratori)}' WHERE FILENAME='${contextOferta.FILENAME}'`
-      );
-      let objSqlList = { sqlList: sqlList };
-      let result = await runSQLTransaction(objSqlList);
+      )
+      let objSqlList = { sqlList: sqlList }
+      let result = await runSQLTransaction(objSqlList)
       if (result.success) {
-        console.log('Antemasuratori actualizati in baza de date');
-        resolve(result);
+        console.log('Antemasuratori actualizati in baza de date')
+        resolve(result)
       } else {
-        console.log('Eroare actualizare antemasuratori in baza de date');
-        reject(result);
+        console.log('Eroare actualizare antemasuratori in baza de date')
+        reject(result)
       }
     } catch (error) {
-      console.log('error', error);
-      reject({ success: false, error: error });
+      console.log('error', error)
+      reject({ success: false, error: error })
     }
-  });
+  })
+}
+export function saveRecipesAndInstanteAndTrees() {
+  // Update CCCOFERTEWEB with the new values by calling runSQLTransaction
+  let sqlList = []
+  //update CCCOFERTEWEB with the new values
+  sqlList.push(
+    `UPDATE CCCOFERTEWEB SET JSONRECIPE='${JSON.stringify(recipes_ds)}', JSONINSTANTA='${JSON.stringify(
+      ds_instanteRetete
+    )}', JSONTREE='${JSON.stringify(trees)}' WHERE FILENAME='${contextOferta.FILENAME}'`
+  )
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
   //CCCESTIMARIH WHERE CCCOFERTEWEB = CCCOFERTEWEB => DSESTIMARIFLAT, CREATEDATE, UPDATEDATE, STARTDATE, ENDDATE, ID, ACTIVE
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await connectToS1Service();
-      const clientID = result.token;
-      const response = await client
-        .service('getDataset')
-        .find({
-          query: {
-            clientID: clientID,
-            sqlQuery: `select CCCOFERTEWEB, CCCESTIMARIH, DSESTIMARIFLAT, FORMAT(CREATEDATE, 'yyyy-MM-dd') as CREATEDATE, FORMAT(UPDATEDATE, 'yyyy-MM-dd') as UPDATEDATE, FORMAT(STARTDATE, 'yyyy-MM-dd') as STARTDATE, FORMAT(ENDDATE, 'yyyy-MM-dd') as ENDDATE, ID, ACTIVE from CCCESTIMARIH where CCCOFERTEWEB='${CCCOFERTEWEB}'`
-          }
-        });
+      const result = await connectToS1Service()
+      const clientID = result.token
+      const response = await client.service('getDataset').find({
+        query: {
+          clientID: clientID,
+          sqlQuery: `select CCCOFERTEWEB, CCCESTIMARIH, DSESTIMARIFLAT, FORMAT(CREATEDATE, 'yyyy-MM-dd') as CREATEDATE, FORMAT(UPDATEDATE, 'yyyy-MM-dd') as UPDATEDATE, FORMAT(STARTDATE, 'yyyy-MM-dd') as STARTDATE, FORMAT(ENDDATE, 'yyyy-MM-dd') as ENDDATE, ID, ACTIVE from CCCESTIMARIH where CCCOFERTEWEB='${CCCOFERTEWEB}'`
+        }
+      })
       //console.log('result', response)
       if (response.success) {
-        let estimari = response.data;
-        let dsEstimari = [];
+        let estimari = response.data
+        let dsEstimari = []
         estimari.forEach((estimare) => {
-          console.log('estimare', estimare);
+          console.log('estimare', estimare)
           let estimareObj = {
             ds_estimari_flat: JSON.parse(estimare.DSESTIMARIFLAT),
             createDate: estimare.CREATEDATE,
@@ -276,16 +277,16 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
             id: estimare.ID,
             active: estimare.ACTIVE,
             CCCESTIMARIH: estimare.CCCESTIMARIH
-          };
-          dsEstimari.push(estimareObj);
-        });
-        resolve({ success: true, data: dsEstimari });
+          }
+          dsEstimari.push(estimareObj)
+        })
+        resolve({ success: true, data: dsEstimari })
       } else {
-        reject({ success: false, error: response.error });
+        reject({ success: false, error: response.error })
       }
     } catch (error) {
-      console.log('error', error);
-      reject({ success: false, error: error });
+      console.log('error', error)
+      reject({ success: false, error: error })
     }
-  });
+  })
 }

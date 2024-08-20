@@ -2,7 +2,7 @@ import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/li
 import { estimari } from './views/litwc-estimari.js'
 import { myTable } from './views/myTable.js'
 import { antemasuratori } from './views/litwc-antemasuratori.js'
-import { insertDocument, getValFromS1Query, runSQLTransaction } from './utils/S1.js'
+import { saveRecipesAndInstanteAndTrees, getValFromS1Query, runSQLTransaction } from './utils/S1.js'
 import { listaEstimari } from './views/listaEstimari.js'
 import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
@@ -68,11 +68,19 @@ export function setOptimalDs(value) {
   optimal_ds = value
 }
 export var recipes_ds = []
+export function setRecipesDs(value) {
+  recipes_ds = value
+}
 var combinatii_unice = []
 export var selected_ds = []
 export var ds_instanteRetete = []
-
+export function setDsInstanteRetete(value) {
+  ds_instanteRetete = value
+}
 export var trees = []
+export function setTrees(value) {
+  trees = value
+}
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
 export var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
@@ -829,6 +837,8 @@ export function detectieRetete() {
   ds_instanteRetete = rez.instanteRetete
 
   autocompleteRetete_1()
+
+  saveRecipesAndInstanteAndTrees()
 
   function autocompleteRetete_1() {
     /*

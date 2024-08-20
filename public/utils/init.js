@@ -21,6 +21,12 @@ import {
   addOnChangeEvt,
   delimiter,
   themes,
+  recipes_ds,
+  ds_instanteRetete,
+  trees,
+  setRecipesDs,
+  setDsInstanteRetete,
+  setTrees,
   _cantitate_oferta
 } from '../client.js'
 import { local_storage } from '../utils/local_storage.js'
@@ -135,6 +141,22 @@ export function init() {
           processExcelData(optimal_ds)
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
+          //set recipes_ds
+          if (firstLine.JSONRETETESTR) {
+            setRecipesDs(JSON.parse(firstLine.JSONRETETESTR))
+            console.log('recipes_ds', recipes_ds)
+          }
+          //instante retete
+          if (firstLine.JSONINSTRETSTR) {
+            setDsInstanteRetete(JSON.parse(firstLine.JSONINSTRETSTR))
+            console.log('ds_instanteRetete', ds_instanteRetete)
+          }
+          //trees
+          if (firstLine.JSONTREESSTR) {
+            setTrees(JSON.parse(firstLine.JSONTREESSTR))
+            console.log('trees', trees)
+          }
+          //set ds_antemasuratori
           if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
             console.log('ds_antemasuratori', ds_antemasuratori)
@@ -313,12 +335,12 @@ export function init() {
   //btn_antemasuratori
   let btn_antemasuratori = document.getElementById('btn_antemasuratori')
   btn_antemasuratori.onclick = function () {
-    if (ds_antemasuratori && ds_antemasuratori.length > 0) {
-      console.log('Exista antemasuratori')
+    if (ds_instanteRetete && ds_instanteRetete.length > 0) {
+      console.log('Exista instante retete, se afiseaza antemasuratori')
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
       nav_antemasuratori.click()
     } else {
-      console.log('Nu exista antemasuratori, se scaneaza oferta initiala')
+      console.log('Nu exista instante retete, se scaneaza oferta initiala')
       //scan_oferta_initiala
       let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
       scan_oferta_initiala.click()
