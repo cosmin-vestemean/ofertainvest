@@ -7,10 +7,10 @@ import {
   _start_date,
   _end_date,
   template
-} from './client.js'
-import { tables } from './tables.js'
+} from '../client.js'
+import { tables } from '../utils/tables.js'
 import { context } from './estimari.js'
-import { saveAntemasuratoriToDB } from './S1.js'
+import { saveAntemasuratoriToDB } from '../utils/S1.js'
 import { newTree } from './antemasuratori.js'
 
 function addNewEstimare() {

@@ -1,11 +1,11 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { estimari } from './litwc-estimari.js'
 import { myTable } from './myTable.js'
-import { antemasuratori } from './litwc-antemasuratori.js'
-import { insertDocument, getValFromS1Query, runSQLTransaction } from './S1.js'
-import { listaEstimari } from './listaEstimari.js'
-import { tables } from './tables.js'
-import { selectedTheme } from './init.js'
+import { antemasuratori } from './views/litwc-antemasuratori.js'
+import { insertDocument, getValFromS1Query, runSQLTransaction } from './utils/S1.js'
+import { listaEstimari } from './views/listaEstimari.js'
+import { tables } from './utils/tables.js'
+import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './antemasuratori.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']

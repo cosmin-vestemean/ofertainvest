@@ -22,7 +22,7 @@ import {
   delimiter,
   themes,
   _cantitate_oferta
-} from './client.js'
+} from '../client.js'
 import { local_storage } from './local_storage.js'
 import { context } from './estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from './S1.js'
