@@ -973,11 +973,10 @@ export class estimari extends LitElement {
       DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat),
       CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
       CCCESTIMARIH: estimare.CCCESTIMARIH,
-      ISMAIN: estimare.isMain ? 1 : 0
     }
 
-    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ISMAIN, CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
-    VALUES (${headerData.ISMAIN}, ${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
+    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
+    VALUES (${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
     const updateHeaderQuery = `UPDATE CCCESTIMARIH SET ACTIVE = ${headerData.ACTIVE}, STARTDATE = '${headerData.STARTDATE}', ENDDATE = '${headerData.ENDDATE}', UPDATEDATE = '${headerData.UPDATEDATE}', DSESTIMARIFLAT = '${headerData.DSESTIMARIFLAT}', ISMAIN = ${headerData.ISMAIN} WHERE ID = ${headerData.CCCESTIMARIH};`
     const getId = `SELECT IDENT_CURRENT('CCCESTIMARIH') AS ID;`
     let sqlList = []
@@ -1019,7 +1018,8 @@ export class estimari extends LitElement {
           let row_data = o
           let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD')
           let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD')
-          let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
+          let isMain = row_data.ramura.isMain ? 1 : 0
+          let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, ISMAIN, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
           for (let i = 1; i <= 10; i++) {
             if (row_data[_nivel_oferta + i] === undefined) {
             } else {
@@ -1027,7 +1027,7 @@ export class estimari extends LitElement {
             }
           }
           insertLineQuery += `REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL, CANTANTE, CANTESTIM) `
-          insertLineQuery += `VALUES (${headerId}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
+          insertLineQuery += `VALUES (${headerId}, ${isMain}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
           for (let i = 1; i <= 10; i++) {
             if (row_data[_nivel_oferta + i] === undefined) {
             } else {
