@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { estimari } from './litwc-estimari.js'
-import { myTable } from './myTable.js'
+import { estimari } from './views/litwc-estimari.js'
+import { myTable } from './views/myTable.js'
 import { antemasuratori } from './views/litwc-antemasuratori.js'
 import { insertDocument, getValFromS1Query, runSQLTransaction } from './utils/S1.js'
 import { listaEstimari } from './views/listaEstimari.js'
@@ -132,7 +132,7 @@ export const themes = ['default', 'cerulean', 'flatly', 'sandstone', 'stylish', 
 export var template = document.createElement('template')
 template.id = 'shadowRootTemplate'
 let themeLink =
-  selectedTheme === 'default' ? '' : `<link id="theme_link" rel="stylesheet" href="${selectedTheme}.css">`
+  selectedTheme === 'default' ? '' : `<link id="theme_link" rel="stylesheet" href=".css/${selectedTheme}.css">`
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>${themeLink}
