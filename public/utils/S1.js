@@ -241,28 +241,29 @@ export async function saveAntemasuratoriToDB() {
 }
 export async function saveRecipesAndInstanteAndTrees() {
   // Update CCCOFERTEWEB with the new values by calling runSQLTransaction
-  let sqlList = []
+  let sqlList = [];
   //update CCCOFERTEWEB with the new values
   sqlList.push(
     `UPDATE CCCOFERTEWEB SET JSONRECIPE='${JSON.stringify(recipes_ds)}', JSONINSTANTA='${JSON.stringify(
       ds_instanteRetete
     )}', JSONTREE='${JSON.stringify(trees)}' WHERE FILENAME='${contextOferta.FILENAME}'`
-  )
+  );
 
-  let objSqlList = { sqlList: sqlList }
-  try {
-    const result = runSQLTransaction(objSqlList);
-    if (result.success) {
-      console.log('Recipes, Instante and Trees updated in database');
-      return result;
-    } else {
+  let objSqlList = { sqlList: sqlList };
+  return runSQLTransaction(objSqlList)
+    .then((result) => {
+      if (result.success) {
+        console.log('Recipes, Instante and Trees updated in database');
+        return result;
+      } else {
+        console.log('Error updating Recipes, Instante and Trees in database');
+        throw result;
+      }
+    })
+    .catch((error) => {
       console.log('Error updating Recipes, Instante and Trees in database');
-      throw result;
-    }
-  } catch (error) {
-    console.log('Error updating Recipes, Instante and Trees in database');
-    throw error;
-  }
+      throw error;
+    });
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
