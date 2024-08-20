@@ -47,7 +47,7 @@ function changeTheme(theme) {
   //add the selected theme
   let link = document.createElement('link')
   link.rel = 'stylesheet'
-  link.href = theme + '.css'
+  link.href = `../css/${theme}.css`
   document.head.appendChild(link)
   //localStorage.setItem('theme', theme)
   local_storage.selectedTheme.set(theme)
