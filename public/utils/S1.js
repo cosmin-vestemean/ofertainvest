@@ -191,7 +191,7 @@ export async function runSQLTransaction(objSqlList) {
       resolve(response)
     } catch (error) {
       console.log('error', error)
-      reject({ success: false, error: error })
+      reject({ success: false, error: error, sql: objSqlList.sqlList })
     }
   })
 }
