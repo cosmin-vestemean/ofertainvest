@@ -483,7 +483,7 @@ function applyTheme(theme) {
   if (selectedTheme !== 'default') {
     link = document.createElement('link')
     link.rel = 'stylesheet'
-    link.href = `./css/${selectedTheme}.css`
+    link.href = `../css/${selectedTheme}.css`
     link.id = 'theme_link'
   }
 
