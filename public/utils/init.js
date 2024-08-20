@@ -159,6 +159,11 @@ export function init() {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
             console.log('ds_antemasuratori', ds_antemasuratori)
           }
+          //set ds_estimari_pool: JSONESTIMPOOLSTR
+          if (firstLine.JSONESTIMPOOLSTR) {
+            context.setDsEstimariPool(JSON.parse(firstLine.JSONESTIMPOOLSTR))
+            console.log('ds_estimari_pool', context.ds_estimari_pool)
+          }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it
           getEstimariFromDB(CCCOFERTEWEB).then((result) => {

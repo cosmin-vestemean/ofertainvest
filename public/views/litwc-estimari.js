@@ -414,6 +414,7 @@ export class estimari extends LitElement {
       }
 
       this.salveazaEstimareaInBazaDeDate(active)
+      this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
     }
     btnSave.appendChild(save_icon)
     //add thrahs icon
@@ -1053,6 +1054,21 @@ export class estimari extends LitElement {
       }
     } else {
       console.error('Error saving estimari:', result.error, result.sql)
+    }
+  }
+
+  async salveazaStartingPoolInBazaDeDate(ds_estimari_pool) {
+    //update CCCOFERTEWEB with ds_estimari_pool, column JSONESTIMPOOLSTR
+    let JSONESTIMPOOLSTR = JSON.stringify(ds_estimari_pool)
+    let updateQuery = `UPDATE CCCOFERTEWEB SET JSONESTIMPOOLSTR = '${JSONESTIMPOOLSTR}' WHERE ID = ${contextOferta.CCCOFERTEWEB};`
+    let objSqlList = {
+      sqlList: [updateQuery]
+    }
+    var result = await runSQLTransaction(objSqlList)
+    if (result.success) {
+      console.log('Estimari pool saved successfully')
+    } else {
+      console.error('Error saving estimari pool:', result.error, result.sql)
     }
   }
 }
