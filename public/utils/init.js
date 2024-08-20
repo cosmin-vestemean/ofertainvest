@@ -137,6 +137,7 @@ export function init() {
           tables.my_table1.element.ds = optimal_ds
           if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
+            console.log('ds_antemasuratori', ds_antemasuratori)
           }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it

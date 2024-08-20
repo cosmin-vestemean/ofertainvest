@@ -96,20 +96,19 @@ export const antemasuratoriDisplayMask = {
   }
 }
 
+//instante retete + recipes_ds + trees -> ds_antemasuratori + newTree
 export function calculateAntemasAndNewTree() {
   //create ds_antemasuratori from recipes_ds, enum activities only, add CANTITATE_ARTICOL_OFERTA, add CANTITATE_ANTEMASURATORI = 0
   if (ds_instanteRetete.length === 0) {
     detectieRetete()
     showRecipes()
   }
-  //console.log('recipes_ds', recipes_ds)
-  //console.log('instanteRetete', ds_instanteRetete)
-  //console.log('trees', trees)
-  console.log('niveluri', niveluri)
+ 
   let ds_antemasuratori_old = [...ds_antemasuratori]
   ds_antemasuratori = []
+  console.log('ds_antemasuratori_old', ds_antemasuratori_old, 'ds_antemasuratori', ds_antemasuratori)
   newTree = []
-  //find max array length in temps
+  //find max array length in trees
   let max = 0
   trees.forEach((tree) => {
     tree.forEach((branch) => {
@@ -118,8 +117,7 @@ export function calculateAntemasAndNewTree() {
       }
     })
   })
-  //console.log('max', max)
-  //activitate = reteta.object
+ 
   for (let i = 0; i < ds_instanteRetete.length; i++) {
     var pointerToReteta = ds_instanteRetete[i].duplicateOf
     var locate = recipes_ds.find((o) => o.id === pointerToReteta)
@@ -256,21 +254,6 @@ export function calculateAntemasAndNewTree() {
           activit[_cantitate_antemasuratori] = 0
         }
 
-        /* //push up _cantitate_antemasuratori, just below CANTITATE_ARTICOL_OFERTA
-          let keys = Object.keys(activit)
-          let values = Object.values(activit)
-          let index = keys.indexOf(_cantitate_oferta)
-          keys.splice(index + 1, 0, _cantitate_antemasuratori)
-          values.splice(index + 1, 0, activit[_cantitate_antemasuratori])
-          //delete key _cantitate_antemasuratori from the last position
-          let last = keys.pop()
-          //reconstruct object
-  
-          let new_activit = {}
-          for (let p = 0; p < keys.length; p++) {
-            new_activit[keys[p]] = values[p]
-          } */
-
         activit.refInstanta = i
         activit.refActivitate = j
         activit.refBranch = temps[n]
@@ -301,7 +284,7 @@ export function calculateAntemasAndNewTree() {
     }
   }
 
-  console.log('newTree', newTree)
+  console.log('ds_antemasuratori', ds_antemasuratori)
 }
 
 function processInstanceSpecifics(activit, instanceSpecifics) {

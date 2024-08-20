@@ -243,7 +243,8 @@ export class listaEstimari extends LitElement {
             tables.my_table5.element.ds = ds
             //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
             let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById('CANTITATE_ARTICOL_ESTIMARI_gt_0')
-            CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
+            if (CANTITATE_ARTICOL_ESTIMARI_gt_0)
+              CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
           } else {
             console.log('id not found')
           }

@@ -7,6 +7,7 @@ import { listaEstimari } from './views/listaEstimari.js'
 import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
+import { ds_antemasuratori } from './controllers/antemasuratori.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
@@ -811,6 +812,7 @@ export function detectieRetete() {
   recipes_ds = []
   intrari_orfane = []
   setDsAntemasuratori([])
+  console.log(ds_antemasuratori)
   rez.retete.forEach((obj) => {
     let reteta = obj.reteta
     reteta.forEach((activitate) => {
