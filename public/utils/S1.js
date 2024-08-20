@@ -244,9 +244,9 @@ export async function saveRecipesAndInstanteAndTrees() {
   let sqlList = [];
   //update CCCOFERTEWEB with the new values
   sqlList.push(
-    `UPDATE CCCOFERTEWEB SET JSONRECIPE='${JSON.stringify(recipes_ds)}', JSONINSTANTA='${JSON.stringify(
+    `UPDATE CCCOFERTEWEB SET JSONRETETESTR='${JSON.stringify(recipes_ds)}', JSONINSTRETSTR='${JSON.stringify(
       ds_instanteRetete
-    )}', JSONTREE='${JSON.stringify(trees)}' WHERE FILENAME='${contextOferta.FILENAME}'`
+    )}', JSONTREESSTR='${JSON.stringify(trees)}' WHERE FILENAME='${contextOferta.FILENAME}'`
   );
 
   let objSqlList = { sqlList: sqlList };
