@@ -972,12 +972,13 @@ export class estimari extends LitElement {
       UPDATEDATE: moment(estimare.updateDate).format('YYYY-MM-DD'),
       DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat),
       CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
-      CCCESTIMARIH: estimare.CCCESTIMARIH
+      CCCESTIMARIH: estimare.CCCESTIMARIH,
+      ISMAIN: estimare.isMain ? 1 : 0
     }
 
-    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
-    VALUES (${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
-    const updateHeaderQuery = `UPDATE CCCESTIMARIH SET ACTIVE = ${headerData.ACTIVE}, STARTDATE = '${headerData.STARTDATE}', ENDDATE = '${headerData.ENDDATE}', UPDATEDATE = '${headerData.UPDATEDATE}', DSESTIMARIFLAT = '${headerData.DSESTIMARIFLAT}' WHERE ID = ${headerData.CCCESTIMARIH};`
+    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (ISMAIN, CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
+    VALUES (${headerData.ISMAIN}, ${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
+    const updateHeaderQuery = `UPDATE CCCESTIMARIH SET ACTIVE = ${headerData.ACTIVE}, STARTDATE = '${headerData.STARTDATE}', ENDDATE = '${headerData.ENDDATE}', UPDATEDATE = '${headerData.UPDATEDATE}', DSESTIMARIFLAT = '${headerData.DSESTIMARIFLAT}', ISMAIN = ${headerData.ISMAIN} WHERE ID = ${headerData.CCCESTIMARIH};`
     const getId = `SELECT IDENT_CURRENT('CCCESTIMARIH') AS ID;`
     let sqlList = []
     if (estimare.CCCESTIMARIH) {

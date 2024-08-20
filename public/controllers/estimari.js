@@ -96,6 +96,7 @@ function getDsEstimariFlat() {
 
 function createNewEstimariPool(newTree) {
   context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
+  console.log('ds_estimari_pool', context.ds_estimari_pool)
 }
 
 function createNewEstimariFlat() {
