@@ -701,10 +701,7 @@ export class estimari extends LitElement {
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
-        if (context.ds_estimari_pool.length > 0) {
-          //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
           context.setValueOfDsEstimariPool(instanta, ramura, activitateIndex, key, input1.value)
-        }
         //get data-index-of-flat from tr
         let indexOfFlat = inputs[i].parentElement.parentElement.getAttribute('data-index-of-flat')
         //change context.ds_estimari_flat
