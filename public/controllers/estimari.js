@@ -17,7 +17,17 @@ export let context = {
   setDsEstimariPool,
   getDsEstimariPool,
   setDsEstimariFlat,
-  getDsEstimariFlat
+  getDsEstimariFlat,
+  setValueOfDsEstimariPool,
+  setValuesOfDsEstimariFlat,
+}
+
+export function setValueOfDsEstimariPool(instanta, ramura, activitate, key, value) {
+  context.ds_estimari_pool[instanta][ramura][activitate].row_data[key] = value
+}
+
+export function setValuesOfDsEstimariFlat(index, key, value) {
+  context.ds_estimari_flat[index][key] = value
 }
 
 export let estimariDisplayMask = {

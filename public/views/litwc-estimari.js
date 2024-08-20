@@ -19,7 +19,7 @@ import {
   estimariDisplayMask,
   context,
   generateTblRowsFromDsEstimariPool,
-  locateTrInEstimariPool
+  locateTrInEstimariPool,
 } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
@@ -702,14 +702,16 @@ export class estimari extends LitElement {
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
         if (context.ds_estimari_pool.length > 0) {
-          context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
+          //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
+          context.setValueOfDsEstimariPool(instanta, ramura, activitateIndex, key, input1.value)
         }
         //get data-index-of-flat from tr
         let indexOfFlat = inputs[i].parentElement.parentElement.getAttribute('data-index-of-flat')
         //change context.ds_estimari_flat
         let aDate = key === _start_date ? _start_date : _end_date
         if (indexOfFlat) {
-          context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
+          //context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
+          context.setValuesOfDsEstimariFlat(indexOfFlat, aDate, input1.value)
         } else {
           console.log('indexOfFlat is undefined')
         }
