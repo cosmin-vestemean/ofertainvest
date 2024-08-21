@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 //import google timelines module, namely lodaer.js
-import { google } from 'https://www.gstatic.com/charts/loader.js'
+import { google } from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/dist/googleCharts.min.js'
 import {
   addOnChangeEvt,
   delimiter,
