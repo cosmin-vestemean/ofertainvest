@@ -107,11 +107,6 @@ function getDsEstimariFlat() {
   return context.ds_estimari_flat
 }
 
-//newTree is the tree generated from antemasuratori
-function setNewTree(obj) {
-  context.newTree = obj
-}
-
 function createNewEstimariPool(newTree) {
   context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
   console.log('new ds_estimari_pool', context.ds_estimari_pool)
@@ -325,7 +320,5 @@ export let context = {
   setValueOfDsEstimariPool,
   estimariDisplayMask,
   locateTrInEstimariPool,
-  generateTblRowsFromDsEstimariPool,
-  newTree: [],
-  setNewTree
+  generateTblRowsFromDsEstimariPool
 }

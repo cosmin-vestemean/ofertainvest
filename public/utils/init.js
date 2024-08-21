@@ -24,13 +24,21 @@ import {
   trees,
   setRecipesDs,
   setDsInstanteRetete,
-  setTrees} from '../client.js'
+  setTrees
+} from '../client.js'
 import { _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriAndTreeToDB, getEstimariFromDB } from '../utils/S1.js'
 import { tables } from '../utils/tables.js'
-import { ds_antemasuratori, calculateAntemasAndNewTree,  setDsAntemasuratori, showAntemasuratori, newTree } from '../controllers/antemasuratori.js'
+import {
+  ds_antemasuratori,
+  calculateAntemasAndNewTree,
+  setDsAntemasuratori,
+  showAntemasuratori,
+  newTree,
+  setNewTree,
+} from '../controllers/antemasuratori.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
@@ -165,7 +173,7 @@ export function init() {
           }
           //newTree <=>  JSONTREESTR
           if (firstLine.JSONTREESTR) {
-            context.setNewTree(JSON.parse(firstLine.JSONTREESTR))
+            setNewTree(JSON.parse(firstLine.JSONTREESTR)))
             console.log('newTree', newTree)
           }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
@@ -433,7 +441,6 @@ export function init() {
       themesUl.selectedIndex = themes.indexOf(selectedTheme)
     }
   })
-  
 
   //zenView
   let zenView = document.getElementById('zenView')
@@ -522,4 +529,3 @@ function applyTheme(theme) {
   })
   return selectedTheme
 }
-

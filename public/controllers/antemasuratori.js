@@ -26,6 +26,9 @@ export const setDsAntemasuratoriValue = (index, key, value) => {
 }
 
 export var newTree = []
+export const setNewTree = (value) => {
+  newTree = value
+}
 
 export const antemasuratoriDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
