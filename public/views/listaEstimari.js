@@ -66,6 +66,7 @@ let listaEstimariDisplayMask = {
 }
 listaEstimariDisplayMask[_start_date] = { label: 'Start', visible: true, type: 'date' }
 listaEstimariDisplayMask[_end_date] = { label: 'Stop', visible: true, type: 'date' }
+
 //create and export class listaEstimari
 export class listaEstimari extends LitElement {
   static properties = {
@@ -167,6 +168,10 @@ export class listaEstimari extends LitElement {
 
       //add tbody
       for (let i = 0; i < this.ds.length; i++) {
+        //add start stop in ds
+        this.ds[i][_start_date] = this.ds[i].ds_estimari_flat[0][_start_date] || 'n/a'
+        this.ds[i][_end_date] = this.ds[i].ds_estimari_flat[0][_end_date] || 'n/a'
+        //create tr
         let tr = document.createElement('tr')
         tbody.appendChild(tr)
         //add counter
@@ -196,9 +201,6 @@ export class listaEstimari extends LitElement {
         td2.appendChild(trash)
         tr.appendChild(td2)
         for (let key in this.ds[i]) {
-          //add start stop in ds
-          ds[i][_start_date] = this.ds[i].ds_estimari_flat[0][_start_date] || 'n/a'
-          ds[i][_end_date] = this.ds[i].ds_estimari_flat[0][_end_date] || 'n/a'
           //check with listaEstimariDisplayMask
           if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
             continue
