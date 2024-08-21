@@ -1,3 +1,42 @@
+export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
+export var contextOferta = {
+  PRJC: 0,
+  TRDR: 0,
+  FILENAME: ''
+}
+
+export var optimal_ds = []
+export function setOptimalDs(value) {
+  optimal_ds = value
+}
+export var recipes_ds = []
+export function setRecipesDs(value) {
+  recipes_ds = value
+}
+export var selected_ds = []
+export var ds_instanteRetete = []
+export function setDsInstanteRetete(value) {
+  ds_instanteRetete = value
+}
+export var trees = []
+export function setTrees(value) {
+  trees = value
+}
+export var niveluri = []
+export var _nivel_oferta = 'NIVEL_OFERTA_'
+export var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
+export var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
+export var _cantitate_estimari = 'CANTITATE_ARTICOL_ESTIMARI'
+export var _cantitate_estimari_anterioare = 'TOTAL_CANTITATE_ARTICOL_ESTIMARE_ANTERIOR'
+export var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'
+export var _start_date = 'DATA_START'
+export var _end_date = 'DATA_END'
+export var activitati_oferta = []
+export var intrari_orfane = []
+export var WBSMap = []
+export var theadIsSet = true
+export var retetaCurenta = {}
+
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { estimari } from './views/litwc-estimari.js'
 import { myTable } from './views/myTable.js'
@@ -21,8 +60,6 @@ const SUBTIP_ARTICOL_OFERTA = [
 ]
 
 console.log('client.js loaded')
-
-export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
@@ -57,47 +94,11 @@ client.use('runSQLTransaction', socketClient.service('runSQLTransaction'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
-export var contextOferta = {
-  PRJC: 0,
-  TRDR: 0,
-  FILENAME: ''
-}
-
-export var optimal_ds = []
-export function setOptimalDs(value) {
-  optimal_ds = value
-}
-export var recipes_ds = []
-export function setRecipesDs(value) {
-  recipes_ds = value
-}
+var activitateCurenta = {}
 var combinatii_unice = []
-export var selected_ds = []
-export var ds_instanteRetete = []
-export function setDsInstanteRetete(value) {
-  ds_instanteRetete = value
-}
-export var trees = []
-export function setTrees(value) {
-  trees = value
-}
-export var niveluri = []
-export var _nivel_oferta = 'NIVEL_OFERTA_'
-export var _cantitate_oferta = 'CANTITATE_ARTICOL_OFERTA'
-export var _cantitate_antemasuratori = 'CANTITATE_ARTICOL_ANTEMASURATORI'
-export var _cantitate_estimari = 'CANTITATE_ARTICOL_ESTIMARI'
-export var _cantitate_estimari_anterioare = 'TOTAL_CANTITATE_ARTICOL_ESTIMARE_ANTERIOR'
-var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'
-export var _start_date = 'DATA_START'
-export var _end_date = 'DATA_END'
 var visible_columns = []
 var denumireUnica_ds = []
-export var activitati_oferta = []
-export var intrari_orfane = []
-export var WBSMap = []
-export var theadIsSet = true
-export var retetaCurenta = {}
-var activitateCurenta = {}
+
 const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
