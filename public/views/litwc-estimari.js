@@ -14,7 +14,8 @@ import {
 } from '../client.js'
 import {
   _cantitate_estimari,
-  _cantitate_antemasuratori
+  _cantitate_antemasuratori,
+  _cantitate_estimari_anterioare
 } from '../utils/_cantitate_oferta.js'
 import { tables } from '../utils/tables.js'
 import {
@@ -377,7 +378,6 @@ export class estimari extends LitElement {
 
             //add cantitate_estimari to ds_estimari_pool row_data
             if (Object.keys(context.ds_estimari_pool).length > 0) {
-              //context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_cantitate_estimari] = estimare.qty
               context.setValueOfDsEstimariPoolByKey(
                 refInstanta,
                 antemasuratoriBranch,
@@ -386,10 +386,18 @@ export class estimari extends LitElement {
                 estimare.qty
               )
 
+              //cantitate_estimari_anterioare
+              context.setValueOfDsEstimariPoolByKey(
+                refInstanta,
+                antemasuratoriBranch,
+                refActivitate,
+                _cantitate_estimari_anterioare,
+                //valoare anterioara + valoare noua
+                parseFloat(context.getValOfDsEstimariPoolByKey(refInstanta, antemasuratoriBranch, refActivitate, _cantitate_estimari_anterioare)) +
+                estimare.qty
+              )
+
               //add start_date to ds_estimari_pool row_data
-              /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
-                _start_date
-              ] = object[_start_date] */
               context.setValueOfDsEstimariPoolByKey(
                 refInstanta,
                 antemasuratoriBranch,
@@ -399,8 +407,6 @@ export class estimari extends LitElement {
               )
 
               //add end_date to ds_estimari_pool row_data
-              /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
-                object[_end_date] */
               context.setValueOfDsEstimariPoolByKey(
                 refInstanta,
                 antemasuratoriBranch,
@@ -426,12 +432,12 @@ export class estimari extends LitElement {
       this.salveazaEstimareaInBazaDeDate(active)
       this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
 
-      if (newTree.length > 0) {
+      /* if (newTree.length > 0) {
         context.ds_estimari_flat = context.generateTblRowsFromDsEstimariPool()
         this.ds = context.ds_estimari_flat
         console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
         console.log('newTree after update with estimari', newTree)
-      }
+      } */
 
       console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
       console.log('context.ds_estimari after update', context.ds_estimari)
