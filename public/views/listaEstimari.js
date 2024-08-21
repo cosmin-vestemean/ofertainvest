@@ -64,7 +64,7 @@ let listaEstimariDisplayMask = {
   endDate: { label: 'Stop', visible: true, type: 'date' },
   createDate: { label: 'Creata la', visible: true, type: 'date' },
   updateDate: { label: 'Ultima actualizare', visible: true, type: 'date' },
-  active: { label: 'Activ', visible: true, type: 'boolean' }
+  active: { label: 'Activ', visible: false, type: 'boolean' }
 }
 
 //create and export class listaEstimari
