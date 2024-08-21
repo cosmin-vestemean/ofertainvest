@@ -1,4 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
+//import google timelines module, namely lodaer.js
+import { google } from 'https://www.gstatic.com/charts/loader.js'
 import {
   addOnChangeEvt,
   delimiter,
@@ -108,6 +110,46 @@ export class listaEstimari extends LitElement {
       div.appendChild(button)
       return html`${div}`
     } else {
+      //add google timeline with startDate and endDate
+      //create timeline
+      var container = document.createElement('div')
+      container.id = 'timeline'
+      container.style.height = '100px'
+      container.style.width = '100%'
+      container.style.margin = 'auto'
+      container.style.border = '1px solid #ccc'
+      container.style.borderRadius = '5px'
+      container.style.boxShadow = '0 0 5px #ccc'
+      //load google timeline
+      google.charts.load('current', { packages: ['timeline'] })
+      google.charts.setOnLoadCallback(drawChart)
+      function drawChart() {
+        var container = document.getElementById('timeline')
+        var chart = new google.visualization.Timeline(container)
+        var dataTable = new google.visualization.DataTable()
+        //add this.ds to dataTable
+        dataTable.addColumn({ type: 'string', id: 'Position' })
+        dataTable.addColumn({ type: 'string', id: 'Name' })
+        dataTable.addColumn({ type: 'date', id: 'Start' })
+        dataTable.addColumn({ type: 'date', id: 'End' })
+        let rows = []
+        for (let i = 0; i < context.ds_estimari.length; i++) {
+          let o = context.ds_estimari[i]
+          rows.push([
+            'Estimare',
+            'Estimare ' + (i + 1),
+            new Date(o.startDate),
+            new Date(o.endDate)
+          ])
+        }
+        dataTable.addRows(rows)
+        var options = {
+          timeline: { showRowLabels: false },
+          avoidOverlappingGridLines: false
+        }
+        chart.draw(dataTable, options)
+      }
+
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -247,7 +289,7 @@ export class listaEstimari extends LitElement {
       }
     }
 
-    return html`${table}`
+    return html`${table}${container}`
   }
 }
 function cleanupEstimari() {
