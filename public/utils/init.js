@@ -163,6 +163,11 @@ export function init() {
             context.setDsEstimariPool(JSON.parse(firstLine.JSONESTIMPOOLSTR))
             console.log('ds_estimari_pool', context.ds_estimari_pool)
           }
+          //newTree <=>  JSONTREESTR
+          if (firstLine.JSONTREESTR) {
+            context. = JSON.parse(firstLine.JSONTREESTR)
+            console.log('newTree', newTree)
+          }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it
           getEstimariFromDB(CCCOFERTEWEB).then((result) => {
