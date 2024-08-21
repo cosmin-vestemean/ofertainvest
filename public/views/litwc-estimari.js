@@ -369,7 +369,7 @@ export class estimari extends LitElement {
               //push estimare to newTreeAntemasBranch.estimari
               newTreeAntemasBranch.estimari.push(estimare)
               //add estimare to context.ds_estimari_pool
-              if (context.ds_estimari_pool.length > 0) {
+              if (Object.keys(context.ds_estimari_pool).length > 0) {
                 /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
                   newTreeAntemasBranch.estimari.length - 1 */
                 context.setValueOfDsEstimariPool(refInstanta, antemasuratoriBranch, refActivitate, 'estimareIndex', newTreeAntemasBranch.estimari.length - 1)
@@ -377,7 +377,7 @@ export class estimari extends LitElement {
             }
 
             //add cantitate_estimari to ds_estimari_pool row_data
-            if (context.ds_estimari_pool.length > 0) {
+            if (Object.keys(context.ds_estimari_pool).length > 0) {
               //context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_cantitate_estimari] = estimare.qty
               context.setValueOfDsEstimariPoolByKey(
                 refInstanta,
@@ -428,7 +428,9 @@ export class estimari extends LitElement {
       //find active in ds_estimari and set ds_estimari_pool
       let active = context.ds_estimari.find((o) => o.active)
       if (active) {
-        if (context.ds_estimari_pool.length > 0) active.ds_estimari_pool = context.ds_estimari_pool
+        if (Object.keys(context.ds_estimari_pool).length > 0) {
+          active.ds_estimari_pool = [...context.ds_estimari_pool];
+        }
         active.ds_estimari_flat = context.ds_estimari_flat
         active.updateDate = new Date()
       }
@@ -983,7 +985,7 @@ export class estimari extends LitElement {
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
-        if (context.ds_estimari_pool.length > 0) {
+        if (Object.keys(context.ds_estimari_pool).length > 0) {
           //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
           context.setValueOfDsEstimariPoolByKey(instanta, ramura, activitateIndex, key, val)
         }
