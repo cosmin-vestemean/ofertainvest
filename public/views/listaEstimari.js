@@ -129,12 +129,13 @@ export class listaEstimari extends LitElement {
         dataTable.addColumn({ type: 'date', id: 'Start' })
         dataTable.addColumn({ type: 'date', id: 'End' })
         //add this.ds to dataTable
+        // Assuming that `this.ds` is a property of the class, you can access it using `this.ds`.
         for (let i = 0; i < this.ds.length; i++) {
           let row = []
           row.push(i.toString())
           row.push('Estimare ' + (i + 1))
-          row.push(new Date(context.ds[i].startDate))
-          row.push(new Date(context.ds[i].endDate))
+          row.push(new Date(this.ds[i].startDate))
+          row.push(new Date(this.ds[i].endDate))
           dataTable.addRow(row)
         }
         var options = {
