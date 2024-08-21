@@ -16,10 +16,7 @@ import {
 } from '../client.js'
 import { tables } from '../utils/tables.js'
 import {
-  estimariDisplayMask,
-  context,
-  generateTblRowsFromDsEstimariPool,
-  locateTrInEstimariPool
+  context
 } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
@@ -47,7 +44,7 @@ export class estimari extends LitElement {
     /* context.ds_estimari_pool = [];
     context.ds_estimari_flat = [];
     context.ds_estimari = []; */
-    estimariDisplayMask[_start_date] = {
+    context.estimariDisplayMask[_start_date] = {
       value: _start_date,
       RW: false,
       visible: true,
@@ -55,7 +52,7 @@ export class estimari extends LitElement {
       type: 'date'
     }
 
-    estimariDisplayMask[_end_date] = {
+    context.estimariDisplayMask[_end_date] = {
       value: _end_date,
       RW: false,
       visible: true,
@@ -130,18 +127,18 @@ export class estimari extends LitElement {
         th.scope = 'col'
         tr.appendChild(th)
         let firstLine = this.ds[0]
-        for (let key in estimariDisplayMask) {
+        for (let key in context.estimariDisplayMask) {
           //check key vs estimariDisplayMask
           //first check if key exists in estimariDisplayMask
           if (Object.keys(firstLine).includes(key)) {
             //check if visible
-            if (estimariDisplayMask[key].visible) {
-              if (estimariDisplayMask[key].type !== 'date') {
+            if (context.estimariDisplayMask[key].visible) {
+              if (context.estimariDisplayMask[key].type !== 'date') {
                 let th = document.createElement('th')
                 th.scope = 'col'
                 th.style.writingMode = 'vertical-rl'
                 th.style.rotate = '180deg'
-                th.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
+                th.innerHTML = context.estimariDisplayMask[key].label ? context.estimariDisplayMask[key].label : key
                 tr.appendChild(th)
               } else {
                 //refactor code bellow to a function
@@ -152,7 +149,7 @@ export class estimari extends LitElement {
                 //cerate label
                 let label = document.createElement('label')
                 label.for = key === _start_date ? 'start_date' : 'end_date'
-                label.innerHTML = estimariDisplayMask[key].label ? estimariDisplayMask[key].label : key
+                label.innerHTML = context.estimariDisplayMask[key].label ? context.estimariDisplayMask[key].label : key
                 th.appendChild(label)
                 let input1 = document.createElement('input')
                 input1.type = 'date'
@@ -428,8 +425,7 @@ export class estimari extends LitElement {
       this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
 
       if (newTree.length > 0) {
-        //context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
-        context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+        context.ds_estimari_flat = context.generateTblRowsFromDsEstimariPool()
         this.ds = context.ds_estimari_flat
         console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
         console.log('newTree after update with estimari', newTree)
@@ -461,7 +457,7 @@ export class estimari extends LitElement {
     refresh_icon.style.marginLeft = '5px'
     refresh_icon.onclick = function () {
       //refresh ds_estimari_flat
-      context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
+      context.ds_estimari_flat = context.generateTblRowsFromDsEstimariPool()
       this.ds = context.ds_estimari_flat
       //refresh ds_estimari
       let active = context.ds_estimari.find((o) => o.active)
@@ -719,7 +715,7 @@ export class estimari extends LitElement {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = input1.value
         //change context.ds_estimari_pool
-        let position = locateTrInEstimariPool(inputs[i].parentElement)
+        let position = context.locateTrInEstimariPool(inputs[i].parentElement)
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
@@ -791,16 +787,16 @@ export class estimari extends LitElement {
     tr.appendChild(td)
 
     //add columns based on estimariDisplayMask
-    for (var key in estimariDisplayMask) {
+    for (var key in context.estimariDisplayMask) {
       //check key vs estimariDisplayMask
       //first check if key exists in estimariDisplayMask
       if (Object.keys(o).includes(key)) {
         //check if visible
-        if (estimariDisplayMask[key].visible) {
+        if (context.estimariDisplayMask[key].visible) {
           let td = document.createElement('td')
           //td.innerHTML = o[key] || '';
           //contenteditable if RW
-          if (estimariDisplayMask[key].RW) {
+          if (context.estimariDisplayMask[key].RW) {
             td.contentEditable = true
           }
 
@@ -808,10 +804,10 @@ export class estimari extends LitElement {
             td.style.fontWeight = 'bold'
           }
 
-          if (estimariDisplayMask[key].type === 'number') {
+          if (context.estimariDisplayMask[key].type === 'number') {
             td.style.textAlign = 'right'
             td.innerHTML = parseFloat(o[key]) || ''
-          } else if (estimariDisplayMask[key].type === 'date') {
+          } else if (context.estimariDisplayMask[key].type === 'date') {
             let input1 = document.createElement('input')
             input1.type = 'date'
             input1.classList.add('form-control', 'form-control-sm', 'rounded')
@@ -850,7 +846,7 @@ export class estimari extends LitElement {
     input1.addEventListener('change', function () {
       const key = input1.classList.contains('start_date') ? _start_date : _end_date
       //update context.ds_estimari_pool and newTree
-      let position = locateTrInEstimariPool(input1.parentElement)
+      let position = context.locateTrInEstimariPool(input1.parentElement)
       let instanta = position.instanta
       let ramura = position.ramura
       let activitateIndex = position.activitateIndex
@@ -887,7 +883,7 @@ export class estimari extends LitElement {
   updateCheckboxStatus(checkbox) {
     checkbox.onchange = function () {
       //change context.ds_estimari_pool
-      let position = locateTrInEstimariPool(checkbox.parentElement)
+      let position = context.locateTrInEstimariPool(checkbox.parentElement)
       let instanta = position.instanta
       let ramura = position.ramura
       let activitateIndex = position.activitateIndex
@@ -963,7 +959,7 @@ export class estimari extends LitElement {
         let index = parseInt(e.target.parentElement.getAttribute('data-index-of-flat'))
         //get type from estimariDisplayMask
         let key = e.target.classList[0]
-        let type = estimariDisplayMask[key].type
+        let type = context.estimariDisplayMask[key].type
         let val = null
         switch (type) {
           case 'number':
@@ -981,7 +977,7 @@ export class estimari extends LitElement {
         }
         //context.ds_estimari_flat[index][key] = val
         context.setValuesOfDsEstimariFlatByKey(index, key, val)
-        let position = locateTrInEstimariPool(e.target)
+        let position = context.locateTrInEstimariPool(e.target)
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex

@@ -8,36 +8,20 @@ import {
   _cantitate_oferta
 } from '../client.js'
 
-export let context = {
-  ds_estimari_pool: [],
-  ds_estimari_flat: [],
-  ds_estimari: [],
-  createNewEstimariPool,
-  createNewEstimariFlat,
-  setDsEstimari,
-  getDsEstimari,
-  setDsEstimariPool,
-  getDsEstimariPool,
-  setDsEstimariFlat,
-  getDsEstimariFlat,
-  setValueOfDsEstimariPoolByKey,
-  setValuesOfDsEstimariFlatByKey,
-  setValueOfDsEstimariPool
-}
 
-export function setValueOfDsEstimariPoolByKey(instanta, ramura, activitate, key, value) {
+function setValueOfDsEstimariPoolByKey(instanta, ramura, activitate, key, value) {
   context.ds_estimari_pool[instanta][ramura][activitate].row_data[key] = value
 }
 
-export function setValueOfDsEstimariPool(instanta, ramura, activitate, key, value) {
+function setValueOfDsEstimariPool(instanta, ramura, activitate, key, value) {
   context.ds_estimari_pool[instanta][ramura][activitate][key] = value
 }
 
-export function setValuesOfDsEstimariFlatByKey(index, key, value) {
+function setValuesOfDsEstimariFlatByKey(index, key, value) {
   context.ds_estimari_flat[index][key] = value
 }
 
-export let estimariDisplayMask = {
+let estimariDisplayMask = {
   WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string' },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -127,7 +111,7 @@ function createNewEstimariFlat() {
   context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
 }
 
-export function generateTblRowsFromDsEstimariPool() {
+function generateTblRowsFromDsEstimariPool() {
   //create table rows instanta by instanta with addTableRow
   //get instante in ds, then get ramura in instanta and then get activitate in ramura
   let ds = []
@@ -264,7 +248,7 @@ function transformNewTreeIntoEstimariPoolDS(ds) {
   return ds_e
 }
 
-export function locateTrInEstimariPool(htmlElement) {
+function locateTrInEstimariPool(htmlElement) {
   //check for undefined, null, empty or NaN
   if (!htmlElement) {
     return null
@@ -311,4 +295,24 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
     row_data: o,
     isMain: isMain
   }
+}
+
+export let context = {
+  ds_estimari_pool: [],
+  ds_estimari_flat: [],
+  ds_estimari: [],
+  createNewEstimariPool,
+  createNewEstimariFlat,
+  setDsEstimari,
+  getDsEstimari,
+  setDsEstimariPool,
+  getDsEstimariPool,
+  setDsEstimariFlat,
+  getDsEstimariFlat,
+  setValueOfDsEstimariPoolByKey,
+  setValuesOfDsEstimariFlatByKey,
+  setValueOfDsEstimariPool,
+  estimariDisplayMask,
+  locateTrInEstimariPool,
+  generateTblRowsFromDsEstimariPool,
 }
