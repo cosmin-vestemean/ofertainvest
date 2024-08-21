@@ -1,6 +1,4 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-//import google timelines module, namely lodaer.js
-import { GoogleCharts } from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/+esm'
 import {
   addOnChangeEvt,
   delimiter,
@@ -110,41 +108,6 @@ export class listaEstimari extends LitElement {
       div.appendChild(button)
       return html`${div}`
     } else {
-      //add google timeline with startDate and endDate
-      //create timeline
-      var container = document.createElement('div')
-      container.id = 'timeline'
-      container.style.height = '100px'
-      container.style.width = '100%'
-      container.style.margin = 'auto'
-      container.style.border = '1px solid #ccc'
-      container.style.borderRadius = '5px'
-      container.style.boxShadow = '0 0 5px #ccc'
-      //load google timeline
-      GoogleCharts.load(drawChart(this.ds), { packages: ['timeline'] })
-      function drawChart(ds) {
-        var dataTable = new GoogleCharts.api.visualization.DataTable()
-        dataTable.addColumn({ type: 'string', id: 'Position' })
-        dataTable.addColumn({ type: 'string', id: 'Name' })
-        dataTable.addColumn({ type: 'date', id: 'Start' })
-        dataTable.addColumn({ type: 'date', id: 'End' })
-        //add this.ds to dataTable
-        // Assuming that `this.ds` is a property of the class, you can access it using `this.ds`.
-        ds.forEach((o, i) => {
-          let row = []
-          row.push(i.toString())
-          row.push('Estimare ' + (i + 1))
-          row.push(new Date(o.startDate))
-          row.push(new Date(o.endDate))
-          dataTable.addRow(row)
-        })
-        var options = {
-          timeline: { showRowLabels: false }
-        }
-        var chart = new GoogleCharts.api.visualization.Timeline(container)
-        chart.draw(dataTable, options)
-      }
-
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -284,7 +247,7 @@ export class listaEstimari extends LitElement {
       }
     }
 
-    return html`${table}${container}`
+    return html`${table}`
   }
 }
 function cleanupEstimari() {
