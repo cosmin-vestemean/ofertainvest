@@ -326,5 +326,6 @@ export let context = {
   estimariDisplayMask,
   locateTrInEstimariPool,
   generateTblRowsFromDsEstimariPool,
+  newTree: [],
   setNewTree
 }
