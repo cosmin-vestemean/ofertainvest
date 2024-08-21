@@ -121,8 +121,8 @@ export class listaEstimari extends LitElement {
       container.style.borderRadius = '5px'
       container.style.boxShadow = '0 0 5px #ccc'
       //load google timeline
-      GoogleCharts.load(drawChart, { packages: ['timeline'] })
-      function drawChart() {
+      GoogleCharts.load(drawChart(this.ds), { packages: ['timeline'] })
+      function drawChart(ds) {
         var dataTable = new GoogleCharts.api.visualization.DataTable()
         dataTable.addColumn({ type: 'string', id: 'Position' })
         dataTable.addColumn({ type: 'string', id: 'Name' })
@@ -130,7 +130,7 @@ export class listaEstimari extends LitElement {
         dataTable.addColumn({ type: 'date', id: 'End' })
         //add this.ds to dataTable
         // Assuming that `this.ds` is a property of the class, you can access it using `this.ds`.
-        this.ds.forEach((o, i) => {
+        ds.forEach((o, i) => {
           let row = []
           row.push(i.toString())
           row.push('Estimare ' + (i + 1))
