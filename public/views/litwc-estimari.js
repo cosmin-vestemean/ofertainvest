@@ -414,6 +414,19 @@ export class estimari extends LitElement {
         }
       })
 
+      //find active in ds_estimari and set ds_estimari_pool
+      let active = context.ds_estimari.find((o) => o.active)
+      if (active) {
+        if (Object.keys(context.ds_estimari_pool).length > 0) {
+          active.ds_estimari_pool = { ...context.ds_estimari_pool }
+        }
+        active.ds_estimari_flat = [ ...context.ds_estimari_flat]
+        active.updateDate = new Date()
+      }
+
+      this.salveazaEstimareaInBazaDeDate(active)
+      this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
+
       if (newTree.length > 0) {
         //context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
         context.ds_estimari_flat = generateTblRowsFromDsEstimariPool()
@@ -424,19 +437,6 @@ export class estimari extends LitElement {
 
       console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
       console.log('context.ds_estimari after update', context.ds_estimari)
-
-      //find active in ds_estimari and set ds_estimari_pool
-      let active = context.ds_estimari.find((o) => o.active)
-      if (active) {
-        if (Object.keys(context.ds_estimari_pool).length > 0) {
-          active.ds_estimari_pool = [...context.ds_estimari_pool];
-        }
-        active.ds_estimari_flat = context.ds_estimari_flat
-        active.updateDate = new Date()
-      }
-
-      this.salveazaEstimareaInBazaDeDate(active)
-      this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
     }
     btnSave.appendChild(save_icon)
     //add thrahs icon
