@@ -58,12 +58,14 @@ function addNewEstimare() {
 
   console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
 }
-const listaEstimariDisplayMask = {
+let listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
   active: { label: 'Activ', visible: false, type: 'boolean' },
-  createDate: { label: 'Creare', visible: true, type: 'date' },
-  updateDate: { label: 'Actualizare', visible: true, type: 'date' }
+  createDate: { label: 'Creata la', visible: true, type: 'date' },
+  updateDate: { label: 'Ultima actualizare', visible: true, type: 'date' }
 }
+listaEstimariDisplayMask[_start_date] = { label: 'Start', visible: true, type: 'date' }
+listaEstimariDisplayMask[_end_date] = { label: 'Stop', visible: true, type: 'date' }
 //create and export class listaEstimari
 export class listaEstimari extends LitElement {
   static properties = {
@@ -193,19 +195,10 @@ export class listaEstimari extends LitElement {
         }
         td2.appendChild(trash)
         tr.appendChild(td2)
-        try {
-          //add start estimare column from this.ds[0].ds_estimari_flat.row[0][_start_date]
-          let td3 = document.createElement('td')
-          td3.innerHTML = this.ds[i].ds_estimari_flat[0][_start_date] || 'n/a'
-          tr.appendChild(td3)
-          //add end estimare column from this.ds[0].ds_estimari_flat.row[0][_end_date]
-          let td4 = document.createElement('td')
-          td4.innerHTML = this.ds[i].ds_estimari_flat[0][_end_date] || 'n/a'
-          tr.appendChild(td4)
-        } catch (e) {
-          console.log(e)
-        }
         for (let key in this.ds[i]) {
+          //add start stop in ds
+          ds[i][_start_date] = this.ds[i].ds_estimari_flat[0][_start_date] || 'n/a'
+          ds[i][_end_date] = this.ds[i].ds_estimari_flat[0][_end_date] || 'n/a'
           //check with listaEstimariDisplayMask
           if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
             continue
