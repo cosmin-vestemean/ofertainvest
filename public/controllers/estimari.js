@@ -1,9 +1,11 @@
 import {
   _cantitate_estimari,
+  _cantitate_estimari_anterioare,
   _cantitate_antemasuratori,
   _start_date,
   _end_date,
-  _nivel_oferta
+  _nivel_oferta,
+  _cantitate_oferta
 } from '../client.js'
 
 export let context = {
@@ -55,34 +57,41 @@ export let estimariDisplayMask = {
   NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string' },
   NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string' },
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string' },
-  CANTITATE_ARTICOL_OFERTA: {
-    value: 'CANTITATE_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'Cantitate<br>oferta',
-    type: 'number'
-  },
-  CANTITATE_ARTICOL_ANTEMASURATORI: {
-    value: 'CANTITATE_ARTICOL_ANTEMASURATORI',
-    RW: false,
-    visible: true,
-    label: 'Cantitate<br>antemasuratori',
-    type: 'number'
-  },
-  TOTAL_CANTITATE_ARTICOL_ESTIMARE_ANTERIOR: {
-    value: 'TOTAL_CANTITATE_ARTICOL_ESTIMARE_ANTERIOR',
-    RW: false,
-    visible: true,
-    label: 'Total<br>estimare<br>anterioara',
-    type: 'number'
-  },
-  CANTITATE_ARTICOL_ESTIMARI: {
-    value: 'CANTITATE_ARTICOL_ESTIMARI',
-    RW: true,
-    visible: true,
-    label: 'Cantitate<br>estimari',
-    type: 'number'
-  }
+}
+
+//ADD ARTICOL OFERTA
+estimariDisplayMask[_cantitate_oferta] = {
+  value: _cantitate_oferta,
+  RW: false,
+  visible: true,
+  label: 'Cantitate<br>oferta',
+  type: 'number'
+}
+
+//ADD ARTICOL ANTEMASURATORI
+estimariDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: false,
+  visible: true,
+  label: 'Cantitate<br>antemasuratori',
+  type: 'number'
+}
+
+//ADD TOTAL CANTITATE ARTICOL ESTIMARE ANTERIOR
+estimariDisplayMask[_cantitate_estimari_anterioare] = {
+  value: _cantitate_estimari_anterioare,
+  RW: false,
+  visible: true,
+  label: 'Total<br>estimare<br>anterioara',
+  type: 'number'
+}
+
+estimariDisplayMask[_cantitate_estimari] = {
+  value: _cantitate_estimari,
+  RW: true,
+  visible: true,
+  label: 'Cantitate<br>estimari',
+  type: 'number'
 }
 
 function setDsEstimari(obj) {
@@ -111,7 +120,7 @@ function getDsEstimariFlat() {
 
 function createNewEstimariPool(newTree) {
   context.ds_estimari_pool = transformNewTreeIntoEstimariPoolDS(newTree)
-  console.log('ds_estimari_pool', context.ds_estimari_pool)
+  console.log('new ds_estimari_pool', context.ds_estimari_pool)
 }
 
 function createNewEstimariFlat() {
@@ -288,6 +297,7 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
   }
   o[_cantitate_antemasuratori] = a.qty
   o[_cantitate_estimari] = 0
+  o[_cantitate_estimari_anterioare] = 0
   o[_start_date] = ''
   o[_end_date] = ''
   o.ROW_SELECTED = true
