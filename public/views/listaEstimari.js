@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 //import google timelines module, namely lodaer.js
-import { GoogleCharts } from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/dist/googleCharts.min.js'
+import { googleCharts } from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/dist/googleCharts.min.js'
 import {
   addOnChangeEvt,
   delimiter,
@@ -121,10 +121,10 @@ export class listaEstimari extends LitElement {
       container.style.borderRadius = '5px'
       container.style.boxShadow = '0 0 5px #ccc'
       //load google timeline
-      GoogleCharts.load('current', { packages: ['timeline'] })
-      GoogleCharts.setOnLoadCallback(drawChart)
+      googleCharts.load('current', { packages: ['timeline'] })
+      googleCharts.setOnLoadCallback(drawChart)
       function drawChart() {
-        var dataTable = new GoogleCharts.api.visualization.DataTable()
+        var dataTable = new googleCharts.api.visualization.DataTable()
         dataTable.addColumn({ type: 'string', id: 'Position' })
         dataTable.addColumn({ type: 'string', id: 'Name' })
         dataTable.addColumn({ type: 'date', id: 'Start' })
@@ -141,7 +141,7 @@ export class listaEstimari extends LitElement {
         var options = {
           timeline: { showRowLabels: false }
         }
-        var chart = new GoogleCharts.visualization.Timeline(container)
+        var chart = new googleCharts.visualization.Timeline(container)
         chart.draw(dataTable, options)
       }
 
