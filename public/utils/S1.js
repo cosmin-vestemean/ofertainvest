@@ -286,12 +286,12 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
           console.log('estimare', estimare)
           let estimareObj = {
             ds_estimari_flat: JSON.parse(estimare.DSESTIMARIFLAT),
-            createDate: estimare.CREATEDATE,
-            updateDate: estimare.UPDATEDATE,
-            startDate: estimare.STARTDATE,
-            endDate: estimare.ENDDATE,
             id: estimare.ID,
             active: estimare.ACTIVE,
+            startDate: estimare.STARTDATE,
+            endDate: estimare.ENDDATE,
+            createDate: estimare.CREATEDATE,
+            updateDate: estimare.UPDATEDATE,
             CCCESTIMARIH: estimare.CCCESTIMARIH
           }
           dsEstimari.push(estimareObj)

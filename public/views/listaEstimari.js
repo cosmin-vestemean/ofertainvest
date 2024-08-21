@@ -60,7 +60,7 @@ function addNewEstimare() {
 }
 let listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
-  active: { label: 'Activ', visible: false, type: 'boolean' },
+  active: { label: 'Activ', visible: true, type: 'boolean' },
   startDate: { label: 'Start', visible: true, type: 'date' },
   endDate: { label: 'Stop', visible: true, type: 'date' },
   createDate: { label: 'Creata la', visible: true, type: 'date' },
@@ -155,16 +155,6 @@ export class listaEstimari extends LitElement {
         th.innerHTML = label ? label : key
         tr.appendChild(th)
       }
-
-      //add start and stop
-      var th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'Start'
-      tr.appendChild(th)
-      var th = document.createElement('th')
-      th.scope = 'col'
-      th.innerHTML = 'Stop'
-      tr.appendChild(th)
 
       //add tbody
       for (let i = 0; i < this.ds.length; i++) {
