@@ -18,7 +18,7 @@ function setValueOfDsEstimariPool(instanta, ramura, activitate, key, value) {
 }
 
 function getValOfDsEstimariPoolByKey(instanta, ramura, activitate, key) {
-  return context.ds_estimari_pool[instanta][ramura][activitate][key]
+  return context.ds_estimari_pool[instanta][ramura][activitate][key] || 0
 }
 
 function setValuesOfDsEstimariFlatByKey(index, key, value) {
