@@ -21,7 +21,7 @@ function setValuesOfDsEstimariFlatByKey(index, key, value) {
   context.ds_estimari_flat[index][key] = value
 }
 
-let estimariDisplayMask = {
+var estimariDisplayMask = {
   WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string' },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -44,7 +44,7 @@ let estimariDisplayMask = {
 }
 
 function addParametricDisplayMask(key, value) {
-  context.estimariDisplayMask[key] = value
+  estimariDisplayMask[key] = value
 }
 
 addParametricDisplayMask(_cantitate_oferta, {
