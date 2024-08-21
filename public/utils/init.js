@@ -29,7 +29,7 @@ import {
 } from '../client.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
-import { populateSelects, getOferta, saveAntemasuratoriToDB, getEstimariFromDB } from '../utils/S1.js'
+import { populateSelects, getOferta, saveAntemasuratoriAndTreeToDB, getEstimariFromDB } from '../utils/S1.js'
 import { tables } from '../utils/tables.js'
 import { ds_antemasuratori, calculateAntemasAndNewTree,  setDsAntemasuratori, showAntemasuratori, newTree } from '../controllers/antemasuratori.js'
 
@@ -363,7 +363,7 @@ export function init() {
       context.createNewEstimariPool(newTree)
       console.log('context.getDsEstimariPool', context.getDsEstimariPool())
       //presupun ca daca regeneram estimarile, o facem cu un motiv, si acela ar fi ca am redimensionat antemasuratorile fie cu ramuri fie cu valori
-      let result = saveAntemasuratoriToDB()
+      let result = saveAntemasuratoriAndTreeToDB()
       console.log('result', result)
     }
     btn_estimari.click()

@@ -1,5 +1,5 @@
 import { client, contextOferta, ds_instanteRetete, recipes_ds, trees } from '../client.js'
-import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { ds_antemasuratori, newTree } from '../controllers/antemasuratori.js'
 
 async function connectToS1Service() {
   if (!client) {
@@ -216,13 +216,13 @@ export async function getOferta(filename) {
   })
 }
 
-export async function saveAntemasuratoriToDB() {
+export async function saveAntemasuratoriAndTreeToDB() {
   return new Promise(async (resolve, reject) => {
     try {
       // UPDATE CCCOFERTEWEB:JSONANTESTR with ds_antemasuratori using runSQLTransaction
       let sqlList = []
       sqlList.push(
-        `UPDATE CCCOFERTEWEB SET JSONANTESTR='${JSON.stringify(ds_antemasuratori)}' WHERE FILENAME='${contextOferta.FILENAME}'`
+        `UPDATE CCCOFERTEWEB SET JSONANTESTR='${JSON.stringify(ds_antemasuratori)}', JSONTREESTR = '${JSON.stringify(newTree)}' WHERE FILENAME='${contextOferta.FILENAME}'`
       )
       let objSqlList = { sqlList: sqlList }
       let result = await runSQLTransaction(objSqlList)

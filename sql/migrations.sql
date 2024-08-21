@@ -12,6 +12,7 @@ create table CCCOFERTEWEB
 	JSONRETETESTR VARCHAR(MAX),
 	JSONTREESSTR VARCHAR(MAX),
 	JSONESTIMPOOLSTR VARCHAR(MAX),
+	JSONTREESTR VARCHAR(MAX),
 )
 
 --create global table for all errors in the system

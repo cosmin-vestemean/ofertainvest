@@ -10,7 +10,7 @@ import {
 } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
-import { saveAntemasuratoriToDB } from '../utils/S1.js'
+import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 
 function addNewEstimare() {
@@ -18,7 +18,7 @@ function addNewEstimare() {
 
   //la prima estimare pot presupune ca ai inceput sa creezi estimari fiindca ai antemasuratorile dimensionate, deci le salvez in baza de date
   if (context.ds_estimari.length == 0) {
-    let result = saveAntemasuratoriToDB()
+    let result = saveAntemasuratoriAndTreeToDB()
     console.log('result', result)
   }
 
