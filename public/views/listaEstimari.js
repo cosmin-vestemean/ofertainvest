@@ -129,7 +129,7 @@ export class listaEstimari extends LitElement {
         dataTable.addColumn({ type: 'date', id: 'Start' })
         dataTable.addColumn({ type: 'date', id: 'End' })
         //add this.ds to dataTable
-        for (let i = 0; i < context.ds.length; i++) {
+        for (let i = 0; i < this.ds.length; i++) {
           let row = []
           row.push(i.toString())
           row.push('Estimare ' + (i + 1))
@@ -140,7 +140,7 @@ export class listaEstimari extends LitElement {
         var options = {
           timeline: { showRowLabels: false }
         }
-        var chart = new GoogleCharts.visualization.Timeline(container)
+        var chart = new GoogleCharts.api.visualization.Timeline(container)
         chart.draw(dataTable, options)
       }
 
