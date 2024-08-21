@@ -60,11 +60,11 @@ function addNewEstimare() {
 }
 let listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
-  active: { label: 'Activ', visible: true, type: 'boolean' },
   startDate: { label: 'Start', visible: true, type: 'date' },
   endDate: { label: 'Stop', visible: true, type: 'date' },
   createDate: { label: 'Creata la', visible: true, type: 'date' },
-  updateDate: { label: 'Ultima actualizare', visible: true, type: 'date' }
+  updateDate: { label: 'Ultima actualizare', visible: true, type: 'date' },
+  active: { label: 'Activ', visible: true, type: 'boolean' }
 }
 
 //create and export class listaEstimari
