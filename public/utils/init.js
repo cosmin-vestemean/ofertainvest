@@ -165,7 +165,7 @@ export function init() {
           }
           //newTree <=>  JSONTREESTR
           if (firstLine.JSONTREESTR) {
-            context. = JSON.parse(firstLine.JSONTREESTR)
+            context.setNewTree(JSON.parse(firstLine.JSONTREESTR))
             console.log('newTree', newTree)
           }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
