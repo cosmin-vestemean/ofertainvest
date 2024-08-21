@@ -19,7 +19,7 @@ import {
   estimariDisplayMask,
   context,
   generateTblRowsFromDsEstimariPool,
-  locateTrInEstimariPool,
+  locateTrInEstimariPool
 } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
@@ -370,25 +370,45 @@ export class estimari extends LitElement {
               newTreeAntemasBranch.estimari.push(estimare)
               //add estimare to context.ds_estimari_pool
               if (context.ds_estimari_pool.length > 0) {
-                context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
-                  newTreeAntemasBranch.estimari.length - 1
+                /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
+                  newTreeAntemasBranch.estimari.length - 1 */
+                context.setValueOfDsEstimariPool(refInstanta, antemasuratoriBranch, refActivitate, 'estimareIndex', newTreeAntemasBranch.estimari.length - 1)
               }
             }
 
             //add cantitate_estimari to ds_estimari_pool row_data
             if (context.ds_estimari_pool.length > 0) {
-              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
-                _cantitate_estimari
-              ] = estimare.qty
+              //context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_cantitate_estimari] = estimare.qty
+              context.setValueOfDsEstimariPoolByKey(
+                refInstanta,
+                antemasuratoriBranch,
+                refActivitate,
+                _cantitate_estimari,
+                estimare.qty
+              )
 
               //add start_date to ds_estimari_pool row_data
-              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
+              /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[
                 _start_date
-              ] = object[_start_date]
+              ] = object[_start_date] */
+              context.setValueOfDsEstimariPoolByKey(
+                refInstanta,
+                antemasuratoriBranch,
+                refActivitate,
+                _start_date,
+                object[_start_date]
+              )
 
               //add end_date to ds_estimari_pool row_data
-              context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
+              /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].row_data[_end_date] =
+                object[_end_date] */
+              context.setValueOfDsEstimariPoolByKey(
+                refInstanta,
+                antemasuratoriBranch,
+                refActivitate,
+                _end_date,
                 object[_end_date]
+              )
             }
           }
         }
@@ -701,14 +721,14 @@ export class estimari extends LitElement {
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
-          context.setValueOfDsEstimariPool(instanta, ramura, activitateIndex, key, input1.value)
+        context.setValueOfDsEstimariPoolByKey(instanta, ramura, activitateIndex, key, input1.value)
         //get data-index-of-flat from tr
         let indexOfFlat = inputs[i].parentElement.parentElement.getAttribute('data-index-of-flat')
         //change context.ds_estimari_flat
         let aDate = key === _start_date ? _start_date : _end_date
         if (indexOfFlat) {
           //context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
-          context.setValuesOfDsEstimariFlat(indexOfFlat, aDate, input1.value)
+          context.setValuesOfDsEstimariFlatByKey(indexOfFlat, aDate, input1.value)
         } else {
           console.log('indexOfFlat is undefined')
         }
@@ -832,7 +852,8 @@ export class estimari extends LitElement {
       let instanta = position.instanta
       let ramura = position.ramura
       let activitateIndex = position.activitateIndex
-      context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
+      //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = input1.value
+      context.setValueOfDsEstimariPoolByKey(instanta, ramura, activitateIndex, key, input1.value)
     })
   }
 
@@ -868,7 +889,14 @@ export class estimari extends LitElement {
       let instanta = position.instanta
       let ramura = position.ramura
       let activitateIndex = position.activitateIndex
-      context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked
+      //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked
+      context.setValueOfDsEstimariPoolByKey(
+        instanta,
+        ramura,
+        activitateIndex,
+        'ROW_SELECTED',
+        checkbox.checked
+      )
     }
   }
 
@@ -949,13 +977,15 @@ export class estimari extends LitElement {
             val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null
             end
         }
-        context.ds_estimari_flat[index][key] = val
+        //context.ds_estimari_flat[index][key] = val
+        context.setValuesOfDsEstimariFlatByKey(index, key, val)
         let position = locateTrInEstimariPool(e.target)
         let instanta = position.instanta
         let ramura = position.ramura
         let activitateIndex = position.activitateIndex
         if (context.ds_estimari_pool.length > 0) {
-          context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
+          //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
+          context.setValueOfDsEstimariPoolByKey(instanta, ramura, activitateIndex, key, val)
         }
       }
     }
@@ -972,7 +1002,7 @@ export class estimari extends LitElement {
       UPDATEDATE: moment(estimare.updateDate).format('YYYY-MM-DD'),
       DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat),
       CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
-      CCCESTIMARIH: estimare.CCCESTIMARIH,
+      CCCESTIMARIH: estimare.CCCESTIMARIH
     }
 
     const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)

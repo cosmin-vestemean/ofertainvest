@@ -18,15 +18,20 @@ export let context = {
   getDsEstimariPool,
   setDsEstimariFlat,
   getDsEstimariFlat,
-  setValueOfDsEstimariPool,
-  setValuesOfDsEstimariFlat,
+  setValueOfDsEstimariPoolByKey,
+  setValuesOfDsEstimariFlatByKey,
+  setValueOfDsEstimariPool
 }
 
-export function setValueOfDsEstimariPool(instanta, ramura, activitate, key, value) {
+export function setValueOfDsEstimariPoolByKey(instanta, ramura, activitate, key, value) {
   context.ds_estimari_pool[instanta][ramura][activitate].row_data[key] = value
 }
 
-export function setValuesOfDsEstimariFlat(index, key, value) {
+export function setValueOfDsEstimariPool(instanta, ramura, activitate, key, value) {
+  context.ds_estimari_pool[instanta][ramura][activitate][key] = value
+}
+
+export function setValuesOfDsEstimariFlatByKey(index, key, value) {
   context.ds_estimari_flat[index][key] = value
 }
 
