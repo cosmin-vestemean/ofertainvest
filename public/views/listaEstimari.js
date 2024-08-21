@@ -61,11 +61,11 @@ function addNewEstimare() {
 let listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
   active: { label: 'Activ', visible: false, type: 'boolean' },
+  startDate: { label: 'Start', visible: true, type: 'date' },
+  endDate: { label: 'Stop', visible: true, type: 'date' },
   createDate: { label: 'Creata la', visible: true, type: 'date' },
   updateDate: { label: 'Ultima actualizare', visible: true, type: 'date' }
 }
-listaEstimariDisplayMask[_start_date] = { label: 'Start', visible: true, type: 'date' }
-listaEstimariDisplayMask[_end_date] = { label: 'Stop', visible: true, type: 'date' }
 
 //create and export class listaEstimari
 export class listaEstimari extends LitElement {
@@ -168,9 +168,6 @@ export class listaEstimari extends LitElement {
 
       //add tbody
       for (let i = 0; i < this.ds.length; i++) {
-        //add start stop in ds
-        this.ds[i][_start_date] = this.ds[i].ds_estimari_flat[0][_start_date] || 'n/a'
-        this.ds[i][_end_date] = this.ds[i].ds_estimari_flat[0][_end_date] || 'n/a'
         //create tr
         let tr = document.createElement('tr')
         tbody.appendChild(tr)
