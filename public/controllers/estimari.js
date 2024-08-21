@@ -44,7 +44,7 @@ let estimariDisplayMask = {
 }
 
 function addParametricDisplayMask(key, value) {
-  estimariDisplayMask[key] = value
+  context.estimariDisplayMask[key] = value
 }
 
 addParametricDisplayMask(_cantitate_oferta, {
