@@ -441,6 +441,8 @@ export class estimari extends LitElement {
 
       console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
       console.log('context.ds_estimari after update', context.ds_estimari)
+      console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
+      console.log('newTree after update with estimari', newTree)
     }
     btnSave.appendChild(save_icon)
     //add thrahs icon
