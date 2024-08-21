@@ -43,40 +43,41 @@ let estimariDisplayMask = {
   UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string' },
 }
 
-//ADD ARTICOL OFERTA
-estimariDisplayMask[_cantitate_oferta] = {
+function addParametricDisplayMask(key, value) {
+  estimariDisplayMask[key] = value
+}
+
+addParametricDisplayMask(_cantitate_oferta, {
   value: _cantitate_oferta,
   RW: false,
   visible: true,
   label: 'Cantitate<br>oferta',
   type: 'number'
-}
+})
 
-//ADD ARTICOL ANTEMASURATORI
-estimariDisplayMask[_cantitate_antemasuratori] = {
+addParametricDisplayMask(_cantitate_antemasuratori, {
   value: _cantitate_antemasuratori,
   RW: false,
   visible: true,
   label: 'Cantitate<br>antemasuratori',
   type: 'number'
-}
+})
 
-//ADD TOTAL CANTITATE ARTICOL ESTIMARE ANTERIOR
-estimariDisplayMask[_cantitate_estimari_anterioare] = {
+addParametricDisplayMask(_cantitate_estimari_anterioare, {
   value: _cantitate_estimari_anterioare,
   RW: false,
   visible: true,
   label: 'Total<br>estimare<br>anterioara',
   type: 'number'
-}
+})
 
-estimariDisplayMask[_cantitate_estimari] = {
+addParametricDisplayMask(_cantitate_estimari, {
   value: _cantitate_estimari,
   RW: true,
   visible: true,
   label: 'Cantitate<br>estimari',
   type: 'number'
-}
+})
 
 function setDsEstimari(obj) {
   context.ds_estimari = obj
