@@ -193,6 +193,18 @@ export class listaEstimari extends LitElement {
         }
         td2.appendChild(trash)
         tr.appendChild(td2)
+        try {
+          //add start estimare column from this.ds[0].ds_estimari_flat.row[0][_start_date]
+          let td3 = document.createElement('td')
+          td3.innerHTML = this.ds[i].ds_estimari_flat[0][_start_date] || 'n/a'
+          tr.appendChild(td3)
+          //add end estimare column from this.ds[0].ds_estimari_flat.row[0][_end_date]
+          let td4 = document.createElement('td')
+          td4.innerHTML = this.ds[i].ds_estimari_flat[0][_end_date] || 'n/a'
+          tr.appendChild(td4)
+        } catch (e) {
+          console.log(e)
+        }
         for (let key in this.ds[i]) {
           //check with listaEstimariDisplayMask
           if (!Object.keys(listaEstimariDisplayMask).includes(key)) {
@@ -248,18 +260,6 @@ export class listaEstimari extends LitElement {
           } else {
             console.log('id not found')
           }
-        }
-        try {
-          //add start estimare column from this.ds[0].ds_estimari_flat.row[0][_start_date]
-          let td3 = document.createElement('td')
-          td3.innerHTML = this.ds[i].ds_estimari_flat[0][_start_date]
-          tr.appendChild(td3)
-          //add end estimare column from this.ds[0].ds_estimari_flat.row[0][_end_date]
-          let td4 = document.createElement('td')
-          td4.innerHTML = this.ds[i].ds_estimari_flat[0][_end_date]
-          tr.appendChild(td4)
-        } catch (e) {
-          console.log(e)
         }
         tbody.appendChild(tr)
       }
