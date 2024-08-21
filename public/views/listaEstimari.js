@@ -122,31 +122,26 @@ export class listaEstimari extends LitElement {
       container.style.boxShadow = '0 0 5px #ccc'
       //load google timeline
       GoogleCharts.load('current', { packages: ['timeline'] })
-      //drawChart function
+      GoogleCharts.setOnLoadCallback(drawChart)
       function drawChart() {
-        var container = document.getElementById('timeline')
-        var chart = new google.visualization.Timeline(container)
-        var dataTable = new google.visualization.DataTable()
-        //add this.ds to dataTable
+        var dataTable = new GoogleCharts.api.visualization.DataTable()
         dataTable.addColumn({ type: 'string', id: 'Position' })
         dataTable.addColumn({ type: 'string', id: 'Name' })
         dataTable.addColumn({ type: 'date', id: 'Start' })
         dataTable.addColumn({ type: 'date', id: 'End' })
-        let rows = []
-        for (let i = 0; i < context.ds_estimari.length; i++) {
-          let o = context.ds_estimari[i]
-          rows.push([
-            'Estimare',
-            'Estimare ' + (i + 1),
-            new Date(o.startDate),
-            new Date(o.endDate)
-          ])
+        //add this.ds to dataTable
+        for (let i = 0; i < context.ds.length; i++) {
+          let row = []
+          row.push(i.toString())
+          row.push('Estimare ' + (i + 1))
+          row.push(new Date(context.ds[i].startDate))
+          row.push(new Date(context.ds[i].endDate))
+          dataTable.addRow(row)
         }
-        dataTable.addRows(rows)
         var options = {
-          timeline: { showRowLabels: false },
-          avoidOverlappingGridLines: false
+          timeline: { showRowLabels: false }
         }
+        var chart = new GoogleCharts.visualization.Timeline(container)
         chart.draw(dataTable, options)
       }
 
