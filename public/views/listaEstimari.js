@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 //import google timelines module, namely lodaer.js
-import { google } from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/dist/googleCharts.min.js'
+import { GoogleCharts } from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/dist/googleCharts.min.js'
 import {
   addOnChangeEvt,
   delimiter,
@@ -121,8 +121,8 @@ export class listaEstimari extends LitElement {
       container.style.borderRadius = '5px'
       container.style.boxShadow = '0 0 5px #ccc'
       //load google timeline
-      google.charts.load('current', { packages: ['timeline'] })
-      google.charts.setOnLoadCallback(drawChart)
+      GoogleCharts.load('current', { packages: ['timeline'] })
+      //drawChart function
       function drawChart() {
         var container = document.getElementById('timeline')
         var chart = new google.visualization.Timeline(container)
