@@ -1059,7 +1059,7 @@ export class estimari extends LitElement {
   async salveazaStartingPoolInBazaDeDate(ds_estimari_pool) {
     //update CCCOFERTEWEB with ds_estimari_pool, column JSONESTIMPOOLSTR
     let JSONESTIMPOOLSTR = JSON.stringify(ds_estimari_pool)
-    let updateQuery = `UPDATE CCCOFERTEWEB SET JSONESTIMPOOLSTR = '${JSONESTIMPOOLSTR}' WHERE ID = ${contextOferta.CCCOFERTEWEB};`
+    let updateQuery = `UPDATE CCCOFERTEWEB SET JSONESTIMPOOLSTR = '${JSONESTIMPOOLSTR}' WHERE CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB};`
     let objSqlList = {
       sqlList: [updateQuery]
     }
