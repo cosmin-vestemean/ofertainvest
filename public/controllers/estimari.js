@@ -1,12 +1,12 @@
 import {
-  _cantitate_estimari,
-  _cantitate_estimari_anterioare,
-  _cantitate_antemasuratori,
   _start_date,
   _end_date,
-  _nivel_oferta,
-  _cantitate_oferta
-} from '../client.js'
+  _nivel_oferta} from '../client.js'
+import {
+  _cantitate_estimari,
+  _cantitate_estimari_anterioare,
+  _cantitate_antemasuratori, _cantitate_oferta
+} from '../utils/_cantitate_oferta.js'
 
 
 function setValueOfDsEstimariPoolByKey(instanta, ramura, activitate, key, value) {

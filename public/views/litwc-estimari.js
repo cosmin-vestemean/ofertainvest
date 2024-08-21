@@ -3,8 +3,6 @@ import {
   template,
   _start_date,
   _end_date,
-  _cantitate_estimari,
-  _cantitate_antemasuratori,
   theadIsSet,
   addOnChangeEvt,
   ierarhii,
@@ -14,6 +12,10 @@ import {
   _nivel_oferta,
   contextOferta
 } from '../client.js'
+import {
+  _cantitate_estimari,
+  _cantitate_antemasuratori
+} from '../utils/_cantitate_oferta.js'
 import { tables } from '../utils/tables.js'
 import {
   context

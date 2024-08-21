@@ -7,13 +7,14 @@ import {
   trees,
   ds_instanteRetete,
   recipes_ds,
-  _cantitate_antemasuratori,
   _nivel_oferta,
   niveluri,
-  _cantitate_oferta,
-  _cantitate_estimari,
   _start_date
 } from '../client.js'
+import {
+  _cantitate_antemasuratori, _cantitate_oferta,
+  _cantitate_estimari
+} from '../utils/_cantitate_oferta.js'
 
 export var ds_antemasuratori = []
 export const setDsAntemasuratori = (value) => {

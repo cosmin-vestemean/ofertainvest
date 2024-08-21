@@ -24,9 +24,8 @@ import {
   trees,
   setRecipesDs,
   setDsInstanteRetete,
-  setTrees,
-  _cantitate_oferta
-} from '../client.js'
+  setTrees} from '../client.js'
+import { _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
 import { populateSelects, getOferta, saveAntemasuratoriAndTreeToDB, getEstimariFromDB } from '../utils/S1.js'
