@@ -5,7 +5,6 @@ import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
-import {GoogleCharts} from '../../node_modules/google-charts/dist/google-charts.js'
 
 function addNewEstimare() {
   cleanupEstimari()
