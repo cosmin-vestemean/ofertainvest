@@ -114,6 +114,9 @@ export class listaEstimari extends LitElement {
       div.appendChild(button)
       return html`${div}`
     } else {
+      // Create a div for the chart
+      var chartDiv = document.createElement('div');
+      chartDiv.id = 'chart_div';
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -283,10 +286,6 @@ export class listaEstimari extends LitElement {
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
-      
-      // Create a div for the chart
-      const chartDiv = document.createElement('div');
-      chartDiv.id = 'chart_div';
     }
 
     return html`${table}${chartDiv}`
