@@ -5,6 +5,8 @@ import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
+//import google charts, see here: https://www.jsdelivr.com/package/npm/google-charts, esm version
+import googleCharts from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/+esm'
 
 function addNewEstimare() {
   cleanupEstimari()
@@ -252,9 +254,37 @@ export class listaEstimari extends LitElement {
         }
         tbody.appendChild(tr)
       }
+
+      //add google charts
+      var div = document.createElement('div')
+      div.id = 'chart_div'
+      div.style.width = '100%'
+      div.style.height = '500px'
+      //add google chart
+      googleCharts.load('current', { packages: ['corechart'] })
+      googleCharts.setOnLoadCallback(drawChart)
+      function drawChart() {
+        var data = new google.visualization.DataTable()
+        data.addColumn('string', 'Topping')
+        data.addColumn('number', 'Slices')
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ])
+        var options = {
+          title: 'How Much Pizza I Ate Last Night',
+          width: '100%',
+          height: 500
+        }
+        var chart = new google.visualization.PieChart(div)
+        chart.draw(data, options)
+      }
     }
 
-    return html`${table}`
+    return html`${table}${div}`
   }
 }
 function cleanupEstimari() {
