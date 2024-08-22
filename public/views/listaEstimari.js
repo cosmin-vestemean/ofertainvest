@@ -5,7 +5,6 @@ import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
-import { GoogleCharts } from 'google-charts.js'
 
 function addNewEstimare() {
   cleanupEstimari()
@@ -41,13 +40,13 @@ function addNewEstimare() {
   for (let instanta of Object.values(context.getDsEstimariPool())) {
     for (let ramura of Object.values(instanta)) {
       for (let activitate of Object.values(ramura)) {
-        activitate.row_data[_start_date] = ''
-        activitate.row_data[_end_date] = ''
-        activitate.row_data[_cantitate_estimari] = 0
+        activitate.row_data[_start_date] = '';
+        activitate.row_data[_end_date] = '';
+        activitate.row_data[_cantitate_estimari] = 0;
       }
     }
   }
-
+    
   context.createNewEstimariFlat()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
@@ -254,28 +253,43 @@ export class listaEstimari extends LitElement {
         tbody.appendChild(tr)
       }
       //add this.ds to google charts timeline (startDate, endDate, id)
-
-      //chart1
-      let div = document.createElement('div')
-      div.id = 'chart1'
-      div.style.width = '100%'
-      div.style.height = '500px'
-      //add google charts
-      GoogleCharts.load(drawChart)
+      // Load the Google Charts library
+      google.charts.load('current', { packages: ['corechart'] });
+      
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+      
       function drawChart() {
-        // Standard google charts functionality is available as GoogleCharts.api after load
-        const data = GoogleCharts.api.visualization.arrayToDataTable([
-          ['Chart thing', 'Chart amount'],
-          ['Lorem ipsum', 60],
-          ['Dolor sit', 22],
-          ['Sit amet', 18]
-        ])
-        const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('chart1'))
-        pie_1_chart.draw(data)
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+      
+        // Set chart options
+        var options = {
+          title: 'How Much Pizza I Ate Last Night',
+          width: 400,
+          height: 300
+        };
+      
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
       }
+      
+      // Create a div for the chart
+      const chartDiv = document.createElement('div');
+      chartDiv.id = 'chart_div';
     }
 
-    return html`${table}${div}`
+    return html`${table}${chartDiv}`
   }
 }
 function cleanupEstimari() {

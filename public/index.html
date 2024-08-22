@@ -25,11 +25,15 @@
     />
     <script src="https://unpkg.com/@feathersjs/client@^5.0.0/dist/feathers.js"></script>
     <script src="https://unpkg.com/socket.io-client@^4.0.0/dist/socket.io.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.js"></script>
     <script type="module" src="client.js"></script>
     <!--<link rel="stylesheet" href="client.css" />-->
     <link rel="stylesheet" href="./css/cerulean.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
       .cy {
         height: 100%;
@@ -349,21 +353,28 @@
           </div>
         </div>
         <div class="row">
-          <select class="form-select form-select-sm" id="ierarhii" aria-label="Ierarhii" data-clearable="true" data-searchable="true" multiple></select>
+          <select
+            class="form-select form-select-sm"
+            id="ierarhii"
+            aria-label="Ierarhii"
+            data-clearable="true"
+            data-searchable="true"
+            multiple
+          ></select>
         </div>
       </div>
       <div class="row overflow-auto">
         <my-table id="my_table_oferta_initiala"></my-table>
         <div class="col-2">
-          <my-table id="my_table_recipes" style="display: none;"></my-table>
+          <my-table id="my_table_recipes" style="display: none"></my-table>
         </div>
         <div class="col-10">
-          <my-recipe id="my_table_detalii_reteta" style="display: none;"></my-recipe>
+          <my-recipe id="my_table_detalii_reteta" style="display: none"></my-recipe>
         </div>
-        <my-antemasuratori id="my_table_antemasuratori" style="display: none;"></my-antemasuratori>
-        <my-estimari id="my_table_estimari" style="display: none;"></my-estimari>
-        <div id="timeline" style="display: none;"></div>
-        <my-lista-estimari id="my_table_lista_estimari" style="display: none;"></my-lista-estimari>
+        <my-antemasuratori id="my_table_antemasuratori" style="display: none"></my-antemasuratori>
+        <my-estimari id="my_table_estimari" style="display: none"></my-estimari>
+        <div id="timeline" style="display: none"></div>
+        <my-lista-estimari id="my_table_lista_estimari" style="display: none"></my-lista-estimari>
       </div>
       <!-- Modal generic -->
       <div
