@@ -260,7 +260,7 @@ export class listaEstimari extends LitElement {
       google.charts.load('current', { packages: ['timeline'] })
       google.charts.setOnLoadCallback(drawChart)
       function drawChart() {
-        var container = document.getElementById('chart_div')
+        var container = this.shadowRoot.getElementById('chart_div')
         var chart = new google.visualization.Timeline(container)
         var dataTable = new google.visualization.DataTable()
         dataTable.addColumn({ type: 'string', id: 'Role' })
