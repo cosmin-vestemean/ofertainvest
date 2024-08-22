@@ -5,8 +5,7 @@ import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
-//import google charts, see here: https://www.jsdelivr.com/package/npm/google-charts, esm version
-import googleCharts from 'https://cdn.jsdelivr.net/npm/google-charts@2.0.0/+esm'
+import { GoogleCharts } from '../../node_modules/google-charts/dist/google-charts.js'
 
 function addNewEstimare() {
   cleanupEstimari()
@@ -42,13 +41,13 @@ function addNewEstimare() {
   for (let instanta of Object.values(context.getDsEstimariPool())) {
     for (let ramura of Object.values(instanta)) {
       for (let activitate of Object.values(ramura)) {
-        activitate.row_data[_start_date] = '';
-        activitate.row_data[_end_date] = '';
-        activitate.row_data[_cantitate_estimari] = 0;
+        activitate.row_data[_start_date] = ''
+        activitate.row_data[_end_date] = ''
+        activitate.row_data[_cantitate_estimari] = 0
       }
     }
   }
-    
+
   context.createNewEstimariFlat()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
@@ -254,33 +253,25 @@ export class listaEstimari extends LitElement {
         }
         tbody.appendChild(tr)
       }
+      //add this.ds to google charts timeline (startDate, endDate, id)
 
-      //add google charts
-      var div = document.createElement('div')
-      div.id = 'chart_div'
+      //chart1
+      let div = document.createElement('div')
+      div.id = 'chart1'
       div.style.width = '100%'
       div.style.height = '500px'
-      //add google chart
-      googleCharts.load('current', { packages: ['corechart'] })
-      googleCharts.setOnLoadCallback(drawChart)
+      //add google charts
+      GoogleCharts.load(drawChart)
       function drawChart() {
-        var data = new google.visualization.DataTable()
-        data.addColumn('string', 'Topping')
-        data.addColumn('number', 'Slices')
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
+        // Standard google charts functionality is available as GoogleCharts.api after load
+        const data = GoogleCharts.api.visualization.arrayToDataTable([
+          ['Chart thing', 'Chart amount'],
+          ['Lorem ipsum', 60],
+          ['Dolor sit', 22],
+          ['Sit amet', 18]
         ])
-        var options = {
-          title: 'How Much Pizza I Ate Last Night',
-          width: '100%',
-          height: 500
-        }
-        var chart = new google.visualization.PieChart(div)
-        chart.draw(data, options)
+        const pie_1_chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('chart1'))
+        pie_1_chart.draw(data)
       }
     }
 
