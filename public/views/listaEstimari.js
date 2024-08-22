@@ -40,13 +40,13 @@ function addNewEstimare() {
   for (let instanta of Object.values(context.getDsEstimariPool())) {
     for (let ramura of Object.values(instanta)) {
       for (let activitate of Object.values(ramura)) {
-        activitate.row_data[_start_date] = '';
-        activitate.row_data[_end_date] = '';
-        activitate.row_data[_cantitate_estimari] = 0;
+        activitate.row_data[_start_date] = ''
+        activitate.row_data[_end_date] = ''
+        activitate.row_data[_cantitate_estimari] = 0
       }
     }
   }
-    
+
   context.createNewEstimariFlat()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
@@ -115,8 +115,8 @@ export class listaEstimari extends LitElement {
       return html`${div}`
     } else {
       // Create a div for the chart
-      var chartDiv = document.createElement('div');
-      chartDiv.id = 'chart_div';
+      var chartDiv = document.createElement('div')
+      chartDiv.id = 'chart_div'
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -257,34 +257,24 @@ export class listaEstimari extends LitElement {
       }
       //add this.ds to google charts timeline (startDate, endDate, id)
       // Load the Google Charts library
-      google.charts.load('current', { packages: ['corechart'] });
-      
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-      
+      google.charts.load('current', { packages: ['timeline'] })
+      google.charts.setOnLoadCallback(drawChart)
       function drawChart() {
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-      
-        // Set chart options
-        var options = {
-          title: 'How Much Pizza I Ate Last Night',
-          width: 400,
-          height: 300
-        };
-      
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
+        var container = document.getElementById('chart_div')
+        var chart = new google.visualization.Timeline(container)
+        var dataTable = new google.visualization.DataTable()
+        dataTable.addColumn({ type: 'string', id: 'Role' })
+        dataTable.addColumn({ type: 'string', id: 'Name' })
+        dataTable.addColumn({ type: 'string', id: 'style', role: 'style' })
+        dataTable.addColumn({ type: 'date', id: 'Start' })
+        dataTable.addColumn({ type: 'date', id: 'End' })
+        dataTable.addRows([
+          ['President', 'George Washington', '#cbb69d', new Date(1789, 3, 30), new Date(1797, 2, 4)],
+          ['President', 'John Adams', '#603913', new Date(1797, 2, 4), new Date(1801, 2, 4)],
+          ['President', 'Thomas Jefferson', '#c69c6e', new Date(1801, 2, 4), new Date(1809, 2, 4)]
+        ])
+
+        chart.draw(dataTable)
       }
     }
 
