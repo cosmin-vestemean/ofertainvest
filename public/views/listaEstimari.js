@@ -94,6 +94,8 @@ export class listaEstimari extends LitElement {
 
   render() {
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
+    var chartDiv = document.createElement('div')
+    chartDiv.id = 'chart_div'
 
     if (!this.ds || this.ds.length == 0) {
       let div = document.createElement('div')
@@ -115,8 +117,6 @@ export class listaEstimari extends LitElement {
       return html`${div}`
     } else {
       // Create a div for the chart
-      var chartDiv = document.createElement('div')
-      chartDiv.id = 'chart_div'
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
