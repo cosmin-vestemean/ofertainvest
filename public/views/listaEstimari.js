@@ -1,17 +1,10 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import {
-  addOnChangeEvt,
-  delimiter,
-  ierarhii,
-  flatFind,
-  _start_date,
-  _end_date,
-  template
-} from '../client.js'
+import { addOnChangeEvt, delimiter, ierarhii, flatFind, _start_date, _end_date, template } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
+import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 
 function addNewEstimare() {
   cleanupEstimari()
@@ -24,6 +17,7 @@ function addNewEstimare() {
 
   //active = false for all objects in ds_estimari
   context.ds_estimari.forEach((o) => (o.active = false))
+  //create new empty object in ds_estimari
   context.ds_estimari.push({
     createDate: new Date(),
     updateDate: new Date(),
@@ -32,6 +26,7 @@ function addNewEstimare() {
     ds_estimari_pool: [],
     ds_estimari_flat: []
   })
+
   if (context.getDsEstimariPool().length == 0) {
     //trasform newTree in ds_estimari_pool
     if (newTree.length > 0) {
@@ -41,6 +36,17 @@ function addNewEstimare() {
       alert('Genereaza antemasuratorile inainte de a genera estimarile')
     }
   }
+  //zero out _start_date and _end_date and _cantitate_estimari in pool
+  for (let instanta of context.getDsEstimariPool()) {
+    for (let ramura of instanta) {
+      for (let activitate of ramura) {
+        activitate.row_data[_start_date] = ''
+        activitate.row_data[_end_date] = ''
+        activitate.row_data[_cantitate_estimari] = 0
+      }
+    }
+  }
+    
   context.createNewEstimariFlat()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
@@ -236,9 +242,10 @@ export class listaEstimari extends LitElement {
             context.ds_estimari[id].active = true
             tables.my_table5.element.ds = ds
             //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
-            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById('CANTITATE_ARTICOL_ESTIMARI_gt_0')
-            if (CANTITATE_ARTICOL_ESTIMARI_gt_0)
-              CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
+            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
+              'CANTITATE_ARTICOL_ESTIMARI_gt_0'
+            )
+            if (CANTITATE_ARTICOL_ESTIMARI_gt_0) CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
           } else {
             console.log('id not found')
           }
