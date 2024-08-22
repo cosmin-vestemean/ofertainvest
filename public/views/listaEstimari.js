@@ -37,12 +37,12 @@ function addNewEstimare() {
     }
   }
   //zero out _start_date and _end_date and _cantitate_estimari in pool
-  for (let instanta of context.getDsEstimariPool()) {
-    for (let ramura of instanta) {
-      for (let activitate of ramura) {
-        activitate.row_data[_start_date] = ''
-        activitate.row_data[_end_date] = ''
-        activitate.row_data[_cantitate_estimari] = 0
+  for (let instanta of Object.values(context.getDsEstimariPool())) {
+    for (let ramura of Object.values(instanta)) {
+      for (let activitate of Object.values(ramura)) {
+        activitate.row_data[_start_date] = '';
+        activitate.row_data[_end_date] = '';
+        activitate.row_data[_cantitate_estimari] = 0;
       }
     }
   }
