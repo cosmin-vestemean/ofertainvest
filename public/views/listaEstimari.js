@@ -5,6 +5,7 @@ import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
+import {GoogleCharts} from '../../node_modules/google-charts/dist/google-charts.js'
 
 function addNewEstimare() {
   cleanupEstimari()
@@ -40,13 +41,13 @@ function addNewEstimare() {
   for (let instanta of Object.values(context.getDsEstimariPool())) {
     for (let ramura of Object.values(instanta)) {
       for (let activitate of Object.values(ramura)) {
-        activitate.row_data[_start_date] = ''
-        activitate.row_data[_end_date] = ''
-        activitate.row_data[_cantitate_estimari] = 0
+        activitate.row_data[_start_date] = '';
+        activitate.row_data[_end_date] = '';
+        activitate.row_data[_cantitate_estimari] = 0;
       }
     }
   }
-
+    
   context.createNewEstimariFlat()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
   context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
@@ -94,8 +95,6 @@ export class listaEstimari extends LitElement {
 
   render() {
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
-    var chartDiv = document.createElement('div')
-    chartDiv.id = 'chart_div'
 
     if (!this.ds || this.ds.length == 0) {
       let div = document.createElement('div')
@@ -116,7 +115,6 @@ export class listaEstimari extends LitElement {
       div.appendChild(button)
       return html`${div}`
     } else {
-      // Create a div for the chart
       //add table
       var table = document.createElement('table')
       table.classList.add('table')
@@ -255,30 +253,9 @@ export class listaEstimari extends LitElement {
         }
         tbody.appendChild(tr)
       }
-      //add this.ds to google charts timeline (startDate, endDate, id)
-      // Load the Google Charts library
-      google.charts.load('current', { packages: ['timeline'] })
-      google.charts.setOnLoadCallback(drawChart)
-      function drawChart() {
-        var container = tables.my_table5.element.shadowRoot.getElementById('chart_div')
-        var chart = new google.visualization.Timeline(container)
-        var dataTable = new google.visualization.DataTable()
-        dataTable.addColumn({ type: 'string', id: 'Role' })
-        dataTable.addColumn({ type: 'string', id: 'Name' })
-        dataTable.addColumn({ type: 'string', id: 'style', role: 'style' })
-        dataTable.addColumn({ type: 'date', id: 'Start' })
-        dataTable.addColumn({ type: 'date', id: 'End' })
-        dataTable.addRows([
-          ['President', 'George Washington', '#cbb69d', new Date(1789, 3, 30), new Date(1797, 2, 4)],
-          ['President', 'John Adams', '#603913', new Date(1797, 2, 4), new Date(1801, 2, 4)],
-          ['President', 'Thomas Jefferson', '#c69c6e', new Date(1801, 2, 4), new Date(1809, 2, 4)]
-        ])
-
-        chart.draw(dataTable)
-      }
     }
 
-    return html`${table}${chartDiv}`
+    return html`${table}`
   }
 }
 function cleanupEstimari() {
