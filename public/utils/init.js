@@ -241,7 +241,7 @@ export function init() {
     }
   }
   //btn_save_retete
-  let btn_save_retete = document.getElementById('btn_save_antemas')
+  let btn_save_retete = document.getElementById('btn_save_retete')
   btn_save_retete.onclick = saveRecipesAndInstanteAndTrees
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
