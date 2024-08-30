@@ -350,6 +350,7 @@ const res = await connectToS1Service();
 const clientID = res.token;
 let uniqueNodes = [];
 let uniqueNodesDB = [];
+let responsePaths = [];
 
   // Insert or update unique nodes
   trees.forEach(async (tree) => {
@@ -405,7 +406,7 @@ let uniqueNodesDB = [];
 
   // Insert or update paths using Path Enumeration
   //get all paths from DB
-  const responsePaths = await client.service('getDataset').find({
+  responsePaths = await client.service('getDataset').find({
     query: {
       clientID: clientID,
       sqlQuery: `select * from CCCPATHS where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
