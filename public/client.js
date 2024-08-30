@@ -340,8 +340,11 @@ async function salveazaOfertaInDB(ds) {
       : { insertName: '', insertValue: '' }
 
     sqlList.push(
-      `INSERT INTO CCCOFERTEWEBLINII (CCCOFERTEWEB, WBS, GRUPARE_ART_OF, DENUMIRE_ART_OF, SERIE_ART_OF, TIP_ART_OF, SUBTIP_ART_OF, ${n1.insertName}${n2.insertName}${n3.insertName}${n4.insertName}${n5.insertName}${n6.insertName}${n7.insertName}${n8.insertName}${n9.insertName}${n10.insertName} UM_ART_OF, CANT_ART_OF, COST_UNITAR_MATERIAL_ART_OF, COST_UNTR_MTRL_ART_OF, 
-      COST_UNTR_MAN_ART_OFUTL,
+      `INSERT INTO CCCOFERTEWEBLINII (CCCOFERTEWEB, WBS, GRUPARE_ART_OF, DENUMIRE_ART_OF, SERIE_ART_OF, TIP_ART_OF, SUBTIP_ART_OF, ${n1.insertName}${n2.insertName}${n3.insertName}${n4.insertName}${n5.insertName}${n6.insertName}${n7.insertName}${n8.insertName}${n9.insertName}${n10.insertName} 
+      UM_ART_OF VARCHAR(10) NOT NULL,
+	CANT_ART_OF,
+	COST_UNTR_MTRL_ART_OF,
+	COST_UNTR_MAN_ART_OF,
 	COST_UNTR_UTL_ART_OF,
 	COST_UNTR_TRNS_ART_OF,
 	NORMA_UNTR_ORE_MAN_ART_OF,
