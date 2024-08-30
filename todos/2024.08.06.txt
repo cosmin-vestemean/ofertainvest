@@ -2,11 +2,11 @@ stack replaces tree - 2 zile
 
 ESTIMARE
 
--!time overlaping
--ends in L si grupare articol unfolded
--restul folded
--completare automata conform excel clickup de la articol la componente sau invers
--coloana estimate interior (vezi displayMask) = total estimate anterior
+-!time overlaping   IN LUCRU
+-ends in L si grupare articol unfolded IN LUCRU
+-restul folded IN LUCRU
+-completare automata conform excel clickup de la articol la componente sau invers IN LUCRU
+-coloana estimate interior (vezi displayMask) = total estimate anterior OK
 
 - 4 zile : 13.08.2024 ora 10:00
 
