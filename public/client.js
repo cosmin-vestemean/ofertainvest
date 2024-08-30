@@ -287,17 +287,17 @@ async function salveazaOfertaInDB(ds) {
   }
   if (ofertaExista.value > 0) {
     sqlList.push(
-      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(ds)}', FILENAME = '${contextOferta.FILENAME}', TRDR = ${contextOferta.TRDR}, PRJC = ${contextOferta.PRJC} WHERE PRJC = ${contextOferta.PRJC};`
+      `UPDATE CCCOFERTEWEB SET JSONSTR = '${JSON.stringify(ds)}', FILENAME = '${contextOferta.FILENAME}', TRDR = ${contextOferta.TRDR}, PRJC = ${contextOferta.PRJC} WHERE PRJC = ${contextOferta.PRJC}`
     )
   } else {
     sqlList.push(
-      `INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(ds)}');`
+      `INSERT INTO CCCOFERTEWEB (NAME, FILENAME, TRDR, PRJC, JSONSTR) VALUES ('${contextOferta.FILENAME}', '${contextOferta.FILENAME}', ${contextOferta.TRDR}, ${contextOferta.PRJC}, '${JSON.stringify(ds)}')`
     )
   }
 
   // Delete existing records in CCCOFERTEWEBLINII for the given PRJC
   sqlList.push(
-    `DELETE FROM CCCOFERTEWEBLINII WHERE CCCOFERTEWEB = (SELECT CCCOFERTEWEB FROM CCCOFERTEWEB WHERE PRJC = ${contextOferta.PRJC});`
+    `DELETE FROM CCCOFERTEWEBLINII WHERE CCCOFERTEWEB = (SELECT CCCOFERTEWEB FROM CCCOFERTEWEB WHERE PRJC = ${contextOferta.PRJC})`
   )
 
   // Insert new records from ds into CCCOFERTEWEBLINII
@@ -309,34 +309,34 @@ async function salveazaOfertaInDB(ds) {
     */
     //keep in mind that nivel_oferta_n can be empty so we do not insert it
     let n1 = item.NIVEL_OFERTA_1
-      ? { insertName: 'NIVEL_OF_1, ', insertValue: item.NIVEL_OFERTA_1 + ', ' }
+      ? { insertName: 'NIVEL_OF_1, ', insertValue: `'${item.NIVEL_OFERTA_1}', ` }
       : { insertName: '', insertValue: '' }
     let n2 = item.NIVEL_OFERTA_2
-      ? { insertName: 'NIVEL_OF_2, ', insertValue: item.NIVEL_OFERTA_2 + ', ' }
+      ? { insertName: 'NIVEL_OF_2, ', insertValue: `'${item.NIVEL_OFERTA_2}', ` }
       : { insertName: '', insertValue: '' }
     let n3 = item.NIVEL_OFERTA_3
-      ? { insertName: 'NIVEL_OF_3, ', insertValue: item.NIVEL_OFERTA_3 + ', ' }
+      ? { insertName: 'NIVEL_OF_3, ', insertValue: `'${item.NIVEL_OFERTA_3}', ` }
       : { insertName: '', insertValue: '' }
     let n4 = item.NIVEL_OFERTA_4
-      ? { insertName: 'NIVEL_OF_4, ', insertValue: item.NIVEL_OFERTA_4 + ', ' }
+      ? { insertName: 'NIVEL_OF_4, ', insertValue: `'${item.NIVEL_OFERTA_4}', ` }
       : { insertName: '', insertValue: '' }
     let n5 = item.NIVEL_OFERTA_5
-      ? { insertName: 'NIVEL_OF_5, ', insertValue: item.NIVEL_OFERTA_5 + ', ' }
+      ? { insertName: 'NIVEL_OF_5, ', insertValue: `'${item.NIVEL_OFERTA_5}', ` }
       : { insertName: '', insertValue: '' }
     let n6 = item.NIVEL_OFERTA_6
-      ? { insertName: 'NIVEL_OF_6, ', insertValue: item.NIVEL_OFERTA_6 + ', ' }
+      ? { insertName: 'NIVEL_OF_6, ', insertValue: `'${item.NIVEL_OFERTA_6}', ` }
       : { insertName: '', insertValue: '' }
     let n7 = item.NIVEL_OFERTA_7
-      ? { insertName: 'NIVEL_OF_7, ', insertValue: item.NIVEL_OFERTA_7 + ', ' }
+      ? { insertName: 'NIVEL_OF_7, ', insertValue: `'${item.NIVEL_OFERTA_7}', ` }
       : { insertName: '', insertValue: '' }
     let n8 = item.NIVEL_OFERTA_8
-      ? { insertName: 'NIVEL_OF_8, ', insertValue: item.NIVEL_OFERTA_8 + ', ' }
+      ? { insertName: 'NIVEL_OF_8, ', insertValue: `'${item.NIVEL_OFERTA_8}', ` }
       : { insertName: '', insertValue: '' }
     let n9 = item.NIVEL_OFERTA_9
-      ? { insertName: 'NIVEL_OF_9, ', insertValue: item.NIVEL_OFERTA_9 + ', ' }
+      ? { insertName: 'NIVEL_OF_9, ', insertValue: `'${item.NIVEL_OFERTA_9}', ` }
       : { insertName: '', insertValue: '' }
     let n10 = item.NIVEL_OFERTA_10
-      ? { insertName: 'NIVEL_OF_10, ', insertValue: item.NIVEL_OFERTA_10 + ', ' }
+      ? { insertName: 'NIVEL_OF_10, ', insertValue: `'${item.NIVEL_OFERTA_10}', ` }
       : { insertName: '', insertValue: '' }
 
     sqlList.push(
@@ -361,7 +361,7 @@ async function salveazaOfertaInDB(ds) {
 	PRET_TOTAL_MAN_ART_OF,
 	PRET_TOTAL_UTL_ART_OF,
 	PRET_TOTAL_TRNS_ART_OF,
-	PRET_TOTAL_ART_ART_OF) VALUES ((SELECT CCCOFERTEWEB FROM CCCOFERTEWEB WHERE PRJC = ${contextOferta.PRJC}), '${item.WBS}', '${item.GRUPARE_ARTICOL_OFERTA}', '${item.DENUMIRE_ARTICOL_OFERTA}', '${item.SERIE_ARTICOL_OFERTA}', '${item.TIP_ARTICOL_OFERTA}', '${item.SUBTIP_ARTICOL_OFERTA}', ${n1.insertValue}${n2.insertValue}${n3.insertValue}${n4.insertValue}${n5.insertValue}${n6.insertValue}${n7.insertValue}${n8.insertValue}${n9.insertValue}${n10.insertValue} '${item.UM_ARTICOL_OFERTA}', '${item.CANTITATE_ARTICOL_OFERTA}', '${item.COST_UNITAR_MATERIAL_ARTICOL_OFERTA}', '${item.COST_UNITAR_MANOPERA_ARTICOL_OFERTA}', '${item.COST_UNITAR_UTILAJ_ARTICOL_OFERTA}', '${item.COST_UNITAR_TRANSPORT_ARTICOL_OFERTA}', '${item.NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA}', '${item.COST_UNITAR_ARTICOL_OFERTA}', '${item.COST_TOTAL_MATERIAL_ARTICOL_OFERTA}', '${item.COST_TOTAL_MANOPERA_ARTICOL_OFERTA}', '${item.COST_TOTAL_UTILAJ_ARTICOL_OFERTA}', '${item.COST_TOTAL_TRANSPORT_ARTICOL_OFERTA}', '${item.COST_TOTAL_ARTICOL_OFERTA}', '${item.TOTAL_ORE_MANOPERA_ARTICOL_OFERTA}', '${item.PRET_UNITAR_MATERIAL_ARTICOL_OFERTA}', '${item.PRET_UNITAR_MANOPERA_ARTICOL_OFERTA}', '${item.PRET_UNITAR_UTILAJ_ARTICOL_OFERTA}', '${item.PRET_UNITAR_TRANSPORT_ARTICOL_OFERTA}', '${item.PRET_UNITAR_ARTICOL_ARTICOL_OFERTA}', '${item.PRET_TOTAL_MATERIAL_ARTICOL_OFERTA}', '${item.PRET_TOTAL_MANOPERA_ARTICOL_OFERTA}', '${item.PRET_TOTAL_UTILAJ_ARTICOL_OFERTA}', '${item.PRET_TOTAL_TRANSPORT_ARTICOL_OFERTA}', '${item.PRET_TOTAL_ARTICOL_ARTICOL_OFERTA}');`
+	PRET_TOTAL_ART_ART_OF) VALUES ((SELECT CCCOFERTEWEB FROM CCCOFERTEWEB WHERE PRJC = ${contextOferta.PRJC}), '${item.WBS}', '${item.GRUPARE_ARTICOL_OFERTA}', '${item.DENUMIRE_ARTICOL_OFERTA}', '${item.SERIE_ARTICOL_OFERTA}', '${item.TIP_ARTICOL_OFERTA}', '${item.SUBTIP_ARTICOL_OFERTA}', ${n1.insertValue}${n2.insertValue}${n3.insertValue}${n4.insertValue}${n5.insertValue}${n6.insertValue}${n7.insertValue}${n8.insertValue}${n9.insertValue}${n10.insertValue} '${item.UM_ARTICOL_OFERTA}', ${item.CANTITATE_ARTICOL_OFERTA}, ${item.COST_UNITAR_MATERIAL_ARTICOL_OFERTA}, ${item.COST_UNITAR_MANOPERA_ARTICOL_OFERTA}, ${item.COST_UNITAR_UTILAJ_ARTICOL_OFERTA}, ${item.COST_UNITAR_TRANSPORT_ARTICOL_OFERTA}, ${item.NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA}, ${item.COST_UNITAR_ARTICOL_OFERTA}, ${item.COST_TOTAL_MATERIAL_ARTICOL_OFERTA}, ${item.COST_TOTAL_MANOPERA_ARTICOL_OFERTA}, ${item.COST_TOTAL_UTILAJ_ARTICOL_OFERTA}, ${item.COST_TOTAL_TRANSPORT_ARTICOL_OFERTA}, ${item.COST_TOTAL_ARTICOL_OFERTA}, ${item.TOTAL_ORE_MANOPERA_ARTICOL_OFERTA}, ${item.PRET_UNITAR_MATERIAL_ARTICOL_OFERTA}, ${item.PRET_UNITAR_MANOPERA_ARTICOL_OFERTA}, ${item.PRET_UNITAR_UTILAJ_ARTICOL_OFERTA}, ${item.PRET_UNITAR_TRANSPORT_ARTICOL_OFERTA}, ${item.PRET_UNITAR_ARTICOL_ARTICOL_OFERTA}, ${item.PRET_TOTAL_MATERIAL_ARTICOL_OFERTA}, ${item.PRET_TOTAL_MANOPERA_ARTICOL_OFERTA}, ${item.PRET_TOTAL_UTILAJ_ARTICOL_OFERTA}, ${item.PRET_TOTAL_TRANSPORT_ARTICOL_OFERTA}, ${item.PRET_TOTAL_ARTICOL_ARTICOL_OFERTA})`
     )
   })
 
