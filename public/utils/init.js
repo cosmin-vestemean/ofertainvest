@@ -236,6 +236,9 @@ export function init() {
       showRecipes()
     }
   }
+  //btn_save_antemas
+  let btn_save_antemas = document.getElementById('btn_save_antemas')
+  btn_save_antemas.onclick = saveAntemasuratoriAndTreeToDB
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
   lista_retete_scurta.onclick = function () {

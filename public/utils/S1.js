@@ -227,7 +227,7 @@ export async function saveAntemasuratoriAndTreeToDB() {
       let objSqlList = { sqlList: sqlList }
       let result = await runSQLTransaction(objSqlList)
       if (result.success) {
-        console.log('Antemasuratori actualizati in baza de date')
+        console.log('Antemasuratorile actualizate in baza de date')
         resolve(result)
       } else {
         console.log('Eroare actualizare antemasuratori in baza de date')
