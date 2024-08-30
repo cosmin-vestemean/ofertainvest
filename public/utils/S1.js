@@ -306,3 +306,153 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
     }
   })
 }
+
+export async function saveTreesInDB(trees) {
+  /*
+  example of trees data:
+  [
+    [
+        [
+            "Constructii",
+            "Lucrari de readucere a terenului in starea naturala"
+        ],
+        [
+            "Constructii",
+            "Exterior cladire"
+        ],
+        [
+            "Constructii",
+            "Exterior cladire",
+            "A1"
+        ],
+        [
+            "Constructii",
+            "Exterior cladire",
+            "A2"
+        ]
+    ],
+    [
+        [
+            "Provizorate",
+            "Alimentare SPcc+SPca"
+        ]
+    ],
+    [
+        [
+            "Telecomunicatii-SCADA",
+            "Echipamente"
+        ]
+    ]
+]
+  */
+
+const res = await connectToS1Service();
+const clientID = res.token;
+let uniqueNodes = [];
+let uniqueNodesDB = [];
+
+  // Insert or update unique nodes
+  trees.forEach(async (tree) => {
+    for (let i = 0; i < tree.length; i++) {
+      const branch = tree[i];
+      for (let j = 0; j < branch.length; j++) {
+        const node = branch[j];
+        if (!uniqueNodes.includes(node)) {
+          uniqueNodes.push(node);
+        }
+      }
+    }
+  });
+
+  //get all unique nodes from DB
+  const response = await client.service('getDataset').find({
+    query: {
+      clientID: clientID,
+      sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+    }
+  });
+
+  if (response.success && response.total > 0) {
+    uniqueNodesDB = response.data;
+  }
+
+  //compare uniqueNodes with uniqueNodesDB and insert the missing ones or update the existing ones by name
+  for (let i = 0; i < uniqueNodes.length; i++) {
+    const node = uniqueNodes[i];
+    const nodeDB = uniqueNodesDB.find((n) => n.NAME === node);
+    if (!nodeDB) {
+      //insert node
+      let sqlList = [];
+      sqlList.push(
+        `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTAWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
+      );
+      let objSqlList = { sqlList: sqlList };
+      await runSQLTransaction(objSqlList);
+    } else {
+      //update node if name is different
+      if (nodeDB.NAME === node) {
+        continue;
+      }
+      let sqlList = [];
+      sqlList.push(
+        `UPDATE CCCUNIQNODES SET NAME='${node}' WHERE CCCUNIQNODES=${nodeDB.CCCUNIQNODES} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+      );
+      let objSqlList = { sqlList: sqlList };
+      await runSQLTransaction(objSqlList);
+    }
+  }
+  let sqlList = [];
+
+  // Insert or update paths using Path Enumeration
+  //get all paths from DB
+  const responsePaths = await client.service('getDataset').find({
+    query: {
+      clientID: clientID,
+      sqlQuery: `select * from CCCPATHS where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+    }
+  });
+  trees.forEach(async (tree) => {
+    for (let i = 1; i < tree.length; i++) {
+      const branch = tree[i];
+      //get CCCUNIQNODES for each node in branch
+      let branchNodes = [];
+      for (let j = 0; j < branch.length; j++) {
+        const node = branch[j];
+        const nodeDB = uniqueNodesDB.find((n) => n.NAME === node);
+        if (nodeDB) {
+          branchNodes.push(nodeDB.CCCUNIQNODES);
+        }
+      }
+      const path = branchNodes.join('/');
+      const pathDB = responsePaths.data.find((p) => p.PATH === path);
+      if (!pathDB) {
+        //insert path
+        sqlList.push(
+          `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
+        );
+      }
+      //update path if path is different
+      if (pathDB && pathDB.PATH !== path) {
+        sqlList.push(
+          `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+        );
+      }
+    }
+  });
+
+  let objSqlList = { sqlList: sqlList };
+  return runSQLTransaction(objSqlList)
+    .then((result) => {
+      if (result.success) {
+        console.log('Trees updated in database');
+        return result;
+      } else {
+        console.log('Error updating Trees in database');
+        throw result;
+      }
+    })
+    .catch((error) => {
+      console.log('Error updating Trees in database');
+      throw error;
+    });
+}

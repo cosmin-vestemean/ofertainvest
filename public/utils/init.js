@@ -29,7 +29,7 @@ import {
 import { _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
-import { populateSelects, getOferta, saveAntemasuratoriAndTreeToDB, getEstimariFromDB } from '../utils/S1.js'
+import { populateSelects, getOferta, saveAntemasuratoriAndTreeToDB, getEstimariFromDB, saveRecipesAndInstanteAndTrees, saveTreesInDB } from '../utils/S1.js'
 import { tables } from '../utils/tables.js'
 import {
   ds_antemasuratori,
@@ -219,7 +219,11 @@ export function init() {
   btn_oferta.classList.add('btn-success')
   let btn_save_graph = document.getElementById('btn_save_graph')
   //btn_save_graph populateSelectIerarhiiFromTrees()
-  btn_save_graph.onclick = populateSelectIerarhiiFromTrees
+  //btn_save_graph.onclick = populateSelectIerarhiiFromTrees
+  btn_save_graph.onclick = function () {
+    populateSelectIerarhiiFromTrees()
+    saveTreesInDB(trees)
+  }
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
     if (recipes_ds && recipes_ds.length > 0) {
@@ -236,9 +240,12 @@ export function init() {
       showRecipes()
     }
   }
-  //btn_save_antemas
-  let btn_save_antemas = document.getElementById('btn_save_antemas')
-  btn_save_antemas.onclick = saveAntemasuratoriAndTreeToDB
+  //btn_save_retete
+  let btn_save_retete = document.getElementById('btn_save_antemas')
+  btn_save_retete.onclick = function () {
+    //save retete in db
+    saveRecipesAndInstanteAndTrees()
+  }
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
   lista_retete_scurta.onclick = function () {

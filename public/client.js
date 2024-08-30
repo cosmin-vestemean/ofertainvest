@@ -60,7 +60,8 @@ export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii
 export var contextOferta = {
   PRJC: 0,
   TRDR: 0,
-  FILENAME: ''
+  FILENAME: '',
+  CCCOFERTEWEB: 0
 }
 
 export var optimal_ds = []
