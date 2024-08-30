@@ -402,6 +402,19 @@ export async function saveTreesInDB(trees) {
 
   let objSqlList = { sqlList: sqlList }
   await runSQLTransaction(objSqlList)
+    .then((result) => {
+      if (result.success) {
+        console.log('uniques updated in database')
+        return result
+      } else {
+        console.log('Error updating uniques in database')
+        throw result
+      }
+    })
+    .catch((error) => {
+      console.log('Error updating uniques in database')
+      throw error
+    })
   sqlList = []
 
   //get all unique nodes from DB, we've updated/inserted them in the previous step
