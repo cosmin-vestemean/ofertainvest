@@ -377,13 +377,13 @@ export async function saveTreesInDB(trees) {
     uniqueNodesDB = response.data
   }
 
+  let sqlList = []
   //compare uniqueNodes with uniqueNodesDB and insert the missing ones or update the existing ones by name
   for (let i = 0; i < uniqueNodes.length; i++) {
     const node = uniqueNodes[i]
     const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
     if (!nodeDB) {
       //insert node
-      let sqlList = []
       sqlList.push(
         `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTAWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
       )
@@ -394,7 +394,6 @@ export async function saveTreesInDB(trees) {
       if (nodeDB.NAME === node) {
         continue
       }
-      let sqlList = []
       sqlList.push(
         `UPDATE CCCUNIQNODES SET NAME='${node}' WHERE CCCUNIQNODES=${nodeDB.CCCUNIQNODES} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
       )
@@ -403,7 +402,7 @@ export async function saveTreesInDB(trees) {
 
   let objSqlList = { sqlList: sqlList }
   await runSQLTransaction(objSqlList)
-  let sqlList = []
+  sqlList = []
 
   // Insert or update paths using Path Enumeration
   //get all paths from DB
