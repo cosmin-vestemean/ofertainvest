@@ -385,7 +385,7 @@ export async function saveTreesInDB(trees) {
     if (!nodeDB) {
       //insert node
       sqlList.push(
-        `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTAWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
+        `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTEWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
       )
       let objSqlList = { sqlList: sqlList }
       await runSQLTransaction(objSqlList)
@@ -404,7 +404,7 @@ export async function saveTreesInDB(trees) {
   await runSQLTransaction(objSqlList)
     .then(async (result) => {
       if (result.success) {
-        console.log('Trees updated in database')
+        console.log('Uniques updated in database')
         sqlList = []
 
         //get all unique nodes from DB, we've updated/inserted them in the previous step
@@ -479,7 +479,7 @@ export async function saveTreesInDB(trees) {
       }
     })
     .catch((error) => {
-      console.log('Error updating Trees in database')
+      console.log('Error updating uniques in database')
       throw error
     })
 }
