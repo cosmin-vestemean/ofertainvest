@@ -296,6 +296,7 @@ async function salveazaOfertaInDB(ds) {
     )
   }
 
+  //TODO: update instead of delete and insert if WBS, DENUMIRE_ARTICOL_OFERTA, TIP_ARTICOL_OFERTA, SUBTIP_ARTICOL_OFERTA
   // Delete existing records in CCCOFERTEWEBLINII for the given PRJC
   sqlList.push(
     `DELETE FROM CCCOFERTEWEBLINII WHERE CCCOFERTEWEB = (SELECT CCCOFERTEWEB FROM CCCOFERTEWEB WHERE PRJC = ${contextOferta.PRJC})`
@@ -373,7 +374,17 @@ async function salveazaOfertaInDB(ds) {
   return new Promise(async (resolve, reject) => {
     try {
       const result = await runSQLTransaction({ sqlList: sqlList })
-      console.log('result', result)
+      //get CCCOFERTEWEB for PRJC
+      const oferta = await getValFromS1Query(
+        `select CCCOFERTEWEB from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`
+      )
+      if (!oferta.success) {
+        console.log('error', oferta.error)
+        reject(oferta.error)
+      } else {
+        contextOferta.CCCOFERTEWEB = oferta.value
+      }
+      console.log('result of insert update oferta', result)
       resolve(result)
     } catch (error) {
       console.log('error', error)
