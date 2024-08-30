@@ -425,7 +425,7 @@ let responsePaths = [];
         }
       }
       const path = branchNodes.join('/');
-      const pathDB = responsePaths.data.find((p) => p.PATH === path);
+      let pathDB = responsePaths.success && responsePaths.total > 0 ? responsePaths.data.find((p) => p.PATH === path) : null;
       if (!pathDB) {
         //insert path
         sqlList.push(
