@@ -398,10 +398,11 @@ export async function saveTreesInDB(trees) {
       sqlList.push(
         `UPDATE CCCUNIQNODES SET NAME='${node}' WHERE CCCUNIQNODES=${nodeDB.CCCUNIQNODES} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
       )
-      let objSqlList = { sqlList: sqlList }
-      await runSQLTransaction(objSqlList)
     }
   }
+
+  let objSqlList = { sqlList: sqlList }
+  await runSQLTransaction(objSqlList)
   let sqlList = []
 
   // Insert or update paths using Path Enumeration
@@ -444,7 +445,7 @@ export async function saveTreesInDB(trees) {
     }
   })
 
-  let objSqlList = { sqlList: sqlList }
+  objSqlList = { sqlList: sqlList }
   return runSQLTransaction(objSqlList)
     .then((result) => {
       if (result.success) {
