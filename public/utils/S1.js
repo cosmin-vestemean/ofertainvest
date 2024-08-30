@@ -404,6 +404,17 @@ export async function saveTreesInDB(trees) {
   await runSQLTransaction(objSqlList)
   sqlList = []
 
+  //get all unique nodes from DB
+  response = await client.service('getDataset').find({
+    query: {
+      clientID: clientID,
+      sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  if (response.success && response.total > 0) {
+    uniqueNodesDB = response.data
+  }
   // Insert or update paths using Path Enumeration
   //get all paths from DB
   responsePaths = await client.service('getDataset').find({
