@@ -353,7 +353,7 @@ export async function saveTreesInDB(trees) {
   let responsePaths = []
 
   // Insert or update unique nodes
-  for (const tree of trees) {
+  trees.forEach(async (tree) => {
     for (let i = 0; i < tree.length; i++) {
       const branch = tree[i]
       for (let j = 0; j < branch.length; j++) {
@@ -363,7 +363,7 @@ export async function saveTreesInDB(trees) {
         }
       }
     }
-  }
+  })
 
   //get all unique nodes from DB
   const response = await client.service('getDataset').find({
@@ -387,8 +387,6 @@ export async function saveTreesInDB(trees) {
       sqlList.push(
         `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTEWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
       )
-      let objSqlList = { sqlList: sqlList }
-      await runSQLTransaction(objSqlList)
     } else {
       //update node if name is different
       if (nodeDB.NAME === node) {
