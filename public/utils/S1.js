@@ -353,7 +353,7 @@ export async function saveTreesInDB(trees) {
   let responsePaths = []
 
   // Insert or update unique nodes
-  trees.forEach(async (tree) => {
+  for (const tree of trees) {
     for (let i = 0; i < tree.length; i++) {
       const branch = tree[i]
       for (let j = 0; j < branch.length; j++) {
@@ -363,7 +363,7 @@ export async function saveTreesInDB(trees) {
         }
       }
     }
-  })
+  }
 
   //get all unique nodes from DB
   const response = await client.service('getDataset').find({
