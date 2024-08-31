@@ -444,22 +444,25 @@ export async function saveTreesInDB(trees) {
     await fetchPathsFromDB()
     trees.forEach(async (tree) => {
       for (let i = 1; i < tree.length; i++) {
-        const path = getPathFromBranch(tree, i)
-        let pathDB =
-          responsePaths.success && responsePaths.total > 0
-            ? responsePaths.data.find((p) => p.PATH === path)
-            : null
-        if (!pathDB) {
-          //insert path
-          sqlList.push(
-            `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
-          )
-        }
-        //update path if path is different
-        if (pathDB && Object.keys(pathDB).includes('PATH') && pathDB.PATH !== path) {
-          sqlList.push(
-            `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-          )
+        for (let j = 0; j < tree[i].length; j++) {
+          let branch = tree[i]
+          const path = getPathFromBranch(branch, j)
+          let pathDB =
+            responsePaths.success && responsePaths.total > 0
+              ? responsePaths.data.find((p) => p.PATH === path)
+              : null
+          if (!pathDB) {
+            //insert path
+            sqlList.push(
+              `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
+            )
+          }
+          //update path if path is different
+          if (pathDB && Object.keys(pathDB).includes('PATH') && pathDB.PATH !== path) {
+            sqlList.push(
+              `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+            )
+          }
         }
       }
     })
