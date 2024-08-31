@@ -443,9 +443,9 @@ export async function saveTreesInDB(trees) {
     //get all paths from DB
     await fetchPathsFromDB()
     trees.forEach(async (tree) => {
-      for (let i = 1; i < tree.length; i++) {
+      for (let i = 0; i < tree.length; i++) {
         for (let j = 0; j < tree[i].length; j++) {
-          let branch = tree[i][j]
+          let branch = tree[i]
           const path = getPathFromBranch(branch)
           let pathDB =
             responsePaths.success && responsePaths.total > 0
