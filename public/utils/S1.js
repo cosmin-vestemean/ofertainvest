@@ -466,11 +466,10 @@ export async function saveTreesInDB(trees) {
     })
 
     let objSqlList = { sqlList: sqlList }
-    return runSQLTransaction(objSqlList)
+    await runSQLTransaction(objSqlList)
       .then((result) => {
         if (result.success) {
           console.log('Trees updated in database')
-          return result
         } else {
           console.log('Error updating Trees in database')
           throw result
@@ -483,15 +482,15 @@ export async function saveTreesInDB(trees) {
 
     function getPathFromBranch(branch) {
       //get CCCUNIQNODES for each node in branch
-      let branchNodes = []
+      let branchNodesAsIds = []
       for (let j = 0; j < branch.length; j++) {
         const node = branch[j]
         const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
         if (nodeDB) {
-          branchNodes.push(nodeDB.CCCUNIQNODES)
+          branchNodesAsIds.push(nodeDB.CCCUNIQNODES)
         }
       }
-      const path = branchNodes.join('/')
+      const path = branchNodesAsIds.join('/')
       return path
     }
 
