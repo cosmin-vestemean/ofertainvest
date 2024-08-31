@@ -483,8 +483,7 @@ export async function saveTreesInDB(trees) {
         throw error
       })
 
-    function getPathFromBranch(tree, i) {
-      const branch = tree[i]
+    function getPathFromBranch(branch) {
       //get CCCUNIQNODES for each node in branch
       let branchNodes = []
       for (let j = 0; j < branch.length; j++) {
