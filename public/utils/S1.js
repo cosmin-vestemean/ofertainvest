@@ -366,9 +366,10 @@ export async function saveTreesInDB(trees) {
       .then(async (result) => {
         if (result.success) {
           console.log('Uniques updated in database')
-          return await syncPathsInDB()
+          const response = await syncPathsInDB()
+          console.log('syncPathsInDB', response)
         } else {
-          console.log('Error updating Trees in database')
+          console.log('Error updating uniques in database')
           throw result
         }
       })
@@ -378,7 +379,8 @@ export async function saveTreesInDB(trees) {
       })
   } else {
     console.log('No uniques to update in database')
-    return await syncPathsInDB()
+    const response = await syncPathsInDB()
+    console.log('syncPathsInDB', response)
   }
 
   function syncNodeNames() {
@@ -444,24 +446,18 @@ export async function saveTreesInDB(trees) {
     await fetchPathsFromDB()
     trees.forEach(async (tree) => {
       for (let i = 0; i < tree.length; i++) {
-          let branch = tree[i]
-          const path = getPathFromBranch(branch)
-          let pathDB =
-            responsePaths.success && responsePaths.total > 0
-              ? responsePaths.data.find((p) => p.PATH === path)
-              : null
-          if (!pathDB) {
-            //insert path
-            sqlList.push(
-              `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
-            )
-          }
-          //update path if path is different
-          if (pathDB && Object.keys(pathDB).includes('PATH') && pathDB.PATH !== path) {
-            sqlList.push(
-              `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-            )
-          }
+        let branch = tree[i]
+        const path = getPathFromBranch(branch)
+        let pathDB =
+          responsePaths.success && responsePaths.total > 0
+            ? responsePaths.data.find((p) => p.PATH === path)
+            : null
+        if (!pathDB) {
+          //insert path
+          sqlList.push(
+            `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
+          )
+        }
       }
     })
 
