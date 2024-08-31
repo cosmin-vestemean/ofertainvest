@@ -456,7 +456,7 @@ export async function saveTreesInDB(trees) {
           )
         }
         //update path if path is different
-        if (pathDB && Object.keys.includes(pathDB.PATH) && pathDB.PATH !== path) {
+        if (pathDB && Object.keys().includes(pathDB.PATH) && pathDB.PATH !== path) {
           sqlList.push(
             `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
           )
