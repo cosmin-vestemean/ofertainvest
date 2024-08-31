@@ -444,7 +444,6 @@ export async function saveTreesInDB(trees) {
     await fetchPathsFromDB()
     trees.forEach(async (tree) => {
       for (let i = 0; i < tree.length; i++) {
-        for (let j = 0; j < tree[i].length; j++) {
           let branch = tree[i]
           const path = getPathFromBranch(branch)
           let pathDB =
@@ -463,7 +462,6 @@ export async function saveTreesInDB(trees) {
               `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
             )
           }
-        }
       }
     })
 
