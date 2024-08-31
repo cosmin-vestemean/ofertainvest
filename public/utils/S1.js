@@ -438,37 +438,13 @@ export async function saveTreesInDB(trees) {
     let sqlList = []
 
     //get all unique nodes from DB, we've updated/inserted them in the previous step
-    const response1 = await client.service('getDataset').find({
-      query: {
-        clientID: clientID,
-        sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-      }
-    })
-
-    if (response1.success && response1.total > 0) {
-      uniqueNodesDB = response1.data
-    }
+    await fetchUniqueNodesFromDB()
     // Insert or update paths using Path Enumeration
     //get all paths from DB
-    responsePaths = await client.service('getDataset').find({
-      query: {
-        clientID: clientID,
-        sqlQuery: `select * from CCCPATHS where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-      }
-    })
+    await fetchPathsFromDB()
     trees.forEach(async (tree) => {
       for (let i = 1; i < tree.length; i++) {
-        const branch = tree[i]
-        //get CCCUNIQNODES for each node in branch
-        let branchNodes = []
-        for (let j = 0; j < branch.length; j++) {
-          const node = branch[j]
-          const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
-          if (nodeDB) {
-            branchNodes.push(nodeDB.CCCUNIQNODES)
-          }
-        }
-        const path = branchNodes.join('/')
+        const path = getPathFromBranch(tree, i)
         let pathDB =
           responsePaths.success && responsePaths.total > 0
             ? responsePaths.data.find((p) => p.PATH === path)
@@ -503,5 +479,42 @@ export async function saveTreesInDB(trees) {
         console.log('Error updating Trees in database')
         throw error
       })
+
+    function getPathFromBranch(tree, i) {
+      const branch = tree[i]
+      //get CCCUNIQNODES for each node in branch
+      let branchNodes = []
+      for (let j = 0; j < branch.length; j++) {
+        const node = branch[j]
+        const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
+        if (nodeDB) {
+          branchNodes.push(nodeDB.CCCUNIQNODES)
+        }
+      }
+      const path = branchNodes.join('/')
+      return path
+    }
+
+    async function fetchPathsFromDB() {
+      responsePaths = await client.service('getDataset').find({
+        query: {
+          clientID: clientID,
+          sqlQuery: `select * from CCCPATHS where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+        }
+      })
+    }
+
+    async function fetchUniqueNodesFromDB() {
+      const response1 = await client.service('getDataset').find({
+        query: {
+          clientID: clientID,
+          sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+        }
+      })
+
+      if (response1.success && response1.total > 0) {
+        uniqueNodesDB = response1.data
+      }
+    }
   }
 }
