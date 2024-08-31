@@ -466,6 +466,7 @@ export async function saveTreesInDB(trees) {
       .then((result) => {
         if (result.success) {
           console.log('Trees updated in database')
+          return result
         } else {
           console.log('Error updating Trees in database')
           throw result
