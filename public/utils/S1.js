@@ -353,131 +353,155 @@ export async function saveTreesInDB(trees) {
   let responsePaths = []
 
   // Insert or update unique nodes
-  trees.forEach(async (tree) => {
-    for (let i = 0; i < tree.length; i++) {
-      const branch = tree[i]
-      for (let j = 0; j < branch.length; j++) {
-        const node = branch[j]
-        if (!uniqueNodes.includes(node)) {
-          uniqueNodes.push(node)
-        }
-      }
-    }
-  })
+  gatherUniqueNodes()
 
   //get all unique nodes from DB
-  const response = await client.service('getDataset').find({
-    query: {
-      clientID: clientID,
-      sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-    }
-  })
+  await fetchUniqueNodesFromDB()
 
-  if (response.success && response.total > 0) {
-    uniqueNodesDB = response.data
-  }
-
-  let sqlList = []
-  //compare uniqueNodes with uniqueNodesDB and insert the missing ones or update the existing ones by name
-  for (let i = 0; i < uniqueNodes.length; i++) {
-    const node = uniqueNodes[i]
-    const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
-    if (!nodeDB) {
-      //insert node
-      sqlList.push(
-        `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTEWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
-      )
-    } else {
-      //update node if name is different
-      if (nodeDB.NAME === node) {
-        continue
-      }
-      sqlList.push(
-        `UPDATE CCCUNIQNODES SET NAME='${node}' WHERE CCCUNIQNODES=${nodeDB.CCCUNIQNODES} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-      )
-    }
-  }
+  let sqlList = syncNodeNames()
 
   let objSqlList = { sqlList: sqlList }
-  await runSQLTransaction(objSqlList)
-    .then(async (result) => {
-      if (result.success) {
-        console.log('Uniques updated in database')
-        sqlList = []
-
-        //get all unique nodes from DB, we've updated/inserted them in the previous step
-        const response1 = await client.service('getDataset').find({
-          query: {
-            clientID: clientID,
-            sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-          }
-        })
-
-        if (response1.success && response1.total > 0) {
-          uniqueNodesDB = response1.data
+  if (sqlList.length > 0) {
+    await runSQLTransaction(objSqlList)
+      .then(async (result) => {
+        if (result.success) {
+          console.log('Uniques updated in database')
+          return await syncPathsInDB()
+        } else {
+          console.log('Error updating Trees in database')
+          throw result
         }
-        // Insert or update paths using Path Enumeration
-        //get all paths from DB
-        responsePaths = await client.service('getDataset').find({
-          query: {
-            clientID: clientID,
-            sqlQuery: `select * from CCCPATHS where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-          }
-        })
-        trees.forEach(async (tree) => {
-          for (let i = 1; i < tree.length; i++) {
-            const branch = tree[i]
-            //get CCCUNIQNODES for each node in branch
-            let branchNodes = []
-            for (let j = 0; j < branch.length; j++) {
-              const node = branch[j]
-              const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
-              if (nodeDB) {
-                branchNodes.push(nodeDB.CCCUNIQNODES)
-              }
-            }
-            const path = branchNodes.join('/')
-            let pathDB =
-              responsePaths.success && responsePaths.total > 0
-                ? responsePaths.data.find((p) => p.PATH === path)
-                : null
-            if (!pathDB) {
-              //insert path
-              sqlList.push(
-                `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
-              )
-            }
-            //update path if path is different
-            if (pathDB && Object.keys.includes(pathDB.PATH) && pathDB.PATH !== path) {
-              sqlList.push(
-                `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
-              )
-            }
-          }
-        })
+      })
+      .catch((error) => {
+        console.log('Error updating uniques in database')
+        throw error
+      })
+  } else {
+    console.log('No uniques to update in database')
+    return await syncPathsInDB()
+  }
 
-        let objSqlList = { sqlList: sqlList }
-        return runSQLTransaction(objSqlList)
-          .then((result) => {
-            if (result.success) {
-              console.log('Trees updated in database')
-              return result
-            } else {
-              console.log('Error updating Trees in database')
-              throw result
-            }
-          })
-          .catch((error) => {
-            console.log('Error updating Trees in database')
-            throw error
-          })
+  function syncNodeNames() {
+    let sqlList = []
+    //compare uniqueNodes with uniqueNodesDB and insert the missing ones or update the existing ones by name
+    for (let i = 0; i < uniqueNodes.length; i++) {
+      const node = uniqueNodes[i]
+      const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
+      if (!nodeDB) {
+        //insert node
+        sqlList.push(
+          `INSERT INTO CCCUNIQNODES (NAME, CCCOFERTEWEB) VALUES ('${node}', ${contextOferta.CCCOFERTEWEB})`
+        )
       } else {
-        console.log('Error updating Trees in database')
-        throw result
+        //update node if name is different
+        if (nodeDB.NAME === node) {
+          continue
+        }
+        sqlList.push(
+          `UPDATE CCCUNIQNODES SET NAME='${node}' WHERE CCCUNIQNODES=${nodeDB.CCCUNIQNODES} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+        )
+      }
+    }
+    return sqlList
+  }
+
+  async function fetchUniqueNodesFromDB() {
+    const response = await client.service('getDataset').find({
+      query: {
+        clientID: clientID,
+        sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
       }
     })
-    .catch((error) => {
-      console.log('Error updating uniques in database')
-      throw error
+
+    if (response.success && response.total > 0) {
+      uniqueNodesDB = response.data
+    } else {
+      console.log('No unique nodes from DB')
+    }
+  }
+
+  function gatherUniqueNodes() {
+    trees.forEach(async (tree) => {
+      for (let i = 0; i < tree.length; i++) {
+        const branch = tree[i]
+        for (let j = 0; j < branch.length; j++) {
+          const node = branch[j]
+          if (!uniqueNodes.includes(node)) {
+            uniqueNodes.push(node)
+          }
+        }
+      }
     })
+  }
+
+  async function syncPathsInDB() {
+    let sqlList = []
+
+    //get all unique nodes from DB, we've updated/inserted them in the previous step
+    const response1 = await client.service('getDataset').find({
+      query: {
+        clientID: clientID,
+        sqlQuery: `select * from CCCUNIQNODES where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+      }
+    })
+
+    if (response1.success && response1.total > 0) {
+      uniqueNodesDB = response1.data
+    }
+    // Insert or update paths using Path Enumeration
+    //get all paths from DB
+    responsePaths = await client.service('getDataset').find({
+      query: {
+        clientID: clientID,
+        sqlQuery: `select * from CCCPATHS where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+      }
+    })
+    trees.forEach(async (tree) => {
+      for (let i = 1; i < tree.length; i++) {
+        const branch = tree[i]
+        //get CCCUNIQNODES for each node in branch
+        let branchNodes = []
+        for (let j = 0; j < branch.length; j++) {
+          const node = branch[j]
+          const nodeDB = uniqueNodesDB.find((n) => n.NAME === node)
+          if (nodeDB) {
+            branchNodes.push(nodeDB.CCCUNIQNODES)
+          }
+        }
+        const path = branchNodes.join('/')
+        let pathDB =
+          responsePaths.success && responsePaths.total > 0
+            ? responsePaths.data.find((p) => p.PATH === path)
+            : null
+        if (!pathDB) {
+          //insert path
+          sqlList.push(
+            `INSERT INTO CCCPATHS (PATH, CCCOFERTEWEB) VALUES ('${path}', ${contextOferta.CCCOFERTEWEB})`
+          )
+        }
+        //update path if path is different
+        if (pathDB && Object.keys.includes(pathDB.PATH) && pathDB.PATH !== path) {
+          sqlList.push(
+            `UPDATE CCCPATHS SET PATH='${path}' WHERE CCCPATHS=${pathDB.CCCPATHS} AND CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}`
+          )
+        }
+      }
+    })
+
+    let objSqlList = { sqlList: sqlList }
+    return runSQLTransaction(objSqlList)
+      .then((result) => {
+        if (result.success) {
+          console.log('Trees updated in database')
+          return result
+        } else {
+          console.log('Error updating Trees in database')
+          throw result
+        }
+      })
+      .catch((error) => {
+        console.log('Error updating Trees in database')
+        throw error
+      })
+  }
 }
