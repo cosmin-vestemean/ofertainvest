@@ -272,11 +272,12 @@ export async function salveazaReteteInDB() {
   let sqlList = []
   //Get MAX(CCCRETETE) from CCCRETETE
   const response = await getValFromS1Query('select ISNULL(max(CCCRETETE), 0) + 1 as CCCRETETE from CCCRETETE')
-  const max = response.value
+  const max = response.value || 1
   const nrRetete = recipes_ds.length
-  const maxActivitati = await getValFromS1Query(
-    'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE from CCCACTIVITRETETE'
-  )
+  const maxActivitati =
+    (await getValFromS1Query(
+      'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE from CCCACTIVITRETETE'
+    ).value) || 1
   //insert/update retete in CCCRETETE
   recipes_ds.forEach((reteta) => {
     let sql = `insert into CCCRETETE (CCCOFERTEWEB, NAME) values (${contextOferta.CCCOFERTEWEB}, '${reteta.name}')`
