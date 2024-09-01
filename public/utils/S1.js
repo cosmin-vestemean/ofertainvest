@@ -306,7 +306,7 @@ export async function salveazaReteteInDB() {
     }
   }
   let objSqlList = { sqlList: sqlList }
-  return runSQLTransaction(objSqlList)
+  runSQLTransaction(objSqlList)
     .then((result) => {
       if (result.success) {
         console.log('Retete actualizate in baza de date')
