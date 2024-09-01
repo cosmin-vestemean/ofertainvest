@@ -298,7 +298,7 @@ export async function salveazaReteteInDB() {
         let m = r[i].children
         for (let k = 0; k < m.length; k++) {
           let material = m[k].object
-          let sql = `insert into CCCMATRETETE (CCCOFERTAWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) 
+          let sql = `insert into CCCMATRETETE (CCCOFERTAWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISCUSTOM) 
           values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${parseInt(maxActivitati) + i}, '${material.DENUMIRE_ARTICOL_OFERTA}', '${material.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${material.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${material.SUBTIP_ARTICOL_OFERTA}'), ${material.CANTITATE_ARTICOL_OFERTA}, ${material.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${material.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, 0)`
           sqlList.push(sql)
         }
