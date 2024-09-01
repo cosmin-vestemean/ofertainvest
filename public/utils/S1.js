@@ -290,7 +290,7 @@ export async function salveazaReteteInDB() {
     for (let i = 0; i < r.length; i++) {
       let activitate = r[i].object
       let isMain = r[i].isMain
-      let sql = `insert into CCCACTIVITRETETE (CCCOFERTAWEB, CCCRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM)
+      let sql = `insert into CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM)
       values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, '${activitate.DENUMIRE_ARTICOL_OFERTA}', '${activitate.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${activitate.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${activitate.SUBTIP_ARTICOL_OFERTA}'), ${activitate.CANTITATE_ARTICOL_OFERTA}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0)`
       sqlList.push(sql)
       if (r[i].hasChildren) {
@@ -298,7 +298,7 @@ export async function salveazaReteteInDB() {
         let m = r[i].children
         for (let k = 0; k < m.length; k++) {
           let material = m[k].object
-          let sql = `insert into CCCMATRETETE (CCCOFERTAWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISCUSTOM) 
+          let sql = `insert into CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISCUSTOM) 
           values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${parseInt(maxActivitati) + i}, '${material.DENUMIRE_ARTICOL_OFERTA}', '${material.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${material.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${material.SUBTIP_ARTICOL_OFERTA}'), ${material.CANTITATE_ARTICOL_OFERTA}, ${material.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${material.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, 0)`
           sqlList.push(sql)
         }
