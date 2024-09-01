@@ -240,6 +240,7 @@ export async function saveAntemasuratoriAndTreeToDB() {
   })
 }
 export async function saveRecipesAndInstanteAndTrees() {
+  salveazaReteteInDB()
   // Update CCCOFERTEWEB with the new values by calling runSQLTransaction
   let sqlList = []
   //update CCCOFERTEWEB with the new values
@@ -264,8 +265,6 @@ export async function saveRecipesAndInstanteAndTrees() {
       console.log('Error updating Recipes, Instante and Trees in database')
       throw error
     })
-
-  salveazaReteteInDB()
 }
 
 export async function salveazaReteteInDB() {
