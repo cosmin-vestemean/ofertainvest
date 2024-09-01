@@ -293,7 +293,7 @@ export async function salveazaReteteInDB() {
       let sql = `insert into CCCACTIVITRETETE (CCCOFERTAWEB, CCCRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM)
       values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, '${activitate.DENUMIRE_ARTICOL_OFERTA}', '${activitate.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${activitate.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${activitate.SUBTIP_ARTICOL_OFERTA}'), ${activitate.CANTITATE_ARTICOL_OFERTA}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA}, ${isMain})`
       sqlList.push(sql)
-      if (r.hasChildren) {
+      if (r[i].hasChildren) {
         //insert/update materiale in CCCMATRETETE
         let m = reteta.children
         for (let k = 0; k < m.length; k++) {
