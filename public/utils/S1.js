@@ -264,6 +264,47 @@ export async function saveRecipesAndInstanteAndTrees() {
       console.log('Error updating Recipes, Instante and Trees in database')
       throw error
     })
+
+  salveazaReteteInDB()
+}
+
+export async function salveazaReteteInDB() {
+  //DB insert/update IN tables CCCRETETE, CCCACTIVITRETETE, CCCMATRETETE
+  let sqlList = []
+  //Get MAX(CCCRETETE) from CCCRETETE
+  const response = await getValFromS1Query('select ISNULL(max(CCCRETETE), 0) + 1 as CCCRETETE from CCCRETETE')
+  const max = response.value
+  const nrRetete = recipes_ds.length
+  const maxActivitati = await getValFromS1Query(
+    'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE'
+  )
+  //insert/update retete in CCCRETETE
+  recipes_ds.forEach((reteta) => {
+    let sql = `insert into CCCRETETE (CCCOFERTEWEB, NAME) values (${contextOferta.CCCOFERTEWEB}, '${reteta.name}')`
+    sqlList.push(sql)
+  })
+  //insert/update activitati in CCCACTIVITRETETE
+  for (let j = 0; j < nrRetete; j++) {
+    let reteta = recipes_ds[j]
+    let r = reteta.reteta
+    for (let i = 0; i < r.length; i++) {
+      let activitate = r[i].object
+      let isMain = r[i].isMain
+      let sql = `insert into CCCACTIVITRETETE (CCCOFERTAWEB, CCCRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM)
+      values (${contextOferta.CCCOFERTEWEB}, ${max + j}, '${activitate.DENUMIRE_ARTICOL_OFERTA}', '${activitate.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${activitate.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${activitate.SUBTIP_ARTICOL_OFERTA}'), ${activitate.CANTUNIT}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA}, ${isMain})`
+      sqlList.push(sql)
+      if (reteta.hasChildren) {
+        //insert/update materiale in CCCMATRETETE
+        let m = reteta.children
+        for (let k = 0; k < m.length; k++) {
+          let material = m[k].object
+          let sql = `insert into CCCMATRETETE (CCCOFERTAWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) 
+          values (${contextOferta.CCCOFERTEWEB}, ${max + j}, ${maxActivitati + i}, '${material.DENUMIRE_ARTICOL_OFERTA}', '${material.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${material.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${material.SUBTIP_ARTICOL_OFERTA}'), ${material.CANTUNIT}, ${material.PONDERE_DECONT_MATERIAL_RETETA}, ${material.PONDERE_NORMA_MATERIAL_RETETA}, 0)`
+          sqlList.push(sql)
+        }
+      }
+    }
+  }
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
