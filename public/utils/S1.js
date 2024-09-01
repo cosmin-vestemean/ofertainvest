@@ -309,16 +309,13 @@ export async function salveazaReteteInDB() {
   runSQLTransaction(objSqlList)
     .then((result) => {
       if (result.success) {
-        console.log('Retete actualizate in baza de date')
-        return result
+        console.log('Retete actualizate in baza de date', result)
       } else {
-        console.log('Eroare actualizare retete in baza de date')
-        throw result
+        console.log('Eroare actualizare retete in baza de date', result)
       }
     })
     .catch((error) => {
-      console.log('Eroare actualizare retete in baza de date')
-      throw error
+      console.log('Eroare actualizare retete in baza de date', error)
     })
 }
 
