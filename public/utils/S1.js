@@ -292,7 +292,7 @@ export async function salveazaReteteInDB() {
       let sql = `insert into CCCACTIVITRETETE (CCCOFERTAWEB, CCCRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM)
       values (${contextOferta.CCCOFERTEWEB}, ${max + j}, '${activitate.DENUMIRE_ARTICOL_OFERTA}', '${activitate.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${activitate.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${activitate.SUBTIP_ARTICOL_OFERTA}'), ${activitate.CANTUNIT}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA}, ${isMain})`
       sqlList.push(sql)
-      if (reteta.hasChildren) {
+      if (r.hasChildren) {
         //insert/update materiale in CCCMATRETETE
         let m = reteta.children
         for (let k = 0; k < m.length; k++) {
@@ -304,6 +304,21 @@ export async function salveazaReteteInDB() {
       }
     }
   }
+  let objSqlList = { sqlList: sqlList }
+  return runSQLTransaction(objSqlList)
+    .then((result) => {
+      if (result.success) {
+        console.log('Retete actualizate in baza de date')
+        return result
+      } else {
+        console.log('Eroare actualizare retete in baza de date')
+        throw result
+      }
+    })
+    .catch((error) => {
+      console.log('Eroare actualizare retete in baza de date')
+      throw error
+    })
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
