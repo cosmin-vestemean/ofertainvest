@@ -275,7 +275,7 @@ export async function salveazaReteteInDB() {
   const max = response.value
   const nrRetete = recipes_ds.length
   const maxActivitati = await getValFromS1Query(
-    'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE'
+    'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE from CCCACTIVITRETETE'
   )
   //insert/update retete in CCCRETETE
   recipes_ds.forEach((reteta) => {
