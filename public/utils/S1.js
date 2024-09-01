@@ -295,7 +295,7 @@ export async function salveazaReteteInDB() {
       sqlList.push(sql)
       if (r[i].hasChildren) {
         //insert/update materiale in CCCMATRETETE
-        let m = reteta.children
+        let m = r[i].children
         for (let k = 0; k < m.length; k++) {
           let material = m[k].object
           let sql = `insert into CCCMATRETETE (CCCOFERTAWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) 
