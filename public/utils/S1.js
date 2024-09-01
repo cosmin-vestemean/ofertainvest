@@ -291,7 +291,7 @@ export async function salveazaReteteInDB() {
       let activitate = r[i].object
       let isMain = r[i].isMain
       let sql = `insert into CCCACTIVITRETETE (CCCOFERTAWEB, CCCRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM)
-      values (${contextOferta.CCCOFERTEWEB}, ${max + j}, '${activitate.DENUMIRE_ARTICOL_OFERTA}', '${activitate.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${activitate.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${activitate.SUBTIP_ARTICOL_OFERTA}'), ${activitate.CANTITATE_ARTICOL_OFERTA}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA}, ${isMain})`
+      values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, '${activitate.DENUMIRE_ARTICOL_OFERTA}', '${activitate.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${activitate.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${activitate.SUBTIP_ARTICOL_OFERTA}'), ${activitate.CANTITATE_ARTICOL_OFERTA}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA}, ${isMain})`
       sqlList.push(sql)
       if (r.hasChildren) {
         //insert/update materiale in CCCMATRETETE
@@ -299,7 +299,7 @@ export async function salveazaReteteInDB() {
         for (let k = 0; k < m.length; k++) {
           let material = m[k].object
           let sql = `insert into CCCMATRETETE (CCCOFERTAWEB, CCCRETETE, CCCACTIVITRETETE, NAME, UM, TIP_ARTICOL, SUBTIP_ARTICOL, CANTUNIT, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) 
-          values (${contextOferta.CCCOFERTEWEB}, ${max + j}, ${maxActivitati + i}, '${material.DENUMIRE_ARTICOL_OFERTA}', '${material.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${material.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${material.SUBTIP_ARTICOL_OFERTA}'), ${material.CANTITATE_ARTICOL_OFERTA}, ${material.PONDERE_DECONT_MATERIAL_RETETA}, ${material.PONDERE_NORMA_MATERIAL_RETETA}, 0)`
+          values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${parseInt(maxActivitati) + i}, '${material.DENUMIRE_ARTICOL_OFERTA}', '${material.UM_ARTICOL_OFERTA}', (SELECT CCCTIPARTICOL FROM CCCTIPARTICOL WHERE NAME='${material.TIP_ARTICOL_OFERTA}') , (SELECT CCCSUBTIPARTICOL FROM CCCSUBTIPARTICOL WHERE NAME='${material.SUBTIP_ARTICOL_OFERTA}'), ${material.CANTITATE_ARTICOL_OFERTA}, ${material.PONDERE_DECONT_MATERIAL_RETETA}, ${material.PONDERE_NORMA_MATERIAL_RETETA}, 0)`
           sqlList.push(sql)
         }
       }
