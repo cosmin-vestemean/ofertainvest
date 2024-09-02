@@ -290,11 +290,11 @@ export async function salveazaReteteInDB() {
     let r = reteta.reteta
     for (let i = 0; i < r.length; i++) {
       let activitate = r[i].object
-      let mWBSTemp = material.WBS.split('.')
+      let mWBSTemp = activitate.WBS.split('.')
       let sWBS = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.')
       let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
       let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
-      let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
+      let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${activitate.WBS}' OR WBS='${sWBS}')`
       let isMain = r[i].isMain
       let CCCOFERTEWEBLINII = await getValFromS1Query(
         `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
@@ -359,7 +359,7 @@ export async function salveazaInstanteInDB() {
       let sWBS = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.')
       let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
       let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
-      let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
+      let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${activitate.WBS}' OR WBS='${sWBS}')`
       let CCCOFERTEWEBLINII = await getValFromS1Query(
         `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
       )
