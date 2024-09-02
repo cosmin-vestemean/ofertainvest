@@ -330,7 +330,51 @@ export async function salveazaReteteInDB() {
     })
 }
 export async function salveazaInstanteInDB() {
-  
+  for (let i = 0; i < ds_instanteRetete.length; i++) {
+    let instanta = ds_instanteRetete[i]
+    let sqlList = []
+    let maxInstante = await getValFromS1Query(`select ISNULL(max(CCCINSTANTE), 0) + 1 as CCCINSTANTE from CCCINSTANTE`)
+    maxInstante = maxInstante.value || 1
+    let maxActivitati = await getValFromS1Query(`select ISNULL(max(CCCACTIVITINSTANTE), 0) + 1 as CCCACTIVITINSTANTE from CCCACTIVITINSTANTE`)
+    maxActivitati = maxActivitati.value || 1
+    let sql = `insert into CCCINSTANTE(CCCOFERTEWEB, NAME, ISDUPLICATE, DUPLICATEOF) values (${contextOferta.CCCOFERTEWEB}, 'instanta${i+1}', ${instanta.duplicate ? 1 : 0}, ${instanta.duplicateOf || 0})`
+    sqlList.push(sql)
+    const instanceSpecifics = instanta.instanceSpecifics
+    for (let j = 0; j < instanceSpecifics.length; j++) {
+      let activitate = instanceSpecifics[j].object
+      let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
+      let sql = `insert into CCCACTIVITINSTANTE(CCCOFERTEWEB, CCCINSTANTE, CCCOFERTEWEBLINII) values (${contextOferta.CCCOFERTEWEB}, ${parseInt(maxInstante) + i}, ${CCCOFERTEWEBLINII.value})`
+      sqlList.push(sql)
+      const children = instanceSpecifics.children
+      if (children && children.length > 0) {
+        for (let k = 0; k < children.length; k++) {
+          let material = children[k].object
+          let mWBSTemp = material.WBS.split('.')
+          let sWBS = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.')
+          let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
+          let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
+          let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
+          let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`)
+          let sql = `insert into CCCMATINSTANTE(CCCOFERTEWEB, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII) values (${contextOferta.CCCOFERTEWEB}, ${parseInt(maxInstante) + i}, ${parseInt(maxActivitati) + j}, ${CCCOFERTEWEBLINII.value})`
+          sqlList.push(sql)
+        }
+      }
+    }
+    maxActivitati += instanceSpecifics.length
+  }
+
+  let objSqlList = { sqlList: sqlList }
+  runSQLTransaction(objSqlList)
+    .then((result) => {
+      if (result.success) {
+        console.log('Instante actualizate in baza de date', result)
+      } else {
+        console.log('Eroare actualizare instante in baza de date', result)
+      }
+    })
+    .catch((error) => {
+      console.log('Eroare actualizare instante in baza de date', error)
+    })
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
