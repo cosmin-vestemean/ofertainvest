@@ -273,10 +273,10 @@ export async function salveazaReteteInDB() {
   let sqlList = []
   //Get MAX(CCCRETETE) from CCCRETETE
   const response = await getValFromS1Query('select ISNULL(max(CCCRETETE), 0) + 1 as CCCRETETE from CCCRETETE')
-  const max = response.value || 1
+  const max = parseInt(response.value) || 1
   const nrRetete = recipes_ds.length
   let maxActivitati =
-    (await getValFromS1Query(
+    parseInt(await getValFromS1Query(
       'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE from CCCACTIVITRETETE'
     ).value) || 1
   //insert/update retete in CCCRETETE
@@ -301,7 +301,7 @@ export async function salveazaReteteInDB() {
       )
       let sql =
         `insert into CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) ` +
-        `values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${CCCOFERTEWEBLINII.value}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0)`
+        `values (${contextOferta.CCCOFERTEWEB}, ${max + j}, ${CCCOFERTEWEBLINII.value}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0)`
       sqlList.push(sql)
       if (r[i].hasChildren) {
         //insert/update materiale in CCCMATRETETE
@@ -318,7 +318,7 @@ export async function salveazaReteteInDB() {
           )
           let sql =
             `insert into CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISCUSTOM) ` +
-            `values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${parseInt(maxActivitati) + i}, ${CCCOFERTEWEBLINII.value}, ${material.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${material.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, 0)`
+            `values (${contextOferta.CCCOFERTEWEB}, ${max + j}, ${maxActivitati + i}, ${CCCOFERTEWEBLINII.value}, ${material.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${material.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, 0)`
           sqlList.push(sql)
         }
       }
