@@ -292,8 +292,14 @@ export function calculateAntemasAndNewTree() {
 }
 
 function processInstanceSpecifics(activit, instanceSpecifics) {
-  activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
-  activit.WBS = instanceSpecifics ? instanceSpecifics.WBS : ''
+  //activit[_cantitate_oferta] = instanceSpecifics ? instanceSpecifics[_cantitate_oferta] : 0
+  //activit.WBS = instanceSpecifics ? instanceSpecifics.WBS : ''
+  //add all keys and values from instanceSpecifics to activit
+  if (instanceSpecifics) {
+    Object.keys(instanceSpecifics).forEach((key) => {
+      activit[key] = instanceSpecifics[key]
+    })
+  }
 }
 
 export function showAntemasuratori() {

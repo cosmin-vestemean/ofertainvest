@@ -241,6 +241,7 @@ export async function saveAntemasuratoriAndTreeToDB() {
 }
 export async function saveRecipesAndInstanteAndTrees() {
   salveazaReteteInDB()
+  salveazaInstanteInDB()
   // Update CCCOFERTEWEB with the new values by calling runSQLTransaction
   let sqlList = []
   //update CCCOFERTEWEB with the new values
@@ -327,6 +328,9 @@ export async function salveazaReteteInDB() {
     .catch((error) => {
       console.log('Eroare actualizare retete in baza de date', error)
     })
+}
+export async function salveazaInstanteInDB() {
+  
 }
 
 export async function getEstimariFromDB(CCCOFERTEWEB) {
