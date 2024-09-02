@@ -330,9 +330,9 @@ export async function salveazaReteteInDB() {
     })
 }
 export async function salveazaInstanteInDB() {
+  let sqlList = []
   for (let i = 0; i < ds_instanteRetete.length; i++) {
     let instanta = ds_instanteRetete[i]
-    let sqlList = []
     let maxInstante = await getValFromS1Query(`select ISNULL(max(CCCINSTANTE), 0) + 1 as CCCINSTANTE from CCCINSTANTE`)
     maxInstante = maxInstante.value || 1
     let maxActivitati = await getValFromS1Query(`select ISNULL(max(CCCACTIVITINSTANTE), 0) + 1 as CCCACTIVITINSTANTE from CCCACTIVITINSTANTE`)
