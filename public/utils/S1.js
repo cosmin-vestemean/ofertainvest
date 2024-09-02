@@ -290,7 +290,7 @@ export async function salveazaReteteInDB() {
     for (let i = 0; i < r.length; i++) {
       let activitate = r[i].object
       let isMain = r[i].isMain
-      const CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
+      let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
       let sql =
         `insert into CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) ` +
         `values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${CCCOFERTEWEBLINII.value}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0)`
@@ -299,6 +299,7 @@ export async function salveazaReteteInDB() {
         //insert/update materiale in CCCMATRETETE
         let m = r[i].children
         for (let k = 0; k < m.length; k++) {
+          let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
           let material = m[k].object
           let sql =
             `insert into CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISCUSTOM) ` +
