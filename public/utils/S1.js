@@ -345,7 +345,7 @@ export async function salveazaInstanteInDB() {
       let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
       let sql = `insert into CCCACTIVITINSTANTE(CCCOFERTEWEB, CCCINSTANTE, CCCOFERTEWEBLINII) values (${contextOferta.CCCOFERTEWEB}, ${parseInt(maxInstante) + i}, ${CCCOFERTEWEBLINII.value})`
       sqlList.push(sql)
-      const children = instanceSpecifics.children
+      let children = instanceSpecifics[j].children
       if (children && children.length > 0) {
         for (let k = 0; k < children.length; k++) {
           let material = children[k].object
