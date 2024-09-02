@@ -290,8 +290,15 @@ export async function salveazaReteteInDB() {
     let r = reteta.reteta
     for (let i = 0; i < r.length; i++) {
       let activitate = r[i].object
+      let mWBSTemp = material.WBS.split('.')
+      let sWBS = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.')
+      let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
+      let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
+      let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
       let isMain = r[i].isMain
-      let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
+      let CCCOFERTEWEBLINII = await getValFromS1Query(
+        `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
+      )
       let sql =
         `insert into CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) ` +
         `values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${CCCOFERTEWEBLINII.value}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0)`
@@ -306,7 +313,9 @@ export async function salveazaReteteInDB() {
           let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
           let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
           let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
-          let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`)
+          let CCCOFERTEWEBLINII = await getValFromS1Query(
+            `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
+          )
           let sql =
             `insert into CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISCUSTOM) ` +
             `values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${parseInt(maxActivitati) + i}, ${CCCOFERTEWEBLINII.value}, ${material.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${material.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, 0)`
@@ -333,16 +342,27 @@ export async function salveazaInstanteInDB() {
   let sqlList = []
   for (let i = 0; i < ds_instanteRetete.length; i++) {
     let instanta = ds_instanteRetete[i]
-    let maxInstante = await getValFromS1Query(`select ISNULL(max(CCCINSTANTE), 0) + 1 as CCCINSTANTE from CCCINSTANTE`)
+    let maxInstante = await getValFromS1Query(
+      `select ISNULL(max(CCCINSTANTE), 0) + 1 as CCCINSTANTE from CCCINSTANTE`
+    )
     maxInstante = maxInstante.value || 1
-    let maxActivitati = await getValFromS1Query(`select ISNULL(max(CCCACTIVITINSTANTE), 0) + 1 as CCCACTIVITINSTANTE from CCCACTIVITINSTANTE`)
+    let maxActivitati = await getValFromS1Query(
+      `select ISNULL(max(CCCACTIVITINSTANTE), 0) + 1 as CCCACTIVITINSTANTE from CCCACTIVITINSTANTE`
+    )
     maxActivitati = maxActivitati.value || 1
-    let sql = `insert into CCCINSTANTE(CCCOFERTEWEB, NAME, ISDUPLICATE, DUPLICATEOF) values (${contextOferta.CCCOFERTEWEB}, 'instanta${i+1}', ${instanta.duplicate ? 1 : 0}, ${instanta.duplicateOf || 0})`
+    let sql = `insert into CCCINSTANTE(CCCOFERTEWEB, NAME, ISDUPLICATE, DUPLICATEOF) values (${contextOferta.CCCOFERTEWEB}, 'instanta${i + 1}', ${instanta.duplicate ? 1 : 0}, ${instanta.duplicateOf || 0})`
     sqlList.push(sql)
     const instanceSpecifics = instanta.instanceSpecifics
     for (let j = 0; j < instanceSpecifics.length; j++) {
       let activitate = instanceSpecifics[j].object
-      let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND WBS = '${activitate.WBS}'`)
+      let mWBSTemp = activitate.WBS.split('.')
+      let sWBS = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.')
+      let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
+      let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
+      let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
+      let CCCOFERTEWEBLINII = await getValFromS1Query(
+        `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
+      )
       let sql = `insert into CCCACTIVITINSTANTE(CCCOFERTEWEB, CCCINSTANTE, CCCOFERTEWEBLINII) values (${contextOferta.CCCOFERTEWEB}, ${parseInt(maxInstante) + i}, ${CCCOFERTEWEBLINII.value})`
       sqlList.push(sql)
       let children = instanceSpecifics[j].children
@@ -354,7 +374,9 @@ export async function salveazaInstanteInDB() {
           let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
           let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
           let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}' OR WBS='${sWBS}')`
-          let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`)
+          let CCCOFERTEWEBLINII = await getValFromS1Query(
+            `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
+          )
           let sql = `insert into CCCMATINSTANTE(CCCOFERTEWEB, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII) values (${contextOferta.CCCOFERTEWEB}, ${parseInt(maxInstante) + i}, ${parseInt(maxActivitati) + j}, ${CCCOFERTEWEBLINII.value})`
           sqlList.push(sql)
         }
