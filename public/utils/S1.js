@@ -305,7 +305,7 @@ export async function salveazaReteteInDB() {
           sqlList.push(sql)
         }
       }
-      maxActivitati += r.length
+      maxActivitati++
     }
   }
   let objSqlList = { sqlList: sqlList }
