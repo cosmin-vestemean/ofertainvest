@@ -236,3 +236,11 @@ CREATE TABLE CCCMATINSTANTE (
 	CCCACTIVITINSTANTE INT NOT NULL,
 	CCCOFERTEWEBLINII INT NOT NULL
 );
+select d.denumire_art_of,
+	d.CANT_ART_OF,
+	c.denumire_art_of,
+	c.CANT_ART_OF
+from cccmatinstante a
+	inner join cccactivitinstante b on a.cccactivitinstante = b.cccactivitinstante
+	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
+	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
