@@ -340,16 +340,16 @@ export async function salveazaReteteInDB() {
 }
 export async function salveazaInstanteInDB() {
   let sqlList = []
+  let maxInstante = await getValFromS1Query(
+    `select ISNULL(max(CCCINSTANTE), 0) + 1 as CCCINSTANTE from CCCINSTANTE`
+  )
+  maxInstante = maxInstante.value || 1
+  let maxActivitati = await getValFromS1Query(
+    `select ISNULL(max(CCCACTIVITINSTANTE), 0) + 1 as CCCACTIVITINSTANTE from CCCACTIVITINSTANTE`
+  )
+  maxActivitati = maxActivitati.value || 1
   for (let i = 0; i < ds_instanteRetete.length; i++) {
     let instanta = ds_instanteRetete[i]
-    let maxInstante = await getValFromS1Query(
-      `select ISNULL(max(CCCINSTANTE), 0) + 1 as CCCINSTANTE from CCCINSTANTE`
-    )
-    maxInstante = maxInstante.value || 1
-    let maxActivitati = await getValFromS1Query(
-      `select ISNULL(max(CCCACTIVITINSTANTE), 0) + 1 as CCCACTIVITINSTANTE from CCCACTIVITINSTANTE`
-    )
-    maxActivitati = maxActivitati.value || 1
     let sql = `insert into CCCINSTANTE(CCCOFERTEWEB, NAME, ISDUPLICATE, DUPLICATEOF) values (${contextOferta.CCCOFERTEWEB}, 'instanta${i + 1}', ${instanta.duplicate ? 1 : 0}, ${instanta.duplicateOf || 0})`
     sqlList.push(sql)
     const instanceSpecifics = instanta.instanceSpecifics
