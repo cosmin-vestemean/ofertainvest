@@ -303,8 +303,8 @@ export async function salveazaReteteInDB() {
           let mWBSTemp = material.WBS.split('.')
           let mWBS0 = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.0'
           let mWBSL = mWBSTemp.slice(0, mWBSTemp.length - 1).join('.') + '.L'
-          let mWBS = `('${mWBS0}' OR '${mWBSL}' OR '${material.WBS}')`
-          let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND WBS = ${mWBS}`)
+          let mWBS = `(WBS='${mWBS0}' OR WBS='${mWBSL}' OR WBS='${material.WBS}')`
+          let CCCOFERTEWEBLINII = await getValFromS1Query(`select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${material.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${material.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${material.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`)
           let sql =
             `insert into CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISCUSTOM) ` +
             `values (${contextOferta.CCCOFERTEWEB}, ${parseInt(max) + j}, ${parseInt(maxActivitati) + i}, ${CCCOFERTEWEBLINII.value}, ${material.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${material.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, 0)`
