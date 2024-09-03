@@ -89,31 +89,24 @@ export async function setTrees() {
     query: {
       sqlQuery: `select PATH from CCCPATHS where CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
-  })
+  }).data
 
   const nodes = await client.service('getDataset').find({
     query: {
       sqlQuery: `select CCCUNIQNODES, NAME from CCCUNIQNODES where CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
-  })
+  }).data
 
   let treesDB = [];
-  if (paths && paths.length > 0 && nodes && nodes.length > 0) {
-    const pathsArr = paths[0].PATH.split('/');
-    const nodesMap = new Map();
-    nodes.forEach((node) => {
-      nodesMap.set(node.CCCUNIQNODES, node.NAME);
-    });
-  
-    pathsArr.forEach((path) => {
-      const pathArr = path.split('/');
-      const tree = [];
-      pathArr.forEach((node) => {
-        tree.push(nodesMap.get(parseInt(node)));
-      });
-      treesDB.push(tree);
-    });
-  }
+  paths.forEach(path => {
+    let tree = []
+    let pathArr = path.PATH.split('/')
+    pathArr.forEach(node => {
+      let nodeName = nodes.find(n => n.CCCUNIQNODES == node).NAME
+      tree.push(nodeName)
+    })
+    treesDB.push(tree)
+  })
   
   console.log('trees from DB', treesDB);
   trees = treesDB;
