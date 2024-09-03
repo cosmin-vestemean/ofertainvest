@@ -154,22 +154,19 @@ export async function setRecipesDs() {
     }
     let activitati = activitatiDB.filter((activitate) => activitate.CCCRETETE == reteta.CCCRETETE)
     activitati.forEach((activitate) => {
+      let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
+      .o.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
+      .o.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
+      o.isMain = activitate.ISMAIN
+      o.isCustom = activitate.ISCUSTOM
       let activitateObj = {
-        object: ofertaLiniiDB
-          .find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
-          .map((line) => {
-            let obj = {}
-            Object.keys(recipeDisplayMask).forEach((key) => {
-              obj[key] = line[key]
-            })
-            return obj
-          }),
+        //object: activitate,
+        //map activitate to ofertaLiniiDB by CCCOFERTEWEBLINII
+        object: o,
         hasChildren: true,
         children: []
       }
-      let materiale = materialeDB.filter(
-        (material) => material.CCCACTIVITRETETE == activitate.CCCACTIVITRETETE
-      )
+      let materiale = materialeDB.filter((material) => material.CCCACTIVITRETETE == activitate.CCCACTIVITRETETE)
       materiale.forEach((material) => {
         activitateObj.children.push({ object: material })
       })
@@ -182,6 +179,7 @@ export async function setRecipesDs() {
   })
 
   console.log('retete', retete)
+  
 }
 
 export var selected_ds = []
@@ -221,12 +219,12 @@ export async function setTrees() {
   const paths = pathsResponse.data
   const nodes = nodesResponse.data
 
-  let treesDB = []
-  paths.forEach((path) => {
+  let treesDB = [];
+  paths.forEach(path =>  {
     let tree = []
     let pathArr = path.PATH.split('/')
-    pathArr.forEach((node) => {
-      let nodeName = nodes.find((n) => n.CCCUNIQNODES == node).NAME
+    pathArr.forEach(node => {
+      let nodeName = nodes.find(n => n.CCCUNIQNODES == node).NAME
       tree.push(nodeName)
     })
     treesDB.push(tree)
@@ -234,16 +232,16 @@ export async function setTrees() {
 
   //organize treesDB in subtrees starting from roots (first element of each tree)
   let roots = []
-  treesDB.forEach((tree) => {
+  treesDB.forEach(tree => {
     if (!roots.includes(tree[0])) {
       roots.push(tree[0])
     }
   })
 
   let organizedTrees = []
-  roots.forEach((root) => {
+  roots.forEach(root => {
     let subtree = []
-    treesDB.forEach((tree) => {
+    treesDB.forEach(tree => {
       if (tree[0] == root) {
         subtree.push(tree)
       }
@@ -252,7 +250,7 @@ export async function setTrees() {
   })
 
   console.log('organizedTrees', organizedTrees)
-
+  
   trees = organizedTrees
 }
 export var niveluri = []
