@@ -180,7 +180,7 @@ export async function setRecipesDs() {
   recipes_ds = [...retete]
 }
 
-export async function setInstanteRetete() {
+export async function setDsInstanteRetete() {
   /*
   create TABLE CCCINSTANTE (
 	CCCOFERTEWEB INT NOT NULL,
@@ -321,14 +321,13 @@ from cccmatinstante a
     })
   })
 
+  console.log('instante', instante)
+
   ds_instanteRetete = [...instante]
 }
 
 export var selected_ds = []
 export var ds_instanteRetete = []
-export function setDsInstanteRetete(value) {
-  ds_instanteRetete = value
-}
 export var trees = []
 export async function setTrees() {
   //read path from CCCPATHS: CCCPATHS INT NOT NULL PRIMARY KEY IDENTITY(1, 1), CCCOFERTEWEB INT NOT NULL,	PATH VARCHAR(MAX) NOT NULL,	ISEXTENSIBLE SMALLINT NOT NULL DEFAULT 1
