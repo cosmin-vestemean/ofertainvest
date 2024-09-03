@@ -162,18 +162,16 @@ export function init() {
             console.log('ds_instanteRetete', ds_instanteRetete)
           }
           //trees
-          //if (firstLine.JSONTREESSTR) {
+          //if (firstLine.JSONTREESSTR) 
           //setTrees(JSON.parse(firstLine.JSONTREESSTR))
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           await setTrees()
           processExcelData(optimal_ds)
-          //console.log('trees', trees)
-          //}
           //set ds_antemasuratori
-          if (firstLine.JSONANTESTR) {
+          /* if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
             console.log('ds_antemasuratori', ds_antemasuratori)
-          }
+          } */
           //set ds_estimari_pool: JSONESTIMPOOLSTR
           if (firstLine.JSONESTIMPOOLSTR) {
             context.setDsEstimariPool(JSON.parse(firstLine.JSONESTIMPOOLSTR))
