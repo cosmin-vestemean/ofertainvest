@@ -118,6 +118,115 @@ export async function setRecipesDs() {
   */
 
   let retete = []
+  /*
+  data[0] example
+  {
+    "CCCOFERTEWEB": 1,
+    "CCCRETETE": 1,
+    "NAME": "Reteta 1",
+    "ID": 0,
+    "CCCOFERTEWEB_1": 1,
+    "CCCRETETE_1": 1,
+    "CCCACTIVITRETETE": 1,
+    "CCCOFERTEWEBLINII": 1,
+    "PONDEREDECONT": 1,
+    "PONDERENORMA": 1,
+    "ISMAIN": 1,
+    "ISCUSTOM": 0,
+    "CCCOFERTEWEB_2": 1,
+    "CCCRETETE_2": 1,
+    "CCCMATRETETE": 1,
+    "CCCACTIVITRETETE_1": 1,
+    "CCCOFERTEWEBLINII_1": 2,
+    "PONDEREDECONT_1": 0,
+    "PONDERENORMA_1": 0,
+    "ISCUSTOM_1": 0,
+    "CCCOFERTEWEBLINII_2": 1,
+    "CCCOFERTEWEB_3": 1,
+    "WBS": "1183.7.18.23",
+    "GRUPARE_ART_OF": null,
+    "DENUMIRE_ART_OF": "TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE",
+    "SERIE_ART_OF": "CO01B#",
+    "TIP_ART_OF": "ARTICOL",
+    "SUBTIP_ART_OF": "PRINCIPAL",
+    "NIVEL_OF_1": "Constructii",
+    "NIVEL_OF_2": "Exterior cladire",
+    "NIVEL_OF_3": null,
+    "NIVEL_OF_4": null,
+    "NIVEL_OF_5": null,
+    "NIVEL_OF_6": null,
+    "NIVEL_OF_7": null,
+    "NIVEL_OF_8": null,
+    "NIVEL_OF_9": null,
+    "NIVEL_OF_10": null,
+    "UM_ART_OF": "mp",
+    "CANT_ART_OF": 81.6,
+    "COST_UNTR_MTRL_ART_OF": 58.260435,
+    "COST_UNTR_MAN_ART_OF": 11.000000000000002,
+    "COST_UNTR_UTL_ART_OF": 0,
+    "COST_UNTR_TRNS_ART_OF": 0,
+    "NORMA_UNTR_ORE_MAN_ART_OF": 2.5,
+    "COST_UNTR_ART_OF": 69.260435,
+    "COST_TOTAL_MTRL_ART_OF": 4754.051496,
+    "COST_TOTAL_MAN_ART_OF": 897.6000000000001,
+    "COST_TOTAL_UTL_ART_OF": 0,
+    "COST_TOTAL_TRNS_ART_OF": 0,
+    "COST_TOTAL_ART_OF": 5651.6514959999995,
+    "TOTAL_ORE_MAN_ART_OF": 32.64,
+    "PRET_UNTR_MTRL_ART_OF": 67.29080242500001,
+    "PRET_UNTR_MAN_ART_OF": 12.990862500000004,
+    "PRET_UNTR_UTL_ART_OF": 0,
+    "PRET_UNTR_TRNS_ART_OF": 0,
+    "PRET_UNTR_ART_ART_OF": 80.28166492500002,
+    "PRET_TOTAL_MTRL_ART_OF": 5490.92947788,
+    "PRET_TOTAL_MAN_ART_OF": 1060.0543800000005,
+    "PRET_TOTAL_UTL_ART_OF": 0,
+    "PRET_TOTAL_TRNS_ART_OF": 0,
+    "PRET_TOTAL_ART_ART_OF": 6550.983857880001,
+    "CCCOFERTEWEBLINII_3": 2,
+    "CCCOFERTEWEB_4": 1,
+    "WBS_1": "1183.7.18.23.5",
+    "GRUPARE_ART_OF_1": null,
+    "DENUMIRE_ART_OF_1": "NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM",
+    "SERIE_ART_OF_1": "2200513",
+    "TIP_ART_OF_1": "SUBARTICOL",
+    "SUBTIP_ART_OF_1": "MATERIAL",
+    "NIVEL_OF_1_1": "Constructii",
+    "NIVEL_OF_2_1": "Exterior cladire",
+    "NIVEL_OF_3_1": null,
+    "NIVEL_OF_4_1": null,
+    "NIVEL_OF_5_1": null,
+    "NIVEL_OF_6_1": null,
+    "NIVEL_OF_7_1": null,
+    "NIVEL_OF_8_1": null,
+    "NIVEL_OF_9_1": null,
+    "NIVEL_OF_10_1": null,
+    "UM_ART_OF_1": "mc",
+    "CANT_ART_OF_1": 8.7312,
+    "COST_UNTR_MTRL_ART_OF_1": 72,
+    "COST_UNTR_MAN_ART_OF_1": 0,
+    "COST_UNTR_UTL_ART_OF_1": 0,
+    "COST_UNTR_TRNS_ART_OF_1": 0,
+    "NORMA_UNTR_ORE_MAN_ART_OF_1": 0,
+    "COST_UNTR_ART_OF_1": 72,
+    "COST_TOTAL_MTRL_ART_OF_1": 628.6464,
+    "COST_TOTAL_MAN_ART_OF_1": 0,
+    "COST_TOTAL_UTL_ART_OF_1": 0,
+    "COST_TOTAL_TRNS_ART_OF_1": 0,
+    "COST_TOTAL_ART_OF_1": 628.6464,
+    "TOTAL_ORE_MAN_ART_OF_1": 0,
+    "PRET_UNTR_MTRL_ART_OF_1": 83.16000000000001,
+    "PRET_UNTR_MAN_ART_OF_1": 0,
+    "PRET_UNTR_UTL_ART_OF_1": 0,
+    "PRET_UNTR_TRNS_ART_OF_1": 0,
+    "PRET_UNTR_ART_ART_OF_1": 83.16000000000001,
+    "PRET_TOTAL_MTRL_ART_OF_1": 726.086592,
+    "PRET_TOTAL_MAN_ART_OF_1": 0,
+    "PRET_TOTAL_UTL_ART_OF_1": 0,
+    "PRET_TOTAL_TRNS_ART_OF_1": 0,
+    "PRET_TOTAL_ART_ART_OF_1": 726.086592
+}
+  */
   data.forEach((line) => {
     let reteta = retete.find((r) => r.id == line.ID)
     if (!reteta) {
@@ -133,7 +242,7 @@ export async function setRecipesDs() {
       activitate = {
         cccactivitretete: line.cccactivitretete,
         name: line.DENUMIRE_ART_OF,
-        cantitate: CANT_ART_OF,
+        cantitate: line.CANT_ART_OF,
         reteta: []
       }
       reteta.reteta.push(activitate)
@@ -148,6 +257,7 @@ export async function setRecipesDs() {
 
   console.log('retete', retete)
 }
+
 export var selected_ds = []
 export var ds_instanteRetete = []
 export function setDsInstanteRetete(value) {
