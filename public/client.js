@@ -85,17 +85,29 @@ export async function setTrees() {
   //create trees array of arrays
 
   //get paths from CCCPATHS
-  const paths = await client.service('getDataset').find({
+  const pathsResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `select PATH from CCCPATHS where CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
-  }).data
+  })
 
-  const nodes = await client.service('getDataset').find({
+  const nodesResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `select CCCUNIQNODES, NAME from CCCUNIQNODES where CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
-  }).data
+  })
+
+  if (!pathsResponse.success) {
+    console.log('error', pathsResponse.error)
+    return
+  }
+
+  if (!nodesResponse.success) {
+    console.log('error', nodesResponse.error)
+    return
+  }
+  const paths = pathsResponse.data
+  const nodes = nodesResponse.data
 
   let treesDB = [];
   paths.forEach(path => {
