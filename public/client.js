@@ -157,7 +157,7 @@ export async function setRecipesDs() {
       let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
       let odm = {}
       //map o to odm by recipeDisplayMask
-      recipeDisplayMask.forEach((mask) => {
+      recipeDisplayMask.keys().forEach((mask) => {
         odm[mask.value] = o[mask.linkOferta]
       })
       odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
