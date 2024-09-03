@@ -69,8 +69,84 @@ export function setOptimalDs(value) {
   optimal_ds = value
 }
 export var recipes_ds = []
-export function setRecipesDs(value) {
-  recipes_ds = value
+export async function setRecipesDs() {
+  //recipes_ds = value
+  //get recipes header from CCCRETETE, CCCACTIVITRETETE and CCCMATRETETE (please see file migrations.sql)
+  //resolve CCCOFERTEWEBLINII and get values set in recipeDisplayMask
+  //set values in recipes_ds
+
+  /*
+  select * from cccretete a
+  inner join cccactivitretete b on (a.cccretete=b.cccretete)
+  inner join CCCMATRETETE c on (b.cccactivitretete=c.cccactivitretete)
+  inner join cccoferteweblinii d on (d.cccoferteweblinii=b.cccoferteweblinii)
+  inner join cccoferteweblinii e on (e.cccoferteweblinii=c.cccoferteweblinii)
+  */
+
+  const response = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select * from cccretete a inner join cccactivitretete b on (a.cccretete=b.cccretete) inner join CCCMATRETETE c on (
+        b.cccactivitretete=c.cccactivitretete) inner join cccoferteweblinii d on (d.cccoferteweblinii=b.cccoferteweblinii) inner join cccoferteweblinii e on (e.cccoferteweblinii=c.cccoferteweblinii)`
+    }
+  })
+
+  if (!response.success) {
+    console.log('error', response.error)
+    return
+  }
+
+  const data = response.data
+  console.log('data', data)
+
+  //get header from data
+  /*recipes_ds structure example
+  
+  [
+    {
+      id: 0,
+      name: 'Denumire',
+      reteta: [
+        {object: line_from_d_cccoferteweblinii},
+        hasChildren: true,
+        children: [
+          {object: line_from_e_cccoferteweblinii},  
+        ]
+      ]
+    }, etc
+  ]
+
+  */
+
+  let retete = []
+  data.forEach((line) => {
+    let reteta = retete.find((r) => r.id == line.ID)
+    if (!reteta) {
+      reteta = {
+        id: line.ID,
+        name: line.DENUMIRE,
+        reteta: []
+      }
+      retete.push(reteta)
+    }
+    let activitate = reteta.reteta.find((a) => a.cccactivitretete == line.cccactivitretete)
+    if (!activitate) {
+      activitate = {
+        cccactivitretete: line.cccactivitretete,
+        name: line.DENUMIRE_ART_OF,
+        cantitate: CANT_ART_OF,
+        reteta: []
+      }
+      reteta.reteta.push(activitate)
+    }
+    let material = {
+      cccmatretete: line.cccmatretete,
+      name: line.DENUMIRE_ART_OF,
+      cantitate: line.CANT_ART_OF
+    }
+    activitate.reteta.push(material)
+  })
+
+  console.log('retete', retete)
 }
 export var selected_ds = []
 export var ds_instanteRetete = []

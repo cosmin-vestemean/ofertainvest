@@ -151,7 +151,8 @@ export function init() {
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
           //set recipes_ds
           if (firstLine.JSONRETETESTR) {
-            setRecipesDs(JSON.parse(firstLine.JSONRETETESTR))
+            //setRecipesDs(JSON.parse(firstLine.JSONRETETESTR))
+            setRecipesDs()
             console.log('recipes_ds', recipes_ds)
           }
           //instante retete
