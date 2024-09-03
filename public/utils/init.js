@@ -165,7 +165,7 @@ export function init() {
           //if (firstLine.JSONTREESSTR) {
           //setTrees(JSON.parse(firstLine.JSONTREESSTR))
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
-          setTrees()
+          await setTrees()
           processExcelData(optimal_ds)
           //console.log('trees', trees)
           //}
