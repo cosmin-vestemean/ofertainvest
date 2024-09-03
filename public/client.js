@@ -298,7 +298,7 @@ from cccmatinstante a
       let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
       //use converter from CCCOFERTEWEBLINII to WBS structure
       let oc = {}
-      Object.keys(DBtoWBS).forEach((key) => {
+      Object.keys(o).forEach((key) => {
         oc[key] = o[DBtoWBS[key]]
       })
       let activitateObj = {
