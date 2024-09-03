@@ -160,15 +160,15 @@ export async function setRecipesDs() {
       recipeDisplayMask.forEach((mask) => {
         odm[mask.value] = o[mask.linkOferta]
       })
-      o.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
-      o.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
-      o.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
-      o.isMain = activitate.ISMAIN
-      o.isCustom = activitate.ISCUSTOM
+      odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
+      odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
+      odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
+      odm.isMain = activitate.ISMAIN
+      odm.isCustom = activitate.ISCUSTOM
       let activitateObj = {
         //object: activitate,
         //map activitate to ofertaLiniiDB by CCCOFERTEWEBLINII
-        object: o,
+        object: odm,
         hasChildren: true,
         children: []
       }
