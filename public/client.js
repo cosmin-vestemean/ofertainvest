@@ -97,7 +97,7 @@ export async function setTrees() {
     }
   })
 
-  let trees = [];
+  let treesDB = [];
   if (paths && paths.length > 0 && nodes && nodes.length > 0) {
     const pathsArr = paths[0].PATH.split('/');
     const nodesMap = new Map();
@@ -111,12 +111,12 @@ export async function setTrees() {
       pathArr.forEach((node) => {
         tree.push(nodesMap.get(parseInt(node)));
       });
-      trees.push(tree);
+      treesDB.push(tree);
     });
   }
   
-  console.log('trees from DB', trees);
-  return trees;
+  console.log('trees from DB', treesDB);
+  trees = treesDB;
 }
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
