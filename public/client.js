@@ -155,6 +155,11 @@ export async function setRecipesDs() {
     let activitati = activitatiDB.filter((activitate) => activitate.CCCRETETE == reteta.CCCRETETE)
     activitati.forEach((activitate) => {
       let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
+      let odm = {}
+      //map o to odm by recipeDisplayMask
+      recipeDisplayMask.forEach((mask) => {
+        odm[mask.value] = o[mask.linkOferta]
+      })
       o.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
       o.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
       o.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
@@ -277,34 +282,39 @@ const recipeDisplayMask = {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: true,
     visible: true,
-    label: 'Denumire'
+    label: 'Denumire',
+    linkOferta: 'DENUMIRE_ART_OF'
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: true,
     visible: false,
-    label: 'Cantitate'
+    label: 'Cantitate',
+    linkOferta: 'CANT_ART_OF'
   },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM' },
-  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Tip articol' },
-  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol' },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM', linkOferta: 'UM_ART_OF' },
+  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Tip articol', linkOferta: 'TIP_ART_OF' },
+  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol', linkOferta: 'SUBTIP_ART_OF' },
   CANTITATE_UNITARA_ARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_ARTICOL_RETETA',
     RW: true,
     visible: true,
-    label: 'Cantitate unitara'
+    label: 'Cantitate unitara',
+    linkOferta: 'CANT_UNITARA_ART_OF'
   },
   PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: {
     value: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA',
     RW: true,
     visible: true,
-    label: 'Pondere decont'
+    label: 'Pondere decont',
+    linkOferta: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
   },
   PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: {
     value: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA',
     RW: true,
     visible: true,
-    label: 'Pondere norma'
+    label: 'Pondere norma',
+    linkOferta: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA'
   }
 }
 
