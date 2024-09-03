@@ -157,11 +157,11 @@ export function init() {
             console.log('ds_instanteRetete', ds_instanteRetete)
           }
           //trees
-          if (firstLine.JSONTREESSTR) {
+          //if (firstLine.JSONTREESSTR) {
             //setTrees(JSON.parse(firstLine.JSONTREESSTR))
-            trees = setTrees()
+            setTrees()
             //console.log('trees', trees)
-          }
+          //}
           //set ds_antemasuratori
           if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
