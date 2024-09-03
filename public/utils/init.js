@@ -149,25 +149,20 @@ export function init() {
           trdr.value = firstLine.TRDR
           prjc.value = firstLine.PRJC
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
-          //set recipes_ds
-          if (firstLine.JSONRETETESTR) {
-            //setRecipesDs(JSON.parse(firstLine.JSONRETETESTR))
-            setRecipesDs()
-            console.log('recipes_ds', recipes_ds)
-          }
           //instante retete
           if (firstLine.JSONINSTRETSTR) {
             setDsInstanteRetete(JSON.parse(firstLine.JSONINSTRETSTR))
             console.log('ds_instanteRetete', ds_instanteRetete)
           }
-          //trees
-          //if (firstLine.JSONTREESSTR) 
-          //setTrees(JSON.parse(firstLine.JSONTREESSTR))
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
+          //set trees
           await setTrees()
+          //process excel data
           processExcelData(optimal_ds)
+          //set recipes_ds
+          await setRecipesDs()
           //set ds_antemasuratori
           if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))

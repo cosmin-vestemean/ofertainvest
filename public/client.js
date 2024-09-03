@@ -70,29 +70,6 @@ export function setOptimalDs(value) {
 }
 export var recipes_ds = []
 export async function setRecipesDs() {
-  //recipes_ds = value
-  //get recipes header from CCCRETETE, CCCACTIVITRETETE and CCCMATRETETE (please see file migrations.sql)
-  //resolve CCCOFERTEWEBLINII and get values set in recipeDisplayMask
-  //set values in recipes_ds
-
-  /*recipes_ds structure example
-  
-  [
-    {
-      id: 0,
-      name: 'Denumire',
-      reteta: [
-        {object: line_from_d_cccoferteweblinii},
-        hasChildren: true,
-        children: [
-          {object: line_from_e_cccoferteweblinii},  
-        ]
-      ]
-    }, etc
-  ]
-
-  */
-
   const responseRetete = await client.service('getDataset').find({
     query: {
       sqlQuery: `select * from cccretete a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
@@ -199,6 +176,8 @@ export async function setRecipesDs() {
   })
 
   console.log('retete', retete)
+
+  recipes_ds = retete
 }
 
 export var selected_ds = []
