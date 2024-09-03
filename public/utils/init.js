@@ -158,8 +158,9 @@ export function init() {
           }
           //trees
           if (firstLine.JSONTREESSTR) {
-            setTrees(JSON.parse(firstLine.JSONTREESSTR))
-            console.log('trees', trees)
+            //setTrees(JSON.parse(firstLine.JSONTREESSTR))
+            trees = setTrees()
+            //console.log('trees', trees)
           }
           //set ds_antemasuratori
           if (firstLine.JSONANTESTR) {

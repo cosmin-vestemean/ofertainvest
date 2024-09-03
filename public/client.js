@@ -78,8 +78,45 @@ export function setDsInstanteRetete(value) {
   ds_instanteRetete = value
 }
 export var trees = []
-export function setTrees(value) {
-  trees = value
+export async function setTrees() {
+  //read path from CCCPATHS: CCCPATHS INT NOT NULL PRIMARY KEY IDENTITY(1, 1), CCCOFERTEWEB INT NOT NULL,	PATH VARCHAR(MAX) NOT NULL,	ISEXTENSIBLE SMALLINT NOT NULL DEFAULT 1
+  //path vlue example: CCCPATHS	CCCOFERTEWEB	PATH	ISEXTENSIBLE 7	1	1/3/4/10	1
+  //split path by / and replace numbers with values from CCCUNIQNODES (CCCOFERTEWEB INT NOT NULL,	CCCUNIQNODES INT NOT NULL PRIMARY KEY IDENTITY(1, 1),	NAME VARCHAR(100) NOT NULL)
+  //create trees array of arrays
+
+  //get paths from CCCPATHS
+  const paths = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select PATH from CCCPATHS where CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  const nodes = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select CCCUNIQNODES, NAME from CCCUNIQNODES where CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  let trees = [];
+  if (paths && paths.length > 0 && nodes && nodes.length > 0) {
+    const pathsArr = paths[0].PATH.split('/');
+    const nodesMap = new Map();
+    nodes.forEach((node) => {
+      nodesMap.set(node.CCCUNIQNODES, node.NAME);
+    });
+  
+    pathsArr.forEach((path) => {
+      const pathArr = path.split('/');
+      const tree = [];
+      pathArr.forEach((node) => {
+        tree.push(nodesMap.get(parseInt(node)));
+      });
+      trees.push(tree);
+    });
+  }
+  
+  console.log('trees from DB', trees);
+  return trees;
 }
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
