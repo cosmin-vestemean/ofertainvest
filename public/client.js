@@ -317,8 +317,8 @@ from cccmatinstante a
       }
 
       instantaObj.instanceSpecifics.push(activitateObj)
-      instante.push(instantaObj)
     })
+    instante.push(instantaObj)
   })
 
   console.log('instante', instante)
