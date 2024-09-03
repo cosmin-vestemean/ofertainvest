@@ -158,7 +158,8 @@ export async function setRecipesDs() {
       let odm = {}
       //map o to odm by recipeDisplayMask
       Object.keys(recipeDisplayMask).forEach((mask) => {
-        odm[mask] = o[recipeDisplayMask[mask].linkOferta]
+        //if visible
+        if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
       })
       odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
       odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
@@ -172,7 +173,9 @@ export async function setRecipesDs() {
         hasChildren: true,
         children: []
       }
-      let materiale = materialeDB.filter((material) => material.CCCACTIVITRETETE == activitate.CCCACTIVITRETETE)
+      let materiale = materialeDB.filter(
+        (material) => material.CCCACTIVITRETETE == activitate.CCCACTIVITRETETE
+      )
       materiale.forEach((material) => {
         activitateObj.children.push({ object: material })
       })
@@ -185,7 +188,6 @@ export async function setRecipesDs() {
   })
 
   console.log('retete', retete)
-  
 }
 
 export var selected_ds = []
@@ -225,12 +227,12 @@ export async function setTrees() {
   const paths = pathsResponse.data
   const nodes = nodesResponse.data
 
-  let treesDB = [];
-  paths.forEach(path =>  {
+  let treesDB = []
+  paths.forEach((path) => {
     let tree = []
     let pathArr = path.PATH.split('/')
-    pathArr.forEach(node => {
-      let nodeName = nodes.find(n => n.CCCUNIQNODES == node).NAME
+    pathArr.forEach((node) => {
+      let nodeName = nodes.find((n) => n.CCCUNIQNODES == node).NAME
       tree.push(nodeName)
     })
     treesDB.push(tree)
@@ -238,16 +240,16 @@ export async function setTrees() {
 
   //organize treesDB in subtrees starting from roots (first element of each tree)
   let roots = []
-  treesDB.forEach(tree => {
+  treesDB.forEach((tree) => {
     if (!roots.includes(tree[0])) {
       roots.push(tree[0])
     }
   })
 
   let organizedTrees = []
-  roots.forEach(root => {
+  roots.forEach((root) => {
     let subtree = []
-    treesDB.forEach(tree => {
+    treesDB.forEach((tree) => {
       if (tree[0] == root) {
         subtree.push(tree)
       }
@@ -256,7 +258,7 @@ export async function setTrees() {
   })
 
   console.log('organizedTrees', organizedTrees)
-  
+
   trees = organizedTrees
 }
 export var niveluri = []
@@ -292,9 +294,27 @@ const recipeDisplayMask = {
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF'
   },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: true, visible: true, label: 'UM', linkOferta: 'UM_ART_OF' },
-  TIP_ARTICOL_OFERTA: { value: TIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Tip articol', linkOferta: 'TIP_ART_OF' },
-  SUBTIP_ARTICOL_OFERTA: { value: SUBTIP_ARTICOL_OFERTA, RW: true, visible: true, label: 'Subtip articol', linkOferta: 'SUBTIP_ART_OF' },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    RW: true,
+    visible: true,
+    label: 'UM',
+    linkOferta: 'UM_ART_OF'
+  },
+  TIP_ARTICOL_OFERTA: {
+    value: TIP_ARTICOL_OFERTA,
+    RW: true,
+    visible: true,
+    label: 'Tip articol',
+    linkOferta: 'TIP_ART_OF'
+  },
+  SUBTIP_ARTICOL_OFERTA: {
+    value: SUBTIP_ARTICOL_OFERTA,
+    RW: true,
+    visible: true,
+    label: 'Subtip articol',
+    linkOferta: 'SUBTIP_ART_OF'
+  },
   CANTITATE_UNITARA_ARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_ARTICOL_RETETA',
     RW: true,
