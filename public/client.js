@@ -110,7 +110,7 @@ export async function setTrees() {
   const nodes = nodesResponse.data
 
   let treesDB = [];
-  paths.forEach(path => {
+  paths.forEach(path =>  {
     let tree = []
     let pathArr = path.PATH.split('/')
     pathArr.forEach(node => {
@@ -119,9 +119,29 @@ export async function setTrees() {
     })
     treesDB.push(tree)
   })
+
+  //organize treesDB in subtrees starting from roots (first element of each tree)
+  let roots = []
+  treesDB.forEach(tree => {
+    if (!roots.includes(tree[0])) {
+      roots.push(tree[0])
+    }
+  })
+
+  let organizedTrees = []
+  roots.forEach(root => {
+    let subtree = []
+    treesDB.forEach(tree => {
+      if (tree[0] == root) {
+        subtree.push(tree)
+      }
+    })
+    organizedTrees.push(subtree)
+  })
+
+  console.log('organizedTrees', organizedTrees)
   
-  console.log('trees from DB', treesDB);
-  trees = treesDB;
+  trees = organizedTrees
 }
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
