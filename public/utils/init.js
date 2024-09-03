@@ -374,6 +374,13 @@ export function init() {
     }
   }
 
+  //btn_save_antemas
+  let btn_save_antemas = document.getElementById('btn_save_antemas')
+  btn_save_antemas.onclick = function () {
+    //save antemasuratori in db
+    saveAntemasuratoriAndTreeToDB()
+  }
+
   //btn_regenerare_estimari
   let btn_regenerare_estimari = document.getElementById('btn_regenerare_estimari')
   btn_regenerare_estimari.onclick = function () {
