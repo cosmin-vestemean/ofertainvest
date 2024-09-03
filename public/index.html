@@ -275,6 +275,15 @@
       <div class="page-header">
         <div class="row">
           <div class="col-sm">
+            <input
+              class="form-control form-control-sm"
+              type="file"
+              id="file_oferta_initiala"
+              name="file"
+              accept=".xlsx"
+            />
+          </div>
+          <div class="col-sm">
             <label for="saldoc" class="form-label text-primary">Oferte</label>
             <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
           </div>
@@ -290,20 +299,11 @@
             <label for="prjc" class="form-label text-primary">Proiecte</label>
             <select class="form-select form-select-sm" id="prjc" aria-label="Project"></select>
           </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <input
-              class="form-control form-control-sm"
-              type="file"
-              id="file_oferta_initiala"
-              name="file"
-              accept=".xlsx"
-            />
-          </div>
           <div class="col-sm">
             <button type="button" id="btn_oferta" class="btn btn-success btn-sm">Oferta</button>
           </div>
+        </div>
+        <div class="row">
           <div class="col-sm">
             <button
               type="button"
