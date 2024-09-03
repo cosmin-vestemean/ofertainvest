@@ -29,7 +29,14 @@ import {
 import { _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
-import { populateSelects, getOferta, saveAntemasuratoriAndTreeToDB, getEstimariFromDB, saveRecipesAndInstanteAndTrees, saveTreesInDB } from '../utils/S1.js'
+import {
+  populateSelects,
+  getOferta,
+  saveAntemasuratoriAndTreeToDB,
+  getEstimariFromDB,
+  saveRecipesAndInstanteAndTrees,
+  saveTreesInDB
+} from '../utils/S1.js'
 import { tables } from '../utils/tables.js'
 import {
   ds_antemasuratori,
@@ -37,7 +44,7 @@ import {
   setDsAntemasuratori,
   showAntemasuratori,
   newTree,
-  setNewTree,
+  setNewTree
 } from '../controllers/antemasuratori.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
@@ -142,8 +149,6 @@ export function init() {
           trdr.value = firstLine.TRDR
           prjc.value = firstLine.PRJC
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
-          setOptimalDs(JSON.parse(firstLine.JSONSTR))
-          processExcelData(optimal_ds)
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
           //set recipes_ds
@@ -158,9 +163,11 @@ export function init() {
           }
           //trees
           //if (firstLine.JSONTREESSTR) {
-            //setTrees(JSON.parse(firstLine.JSONTREESSTR))
-            setTrees()
-            //console.log('trees', trees)
+          //setTrees(JSON.parse(firstLine.JSONTREESSTR))
+          setOptimalDs(JSON.parse(firstLine.JSONSTR))
+          setTrees()
+          processExcelData(optimal_ds)
+          //console.log('trees', trees)
           //}
           //set ds_antemasuratori
           if (firstLine.JSONANTESTR) {
