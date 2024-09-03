@@ -316,6 +316,13 @@ from cccmatinstante a
 
       materiale.forEach((material) => {
         let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == material.CCCOFERTEWEBLINII)
+        //use converter from CCCOFERTEWEBLINII to WBS structure
+        let oc = {}
+        Object.keys(o).forEach((key) => {
+          if (DBtoWBS[key]) {
+            oc[DBtoWBS[key]] = o[key]
+          }
+        })
         activitateObj.children.push({ object: o })
       })
 
