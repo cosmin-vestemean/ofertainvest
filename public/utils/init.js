@@ -149,8 +149,6 @@ export function init() {
           trdr.value = firstLine.TRDR
           prjc.value = firstLine.PRJC
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
-          tables.hideAllBut([tables.my_table1])
-          tables.my_table1.element.ds = optimal_ds
           //set recipes_ds
           if (firstLine.JSONRETETESTR) {
             setRecipesDs(JSON.parse(firstLine.JSONRETETESTR))
@@ -165,6 +163,8 @@ export function init() {
           //if (firstLine.JSONTREESSTR) 
           //setTrees(JSON.parse(firstLine.JSONTREESSTR))
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
+          tables.hideAllBut([tables.my_table1])
+          tables.my_table1.element.ds = optimal_ds
           await setTrees()
           processExcelData(optimal_ds)
           //set ds_antemasuratori
