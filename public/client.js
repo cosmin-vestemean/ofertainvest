@@ -125,7 +125,7 @@ export async function setRecipesDs() {
   let retete = []
   reteteDB.forEach((reteta) => {
     let retetaObj = {
-      id: reteta.CCCRETETE,
+      id: reteta.ID,
       name: reteta.NAME,
       reteta: []
     }
