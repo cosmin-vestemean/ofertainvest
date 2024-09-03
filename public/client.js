@@ -161,9 +161,9 @@ export async function setRecipesDs() {
         //if visible
         if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
       })
-      odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
-      odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
-      odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
+      odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA || 0
+      odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT || 0
+      odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA || 0
       odm.isMain = activitate.ISMAIN
       odm.isCustom = activitate.ISCUSTOM
       let activitateObj = {
@@ -177,7 +177,18 @@ export async function setRecipesDs() {
         (material) => material.CCCACTIVITRETETE == activitate.CCCACTIVITRETETE
       )
       materiale.forEach((material) => {
-        activitateObj.children.push({ object: material })
+        //map material to ofertaLiniiDB by CCCOFERTEWEBLINII
+        let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == material.CCCOFERTEWEBLINII)
+        let odm = {}
+        //map o to odm by recipeDisplayMask
+        Object.keys(recipeDisplayMask).forEach((mask) => {
+          //if visible
+          if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
+        })
+        odm.CANTITATE_UNITARA_ARTICOL_RETETA = material.CANTITATEUNITARA || 0
+        odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = material.PONDEREDECONT || 0
+        odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = material.PONDERENORMA || 0
+        activitateObj.children.push({ object: odm })
       })
       if (activitateObj.children.length == 0) {
         activitateObj.hasChildren = false
