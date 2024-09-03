@@ -155,8 +155,9 @@ export async function setRecipesDs() {
     let activitati = activitatiDB.filter((activitate) => activitate.CCCRETETE == reteta.CCCRETETE)
     activitati.forEach((activitate) => {
       let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
-      .o.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
-      .o.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
+      o.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA
+      o.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT
+      o.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA
       o.isMain = activitate.ISMAIN
       o.isCustom = activitate.ISCUSTOM
       let activitateObj = {

@@ -300,8 +300,8 @@ export async function salveazaReteteInDB() {
         `select CCCOFERTEWEBLINII from CCCOFERTEWEBLINII where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} and DENUMIRE_ART_OF='${activitate.DENUMIRE_ARTICOL_OFERTA}' AND TIP_ART_OF='${activitate.TIP_ARTICOL_OFERTA}' AND SUBTIP_ART_OF='${activitate.SUBTIP_ARTICOL_OFERTA}' AND ${mWBS}`
       )
       let sql =
-        `insert into CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) ` +
-        `values (${contextOferta.CCCOFERTEWEB}, ${max + j}, ${CCCOFERTEWEBLINII.value}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0)`
+        `insert into CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM, CANTITATEUNITARA) ` +
+        `values (${contextOferta.CCCOFERTEWEB}, ${max + j}, ${CCCOFERTEWEBLINII.value}, ${activitate.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA || 0}, ${activitate.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA || 0}, ${isMain ? 1 : 0}, 0, ${activitate.CANTITATE_UNITARA_ARTICOL_RETETA || 0})`
       sqlList.push(sql)
       if (r[i].hasChildren) {
         //insert/update materiale in CCCMATRETETE
