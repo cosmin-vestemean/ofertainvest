@@ -140,8 +140,8 @@ export async function setRecipesDs() {
     }
     let material = {
       cccmatretete: line.cccmatretete,
-      name: line.DENUMIRE_ART_OF,
-      cantitate: line.CANT_ART_OF
+      name: line.DENUMIRE_ART_OF_1,
+      cantitate: line.CANT_ART_OF_1
     }
     activitate.reteta.push(material)
   })
