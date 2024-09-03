@@ -323,7 +323,7 @@ from cccmatinstante a
             oc[DBtoWBS[key]] = o[key]
           }
         })
-        activitateObj.children.push({ object: o })
+        activitateObj.children.push({ object: oc })
       })
 
       if (activitateObj.children.length == 0) {
