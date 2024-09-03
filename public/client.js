@@ -299,7 +299,9 @@ from cccmatinstante a
       //use converter from CCCOFERTEWEBLINII to WBS structure
       let oc = {}
       Object.keys(o).forEach((key) => {
-        oc[key] = o[DBtoWBS[key]]
+        if (DBtoWBS[key]) {
+          oc[DBtoWBS[key]] = o[key]
+        }
       })
       let activitateObj = {
         object: oc,
