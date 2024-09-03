@@ -177,7 +177,151 @@ export async function setRecipesDs() {
 
   console.log('retete', retete)
 
-  recipes_ds = retete
+  recipes_ds = [...retete]
+}
+
+export async function setInstanteRetete() {
+  /*
+  create TABLE CCCINSTANTE (
+	CCCOFERTEWEB INT NOT NULL,
+	CCCINSTANTE INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	ISDUPLICATE SMALLINT NOT NULL DEFAULT 0,
+	DUPLICATEOF INT,
+	NAME VARCHAR(250) NOT NULL
+);
+CREATE TABLE CCCACTIVITINSTANTE (
+	CCCOFERTEWEB INT NOT NULL,
+	CCCINSTANTE INT NOT NULL,
+	CCCACTIVITINSTANTE INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	CCCOFERTEWEBLINII INT NOT NULL
+);
+CREATE TABLE CCCMATINSTANTE (
+	CCCOFERTEWEB INT NOT NULL,
+	CCCINSTANTE INT NOT NULL,
+	CCCMATINSTANTE INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	CCCACTIVITINSTANTE INT NOT NULL,
+	CCCOFERTEWEBLINII INT NOT NULL
+);
+select d.denumire_art_of,
+	d.CANT_ART_OF,
+	c.denumire_art_of,
+	c.CANT_ART_OF
+from cccmatinstante a
+	inner join cccactivitinstante b on a.cccactivitinstante = b.cccactivitinstante
+	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
+	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
+
+  ds_instanteRetete example:
+  [
+    {
+      duplicate: false,
+      duplicateOf: 0,
+      instanceSpecifics: [
+        {
+          object: {line_from_oferta by CCCOFERTEWEBLINII},
+          isMain: true,
+          hasChildren: true,
+          children: [
+            {
+              object: {line_from_oferta by CCCOFERTEWEBLINII},
+            }
+          ]
+        }
+      ]
+    }, ...
+  ]
+  */
+  const responseInstante = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select * from cccinstante a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  if (!responseInstante.success) {
+    console.log('error', responseInstante.error)
+    return
+  }
+
+  const instanteDB = responseInstante.data
+
+  const responseOfertaLinii = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select * from cccoferteweblinii a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  if (!responseOfertaLinii.success) {
+    console.log('error', responseOfertaLinii.error)
+    return
+  }
+
+  const ofertaLiniiDB = responseOfertaLinii.data
+
+  const responseActivitatiInstante = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select * from cccactivitinstante a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  if (!responseActivitatiInstante.success) {
+    console.log('error', responseActivitatiInstante.error)
+    return
+  }
+
+  const activitatiInstanteDB = responseActivitatiInstante.data
+
+  const responseMaterialeInstante = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select * from cccmatinstante a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  if (!responseMaterialeInstante.success) {
+    console.log('error', responseMaterialeInstante.error)
+    return
+  }
+
+  const materialeInstanteDB = responseMaterialeInstante.data
+
+  let instante = []
+  //do not use recipeDisplayMask for instantele retete
+  instanteDB.forEach((instanta) => {
+    let instantaObj = {
+      duplicate: instanta.ISDUPLICATE,
+      duplicateOf: instanta.DUPLICATEOF,
+      instanceSpecifics: []
+    }
+    let activitati = activitatiInstanteDB.filter(
+      (activitate) => activitate.CCCINSTANTE == instanta.CCCINSTANTE
+    )
+    activitati.forEach((activitate) => {
+      let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == activitate.CCCOFERTEWEBLINII)
+      let activitateObj = {
+        object: o,
+        isMain: activitate.ISMAIN,
+        hasChildren: true,
+        children: []
+      }
+
+      let materiale = materialeInstanteDB.filter(
+        (material) => material.CCCACTIVITINSTANTE == activitate.CCCACTIVITINSTANTE
+      )
+
+      materiale.forEach((material) => {
+        let o = ofertaLiniiDB.find((line) => line.CCCOFERTEWEBLINII == material.CCCOFERTEWEBLINII)
+        activitateObj.children.push({ object: o })
+      })
+
+      if (activitateObj.children.length == 0) {
+        activitateObj.hasChildren = false
+      }
+
+      instantaObj.instanceSpecifics.push(activitateObj)
+      instante.push(instantaObj)
+    })
+  })
+
+  ds_instanteRetete = [...instante]
 }
 
 export var selected_ds = []

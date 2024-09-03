@@ -150,10 +150,7 @@ export function init() {
           prjc.value = firstLine.PRJC
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
           //instante retete
-          if (firstLine.JSONINSTRETSTR) {
-            setDsInstanteRetete(JSON.parse(firstLine.JSONINSTRETSTR))
-            console.log('ds_instanteRetete', ds_instanteRetete)
-          }
+          setDsInstanteRetete()
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
@@ -163,6 +160,8 @@ export function init() {
           processExcelData(optimal_ds)
           //set recipes_ds
           await setRecipesDs()
+          //instante retete
+          setDsInstanteRetete()
           //set ds_antemasuratori
           if (firstLine.JSONANTESTR) {
             setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
