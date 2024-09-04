@@ -618,6 +618,17 @@ export function loadDataFromFile(evt) {
 
   changeBtnOferta()
 
+  //add value to contextOferta.CCCOFERTEWEB
+  getValFromS1Query(`select max(CCCOFERTEWEB) + 1 from CCCOFERTEWEB where CCCOFERTEWEB > 0`).then(
+    (result) => {
+      if (result.success) {
+        contextOferta.CCCOFERTEWEB = result.value
+      } else {
+        console.log('educated guessing next CCCOFERTEWEB failed', result.error)
+      }
+    }
+  )
+
   function changeBtnOferta() {
     var btn_oferta = document.getElementById('btn_oferta')
     var dl = `<i class="bi bi-download"></i>`
