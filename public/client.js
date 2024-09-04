@@ -673,7 +673,7 @@ export function processExcelData(optimal_ds) {
 
 async function salveazaOfertaInDB(ds) {
   //save trees in CCCPATHS
-  saveTreesInDB()
+  await saveTreesInDB()
   //save ds in CCCOFERTEWEB
   let sqlList = []
   const ofertaExista = await getValFromS1Query(
