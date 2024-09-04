@@ -720,7 +720,7 @@ async function salveazaOfertaInDB(ds) {
     let n1 = item.NIVEL_OFERTA_1
       ? {
           insertName: 'NIVEL_OF_1, ',
-          insertValue: `'${item.NIVEL_OFERTA_1}'`,
+          insertValue: `'${item.NIVEL_OFERTA_1}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_1).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -728,7 +728,7 @@ async function salveazaOfertaInDB(ds) {
     let n2 = item.NIVEL_OFERTA_2
       ? {
           insertName: 'NIVEL_OF_2, ',
-          insertValue: `'${item.NIVEL_OFERTA_2}'`,
+          insertValue: `'${item.NIVEL_OFERTA_2}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_2).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -736,7 +736,7 @@ async function salveazaOfertaInDB(ds) {
     let n3 = item.NIVEL_OFERTA_3
       ? {
           insertName: 'NIVEL_OF_3, ',
-          insertValue: `'${item.NIVEL_OFERTA_3}'`,
+          insertValue: `'${item.NIVEL_OFERTA_3}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_3).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -744,7 +744,7 @@ async function salveazaOfertaInDB(ds) {
     let n4 = item.NIVEL_OFERTA_4
       ? {
           insertName: 'NIVEL_OF_4, ',
-          insertValue: `'${item.NIVEL_OFERTA_4}'`,
+          insertValue: `'${item.NIVEL_OFERTA_4}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_4).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -752,7 +752,7 @@ async function salveazaOfertaInDB(ds) {
     let n5 = item.NIVEL_OFERTA_5
       ? {
           insertName: 'NIVEL_OF_5, ',
-          insertValue: `'${item.NIVEL_OFERTA_5}'`,
+          insertValue: `'${item.NIVEL_OFERTA_5}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_5).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -760,7 +760,7 @@ async function salveazaOfertaInDB(ds) {
     let n6 = item.NIVEL_OFERTA_6
       ? {
           insertName: 'NIVEL_OF_6, ',
-          insertValue: `'${item.NIVEL_OFERTA_6}'`,
+          insertValue: `'${item.NIVEL_OFERTA_6}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_6).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -768,7 +768,7 @@ async function salveazaOfertaInDB(ds) {
     let n7 = item.NIVEL_OFERTA_7
       ? {
           insertName: 'NIVEL_OF_7, ',
-          insertValue: `'${item.NIVEL_OFERTA_7}'`,
+          insertValue: `'${item.NIVEL_OFERTA_7}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_7).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -776,7 +776,7 @@ async function salveazaOfertaInDB(ds) {
     let n8 = item.NIVEL_OFERTA_8
       ? {
           insertName: 'NIVEL_OF_8, ',
-          insertValue: `'${item.NIVEL_OFERTA_8}'`,
+          insertValue: `'${item.NIVEL_OFERTA_8}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_8).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -784,7 +784,7 @@ async function salveazaOfertaInDB(ds) {
     let n9 = item.NIVEL_OFERTA_9
       ? {
           insertName: 'NIVEL_OF_9, ',
-          insertValue: `'${item.NIVEL_OFERTA_9}'`,
+          insertValue: `'${item.NIVEL_OFERTA_9}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_9).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
@@ -792,7 +792,7 @@ async function salveazaOfertaInDB(ds) {
     let n10 = item.NIVEL_OFERTA_10
       ? {
           insertName: 'NIVEL_OF_10, ',
-          insertValue: `'${item.NIVEL_OFERTA_10}'`,
+          insertValue: `'${item.NIVEL_OFERTA_10}', `,
           pathCrumb: nodes.find((n) => n.NAME == item.NIVEL_OFERTA_10).CCCUNIQNODES
         }
       : { insertName: '', insertValue: '', pathCrumb: 0 }
