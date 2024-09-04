@@ -799,7 +799,7 @@ async function salveazaOfertaInDB(ds) {
     initial_path_crumbs.push(n10.pathCrumb)
 
     //join crumbs if not 0
-    let initial_path = initial_path_crumbs.filter((crumb) => crumb != 0).join(delimiter)
+    let initial_path = initial_path_crumbs.filter((crumb) => crumb != 0).join('/')
 
     sqlList.push(
       `INSERT INTO CCCOFERTEWEBLINII (CCCOFERTEWEB, WBS, GRUPARE_ART_OF, DENUMIRE_ART_OF, SERIE_ART_OF, TIP_ART_OF, SUBTIP_ART_OF, ${n1.insertName}${n2.insertName}${n3.insertName}${n4.insertName}${n5.insertName}${n6.insertName}${n7.insertName}${n8.insertName}${n9.insertName}${n10.insertName} 
