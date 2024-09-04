@@ -154,6 +154,7 @@ export function init() {
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
+          btn_oferta.setAttribute('data-saved', 'true')
           //set trees
           await setTrees()
           //process excel data
