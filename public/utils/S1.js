@@ -440,7 +440,7 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
   })
 }
 
-export async function saveTreesInDB(trees) {
+export async function saveTreesInDB() {
   /*
   example of trees data:
   [

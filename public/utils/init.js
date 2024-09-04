@@ -221,7 +221,7 @@ export function init() {
   //btn_save_graph.onclick = populateSelectIerarhiiFromTrees
   btn_save_graph.onclick = function () {
     populateSelectIerarhiiFromTrees()
-    saveTreesInDB(trees)
+    saveTreesInDB()
   }
   let scan_oferta_initiala = document.getElementById('scan_oferta_initiala')
   scan_oferta_initiala.onclick = function () {
