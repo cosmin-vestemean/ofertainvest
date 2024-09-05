@@ -152,26 +152,30 @@ export async function createAnteamauratori() {
 
   const antemasuratori = []
 
-  for (let i = 0; i < paths.length; i++) {
-    const path = paths[i]
-    const pathLinii = liniiInstante.filter((linie) => linie.PATH === path.PATH)
-    for (let j = 0; j < pathLinii.length; j++) {
-      //find every leaf that contains the path record leaf id (CCCPATH) and the linie id (CCCACTIVITINSTANTE) in table CCCANTEMASURATORI with the quantity = 0
-      const linie = pathLinii[j]
-      for (let k = 0; k < leafs.length; k++) {
-        const leaf = leafs[k]
-        if (leaf.PATH.includes(path.PATH)) {
-          antemasuratori.push({
-            CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
-            CCCPATH: leaf.CCCPATH,
-            CCCACTIVITINSTANTE: linie.CCCACTIVITINSTANTE,
-            CCCOFERTEWEBLINII: linie.CCCOFERTEWEBLINII,
-            CANTITATE: 0
-          })
-        }
+  //find unique INITIAL_PATH in liniiInstante
+  let initialPaths = []
+  for (let i = 0; i < liniiInstante.length; i++) {
+    if (!initialPaths.includes(liniiInstante[i].INITIAL_PATH)) {
+      initialPaths.push(liniiInstante[i].INITIAL_PATH)
+    }
+  }
+
+  console.log('initialPaths', initialPaths)
+
+  //prelungeste initialPaths cu leafs as an inner join
+  let antemasuratoriPaths = []
+  for (let i = 0; i < initialPaths.length; i++) {
+    for (let j = 0; j < leafs.length; j++) {
+      if (leafs[j].PATH.includes(initialPaths[i])) {
+        antemasuratoriPaths.push(leafs[j])
       }
     }
   }
+
+  console.log('antemasuratoriPaths', antemasuratoriPaths)
+
+  //create antemasuratori
+  
 
   console.log('antemasuratori', antemasuratori)
 
