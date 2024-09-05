@@ -218,6 +218,7 @@ function convertDBAntemasuratori(antemasuratori) {
     for (let j = 0; j < keys.length; j++) {
       aTransformed[values[j]] = a[keys[j]]
     }
+    antemasuratoriTransformed.push(aTransformed)
   }
   return antemasuratoriTransformed
 }
