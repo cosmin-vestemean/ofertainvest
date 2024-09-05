@@ -154,7 +154,7 @@ export async function createAnteamauratori() {
 
   for (let i = 0; i < paths.length; i++) {
     const path = paths[i]
-    const pathLinii = liniiInstante.filter((linie) => linie.CCCPATH === path.CCCPATH)
+    const pathLinii = liniiInstante.filter((linie) => linie.PATH === path.PATH)
     for (let j = 0; j < pathLinii.length; j++) {
       //find every leaf that contains the path record leaf id (CCCPATH) and the linie id (CCCACTIVITINSTANTE) in table CCCANTEMASURATORI with the quantity = 0
       const linie = pathLinii[j]
