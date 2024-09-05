@@ -35,7 +35,7 @@ export async function setDsAntemasuratori() {
   sqlList.push(sql)
   let objList = { sqlList: sqlList }
   const response = await runSQLTransaction(objList)
-  if (response.success) {
+  if (response.success && response.data && response.data.length > 0) {
     const transf = convertDBAntemasuratori(response.data)
     ds_antemasuratori = transf
     console.log('ds_antemasuratori', ds_antemasuratori)
