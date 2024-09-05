@@ -17,6 +17,7 @@ import {
   _cantitate_antemasuratori, _cantitate_oferta,
   _cantitate_estimari
 } from '../utils/_cantitate_oferta.js'
+import { runSQLTransaction } from '../utils/S1.js'
 
 export var ds_antemasuratori = []
 export const setDsAntemasuratori = (value) => {
@@ -187,6 +188,17 @@ export async function createAnteamauratori() {
 
   console.log('antemasuratori', antemasuratori)
 
+  //insert antemasuratori
+  let sqlList = []
+  for (let i = 0; i < antemasuratori.length; i++) {
+    let sql = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATH, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CANTITATE) VALUES (${antemasuratori[i].CCCOFERTEWEB}, ${antemasuratori[i].CCCPATH}, ${antemasuratori[i].CCCACTIVITINSTANTE}, ${antemasuratori[i].CCCOFERTEWEBLINII}, ${antemasuratori[i].CANTITATE})`
+    sqlList.push(sql)
+  }
+
+  console.log('sqlList', sqlList)
+
+  let objList = {sqlList: sqlList}
+  runSQLTransaction(objList)
 } 
 
 //instante retete + recipes_ds + trees -> ds_antemasuratori + newTree
