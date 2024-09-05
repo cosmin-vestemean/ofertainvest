@@ -188,7 +188,8 @@ export async function createAnteamauratori() {
   console.log('sqlList', sqlList)
 
   let objList = {sqlList: sqlList}
-  runSQLTransaction(objList)
+  const response = runSQLTransaction(objList)
+  return response
 } 
 
 //instante retete + recipes_ds + trees -> ds_antemasuratori + newTree
