@@ -114,13 +114,13 @@ export async function createAnteamauratori() {
   );
   */
 
-  const liniiInstanteResponse = await client.service('getDataset').find({
+  const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `select * from cccactivitinstante a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
     }
   })
 
-  const liniiInstante = liniiInstanteResponse.data
+  const activitatiInstante = activitatiInstanteResponse.data
 
   const pathsResponse = await client.service('getDataset').find({
     query: {
@@ -152,30 +152,37 @@ export async function createAnteamauratori() {
 
   const antemasuratori = []
 
-  //find unique INITIAL_PATH in liniiInstante
+  //find unique INITIAL_PATH in activitatiInstante
   let initialPaths = []
-  for (let i = 0; i < liniiInstante.length; i++) {
-    if (!initialPaths.includes(liniiInstante[i].INITIAL_PATH)) {
-      initialPaths.push(liniiInstante[i].INITIAL_PATH)
+  for (let i = 0; i < activitatiInstante.length; i++) {
+    if (!initialPaths.includes(activitatiInstante[i].INITIAL_PATH)) {
+      initialPaths.push(activitatiInstante[i].INITIAL_PATH)
     }
   }
 
   console.log('initialPaths', initialPaths)
 
-  //prelungeste initialPaths cu leafs as an inner join
-  let antemasuratoriPaths = []
+  //create antemasuratori
+  //1. find all activitati for each initial path
+  //2. find all leafs for each initial path (those that include the initial path)
+  //3. inner join activitati with leafs
+  //4. push into antemasuratori
+
   for (let i = 0; i < initialPaths.length; i++) {
-    for (let j = 0; j < leafs.length; j++) {
-      if (leafs[j].PATH.includes(initialPaths[i])) {
-        antemasuratoriPaths.push(leafs[j])
+    const activitati = activitatiInstante.filter((o) => o.INITIAL_PATH === initialPaths[i])
+    const leafsForPath = leafs.filter((o) => o.PATH.includes(initialPaths[i]))
+    for (let j = 0; j < activitati.length; j++) {
+      for (let k = 0; k < leafsForPath.length; k++) {
+        antemasuratori.push({
+          CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
+          CCCPATH: leafsForPath[k].CCCPATH,
+          CCCACTIVITINSTANTE: activitati[j].CCCACTIVITINSTANTE,
+          CCCOFERTEWEBLINII: activitati[j].CCCOFERTWEBLINII,
+          CANTITATE: 0
+        })
       }
     }
   }
-
-  console.log('antemasuratoriPaths', antemasuratoriPaths)
-
-  //create antemasuratori
-  
 
   console.log('antemasuratori', antemasuratori)
 
