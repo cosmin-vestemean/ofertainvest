@@ -170,7 +170,7 @@ export async function createAnteamauratori() {
 
   for (let i = 0; i < initialPaths.length; i++) {
     const activitati = activitatiInstante.filter((o) => o.INITIAL_PATH === initialPaths[i])
-    const leafsForPath = leafs.filter((o) => o.PATH.includes(initialPaths[i] && o.PATH !== initialPaths[i]))
+    const leafsForPath = leafs.filter((o) => o.PATH.includes(initialPaths[i]))
     console.log('activitati', activitati, 'leafsForPath', leafsForPath)
     for (let j = 0; j < activitati.length; j++) {
       for (let k = 0; k < leafsForPath.length; k++) {
