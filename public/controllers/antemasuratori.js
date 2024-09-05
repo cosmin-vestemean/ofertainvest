@@ -30,11 +30,12 @@ export async function setDsAntemasuratori() {
   order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path => ds_antemasuratori
   */
 
-  let sqlList = []
-  const sql = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path`
-  sqlList.push(sql)
-  let objList = { sqlList: sqlList }
-  const response = await runSQLTransaction(objList)
+  const sqlQuery = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path`
+  const response = await client.service('getDataset').find({
+    query: {
+      sqlQuery: sqlQuery
+    }
+  })
   if (response.success && response.data && response.data.length > 0) {
     const transf = convertDBAntemasuratori(response.data)
     ds_antemasuratori = transf
