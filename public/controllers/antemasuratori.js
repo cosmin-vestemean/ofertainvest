@@ -136,7 +136,7 @@ export async function createAnteamauratori() {
     let isLeaf = true
     for (let j = 0; j < paths.length; j++) {
       if (i !== j) {
-        if (paths[j].CCCPATH.includes(path.CCCPATH)) {
+        if (paths[j].PATH.includes(path.PATH)) {
           isLeaf = false
           break
         }
