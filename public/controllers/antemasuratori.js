@@ -170,15 +170,15 @@ export async function createAnteamauratori() {
 
   for (let i = 0; i < initialPaths.length; i++) {
     const activitati = activitatiInstante.filter((o) => o.INITIAL_PATH === initialPaths[i])
-    const leafsForPath = leafs.filter((o) => o.PATH.includes(initialPaths[i]))
+    const leafsForPath = leafs.filter((o) => o.PATH.includes(initialPaths[i] && o.PATH !== initialPaths[i]))
     console.log('activitati', activitati, 'leafsForPath', leafsForPath)
     for (let j = 0; j < activitati.length; j++) {
       for (let k = 0; k < leafsForPath.length; k++) {
         antemasuratori.push({
           CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
-          CCCPATH: leafsForPath[k].CCCPATH,
+          CCCPATH: leafsForPath[k].CCCPATHS,
           CCCACTIVITINSTANTE: activitati[j].CCCACTIVITINSTANTE,
-          CCCOFERTEWEBLINII: activitati[j].CCCOFERTWEBLINII,
+          CCCOFERTEWEBLINII: activitati[j].CCCOFERTEWEBLINII,
           CANTITATE: 0
         })
       }
