@@ -11,7 +11,8 @@ import {
   niveluri,
   _start_date,
   client,
-  contextOferta
+  contextOferta,
+  DBtoWBS
 } from '../client.js'
 import {
   _cantitate_antemasuratori,
@@ -36,7 +37,8 @@ export async function setDsAntemasuratori() {
   runSQLTransaction(objList)
     .then((response) => {
       if (response.success) {
-        ds_antemasuratori = response.data
+        const transf = convertDBAntemasuratori(response.data)
+        ds_antemasuratori = transf
         console.log('ds_antemasuratori', ds_antemasuratori)
       } else {
         console.log('response', response)
@@ -201,10 +203,27 @@ export async function createAntemasuratori() {
 
   console.log('antemasuratori', antemasuratori)
 
-  ds_antemasuratori = antemasuratori
+  //transform antemasuratori into ds_antemasuratori by the means of converter DBtoWBS from client.js
+  let antemasuratoriTransformed = convertDBAntemasuratori(antemasuratori)
+  
+  ds_antemasuratori = antemasuratoriTransformed
 
   //insert antemasuratori
   insertAntemasuratori(antemasuratori)
+}
+
+function convertDBAntemasuratori(antemasuratori) {
+  let antemasuratoriTransformed = []
+  for (let i = 0; i < antemasuratori.length; i++) {
+    let a = antemasuratori[i]
+    let aTransformed = {}
+    let keys = Object.keys(DBtoWBS)
+    let values = Object.values(DBtoWBS)
+    for (let j = 0; j < keys.length; j++) {
+      aTransformed[values[j]] = a[keys[j]]
+    }
+  }
+  return antemasuratoriTransformed
 }
 
 function insertAntemasuratori(antemasuratori) {
