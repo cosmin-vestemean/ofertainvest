@@ -104,17 +104,6 @@ export const antemasuratoriDisplayMask = {
 }
 
 export async function createAnteamauratori() {
-  /*
-  create table CCCANTEMASURATORI (
-    CCCOFERTEWEB INT NOT NULL,
-    CCCANTEMASURATORI INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
-    CCCPATH INT NOT NULL,
-    CCCACTIVITINSTANTE INT NOT NULL,
-    CCCOFERTEWEBLINII INT NOT NULL,
-    CANTITATE FLOAT NOT NULL,
-  );
-  */
-
   const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `select * from cccactivitinstante a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
@@ -178,6 +167,7 @@ export async function createAnteamauratori() {
         antemasuratori.push({
           CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
           CCCPATH: leafsForPath[k].CCCPATHS,
+          CCCINSTANTE: activitati[j].CCCINSTANTE,
           CCCACTIVITINSTANTE: activitati[j].CCCACTIVITINSTANTE,
           CCCOFERTEWEBLINII: activitati[j].CCCOFERTEWEBLINII,
           CANTITATE: 0
@@ -191,7 +181,7 @@ export async function createAnteamauratori() {
   //insert antemasuratori
   let sqlList = []
   for (let i = 0; i < antemasuratori.length; i++) {
-    let sql = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATHS, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CANTITATE) VALUES (${antemasuratori[i].CCCOFERTEWEB}, ${antemasuratori[i].CCCPATH}, ${antemasuratori[i].CCCACTIVITINSTANTE}, ${antemasuratori[i].CCCOFERTEWEBLINII}, ${antemasuratori[i].CANTITATE})`
+    let sql = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATHS, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CANTITATE) VALUES (${antemasuratori[i].CCCOFERTEWEB}, ${antemasuratori[i].CCCPATH}, ${antemasuratori[i].CCCACTIVITINSTANTE}, ${antemasuratori[i].CCCOFERTEWEBLINII}, ${antemasuratori[i].CANTITATE})`
     sqlList.push(sql)
   }
 
