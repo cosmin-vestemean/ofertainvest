@@ -103,7 +103,7 @@ export const antemasuratoriDisplayMask = {
   }
 }
 
-export async function createAnteamauratori() {
+export async function createAntemasuratori() {
   const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `select * from cccactivitinstante a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
@@ -178,7 +178,13 @@ export async function createAnteamauratori() {
 
   console.log('antemasuratori', antemasuratori)
 
+  ds_antemasuratori = antemasuratori
+
   //insert antemasuratori
+  insertAntemasuratori(antemasuratori)
+} 
+
+function insertAntemasuratori(antemasuratori) {
   let sqlList = []
   for (let i = 0; i < antemasuratori.length; i++) {
     let sql = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATHS, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CANTITATE) VALUES (${antemasuratori[i].CCCOFERTEWEB}, ${antemasuratori[i].CCCPATH}, ${antemasuratori[i].CCCINSTANTE},${antemasuratori[i].CCCACTIVITINSTANTE}, ${antemasuratori[i].CCCOFERTEWEBLINII}, ${antemasuratori[i].CANTITATE})`
@@ -187,13 +193,13 @@ export async function createAnteamauratori() {
 
   console.log('sqlList', sqlList)
 
-  let objList = {sqlList: sqlList}
+  let objList = { sqlList: sqlList }
   runSQLTransaction(objList).then((response) => {
     console.log('response', response)
   }).catch((error) => {
     console.log('error', error)
   })
-} 
+}
 
 //instante retete + recipes_ds + trees -> ds_antemasuratori + newTree
 export function calculateAntemasAndNewTree() {
