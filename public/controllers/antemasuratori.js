@@ -14,18 +14,41 @@ import {
   contextOferta
 } from '../client.js'
 import {
-  _cantitate_antemasuratori, _cantitate_oferta,
+  _cantitate_antemasuratori,
+  _cantitate_oferta,
   _cantitate_estimari
 } from '../utils/_cantitate_oferta.js'
 import { runSQLTransaction } from '../utils/S1.js'
 
 export var ds_antemasuratori = []
-export const setDsAntemasuratori = (value) => {
-  ds_antemasuratori = value
+export async function setDsAntemasuratori() {
+  /*
+  select * from cccantemasuratori a
+  inner join cccpaths b on (a.cccpaths=b.cccpaths)
+  inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii)
+  order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path => ds_antemasuratori
+  */
+
+  let sqlList = []
+  const sql = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path`
+  sqlList.push(sql)
+  let objList = { sqlList: sqlList }
+  runSQLTransaction(objList)
+    .then((response) => {
+      if (response.success) {
+        ds_antemasuratori = response.data
+        console.log('ds_antemasuratori', ds_antemasuratori)
+      } else {
+        console.log('response', response)
+      }
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
 }
 
 export const setDsAntemasuratoriValue = (index, key, value) => {
-    ds_antemasuratori[index][key] = value
+  ds_antemasuratori[index][key] = value
 }
 
 export var newTree = []
@@ -51,14 +74,14 @@ export const antemasuratoriDisplayMask = {
     isEnumerable: true
   },
   TIP_ARTICOL_OFERTA: {
-    value: "TIP_ARTICOL_OFERTA",
+    value: 'TIP_ARTICOL_OFERTA',
     RW: false,
     visible: false,
     label: 'Tip articol',
     isEnumerable: true
   },
   SUBTIP_ARTICOL_OFERTA: {
-    value: "SUBTIP_ARTICOL_OFERTA",
+    value: 'SUBTIP_ARTICOL_OFERTA',
     RW: false,
     visible: false,
     label: 'Subtip articol',
@@ -182,7 +205,7 @@ export async function createAntemasuratori() {
 
   //insert antemasuratori
   insertAntemasuratori(antemasuratori)
-} 
+}
 
 function insertAntemasuratori(antemasuratori) {
   let sqlList = []
@@ -194,11 +217,13 @@ function insertAntemasuratori(antemasuratori) {
   console.log('sqlList', sqlList)
 
   let objList = { sqlList: sqlList }
-  runSQLTransaction(objList).then((response) => {
-    console.log('response', response)
-  }).catch((error) => {
-    console.log('error', error)
-  })
+  runSQLTransaction(objList)
+    .then((response) => {
+      console.log('response', response)
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
 }
 
 //instante retete + recipes_ds + trees -> ds_antemasuratori + newTree
@@ -208,7 +233,7 @@ export function calculateAntemasAndNewTree() {
     detectieRetete()
     showRecipes()
   }
- 
+
   let ds_antemasuratori_old = [...ds_antemasuratori]
   ds_antemasuratori = []
   console.log('ds_antemasuratori_old', ds_antemasuratori_old, 'ds_antemasuratori', ds_antemasuratori)
@@ -222,7 +247,7 @@ export function calculateAntemasAndNewTree() {
       }
     })
   })
- 
+
   for (let i = 0; i < ds_instanteRetete.length; i++) {
     var pointerToReteta = ds_instanteRetete[i].duplicateOf
     var locate = recipes_ds.find((o) => o.id === pointerToReteta)

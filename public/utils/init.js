@@ -165,10 +165,8 @@ export function init() {
           //instante retete
           setDsInstanteRetete()
           //set ds_antemasuratori
-          if (firstLine.JSONANTESTR) {
-            setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
-            console.log('ds_antemasuratori', ds_antemasuratori)
-          }
+          //setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
+          setDsAntemasuratori()
           //set ds_estimari_pool: JSONESTIMPOOLSTR
           if (firstLine.JSONESTIMPOOLSTR) {
             context.setDsEstimariPool(JSON.parse(firstLine.JSONESTIMPOOLSTR))
