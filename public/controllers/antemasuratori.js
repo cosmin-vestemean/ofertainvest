@@ -109,6 +109,7 @@ export async function createAnteamauratori() {
     CCCANTEMASURATORI INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
     CCCPATH INT NOT NULL,
     CCCACTIVITINSTANTE INT NOT NULL,
+    CCCOFERTEWEBLINII INT NOT NULL,
     CANTITATE FLOAT NOT NULL,
   );
   */
@@ -149,13 +150,30 @@ export async function createAnteamauratori() {
 
   console.log('leafs', leafs)
 
+  const antemasuratori = []
+
   for (let i = 0; i < paths.length; i++) {
     const path = paths[i]
     const pathLinii = liniiInstante.filter((linie) => linie.CCCPATH === path.CCCPATH)
     for (let j = 0; j < pathLinii.length; j++) {
-      
+      //find every leaf that contains the path record leaf id (CCCPATH) and the linie id (CCCACTIVITINSTANTE) in table CCCANTEMASURATORI with the quantity = 0
+      const linie = pathLinii[j]
+      for (let k = 0; k < leafs.length; k++) {
+        const leaf = leafs[k]
+        if (leaf.PATH.includes(path.PATH)) {
+          antemasuratori.push({
+            CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
+            CCCPATH: leaf.CCCPATH,
+            CCCACTIVITINSTANTE: linie.CCCACTIVITINSTANTE,
+            CCCOFERTEWEBLINII: linie.CCCOFERTEWEBLINII,
+            CANTITATE: 0
+          })
+        }
+      }
     }
   }
+
+  console.log('antemasuratori', antemasuratori)
 
 } 
 
