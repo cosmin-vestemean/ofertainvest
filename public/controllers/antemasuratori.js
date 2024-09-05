@@ -34,7 +34,7 @@ export async function setDsAntemasuratori() {
   const sql = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path`
   sqlList.push(sql)
   let objList = { sqlList: sqlList }
-  const response = await client.service('runSQLTransaction').create(objList)
+  const response = await runSQLTransaction(objList)
   if (response.success) {
     const transf = convertDBAntemasuratori(response.data)
     ds_antemasuratori = transf
