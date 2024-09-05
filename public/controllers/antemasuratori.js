@@ -9,7 +9,9 @@ import {
   recipes_ds,
   _nivel_oferta,
   niveluri,
-  _start_date
+  _start_date,
+  client,
+  contextOferta
 } from '../client.js'
 import {
   _cantitate_antemasuratori, _cantitate_oferta,
@@ -99,6 +101,63 @@ export const antemasuratoriDisplayMask = {
     isEnumerable: false
   }
 }
+
+export async function createAnteamauratori() {
+  /*
+  create table CCCANTEMASURATORI (
+    CCCOFERTEWEB INT NOT NULL,
+    CCCANTEMASURATORI INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    CCCPATH INT NOT NULL,
+    CCCACTIVITINSTANTE INT NOT NULL,
+    CANTITATE FLOAT NOT NULL,
+  );
+  */
+
+  const liniiInstanteResponse = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `select * from cccactivitinstante a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  const liniiInstante = liniiInstanteResponse.data
+
+  const pathsResponse = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `SELECT * FROM CCCPATHS WHERE CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  const paths = pathsResponse.data
+
+  let leafs = []
+  for (let i = 0; i < paths.length; i++) {
+    //find only leafs; meaning that the path is not a parent of another path by checking if includes another path
+    const path = paths[i]
+    let isLeaf = true
+    for (let j = 0; j < paths.length; j++) {
+      if (i !== j) {
+        if (paths[j].CCCPATH.includes(path.CCCPATH)) {
+          isLeaf = false
+          break
+        }
+      }
+    }
+    if (isLeaf) {
+      leafs.push(path)
+    }
+  }
+
+  console.log('leafs', leafs)
+
+  for (let i = 0; i < paths.length; i++) {
+    const path = paths[i]
+    const pathLinii = liniiInstante.filter((linie) => linie.CCCPATH === path.CCCPATH)
+    for (let j = 0; j < pathLinii.length; j++) {
+      
+    }
+  }
+
+} 
 
 //instante retete + recipes_ds + trees -> ds_antemasuratori + newTree
 export function calculateAntemasAndNewTree() {

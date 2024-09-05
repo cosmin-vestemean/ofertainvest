@@ -247,3 +247,10 @@ from cccmatinstante a
 	inner join cccactivitinstante b on a.cccactivitinstante = b.cccactivitinstante
 	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
 	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
+create table CCCANTEMASURATORI (
+	CCCOFERTEWEB INT NOT NULL,
+	CCCANTEMASURATORI INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	CCCPATH INT NOT NULL,
+	CCCACTIVITINSTANTE INT NOT NULL,
+	CANTITATE FLOAT NOT NULL,
+);

@@ -677,7 +677,7 @@ async function salveazaOfertaInDB(ds) {
     (result) => {
       if (result.success) {
         contextOferta.CCCOFERTEWEB = result.value
-        console.log('contextOferta.CCCOFERTEWEB', contextOferta.CCCOFERTEWEB)
+        console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
       } else {
         console.log('educated guessing next CCCOFERTEWEB failed', result.error)
       }

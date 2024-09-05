@@ -44,7 +44,8 @@ import {
   setDsAntemasuratori,
   showAntemasuratori,
   newTree,
-  setNewTree
+  setNewTree,
+  createAnteamauratori
 } from '../controllers/antemasuratori.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
@@ -348,6 +349,7 @@ export function init() {
   nav_antemasuratori.onclick = function () {
     if (ds_antemasuratori.length === 0) {
       calculateAntemasAndNewTree()
+      createAnteamauratori()
     }
     showAntemasuratori()
     addOnChangeEvt(ds_antemasuratori, delimiter, 'my_table_antemasuratori')
@@ -401,6 +403,7 @@ export function init() {
     let answer = confirm('Regenerez antemasuratorile?')
     if (answer) {
       calculateAntemasAndNewTree()
+      createAnteamauratori()
     }
 
     showAntemasuratori()
