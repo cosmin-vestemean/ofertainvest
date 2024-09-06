@@ -223,6 +223,19 @@ async function convertDBAntemasuratori(antemasuratori) {
 
   const uniqNodes = uniqNodesResponse.data
 
+  const pathsResponse = await client.service('getDataset').find({
+    query: {
+      sqlQuery: `SELECT * FROM CCCPATHS WHERE CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+    }
+  })
+
+  if (!pathsResponse.success) {
+    console.log('pathsResponse', pathsResponse)
+    return
+  }
+
+  const paths = pathsResponse.data
+
   for (let i = 0; i < antemasuratori.length; i++) {
     let a = antemasuratori[i]
     let aTransformed = {}
@@ -232,7 +245,8 @@ async function convertDBAntemasuratori(antemasuratori) {
       aTransformed[values[j]] = a[keys[j]]
     }
     //then replace NIVEL_OFERTA_1, NIVEL_OFERTA_2, etc with the actual values from paths INNER JOIN CCCUNIQNODES
-    let path = a.CCCPATHS
+    let pathId = a.CCCPATHS
+    let path = paths.find((o) => o.CCCPATHS === pathId).PATH
     let crumbs = path.split('/')
     for (let j = 0; j < crumbs.length; j++) {
       let node = uniqNodes.find((o) => o.CCCUNIQNODES === crumbs[j])
