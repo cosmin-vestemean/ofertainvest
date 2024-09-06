@@ -130,8 +130,8 @@ export class antemasuratori extends LitElement {
                   setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
                   updateAntemasuratoare(index, parseFloat(e.target.textContent));
                   //update newTree
-                  let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join());
-                  if (branch) branch.qty = parseFloat(e.target.textContent);
+                  //let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join());
+                  //if (branch) branch.qty = parseFloat(e.target.textContent);
                 });
 
                 //add keydown event arrow up/down to move to prior/next td _cantitate_antemasuratori
