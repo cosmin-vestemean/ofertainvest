@@ -246,6 +246,8 @@ async function convertDBAntemasuratori(antemasuratori) {
     for (let j = 0; j < keys.length; j++) {
       aTransformed[values[j]] = a[keys[j]]
     }
+    //rename key CANTITATE to CANTITATE_ARTICOL_ANTEMASURATORI
+    aTransformed[_cantitate_antemasuratori] = a.CANTITATE
     //then replace NIVEL_OFERTA_1, NIVEL_OFERTA_2, etc with the actual values from paths INNER JOIN CCCUNIQNODES
     let pathId = a.CCCPATHS
     let path = paths.find((o) => o.CCCPATHS === pathId).PATH
