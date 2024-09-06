@@ -128,6 +128,7 @@ export class antemasuratori extends LitElement {
                       .querySelectorAll('.' + _cantitate_antemasuratori)
                   ).indexOf(e.target); */
                   //get tr.id
+                  const trId = e.target.parentElement.id;
                   var index = ds_antemasuratori.findIndex((o) => o.CCCOFERTEWEBLINII === tr.id);
                   console.log('index tr antemas', index);
                   setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
