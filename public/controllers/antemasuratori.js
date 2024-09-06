@@ -264,11 +264,15 @@ async function convertDBAntemasuratori(antemasuratori) {
     keys = Object.keys(a)
     for (let j = 0; j < keys.length; j++) {
       if (!Object.keys(DBtoWBS).includes(keys[j])) {
-        aTransformed[keys[j]] = a[keys[j]]
+        //rename key CANTITATE to _cantitate_antemasuratori
+        if (keys[j] === 'CANTITATE') {
+          aTransformed[_cantitate_antemasuratori] = a[keys[j]]
+        } else {
+          aTransformed[keys[j]] = a[keys[j]]
+        }
       }
     }
     
-
     antemasuratoriTransformed.push(aTransformed)
   }
 
