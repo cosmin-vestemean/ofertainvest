@@ -187,7 +187,7 @@ export async function createAntemasuratori() {
       for (let k = 0; k < leafsForPath.length; k++) {
         antemasuratori.push({
           CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
-          CCCPATH: leafsForPath[k].CCCPATHS,
+          CCCPATHS: leafsForPath[k].CCCPATHS,
           CCCINSTANTE: activitati[j].CCCINSTANTE,
           CCCACTIVITINSTANTE: activitati[j].CCCACTIVITINSTANTE,
           CCCOFERTEWEBLINII: activitati[j].CCCOFERTEWEBLINII,
