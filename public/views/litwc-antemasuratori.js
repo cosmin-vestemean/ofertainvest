@@ -121,12 +121,14 @@ export class antemasuratori extends LitElement {
                 td.style.borderColor = 'lightgray';
                 //add blur (focusout) event
                 td.addEventListener('focusout', function (e) {
-                  var index = Array.from(
+                  /* var index = Array.from(
                     document
                       .getElementById('my_table_antemasuratori')
                       .shadowRoot.getElementById('tbody_antemasuratori')
                       .querySelectorAll('.' + _cantitate_antemasuratori)
-                  ).indexOf(e.target);
+                  ).indexOf(e.target); */
+                  //get tr.id
+                  var index = ds_antemasuratori.findIndex((o) => o.CCCOFERTEWEBLINII === tr.id);
                   console.log('index tr antemas', index);
                   setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
                   updateAntemasuratoare(index, parseFloat(e.target.textContent));
