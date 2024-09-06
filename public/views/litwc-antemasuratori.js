@@ -94,7 +94,7 @@ export class antemasuratori extends LitElement {
       this.ds.forEach(function (object) {
         counter++;
         var tr = document.createElement('tr');
-        tr.id = object.CCCOFERTEWEBLINII;
+        tr.id = object.CCCANTEMASURATORI;
         tbody.appendChild(tr);
         var td = document.createElement('td');
         td.style.fontWeight = 'bold';
@@ -129,7 +129,7 @@ export class antemasuratori extends LitElement {
                   ).indexOf(e.target); */
                   //get tr.id
                   const trId = e.target.parentElement.id;
-                  var index = ds_antemasuratori.findIndex((o) => o.CCCOFERTEWEBLINII === trId);
+                  var index = ds_antemasuratori.findIndex((o) => o.CCCANTEMASURATORI === trId);
                   console.log('index tr antemas', index);
                   setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
                   updateAntemasuratoare(index, parseFloat(e.target.textContent));
