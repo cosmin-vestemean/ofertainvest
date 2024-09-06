@@ -274,6 +274,8 @@ async function convertDBAntemasuratori(antemasuratori) {
     }
   }
 
+  console.log('antemasuratoriTransformed', antemasuratoriTransformed)
+
   return antemasuratoriTransformed
 }
 
