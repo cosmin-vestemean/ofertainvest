@@ -236,6 +236,8 @@ async function convertDBAntemasuratori(antemasuratori) {
 
   const paths = pathsResponse.data
 
+  let maxLevels = 0
+
   for (let i = 0; i < antemasuratori.length; i++) {
     let a = antemasuratori[i]
     let aTransformed = {}
@@ -252,10 +254,24 @@ async function convertDBAntemasuratori(antemasuratori) {
       let node = uniqNodes.find((o) => parseInt(o.CCCUNIQNODES) === parseInt(crumbs[j]))
       if (node) {
         aTransformed[_nivel_oferta + (j + 1).toString()] = node.NAME
+        if (j + 1 > maxLevels) {
+          maxLevels = j + 1
+        }
       }
     }
 
     antemasuratoriTransformed.push(aTransformed)
+  }
+
+  //remove all levels that are not in the maxLevels
+  for (let i = 0; i < antemasuratoriTransformed.length; i++) {
+    let a = antemasuratoriTransformed[i]
+    let keys = Object.keys(a)
+    for (let j = 0; j < keys.length; j++) {
+      if (keys[j].includes(_nivel_oferta) && parseInt(keys[j].replace(_nivel_oferta, '')) > maxLevels) {
+        delete a[keys[j]]
+      }
+    }
   }
 
   return antemasuratoriTransformed
