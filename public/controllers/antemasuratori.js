@@ -239,6 +239,7 @@ function convertDBAntemasuratori(antemasuratori) {
       if (node) {
         aTransformed[_nivel_oferta + (j + 1).toString()] = node.NAME
       }
+    }
 
     antemasuratoriTransformed.push(aTransformed)
   }
