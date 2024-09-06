@@ -260,6 +260,12 @@ async function convertDBAntemasuratori(antemasuratori) {
       }
     }
 
+    //add all keys and values from a
+    let keys2 = Object.keys(a)
+    for (let j = 0; j < keys2.length; j++) {
+      aTransformed[keys2[j]] = a[keys2[j]]
+    }
+
     antemasuratoriTransformed.push(aTransformed)
   }
 
