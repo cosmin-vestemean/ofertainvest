@@ -37,7 +37,7 @@ export async function setDsAntemasuratori() {
     }
   })
   if (response.success && response.data && response.data.length > 0) {
-    const transf = convertDBAntemasuratori(response.data)
+    const transf = await convertDBAntemasuratori(response.data)
     ds_antemasuratori = transf
     console.log('ds_antemasuratori', ds_antemasuratori)
   } else {
@@ -200,7 +200,7 @@ export async function createAntemasuratori() {
   console.log('antemasuratori', antemasuratori)
 
   //transform antemasuratori into ds_antemasuratori by the means of converter DBtoWBS from client.js
-  let antemasuratoriTransformed = convertDBAntemasuratori(antemasuratori)
+  let antemasuratoriTransformed = await convertDBAntemasuratori(antemasuratori)
   
   ds_antemasuratori = antemasuratoriTransformed
 
@@ -208,9 +208,9 @@ export async function createAntemasuratori() {
   insertAntemasuratori(antemasuratori)
 }
 
-function convertDBAntemasuratori(antemasuratori) {
+async function convertDBAntemasuratori(antemasuratori) {
   let antemasuratoriTransformed = []
-  const uniqNodesResponse = client.service('getDataset').find({
+  const uniqNodesResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `SELECT * FROM CCCUNIQNODES WHERE CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
