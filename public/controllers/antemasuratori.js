@@ -249,7 +249,7 @@ async function convertDBAntemasuratori(antemasuratori) {
     let path = paths.find((o) => o.CCCPATHS === pathId).PATH
     let crumbs = path.split('/')
     for (let j = 0; j < crumbs.length; j++) {
-      let node = uniqNodes.find((o) => o.CCCUNIQNODES === crumbs[j])
+      let node = uniqNodes.find((o) => parseInt(o.CCCUNIQNODES) === parseInt(crumbs[j]))
       if (node) {
         aTransformed[_nivel_oferta + (j + 1).toString()] = node.NAME
       }
