@@ -94,6 +94,7 @@ export class antemasuratori extends LitElement {
       this.ds.forEach(function (object) {
         counter++;
         var tr = document.createElement('tr');
+        tr.id = object.CCCOFERTEWEBLINII;
         tbody.appendChild(tr);
         var td = document.createElement('td');
         td.style.fontWeight = 'bold';
