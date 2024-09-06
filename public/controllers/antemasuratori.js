@@ -332,7 +332,7 @@ export async function updateAntemasuratori(antemasuratori) {
 
 export async function updateAntemasuratoare(linie, cantitate) {
   let sql = `UPDATE CCCANTEMASURATORI SET CANTITATE = ${cantitate} WHERE CCCANTEMASURATORI = ${linie}`
-  let obj = { sql: sql }
+  let obj = { sqlList: sql }
   runSQLTransaction(obj)
     .then((response) => {
       console.log('response', response)
