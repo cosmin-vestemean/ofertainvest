@@ -199,15 +199,17 @@ export async function createAntemasuratori() {
 
   console.log('antemasuratori', antemasuratori)
 
-  //transform antemasuratori into ds_antemasuratori by the means of converter DBtoWBS from client.js
-  let antemasuratoriTransformed = await convertDBAntemasuratori(antemasuratori)
-  
-  ds_antemasuratori = antemasuratoriTransformed
-  tables.hideAllBut([tables.my_table4])
-  tables.my_table4.element.ds = ds_antemasuratori
-
   //insert antemasuratori
   insertAntemasuratori(antemasuratori)
+    .then(async () => {
+      console.log('inserted antemasuratori')
+      await setDsAntemasuratori()
+      tables.hideAllBut([tables.my_table4])
+      tables.my_table4.element.ds = ds_antemasuratori
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
 }
 
 async function convertDBAntemasuratori(antemasuratori) {
@@ -274,7 +276,7 @@ async function convertDBAntemasuratori(antemasuratori) {
         }
       }
     }
-    
+
     antemasuratoriTransformed.push(aTransformed)
   }
 
@@ -295,22 +297,26 @@ async function convertDBAntemasuratori(antemasuratori) {
 }
 
 function insertAntemasuratori(antemasuratori) {
-  let sqlList = []
-  for (let i = 0; i < antemasuratori.length; i++) {
-    let sql = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATHS, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CANTITATE) VALUES (${antemasuratori[i].CCCOFERTEWEB}, ${antemasuratori[i].CCCPATHS}, ${antemasuratori[i].CCCINSTANTE},${antemasuratori[i].CCCACTIVITINSTANTE}, ${antemasuratori[i].CCCOFERTEWEBLINII}, ${antemasuratori[i].CANTITATE})`
-    sqlList.push(sql)
-  }
+  return new Promise((resolve, reject) => {
+    let sqlList = []
+    for (let i = 0; i < antemasuratori.length; i++) {
+      let sql = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATHS, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CANTITATE) VALUES (${antemasuratori[i].CCCOFERTEWEB}, ${antemasuratori[i].CCCPATHS}, ${antemasuratori[i].CCCINSTANTE},${antemasuratori[i].CCCACTIVITINSTANTE}, ${antemasuratori[i].CCCOFERTEWEBLINII}, ${antemasuratori[i].CANTITATE})`
+      sqlList.push(sql)
+    }
 
-  console.log('sqlList', sqlList)
+    console.log('sqlList', sqlList)
 
-  let objList = { sqlList: sqlList }
-  runSQLTransaction(objList)
-    .then((response) => {
-      console.log('response', response)
-    })
-    .catch((error) => {
-      console.log('error', error)
-    })
+    let objList = { sqlList: sqlList }
+    runSQLTransaction(objList)
+      .then((response) => {
+        console.log('response', response)
+        resolve(response)
+      })
+      .catch((error) => {
+        console.log('error', error)
+        reject(error)
+      })
+  })
 }
 
 export async function updateAntemasuratori(antemasuratori) {
