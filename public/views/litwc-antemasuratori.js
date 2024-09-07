@@ -117,6 +117,7 @@ export class antemasuratori extends LitElement {
           deleteAntemasuratore(index)
         })
         td.appendChild(i)
+        tr.appendChild(td)
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
         td.innerHTML = counter
