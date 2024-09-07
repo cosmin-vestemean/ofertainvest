@@ -45,7 +45,8 @@ import {
   showAntemasuratori,
   newTree,
   setNewTree,
-  createAntemasuratori
+  createAntemasuratori,
+  updateAntemasuratori
 } from '../controllers/antemasuratori.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
@@ -131,7 +132,8 @@ export function init() {
     }
     //add spinner to btn_oferta
     let btn_oferta = document.getElementById('btn_oferta')
-    btn_oferta.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
+    btn_oferta.innerHTML =
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
     //get oferta from S1 service getOferta
     let raspuns = await getOferta(contextOferta.FILENAME)
     console.log('raspuns', raspuns)
@@ -378,9 +380,27 @@ export function init() {
 
   //btn_save_antemas
   let btn_save_antemas = document.getElementById('btn_save_antemas')
-  btn_save_antemas.onclick = function () {
+  btn_save_antemas.onclick = () => {
     //save antemasuratori in db
-    saveAntemasuratoriAndTreeToDB()
+    //saveAntemasuratoriAndTreeToDB()
+    //add spinner to btn_save_antemas
+    btn_save_antemas.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvare...'
+    updateAntemasuratori(ds_antemasuratori)
+      .then((result) => {
+        console.log('result', result)
+        if (result.success) {
+          //remove spinner from btn_save_antemas
+          btn_save_antemas.innerHTML = '<i class="class="bi bi-save"></i>'
+        } else {
+          //remove spinner from btn_save_antemas
+          btn_save_antemas.innerHTML = 'Eroare'
+        }
+      })
+      .catch((error) => {
+        console.log('error', error)
+        //remove spinner from btn_save_antemas
+        btn_save_antemas.innerHTML = 'Eroare'
+      })
   }
 
   //btn_regenerare_estimari

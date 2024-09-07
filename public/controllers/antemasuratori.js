@@ -332,23 +332,43 @@ function insertAntemasuratori(antemasuratori) {
   })
 }
 
+export async function deleteAntemasuratore(id) {
+  return new Promise((resolve, reject) => {
+    let sql = `DELETE FROM CCCANTEMASURATORI WHERE CCCANTEMASURATORI = ${id}`
+    runSQLTransaction({ sqlList: [sql] })
+      .then((response) => {
+        console.log('response', response)
+        resolve(response)
+      })
+      .catch((error) => {
+        console.log('error', error)
+        reject(error)
+      })
+  })
+}
+
+
 export async function updateAntemasuratori(antemasuratori) {
-  let sqlList = []
-  for (let i = 0; i < antemasuratori.length; i++) {
-    let sql = `UPDATE CCCANTEMASURATORI SET CANTITATE = ${antemasuratori[i].CANTITATE} WHERE CCCANTEMASURATORI = ${antemasuratori[i].CCCANTEMASURATORI}`
-    sqlList.push(sql)
-  }
+  return new Promise((resolve, reject) => {
+    let sqlList = []
+    for (let i = 0; i < antemasuratori.length; i++) {
+      let sql = `UPDATE CCCANTEMASURATORI SET CANTITATE = ${antemasuratori[i].CANTITATE_ARTICOL_ANTEMASURATORI} WHERE CCCANTEMASURATORI = ${antemasuratori[i].CCCANTEMASURATORI}`
+      sqlList.push(sql)
+    }
 
-  console.log('sqlList', sqlList)
+    console.log('sqlList', sqlList)
 
-  let objList = { sqlList: sqlList }
-  runSQLTransaction(objList)
-    .then((response) => {
-      console.log('response', response)
-    })
-    .catch((error) => {
-      console.log('error', error)
-    })
+    let objList = { sqlList: sqlList }
+    runSQLTransaction(objList)
+      .then((response) => {
+        console.log('response', response)
+        resolve(response)
+      })
+      .catch((error) => {
+        console.log('error', error)
+        reject(error)
+      })
+  })
 }
 
 export async function updateAntemasuratoare(linie, cantitate) {

@@ -1,7 +1,7 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
 import { template, theadIsSet } from "../client.js";
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js';
-import { ds_antemasuratori, antemasuratoriDisplayMask, newTree, setDsAntemasuratoriValue, updateAntemasuratoare } from '../controllers/antemasuratori.js';
+import { ds_antemasuratori, antemasuratoriDisplayMask, newTree, setDsAntemasuratoriValue, updateAntemasuratoare, deleteAntemasuratore } from '../controllers/antemasuratori.js';
 
 export class antemasuratori extends LitElement {
   static properties = {
@@ -96,6 +96,19 @@ export class antemasuratori extends LitElement {
         var tr = document.createElement('tr');
         tr.id = object.CCCANTEMASURATORI;
         tbody.appendChild(tr);
+        //add thrash icon
+        var td = document.createElement('td');
+        var i = document.createElement('i');
+        i.id = 't_'+object.CCCANTEMASURATORI;
+        i.classList.add('fas');
+        i.classList.add('fa-trash-alt');
+        i.classList.add('text-danger');
+        i.style.cursor = 'pointer';
+        i.addEventListener('click', function (e) {
+          let index = e.target.id.split('_')[1];
+          console.log('delete antemasuratoare', index);
+          deleteAntemasuratore(index);
+        });
         var td = document.createElement('td');
         td.style.fontWeight = 'bold';
         td.innerHTML = counter;
@@ -121,20 +134,10 @@ export class antemasuratori extends LitElement {
                 td.style.borderColor = 'lightgray';
                 //add blur (focusout) event
                 td.addEventListener('focusout', function (e) {
-                  /* var index = Array.from(
-                    document
-                      .getElementById('my_table_antemasuratori')
-                      .shadowRoot.getElementById('tbody_antemasuratori')
-                      .querySelectorAll('.' + _cantitate_antemasuratori)
-                  ).indexOf(e.target); */
-                  //get tr.id
                   const index = e.target.parentElement.id;
                   console.log('index tr antemasuratori', index);
                   setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
                   updateAntemasuratoare(index, parseFloat(e.target.textContent));
-                  //update newTree
-                  //let branch = newTree[ds_antemasuratori[index].refInstanta][ds_antemasuratori[index].refActivitate].antemasuratori.find((o) => o.branch.join() === ds_antemasuratori[index].refBranch.join());
-                  //if (branch) branch.qty = parseFloat(e.target.textContent);
                 });
 
                 //add keydown event arrow up/down to move to prior/next td _cantitate_antemasuratori
