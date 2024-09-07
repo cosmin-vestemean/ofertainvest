@@ -122,13 +122,20 @@ export function init() {
   }
   //saldoc: load data from S1 service getDataset, table CCCOFERTEWEB with columns FILENAME
   let saldoc = document.getElementById('saldoc')
-  saldoc.onchange = async function () {
+  saldoc.onchange = async function (saldoc) {
     if (saldoc.selectedIndex > -1) {
       contextOferta.FILENAME = saldoc.options[saldoc.selectedIndex].text
       contextOferta.CCCOFERTEWEB = saldoc.value
     } else {
       return
     }
+    //add spinner to saldoc
+    saldoc.classList.add('spinner-border')
+    saldoc.classList.add('spinner-border-sm')
+    saldoc.classList.add('text-primary')
+    saldoc.setAttribute('role', 'status')
+    saldoc.setAttribute('aria-hidden', 'true')
+    //get oferta from S1 service getOferta
     let raspuns = await getOferta(contextOferta.FILENAME)
     console.log('raspuns', raspuns)
     if (raspuns && raspuns.total > 0) {
@@ -196,6 +203,12 @@ export function init() {
         alert('Nu exista oferta cu acest nume')
       }
     }
+    //remove spinner from saldoc
+    saldoc.classList.remove('spinner-border')
+    saldoc.classList.remove('spinner-border-sm')
+    saldoc.classList.remove('text-primary')
+    saldoc.removeAttribute('role')
+    saldoc.removeAttribute('aria-hidden')
   }
   let btn_oferta = document.getElementById('btn_oferta')
   //btn_oferta.onclick = saveOferta
