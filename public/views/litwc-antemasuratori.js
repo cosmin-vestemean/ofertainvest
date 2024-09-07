@@ -128,9 +128,8 @@ export class antemasuratori extends LitElement {
                       .querySelectorAll('.' + _cantitate_antemasuratori)
                   ).indexOf(e.target); */
                   //get tr.id
-                  const trId = e.target.parentElement.id;
-                  var index = ds_antemasuratori.findIndex((o) => o.CCCANTEMASURATORI === trId);
-                  console.log('index tr antemas', index);
+                  const index = e.target.parentElement.id;
+                  console.log('index tr antemasuratori', index);
                   setDsAntemasuratoriValue(index, _cantitate_antemasuratori, parseFloat(e.target.textContent));
                   updateAntemasuratoare(index, parseFloat(e.target.textContent));
                   //update newTree
