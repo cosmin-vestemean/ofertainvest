@@ -216,9 +216,9 @@ export async function createAntemasuratori() {
       tables.hideAllBut([tables.my_table4])
       tables.my_table4.element.ds = ds_antemasuratori
       btn_antemasuratori.disabled = false
-      btn_antemasuratori.innerHTML = 'Antemasuratori'
       //remove spinner
       btn_antemasuratori.removeChild(spinner)
+      btn_antemasuratori.innerHTML = 'Antemasuratori'
     })
     .catch((error) => {
       console.log('error', error)
@@ -352,8 +352,8 @@ export async function updateAntemasuratori(antemasuratori) {
 }
 
 export async function updateAntemasuratoare(linie, cantitate) {
-  let sql = `UPDATE CCCANTEMASURATORI SET CANTITATE = ${cantitate} WHERE CCCANTEMASURATORI = ${linie}`
-  let obj = { sqlList: sql }
+  let sqlList = [`UPDATE CCCANTEMASURATORI SET CANTITATE = ${cantitate} WHERE CCCANTEMASURATORI = ${linie}`]
+  let obj = { sqlList: sqlList }
   runSQLTransaction(obj)
     .then((response) => {
       console.log('response', response)
