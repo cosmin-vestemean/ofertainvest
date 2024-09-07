@@ -125,6 +125,15 @@ export const antemasuratoriDisplayMask = {
 }
 
 export async function createAntemasuratori() {
+  let btn_antemasuratori = document.getElementById('btn_antemasuratori')
+  btn_antemasuratori.disabled = true
+  btn_antemasuratori.innerHTML = 'Creare...'
+  //add spinner
+  let spinner = document.createElement('span')
+  spinner.className = 'spinner-border spinner-border-sm'
+  spinner.role = 'status'
+  spinner.ariaHidden = 'true'
+  btn_antemasuratori.appendChild(spinner)
   const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `select * from cccactivitinstante a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
@@ -206,6 +215,10 @@ export async function createAntemasuratori() {
       await setDsAntemasuratori()
       tables.hideAllBut([tables.my_table4])
       tables.my_table4.element.ds = ds_antemasuratori
+      btn_antemasuratori.disabled = false
+      btn_antemasuratori.innerHTML = 'Antemasuratori'
+      //remove spinner
+      btn_antemasuratori.removeChild(spinner)
     })
     .catch((error) => {
       console.log('error', error)
