@@ -107,8 +107,8 @@ export class antemasuratori extends LitElement {
         var td = document.createElement('td')
         var i = document.createElement('i')
         i.id = 't_' + object.CCCANTEMASURATORI
-        i.classList.add('fas')
-        i.classList.add('fa-trash-alt')
+        i.classList.add('bi')
+        i.classList.add('bi-trash')
         i.classList.add('text-danger')
         i.style.cursor = 'pointer'
         i.addEventListener('click', function (e) {
