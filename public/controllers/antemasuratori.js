@@ -203,6 +203,7 @@ export async function createAntemasuratori() {
   let antemasuratoriTransformed = await convertDBAntemasuratori(antemasuratori)
   
   ds_antemasuratori = antemasuratoriTransformed
+  tables.my_table4.element.ds = ds_antemasuratori
 
   //insert antemasuratori
   insertAntemasuratori(antemasuratori)
