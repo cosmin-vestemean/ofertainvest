@@ -66,6 +66,10 @@ export class antemasuratori extends LitElement {
         table.appendChild(thead)
         var tr = document.createElement('tr')
         thead.appendChild(tr)
+        //append thrash icon
+        var th = document.createElement('th')
+        th.scope = 'col'
+        tr.appendChild(th)
         //append counter
         var th = document.createElement('th')
         th.scope = 'col'
