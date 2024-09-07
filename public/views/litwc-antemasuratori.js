@@ -116,6 +116,10 @@ export class antemasuratori extends LitElement {
         i.classList.add('text-danger')
         i.style.cursor = 'pointer'
         i.addEventListener('click', function (e) {
+          //are you sure you want to delete?
+          if (!confirm('Are you sure you want to delete this antemasuratoare?')) {
+            return
+          }
           let index = e.target.id.split('_')[1]
           console.log('delete antemasuratoare', index)
           deleteAntemasuratore(index)
