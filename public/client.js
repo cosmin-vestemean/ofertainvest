@@ -2963,7 +2963,7 @@ class Recipe extends LitElement {
         td.style.width = '80px'
         var edit = document.createElement('i')
         edit.classList.add('bi', 'bi-pencil-square', 'text-primary')
-        edit.id = 'edit_' + activitate.object.CCCACTIVITRETETE + '@' + activitate.object.CCCRETETE
+        edit.id = 'edit_' + counter
         edit.style.cursor = 'pointer'
         edit.onclick = function () {
           //edit activitate
