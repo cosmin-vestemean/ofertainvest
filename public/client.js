@@ -143,6 +143,8 @@ export async function setRecipesDs() {
       odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA || 0
       odm.isMain = activitate.ISMAIN
       odm.isCustom = activitate.ISCUSTOM
+      odm.CCCACTIVITRETETE = activitate.CCCACTIVITRETETE
+      odm.CCCRETETE = activitate.CCCRETETE
       let activitateObj = {
         //object: activitate,
         //map activitate to ofertaLiniiDB by CCCOFERTEWEBLINII
@@ -165,6 +167,9 @@ export async function setRecipesDs() {
         odm.CANTITATE_UNITARA_ARTICOL_RETETA = material.CANTITATEUNITARA || 0
         odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = material.PONDEREDECONT || 0
         odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = material.PONDERENORMA || 0
+        odm.CCCMATRETETE = material.CCCMATRETETE
+        odm.CCCACTIVITRETETE = material.CCCACTIVITRETETE
+        odm.CCCRETETE = material.CCCRETETE
         activitateObj.children.push({ object: odm })
       })
       if (activitateObj.children.length == 0) {
@@ -673,16 +678,14 @@ export function processExcelData(optimal_ds) {
 
 async function salveazaOfertaInDB(ds) {
   //add value to contextOferta.CCCOFERTEWEB
-  getValFromS1Query(`select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`).then(
-    (result) => {
-      if (result.success) {
-        contextOferta.CCCOFERTEWEB = result.value
-        console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
-      } else {
-        console.log('educated guessing next CCCOFERTEWEB failed', result.error)
-      }
+  getValFromS1Query(`select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`).then((result) => {
+    if (result.success) {
+      contextOferta.CCCOFERTEWEB = result.value
+      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
+    } else {
+      console.log('educated guessing next CCCOFERTEWEB failed', result.error)
     }
-  )
+  })
   //save trees in CCCPATHS
   await saveTreesInDB()
   //save ds in CCCOFERTEWEB
