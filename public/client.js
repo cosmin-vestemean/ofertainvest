@@ -2953,6 +2953,7 @@ class Recipe extends LitElement {
         let isActivitatePrincipala = activitate.isMain
         counter++
         var tr = document.createElement('tr')
+        tr.id = activitate.object.CCCACTIVITRETETE + '@' + activitate.object.CCCRETETE
         tr.classList.add('shadow-sm', 'bg-light')
         tbody.appendChild(tr)
         var td = document.createElement('td')
@@ -3041,6 +3042,12 @@ class Recipe extends LitElement {
           mCounter++
           let material = activitate.children[j]
           var tr = document.createElement('tr')
+          tr.id =
+            material.object.CCCMATRETETE +
+            '@' +
+            material.object.CCCACTIVITRETETE +
+            '@' +
+            material.object.CCCRETETE
           tr.style.borderBottomColor = 'lightgray'
           tbody.appendChild(tr)
           var td = document.createElement('td')
