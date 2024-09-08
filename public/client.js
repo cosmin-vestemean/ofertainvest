@@ -2951,17 +2951,21 @@ class Recipe extends LitElement {
       //add save icon
       var td = document.createElement('td')
       tr.appendChild(td)
+      var btn_save = document.createElement('button')
+      btn_save.classList.add('btn')
+      btn_save.classList.add('btn-success')
+      btn_save.innerHTML = 'Salveaza'      
       var save_icon = document.createElement('i')
       save_icon.classList.add('bi')
-      save_icon.classList.add('bi-save', 'text-primary', 'fs-4', 'mb-3')
+      save_icon.classList.add('bi-save')
       save_icon.style.cursor = 'pointer'
-      save_icon.style.marginLeft = '5px'
       save_icon.onclick = () => {
         //save reteta
         console.log('retetaCurenta', retetaCurenta)
         console.log('activitateCurenta', activitateCurenta)
       }
-      td.appendChild(save_icon)
+      btn_save.appendChild(save_icon)
+      td.appendChild(btn_save)
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
