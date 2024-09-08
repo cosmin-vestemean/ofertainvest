@@ -2948,6 +2948,20 @@ class Recipe extends LitElement {
         }
       }
       td.appendChild(material_icon)
+      //add save icon
+      var td = document.createElement('td')
+      tr.appendChild(td)
+      var save_icon = document.createElement('i')
+      save_icon.classList.add('bi')
+      save_icon.classList.add('bi-save', 'text-primary', 'fs-4', 'mb-3')
+      save_icon.style.cursor = 'pointer'
+      save_icon.style.marginLeft = '5px'
+      save_icon.onclick = () => {
+        //save reteta
+        console.log('retetaCurenta', retetaCurenta)
+        console.log('activitateCurenta', activitateCurenta)
+      }
+      td.appendChild(save_icon)
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
