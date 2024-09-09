@@ -2964,6 +2964,7 @@ class Recipe extends LitElement {
       save_icon.style.cursor = 'pointer'
       btn_save.appendChild(save_icon)
       btn_save.onclick = async () => {
+        let sqlList = []
         //add spinner to button
         btn_save.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
         //save reteta
@@ -2981,18 +2982,13 @@ class Recipe extends LitElement {
 
         // Update CCCRETETE with activitateCurenta
         let updateCCCRETETEQuery = `UPDATE CCCRETETE SET NAME='${NAME}' WHERE ID=${ID}`
-        const resUpdateReteta = await client
-          .service('runSQLTransaction')
-          .create({ sqlList: [updateCCCRETETEQuery] })
-        console.log('resUpdateReteta', resUpdateReteta)
+        sqlList.push(updateCCCRETETEQuery)
 
         //1.  isCustom  = 1 + does not have CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCOFERTEWEBLINII, CCCACTIVITRETETE, CCCMATRETETE
         //2.  isCustom  = 1 + has CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCACTIVITRETETE, CCCMATRETETE; never happens
         //3.  isCustom  = 1 + has CCCOFERTEWEBLINII + has CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCMATRETETE // never happens
         //4.  isCustom  = 1 + has CCCOFERTEWEBLINII + has CCCACTIVITRETETE + has CCCMATRETETE =>update CCCACTIVITRETETE, CCCMATRETETE
         //5.  isCustom  = 0: update CCCACTIVITRETETE, CCCMATRETETE  //always has CCCOFERTEWEBLINII + CCCACTIVITRETETE + CCCMATRETETE
-
-        let sqlList = []
         reteta.reteta.forEach(async (item) => {
           let o = item.object
           let isMain = o.isMain
@@ -3002,7 +2998,6 @@ class Recipe extends LitElement {
             if (!Object.hasOwnProperty.call(o, 'CCCOFERTEWEBLINII')) {
               //isCustom = 1, but has CCCOFERTEWEBLINII, update CCCOFERTEWEBLINII
               let insertCCCOFERTEWEBLINIIQuery = `INSERT INTO CCCOFERTEWEBLINII (CCCOFERTEWEB, DENUMIRE_ART_OF, TIP_ART_OF, SUBTIP_ART_OF, UM_ART_OF, CANT_ART_OF, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, '${o.DENUMIRE_ARTICOL_OFERTA}', '${o.TIP_ARTICOL_OFERTA}', '${o.SUBTIP_ARTICOL_OFERTA}', '${o.UM_ARTICOL_OFERTA}', ${o.CANTITATE_ARTICOL_OFERTA}, 1)`
-              sqlList.push(insertCCCOFERTEWEBLINIIQuery)
               const resInsertLinieOferta = await client
                 .service('runSQLTransaction')
                 .create({ sqlList: [insertCCCOFERTEWEBLINIIQuery] })
@@ -3045,10 +3040,6 @@ class Recipe extends LitElement {
                   sqlList.push(updateCCCMATRETETEQuery)
                 })
               }
-              const resUpdateLiniiReteta = await client
-                .service('runSQLTransaction')
-                .create({ sqlList: [...sqlList] })
-              console.log('resUpdateLiniiReteta', resUpdateLiniiReteta)
             }
           } else {
             //isCustom = 0
@@ -3056,18 +3047,18 @@ class Recipe extends LitElement {
             let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${isMain ? 1 : 0} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
             sqlList.push(updateCCCACTIVITRETETEQuery)
             if (item.children && item.children.length) {
-              item.children.forEach(async (child) => {
+              item.children.forEach(async (childPack) => {
+                let child = childPack.object
                 let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
                 sqlList.push(updateCCCMATRETETEQuery)
               })
             }
-            const responseUpdateRetetaNonCustom = await client
-              .service('runSQLTransaction')
-              .create({ sqlList: sqlList })
-
-            console.log('responseUpdateRetetaNonCustom', responseUpdateRetetaNonCustom)
           }
         })
+        const responseUpsertReteta = await client
+              .service('runSQLTransaction')
+              .create({ sqlList: [...sqlList] })
+            console.log('responseUpsertReteta', responseUpsertReteta)
         //remove spinner
         btn_save.innerHTML = `<i class="bi bi-save"></i>`
       }
