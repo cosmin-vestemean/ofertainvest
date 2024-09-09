@@ -2962,6 +2962,8 @@ class Recipe extends LitElement {
       save_icon.classList.add('bi-save')
       save_icon.style.cursor = 'pointer'
       save_icon.onclick = async () => {
+        //add spinner to button
+        btn_save.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvare...`
         //save reteta
         console.log('retetaCurenta', retetaCurenta)
         console.log('activitateCurenta', activitateCurenta)
@@ -3061,6 +3063,8 @@ class Recipe extends LitElement {
               .create({ sqlList: [updateCCCACTIVITRETETEQuery, updateCCCMATRETETEQuery] })
           }
         })
+        //remove spinner
+        btn_save.innerHTML = `<i class="bi bi-save"></i> Salvare`
       }
       btn_save.appendChild(save_icon)
       td.appendChild(btn_save)
