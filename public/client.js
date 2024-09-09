@@ -3039,7 +3039,8 @@ class Recipe extends LitElement {
               sqlList.push(updateCCCACTIVITRETETEQuery)
               //update CCCMATRETETE
               if (item.children && item.children.length) {
-                item.children.forEach(async (child) => {
+                item.children.forEach(async (childPack) => {
+                  let child = childPack.object
                   let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
                   sqlList.push(updateCCCMATRETETEQuery)
                 })
