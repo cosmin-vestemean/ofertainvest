@@ -18,12 +18,11 @@ import {
   _cantitate_estimari_anterioare
 } from '../utils/_cantitate_oferta.js'
 import { tables } from '../utils/tables.js'
-import {
-  context
-} from '../controllers/estimari.js'
+import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { newTree } from '../controllers/antemasuratori.js'
+import { addNewEstimare } from './listaEstimari.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -141,7 +140,9 @@ export class estimari extends LitElement {
                 th.scope = 'col'
                 th.style.writingMode = 'vertical-rl'
                 th.style.rotate = '180deg'
-                th.innerHTML = context.estimariDisplayMask[key].label ? context.estimariDisplayMask[key].label : key
+                th.innerHTML = context.estimariDisplayMask[key].label
+                  ? context.estimariDisplayMask[key].label
+                  : key
                 tr.appendChild(th)
               } else {
                 //refactor code bellow to a function
@@ -152,7 +153,9 @@ export class estimari extends LitElement {
                 //cerate label
                 let label = document.createElement('label')
                 label.for = key === _start_date ? 'start_date' : 'end_date'
-                label.innerHTML = context.estimariDisplayMask[key].label ? context.estimariDisplayMask[key].label : key
+                label.innerHTML = context.estimariDisplayMask[key].label
+                  ? context.estimariDisplayMask[key].label
+                  : key
                 th.appendChild(label)
                 let input1 = document.createElement('input')
                 input1.type = 'date'
@@ -220,44 +223,7 @@ export class estimari extends LitElement {
     plus_icon.classList.add('bi')
     plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
     plus_icon.style.cursor = 'pointer'
-    plus_icon.onclick = function () {
-      //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
-      context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
-
-      //active = false for all objects in ds_estimari
-      context.ds_estimari.forEach((o) => (o.active = false))
-      context.ds_estimari.push({
-        createDate: new Date(),
-        updateDate: new Date(),
-        id: context.ds_estimari.length,
-        active: true,
-        ds_estimari_pool: [],
-        ds_estimari_flat: [],
-        CCCESTIMARIH: -1
-      })
-      if (context.getDsEstimariPool().length == 0) {
-        //trasform newTree in ds_estimari_pool
-        if (newTree.length > 0) {
-          context.createNewEstimariPool(newTree)
-        } else {
-          console.log('newTree is empty, run Antemasuratori first')
-          alert('Genereaza antemasuratorile inainte de a genera estimarile')
-        }
-      }
-      context.createNewEstimariFlat()
-      addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
-      console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-      //console.log('newTree', newTree)
-      let selected_options_arr = ierarhii.getValue()
-      if (selected_options_arr && selected_options_arr.length > 0) {
-        flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-        tables.my_table5.element.ds = selected_ds
-      } else {
-        tables.my_table5.element.ds = context.getDsEstimariFlat()
-      }
-
-      console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
-    }
+    plus_icon.onclick = addNewEstimare
     btnAdd.appendChild(plus_icon)
     //add validate icon
     var btnValidate = document.createElement('div')
@@ -372,7 +338,13 @@ export class estimari extends LitElement {
               if (Object.keys(context.ds_estimari_pool).length > 0) {
                 /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
                   newTreeAntemasBranch.estimari.length - 1 */
-                context.setValueOfDsEstimariPool(refInstanta, antemasuratoriBranch, refActivitate, 'estimareIndex', newTreeAntemasBranch.estimari.length - 1)
+                context.setValueOfDsEstimariPool(
+                  refInstanta,
+                  antemasuratoriBranch,
+                  refActivitate,
+                  'estimareIndex',
+                  newTreeAntemasBranch.estimari.length - 1
+                )
               }
             }
 
@@ -393,8 +365,14 @@ export class estimari extends LitElement {
                 refActivitate,
                 _cantitate_estimari_anterioare,
                 //valoare anterioara + valoare noua
-                parseFloat(context.getValOfDsEstimariPoolByKey(refInstanta, antemasuratoriBranch, refActivitate, _cantitate_estimari_anterioare)) +
-                estimare.qty
+                parseFloat(
+                  context.getValOfDsEstimariPoolByKey(
+                    refInstanta,
+                    antemasuratoriBranch,
+                    refActivitate,
+                    _cantitate_estimari_anterioare
+                  )
+                ) + estimare.qty
               )
 
               //add start_date to ds_estimari_pool row_data
@@ -425,7 +403,7 @@ export class estimari extends LitElement {
         if (Object.keys(context.ds_estimari_pool).length > 0) {
           active.ds_estimari_pool = { ...context.ds_estimari_pool }
         }
-        active.ds_estimari_flat = [ ...context.ds_estimari_flat]
+        active.ds_estimari_flat = [...context.ds_estimari_flat]
         active.updateDate = new Date()
       }
 

@@ -2882,7 +2882,7 @@ class Recipe extends LitElement {
         //adauga activitatea la reteta
         //adauga activitatea la my_activity
         //find the main activity
-        let mainActivity = retetaCurenta.reteta.find((o) => o.isMain)
+        let mainActivity = retetaCurenta.reteta.find((o) => o.object.isMain)
         if (!mainActivity) {
           console.log('Activitatea principala nu a fost gasita')
           return

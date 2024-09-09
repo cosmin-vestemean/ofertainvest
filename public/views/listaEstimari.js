@@ -5,9 +5,10 @@ import { context } from '../controllers/estimari.js'
 import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
+import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 
-function addNewEstimare() {
-  cleanupEstimari()
+export async function addNewEstimare() {
+  /* cleanupEstimari()
 
   //la prima estimare pot presupune ca ai inceput sa creezi estimari fiindca ai antemasuratorile dimensionate, deci le salvez in baza de date
   if (context.ds_estimari.length == 0) {
@@ -62,8 +63,18 @@ function addNewEstimare() {
     tables.my_table5.element.ds = context.getDsEstimariFlat()
   }
 
-  console.log('context.getDsEstimariFlat', context.getDsEstimariFlat())
+  console.log('context.getDsEstimariFlat', context.getDsEstimariFlat()) */
+
+  //antemasuratori left join estimari
+  //get antemasuratori
+  if (ds_antemasuratori.length == 0) {
+    alert('Genereaza antemasuratorile inainte de a genera estimarile')
+    return
+  }
+
+  //get estimari
 }
+
 let listaEstimariDisplayMask = {
   id: { label: 'ID', visible: false, type: 'number' },
   startDate: { label: 'Start', visible: true, type: 'date' },
