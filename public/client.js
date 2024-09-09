@@ -2977,7 +2977,8 @@ class Recipe extends LitElement {
 
         // Update CCCRETETE with activitateCurenta
         let updateCCCRETETEQuery = `UPDATE CCCRETETE SET NAME='${NAME}' WHERE ID=${ID}`
-        await client.service('runSQLTransaction').create({ sqlList: [updateCCCRETETEQuery] })
+        const resUpdateReteta = await client.service('runSQLTransaction').create({ sqlList: [updateCCCRETETEQuery] })
+        console.log('resUpdateReteta', resUpdateReteta)
 
         //1.  isCustom  = 1 + does not have CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCOFERTEWEBLINII, CCCACTIVITRETETE, CCCMATRETETE
         //2.  isCustom  = 1 + has CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCACTIVITRETETE, CCCMATRETETE; never happens
@@ -2996,23 +2997,29 @@ class Recipe extends LitElement {
               //isCustom = 1, but has CCCOFERTEWEBLINII, update CCCOFERTEWEBLINII
               let insertCCCOFERTEWEBLINIIQuery = `INSERT INTO CCCOFERTEWEBLINII (CCCOFERTEWEB, DENUMIRE_ART_OF, TIP_ART_OF, SUBTIP_ART_OF, UM_ART_OF, CANT_ART_OF, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, '${o.DENUMIRE_ARTICOL_OFERTA}', '${o.TIP_ARTICOL_OFERTA}', '${o.SUBTIP_ARTICOL_OFERTA}', '${o.UM_ARTICOL_OFERTA}', ${o.CANTITATE_ARTICOL_OFERTA}, 1)`
               sqlList.push(insertCCCOFERTEWEBLINIIQuery)
-              await client.service('runSQLTransaction').create({ sqlList: [insertCCCOFERTEWEBLINIIQuery] })
+              const resInsertLinieOferta = await client.service('runSQLTransaction').create({ sqlList: [insertCCCOFERTEWEBLINIIQuery] })
+              console.log('resInsertLinieOferta', resInsertLinieOferta)
+
               //get last inserted CCCOFERTEWEBLINII using IDENT_CURRENT('CCCOFERTEWEBLINII')
               let getLastInsertedCCCOFERTEWEBLINIIQuery = `SELECT IDENT_CURRENT('CCCOFERTEWEBLINII') AS CCCOFERTEWEBLINII`
               let CCCOFERTEWEBLINII = await getValFromS1Query(getLastInsertedCCCOFERTEWEBLINIIQuery).value
               //insert into CCCACTIVITRETETE, get last CCCACTIVITRETETE by IDENT_CURRENT('CCCACTIVITRETETE') to use in next step then insert children into CCCMATRETETE
               // Insert into CCCACTIVITRETETE
               let insertCCCACTIVITRETETEQuery = `INSERT INTO CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, (select CCCRETETE from CCCRETETE where id=${idReteta} and CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}), ${CCCOFERTEWEBLINII}, ${o.CANTITATEUNITARA || 0}, ${o.PONDEREDECONT || 0}, ${o.PONDERENORMA || 0}, ${isMain}, ${isCustom})`
-              await client.service('runSQLTransaction').create({ sqlList: [insertCCCACTIVITRETETEQuery] })
+              const resInsertActivitReteta = await client.service('runSQLTransaction').create({ sqlList: [insertCCCACTIVITRETETEQuery] })
+              console.log('resInsertActivitReteta', resInsertActivitReteta)
 
               // Get last inserted CCCACTIVITRETETE using IDENT_CURRENT('CCCACTIVITRETETE')
               let getLastInsertedCCCACTIVITRETETEQuery = `SELECT IDENT_CURRENT('CCCACTIVITRETETE') AS CCCACTIVITRETETE`
               let CCCACTIVITRETETE = await getValFromS1Query(getLastInsertedCCCACTIVITRETETEQuery).value
+              console.log('CCCACTIVITRETETE', CCCACTIVITRETETE)
 
               // Insert children into CCCMATRETETE
               o.children.forEach(async (child) => {
                 let insertCCCMATRETETEQuery = `INSERT INTO CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCMATRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, ${idReteta}, ${CCCACTIVITRETETE}, ${CCCOFERTEWEBLINII}, ${child.CANTITATEUNITARA || 0}, ${child.PONDEREDECONT || 0}, ${child.PONDERENORMA || 0}, ${isCustom})`
-                await client.service('runSQLTransaction').create({ sqlList: [insertCCCMATRETETEQuery] })
+                const resInsertMatReteta= await client.service('runSQLTransaction').create({ sqlList: [insertCCCMATRETETEQuery] })
+                console.log('resInsertMatReteta', resInsertMatReteta)
+
               })
             } else {
               //isCustom = 1 and has CCCOFERTEWEBLINII
@@ -3024,7 +3031,8 @@ class Recipe extends LitElement {
                 let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
                 sqlList.push(updateCCCMATRETETEQuery)
               })
-              await client.service('runSQLTransaction').create({ sqlList: [updateCCCMATRETETEQuery] })
+              const resUpdateLiniiReteta = await client.service('runSQLTransaction').create({ sqlList: [...sqlList] })
+              console.log('resUpdateLiniiReteta', resUpdateLiniiReteta)
             }
           } else {
             //isCustom = 0
