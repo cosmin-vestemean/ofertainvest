@@ -3037,10 +3037,12 @@ class Recipe extends LitElement {
           } else {
             //isCustom = 0
             //update CCCACTIVITRETETE
-            let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${isMain} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
+            let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${isMain ? 1 : 0} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
             sqlList.push(updateCCCACTIVITRETETEQuery)
-            let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0} WHERE CCCMATRETETE=${o.CCCMATRETETE}`
-            sqlList.push(updateCCCMATRETETEQuery)
+            o.children.forEach(async (child) => {
+              let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
+              sqlList.push(updateCCCMATRETETEQuery)
+            })
             await client
               .service('runSQLTransaction')
               .create({ sqlList: [updateCCCACTIVITRETETEQuery, updateCCCMATRETETEQuery] })
