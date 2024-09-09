@@ -3052,7 +3052,8 @@ class Recipe extends LitElement {
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
-        let isActivitatePrincipala = activitate.isMain
+        let isActivitatePrincipala = activitate.object.isMain
+        let isCustom = activitate.object.isCustom
         counter++
         var tr = document.createElement('tr')
         tr.id = activitate.object.CCCACTIVITRETETE + '@' + activitate.object.CCCRETETE
