@@ -30,7 +30,8 @@ export async function setDsAntemasuratori() {
   order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path => ds_antemasuratori
   */
 
-  const sqlQuery = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path`
+  //const sqlQuery = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, A.CCCACTIVITINSTANTE, b.path`
+  const sqlQuery = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE`
   const response = await client.service('getDataset').find({
     query: {
       sqlQuery: sqlQuery

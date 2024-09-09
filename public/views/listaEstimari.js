@@ -82,6 +82,10 @@ export async function addNewEstimare() {
 
   let ds_estimari_pool = [...ds_antemasuratori]
 
+  console.log('ds_estimari_pool', ds_estimari_pool) {
+    
+  }
+
   tables.hideAllBut([tables.my_table5])
   tables.my_table5.element.ds = ds_estimari_pool
 }

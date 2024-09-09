@@ -43,9 +43,6 @@ export class estimari extends LitElement {
     this.ds = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    /* context.ds_estimari_pool = [];
-    context.ds_estimari_flat = [];
-    context.ds_estimari = []; */
     context.estimariDisplayMask[_start_date] = {
       value: _start_date,
       RW: false,
@@ -174,13 +171,12 @@ export class estimari extends LitElement {
       //add activitati to table
       let indexOfFlat = 0
       this.ds.forEach(function (o) {
-        let ramura = o.ramura
-        let instanta = ramura.instanta
-        let r = ramura.ramura
-        let isMain = ramura.isMain
-        let counter = ramura.counter
-        let counter2 = ramura.counter2
-        let counter3 = ramura.counter3
+        let instanta = o.instanta
+        let r = o.ramura
+        let isMain = o.isMain
+        let counter = o.counter
+        let counter2 = o.counter2
+        let counter3 = o.counter3
         if (isMain) {
           //add main activity row
           this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
