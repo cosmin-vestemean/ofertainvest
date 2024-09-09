@@ -1370,7 +1370,7 @@ export function showRecipes() {
   tables.hideAllBut([tables.my_table2, tables.my_table3])
   let listaRetete = []
   recipes_ds.forEach((o) => {
-    listaRetete.push({ Reteta: o.name, id: o.ID })
+    listaRetete.push({ id: o.id, Reteta: o.name })
   })
   tables.my_table2.element.ds = listaRetete
 }
