@@ -6,6 +6,7 @@ import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
 export async function addNewEstimare() {
   /* cleanupEstimari()
