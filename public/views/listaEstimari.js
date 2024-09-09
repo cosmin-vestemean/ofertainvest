@@ -74,7 +74,9 @@ export async function addNewEstimare() {
 
   ds_antemasuratori.forEach((o) => {
     o[_cantitate_estimari_anterioare] = 0,
-    o[_cantitate_estimari] = 0
+    o[_cantitate_estimari] = 0,
+    o[_start_date] = '',
+    o[_end_date] = ''
   })
 
   let ds_estimari_pool = [...ds_antemasuratori]
