@@ -2962,6 +2962,7 @@ class Recipe extends LitElement {
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save')
       save_icon.style.cursor = 'pointer'
+      btn_save.appendChild(save_icon)
       btn_save.onclick = async () => {
         //add spinner to button
         btn_save.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
@@ -3059,15 +3060,16 @@ class Recipe extends LitElement {
                 sqlList.push(updateCCCMATRETETEQuery)
               })
             }
-            await client
+            const responseUpdateRetetaNonCustom = await client
               .service('runSQLTransaction')
               .create({ sqlList: sqlList })
+
+            console.log('responseUpdateRetetaNonCustom', responseUpdateRetetaNonCustom)
           }
         })
         //remove spinner
         btn_save.innerHTML = `<i class="bi bi-save"></i>`
       }
-      btn_save.appendChild(save_icon)
       td.appendChild(btn_save)
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
