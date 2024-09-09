@@ -3060,11 +3060,11 @@ class Recipe extends LitElement {
             }
             await client
               .service('runSQLTransaction')
-              .create({ sqlList: [updateCCCACTIVITRETETEQuery, updateCCCMATRETETEQuery] })
+              .create({ sqlList: sqlList })
           }
         })
         //remove spinner
-        btn_save.innerHTML = `<i class="bi bi-save"></i> Salvare`
+        btn_save.innerHTML = `<i class="bi bi-save"></i>`
       }
       btn_save.appendChild(save_icon)
       td.appendChild(btn_save)
