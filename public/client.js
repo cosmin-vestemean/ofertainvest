@@ -2957,7 +2957,6 @@ class Recipe extends LitElement {
       var btn_save = document.createElement('button')
       btn_save.classList.add('btn')
       btn_save.classList.add('btn-success')
-      btn_save.innerHTML = 'Salveaza'
       var save_icon = document.createElement('i')
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save')
@@ -3020,13 +3019,12 @@ class Recipe extends LitElement {
               //update CCCACTIVITRETETE
               let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${isMain} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
               sqlList.push(updateCCCACTIVITRETETEQuery)
-              await client.service('runSQLTransaction').create({ sqlList: [updateCCCACTIVITRETETEQuery] })
               //update CCCMATRETETE
               o.children.forEach(async (child) => {
                 let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
                 sqlList.push(updateCCCMATRETETEQuery)
-                await client.service('runSQLTransaction').create({ sqlList: [updateCCCMATRETETEQuery] })
               })
+              await client.service('runSQLTransaction').create({ sqlList: [updateCCCMATRETETEQuery] })
             }
           } else {
             //isCustom = 0
