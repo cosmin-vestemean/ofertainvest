@@ -6,6 +6,7 @@ import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { _cantitate_estimari, _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
 export async function addNewEstimare() {
   /* cleanupEstimari()
@@ -72,7 +73,15 @@ export async function addNewEstimare() {
     return
   }
 
-  //get estimari
+  ds_antemasuratori.forEach((o) => {
+    o[_cantitate_estimari_anterioare] = 0,
+    o[_cantitate_estimari] = 0
+  })
+
+  let ds_estimari_pool = [...ds_antemasuratori]
+
+  tables.hideAllBut([tables.my_table5])
+  tables.my_table5.element.ds = ds_estimari_pool
 }
 
 let listaEstimariDisplayMask = {
