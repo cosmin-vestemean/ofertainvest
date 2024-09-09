@@ -3119,6 +3119,7 @@ class Recipe extends LitElement {
             }
           }
           activitate.isMain = this.checked
+          retetaCurenta.reteta[i].isMain = this.checked
         }
         td.appendChild(checkbox)
         //span with counter
