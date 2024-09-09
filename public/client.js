@@ -2957,13 +2957,14 @@ class Recipe extends LitElement {
       var btn_save = document.createElement('button')
       btn_save.classList.add('btn')
       btn_save.classList.add('btn-success')
+      btn_save.id = 'btn_save'
       var save_icon = document.createElement('i')
       save_icon.classList.add('bi')
       save_icon.classList.add('bi-save')
       save_icon.style.cursor = 'pointer'
-      save_icon.onclick = async () => {
+      btn_save.onclick = async () => {
         //add spinner to button
-        btn_save.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvare...`
+        btn_save.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
         //save reteta
         console.log('retetaCurenta', retetaCurenta)
         console.log('activitateCurenta', activitateCurenta)
