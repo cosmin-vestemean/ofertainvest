@@ -7,7 +7,8 @@ import {
   _start_date,
   _end_date,
   template,
-  contextOferta
+  contextOferta,
+  client
 } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
