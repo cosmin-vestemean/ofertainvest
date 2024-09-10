@@ -105,8 +105,8 @@ order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path
 	e.cccantemasuratori,
 	e.CCCPATHS,
 	e.CANTITATE,
-	b.ismain,
-	b.iscustom,
+	b.isMain,
+	b.isCustom,
 	g.*
 from cccactivitinstante a
 	inner join cccinstante d on (d.cccinstante = a.cccinstante and d.cccoferteweb=a.cccoferteweb)
