@@ -97,7 +97,7 @@ where a.cccoferteweb=1
 order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path
 
   */
-  const query = `select a.CCCINSTANTE,
+  const query = `select a.cccinstante,
 	d.duplicateof,
 	c.id,
 	a.cccactivitinstante,
