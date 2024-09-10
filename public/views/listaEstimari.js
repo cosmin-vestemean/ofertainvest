@@ -103,8 +103,8 @@ order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path
 	a.cccactivitinstante,
 	b.cccactivitretete,
 	e.cccantemasuratori,
-	e.cccpaths,
-	e.cantitate,
+	e.CCCPATHS,
+	e.CANTITATE,
 	b.ismain,
 	b.iscustom,
 	g.*
