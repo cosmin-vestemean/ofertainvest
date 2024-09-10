@@ -77,26 +77,6 @@ export async function addNewEstimare() {
 
   console.log('context.getDsEstimariFlat', context.getDsEstimariFlat()) */
 
-  /*
-  select a.cccinstante,
-	d.duplicateof,
-	c.id,
-	a.cccactivitinstante,
-	b.cccactivitretete,
-	a.cccoferteweblinii,
-	e.cccantemasuratori,
-	e.cccpaths,
-	e.cantitate
-from cccactivitinstante a
-	inner join cccinstante d on (d.cccinstante = a.cccinstante and d.cccoferteweb=a.cccoferteweb)
-	left join cccactivitretete b on (a.cccoferteweblinii = b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb)
-	left join cccretete c on (c.cccretete = b.cccretete and c.cccoferteweb=b.cccoferteweb)
-	inner join cccantemasuratori e on ( e.cccactivitinstante=a.cccactivitinstante and e.cccoferteweb=a.cccoferteweb)
-	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
-where a.cccoferteweb=1
-order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path
-
-  */
   const query = `select a.cccinstante,
 	d.duplicateof,
 	c.id,
@@ -116,7 +96,7 @@ from cccactivitinstante a
 	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
   left join cccoferteweblinii g on (g.cccoferteweblinii=a.cccoferteweblinii and g.cccoferteweb=a.cccoferteweb)
 where a.cccoferteweb=${contextOferta.CCCOFERTEWEB}
-order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path`
+order by a.cccinstante, a.cccactivitinstante, f.path`
 
   const response = await client.service('getDataset').find({
     query: {
