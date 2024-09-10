@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { addOnChangeEvt, delimiter, ierarhii, flatFind, _start_date, _end_date, template } from '../client.js'
+import { addOnChangeEvt, delimiter, ierarhii, flatFind, _start_date, _end_date, template, contextOferta } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
@@ -104,7 +104,7 @@ from cccactivitinstante a
 	inner join cccantemasuratori e on ( e.cccactivitinstante=a.cccactivitinstante and e.cccoferteweb=a.cccoferteweb)
 	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
   left join cccoferteweblinii g on (g.cccoferteweblinii=a.cccoferteweblinii and g.cccoferteweb=a.cccoferteweb)
-where a.cccoferteweb=${context.CCCOFERTEWEB}
+where a.cccoferteweb=${contextOferta.CCCOFERTEWEB}
 order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path`
 
   const response = await runSQLTransaction({ sqlList: [query] })
