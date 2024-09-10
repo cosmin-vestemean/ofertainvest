@@ -171,8 +171,8 @@ export class estimari extends LitElement {
       //add activitati to table
       let indexOfFlat = 0
       this.ds.forEach(function (o) {
-        let instanta = o.instanta
-        let r = o.ramura
+        let instanta = o.CCCINSTANTE
+        let r = o.PATH
         let isMain = o.isMain
         let counter = o.counter
         let counter2 = o.counter2

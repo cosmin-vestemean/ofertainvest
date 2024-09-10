@@ -234,3 +234,22 @@ create table CCCMATESTIMARI (
 	DATASTART DATETIME NOT NULL,
 	DATASTOP DATETIME NOT NULL,
 );
+select i.*,
+	*
+from cccantemasuratori a
+	inner join cccpaths b on (a.cccpaths = b.cccpaths)
+	inner join cccoferteweblinii c on (c.cccoferteweblinii = a.cccoferteweblinii)
+	inner join cccinstante d on (d.cccinstante = a.cccinstante)
+	inner join cccretete h on (h.id = d.duplicateof)
+	INNER JOIN CCCACTIVITINSTANTE G ON (
+		G.cccinstante = D.cccinstante
+		AND G.CCCACTIVITINSTANTE = A.CCCACTIVITINSTANTE
+	)
+	left join CCCACTIVITRETETE i on (
+		i.CCCRETETE = h.cccretete
+		AND i.cccoferteweblinii = a.cccoferteweblinii
+	)
+order by A.CCCINSTANTE,
+	d.duplicateof,
+	A.CCCACTIVITINSTANTE,
+	b.path;
