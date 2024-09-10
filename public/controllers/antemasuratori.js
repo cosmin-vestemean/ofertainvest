@@ -226,7 +226,7 @@ export async function createAntemasuratori() {
     })
 }
 
-async function convertDBAntemasuratori(antemasuratori) {
+export async function convertDBAntemasuratori(antemasuratori) {
   let antemasuratoriTransformed = []
   const uniqNodesResponse = await client.service('getDataset').find({
     query: {

@@ -16,7 +16,7 @@ import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
-import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
 export async function addNewEstimare() {
@@ -300,25 +300,18 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
 
   console.log('new_ds', new_ds)
 
-  //apply DBtoWBS Object.keys(o).forEach((key) => {if (DBtoWBS[key]) {
-  new_ds.forEach((o) => {
-    Object.keys(o).forEach((key) => {
-      if (DBtoWBS[key]) {
-        o[DBtoWBS[key]] = o[key]
-      }
-    })
-  })
+  let transf = convertDBAntemasuratori(new_ds)
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
-  for (let i = 0; i < new_ds.length; i++) {
-    let o = new_ds[i]
+  for (let i = 0; i < transf.length; i++) {
+    let o = transf[i]
     o[_cantitate_estimari_anterioare] = 0
     o[_cantitate_estimari] = 0
     o[_start_date] = ''
     o[_end_date] = ''
   }
 
-  let ds_estimari_pool = [...new_ds]
+  let ds_estimari_pool = [...transf]
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
