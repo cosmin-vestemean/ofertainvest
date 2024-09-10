@@ -251,6 +251,8 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
 10	8		26	16	54	3		1	0
 */
 
+  let new_ds = []
+
   //1. pentru fiecare duplicateof
   let duplicateof = [...new Set(ds.map((o) => o.duplicateof))]
   console.log('duplicateof', duplicateof)
@@ -261,35 +263,51 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
     console.log('cccinstante', cccinstante)
 
     //3. gsseste-o pe cea care are cccactivitretete not null
-    let cccactivitretete = cccinstante.filter((o) => o.cccactivitretete)
-    console.log('cccactivitretete', cccactivitretete)
+    let cccinstanteCuActivitateReteta = cccinstante.filter((o) => o.cccactivitretete)
+    console.log('cccactivitretete', cccinstanteCuActivitateReteta)
 
     //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
-    let cccactivitretete_null = cccinstante.filter((o) => !o.cccactivitretete)
-    console.log('cccactivitretete_null', cccactivitretete_null)
+    let cccinstanteFaraActivitateReteta = cccinstante.filter((o) => !o.cccactivitretete)
 
-    for (let k = 0; k < cccactivitretete_null.length; k++) {
-      cccactivitretete_null[k].cccactivitretete = cccactivitretete.cccactivitretete
-      //5. la fel si ismain si iscustom
-      cccactivitretete_null[k].ismain = cccactivitretete.ismain
-      cccactivitretete_null[k].iscustom = cccactivitretete.iscustom
-      //id
-      cccactivitretete_null[k].id = cccactivitretete.id
+    //group cccinstanteFaraActivitateReteta by cccinstante and loop through groups and apply cccactivitretete from cccinstanteCuActivitateReteta
+    let grouped = Object.values(
+      cccinstanteFaraActivitateReteta.reduce((acc, cur) => {
+        if (!acc[cur.cccinstante]) acc[cur.cccinstante] = []
+        acc[cur.cccinstante].push(cur)
+        return acc
+      }, {})
+    )
+
+    console.log('grouped', grouped)
+
+    for (let j = 0; j < grouped.length; j++) {
+      let cccinstanteFaraActivitateReteta = grouped[j]
+      for (let k = 0; k < cccinstanteFaraActivitateReteta.length; k++) {
+        cccinstanteFaraActivitateReteta[k].cccactivitretete = cccinstanteCuActivitateReteta[0].cccactivitretete
+        //5. la fel si ismain si iscustom
+        cccinstanteFaraActivitateReteta[k].ismain = cccinstanteCuActivitateReteta[0].ismain
+        cccinstanteFaraActivitateReteta[k].iscustom = cccinstanteCuActivitateReteta[0].iscustom
+        cccinstanteFaraActivitateReteta[k].id = cccinstanteCuActivitateReteta[0].id
+      }
     }
+
+    console.log('cccinstanteFaraActivitateReteta', cccinstanteFaraActivitateReteta)
+
+    new_ds.push(...cccinstanteCuActivitateReteta, ...cccinstanteFaraActivitateReteta)
   }
 
-  console.log('ds', ds)
+  console.log('new_ds', new_ds)
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
-  for (let i = 0; i < ds.length; i++) {
-    let o = ds[i]
+  for (let i = 0; i < new_ds.length; i++) {
+    let o = new_ds[i]
     o[_cantitate_estimari_anterioare] = 0
     o[_cantitate_estimari] = 0
     o[_start_date] = ''
     o[_end_date] = ''
   }
 
-  let ds_estimari_pool = [...ds]
+  let ds_estimari_pool = [...new_ds]
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
