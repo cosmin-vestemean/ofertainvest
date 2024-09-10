@@ -175,7 +175,7 @@ order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path`
 
   console.log('new_ds', new_ds)
 
-  let ds_estimari_pool = convertDBAntemasuratori(new_ds)
+  let ds_estimari_pool = await convertDBAntemasuratori(new_ds)
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
   for (let i = 0; i < ds_estimari_pool.length; i++) {
