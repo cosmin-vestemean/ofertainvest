@@ -1344,7 +1344,7 @@ export async function saveOferta() {
         btn_oferta.innerHTML = 'Eroare la salvare'
         btn_oferta.classList.remove('btn-info')
         btn_oferta.classList.add('btn-danger')
-        console.log('Eroare la savarea ofertei', result.error)
+        console.log('Eroare la savarea ofertei', result)
       }
     })
     .catch((error) => {
