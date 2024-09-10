@@ -257,17 +257,15 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
 
   for (let i = 0; i < duplicateof.length; i++) {
     //2. pentru fiecare cccinstante
-    let cccinstante = [
-      ...new Set(ds.filter((o) => o.duplicateof == duplicateof[i]).map((o) => o.cccinstante))
-    ]
+    let cccinstante = ds.filter((o) => o.duplicateof == duplicateof[i])
     console.log('cccinstante', cccinstante)
 
     //3. gsseste-o pe cea care are cccactivitretete not null
-    let cccactivitretete = ds.find((o) => o.duplicateof == duplicateof[i] && o.cccactivitretete)
+    let cccactivitretete = cccinstante.find((o) => o.duplicateof == duplicateof[i] && o.cccactivitretete)
     console.log('cccactivitretete', cccactivitretete)
 
     //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
-    let cccactivitretete_null = ds.filter((o) => o.duplicateof == duplicateof[i] && !o.cccactivitretete)
+    let cccactivitretete_null = cccinstante.filter((o) => o.duplicateof == duplicateof[i] && !o.cccactivitretete)
     console.log('cccactivitretete_null', cccactivitretete_null)
 
     for (let k = 0; k < cccactivitretete_null.length; k++) {
