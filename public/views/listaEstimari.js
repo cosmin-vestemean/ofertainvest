@@ -265,7 +265,7 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
     console.log('cccactivitretete', cccactivitretete)
 
     //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
-    let cccactivitretete_null = cccinstante.filter((o) => o.duplicateof == duplicateof[i] && !o.cccactivitretete)
+    let cccactivitretete_null = cccinstante.filter((o) => !o.cccactivitretete)
     console.log('cccactivitretete_null', cccactivitretete_null)
 
     for (let k = 0; k < cccactivitretete_null.length; k++) {
