@@ -284,13 +284,12 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
     for (let j = 0; j < grouped.length; j++) {
       let cccinstanteFaraActivitateReteta = grouped[j]
       for (let k = 0; k < cccinstanteFaraActivitateReteta.length; k++) {
-        for (let l = 0; l < cccinstanteCuActivitateReteta.length; l++) {
           cccinstanteFaraActivitateReteta[k].cccactivitretete =
-            cccinstanteCuActivitateReteta[l].cccactivitretete
-          cccinstanteFaraActivitateReteta[k].ismain = cccinstanteCuActivitateReteta[l].ismain
-          cccinstanteFaraActivitateReteta[k].iscustom = cccinstanteCuActivitateReteta[l].iscustom
-          cccinstanteFaraActivitateReteta[k].id = cccinstanteCuActivitateReteta[l].id
-        }
+            cccinstanteCuActivitateReteta[k].cccactivitretete
+          cccinstanteFaraActivitateReteta[k].ismain = cccinstanteCuActivitateReteta[k].ismain
+          cccinstanteFaraActivitateReteta[k].iscustom = cccinstanteCuActivitateReteta[k].iscustom
+          //id
+          cccinstanteFaraActivitateReteta[k].id = cccinstanteCuActivitateReteta[k].id
       }
     }
 
