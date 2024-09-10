@@ -96,7 +96,7 @@ from cccactivitinstante a
 	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
   left join cccoferteweblinii g on (g.cccoferteweblinii=a.cccoferteweblinii and g.cccoferteweb=a.cccoferteweb)
 where a.cccoferteweb=${contextOferta.CCCOFERTEWEB}
-order by a.cccinstante, a.cccactivitinstante, f.path`
+order by a.cccinstante, f.path, a.cccactivitinstante`
 
   const response = await client.service('getDataset').find({
     query: {
