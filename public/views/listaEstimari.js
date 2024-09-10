@@ -262,21 +262,19 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
     ]
     console.log('cccinstante', cccinstante)
 
-    for (let j = 0; j < cccinstante.length; j++) {
-      //3. gsseste-o pe cea care are cccactivitretete not null
-      let cccactivitretete = ds.find((o) => o.cccinstante == cccinstante[j] && o.cccactivitretete)
-      console.log('cccactivitretete', cccactivitretete)
+    //3. gsseste-o pe cea care are cccactivitretete not null
+    let cccactivitretete = ds.find((o) => o.duplicateof == duplicateof[i] && o.cccactivitretete)
+    console.log('cccactivitretete', cccactivitretete)
 
-      //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
-      let cccactivitretete_null = ds.filter((o) => o.cccinstante == cccinstante[j] && !o.cccactivitretete)
-      console.log('cccactivitretete_null', cccactivitretete_null)
+    //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
+    let cccactivitretete_null = ds.filter((o) => o.duplicateof == duplicateof[i] && !o.cccactivitretete)
+    console.log('cccactivitretete_null', cccactivitretete_null)
 
-      for (let k = 0; k < cccactivitretete_null.length; k++) {
-        cccactivitretete_null[k].cccactivitretete = cccactivitretete.cccactivitretete
-        //5. la fel si ismain si iscustom
-        cccactivitretete_null[k].ismain = cccactivitretete.ismain
-        cccactivitretete_null[k].iscustom = cccactivitretete.iscustom
-      }
+    for (let k = 0; k < cccactivitretete_null.length; k++) {
+      cccactivitretete_null[k].cccactivitretete = cccactivitretete.cccactivitretete
+      //5. la fel si ismain si iscustom
+      cccactivitretete_null[k].ismain = cccactivitretete.ismain
+      cccactivitretete_null[k].iscustom = cccactivitretete.iscustom
     }
   }
 
