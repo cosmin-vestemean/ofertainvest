@@ -253,18 +253,50 @@ order by A.CCCINSTANTE,
 	d.duplicateof,
 	A.CCCACTIVITINSTANTE,
 	b.path;
-select d.duplicateof,
+select a.cccinstante,
+	d.duplicateof,
 	c.id,
 	a.cccactivitinstante,
 	b.cccactivitretete,
-	a.cccoferteweblinii,
-	*
+	e.cccantemasuratori,
+	e.cccpaths,
+	e.cantitate,
+	b.ismain,
+	b.iscustom,
+	g.*,
+	h.*
 from cccactivitinstante a
-	inner join cccinstante d on d.cccinstante = a.cccinstante
-	left join cccactivitretete b on a.cccoferteweblinii = b.cccoferteweblinii
-	left join cccretete c on c.cccretete = b.cccretete
+	inner join cccinstante d on (
+		d.cccinstante = a.cccinstante
+		and d.cccoferteweb = a.cccoferteweb
+	)
+	left join cccactivitretete b on (
+		a.cccoferteweblinii = b.cccoferteweblinii
+		and a.cccoferteweb = b.cccoferteweb
+	)
+	left join cccretete c on (
+		c.cccretete = b.cccretete
+		and c.cccoferteweb = b.cccoferteweb
+	)
+	inner join cccantemasuratori e on (
+		e.cccactivitinstante = a.cccactivitinstante
+		and e.cccoferteweb = a.cccoferteweb
+	)
+	inner join cccpaths f on (
+		f.cccpaths = e.cccpaths
+		and f.cccoferteweb = e.cccoferteweb
+	)
+	left join cccoferteweblinii g on (
+		g.cccoferteweblinii = a.cccoferteweblinii
+		and g.cccoferteweb = a.cccoferteweb
+	)
+	--daca am activitati custom in retete introdu-le in cccactivitinstante
+	left join cccoferteweblinii h on (
+		h.cccoferteweblinii = b.cccoferteweblinii
+		and g.cccoferteweb = a.cccoferteweb
+	)
+where a.cccoferteweb = 1
 order by d.duplicateof,
-	c.id,
+	a.cccinstante,
 	a.cccactivitinstante,
-	b.cccactivitretete,
-	a.cccoferteweblinii;
+	f.path

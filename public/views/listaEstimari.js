@@ -1,5 +1,14 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { addOnChangeEvt, delimiter, ierarhii, flatFind, _start_date, _end_date, template, contextOferta } from '../client.js'
+import {
+  addOnChangeEvt,
+  delimiter,
+  ierarhii,
+  flatFind,
+  _start_date,
+  _end_date,
+  template,
+  contextOferta
+} from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
@@ -107,7 +116,11 @@ from cccactivitinstante a
 where a.cccoferteweb=${contextOferta.CCCOFERTEWEB}
 order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path`
 
-  const response = await runSQLTransaction({ sqlList: [query] })
+  const response = await client.service('getDataset').find({
+    query: {
+      sqlQuery: query
+    }
+  })
   console.log('response', response)
 
   let ds = response.data
@@ -171,15 +184,15 @@ order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path`
 10	8		26		54	3			
 */
 
-//pseduo code
-//1. pentru fiecare duplicateof
-//2. pentru fiecare cccinstante
-//3. gsseste-o pe cea care are cccactivitretete not null
-//4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
-//5. la fel si ismain si iscustom
+  //pseduo code
+  //1. pentru fiecare duplicateof
+  //2. pentru fiecare cccinstante
+  //3. gsseste-o pe cea care are cccactivitretete not null
+  //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
+  //5. la fel si ismain si iscustom
 
-//astfel rezultand
-/*
+  //astfel rezultand
+  /*
 cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori	cccpaths	cantitate	ismain	iscustom
 1	0	0	1	1	2	7	60.0	1	0
 1	0	0	1	1	3	8	20.0	1	0
@@ -243,7 +256,9 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
 
   for (let i = 0; i < duplicateof.length; i++) {
     //2. pentru fiecare cccinstante
-    let cccinstante = [...new Set(ds.filter((o) => o.duplicateof == duplicateof[i]).map((o) => o.cccinstante))]
+    let cccinstante = [
+      ...new Set(ds.filter((o) => o.duplicateof == duplicateof[i]).map((o) => o.cccinstante))
+    ]
     console.log('cccinstante', cccinstante)
 
     for (let j = 0; j < cccinstante.length; j++) {
