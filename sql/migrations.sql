@@ -253,3 +253,18 @@ order by A.CCCINSTANTE,
 	d.duplicateof,
 	A.CCCACTIVITINSTANTE,
 	b.path;
+select d.duplicateof,
+	c.id,
+	a.cccactivitinstante,
+	b.cccactivitretete,
+	a.cccoferteweblinii,
+	*
+from cccactivitinstante a
+	inner join cccinstante d on d.cccinstante = a.cccinstante
+	left join cccactivitretete b on a.cccoferteweblinii = b.cccoferteweblinii
+	left join cccretete c on c.cccretete = b.cccretete
+order by d.duplicateof,
+	c.id,
+	a.cccactivitinstante,
+	b.cccactivitretete,
+	a.cccoferteweblinii;

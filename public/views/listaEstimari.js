@@ -2,7 +2,7 @@ import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/li
 import { addOnChangeEvt, delimiter, ierarhii, flatFind, _start_date, _end_date, template } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
-import { saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
+import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
@@ -66,22 +66,216 @@ export async function addNewEstimare() {
 
   console.log('context.getDsEstimariFlat', context.getDsEstimariFlat()) */
 
-  //antemasuratori left join estimari
-  //get antemasuratori
-  if (ds_antemasuratori.length == 0) {
-    alert('Genereaza antemasuratorile inainte de a genera estimarile')
-    return
+  /*
+  select a.cccinstante,
+	d.duplicateof,
+	c.id,
+	a.cccactivitinstante,
+	b.cccactivitretete,
+	a.cccoferteweblinii,
+	e.cccantemasuratori,
+	e.cccpaths,
+	e.cantitate
+from cccactivitinstante a
+	inner join cccinstante d on (d.cccinstante = a.cccinstante and d.cccoferteweb=a.cccoferteweb)
+	left join cccactivitretete b on (a.cccoferteweblinii = b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb)
+	left join cccretete c on (c.cccretete = b.cccretete and c.cccoferteweb=b.cccoferteweb)
+	inner join cccantemasuratori e on ( e.cccactivitinstante=a.cccactivitinstante and e.cccoferteweb=a.cccoferteweb)
+	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
+where a.cccoferteweb=1
+order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path
+
+  */
+  const query = `select a.cccinstante,
+	d.duplicateof,
+	c.id,
+	a.cccactivitinstante,
+	b.cccactivitretete,
+	e.cccantemasuratori,
+	e.cccpaths,
+	e.cantitate,
+	b.ismain,
+	b.iscustom,
+	g.*
+from cccactivitinstante a
+	inner join cccinstante d on (d.cccinstante = a.cccinstante and d.cccoferteweb=a.cccoferteweb)
+	left join cccactivitretete b on (a.cccoferteweblinii = b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb)
+	left join cccretete c on (c.cccretete = b.cccretete and c.cccoferteweb=b.cccoferteweb)
+	inner join cccantemasuratori e on ( e.cccactivitinstante=a.cccactivitinstante and e.cccoferteweb=a.cccoferteweb)
+	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
+  left join cccoferteweblinii g on (g.cccoferteweblinii=a.cccoferteweblinii and g.cccoferteweb=a.cccoferteweb)
+where a.cccoferteweb=${context.CCCOFERTEWEB}
+order by a.cccinstante, d.duplicateof, a.cccactivitinstante, f.path`
+
+  const response = await runSQLTransaction({ sqlList: [query] })
+  console.log('response', response)
+
+  let ds = response.data
+
+  /*
+  exemplu de ds
+  cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori	cccpaths	cantitate	ismain	iscustom
+1	0	0	1	1	2	7	60.0	1	0
+1	0	0	1	1	3	8	20.0	1	0
+1	0	0	1	1	1	6	20.0	1	0
+1	0	0	2	2	5	7		0	0
+1	0	0	2	2	6	8		0	0
+1	0	0	2	2	4	6		0	0
+1	0	0	3	3	8	7		0	0
+1	0	0	3	3	9	8		0	0
+1	0	0	3	3	7	6		0	0
+2	1	1	4	4	11	7		1	0
+2	1	1	4	4	12	8		1	0
+2	1	1	4	4	10	6		1	0
+3	2	2	5	5	14	7		1	0
+3	2	2	5	5	15	8		1	0
+3	2	2	5	5	13	6		1	0
+4	0		6		17	7			
+4	0		6		18	8			
+4	0		6		16	6			
+4	0		7		20	7			
+4	0		7		21	8			
+4	0		7		19	6			
+4	0		8		23	7			
+4	0		8		24	8			
+4	0		8		22	6			
+5	0		9		26	7			
+5	0		9		27	8			
+5	0		9		25	6			
+5	0		10		29	7			
+5	0		10		30	8			
+5	0		10		28	6			
+5	0		11		32	7			
+5	0		11		33	8			
+5	0		11		31	6			
+6	0		12		35	7			
+6	0		12		36	8			
+6	0		12		34	6			
+6	0		13		38	7			
+6	0		13		39	8			
+6	0		13		37	6			
+6	0		14		41	7			
+6	0		14		42	8			
+6	0		14		40	6			
+7	6	6	15	6	43	1		1	0
+8	7	7	16	7	44	3		1	0
+8	7	7	17	8	45	3		0	0
+8	7	7	18	9	46	3		0	0
+8	7	7	19	10	47	3		0	0
+8	7	7	20	11	48	3		0	0
+8	7	7	21	12	49	3		0	0
+8	7	7	22	13	50	3		0	0
+8	7	7	23	14	51	3		0	0
+8	7	7	24	15	52	3		0	0
+9	8	8	25	16	53	3		1	0
+10	8		26		54	3			
+*/
+
+//pseduo code
+//1. pentru fiecare duplicateof
+//2. pentru fiecare cccinstante
+//3. gsseste-o pe cea care are cccactivitretete not null
+//4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
+//5. la fel si ismain si iscustom
+
+//astfel rezultand
+/*
+cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori	cccpaths	cantitate	ismain	iscustom
+1	0	0	1	1	2	7	60.0	1	0
+1	0	0	1	1	3	8	20.0	1	0
+1	0	0	1	1	1	6	20.0	1	0
+1	0	0	2	2	5	7		0	0
+1	0	0	2	2	6	8		0	0
+1	0	0	2	2	4	6		0	0
+1	0	0	3	3	8	7		0	0
+1	0	0	3	3	9	8		0	0
+1	0	0	3	3	7	6		0	0
+4	0		6	1	17	7		1	0
+4	0		6	1	18	8		1	0
+4	0		6	1	16	6		1	0
+4	0		7	2	20	7		0	0
+4	0		7	2	21	8		0	0
+4	0		7	2	19	6		0	0
+4	0		8	3	23	7		0	0
+4	0		8	3	24	8		0	0
+4	0		8	3	22	6		0	0
+5	0		9	1	26	7		1	0
+5	0		9	1	27	8		1	0
+5	0		9	1	25	6		1	0
+5	0		10	2	29	7		0	0
+5	0		10	2	30	8		0	0
+5	0		10	2	28	6		0	0
+5	0		11	3	32	7		0	0
+5	0		11	3	33	8		0	0
+5	0		11	3	31	6		0	0
+6	0		12	1	35	7		1	0
+6	0		12	1	36	8		1	0
+6	0		12	1	34	6		1	0
+6	0		13	2	38	7		0	0
+6	0		13	2	39	8		0	0
+6	0		13	2	37	6		0	0
+6	0		14	3	41	7		0	0
+6	0		14	3	42	8		0	0
+6	0		14	3	40	6		0	0
+2	1	1	4	4	11	7		1	0
+2	1	1	4	4	12	8		1	0
+2	1	1	4	4	10	6		1	0
+3	2	2	5	5	14	7		1	0
+3	2	2	5	5	15	8		1	0
+3	2	2	5	5	13	6		1	0
+7	6	6	15	6	43	1		1	0
+8	7	7	16	7	44	3		1	0
+8	7	7	17	8	45	3		0	0
+8	7	7	18	9	46	3		0	0
+8	7	7	19	10	47	3		0	0
+8	7	7	20	11	48	3		0	0
+8	7	7	21	12	49	3		0	0
+8	7	7	22	13	50	3		0	0
+8	7	7	23	14	51	3		0	0
+8	7	7	24	15	52	3		0	0
+9	8	8	25	16	53	3		1	0
+10	8		26	16	54	3		1	0
+*/
+
+  //1. pentru fiecare duplicateof
+  let duplicateof = [...new Set(ds.map((o) => o.duplicateof))]
+  console.log('duplicateof', duplicateof)
+
+  for (let i = 0; i < duplicateof.length; i++) {
+    //2. pentru fiecare cccinstante
+    let cccinstante = [...new Set(ds.filter((o) => o.duplicateof == duplicateof[i]).map((o) => o.cccinstante))]
+    console.log('cccinstante', cccinstante)
+
+    for (let j = 0; j < cccinstante.length; j++) {
+      //3. gsseste-o pe cea care are cccactivitretete not null
+      let cccactivitretete = ds.find((o) => o.cccinstante == cccinstante[j] && o.cccactivitretete)
+      console.log('cccactivitretete', cccactivitretete)
+
+      //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
+      let cccactivitretete_null = ds.filter((o) => o.cccinstante == cccinstante[j] && !o.cccactivitretete)
+      console.log('cccactivitretete_null', cccactivitretete_null)
+
+      for (let k = 0; k < cccactivitretete_null.length; k++) {
+        cccactivitretete_null[k].cccactivitretete = cccactivitretete.cccactivitretete
+        //5. la fel si ismain si iscustom
+        cccactivitretete_null[k].ismain = cccactivitretete.ismain
+        cccactivitretete_null[k].iscustom = cccactivitretete.iscustom
+      }
+    }
   }
 
-  for (let i = 0; i < ds_antemasuratori.length; i++) {
-    let o = ds_antemasuratori[i]
+  console.log('ds', ds)
+
+  //zero out _start_date and _end_date and _cantitate_estimari in pool
+  for (let i = 0; i < ds.length; i++) {
+    let o = ds[i]
     o[_cantitate_estimari_anterioare] = 0
     o[_cantitate_estimari] = 0
     o[_start_date] = ''
-    o[_end_date] = '' 
+    o[_end_date] = ''
   }
 
-  let ds_estimari_pool = [...ds_antemasuratori]
+  let ds_estimari_pool = [...ds]
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
