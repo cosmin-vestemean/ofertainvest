@@ -261,7 +261,7 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
     console.log('cccinstante', cccinstante)
 
     //3. gsseste-o pe cea care are cccactivitretete not null
-    let cccactivitretete = cccinstante.find((o) => o.duplicateof == duplicateof[i] && o.cccactivitretete)
+    let cccactivitretete = cccinstante.filter((o) => o.cccactivitretete)
     console.log('cccactivitretete', cccactivitretete)
 
     //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
@@ -273,6 +273,8 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
       //5. la fel si ismain si iscustom
       cccactivitretete_null[k].ismain = cccactivitretete.ismain
       cccactivitretete_null[k].iscustom = cccactivitretete.iscustom
+      //id
+      cccactivitretete_null[k].id = cccactivitretete.id
     }
   }
 
