@@ -302,15 +302,15 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
   console.log('new_ds', new_ds)
 
   //apply DBtoWBS
-  new_ds.forEach((o) => {
-    oc = {}
+  new_ds = new_ds.map((o) => {
+    let oc = {};
     Object.keys(o).forEach((key) => {
       if (DBtoWBS[key]) {
-        oc[DBtoWBS[key]] = o[key]
+        oc[DBtoWBS[key]] = o[key];
       }
-    })
-    o = oc
-  })
+    });
+    return oc;
+  });
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
   for (let i = 0; i < new_ds.length; i++) {
