@@ -8,7 +8,8 @@ import {
   _end_date,
   template,
   contextOferta,
-  client
+  client,
+  DBtoWBS
 } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
@@ -284,7 +285,8 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
       let cccinstanteFaraActivitateReteta = grouped[j]
       for (let k = 0; k < cccinstanteFaraActivitateReteta.length; k++) {
         for (let l = 0; l < cccinstanteCuActivitateReteta.length; l++) {
-          cccinstanteFaraActivitateReteta[k].cccactivitretete = cccinstanteCuActivitateReteta[l].cccactivitretete
+          cccinstanteFaraActivitateReteta[k].cccactivitretete =
+            cccinstanteCuActivitateReteta[l].cccactivitretete
           cccinstanteFaraActivitateReteta[k].ismain = cccinstanteCuActivitateReteta[l].ismain
           cccinstanteFaraActivitateReteta[k].iscustom = cccinstanteCuActivitateReteta[l].iscustom
           cccinstanteFaraActivitateReteta[k].id = cccinstanteCuActivitateReteta[l].id
@@ -298,6 +300,17 @@ cccinstante	duplicateof	id	cccactivitinstante	cccactivitretete	cccantemasuratori
   }
 
   console.log('new_ds', new_ds)
+
+  //apply DBtoWBS
+  new_ds.forEach((o) => {
+    oc = {}
+    Object.keys(o).forEach((key) => {
+      if (DBtoWBS[key]) {
+        oc[DBtoWBS[key]] = o[key]
+      }
+    })
+    o = oc
+  })
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
   for (let i = 0; i < new_ds.length; i++) {
