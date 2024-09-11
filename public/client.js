@@ -678,15 +678,17 @@ export function processExcelData(optimal_ds) {
 
 async function salveazaOfertaInDB(ds) {
   //add value to contextOferta.CCCOFERTEWEB
-  getValFromS1Query(`select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`).then((result) => {
-    console.log('result for CCCOFERTEWEB', result)
+  try {
+    const result = await getValFromS1Query(`select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`)
     if (result.success) {
       contextOferta.CCCOFERTEWEB = result.value
       console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
     } else {
       console.log('educated guessing next CCCOFERTEWEB failed', result)
     }
-  })
+  } catch (error) {
+    console.error('Error in salveazaOfertaInDB:', error)
+  }
   //save trees in CCCPATHS
   await saveTreesInDB()
   //save ds in CCCOFERTEWEB
