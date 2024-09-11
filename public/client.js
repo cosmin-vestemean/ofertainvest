@@ -684,7 +684,7 @@ async function salveazaOfertaInDB(ds) {
       contextOferta.CCCOFERTEWEB = result.value
       console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
     } else {
-      console.log('educated guessing next CCCOFERTEWEB failed', result.error)
+      console.log('educated guessing next CCCOFERTEWEB failed', result)
     }
   })
   //save trees in CCCPATHS
