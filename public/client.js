@@ -576,9 +576,9 @@ export function loadDataFromFile(evt) {
               raw: true,
               defval: ''
             }
-            workbook.SheetNames.forEach(function (sheetName) {
+            workbook.SheetNames.forEach(async function (sheetName) {
               var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], opts)
-              fromXls2Recipes(XL_row_object)
+              await fromXls2Recipes(XL_row_object)
             })
           }
 
@@ -596,32 +596,6 @@ export function loadDataFromFile(evt) {
       }
     }
   )
-  var reader = new FileReader()
-  reader.onload = function (e) {
-    optimal_ds = []
-    combinatii_unice = []
-    var data = e.target.result
-    var workbook = XLSX.read(data, {
-      type: 'binary'
-    })
-    var opts = {
-      header: 0,
-      raw: true,
-      defval: ''
-    }
-    workbook.SheetNames.forEach(function (sheetName) {
-      var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], opts)
-      fromXls2Recipes(XL_row_object)
-    })
-  }
-
-  reader.onerror = function (ex) {
-    console.log(ex)
-  }
-
-  reader.readAsArrayBuffer(file)
-
-  changeBtnOferta()
 
   function changeBtnOferta() {
     var btn_oferta = document.getElementById('btn_oferta')
@@ -632,12 +606,15 @@ export function loadDataFromFile(evt) {
   }
 }
 
-export function fromXls2Recipes(excel_object) {
+export async function fromXls2Recipes(excel_object) {
   optimal_ds = excel_object
   tables.hideAllBut([tables.my_table1])
   tables.my_table1.tableId = 'oferta_initiala'
   tables.my_table1.element.ds = optimal_ds
   processExcelData(optimal_ds)
+  //Get MAX(CCCRETETE) from CCCRETETE
+  const response = await getValFromS1Query('select ISNULL(max(CCCRETETE), 0) + 1 as CCCRETETE from CCCRETETE')
+  const max = parseInt(response.value) || 1
   detectieRetete() //recipes_ds, instanteRetete
 }
 
@@ -679,7 +656,9 @@ export function processExcelData(optimal_ds) {
 async function salveazaOfertaInDB(ds) {
   //add value to contextOferta.CCCOFERTEWEB
   try {
-    const result = await getValFromS1Query(`select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`)
+    const result = await getValFromS1Query(
+      `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`
+    )
     if (result.success) {
       contextOferta.CCCOFERTEWEB = result.value
       console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
@@ -696,7 +675,7 @@ async function salveazaOfertaInDB(ds) {
   const ofertaExista = await getValFromS1Query(
     `select count(*) from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`
   )
-  if (!ofertaExista.success & ofertaExista.value> 0) {
+  if (!ofertaExista.success & (ofertaExista.value > 0)) {
     console.log('error', ofertaExista.error)
     return ofertaExista
   }
@@ -3059,9 +3038,9 @@ class Recipe extends LitElement {
           }
         })
         const responseUpsertReteta = await client
-              .service('runSQLTransaction')
-              .create({ sqlList: [...sqlList] })
-            console.log('responseUpsertReteta', responseUpsertReteta)
+          .service('runSQLTransaction')
+          .create({ sqlList: [...sqlList] })
+        console.log('responseUpsertReteta', responseUpsertReteta)
         //remove spinner
         btn_save.innerHTML = `<i class="bi bi-save"></i>`
       }
