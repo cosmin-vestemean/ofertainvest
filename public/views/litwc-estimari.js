@@ -174,9 +174,9 @@ export class estimari extends LitElement {
         let instanta = o.CCCINSTANTE
         let r = o.PATH
         let isMain = o.isMain
-        let counter = o.counter
-        let counter2 = o.counter2
-        let counter3 = o.counter3
+        let counter = o.cccinstante
+        let counter2 = o.CCCPATHS
+        let counter3 = o.cccactivitinstante
         if (isMain) {
           //add main activity row
           this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
