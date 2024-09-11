@@ -276,9 +276,11 @@ export async function salveazaReteteInDB() {
   const max = parseInt(response.value) || 1
   const nrRetete = recipes_ds.length
   let maxActivitati =
-    parseInt(await getValFromS1Query(
-      'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE from CCCACTIVITRETETE'
-    ).value) || 1
+    parseInt(
+      await getValFromS1Query(
+        'select ISNULL(max(CCCACTIVITRETETE), 0) + 1 as CCCACTIVITRETETE from CCCACTIVITRETETE'
+      ).value
+    ) || 1
   //insert/update retete in CCCRETETE
   recipes_ds.forEach((reteta) => {
     let sql = `insert into CCCRETETE (CCCOFERTEWEB, NAME, ID) values (${contextOferta.CCCOFERTEWEB}, '${reteta.name}', ${reteta.id})`
@@ -595,20 +597,14 @@ export async function saveTreesInDB() {
     })
 
     let objSqlList = { sqlList: sqlList }
-    await runSQLTransaction(objSqlList)
-      .then((result) => {
-        if (result.success) {
-          console.log('Trees updated in database')
-          return result
-        } else {
-          console.log('Error updating Trees in database')
-          throw result
-        }
-      })
-      .catch((error) => {
-        console.log('Error updating Trees in database')
-        throw error
-      })
+    try {
+      const result = await runSQLTransaction(objSqlList)
+      console.log('Trees updated in database')
+      return result
+    } catch (error) {
+      console.error('Error updating Trees in database:', error)
+      throw error
+    }
 
     function getPathFromBranch(branch) {
       //get CCCUNIQNODES for each node in branch

@@ -679,6 +679,7 @@ export function processExcelData(optimal_ds) {
 async function salveazaOfertaInDB(ds) {
   //add value to contextOferta.CCCOFERTEWEB
   getValFromS1Query(`select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`).then((result) => {
+    console.log('result for CCCOFERTEWEB', result)
     if (result.success) {
       contextOferta.CCCOFERTEWEB = result.value
       console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
