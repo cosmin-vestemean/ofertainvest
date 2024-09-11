@@ -24,7 +24,8 @@ import {
   trees,
   setRecipesDs,
   setDsInstanteRetete,
-  setTrees
+  setTrees,
+  semafoare
 } from '../client.js'
 import { _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { local_storage } from '../utils/local_storage.js'
@@ -156,8 +157,6 @@ export function init() {
           trdr.value = firstLine.TRDR
           prjc.value = firstLine.PRJC
           trndate.valueAsDate = new Date(firstLine.TRNDATE)
-          //instante retete
-          setDsInstanteRetete()
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
@@ -172,7 +171,7 @@ export function init() {
           setDsInstanteRetete()
           //set ds_antemasuratori
           //setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
-          setDsAntemasuratori()
+          await setDsAntemasuratori()
           //set ds_estimari_pool: JSONESTIMPOOLSTR
           if (firstLine.JSONESTIMPOOLSTR) {
             context.setDsEstimariPool(JSON.parse(firstLine.JSONESTIMPOOLSTR))
@@ -364,6 +363,9 @@ export function init() {
   //btn_antemasuratori
   let btn_antemasuratori = document.getElementById('btn_antemasuratori')
   btn_antemasuratori.onclick = function () {
+    if (semafoare.antemasuratoriIsLoaded === false) {
+      return
+    }
     if (ds_instanteRetete && ds_instanteRetete.length > 0) {
       console.log('Exista instante retete, se afiseaza antemasuratori')
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
@@ -446,6 +448,9 @@ export function init() {
   //btn_listaRetete
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
+    if (semafoare.reteteIsLoaded === false) {
+      return
+    }
     if (recipes_ds && recipes_ds.length > 0) {
       console.log('listing recipes')
       let lista_retete = document.getElementById('lista_retete_scurta')

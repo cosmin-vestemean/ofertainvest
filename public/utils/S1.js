@@ -1,4 +1,4 @@
-import { client, contextOferta, ds_instanteRetete, recipes_ds, trees } from '../client.js'
+import { client, contextOferta, ds_instanteRetete, recipes_ds, trees, semafoare } from '../client.js'
 import { ds_antemasuratori, newTree } from '../controllers/antemasuratori.js'
 
 async function connectToS1Service() {
@@ -208,6 +208,7 @@ export async function getOferta(filename) {
         }
       })
       //console.log('result', response)
+      semafoare.oferta_is_loaded = true
       resolve(response)
     } catch (error) {
       console.log('error', error)

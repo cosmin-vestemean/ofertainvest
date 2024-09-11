@@ -12,7 +12,8 @@ import {
   _start_date,
   client,
   contextOferta,
-  DBtoWBS
+  DBtoWBS,
+  semafoare
 } from '../client.js'
 import {
   _cantitate_antemasuratori,
@@ -33,6 +34,7 @@ export async function setDsAntemasuratori() {
     const transf = await convertDBAntemasuratori(response.data)
     ds_antemasuratori = transf
     console.log('ds_antemasuratori', ds_antemasuratori)
+    semafoare.antemasuratoriIsLoaded = true
   } else {
     console.log('response', response)
   }

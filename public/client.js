@@ -10,6 +10,45 @@ import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
 
+export const semafoare = {
+  oferta_is_loaded: false,
+  retete_is_loaded: false,
+  instante_is_loaded: false,
+  trees_is_loaded: false,
+  antemasuratori_is_loaded: false,
+  //get and set for semafoare
+  get ofertaIsLoaded() {
+    return this.oferta_is_loaded
+  },
+  set ofertaIsLoaded(value) {
+    this.oferta_is_loaded = value
+  },
+  get reteteIsLoaded() {
+    return this.retete_is_loaded
+  },
+  set reteteIsLoaded(value) {
+    this.retete_is_loaded = value
+  },
+  get instanteIsLoaded() {
+    return this.instante_is_loaded
+  },
+  set instanteIsLoaded(value) {
+    this.instante_is_loaded = value
+  },
+  get treesIsLoaded() {
+    return this.trees_is_loaded
+  },
+  set treesIsLoaded(value) {
+    this.trees_is_loaded = value
+  },
+  get antemasuratoriIsLoaded() {
+    return this.antemasuratori_is_loaded
+  },
+  set antemasuratoriIsLoaded(value) {
+    this.antemasuratori_is_loaded = value
+  }
+}
+
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
   'PRINCIPAL',
@@ -183,6 +222,8 @@ export async function setRecipesDs() {
   console.log('retete', retete)
 
   recipes_ds = [...retete]
+
+  semafoare.reteteIsLoaded = true
 }
 
 export async function setDsInstanteRetete() {
@@ -343,6 +384,8 @@ from cccmatinstante a
   console.log('instante', instante)
 
   ds_instanteRetete = [...instante]
+
+  semafoare.instanteIsLoaded = true
 }
 
 //create a converter from CCCOFERTEWEBLINII to WBS structure; maps WBS struct to CCCOFERTEWEBLINII
@@ -456,6 +499,8 @@ export async function setTrees() {
   console.log('organizedTrees', organizedTrees)
 
   trees = organizedTrees
+
+  semafoare.treesIsLoaded = true
 }
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
