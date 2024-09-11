@@ -612,9 +612,20 @@ export async function fromXls2Recipes(excel_object) {
   tables.my_table1.tableId = 'oferta_initiala'
   tables.my_table1.element.ds = optimal_ds
   processExcelData(optimal_ds)
-  //Get MAX(CCCRETETE) from CCCRETETE
-  const response = await getValFromS1Query('select ISNULL(max(CCCRETETE), 0) + 1 as CCCRETETE from CCCRETETE')
-  const max = parseInt(response.value) || 1
+  //add value to contextOferta.CCCOFERTEWEB
+  try {
+    const result = await getValFromS1Query(
+      `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`
+    )
+    if (result.success) {
+      contextOferta.CCCOFERTEWEB = result.value
+      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
+    } else {
+      console.log('educated guessing next CCCOFERTEWEB failed', result)
+    }
+  } catch (error) {
+    console.error('Error in salveazaOfertaInDB:', error)
+  }
   detectieRetete() //recipes_ds, instanteRetete
 }
 
@@ -654,20 +665,6 @@ export function processExcelData(optimal_ds) {
 }
 
 async function salveazaOfertaInDB(ds) {
-  //add value to contextOferta.CCCOFERTEWEB
-  try {
-    const result = await getValFromS1Query(
-      `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`
-    )
-    if (result.success) {
-      contextOferta.CCCOFERTEWEB = result.value
-      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
-    } else {
-      console.log('educated guessing next CCCOFERTEWEB failed', result)
-    }
-  } catch (error) {
-    console.error('Error in salveazaOfertaInDB:', error)
-  }
   //save trees in CCCPATHS
   await saveTreesInDB()
   //save ds in CCCOFERTEWEB

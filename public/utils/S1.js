@@ -271,6 +271,17 @@ export async function saveRecipesAndInstanteAndTrees() {
 export async function salveazaReteteInDB() {
   //DB insert/update IN tables CCCRETETE, CCCACTIVITRETETE, CCCMATRETETE
   let sqlList = []
+  //Get MAX(CCCRETETE) from CCCRETETE
+  const response = await getValFromS1Query('select ISNULL(max(CCCRETETE), 0) + 1 as CCCRETETE from CCCRETETE')
+  if (!response.success) {
+    console.log('Error getting max(CCCRETETE) from CCCRETETE')
+    return
+  }
+  if (!response.value) {
+    console.log('Error getting max(CCCRETETE) from CCCRETETE')
+    return
+  }
+  const max = parseInt(response.value)
   const nrRetete = recipes_ds.length
   let maxActivitati =
     parseInt(
