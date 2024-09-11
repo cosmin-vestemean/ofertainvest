@@ -142,8 +142,8 @@ order by d.duplicateof, a.cccinstante, f.path, a.cccactivitinstante`
       let cccinstantaFaraActivitateReteta = grouped[j]
       for (let k = 0; k < cccinstantaFaraActivitateReteta.length; k++) {
           cccinstantaFaraActivitateReteta[k].cccactivitretete =  cccinstantaCuActivitateReteta[k].cccactivitretete
-          cccinstantaFaraActivitateReteta[k].ismain = cccinstantaCuActivitateReteta[k].ismain
-          cccinstantaFaraActivitateReteta[k].iscustom = cccinstantaCuActivitateReteta[k].iscustom
+          cccinstantaFaraActivitateReteta[k].isMain = cccinstantaCuActivitateReteta[k].isMain
+          cccinstantaFaraActivitateReteta[k].isCustom = cccinstantaCuActivitateReteta[k].isCustom
           //id
           cccinstantaFaraActivitateReteta[k].id = cccinstantaCuActivitateReteta[k].id
       }
