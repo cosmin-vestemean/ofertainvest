@@ -614,17 +614,17 @@ export async function fromXls2Recipes(excel_object) {
   processExcelData(optimal_ds)
   //add value to contextOferta.CCCOFERTEWEB
   try {
-    const result = await getValFromS1Query(
-      `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`
-    )
+    const query = `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`;
+    const result = await getValFromS1Query(query);
+  
     if (result.success) {
-      contextOferta.CCCOFERTEWEB = result.value
-      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
+      contextOferta.CCCOFERTEWEB = result.value;
+      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB);
     } else {
-      console.log('educated guessing next CCCOFERTEWEB failed', result)
+      console.log('Educated guessing next CCCOFERTEWEB failed', result);
     }
   } catch (error) {
-    console.error('Error in salveazaOfertaInDB:', error)
+    console.error('Error in finding CCCOFETEWEB:', error);
   }
   detectieRetete() //recipes_ds, instanteRetete
 }

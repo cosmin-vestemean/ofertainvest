@@ -606,7 +606,10 @@ export async function saveTreesInDB() {
 
     let objSqlList = { sqlList: sqlList }
     try {
-      const result = await runSQLTransaction(objSqlList)
+      const result =
+        sqlList.length > 0
+          ? await runSQLTransaction(objSqlList)
+          : { success: true, message: 'No paths to update' }
       console.log('Trees updated in database')
       return result
     } catch (error) {
