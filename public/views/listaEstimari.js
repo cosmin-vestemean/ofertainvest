@@ -96,7 +96,7 @@ from cccactivitinstante a
 	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
   left join cccoferteweblinii g on (g.cccoferteweblinii=a.cccoferteweblinii and g.cccoferteweb=a.cccoferteweb)
 where a.cccoferteweb=${contextOferta.CCCOFERTEWEB}
-order by a.cccinstante, f.path, a.cccactivitinstante`
+order by d.duplicateof, a.cccinstante, f.path, a.cccactivitinstante`
 
   const response = await client.service('getDataset').find({
     query: {
@@ -119,13 +119,15 @@ order by a.cccinstante, f.path, a.cccactivitinstante`
     console.log('cccinstante', cccinstante)
 
     //3. gsseste-o pe cea care are cccactivitretete not null
-    let cccinstanteCuActivitateReteta = cccinstante.filter((o) => o.cccactivitretete)
-    console.log('cccactivitretete', cccinstanteCuActivitateReteta)
+    let cccinstantaCuActivitateReteta = cccinstante.filter((o) => o.cccactivitretete)
+    console.log('cccactivitretete', cccinstantaCuActivitateReteta)
+
+    new_ds.push(...cccinstantaCuActivitateReteta)
 
     //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
     let cccinstanteFaraActivitateReteta = cccinstante.filter((o) => !o.cccactivitretete)
 
-    //group cccinstanteFaraActivitateReteta by cccinstante and loop through groups and apply cccactivitretete from cccinstanteCuActivitateReteta
+    //group cccinstanteFaraActivitateReteta by cccinstante and loop through groups and apply cccactivitretete from cccinstantaCuActivitateReteta
     let grouped = Object.values(
       cccinstanteFaraActivitateReteta.reduce((acc, cur) => {
         if (!acc[cur.cccinstante]) acc[cur.cccinstante] = []
@@ -137,20 +139,19 @@ order by a.cccinstante, f.path, a.cccactivitinstante`
     console.log('grouped', grouped)
 
     for (let j = 0; j < grouped.length; j++) {
-      let cccinstanteFaraActivitateReteta = grouped[j]
-      for (let k = 0; k < cccinstanteFaraActivitateReteta.length; k++) {
-          cccinstanteFaraActivitateReteta[k].cccactivitretete =
-            cccinstanteCuActivitateReteta[k].cccactivitretete
-          cccinstanteFaraActivitateReteta[k].ismain = cccinstanteCuActivitateReteta[k].ismain
-          cccinstanteFaraActivitateReteta[k].iscustom = cccinstanteCuActivitateReteta[k].iscustom
+      let cccinstantaFaraActivitateReteta = grouped[j]
+      for (let k = 0; k < cccinstantaFaraActivitateReteta.length; k++) {
+          cccinstantaFaraActivitateReteta[k].cccactivitretete =  cccinstantaCuActivitateReteta[k].cccactivitretete
+          cccinstantaFaraActivitateReteta[k].ismain = cccinstantaCuActivitateReteta[k].ismain
+          cccinstantaFaraActivitateReteta[k].iscustom = cccinstantaCuActivitateReteta[k].iscustom
           //id
-          cccinstanteFaraActivitateReteta[k].id = cccinstanteCuActivitateReteta[k].id
+          cccinstantaFaraActivitateReteta[k].id = cccinstantaCuActivitateReteta[k].id
       }
+      
+      console.log('cccinstantaFaraActivitateReteta', cccinstantaFaraActivitateReteta)
+
+      new_ds.push(...cccinstantaFaraActivitateReteta)
     }
-
-    console.log('cccinstanteFaraActivitateReteta', cccinstanteFaraActivitateReteta)
-
-    new_ds.push(...cccinstanteCuActivitateReteta, ...cccinstanteFaraActivitateReteta)
   }
 
   console.log('new_ds', new_ds)
@@ -169,8 +170,14 @@ order by a.cccinstante, f.path, a.cccactivitinstante`
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
+  salveazaEstimareInDB(ds_estimari_pool)
+
   tables.hideAllBut([tables.my_table5])
   tables.my_table5.element.ds = ds_estimari_pool
+}
+
+export async function salveazaEstimareInDB(ds_estimari_pool) {
+
 }
 
 let listaEstimariDisplayMask = {
