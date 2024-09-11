@@ -696,7 +696,7 @@ async function salveazaOfertaInDB(ds) {
   const ofertaExista = await getValFromS1Query(
     `select count(*) from CCCOFERTEWEB where PRJC = ${contextOferta.PRJC}`
   )
-  if (!ofertaExista.success) {
+  if (!ofertaExista.success & ofertaExista.value> 0) {
     console.log('error', ofertaExista.error)
     return ofertaExista
   }
