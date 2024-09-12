@@ -165,6 +165,7 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
     o[_cantitate_estimari] = 0
     o[_start_date] = ''
     o[_end_date] = ''
+    o['ROW_SELECTED'] = true
   }
 
 
