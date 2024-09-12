@@ -280,143 +280,7 @@ export class estimari extends LitElement {
     save_icon.style.marginLeft = '5px'
     save_icon.onclick = () => {
       //filter context.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-      const ds_estimari_flat_filterd = context.ds_estimari_flat.filter(
-        (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
-      )
-      //this.ds = ds_estimari_flat_filterd;
-      //pseudo code
-      //1. save context.ds_estimari_pool to local storage
-      //2. filter context.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
-      //3. push ds_estimari_flat_filterd to context.ds_estimari as an objectwith keys datetime, context.ds_estimari_flat
-      //4. save context.ds_estimari to local storage
-      //5. update newTree with context.ds_estimari_flat
-      //6. save newTree to local storage
-      //save context.ds_estimari_pool to local storage
-      //push context.ds_estimari_flat to context.ds_estimari as an object with keys datetime, context.ds_estimari_flat
-      let dt = new Date()
-      //TODO: push ds_estimari_flat_filterd to context.ds_estimari as an object with keys datetime, context.ds_estimari_flat
-      //but only if ds_estimari_flat_filterd is not empty and does not exist in context.ds_estimari
-      //update newTree with context.ds_estimari_flat
-      ds_estimari_flat_filterd.forEach(function (object) {
-        let refInstanta = object.ramura.instanta
-        let refActivitate = object.ramura.activitateIndex
-        let antemasuratoriBranch = object.ramura.ramura
-        let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
-          ? object.ramura.estimareIndex
-          : -1
-        if (newTree.length > 0) {
-          let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
-          if (newTreeAntemasBranch) {
-            //create key estimari of antemasuratori branch as an array if does not exist
-            if (!newTreeAntemasBranch.estimari) {
-              newTreeAntemasBranch.estimari = []
-            }
-            //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
-            let estimare = {}
-            estimare[_start_date] = object[_start_date]
-            estimare[_end_date] = object[_end_date]
-            estimare.qty = parseFloat(object[_cantitate_estimari])
-            estimare.datetime = dt
-
-            if (
-              estimareIndex > -1 &&
-              newTreeAntemasBranch.estimari[estimareIndex] !== undefined &&
-              newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
-              newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
-            ) {
-              if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
-                newTreeAntemasBranch.estimari[estimareIndex] = estimare
-              }
-            } else {
-              //push estimare to newTreeAntemasBranch.estimari
-              newTreeAntemasBranch.estimari.push(estimare)
-              //add estimare to context.ds_estimari_pool
-              if (Object.keys(context.ds_estimari_pool).length > 0) {
-                /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
-                  newTreeAntemasBranch.estimari.length - 1 */
-                context.setValueOfDsEstimariPool(
-                  refInstanta,
-                  antemasuratoriBranch,
-                  refActivitate,
-                  'estimareIndex',
-                  newTreeAntemasBranch.estimari.length - 1
-                )
-              }
-            }
-
-            //add cantitate_estimari to ds_estimari_pool row_data
-            if (Object.keys(context.ds_estimari_pool).length > 0) {
-              context.setValueOfDsEstimariPoolByKey(
-                refInstanta,
-                antemasuratoriBranch,
-                refActivitate,
-                _cantitate_estimari,
-                estimare.qty
-              )
-
-              //cantitate_estimari_anterioare
-              context.setValueOfDsEstimariPoolByKey(
-                refInstanta,
-                antemasuratoriBranch,
-                refActivitate,
-                _cantitate_estimari_anterioare,
-                //valoare anterioara + valoare noua
-                parseFloat(
-                  context.getValOfDsEstimariPoolByKey(
-                    refInstanta,
-                    antemasuratoriBranch,
-                    refActivitate,
-                    _cantitate_estimari_anterioare
-                  )
-                ) + estimare.qty
-              )
-
-              //add start_date to ds_estimari_pool row_data
-              context.setValueOfDsEstimariPoolByKey(
-                refInstanta,
-                antemasuratoriBranch,
-                refActivitate,
-                _start_date,
-                object[_start_date]
-              )
-
-              //add end_date to ds_estimari_pool row_data
-              context.setValueOfDsEstimariPoolByKey(
-                refInstanta,
-                antemasuratoriBranch,
-                refActivitate,
-                _end_date,
-                object[_end_date]
-              )
-            }
-          }
-        }
-      })
-
-      //find active in ds_estimari and set ds_estimari_pool
-      let active = context.ds_estimari.find((o) => o.active)
-      if (active) {
-        if (Object.keys(context.ds_estimari_pool).length > 0) {
-          active.ds_estimari_pool = { ...context.ds_estimari_pool }
-        }
-        active.ds_estimari_flat = [...context.ds_estimari_flat]
-        active.updateDate = new Date()
-      }
-
-      this.salveazaEstimareaInBazaDeDate(active)
-      this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
-
-      /* if (newTree.length > 0) {
-        context.ds_estimari_flat = context.generateTblRowsFromDsEstimariPool()
-        this.ds = context.ds_estimari_flat
-        console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
-        console.log('newTree after update with estimari', newTree)
-      } */
-
-      console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
-      console.log('context.ds_estimari after update', context.ds_estimari)
-      console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
-      console.log('newTree after update with estimari', newTree)
+      this.filterAndSaveSelectedEstimari()
     }
     btnSave.appendChild(save_icon)
     //add thrahs icon
@@ -475,6 +339,131 @@ export class estimari extends LitElement {
     btnForward.appendChild(forward_icon)
     buttonsPannel.appendChild(btnForward)
     return buttonsPannel
+  }
+
+  filterAndSaveSelectedEstimariOld() {
+    const ds_estimari_flat_filterd = context.ds_estimari_flat.filter(
+      (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
+    )
+    ds_estimari_flat_filterd.forEach(function (object) {
+      let refInstanta = object.ramura.instanta
+      let refActivitate = object.ramura.activitateIndex
+      let antemasuratoriBranch = object.ramura.ramura
+      let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
+        ? object.ramura.estimareIndex
+        : -1
+      if (newTree.length > 0) {
+        let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
+        if (newTreeAntemasBranch) {
+          //create key estimari of antemasuratori branch as an array if does not exist
+          if (!newTreeAntemasBranch.estimari) {
+            newTreeAntemasBranch.estimari = []
+          }
+          //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
+          let estimare = {}
+          estimare[_start_date] = object[_start_date]
+          estimare[_end_date] = object[_end_date]
+          estimare.qty = parseFloat(object[_cantitate_estimari])
+          estimare.datetime = dt
+
+          if (estimareIndex > -1 &&
+            newTreeAntemasBranch.estimari[estimareIndex] !== undefined &&
+            newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
+            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]) {
+            if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
+              newTreeAntemasBranch.estimari[estimareIndex] = estimare
+            }
+          } else {
+            //push estimare to newTreeAntemasBranch.estimari
+            newTreeAntemasBranch.estimari.push(estimare)
+            //add estimare to context.ds_estimari_pool
+            if (Object.keys(context.ds_estimari_pool).length > 0) {
+              /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
+                newTreeAntemasBranch.estimari.length - 1 */
+              context.setValueOfDsEstimariPool(
+                refInstanta,
+                antemasuratoriBranch,
+                refActivitate,
+                'estimareIndex',
+                newTreeAntemasBranch.estimari.length - 1
+              )
+            }
+          }
+
+          //add cantitate_estimari to ds_estimari_pool row_data
+          if (Object.keys(context.ds_estimari_pool).length > 0) {
+            context.setValueOfDsEstimariPoolByKey(
+              refInstanta,
+              antemasuratoriBranch,
+              refActivitate,
+              _cantitate_estimari,
+              estimare.qty
+            )
+
+            //cantitate_estimari_anterioare
+            context.setValueOfDsEstimariPoolByKey(
+              refInstanta,
+              antemasuratoriBranch,
+              refActivitate,
+              _cantitate_estimari_anterioare,
+              //valoare anterioara + valoare noua
+              parseFloat(
+                context.getValOfDsEstimariPoolByKey(
+                  refInstanta,
+                  antemasuratoriBranch,
+                  refActivitate,
+                  _cantitate_estimari_anterioare
+                )
+              ) + estimare.qty
+            )
+
+            //add start_date to ds_estimari_pool row_data
+            context.setValueOfDsEstimariPoolByKey(
+              refInstanta,
+              antemasuratoriBranch,
+              refActivitate,
+              _start_date,
+              object[_start_date]
+            )
+
+            //add end_date to ds_estimari_pool row_data
+            context.setValueOfDsEstimariPoolByKey(
+              refInstanta,
+              antemasuratoriBranch,
+              refActivitate,
+              _end_date,
+              object[_end_date]
+            )
+          }
+        }
+      }
+    })
+
+    //find active in ds_estimari and set ds_estimari_pool
+    let active = context.ds_estimari.find((o) => o.active)
+    if (active) {
+      if (Object.keys(context.ds_estimari_pool).length > 0) {
+        active.ds_estimari_pool = { ...context.ds_estimari_pool }
+      }
+      active.ds_estimari_flat = [...context.ds_estimari_flat]
+      active.updateDate = new Date()
+    }
+
+    this.salveazaEstimareaInBazaDeDate(active)
+    this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
+    
+    console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
+    console.log('context.ds_estimari after update', context.ds_estimari)
+    console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
+    console.log('newTree after update with estimari', newTree)
+  }
+
+  filterAndSaveSelectedEstimari() {
+    //filter context.ds_estimari_pool for ROW_SELECTED = true and _cantitate_estimari > 0
+    const ds_estimari_pool_filterd = context.ds_estimari_pool.filter(
+      (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
+    )
+
   }
 
   toggleExpandAllIcon(plus_icon) {
@@ -699,21 +688,8 @@ export class estimari extends LitElement {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = input1.value
         //change context.ds_estimari_pool
-        let position = context.locateTrInEstimariPool(inputs[i].parentElement)
-        let instanta = position.instanta
-        let ramura = position.ramura
-        let activitateIndex = position.activitateIndex
-        context.setValueOfDsEstimariPoolByKey(instanta, ramura, activitateIndex, key, input1.value)
-        //get data-index-of-flat from tr
         let indexOfFlat = inputs[i].parentElement.parentElement.getAttribute('data-index-of-flat')
-        //change context.ds_estimari_flat
-        let aDate = key === _start_date ? _start_date : _end_date
-        if (indexOfFlat) {
-          //context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
-          context.setValuesOfDsEstimari(indexOfFlat, aDate, input1.value)
-        } else {
-          console.log('indexOfFlat is undefined')
-        }
+        context.setValuesOfDsEstimari(indexOfFlat, key, input1.value)
       }
     }
   }

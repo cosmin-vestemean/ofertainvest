@@ -173,14 +173,8 @@ order by d.duplicateof, a.cccinstante, f.path, a.cccactivitinstante`
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
-  salveazaEstimareInDB(context.ds_estimari_pool)
-
   tables.hideAllBut([tables.my_table5])
   tables.my_table5.element.ds = context.ds_estimari_pool
-}
-
-export async function salveazaEstimareInDB() {
-
 }
 
 let listaEstimariDisplayMask = {
