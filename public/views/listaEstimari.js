@@ -282,20 +282,11 @@ export class listaEstimari extends LitElement {
         }
         //add on click event for each row
         //load my_table5 with the selected o.ds_estimari_flat
-        tr.onclick = this.handleRowClick(tr)
-        tbody.appendChild(tr)
-      }
-    }
-
-    return html`${table}`
-  }
-
-  handleRowClick(tr) {
-    return function () {
-      let id = tr.getAttribute('data-id') || null
-      if (id) {
-        //getDataset from CCCACTIVITESTIMARI
-        let query = `select j.*, 	*
+        tr.onclick = () => {
+          let id = tr.getAttribute('data-id') || null
+          if (id) {
+            //getDataset from CCCACTIVITESTIMARI
+            let query = `select j.*, 	*
 from CCCANTEMASURATORI a
 	inner join cccpaths b on (a.cccpaths = b.cccpaths)
 	inner join cccoferteweblinii c on (c.cccoferteweblinii = a.cccoferteweblinii)
@@ -321,29 +312,34 @@ order by A.CCCINSTANTE,
 	d.DUPLICATEOF,
 	A.CCCACTIVITINSTANTE,
 	b.path;`
-        client
-          .service('getDataset')
-          .find({
-            query: {
-              sqlQuery: query
-            }
-          })
-          .then(async (response) => {
-            let ds = response.data
-            console.log('ds', ds)
-            const transf = await convertDBAntemasuratori(ds)
-            //hide all tables except my_table
-            tables.hideAllBut([tables.my_table5])
-            tables.my_table5.element.ds = transf
-          })
-        //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
-        let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
-          'CANTITATE_ARTICOL_ESTIMARI_gt_0'
-        )
-        if (CANTITATE_ARTICOL_ESTIMARI_gt_0) CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
-      } else {
-        console.log('id not found')
+            client
+              .service('getDataset')
+              .find({
+                query: {
+                  sqlQuery: query
+                }
+              })
+              .then(async (response) => {
+                let ds = response.data
+                console.log('ds', ds)
+                const transf = await convertDBAntemasuratori(ds)
+                //hide all tables except my_table
+                tables.hideAllBut([tables.my_table5])
+                tables.my_table5.element.ds = transf
+              })
+            //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
+            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
+              'CANTITATE_ARTICOL_ESTIMARI_gt_0'
+            )
+            if (CANTITATE_ARTICOL_ESTIMARI_gt_0) CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
+          } else {
+            console.log('id not found')
+          }
+        }
+        tbody.appendChild(tr)
       }
     }
+
+    return html`${table}`
   }
 }
