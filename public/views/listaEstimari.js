@@ -290,7 +290,7 @@ export class listaEstimari extends LitElement {
     return html`${table}`
   }
 
-  async handleRowClick(tr) {
+  handleRowClick(tr) {
     return function () {
       let id = tr.getAttribute('data-id') || null
       if (id) {
