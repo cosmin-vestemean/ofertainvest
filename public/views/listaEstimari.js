@@ -331,10 +331,10 @@ order by A.CCCINSTANTE,
           .then(async (response) => {
             let ds = response.data
             console.log('ds', ds)
-            await convertDBAntemasuratori(ds)
+            const transf = await convertDBAntemasuratori(ds)
             //hide all tables except my_table
             tables.hideAllBut([tables.my_table5])
-            tables.my_table5.element.ds = ds
+            tables.my_table5.element.ds = transf
           })
         //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
         let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
