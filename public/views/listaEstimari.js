@@ -84,13 +84,14 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
     for (let j = 0; j < grouped.length; j++) {
       let cccinstantaFaraActivitateReteta = grouped[j]
       for (let k = 0; k < cccinstantaFaraActivitateReteta.length; k++) {
-          cccinstantaFaraActivitateReteta[k].CCCACTIVITRETETE =  cccinstantaCuActivitateReteta[k].CCCACTIVITRETETE
-          cccinstantaFaraActivitateReteta[k].ISMAIN = cccinstantaCuActivitateReteta[k].ISMAIN
-          cccinstantaFaraActivitateReteta[k].ISCUSTOM = cccinstantaCuActivitateReteta[k].ISCUSTOM
-          //id
-          cccinstantaFaraActivitateReteta[k].id = cccinstantaCuActivitateReteta[k].id
+        cccinstantaFaraActivitateReteta[k].CCCACTIVITRETETE =
+          cccinstantaCuActivitateReteta[k].CCCACTIVITRETETE
+        cccinstantaFaraActivitateReteta[k].ISMAIN = cccinstantaCuActivitateReteta[k].ISMAIN
+        cccinstantaFaraActivitateReteta[k].ISCUSTOM = cccinstantaCuActivitateReteta[k].ISCUSTOM
+        //id
+        cccinstantaFaraActivitateReteta[k].id = cccinstantaCuActivitateReteta[k].id
       }
-      
+
       console.log('cccinstantaFaraActivitateReteta', cccinstantaFaraActivitateReteta)
 
       new_ds.push(...cccinstantaFaraActivitateReteta)
@@ -111,9 +112,7 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
     o['ROW_SELECTED'] = true
   }
 
-
   context.ds_estimari_pool = ds_estimari_pool
-
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
@@ -123,7 +122,7 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 
 let listaEstimariDisplayMask = {
   CCCESTIMARI: { label: 'ID', visible: false, type: 'number' },
-  NAME : { label: 'Denumire', visible: true, type: 'string' },
+  NAME: { label: 'Denumire', visible: true, type: 'string' },
   DATASTART: { label: 'Start', visible: true, type: 'date' },
   DATASTOP: { label: 'Stop', visible: true, type: 'date' }
 }
@@ -296,18 +295,46 @@ export class listaEstimari extends LitElement {
       let id = tr.getAttribute('data-id') || null
       if (id) {
         //getDataset from CCCACTIVITESTIMARI
-        let query = `select * from CCCACTIVITESTIMARI where CCCESTIMARI=${id}`
-        client.service('getDataset').find({
-          query: {
-            sqlQuery: query
-          }
-        }).then(response => {
-          let ds = response.data
-          console.log('ds', ds)
-          //hide all tables except my_table
-        tables.hideAllBut([tables.my_table5])
-        tables.my_table5.element.ds = ds
-        }) 
+        let query = `select j.*, 	*
+from CCCANTEMASURATORI a
+	inner join cccpaths b on (a.cccpaths = b.cccpaths)
+	inner join cccoferteweblinii c on (c.cccoferteweblinii = a.cccoferteweblinii)
+	inner join CCCINSTANTE d on (d.CCCINSTANTE = a.CCCINSTANTE)
+	inner join cccretete h on (h.id = d.DUPLICATEOF)
+	INNER JOIN CCCACTIVITINSTANTE G ON (
+		G.CCCINSTANTE = D.CCCINSTANTE
+		AND G.CCCACTIVITINSTANTE = A.CCCACTIVITINSTANTE
+	)
+	left join CCCACTIVITRETETE i on (
+		i.CCCRETETE = h.cccretete
+		AND i.cccoferteweblinii = a.cccoferteweblinii
+	)
+	left join CCCACTIVITESTIMARI j ON (
+		j.CCCANTEMASURATORI = a.CCCANTEMASURATORI
+	)
+	inner join CCCESTIMARI k ON (
+		k.CCCESTIMARI = j.CCCESTIMARI
+	)
+	WHERE i.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+   and k.CCCESTIMARI = ${id}
+order by A.CCCINSTANTE,
+	d.DUPLICATEOF,
+	A.CCCACTIVITINSTANTE,
+	b.path;`
+        client
+          .service('getDataset')
+          .find({
+            query: {
+              sqlQuery: query
+            }
+          })
+          .then((response) => {
+            let ds = response.data
+            console.log('ds', ds)
+            //hide all tables except my_table
+            tables.hideAllBut([tables.my_table5])
+            tables.my_table5.element.ds = ds
+          })
         //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
         let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
           'CANTITATE_ARTICOL_ESTIMARI_gt_0'

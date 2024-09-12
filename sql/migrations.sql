@@ -289,8 +289,7 @@ from CCCACTIVITINSTANTE a
 	left join cccoferteweblinii g on (
 		g.cccoferteweblinii = a.cccoferteweblinii
 		and g.cccoferteweb = a.cccoferteweb
-	)
-	--daca am activitati custom in retete introdu-le in CCCACTIVITINSTANTE
+	) --daca am activitati custom in retete introdu-le in CCCACTIVITINSTANTE
 	left join cccoferteweblinii h on (
 		h.cccoferteweblinii = b.cccoferteweblinii
 		and g.cccoferteweb = a.cccoferteweb
@@ -299,4 +298,30 @@ where a.cccoferteweb = 1
 order by d.DUPLICATEOF,
 	a.CCCINSTANTE,
 	a.CCCACTIVITINSTANTE,
-	f.path
+	f.path;
+select j.*,
+	*
+from CCCANTEMASURATORI a
+	inner join cccpaths b on (a.cccpaths = b.cccpaths)
+	inner join cccoferteweblinii c on (c.cccoferteweblinii = a.cccoferteweblinii)
+	inner join CCCINSTANTE d on (d.CCCINSTANTE = a.CCCINSTANTE)
+	inner join cccretete h on (h.id = d.DUPLICATEOF)
+	INNER JOIN CCCACTIVITINSTANTE G ON (
+		G.CCCINSTANTE = D.CCCINSTANTE
+		AND G.CCCACTIVITINSTANTE = A.CCCACTIVITINSTANTE
+	)
+	left join CCCACTIVITRETETE i on (
+		i.CCCRETETE = h.cccretete
+		AND i.cccoferteweblinii = a.cccoferteweblinii
+	)
+	left join CCCACTIVITESTIMARI j ON (
+		j.CCCANTEMASURATORI = a.CCCANTEMASURATORI
+	)
+	inner join CCCESTIMARI k ON (
+		k.CCCESTIMARI = j.CCCESTIMARI
+	)
+	WHERE i.CCCOFERTEWEB = 1 and k.CCCESTIMARI = 1
+order by A.CCCINSTANTE,
+	d.DUPLICATEOF,
+	A.CCCACTIVITINSTANTE,
+	b.path;
