@@ -710,7 +710,7 @@ export class estimari extends LitElement {
         let aDate = key === _start_date ? _start_date : _end_date
         if (indexOfFlat) {
           //context.ds_estimari_flat[indexOfFlat][aDate] = input1.value
-          context.setValuesOfDsEstimariFlatByKey(indexOfFlat, aDate, input1.value)
+          context.setValuesOfDsEstimari(indexOfFlat, aDate, input1.value)
         } else {
           console.log('indexOfFlat is undefined')
         }
@@ -960,7 +960,7 @@ export class estimari extends LitElement {
             end
         }
         //context.ds_estimari_flat[index][key] = val
-        context.setValuesOfDsEstimariFlatByKey(index, key, val)
+        context.setValuesOfDsEstimari(index, key, val)
         let position = context.locateTrInEstimariPool(e.target)
         let instanta = position.instanta
         let ramura = position.ramura

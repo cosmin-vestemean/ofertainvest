@@ -21,8 +21,9 @@ function getValOfDsEstimariPoolByKey(instanta, ramura, activitate, key) {
   return context.ds_estimari_pool[instanta][ramura][activitate].row_data[key] || 0
 }
 
-function setValuesOfDsEstimariFlatByKey(index, key, value) {
-  context.ds_estimari_flat[index][key] = value
+function setValuesOfDsEstimari(index, key, value) {
+  //context.ds_estimari_flat[index][key] = value
+  context.ds_estimari_pool[index][key] = value
 }
 
 var estimariDisplayMask = {
@@ -316,7 +317,7 @@ export let context = {
   getDsEstimariFlat,
   setValueOfDsEstimariPoolByKey,
   getValOfDsEstimariPoolByKey,
-  setValuesOfDsEstimariFlatByKey,
+  setValuesOfDsEstimari,
   setValueOfDsEstimariPool,
   estimariDisplayMask,
   locateTrInEstimariPool,
