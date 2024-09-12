@@ -122,12 +122,10 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 }
 
 let listaEstimariDisplayMask = {
-  id: { label: 'ID', visible: false, type: 'number' },
-  startDate: { label: 'Start', visible: true, type: 'date' },
-  endDate: { label: 'Stop', visible: true, type: 'date' },
-  createDate: { label: 'Creata la', visible: true, type: 'date' },
-  updateDate: { label: 'Ultima actualizare', visible: true, type: 'date' },
-  active: { label: 'Activ', visible: false, type: 'boolean' }
+  CCCESTIMARI: { label: 'ID', visible: false, type: 'number' },
+  DATASTART: { label: 'Start', visible: true, type: 'date' },
+  NAME : { label: 'Denumire', visible: true, type: 'string' },
+  DATASTOP: { label: 'Stop', visible: true, type: 'date' }
 }
 
 //create and export class listaEstimari
