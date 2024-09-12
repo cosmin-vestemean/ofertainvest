@@ -123,8 +123,8 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 
 let listaEstimariDisplayMask = {
   CCCESTIMARI: { label: 'ID', visible: false, type: 'number' },
-  DATASTART: { label: 'Start', visible: true, type: 'date' },
   NAME : { label: 'Denumire', visible: true, type: 'string' },
+  DATASTART: { label: 'Start', visible: true, type: 'date' },
   DATASTOP: { label: 'Stop', visible: true, type: 'date' }
 }
 
