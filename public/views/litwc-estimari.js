@@ -185,15 +185,15 @@ export class estimari extends LitElement {
         if (ISMAIN) {
           //add main activity row
           if (CCCACTIVITESTIMARI) {
-            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, CCCACTIVITESTIMARI)
+            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, CCCACTIVITESTIMARI, true)
           } else {
-            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, arrayIndex)
+            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, arrayIndex, false)
           }
         }
         if (CCCACTIVITESTIMARI) {
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, CCCACTIVITESTIMARI)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, CCCACTIVITESTIMARI, true)
         } else {
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, arrayIndex)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, arrayIndex, false)
         }
         arrayIndex++
       }, this)
@@ -784,7 +784,7 @@ export class estimari extends LitElement {
     }
   }
 
-  addTableRow(tbody, i, k, counter, counter2, counter3, o, ISMAIN, arrayIndex) {
+  addTableRow(tbody, i, k, counter, counter2, counter3, o, ISMAIN, arrayIndex, isDB) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
@@ -795,6 +795,7 @@ export class estimari extends LitElement {
     }
     tr.id = id
     tr.setAttribute('data-array-index', arrayIndex)
+    tr.setAttribute('data-is-db', isDB)
     if (ISMAIN) {
       tr.classList.add('table-primary')
     } else {
