@@ -519,7 +519,7 @@ export class estimari extends LitElement {
       }
 
       //get the new CCCESTIMARI ID
-      const newEstimari = await getValFromS1Query('SELECT @@IDENTITY AS ID')
+      const newEstimari = await getValFromS1Query(`SELECT IDENT_CURRENT('CCCESTIMARI') as value;`)
       if (!newEstimari.success) {
         console.error('Error getting new CCCESTIMARI ID', newEstimari)
         return
