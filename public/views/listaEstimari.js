@@ -278,7 +278,7 @@ export class listaEstimari extends LitElement {
           }
           td.classList.add(key)
           //add attribute data-id
-          tr.setAttribute('data-id', this.ds[i].id)
+          tr.setAttribute('data-id', this.ds[i].CCCESTIMARI)
           tr.appendChild(td)
         }
         //add on click event for each row
