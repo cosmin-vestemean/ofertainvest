@@ -323,6 +323,11 @@ order by A.CCCINSTANTE,
                 let ds = response.data
                 console.log('ds', ds)
                 const transf = await convertDBAntemasuratori(ds)
+                console.log('transf', transf)
+                //add row_selected to each object
+                for (let i = 0; i < transf.length; i++) {
+                  transf[i].ROW_SELECTED = true
+                }
                 //hide all tables except my_table
                 tables.hideAllBut([tables.my_table5])
                 tables.my_table5.element.ds = transf
