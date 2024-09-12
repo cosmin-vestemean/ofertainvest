@@ -935,16 +935,7 @@ export class estimari extends LitElement {
             val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null
             end
         }
-        //context.ds_estimari_flat[index][key] = val
         context.setValuesOfDsEstimari(index, key, val)
-        let position = context.locateTrInEstimariPool(e.target)
-        let instanta = position.instanta
-        let ramura = position.ramura
-        let activitateIndex = position.activitateIndex
-        if (Object.keys(context.ds_estimari_pool).length > 0) {
-          //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data[key] = val
-          context.setValueOfDsEstimariPoolByKey(instanta, ramura, activitateIndex, key, val)
-        }
       }
     }
   }
