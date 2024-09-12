@@ -436,6 +436,7 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
           }
           dsEstimari.push(estimareObj)
         })
+        semafoare.estimari_is_loaded = true
         resolve({ success: true, data: dsEstimari })
       } else {
         reject({ success: false, error: response.error })

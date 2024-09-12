@@ -16,6 +16,7 @@ export const semafoare = {
   instante_is_loaded: false,
   trees_is_loaded: false,
   antemasuratori_is_loaded: false,
+  estimari_is_loaded: false,
   //get and set for semafoare
   get ofertaIsLoaded() {
     return this.oferta_is_loaded
@@ -46,6 +47,12 @@ export const semafoare = {
   },
   set antemasuratoriIsLoaded(value) {
     this.antemasuratori_is_loaded = value
+  },
+  get estimariIsLoaded() {
+    return this.estimari_is_loaded
+  },
+  set estimariIsLoaded(value) {
+    this.estimari_is_loaded = value
   }
 }
 

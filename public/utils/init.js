@@ -175,17 +175,20 @@ export function init() {
           await setDsAntemasuratori()
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it
-          getEstimariFromDB(CCCOFERTEWEB).then((result) => {
+            try {
+            const result = await getEstimariFromDB(CCCOFERTEWEB)
             if (result.success) {
               if (result.data && result.data.length > 0) {
-                context.setDsEstimari(result.data)
+              context.setDsEstimari(result.data)
               } else {
-                console.log('Nu exista estimari in baza de date')
+              console.log('Nu exista estimari in baza de date')
               }
             } else {
               console.log('error', result.error)
             }
-          })
+            } catch (error) {
+            console.log('error', error)
+            }
         }
       } else {
         alert('Nu exista oferta cu acest nume')
