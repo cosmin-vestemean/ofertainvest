@@ -512,8 +512,8 @@ export async function setTrees() {
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
 export var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'
-export var _start_date = 'DATA_START'
-export var _end_date = 'DATA_END'
+export var _start_date = 'DATASTART'
+export var _end_date = 'DATASTOP'
 export var activitati_oferta = []
 export var intrari_orfane = []
 export var WBSMap = []
