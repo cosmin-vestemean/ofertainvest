@@ -529,6 +529,9 @@ export class estimari extends LitElement {
 
     // Prepare the SQL queries to insert into CCCACTIVITESTIMARI
     for (let i = 0; i < ds_estimari_pool_filterd.length; i++) {
+      let CCCACTIVITESTIMARI = Object.hasOwnProperty.call(ds_estimari_pool_filterd[i], 'CCCACTIVITESTIMARI')
+        ? ds_estimari_pool_filterd[i].CCCACTIVITESTIMARI
+        : null
       let o = ds_estimari_pool_filterd[i]
       let activitEstimariQuery = !CCCACTIVITESTIMARI
         ? `
