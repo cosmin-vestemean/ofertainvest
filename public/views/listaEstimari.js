@@ -290,7 +290,7 @@ export class listaEstimari extends LitElement {
     return html`${table}`
   }
 
-  handleRowClick(tr) {
+  async handleRowClick(tr) {
     return function () {
       let id = tr.getAttribute('data-id') || null
       if (id) {
@@ -328,9 +328,10 @@ order by A.CCCINSTANTE,
               sqlQuery: query
             }
           })
-          .then((response) => {
+          .then(async (response) => {
             let ds = response.data
             console.log('ds', ds)
+            await convertDBAntemasuratori(ds)
             //hide all tables except my_table
             tables.hideAllBut([tables.my_table5])
             tables.my_table5.element.ds = ds
