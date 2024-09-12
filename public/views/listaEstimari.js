@@ -283,32 +283,39 @@ export class listaEstimari extends LitElement {
         }
         //add on click event for each row
         //load my_table5 with the selected o.ds_estimari_flat
-        tr.onclick = function () {
-          //get attribute data-id from tr
-          let id = tr.getAttribute('data-id') || null
-          if (id) {
-            let ds = context.ds_estimari[id].ds_estimari_flat
-            context.setDsEstimariFlat(ds)
-            //set active false for all ds_estimari
-            context.ds_estimari.forEach(function (o) {
-              o.active = false
-            })
-            tables.hideAllBut([tables.my_table5])
-            context.ds_estimari[id].active = true
-            tables.my_table5.element.ds = ds
-            //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
-            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
-              'CANTITATE_ARTICOL_ESTIMARI_gt_0'
-            )
-            if (CANTITATE_ARTICOL_ESTIMARI_gt_0) CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
-          } else {
-            console.log('id not found')
-          }
-        }
+        tr.onclick = this.handleRowClick(tr)
         tbody.appendChild(tr)
       }
     }
 
     return html`${table}`
+  }
+
+  handleRowClick(tr) {
+    return function () {
+      let id = tr.getAttribute('data-id') || null
+      if (id) {
+        //getDataset from CCCACTIVITESTIMARI
+        let query = `select * from CCCACTIVITESTIMARI where CCCESTIMARI=${id}`
+        client.service('getDataset').find({
+          query: {
+            sqlQuery: query
+          }
+        }).then(response => {
+          let ds = response.data
+          console.log('ds', ds)
+          //hide all tables except my_table
+        tables.hideAllBut([tables.my_table5])
+        tables.my_table5.element.ds = ds
+        }) 
+        //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
+        let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
+          'CANTITATE_ARTICOL_ESTIMARI_gt_0'
+        )
+        if (CANTITATE_ARTICOL_ESTIMARI_gt_0) CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
+      } else {
+        console.log('id not found')
+      }
+    }
   }
 }
