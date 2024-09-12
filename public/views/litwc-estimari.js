@@ -657,7 +657,7 @@ export class estimari extends LitElement {
     function filterRowsByAntemasuratori(isEqual) {
       return function () {
         //filter rows with _cantitate_estimari > 0 when isEqual = true and _cantitate_estimari = 0 when isEqual = false
-        let table = my_table5.shadowRoot.getElementById('table_estimari')
+        let table = tables.my_table5.shadowRoot.getElementById('table_estimari')
         let tbody = table.getElementsByTagName('tbody')[0]
         let trs = tbody.getElementsByTagName('tr')
         for (let i = 0; i < trs.length; i++) {
