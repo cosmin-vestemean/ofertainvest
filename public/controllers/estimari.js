@@ -137,7 +137,7 @@ function generateTblRowsFromDsEstimariPool() {
           instanta: ramura[i].instanta,
           ramura: ramura[i].ramura,
           activitateIndex: i,
-          isMain: ramura[i].isMain,
+          ISMAIN: ramura[i].ISMAIN,
           counter: counter,
           counter2: counter2,
           counter3: counter3,
@@ -179,7 +179,7 @@ function transformNewTreeIntoEstimariPoolDS(ds) {
       activitate.antemasuratori.forEach(function (a) {
         antemasuratori.push({ branch: a.branch, qty: a.qty })
       })
-      if (activitate.isMain) {
+      if (activitate.ISMAIN) {
         mainExists = true
         //console.log('Activitatea principala a fost gasita:', o.DENUMIRE_ARTICOL_OFERTA)
         for (let k = 0; k < antemasuratori.length; k++) {
@@ -280,7 +280,7 @@ function locateTrInEstimariPool(htmlElement) {
   return { instanta: instanta, ramura: ramura, activitateIndex: activitateIndex }
 }
 
-function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObject) {
+function createNewRow(a, o, i, indexActivit, k, ISMAIN, maxLevelA, maxLevelObject) {
   //adauga la o niveluri noi
   for (let i = maxLevelObject + 1; i < maxLevelA + 1; i++) {
     o[_nivel_oferta + i] = a.branch[i - 1]
@@ -299,7 +299,7 @@ function createNewRow(a, o, i, indexActivit, k, isMain, maxLevelA, maxLevelObjec
     activitate: indexActivit,
     denumire: o.DENUMIRE_ARTICOL_OFERTA,
     row_data: o,
-    isMain: isMain
+    ISMAIN: ISMAIN
   }
 }
 

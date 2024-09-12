@@ -124,7 +124,7 @@ export async function setRecipesDs() {
 
   const responseActivitati = await client.service('getDataset').find({
     query: {
-      sqlQuery: `select * from cccactivitretete a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+      sqlQuery: `select * from CCCACTIVITRETETE a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
   })
 
@@ -180,8 +180,8 @@ export async function setRecipesDs() {
       odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA || 0
       odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT || 0
       odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA || 0
-      odm.isMain = activitate.ISMAIN
-      odm.isCustom = activitate.ISCUSTOM
+      odm.ISMAIN = activitate.ISMAIN
+      odm.ISCUSTOM = activitate.ISCUSTOM
       odm.CCCACTIVITRETETE = activitate.CCCACTIVITRETETE
       odm.CCCRETETE = activitate.CCCRETETE
       let activitateObj = {
@@ -253,7 +253,7 @@ select d.denumire_art_of,
 	c.denumire_art_of,
 	c.CANT_ART_OF
 from cccmatinstante a
-	inner join cccactivitinstante b on a.cccactivitinstante = b.cccactivitinstante
+	inner join CCCACTIVITINSTANTE b on a.CCCACTIVITINSTANTE = b.CCCACTIVITINSTANTE
 	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
 	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
 
@@ -265,7 +265,7 @@ from cccmatinstante a
       instanceSpecifics: [
         {
           object: {line_from_oferta by CCCOFERTEWEBLINII},
-          isMain: true,
+          ISMAIN: true,
           hasChildren: true,
           children: [
             {
@@ -279,7 +279,7 @@ from cccmatinstante a
   */
   const responseInstante = await client.service('getDataset').find({
     query: {
-      sqlQuery: `select * from cccinstante a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+      sqlQuery: `select * from CCCINSTANTE a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
   })
 
@@ -305,7 +305,7 @@ from cccmatinstante a
 
   const responseActivitatiInstante = await client.service('getDataset').find({
     query: {
-      sqlQuery: `select * from cccactivitinstante a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+      sqlQuery: `select * from CCCACTIVITINSTANTE a where a.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
     }
   })
 
@@ -351,7 +351,7 @@ from cccmatinstante a
       })
       let activitateObj = {
         object: oc,
-        isMain: activitate.ISMAIN,
+        ISMAIN: activitate.ISMAIN,
         hasChildren: true,
         children: []
       }
@@ -2292,7 +2292,7 @@ Activitate 1183.7.18.23.L
       let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
       //console.log('childrenEndsWithL', childrenEndsWithL)
       if (childrenEndsWithL.length > 0) {
-        activitate.isMain = true
+        activitate.ISMAIN = true
         childrenEndsWithL.forEach(function (child) {
           child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
           child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
@@ -2305,7 +2305,7 @@ Activitate 1183.7.18.23.L
           child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
           child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
           newActivitateInReteta.children.push(child)
-          newActivitateInReteta.isMain = false
+          newActivitateInReteta.ISMAIN = false
           reteta.push(newActivitateInReteta)
           //delete the newly created activitate from reteta's children
           activitate.children = activitate.children.filter(
@@ -2469,11 +2469,11 @@ function eliminateDuplicates(data) {
   //remove duplicates from innerData
   innerData = innerData.filter((obj) => !obj.toRemove)
 
-  //add to each innerData.reteta[i] property isMain = false
+  //add to each innerData.reteta[i] property ISMAIN = false
   innerData.forEach(function (obj) {
     var nrActivitati = obj.reteta.length
     obj.reteta.forEach(function (activity) {
-      if (!activity.isMain) activity.isMain = nrActivitati == 1 ? true : false
+      if (!activity.ISMAIN) activity.ISMAIN = nrActivitati == 1 ? true : false
     })
   })
 
@@ -2902,11 +2902,11 @@ class Recipe extends LitElement {
         var my_activity = document.createElement('my-activity')
         my_activity.id = 'adaugare_activitate'
         //creaza o activitate noua in aceasi reteta
-        //has branch, object, children, hasChildren = false, isMain = false, virtual = false, (level = reteta > find reteta.object.isMain object's level)
+        //has branch, object, children, hasChildren = false, ISMAIN = false, virtual = false, (level = reteta > find reteta.object.ISMAIN object's level)
         //adauga activitatea la reteta
         //adauga activitatea la my_activity
         //find the main activity
-        let mainActivity = retetaCurenta.reteta.find((o) => o.object.isMain)
+        let mainActivity = retetaCurenta.reteta.find((o) => o.object.ISMAIN)
         if (!mainActivity) {
           console.log('Activitatea principala nu a fost gasita')
           return
@@ -2927,12 +2927,12 @@ class Recipe extends LitElement {
             CANTITATE_UNITARA_ARTICOL_RETETA: 1,
             PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: 1,
             PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: 1,
-            isCustom: 1,
-            isMain: false
+            ISCUSTOM: 1,
+            ISMAIN: false
           },
           children: [],
           hasChildren: false,
-          isMain: false,
+          ISMAIN: false,
           virtual: false,
           level: level
         }
@@ -2995,7 +2995,7 @@ class Recipe extends LitElement {
         console.log('retetaCurenta', retetaCurenta)
         console.log('activitateCurenta', activitateCurenta)
         //update CCCRETETE with activitateCurenta; CCCRETETE.ID = retetaCurenta.object.id
-        //if retetaCurenta.reteta.object[i].isCustom = 1, insert new line in CCCOFERTEWEBLINII, also with isCustom = 1
+        //if retetaCurenta.reteta.object[i].ISCUSTOM = 1, insert new line in CCCOFERTEWEBLINII, also with ISCUSTOM = 1
         //upsert CCCACTIVITRETETE with each retetaCurenta.reteta.object[i].CCCACTIVITRETETE and retetaCurenta.reteta.object[i].CCCRETETE; if iSCustom = 1 insert new line in CCCACTIVITRETETE linked with newly created CCCOFERTEWEBLINII
         //same for children.object[i] => CCCMATRETETE
 
@@ -3008,19 +3008,19 @@ class Recipe extends LitElement {
         let updateCCCRETETEQuery = `UPDATE CCCRETETE SET NAME='${NAME}' WHERE ID=${ID}`
         sqlList.push(updateCCCRETETEQuery)
 
-        //1.  isCustom  = 1 + does not have CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCOFERTEWEBLINII, CCCACTIVITRETETE, CCCMATRETETE
-        //2.  isCustom  = 1 + has CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCACTIVITRETETE, CCCMATRETETE; never happens
-        //3.  isCustom  = 1 + has CCCOFERTEWEBLINII + has CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCMATRETETE // never happens
-        //4.  isCustom  = 1 + has CCCOFERTEWEBLINII + has CCCACTIVITRETETE + has CCCMATRETETE =>update CCCACTIVITRETETE, CCCMATRETETE
-        //5.  isCustom  = 0: update CCCACTIVITRETETE, CCCMATRETETE  //always has CCCOFERTEWEBLINII + CCCACTIVITRETETE + CCCMATRETETE
+        //1.  ISCUSTOM  = 1 + does not have CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCOFERTEWEBLINII, CCCACTIVITRETETE, CCCMATRETETE
+        //2.  ISCUSTOM  = 1 + has CCCOFERTEWEBLINII + does not have CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCACTIVITRETETE, CCCMATRETETE; never happens
+        //3.  ISCUSTOM  = 1 + has CCCOFERTEWEBLINII + has CCCACTIVITRETETE + does not have CCCMATRETETE => insert into CCCMATRETETE // never happens
+        //4.  ISCUSTOM  = 1 + has CCCOFERTEWEBLINII + has CCCACTIVITRETETE + has CCCMATRETETE =>update CCCACTIVITRETETE, CCCMATRETETE
+        //5.  ISCUSTOM  = 0: update CCCACTIVITRETETE, CCCMATRETETE  //always has CCCOFERTEWEBLINII + CCCACTIVITRETETE + CCCMATRETETE
         reteta.reteta.forEach(async (item) => {
           let o = item.object
-          let isMain = o.isMain
-          let isCustom = o.isCustom
+          let ISMAIN = o.ISMAIN
+          let ISCUSTOM = o.ISCUSTOM
           let idReteta = item.idReteta
-          if (isCustom === 1) {
+          if (ISCUSTOM === 1) {
             if (!Object.hasOwnProperty.call(o, 'CCCOFERTEWEBLINII')) {
-              //isCustom = 1, but has CCCOFERTEWEBLINII, update CCCOFERTEWEBLINII
+              //ISCUSTOM = 1, but has CCCOFERTEWEBLINII, update CCCOFERTEWEBLINII
               let insertCCCOFERTEWEBLINIIQuery = `INSERT INTO CCCOFERTEWEBLINII (CCCOFERTEWEB, DENUMIRE_ART_OF, TIP_ART_OF, SUBTIP_ART_OF, UM_ART_OF, CANT_ART_OF, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, '${o.DENUMIRE_ARTICOL_OFERTA}', '${o.TIP_ARTICOL_OFERTA}', '${o.SUBTIP_ARTICOL_OFERTA}', '${o.UM_ARTICOL_OFERTA}', ${o.CANTITATE_ARTICOL_OFERTA}, 1)`
               const resInsertLinieOferta = await client
                 .service('runSQLTransaction')
@@ -3032,7 +3032,7 @@ class Recipe extends LitElement {
               let CCCOFERTEWEBLINII = await getValFromS1Query(getLastInsertedCCCOFERTEWEBLINIIQuery).value
               //insert into CCCACTIVITRETETE, get last CCCACTIVITRETETE by IDENT_CURRENT('CCCACTIVITRETETE') to use in next step then insert children into CCCMATRETETE
               // Insert into CCCACTIVITRETETE
-              let insertCCCACTIVITRETETEQuery = `INSERT INTO CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, (select CCCRETETE from CCCRETETE where id=${idReteta} and CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}), ${CCCOFERTEWEBLINII}, ${o.CANTITATEUNITARA || 0}, ${o.PONDEREDECONT || 0}, ${o.PONDERENORMA || 0}, ${isMain}, ${isCustom})`
+              let insertCCCACTIVITRETETEQuery = `INSERT INTO CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, (select CCCRETETE from CCCRETETE where id=${idReteta} and CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}), ${CCCOFERTEWEBLINII}, ${o.CANTITATEUNITARA || 0}, ${o.PONDEREDECONT || 0}, ${o.PONDERENORMA || 0}, ${ISMAIN}, ${ISCUSTOM})`
               const resInsertActivitReteta = await client
                 .service('runSQLTransaction')
                 .create({ sqlList: [insertCCCACTIVITRETETEQuery] })
@@ -3045,16 +3045,16 @@ class Recipe extends LitElement {
 
               // Insert children into CCCMATRETETE
               item.children.forEach(async (child) => {
-                let insertCCCMATRETETEQuery = `INSERT INTO CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCMATRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, ${idReteta}, ${CCCACTIVITRETETE}, ${CCCOFERTEWEBLINII}, ${child.CANTITATEUNITARA || 0}, ${child.PONDEREDECONT || 0}, ${child.PONDERENORMA || 0}, ${isCustom})`
+                let insertCCCMATRETETEQuery = `INSERT INTO CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCMATRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, ${idReteta}, ${CCCACTIVITRETETE}, ${CCCOFERTEWEBLINII}, ${child.CANTITATEUNITARA || 0}, ${child.PONDEREDECONT || 0}, ${child.PONDERENORMA || 0}, ${ISCUSTOM})`
                 const resInsertMatReteta = await client
                   .service('runSQLTransaction')
                   .create({ sqlList: [insertCCCMATRETETEQuery] })
                 console.log('resInsertMatReteta', resInsertMatReteta)
               })
             } else {
-              //isCustom = 1 and has CCCOFERTEWEBLINII
+              //ISCUSTOM = 1 and has CCCOFERTEWEBLINII
               //update CCCACTIVITRETETE
-              let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${isMain} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
+              let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${ISMAIN} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
               sqlList.push(updateCCCACTIVITRETETEQuery)
               //update CCCMATRETETE
               if (item.children && item.children.length) {
@@ -3066,9 +3066,9 @@ class Recipe extends LitElement {
               }
             }
           } else {
-            //isCustom = 0
+            //ISCUSTOM = 0
             //update CCCACTIVITRETETE
-            let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${isMain ? 1 : 0} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
+            let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${ISMAIN ? 1 : 0} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
             sqlList.push(updateCCCACTIVITRETETEQuery)
             if (item.children && item.children.length) {
               item.children.forEach(async (childPack) => {
@@ -3090,8 +3090,8 @@ class Recipe extends LitElement {
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
-        let isActivitatePrincipala = activitate.object.isMain
-        let isCustom = activitate.object.isCustom
+        let isActivitatePrincipala = activitate.object.ISMAIN
+        let ISCUSTOM = activitate.object.ISCUSTOM
         counter++
         var tr = document.createElement('tr')
         tr.id = activitate.object.CCCACTIVITRETETE + '@' + activitate.object.CCCRETETE
@@ -3139,7 +3139,7 @@ class Recipe extends LitElement {
         checkbox.classList.add('activitati_reteta')
         checkbox.checked = isActivitatePrincipala
         checkbox.style.marginLeft = '5px'
-        //onchange, set activitate.isMain = checkbox.checked
+        //onchange, set activitate.ISMAIN = checkbox.checked
         checkbox.onchange = function () {
           //unchecked all checkboxes from activitati_reteta; keep in mind shadowRoot of 'table_reteta
           var checkboxes = document
@@ -3149,15 +3149,15 @@ class Recipe extends LitElement {
           for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].id !== this.id) {
               checkboxes[i].checked = false
-              //find object in retetaCurenta[i] and set isMain = false
+              //find object in retetaCurenta[i] and set ISMAIN = false
               var a = retetaCurenta.reteta[i]
               if (a) {
-                a.isMain = false
+                a.ISMAIN = false
               }
             }
           }
-          activitate.object.isMain = this.checked
-          retetaCurenta.reteta[i].object.isMain = this.checked
+          activitate.object.ISMAIN = this.checked
+          retetaCurenta.reteta[i].object.ISMAIN = this.checked
         }
         td.appendChild(checkbox)
         //span with counter

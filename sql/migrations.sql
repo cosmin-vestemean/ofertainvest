@@ -139,7 +139,7 @@ CREATE TABLE CCCMATRETETE (
 select d.denumire_art_of,
 	c.denumire_art_of
 from cccmatretete a
-	inner join cccactivitretete b on a.cccactivitretete = b.cccactivitretete
+	inner join CCCACTIVITRETETE b on a.CCCACTIVITRETETE = b.CCCACTIVITRETETE
 	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
 	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
 CREATE TABLE CCCTIPARTICOL (
@@ -196,7 +196,7 @@ select d.denumire_art_of,
 	c.denumire_art_of,
 	c.CANT_ART_OF
 from cccmatinstante a
-	inner join cccactivitinstante b on a.cccactivitinstante = b.cccactivitinstante
+	inner join CCCACTIVITINSTANTE b on a.CCCACTIVITINSTANTE = b.CCCACTIVITINSTANTE
 	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
 	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
 create table CCCANTEMASURATORI (
@@ -236,13 +236,13 @@ create table CCCMATESTIMARI (
 );
 select i.*,
 	*
-from cccantemasuratori a
+from CCCANTEMASURATORI a
 	inner join cccpaths b on (a.cccpaths = b.cccpaths)
 	inner join cccoferteweblinii c on (c.cccoferteweblinii = a.cccoferteweblinii)
-	inner join cccinstante d on (d.cccinstante = a.cccinstante)
-	inner join cccretete h on (h.id = d.duplicateof)
+	inner join CCCINSTANTE d on (d.CCCINSTANTE = a.CCCINSTANTE)
+	inner join cccretete h on (h.id = d.DUPLICATEOF)
 	INNER JOIN CCCACTIVITINSTANTE G ON (
-		G.cccinstante = D.cccinstante
+		G.CCCINSTANTE = D.CCCINSTANTE
 		AND G.CCCACTIVITINSTANTE = A.CCCACTIVITINSTANTE
 	)
 	left join CCCACTIVITRETETE i on (
@@ -250,27 +250,27 @@ from cccantemasuratori a
 		AND i.cccoferteweblinii = a.cccoferteweblinii
 	)
 order by A.CCCINSTANTE,
-	d.duplicateof,
+	d.DUPLICATEOF,
 	A.CCCACTIVITINSTANTE,
 	b.path;
-select a.cccinstante,
-	d.duplicateof,
+select a.CCCINSTANTE,
+	d.DUPLICATEOF,
 	c.id,
-	a.cccactivitinstante,
-	b.cccactivitretete,
-	e.cccantemasuratori,
+	a.CCCACTIVITINSTANTE,
+	b.CCCACTIVITRETETE,
+	e.CCCANTEMASURATORI,
 	e.cccpaths,
 	e.cantitate,
 	b.ismain,
 	b.iscustom,
 	g.*,
 	h.*
-from cccactivitinstante a
-	inner join cccinstante d on (
-		d.cccinstante = a.cccinstante
+from CCCACTIVITINSTANTE a
+	inner join CCCINSTANTE d on (
+		d.CCCINSTANTE = a.CCCINSTANTE
 		and d.cccoferteweb = a.cccoferteweb
 	)
-	left join cccactivitretete b on (
+	left join CCCACTIVITRETETE b on (
 		a.cccoferteweblinii = b.cccoferteweblinii
 		and a.cccoferteweb = b.cccoferteweb
 	)
@@ -278,8 +278,8 @@ from cccactivitinstante a
 		c.cccretete = b.cccretete
 		and c.cccoferteweb = b.cccoferteweb
 	)
-	inner join cccantemasuratori e on (
-		e.cccactivitinstante = a.cccactivitinstante
+	inner join CCCANTEMASURATORI e on (
+		e.CCCACTIVITINSTANTE = a.CCCACTIVITINSTANTE
 		and e.cccoferteweb = a.cccoferteweb
 	)
 	inner join cccpaths f on (
@@ -290,13 +290,13 @@ from cccactivitinstante a
 		g.cccoferteweblinii = a.cccoferteweblinii
 		and g.cccoferteweb = a.cccoferteweb
 	)
-	--daca am activitati custom in retete introdu-le in cccactivitinstante
+	--daca am activitati custom in retete introdu-le in CCCACTIVITINSTANTE
 	left join cccoferteweblinii h on (
 		h.cccoferteweblinii = b.cccoferteweblinii
 		and g.cccoferteweb = a.cccoferteweb
 	)
 where a.cccoferteweb = 1
-order by d.duplicateof,
-	a.cccinstante,
-	a.cccactivitinstante,
+order by d.DUPLICATEOF,
+	a.CCCINSTANTE,
+	a.CCCACTIVITINSTANTE,
 	f.path

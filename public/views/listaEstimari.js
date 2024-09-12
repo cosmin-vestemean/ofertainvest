@@ -77,26 +77,26 @@ export async function addNewEstimare() {
 
   console.log('context.getDsEstimariFlat', context.getDsEstimariFlat()) */
 
-  const query = `select a.cccinstante,
-	d.duplicateof,
+  const query = `select a.CCCINSTANTE,
+	d.DUPLICATEOF,
 	c.id,
-	a.cccactivitinstante,
-	b.cccactivitretete,
-	e.cccantemasuratori,
+	a.CCCACTIVITINSTANTE,
+	b.CCCACTIVITRETETE,
+	e.CCCANTEMASURATORI,
 	e.CCCPATHS,
 	e.CANTITATE,
-	b.isMain,
-	b.isCustom,
+	b.ISMAIN,
+	b.ISCUSTOM,
 	g.*
-from cccactivitinstante a
-	inner join cccinstante d on (d.cccinstante = a.cccinstante and d.cccoferteweb=a.cccoferteweb)
-	left join cccactivitretete b on (a.cccoferteweblinii = b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb)
+from CCCACTIVITINSTANTE a
+	inner join CCCINSTANTE d on (d.CCCINSTANTE = a.CCCINSTANTE and d.cccoferteweb=a.cccoferteweb)
+	left join CCCACTIVITRETETE b on (a.cccoferteweblinii = b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb)
 	left join cccretete c on (c.cccretete = b.cccretete and c.cccoferteweb=b.cccoferteweb)
-	inner join cccantemasuratori e on ( e.cccactivitinstante=a.cccactivitinstante and e.cccoferteweb=a.cccoferteweb)
+	inner join CCCANTEMASURATORI e on ( e.CCCACTIVITINSTANTE=a.CCCACTIVITINSTANTE and e.cccoferteweb=a.cccoferteweb)
 	inner join cccpaths f on (f.cccpaths=e.cccpaths and f.cccoferteweb=e.cccoferteweb)
   left join cccoferteweblinii g on (g.cccoferteweblinii=a.cccoferteweblinii and g.cccoferteweb=a.cccoferteweb)
 where a.cccoferteweb=${contextOferta.CCCOFERTEWEB}
-order by d.duplicateof, a.cccinstante, f.path, a.cccactivitinstante`
+order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 
   const response = await client.service('getDataset').find({
     query: {
@@ -109,29 +109,29 @@ order by d.duplicateof, a.cccinstante, f.path, a.cccactivitinstante`
 
   let new_ds = []
 
-  //1. pentru fiecare duplicateof
-  let duplicateof = [...new Set(ds.map((o) => o.duplicateof))]
-  console.log('duplicateof', duplicateof)
+  //1. pentru fiecare DUPLICATEOF
+  let DUPLICATEOF = [...new Set(ds.map((o) => o.DUPLICATEOF))]
+  console.log('DUPLICATEOF', DUPLICATEOF)
 
-  for (let i = 0; i < duplicateof.length; i++) {
-    //2. pentru fiecare cccinstante
-    let cccinstante = ds.filter((o) => o.duplicateof == duplicateof[i])
-    console.log('cccinstante', cccinstante)
+  for (let i = 0; i < DUPLICATEOF.length; i++) {
+    //2. pentru fiecare CCCINSTANTE
+    let CCCINSTANTE = ds.filter((o) => o.DUPLICATEOF == DUPLICATEOF[i])
+    console.log('CCCINSTANTE', CCCINSTANTE)
 
-    //3. gsseste-o pe cea care are cccactivitretete not null
-    let cccinstantaCuActivitateReteta = cccinstante.filter((o) => o.cccactivitretete)
-    console.log('cccactivitretete', cccinstantaCuActivitateReteta)
+    //3. gsseste-o pe cea care are CCCACTIVITRETETE not null
+    let cccinstantaCuActivitateReteta = CCCINSTANTE.filter((o) => o.CCCACTIVITRETETE)
+    console.log('CCCACTIVITRETETE', cccinstantaCuActivitateReteta)
 
     new_ds.push(...cccinstantaCuActivitateReteta)
 
-    //4. gaseste-le pe cele care au cccactivitretete null si aplica-le cccactivitretete din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
-    let cccinstanteFaraActivitateReteta = cccinstante.filter((o) => !o.cccactivitretete)
+    //4. gaseste-le pe cele care au CCCACTIVITRETETE null si aplica-le CCCACTIVITRETETE din cea gasita la pasul 3 (sunt instantele duplicate ale aceleasi retete)
+    let cccinstanteFaraActivitateReteta = CCCINSTANTE.filter((o) => !o.CCCACTIVITRETETE)
 
-    //group cccinstanteFaraActivitateReteta by cccinstante and loop through groups and apply cccactivitretete from cccinstantaCuActivitateReteta
+    //group cccinstanteFaraActivitateReteta by CCCINSTANTE and loop through groups and apply CCCACTIVITRETETE from cccinstantaCuActivitateReteta
     let grouped = Object.values(
       cccinstanteFaraActivitateReteta.reduce((acc, cur) => {
-        if (!acc[cur.cccinstante]) acc[cur.cccinstante] = []
-        acc[cur.cccinstante].push(cur)
+        if (!acc[cur.CCCINSTANTE]) acc[cur.CCCINSTANTE] = []
+        acc[cur.CCCINSTANTE].push(cur)
         return acc
       }, {})
     )
@@ -141,9 +141,9 @@ order by d.duplicateof, a.cccinstante, f.path, a.cccactivitinstante`
     for (let j = 0; j < grouped.length; j++) {
       let cccinstantaFaraActivitateReteta = grouped[j]
       for (let k = 0; k < cccinstantaFaraActivitateReteta.length; k++) {
-          cccinstantaFaraActivitateReteta[k].cccactivitretete =  cccinstantaCuActivitateReteta[k].cccactivitretete
-          cccinstantaFaraActivitateReteta[k].isMain = cccinstantaCuActivitateReteta[k].isMain
-          cccinstantaFaraActivitateReteta[k].isCustom = cccinstantaCuActivitateReteta[k].isCustom
+          cccinstantaFaraActivitateReteta[k].CCCACTIVITRETETE =  cccinstantaCuActivitateReteta[k].CCCACTIVITRETETE
+          cccinstantaFaraActivitateReteta[k].ISMAIN = cccinstantaCuActivitateReteta[k].ISMAIN
+          cccinstantaFaraActivitateReteta[k].ISCUSTOM = cccinstantaCuActivitateReteta[k].ISCUSTOM
           //id
           cccinstantaFaraActivitateReteta[k].id = cccinstantaCuActivitateReteta[k].id
       }

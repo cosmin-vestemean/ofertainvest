@@ -24,7 +24,7 @@ import { runSQLTransaction } from '../utils/S1.js'
 
 export var ds_antemasuratori = []
 export async function setDsAntemasuratori() {
-  const sqlQuery = `select * from cccantemasuratori a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE`
+  const sqlQuery = `select * from CCCANTEMASURATORI a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE`
   const response = await client.service('getDataset').find({
     query: {
       sqlQuery: sqlQuery
@@ -131,7 +131,7 @@ export async function createAntemasuratori() {
   btn_antemasuratori.appendChild(spinner)
   const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
-      sqlQuery: `select * from cccactivitinstante a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
+      sqlQuery: `select * from CCCACTIVITINSTANTE a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
     }
   })
 

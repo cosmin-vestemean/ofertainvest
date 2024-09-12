@@ -1,5 +1,5 @@
 -delete linie din antemasuratori
--alter table cccantemasuratori add NOTNEEDED SMALLINT ca urmartoarea data sa nu o mai generez fiindca nu reprezinta realitatea
+-alter table CCCANTEMASURATORI add NOTNEEDED SMALLINT ca urmartoarea data sa nu o mai generez fiindca nu reprezinta realitatea
 -este exclusa din tot restul fluxului de date (estimari >)
 -estimari: articol oferta inseamna link la linie oferta din CCCOFERTEWEBLINII
 -redenumire nume reteta, activitate sau material

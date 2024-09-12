@@ -28,7 +28,7 @@ export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
   //newTree is an array Arr containing arrays Arr[i]; each Arr[i] contains arrays: one is object ,let's call it Arr1 and one is antemasuratori (Arr2)
   //Arr1 is in a one to many relationship with Arr2
-  //find Arr[i] with isMain = true and the value of key "DENUMIRE_ARTICOL_OFERTA" is the name of the representation of Arr[i] (the root)
+  //find Arr[i] with ISMAIN = true and the value of key "DENUMIRE_ARTICOL_OFERTA" is the name of the representation of Arr[i] (the root)
   //each Arr has a plus/minus icon for unfolding/folding Arr[i]
   //each Arr[i] has a plus/minus icon for unfolding/folding Arr3
   //the keys of interest for representation of object are in antemasuratoriDisplayMask
@@ -169,20 +169,21 @@ export class estimari extends LitElement {
       }
 
       //add activitati to table
-      let indexOfFlat = 0
+      let arrayIndex = 0
       this.ds.forEach(function (o) {
-        let instanta = o.cccinstante
+        let instanta = o.CCCINSTANTE
         let r = o.CCCPATHS
-        let isMain = o.isMain
-        let counter = o.cccinstante
+        let ISMAIN = o.ISMAIN
+        let counter = o.CCCINSTANTE
         let counter2 = o.CCCPATHS
-        let counter3 = o.cccactivitinstante
-        if (isMain) {
+        let counter3 = o.CCCACTIVITINSTANTE
+        
+        if (ISMAIN) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, indexOfFlat)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, arrayIndex)
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, indexOfFlat)
-        indexOfFlat++
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, arrayIndex)
+        arrayIndex++
       }, this)
     }
 
@@ -366,10 +367,12 @@ export class estimari extends LitElement {
           estimare.qty = parseFloat(object[_cantitate_estimari])
           estimare.datetime = dt
 
-          if (estimareIndex > -1 &&
+          if (
+            estimareIndex > -1 &&
             newTreeAntemasBranch.estimari[estimareIndex] !== undefined &&
             newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
-            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]) {
+            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
+          ) {
             if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
               newTreeAntemasBranch.estimari[estimareIndex] = estimare
             }
@@ -451,19 +454,82 @@ export class estimari extends LitElement {
 
     this.salveazaEstimareaInBazaDeDate(active)
     this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
-    
+
     console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
     console.log('context.ds_estimari after update', context.ds_estimari)
     console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
     console.log('newTree after update with estimari', newTree)
   }
 
-  filterAndSaveSelectedEstimari() {
+  async filterAndSaveSelectedEstimari() {
     //filter context.ds_estimari_pool for ROW_SELECTED = true and _cantitate_estimari > 0
     const ds_estimari_pool_filterd = context.ds_estimari_pool.filter(
       (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
     )
 
+    let sqlList = []
+
+    let start_date = context.ds_estimari_pool[0][_start_date]
+    //use moment.js to format date
+    let start_date_formatted = moment(start_date).format('YYYY-MM-DD')
+    let end_date = context.ds_estimari_pool[0][_end_date]
+    let end_date_formatted = moment(end_date).format('YYYY-MM-DD')
+    let right_now = moment().format('DD-MM-YYYY HH:mm:ss')
+
+    // Prepare the SQL query to insert into CCCESTIMARI
+    let estimariQuery = `
+    INSERT INTO CCCESTIMARI (
+      CCCOFERTEWEB, NAME, DATASTART, DATASTOP
+    ) VALUES (
+      ${contextOferta.CCCOFERTEWEB}, 'Estimare ${right_now}', '${start_date_formatted}', '${end_date_formatted}'
+    ); `
+
+    // Execute the query to get the new CCCESTIMARI ID
+    let result
+    try {
+      result = await runSQLTransaction({ sqlList: [estimariQuery] })
+    } catch (error) {
+      console.error('Error inserting into CCCESTIMARI:', error)
+      return
+    }
+
+    if (!result.success) {
+      console.error('Error inserting into CCCESTIMARI', result)
+      return
+    }
+
+    //get the new CCCESTIMARI ID
+    const newEstimari = await getValFromS1Query('SELECT @@IDENTITY AS ID')
+    if (!newEstimari.success) {
+      console.error('Error getting new CCCESTIMARI ID', newEstimari)
+      return
+    }
+    const newEstimariId = newEstimari.value
+
+    // Prepare the SQL queries to insert into CCCACTIVITESTIMARI
+    for (let i = 0; i < ds_estimari_pool_filterd.length; i++) {
+      let o = ds_estimari_pool_filterd[i]
+      let activitEstimariQuery = `
+      INSERT INTO CCCACTIVITESTIMARI (
+        CCCESTIMARI, CCCOFERTEWEB, CCCANTEMASURATORI, CANTITATE, DATASTART, DATASTOP
+      ) VALUES (
+        ${newEstimariId}, ${contextOferta.CCCOFERTEWEB}, ${o.CCCANTEMASURATORI}, ${o[_cantitate_estimari]}, '${o[_start_date]}', '${o[_end_date]}'
+      );
+    `
+      sqlList.push(activitEstimariQuery)
+    }
+
+    // Execute the SQL queries
+    try {
+      const result = await runSQLTransaction({ sqlList: sqlList })
+      if (result.success) {
+        console.log('Estimations saved successfully:', result)
+      } else {
+        console.error('Error saving estimations:', result)
+      }
+    } catch (error) {
+      console.error('Error saving estimations:', error)
+    }
   }
 
   toggleExpandAllIcon(plus_icon) {
@@ -688,24 +754,24 @@ export class estimari extends LitElement {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = input1.value
         //change context.ds_estimari_pool
-        let indexOfFlat = inputs[i].parentElement.parentElement.getAttribute('data-index-of-flat')
-        context.setValuesOfDsEstimari(indexOfFlat, key, input1.value)
+        let arrayIndex = inputs[i].parentElement.parentElement.getAttribute('data-array-index')
+        context.setValuesOfDsEstimari(arrayIndex, key, input1.value)
       }
     }
   }
 
-  addTableRow(tbody, i, k, counter, counter2, counter3, o, isMain, indexOfFlat) {
+  addTableRow(tbody, i, k, counter, counter2, counter3, o, ISMAIN, arrayIndex) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
-    if (isMain) {
+    if (ISMAIN) {
       id = i + '@' + k
     } else {
       id = i + '@' + k + '_' + counter3
     }
     tr.id = id
-    tr.setAttribute('data-index-of-flat', indexOfFlat)
-    if (isMain) {
+    tr.setAttribute('data-array-index', arrayIndex)
+    if (ISMAIN) {
       tr.classList.add('table-primary')
     } else {
       tr.classList.add(bg_color)
@@ -724,7 +790,7 @@ export class estimari extends LitElement {
     td.appendChild(checkbox)
     tr.appendChild(td)
     td = document.createElement('td')
-    if (isMain) {
+    if (ISMAIN) {
       //add plus/minus icon
       let plus_icon = document.createElement('i')
       plus_icon.classList.add('bi', 'bi-dash-square', 'fs-6', 'align-middle')
@@ -739,7 +805,7 @@ export class estimari extends LitElement {
     //add counter
     td = document.createElement('td')
     td.classList.add('align-middle')
-    if (!isMain) {
+    if (!ISMAIN) {
       td.innerHTML = counter + '.' + counter2 + '.' + counter3
     } else {
       td.innerHTML = counter + '.' + counter2
@@ -916,7 +982,7 @@ export class estimari extends LitElement {
       var tagName = e.target.tagName
       if (tagName === 'TD') {
         //get index of tr in tbody
-        let index = parseInt(e.target.parentElement.getAttribute('data-index-of-flat'))
+        let index = parseInt(e.target.parentElement.getAttribute('data-array-index'))
         //get type from estimariDisplayMask
         let key = e.target.classList[0]
         let type = context.estimariDisplayMask[key].type
@@ -997,7 +1063,7 @@ export class estimari extends LitElement {
           let row_data = o
           let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD')
           let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD')
-          let isMain = row_data.ramura.isMain ? 1 : 0
+          let ISMAIN = row_data.ramura.ISMAIN ? 1 : 0
           let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, ISMAIN, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
           for (let i = 1; i <= 10; i++) {
             if (row_data[_nivel_oferta + i] === undefined) {
@@ -1006,7 +1072,7 @@ export class estimari extends LitElement {
             }
           }
           insertLineQuery += `REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL, CANTANTE, CANTESTIM) `
-          insertLineQuery += `VALUES (${headerId}, ${isMain}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
+          insertLineQuery += `VALUES (${headerId}, ${ISMAIN}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
           for (let i = 1; i <= 10; i++) {
             if (row_data[_nivel_oferta + i] === undefined) {
             } else {
