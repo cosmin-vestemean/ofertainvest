@@ -177,12 +177,24 @@ export class estimari extends LitElement {
         let counter = o.CCCINSTANTE
         let counter2 = o.CCCPATHS
         let counter3 = o.CCCACTIVITINSTANTE
-        
+        let CCCESTIMARI = Object.hasOwnProperty.call(o, 'CCCESTIMARI') ? o.CCCESTIMARI : null
+        let CCCACTIVITESTIMARI = Object.hasOwnProperty.call(o, 'CCCACTIVITESTIMARI')
+          ? o.CCCACTIVITESTIMARI
+          : null
+
         if (ISMAIN) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, arrayIndex)
+          if (CCCACTIVITESTIMARI) {
+            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, CCCACTIVITESTIMARI)
+          } else {
+            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, arrayIndex)
+          }
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, arrayIndex)
+        if (CCCACTIVITESTIMARI) {
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, CCCACTIVITESTIMARI)
+        } else {
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, arrayIndex)
+        }
         arrayIndex++
       }, this)
     }
@@ -280,7 +292,6 @@ export class estimari extends LitElement {
     save_icon.style.cursor = 'pointer'
     save_icon.style.marginLeft = '5px'
     save_icon.onclick = () => {
-      //filter context.ds_estimari_flat with key ROW_SELECTED = true and parseFloat(_cantitate_estimari) > 0
       this.filterAndSaveSelectedEstimari()
     }
     btnSave.appendChild(save_icon)
@@ -468,54 +479,64 @@ export class estimari extends LitElement {
     )
 
     let sqlList = []
-
+    //context.ds_estimari_pool[0].CCCESTIMARI
+    let CCCESTIMARI = Object.hasOwnProperty.call(context.ds_estimari_pool[0], 'CCCESTIMARI')
+      ? context.ds_estimari_pool[0].CCCESTIMARI
+      : null
     let start_date = context.ds_estimari_pool[0][_start_date]
     //use moment.js to format date
     let start_date_formatted = moment(start_date).format('YYYY-MM-DD')
     let end_date = context.ds_estimari_pool[0][_end_date]
     let end_date_formatted = moment(end_date).format('YYYY-MM-DD')
     let right_now = moment().format('DD-MM-YYYY HH:mm:ss')
+    let newEstimariId = CCCESTIMARI
 
-    // Prepare the SQL query to insert into CCCESTIMARI
-    let estimariQuery = `
+    if (CCCESTIMARI) {
+      //update CCCESTIMARI
+      let estimariQuery = `UPDATE CCCESTIMARI SET DATASTART = '${start_date_formatted}', DATASTOP = '${end_date_formatted}' WHERE CCCESTIMARI = ${CCCESTIMARI};`
+      sqlList.push(estimariQuery)
+    } else {
+      // Prepare the SQL query to insert into CCCESTIMARI
+      let estimariQuery = `
     INSERT INTO CCCESTIMARI (
       CCCOFERTEWEB, NAME, DATASTART, DATASTOP
     ) VALUES (
       ${contextOferta.CCCOFERTEWEB}, 'Estimare ${right_now}', '${start_date_formatted}', '${end_date_formatted}'
     ); `
 
-    // Execute the query to get the new CCCESTIMARI ID
-    let result
-    try {
-      result = await runSQLTransaction({ sqlList: [estimariQuery] })
-    } catch (error) {
-      console.error('Error inserting into CCCESTIMARI:', error)
-      return
-    }
+      // Execute the query to get the new CCCESTIMARI ID
+      let result
+      try {
+        result = await runSQLTransaction({ sqlList: [estimariQuery] })
+      } catch (error) {
+        console.error('Error inserting into CCCESTIMARI:', error)
+        return
+      }
 
-    if (!result.success) {
-      console.error('Error inserting into CCCESTIMARI', result)
-      return
-    }
+      if (!result.success) {
+        console.error('Error inserting into CCCESTIMARI', result)
+        return
+      }
 
-    //get the new CCCESTIMARI ID
-    const newEstimari = await getValFromS1Query('SELECT @@IDENTITY AS ID')
-    if (!newEstimari.success) {
-      console.error('Error getting new CCCESTIMARI ID', newEstimari)
-      return
+      //get the new CCCESTIMARI ID
+      const newEstimari = await getValFromS1Query('SELECT @@IDENTITY AS ID')
+      if (!newEstimari.success) {
+        console.error('Error getting new CCCESTIMARI ID', newEstimari)
+        return
+      }
+      newEstimariId = newEstimari.value
     }
-    const newEstimariId = newEstimari.value
 
     // Prepare the SQL queries to insert into CCCACTIVITESTIMARI
     for (let i = 0; i < ds_estimari_pool_filterd.length; i++) {
       let o = ds_estimari_pool_filterd[i]
-      let activitEstimariQuery = `
+      let activitEstimariQuery = !CCCACTIVITESTIMARI
+        ? `
       INSERT INTO CCCACTIVITESTIMARI (
         CCCESTIMARI, CCCOFERTEWEB, CCCANTEMASURATORI, CANTITATE, DATASTART, DATASTOP
       ) VALUES (
-        ${newEstimariId}, ${contextOferta.CCCOFERTEWEB}, ${o.CCCANTEMASURATORI}, ${o[_cantitate_estimari]}, '${o[_start_date]}', '${o[_end_date]}'
-      );
-    `
+        ${newEstimariId}, ${contextOferta.CCCOFERTEWEB}, ${o.CCCANTEMASURATORI}, ${o[_cantitate_estimari]}, '${o[_start_date]}', '${o[_end_date]}' );`
+        : `UPDATE CCCACTIVITESTIMARI SET CANTITATE = ${o[_cantitate_estimari]}, DATASTART = '${o[_start_date]}', DATASTOP = '${o[_end_date]}' WHERE CCCESTIMARI = ${newEstimariId} AND CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB} AND CCCANTEMASURATORI = ${o.CCCANTEMASURATORI} and CCCACTIVITESTIMARI = ${o.CCCACTIVITESTIMARI};`
       sqlList.push(activitEstimariQuery)
     }
 
