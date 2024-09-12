@@ -419,7 +419,7 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
       const response = await client.service('getDataset').find({
         query: {
           clientID: clientID,
-          sqlQuery: `select CCCOFERTEWEB, CCCESTIMARIH, DSESTIMARIFLAT, FORMAT(CREATEDATE, 'yyyy-MM-dd') as CREATEDATE, FORMAT(UPDATEDATE, 'yyyy-MM-dd') as UPDATEDATE, FORMAT(STARTDATE, 'yyyy-MM-dd') as STARTDATE, FORMAT(ENDDATE, 'yyyy-MM-dd') as ENDDATE, ID, ACTIVE from CCCESTIMARIH where CCCOFERTEWEB='${CCCOFERTEWEB}'`
+          sqlQuery: `select CCCESTIMARI, NAME, FORMAT(DATASTART, 'yyyy-MM-dd') as DATASTART, FORMAT(DATASTOP, 'yyyy-MM-dd') as DATASTOP from CCCESTIMARI where CCCOFERTEWEB='${CCCOFERTEWEB}'`
         }
       })
       //console.log('result', response)
@@ -429,14 +429,10 @@ export async function getEstimariFromDB(CCCOFERTEWEB) {
         estimari.forEach((estimare) => {
           console.log('estimare', estimare)
           let estimareObj = {
-            ds_estimari_flat: JSON.parse(estimare.DSESTIMARIFLAT),
-            id: estimare.ID,
-            startDate: estimare.STARTDATE,
-            endDate: estimare.ENDDATE,
-            createDate: estimare.CREATEDATE,
-            updateDate: estimare.UPDATEDATE,
-            active: estimare.ACTIVE,
-            CCCESTIMARIH: estimare.CCCESTIMARIH
+            CCCESTIMARI: estimare.CCCESTIMARI,
+            NAME: estimare.NAME,
+            DATASTART: estimare.DATASTART,
+            DATASTOP: estimare.DATASTOP
           }
           dsEstimari.push(estimareObj)
         })

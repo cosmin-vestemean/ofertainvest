@@ -20,63 +20,6 @@ import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
 export async function addNewEstimare() {
-  /* cleanupEstimari()
-
-  //la prima estimare pot presupune ca ai inceput sa creezi estimari fiindca ai antemasuratorile dimensionate, deci le salvez in baza de date
-  if (context.ds_estimari.length == 0) {
-    let result = saveAntemasuratoriAndTreeToDB()
-    console.log('result', result)
-  }
-
-  //active = false for all objects in ds_estimari
-  context.ds_estimari.forEach((o) => (o.active = false))
-  //create new empty object in ds_estimari
-  context.ds_estimari.push({
-    createDate: new Date(),
-    updateDate: new Date(),
-    id: context.ds_estimari.length,
-    active: true,
-    ds_estimari_pool: [],
-    ds_estimari_flat: []
-  })
-
-  if (context.getDsEstimariPool().length == 0) {
-    //trasform newTree in ds_estimari_pool
-    if (newTree.length > 0) {
-      context.createNewEstimariPool(newTree)
-    } else {
-      console.log('newTree is empty, run Antemasuratori first')
-      alert('Genereaza antemasuratorile inainte de a genera estimarile')
-    }
-  }
-  //zero out _start_date and _end_date and _cantitate_estimari in pool
-  for (let instanta of Object.values(context.getDsEstimariPool())) {
-    for (let ramura of Object.values(instanta)) {
-      for (let activitate of Object.values(ramura)) {
-        activitate.row_data[_start_date] = '';
-        activitate.row_data[_end_date] = '';
-        activitate.row_data[_cantitate_estimari] = 0;
-      }
-    }
-  }
-    
-  context.createNewEstimariFlat()
-  context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_pool = context.getDsEstimariPool()
-  context.ds_estimari[context.ds_estimari.length - 1].ds_estimari_flat = context.getDsEstimariFlat()
-  addOnChangeEvt(context.getDsEstimariFlat(), delimiter, 'my_table_estimari')
-  console.log('context.getDsEstimariPool', context.getDsEstimariPool())
-  tables.hideAllBut([tables.my_table5])
-  //just to create propperly commit message
-  let selected_options_arr = ierarhii.getValue()
-  if (selected_options_arr && selected_options_arr.length > 0) {
-    flatFind(selected_options_arr, context.getDsEstimariFlat(), delimiter)
-    tables.my_table5.element.ds = selected_ds
-  } else {
-    tables.my_table5.element.ds = context.getDsEstimariFlat()
-  }
-
-  console.log('context.getDsEstimariFlat', context.getDsEstimariFlat()) */
-
   const query = `select a.CCCINSTANTE,
 	d.DUPLICATEOF,
 	c.id,
@@ -370,8 +313,4 @@ export class listaEstimari extends LitElement {
 
     return html`${table}`
   }
-}
-function cleanupEstimari() {
-  //delete from ds_estimari all objects with key ds_estimari_flat = [] and ds_estimari_pool = []
-  context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
 }

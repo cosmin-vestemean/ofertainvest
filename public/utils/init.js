@@ -49,6 +49,7 @@ import {
   createAntemasuratori,
   updateAntemasuratori
 } from '../controllers/antemasuratori.js'
+import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
@@ -156,7 +157,7 @@ export function init() {
           const trndate = document.getElementById('trndate')
           trdr.value = firstLine.TRDR
           prjc.value = firstLine.PRJC
-          trndate.valueAsDate = new Date(firstLine.TRNDATE)
+          trndate.valueAsDate = moment(firstLine.TRNDATE).toDate()
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           tables.hideAllBut([tables.my_table1])
           tables.my_table1.element.ds = optimal_ds
@@ -172,16 +173,6 @@ export function init() {
           //set ds_antemasuratori
           //setDsAntemasuratori(JSON.parse(firstLine.JSONANTESTR))
           await setDsAntemasuratori()
-          //set ds_estimari_pool: JSONESTIMPOOLSTR
-          if (firstLine.JSONESTIMPOOLSTR) {
-            context.setDsEstimariPool(JSON.parse(firstLine.JSONESTIMPOOLSTR))
-            console.log('ds_estimari_pool', context.ds_estimari_pool)
-          }
-          //newTree <=>  JSONTREESTR
-          if (firstLine.JSONTREESTR) {
-            setNewTree(JSON.parse(firstLine.JSONTREESTR))
-            console.log('newTree', newTree)
-          }
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it
           getEstimariFromDB(CCCOFERTEWEB).then((result) => {
@@ -190,7 +181,6 @@ export function init() {
                 context.setDsEstimari(result.data)
               } else {
                 console.log('Nu exista estimari in baza de date')
-                //setDsEstimari(createNewEstimariPool(newTree))
               }
             } else {
               console.log('error', result.error)
