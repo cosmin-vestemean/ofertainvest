@@ -447,7 +447,7 @@ export function init() {
     tables.my_table7.element.ds = context.ds_estimari
     const angajati = await client.service('getDataset').find({
       query: {
-        sqlQuery: `select name2 from prsn where sodtype=20 and isactive=1`
+        sqlQuery: `SELECT A.PRSN, A.NAME2 FROM PRSN A LEFT OUTER JOIN PRSEXTRA B ON A.PRSN=B.PRSN AND A.SODTYPE=B.SODTYPE AND B.COMPANY=1 WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
       }
     })
     console.log('angajati', angajati)
