@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  export const tables = {
+  const tables = {
     my_table1: {
       element: document.getElementById('my_table_oferta_initiala'),
       visible: true
