@@ -109,7 +109,7 @@ export function init() {
   let theme = local_storage.selectedTheme.get()
   if (theme) changeTheme(theme)
   //hide all tables, they are shown when needed
-  tables.hideAllBut([])
+  //tables.hideAllBut([])
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
