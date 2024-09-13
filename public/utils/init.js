@@ -438,6 +438,14 @@ export function init() {
     console.log('ds_estimari', context.ds_estimari)
   }
 
+  let btn_planificari = document.getElementById('btn_planificari')
+  btn_planificari.onclick = function () {
+    //hide all tables but 6
+    tables.hideAllBut([tables.my_table6])
+    tables.my_table6.element.ds = context.ds_estimari
+    console.log('ds_estimari', context.ds_estimari)
+  }
+
   //btn_listaRetete
   let btn_listaRetete = document.getElementById('btn_listaRetete')
   btn_listaRetete.onclick = function () {
