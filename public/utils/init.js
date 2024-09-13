@@ -25,7 +25,8 @@ import {
   setRecipesDs,
   setDsInstanteRetete,
   setTrees,
-  semafoare
+  semafoare,
+  client
 } from '../client.js'
 import { _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { local_storage } from '../utils/local_storage.js'
