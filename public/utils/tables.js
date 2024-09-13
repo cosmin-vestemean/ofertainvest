@@ -33,7 +33,7 @@ export const tables = {
     visible: true,
   },
   allTables() {
-      return [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6];
+      return [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6, this.my_table7, this.my_table8];
   },
   hideAllBut(tablesExcept) {
       this.allTables().forEach(function(table) {
