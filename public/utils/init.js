@@ -175,20 +175,20 @@ export function init() {
           await setDsAntemasuratori()
           let CCCOFERTEWEB = firstLine.CCCOFERTEWEB
           //add data to ds_estimari, if it
-            try {
+          try {
             const result = await getEstimariFromDB(CCCOFERTEWEB)
             if (result.success) {
               if (result.data && result.data.length > 0) {
-              context.setDsEstimari(result.data)
+                context.setDsEstimari(result.data)
               } else {
-              console.log('Nu exista estimari in baza de date')
+                console.log('Nu exista estimari in baza de date')
               }
             } else {
               console.log('error', result.error)
             }
-            } catch (error) {
+          } catch (error) {
             console.log('error', error)
-            }
+          }
         }
       } else {
         alert('Nu exista oferta cu acest nume')
@@ -379,7 +379,8 @@ export function init() {
     //save antemasuratori in db
     //saveAntemasuratoriAndTreeToDB()
     //add spinner to btn_save_antemas
-    btn_save_antemas.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvare...'
+    btn_save_antemas.innerHTML =
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvare...'
     updateAntemasuratori(ds_antemasuratori)
       .then((result) => {
         console.log('result', result)
@@ -439,11 +440,25 @@ export function init() {
   }
 
   let btn_planificari = document.getElementById('btn_planificari')
-  btn_planificari.onclick = function () {
-    //hide all tables but 6
-    tables.hideAllBut([tables.my_table6])
-    tables.my_table6.element.ds = context.ds_estimari
-    console.log('ds_estimari', context.ds_estimari)
+  btn_planificari.onclick = async function () {
+    //hide all tables but 7
+    tables.hideAllBut([tables.my_table7, tables.my_table8])
+    tables.my_table7.element.ds = context.ds_estimari
+    const angajati = await client.service('getDataset').find({
+      query: {
+        sqlQuery: `select name2 from prsn where sodtype=20 and isactive=1`
+      }
+    })
+    console.log('angajati', angajati)
+    angajati.data.forEach((o) => {
+      //add tr to my_table8.element
+      let tr = document.createElement('tr')
+      //add td to tr
+      let td = document.createElement('td')
+      td.textContent = o.name2
+      tr.appendChild(td)
+      tables.my_table8.element.appendChild(tr)
+    })
   }
 
   //btn_listaRetete
