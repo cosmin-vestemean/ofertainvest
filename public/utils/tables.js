@@ -61,4 +61,4 @@ document.addEventListener('DOMContentLoaded', function () {
   window.tables = tables;
 })
 
-export default tables;
+export { tables }
