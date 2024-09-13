@@ -441,28 +441,16 @@ export function init() {
 
   let btn_planificari = document.getElementById('btn_planificari')
   btn_planificari.onclick = async function () {
-    const planif = document.getElementById('my_table_lista_planificari')
-    //display:block
-    planif.style.display = 'block'
-    planif.ds = context.ds_estimari
-    tables.hideAllBut([])
-    const tableAngajati = document.getElementById('my_table_angajati')
-    tableAngajati.style.display = 'block'
+    //hide all tables but 7
+    tables.hideAllBut([tables.my_table7, tables.my_table8])
+    tables.my_table7.element.ds = context.ds_estimari
     const angajati = await client.service('getDataset').find({
       query: {
         sqlQuery: `select name2 from prsn where sodtype=20 and isactive=1`
       }
     })
     console.log('angajati', angajati)
-    angajati.data.forEach((o) => {
-      //add tr to my_table8.element
-      let tr = document.createElement('tr')
-      //add td to tr
-      let td = document.createElement('td')
-      td.textContent = o.name2
-      tr.appendChild(td)
-      tableAngajati.appendChild(tr)
-    })
+    tables.my_table8.element.ds = angajati.data
   }
 
   //btn_listaRetete

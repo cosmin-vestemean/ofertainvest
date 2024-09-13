@@ -24,8 +24,16 @@ export const tables = {
     element: document.getElementById('my_table_lista_estimari'),
     visible: true,
   },
+  my_table7: {
+    element: document.getElementById('my_table_lista_planificari'),
+    visible: true,
+  },
+  my_table8: {
+    element: document.getElementById('my_table_angajati'),
+    visible: true,
+  },
   allTables() {
-      return [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6];
+      return [this.my_table1, this.my_table2, this.my_table3, this.my_table4, this.my_table5, this.my_table6, this.my_table7, this.my_table8];
   },
   hideAllBut(tablesExcept) {
       this.allTables().forEach(function(table) {
