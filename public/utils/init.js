@@ -109,7 +109,7 @@ export function init() {
   let theme = local_storage.selectedTheme.get()
   if (theme) changeTheme(theme)
   //hide all tables, they are shown when needed
-  //tables.hideAllBut([])
+  tables.hideAllBut([])
   let btn_top = document.getElementById('btn_top')
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
@@ -441,9 +441,13 @@ export function init() {
 
   let btn_planificari = document.getElementById('btn_planificari')
   btn_planificari.onclick = async function () {
-    //hide all tables but 7
-    tables.hideAllBut([tables.my_table7, tables.my_table8])
-    tables.my_table7.element.ds = context.ds_estimari
+    const planif = document.getElementById('my_table_lista_planificari')
+    //display:block
+    planif.style.display = 'block'
+    planif.ds = context.ds_estimari
+    tables.hideAllBut([])
+    const tableAngajati = document.getElementById('my_table_angajati')
+    tableAngajati.style.display = 'block'
     const angajati = await client.service('getDataset').find({
       query: {
         sqlQuery: `select name2 from prsn where sodtype=20 and isactive=1`
@@ -457,7 +461,7 @@ export function init() {
       let td = document.createElement('td')
       td.textContent = o.name2
       tr.appendChild(td)
-      tables.my_table8.element.appendChild(tr)
+      tableAngajati.appendChild(tr)
     })
   }
 
