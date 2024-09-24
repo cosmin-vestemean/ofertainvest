@@ -195,7 +195,14 @@ export function init() {
                   dataTable.addColumn({ type: 'string', id: 'Name' })
                   dataTable.addColumn({ type: 'date', id: 'Start' })
                   dataTable.addColumn({ type: 'date', id: 'End' })
-                  dataTable.addRows(result.data)
+                  //convert result.data from array of objects to array of arrays
+                  const rows = result.data.map(item => [
+                    item.Position,
+                    item.Name,
+                    new Date(item.Start),
+                    new Date(item.End)
+                  ]);
+                  dataTable.addRows(rows);
                   var options = {
                     timeline: { showRowLabels: false },
                     avoidOverlappingGridLines: false
