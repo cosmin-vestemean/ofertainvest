@@ -182,6 +182,8 @@ export function init() {
               if (result.data && result.data.length > 0) {
                 context.setDsEstimari(result.data)
                 const timeline = document.getElementById('estimari_timeline')
+                //change style of timeline from display:none to display:block
+                timeline.style.display = 'block'
                 timeline.innerHTML = ''
                 google.charts.load('current', { packages: ['timeline'] })
                 google.charts.setOnLoadCallback(drawChart)
