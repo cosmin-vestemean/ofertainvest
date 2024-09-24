@@ -181,6 +181,25 @@ export function init() {
             if (result.success) {
               if (result.data && result.data.length > 0) {
                 context.setDsEstimari(result.data)
+                const timeline = document.getElementById('estimari_timeline')
+                timeline.innerHTML = ''
+                google.charts.load('current', { packages: ['timeline'] })
+                google.charts.setOnLoadCallback(drawChart)
+                function drawChart() {
+                  var container = document.getElementById('estimari_timeline')
+                  var chart = new google.visualization.Timeline(container)
+                  var dataTable = new google.visualization.DataTable()
+                  dataTable.addColumn({ type: 'string', id: 'Position' })
+                  dataTable.addColumn({ type: 'string', id: 'Name' })
+                  dataTable.addColumn({ type: 'date', id: 'Start' })
+                  dataTable.addColumn({ type: 'date', id: 'End' })
+                  dataTable.addRows(result.data)
+                  var options = {
+                    timeline: { showRowLabels: false },
+                    avoidOverlappingGridLines: false
+                  }
+                  chart.draw(dataTable, options)
+                }
               } else {
                 console.log('Nu exista estimari in baza de date')
               }
