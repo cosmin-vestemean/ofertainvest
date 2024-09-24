@@ -177,24 +177,25 @@ export class estimari extends LitElement {
         let counter = o.CCCINSTANTE
         let counter2 = o.CCCPATHS
         let counter3 = o.CCCACTIVITINSTANTE
+        let CCCANTEMASURATORI = Object.hasOwnProperty.call(o, 'CCCANTEMASURATORI')
+          ? o.CCCANTEMASURATORI
+          : null
         let CCCESTIMARI = Object.hasOwnProperty.call(o, 'CCCESTIMARI') ? o.CCCESTIMARI : null
         let CCCACTIVITESTIMARI = Object.hasOwnProperty.call(o, 'CCCACTIVITESTIMARI')
           ? o.CCCACTIVITESTIMARI
           : null
 
+        let a = CCCANTEMASURATORI ? CCCANTEMASURATORI : arrayIndex
+        let b = CCCESTIMARI ? CCCESTIMARI : arrayIndex
+        let c = CCCACTIVITESTIMARI ? CCCACTIVITESTIMARI : arrayIndex
+        let d = CCCACTIVITESTIMARI ? true : false
+
         if (ISMAIN) {
           //add main activity row
-          if (CCCACTIVITESTIMARI) {
-            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, CCCACTIVITESTIMARI, true)
-          } else {
-            this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, arrayIndex, false)
-          }
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d)
         }
-        if (CCCACTIVITESTIMARI) {
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, CCCACTIVITESTIMARI, true)
-        } else {
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, arrayIndex, false)
-        }
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d)
+
         arrayIndex++
       }, this)
     }
@@ -351,125 +352,6 @@ export class estimari extends LitElement {
     btnForward.appendChild(forward_icon)
     buttonsPannel.appendChild(btnForward)
     return buttonsPannel
-  }
-
-  filterAndSaveSelectedEstimariOld() {
-    const ds_estimari_flat_filterd = context.ds_estimari_flat.filter(
-      (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
-    )
-    ds_estimari_flat_filterd.forEach(function (object) {
-      let refInstanta = object.ramura.instanta
-      let refActivitate = object.ramura.activitateIndex
-      let antemasuratoriBranch = object.ramura.ramura
-      let estimareIndex = Object.keys(object.ramura).find((key) => key.includes('estimareIndex'))
-        ? object.ramura.estimareIndex
-        : -1
-      if (newTree.length > 0) {
-        let newTreeAntemasBranch = newTree[refInstanta][refActivitate].antemasuratori[antemasuratoriBranch]
-        if (newTreeAntemasBranch) {
-          //create key estimari of antemasuratori branch as an array if does not exist
-          if (!newTreeAntemasBranch.estimari) {
-            newTreeAntemasBranch.estimari = []
-          }
-          //create object with keys _start_date = o[_start_date], _end_date = o[_end_date], qty = parseFloat(o[_cantitate_estimari]) and datetime = dt
-          let estimare = {}
-          estimare[_start_date] = object[_start_date]
-          estimare[_end_date] = object[_end_date]
-          estimare.qty = parseFloat(object[_cantitate_estimari])
-          estimare.datetime = dt
-
-          if (
-            estimareIndex > -1 &&
-            newTreeAntemasBranch.estimari[estimareIndex] !== undefined &&
-            newTreeAntemasBranch.estimari[estimareIndex][_start_date] === object[_start_date] &&
-            newTreeAntemasBranch.estimari[estimareIndex][_end_date] === object[_end_date]
-          ) {
-            if (newTreeAntemasBranch.estimari[estimareIndex].qty !== estimare.qty) {
-              newTreeAntemasBranch.estimari[estimareIndex] = estimare
-            }
-          } else {
-            //push estimare to newTreeAntemasBranch.estimari
-            newTreeAntemasBranch.estimari.push(estimare)
-            //add estimare to context.ds_estimari_pool
-            if (Object.keys(context.ds_estimari_pool).length > 0) {
-              /* context.ds_estimari_pool[refInstanta][antemasuratoriBranch][refActivitate].estimareIndex =
-                newTreeAntemasBranch.estimari.length - 1 */
-              context.setValueOfDsEstimariPool(
-                refInstanta,
-                antemasuratoriBranch,
-                refActivitate,
-                'estimareIndex',
-                newTreeAntemasBranch.estimari.length - 1
-              )
-            }
-          }
-
-          //add cantitate_estimari to ds_estimari_pool row_data
-          if (Object.keys(context.ds_estimari_pool).length > 0) {
-            context.setValueOfDsEstimariPoolByKey(
-              refInstanta,
-              antemasuratoriBranch,
-              refActivitate,
-              _cantitate_estimari,
-              estimare.qty
-            )
-
-            //cantitate_estimari_anterioare
-            context.setValueOfDsEstimariPoolByKey(
-              refInstanta,
-              antemasuratoriBranch,
-              refActivitate,
-              _cantitate_estimari_anterioare,
-              //valoare anterioara + valoare noua
-              parseFloat(
-                context.getValOfDsEstimariPoolByKey(
-                  refInstanta,
-                  antemasuratoriBranch,
-                  refActivitate,
-                  _cantitate_estimari_anterioare
-                )
-              ) + estimare.qty
-            )
-
-            //add start_date to ds_estimari_pool row_data
-            context.setValueOfDsEstimariPoolByKey(
-              refInstanta,
-              antemasuratoriBranch,
-              refActivitate,
-              _start_date,
-              object[_start_date]
-            )
-
-            //add end_date to ds_estimari_pool row_data
-            context.setValueOfDsEstimariPoolByKey(
-              refInstanta,
-              antemasuratoriBranch,
-              refActivitate,
-              _end_date,
-              object[_end_date]
-            )
-          }
-        }
-      }
-    })
-
-    //find active in ds_estimari and set ds_estimari_pool
-    let active = context.ds_estimari.find((o) => o.active)
-    if (active) {
-      if (Object.keys(context.ds_estimari_pool).length > 0) {
-        active.ds_estimari_pool = { ...context.ds_estimari_pool }
-      }
-      active.ds_estimari_flat = [...context.ds_estimari_flat]
-      active.updateDate = new Date()
-    }
-
-    this.salveazaEstimareaInBazaDeDate(active)
-    this.salveazaStartingPoolInBazaDeDate(context.ds_estimari_pool)
-
-    console.log('ds_estimari_flat_filterd after update', ds_estimari_flat_filterd)
-    console.log('context.ds_estimari after update', context.ds_estimari)
-    console.log('context.ds_estimari_pool after update', context.ds_estimari_pool)
-    console.log('newTree after update with estimari', newTree)
   }
 
   async filterAndSaveSelectedEstimari() {
@@ -784,7 +666,20 @@ export class estimari extends LitElement {
     }
   }
 
-  addTableRow(tbody, i, k, counter, counter2, counter3, o, ISMAIN, arrayIndex, isDB) {
+  addTableRow(
+    tbody,
+    i,
+    k,
+    counter,
+    counter2,
+    counter3,
+    o,
+    ISMAIN,
+    CCCANTEMASURATORI,
+    CCCESTIMARI,
+    CCCACTIVITESTIMARI,
+    isDB
+  ) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
@@ -794,7 +689,9 @@ export class estimari extends LitElement {
       id = i + '@' + k + '_' + counter3
     }
     tr.id = id
-    tr.setAttribute('data-array-index', arrayIndex)
+    tr.setAttribute('data-cccantemasuratori', CCCANTEMASURATORI)
+    tr.setAttribute('data-cccestimari', CCCESTIMARI)
+    tr.setAttribute('data-cccactivitestimari', CCCACTIVITESTIMARI)
     tr.setAttribute('data-is-db', isDB)
     if (ISMAIN) {
       tr.classList.add('table-primary')
@@ -1028,101 +925,6 @@ export class estimari extends LitElement {
         }
         context.setValuesOfDsEstimari(index, key, val)
       }
-    }
-  }
-
-  async salveazaEstimareaInBazaDeDate(estimare) {
-    //active to runSQLTransaction: ds_estimari in CCCESTIMARIH(eader) and ds_estimari_flat in CCCESTIMARIL(ines)
-    const headerData = {
-      ID: estimare.id,
-      ACTIVE: estimare.active ? 1 : 0,
-      STARTDATE: moment(estimare.ds_estimari_flat[0][_start_date]).format('YYYY-MM-DD'),
-      ENDDATE: moment(estimare.ds_estimari_flat[0][_end_date]).format('YYYY-MM-DD'),
-      CREATEDATE: moment(estimare.createDate).format('YYYY-MM-DD'),
-      UPDATEDATE: moment(estimare.updateDate).format('YYYY-MM-DD'),
-      DSESTIMARIFLAT: JSON.stringify(estimare.ds_estimari_flat),
-      CCCOFERTEWEB: contextOferta.CCCOFERTEWEB,
-      CCCESTIMARIH: estimare.CCCESTIMARIH
-    }
-
-    const insertHeaderQuery = `INSERT INTO CCCESTIMARIH (CCCOFERTEWEB, ID, ACTIVE, STARTDATE, ENDDATE, CREATEDATE, UPDATEDATE, DSESTIMARIFLAT)
-    VALUES (${headerData.CCCOFERTEWEB}, ${headerData.ID}, ${headerData.ACTIVE}, '${headerData.STARTDATE}', '${headerData.ENDDATE}', '${headerData.CREATEDATE}', '${headerData.UPDATEDATE}', '${headerData.DSESTIMARIFLAT}');`
-    const updateHeaderQuery = `UPDATE CCCESTIMARIH SET ACTIVE = ${headerData.ACTIVE}, STARTDATE = '${headerData.STARTDATE}', ENDDATE = '${headerData.ENDDATE}', UPDATEDATE = '${headerData.UPDATEDATE}', DSESTIMARIFLAT = '${headerData.DSESTIMARIFLAT}' WHERE ID = ${headerData.CCCESTIMARIH};`
-    const getId = `SELECT IDENT_CURRENT('CCCESTIMARIH') AS ID;`
-    let sqlList = []
-    if (estimare.CCCESTIMARIH) {
-      sqlList.push(updateHeaderQuery)
-    } else {
-      sqlList.push(insertHeaderQuery)
-    }
-    let objSqlList = {
-      sqlList: sqlList
-    }
-    var result = await runSQLTransaction(objSqlList)
-    if (result.success) {
-      console.log('Estimari saved successfully')
-      let CCCESTIMARIH = estimare.CCCESTIMARIH
-        ? { success: true, value: estimare.CCCESTIMARIH }
-        : await getValFromS1Query(getId)
-      if (CCCESTIMARIH.success) {
-        let headerId = CCCESTIMARIH.value
-        console.log('headerId:', headerId)
-        estimare.CCCESTIMARIH = headerId
-        //delete all lines from CCCESTIMARIL where CCCESTIMARIH = headerId
-        let deleteLinesQuery = `DELETE FROM CCCESTIMARIL WHERE CCCESTIMARIH = ${headerId};`
-        let objSqlList = {
-          sqlList: [deleteLinesQuery]
-        }
-        var result = await runSQLTransaction(objSqlList)
-        if (result.success) {
-          console.log('Estimari lines deleted successfully')
-        } else {
-          console.error('Error deleting estimari lines:', result.error, result.sql)
-        }
-        //CCCESIMARIL
-        let ds_flat = estimare.ds_estimari_flat.filter(
-          (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
-        )
-        let sqlListL = []
-        ds_flat.forEach((o) => {
-          let row_data = o
-          let momentStartDate = moment(row_data[_start_date]).format('YYYY-MM-DD')
-          let momentEndDate = moment(row_data[_end_date]).format('YYYY-MM-DD')
-          let ISMAIN = row_data.ramura.ISMAIN ? 1 : 0
-          let insertLineQuery = `INSERT INTO CCCESTIMARIL (CCCESTIMARIH, ISMAIN, STARTDATE, ENDDATE, WBS, DENUMIRE, CANTOFERTA, UM, `
-          for (let i = 1; i <= 10; i++) {
-            if (row_data[_nivel_oferta + i] === undefined) {
-            } else {
-              insertLineQuery += `${_nivel_oferta + i}, `
-            }
-          }
-          insertLineQuery += `REFINSTANTA, REFRAMURA, REFACTIVITATE, REFESTIMARE, ROWSELECTED, TIPARTICOL, SUBTIPARTICOL, CANTANTE, CANTESTIM) `
-          insertLineQuery += `VALUES (${headerId}, ${ISMAIN}, '${momentStartDate}', '${momentEndDate}', '${row_data.WBS}', '${row_data.DENUMIRE_ARTICOL_OFERTA}', ${row_data.CANTITATE_ARTICOL_OFERTA}, '${row_data.UM_ARTICOL_OFERTA}', `
-          for (let i = 1; i <= 10; i++) {
-            if (row_data[_nivel_oferta + i] === undefined) {
-            } else {
-              insertLineQuery += `'${row_data[_nivel_oferta + i]}', `
-            }
-          }
-          insertLineQuery += `${row_data.ramura.instanta >= 0 ? row_data.ramura.instanta : -1}, ${row_data.ramura.ramura >= 0 ? row_data.ramura.ramura : -1}, ${row_data.ramura.activitateIndex >= 0 ? row_data.ramura.activitateIndex : -1}, ${row_data.ramura.estimareIndex >= 0 ? row_data.ramura.estimareIndex : -1}, ${row_data.ROW_SELECTED ? 1 : 0}, '${row_data.TIP_ARTICOL_OFERTA}', '${row_data.SUBTIP_ARTICOL_OFERTA}', `
-          insertLineQuery += `${row_data.CANTITATE_ARTICOL_ANTEMASURATORI}, ${row_data.CANTITATE_ARTICOL_ESTIMARI});`
-          sqlListL.push(insertLineQuery)
-        })
-        let objSqlListL = {
-          sqlList: sqlListL
-        }
-        var result = await runSQLTransaction(objSqlListL)
-        console.log('result:', result)
-        if (result.success) {
-          console.log('Estimari lines saved successfully')
-        } else {
-          console.error('Error saving estimari lines:', result.error, result.sql)
-        }
-      } else {
-        console.error('Error getting headerId:', CCCESTIMARIH.error)
-      }
-    } else {
-      console.error('Error saving estimari:', result.error, result.sql)
     }
   }
 
