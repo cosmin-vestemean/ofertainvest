@@ -116,6 +116,28 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 
   console.log('ds_estimari_pool', ds_estimari_pool)
 
+  //extrage din CCCACTIVITESTIMARI suma estimarilor anterioare dupa criteriul CCCOFETEWEB, CCCANTEMASURATORI si adauga la ds_estimari_pool: _cantitate_estimari_anterioare
+  const query2 = `select CCCOFERTEWEB, CCCANTEMASURATORI, sum(CANTITATE) as CANTITATE_ESTIMARI_ANTERIOARE from CCCACTIVITESTIMARI where CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB} group by CCCOFERTEWEB, CCCANTEMASURATORI`
+  const response2 = await client.service('getDataset').find({
+    query: {
+      sqlQuery: query2
+    }
+  })
+
+  let ds_estimari_ant = response2.data
+  console.log('ds_estimari_ant', ds_estimari_ant)
+
+  for (let i = 0; i < ds_estimari_ant.length; i++) {
+    let o = ds_estimari_ant[i]
+    let ant = ds_estimari_pool.find((o2) => o2.CCCANTEMASURATORI == o.CCCANTEMASURATORI)
+    if (ant) {
+      ant[_cantitate_estimari_anterioare] = o.CANTITATE_ESTIMARI_ANTERIOARE
+    } else {
+      console.log('ant not found', o)
+    }
+  }
+
+  //hide all tables except my_table5
   tables.hideAllBut([tables.my_table5])
   tables.my_table5.element.ds = context.ds_estimari_pool
 }
