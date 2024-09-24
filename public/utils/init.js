@@ -197,10 +197,10 @@ export function init() {
                   dataTable.addColumn({ type: 'date', id: 'End' })
                   //convert result.data from array of objects to array of arrays
                   const rows = result.data.map(item => [
-                    item.Position,
-                    item.Name,
-                    new Date(item.Start),
-                    new Date(item.End)
+                    item.CCCESTIMARI,
+                    item.NAME,
+                    new Date(item.DATASTART),
+                    new Date(item.DATASTOP)
                   ]);
                   dataTable.addRows(rows);
                   var options = {
