@@ -660,7 +660,7 @@ export class estimari extends LitElement {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = input1.value
         //change context.ds_estimari_pool
-        let arrayIndex = inputs[i].parentElement.parentElement.getAttribute('data-array-index')
+        let arrayIndex = inputs[i].parentElement.parentElement.getAttribute('data-cccactivitestimari')
         context.setValuesOfDsEstimari(arrayIndex, key, input1.value)
       }
     }
@@ -904,7 +904,7 @@ export class estimari extends LitElement {
       var tagName = e.target.tagName
       if (tagName === 'TD') {
         //get index of tr in tbody
-        let index = parseInt(e.target.parentElement.getAttribute('data-array-index'))
+        let index = parseInt(e.target.parentElement.getAttribute('data-cccactivitestimari'))
         //get type from estimariDisplayMask
         let key = e.target.classList[0]
         let type = context.estimariDisplayMask[key].type
