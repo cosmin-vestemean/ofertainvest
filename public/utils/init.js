@@ -191,7 +191,7 @@ export function init() {
                   var container = document.getElementById('estimari_timeline')
                   var chart = new google.visualization.Timeline(container)
                   var dataTable = new google.visualization.DataTable()
-                  dataTable.addColumn({ type: 'string', id: 'Position' })
+                    dataTable.addColumn({ type: 'number', id: 'Position' })
                   dataTable.addColumn({ type: 'string', id: 'Name' })
                   dataTable.addColumn({ type: 'date', id: 'Start' })
                   dataTable.addColumn({ type: 'date', id: 'End' })
