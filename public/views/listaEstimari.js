@@ -380,7 +380,7 @@ order by A.CCCINSTANTE,
         dataTable.addColumn({ type: 'date', id: 'Start' })
         dataTable.addColumn({ type: 'date', id: 'End' })
         //convert result.data from array of objects to array of arrays
-        const rows = ds.map((item) => [
+        const rows = this.ds.map((item) => [
           item.CCCESTIMARI.toString(),
           item.NAME.toString(),
           new Date(item.DATASTART),
