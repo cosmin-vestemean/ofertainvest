@@ -481,11 +481,6 @@ export function init() {
           trackHeight: 30,
           shadowEnabled: true,
           barCornerRadius: 4,
-          labelStyle: {
-            fontName: 'Roboto',
-            fontSize: 13,
-            color: '#757575'
-          },
           percentEnabled: true,
           criticalPathEnabled: false
         }
