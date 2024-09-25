@@ -182,8 +182,6 @@ export function init() {
               if (result.data && result.data.length > 0) {
                 context.setDsEstimari(result.data)
                 const timeline = document.getElementById('estimari_timeline')
-                //change style of timeline from display:none to display:block
-                timeline.style.display = 'block'
                 timeline.innerHTML = ''
                 google.charts.load('current', { packages: ['timeline'] })
                 google.charts.setOnLoadCallback(drawChart)
@@ -206,8 +204,7 @@ export function init() {
                   dataTable.addRows(rows);
                   var options = {
                     timeline: { showRowLabels: false },
-                    avoidOverlappingGridLines: false,
-                    forceIFrame: true
+                    avoidOverlappingGridLines: false
                   }
                   chart.draw(dataTable, options)
                 }
@@ -465,7 +462,7 @@ export function init() {
   let btn_estimari = document.getElementById('btn_estimari')
   btn_estimari.onclick = function () {
     //hide all tables but 6
-    tables.hideAllBut([tables.my_table6])
+    tables.hideAllBut([tables.my_table6, tables.estimari_timeline])
     tables.my_table6.element.ds = context.ds_estimari
     console.log('ds_estimari', context.ds_estimari)
   }
