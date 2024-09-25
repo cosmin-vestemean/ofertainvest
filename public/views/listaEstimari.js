@@ -163,13 +163,18 @@ export class listaEstimari extends LitElement {
     console.log('events added to listaEstimari element')
   }
 
-  updateComplete() {
+  async firstUpdated() {
+    await super.firstUpdated()
     console.log('listaEstimari element updated')
     google.charts.load('current', { packages: ['timeline'] })
     google.charts.setOnLoadCallback(drawChart)
 
     function drawChart() {
       const timeline = tables.my_table6.element.shadowRoot.getElementById('estimari_timeline')
+      if (!timeline) {
+        console.log('timeline not found')
+        return
+      }
       const chart = new google.visualization.Timeline(timeline)
       const dataTable = new google.visualization.DataTable()
 
