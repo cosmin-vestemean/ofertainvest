@@ -1,5 +1,3 @@
-import { estimari } from "../views/litwc-estimari";
-
 export const tables = {
   my_table1: {
     element: document.getElementById('my_table_oferta_initiala'),
