@@ -165,7 +165,37 @@ export class listaEstimari extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    //console.log('listaEstimari element added to the DOM')
+    console.log('listaEstimari element added to the DOM')
+    google.charts.load('current', { packages: ['timeline'] })
+    google.charts.setOnLoadCallback(drawChart)
+
+    function drawChart() {
+      const timeline = tables.my_table6.element.shadowRoot.getElementById('estimari_timeline')
+      const chart = new google.visualization.Timeline(timeline)
+      const dataTable = new google.visualization.DataTable()
+
+      dataTable.addColumn({ type: 'string', id: 'Position' })
+      dataTable.addColumn({ type: 'string', id: 'Name' })
+      dataTable.addColumn({ type: 'date', id: 'Start' })
+      dataTable.addColumn({ type: 'date', id: 'End' })
+
+      const rows = this.ds.map((item) => [
+        item.CCCESTIMARI.toString(),
+        item.NAME.toString(),
+        new Date(item.DATASTART),
+        new Date(item.DATASTOP)
+      ])
+
+      console.log('rows', rows)
+      dataTable.addRows(rows)
+
+      const options = {
+        timeline: { showRowLabels: false },
+        avoidOverlappingGridLines: false
+      }
+
+      chart.draw(dataTable, options)
+    }
   }
 
   render() {
@@ -371,40 +401,5 @@ order by A.CCCINSTANTE,
     }
 
     return html`${table}${timeline}`
-  }
-
-  firstUpdated() {
-    super.firstUpdated()
-    console.log('firstUpdated listaEstimari element')
-    google.charts.load('current', { packages: ['timeline'] })
-    google.charts.setOnLoadCallback(drawChart)
-
-    function drawChart() {
-      const timeline = tables.my_table6.element.shadowRoot.getElementById('estimari_timeline')
-      const chart = new google.visualization.Timeline(timeline)
-      const dataTable = new google.visualization.DataTable()
-
-      dataTable.addColumn({ type: 'string', id: 'Position' })
-      dataTable.addColumn({ type: 'string', id: 'Name' })
-      dataTable.addColumn({ type: 'date', id: 'Start' })
-      dataTable.addColumn({ type: 'date', id: 'End' })
-
-      const rows = this.ds.map((item) => [
-        item.CCCESTIMARI.toString(),
-        item.NAME.toString(),
-        new Date(item.DATASTART),
-        new Date(item.DATASTOP)
-      ])
-
-      console.log('rows', rows)
-      dataTable.addRows(rows)
-
-      const options = {
-        timeline: { showRowLabels: false },
-        avoidOverlappingGridLines: false
-      }
-
-      chart.draw(dataTable, options)
-    }
   }
 }
