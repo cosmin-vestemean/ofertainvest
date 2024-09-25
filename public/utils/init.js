@@ -202,6 +202,7 @@ export function init() {
                     new Date(item.DATASTART),
                     new Date(item.DATASTOP)
                   ]);
+                  console.log('rows', rows)
                   dataTable.addRows(rows);
                   var options = {
                     timeline: { showRowLabels: false },
