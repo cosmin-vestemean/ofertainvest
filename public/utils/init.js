@@ -181,12 +181,12 @@ export function init() {
             if (result.success) {
               if (result.data && result.data.length > 0) {
                 context.setDsEstimari(result.data)
-                const timeline = document.getElementById(tables.estimari_timeline.element.id)
+                const timeline = tables.estimari_timeline.element
                 timeline.innerHTML = ''
                 google.charts.load('current', { packages: ['timeline'] })
                 google.charts.setOnLoadCallback(drawChart)
                 function drawChart() {
-                  var container = document.getElementById('estimari_timeline')
+                  var container = tables.estimari_timeline.element
                   var chart = new google.visualization.Timeline(container)
                   var dataTable = new google.visualization.DataTable()
                   dataTable.addColumn({ type: 'string', id: 'Position' })
