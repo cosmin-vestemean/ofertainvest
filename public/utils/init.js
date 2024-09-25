@@ -439,41 +439,47 @@ export function init() {
     tables.my_table6.element.ds = context.ds_estimari
     console.log('ds_estimari', context.ds_estimari)
 
-    google.charts.load('current', { packages: ['timeline'] })
+    //draw Gantt chart
+    google.charts.load('current', { packages: ['gantt'] })
     google.charts.setOnLoadCallback(drawChart)
 
     function drawChart() {
-      const timeline = tables.estimari_timeline.element
-      if (!timeline) {
-        console.log('timeline not found')
-        return
+      const gantt = tables.estimari_timeline.element
+      if (!gantt) {
+      console.log('gantt not found')
+      return
       }
-      const chart = new google.visualization.Timeline(timeline)
+      const chart = new google.visualization.Gantt(gantt)
       const dataTable = new google.visualization.DataTable()
 
-      dataTable.addColumn({ type: 'string', id: 'Position' })
-      dataTable.addColumn({ type: 'string', id: 'Name' })
-      dataTable.addColumn({ type: 'date', id: 'Start' })
-      dataTable.addColumn({ type: 'date', id: 'End' })
+      dataTable.addColumn('string', 'Task ID')
+      dataTable.addColumn('string', 'Task Name')
+      dataTable.addColumn('string', 'Resource')
+      dataTable.addColumn('date', 'Start Date')
+      dataTable.addColumn('date', 'End Date')
+      dataTable.addColumn('number', 'Duration')
+      dataTable.addColumn('number', 'Percent Complete')
+      dataTable.addColumn('string', 'Dependencies')
 
       const rows = context.ds_estimari.map((item) => [
-        item.CCCESTIMARI.toString(),
-        item.NAME.toString(),
-        new Date(item.DATASTART),
-        new Date(item.DATASTOP)
+      item.CCCESTIMARI.toString(),
+      item.NAME.toString(),
+      null,
+      new Date(item.DATASTART),
+      new Date(item.DATASTOP),
+      null,
+      item.PERCENT_COMPLETE || 0,
+      null
       ])
 
       console.log('rows', rows)
       dataTable.addRows(rows)
 
       const options = {
-        timeline: { showRowLabels: false, colorByRowLabel: true },
-        avoidOverlappingGridLines: false,
-        forceIFrame: true,
-        //h = 100 + (rows * 41)
-        height: 100 + context.ds_estimari.length * 41,
-        backgroundColor: '#fff',
-        alternatingRowStyle: false
+      height: 100 + context.ds_estimari.length * 41,
+      gantt: {
+        trackHeight: 30
+      }
       }
 
       chart.draw(dataTable, options)
