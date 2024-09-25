@@ -163,7 +163,7 @@ export class listaEstimari extends LitElement {
     console.log('events added to listaEstimari element')
   }
 
-  update(changedProperties) {
+  updateComplete() {
     console.log('listaEstimari element updated')
     google.charts.load('current', { packages: ['timeline'] })
     google.charts.setOnLoadCallback(drawChart)
