@@ -191,14 +191,14 @@ export function init() {
                   var container = document.getElementById('estimari_timeline')
                   var chart = new google.visualization.Timeline(container)
                   var dataTable = new google.visualization.DataTable()
-                    dataTable.addColumn({ type: 'number', id: 'Position' })
+                  dataTable.addColumn({ type: 'string', id: 'Position' })
                   dataTable.addColumn({ type: 'string', id: 'Name' })
                   dataTable.addColumn({ type: 'date', id: 'Start' })
                   dataTable.addColumn({ type: 'date', id: 'End' })
                   //convert result.data from array of objects to array of arrays
                   const rows = result.data.map(item => [
-                    item.CCCESTIMARI,
-                    item.NAME,
+                    item.CCCESTIMARI.toString(),
+                    item.NAME.toString(),
                     new Date(item.DATASTART),
                     new Date(item.DATASTOP)
                   ]);
