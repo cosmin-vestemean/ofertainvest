@@ -54,6 +54,8 @@ import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
+var isDrawn = false
+
 function changeTheme(theme) {
   //remove all stylesheets with names equal to themes array and add the one with the selected theme
   let links = document.getElementsByTagName('link')
@@ -439,59 +441,62 @@ export function init() {
     tables.my_table6.element.ds = context.ds_estimari
     console.log('ds_estimari', context.ds_estimari)
 
-    //draw Gantt chart
-    google.charts.load('current', { packages: ['gantt'] })
-    google.charts.setOnLoadCallback(drawChart)
+    if (!isDrawn) {
+      //draw Gantt chart
+      google.charts.load('current', { packages: ['gantt'] })
+      google.charts.setOnLoadCallback(drawChart)
 
-    function drawChart() {
-      const gantt = tables.estimari_timeline.element
-      if (!gantt) {
-        console.log('gantt not found')
-        return
-      }
-      const chart = new google.visualization.Gantt(gantt)
-      const dataTable = new google.visualization.DataTable()
-
-      dataTable.addColumn('string', 'ID')
-      dataTable.addColumn('string', 'Name')
-      dataTable.addColumn('string', 'Resource')
-      dataTable.addColumn('date', 'Start Date')
-      dataTable.addColumn('date', 'End Date')
-      dataTable.addColumn('number', 'Duration')
-      dataTable.addColumn('number', 'Percent Complete')
-      dataTable.addColumn('string', 'Dependencies')
-
-      const rows = context.ds_estimari.map((item) => [
-        item.CCCESTIMARI.toString(),
-        item.NAME.toString(),
-        item.CCCESTIMARI.toString(),
-        new Date(item.DATASTART),
-        new Date(item.DATASTOP),
-        0,
-        item.PERCENT_COMPLETE || 0,
-        null
-      ])
-
-      console.log('rows', rows)
-      dataTable.addRows(rows)
-
-      const options = {
-        height: 50 + context.ds_estimari.length * 30,
-        gantt: {
-          trackHeight: 30,
-          shadowEnabled: true,
-          barCornerRadius: 4,
-          labelStyle: {
-            //--bs-body-font-family is a Bootstrap variable
-            fontName: 'var(--bs-body-font-family)',
-            fontSize: 13,
-          },
-          percentEnabled: true,
-          criticalPathEnabled: false
+      function drawChart() {
+        const gantt = tables.estimari_timeline.element
+        if (!gantt) {
+          console.log('gantt not found')
+          return
         }
-      }
+        const chart = new google.visualization.Gantt(gantt)
+        const dataTable = new google.visualization.DataTable()
 
-      chart.draw(dataTable, options)
+        dataTable.addColumn('string', 'ID')
+        dataTable.addColumn('string', 'Name')
+        dataTable.addColumn('string', 'Resource')
+        dataTable.addColumn('date', 'Start Date')
+        dataTable.addColumn('date', 'End Date')
+        dataTable.addColumn('number', 'Duration')
+        dataTable.addColumn('number', 'Percent Complete')
+        dataTable.addColumn('string', 'Dependencies')
+
+        const rows = context.ds_estimari.map((item) => [
+          item.CCCESTIMARI.toString(),
+          item.NAME.toString(),
+          item.CCCESTIMARI.toString(),
+          new Date(item.DATASTART),
+          new Date(item.DATASTOP),
+          0,
+          item.PERCENT_COMPLETE || 0,
+          null
+        ])
+
+        console.log('rows', rows)
+        dataTable.addRows(rows)
+
+        const options = {
+          height: 50 + context.ds_estimari.length * 30,
+          gantt: {
+            trackHeight: 30,
+            shadowEnabled: true,
+            barCornerRadius: 4,
+            labelStyle: {
+              //--bs-body-font-family is a Bootstrap variable
+              fontName: 'var(--bs-body-font-family)',
+              fontSize: 13
+            },
+            percentEnabled: true,
+            criticalPathEnabled: false
+          }
+        }
+
+        chart.draw(dataTable, options)
+        isDrawn = true
+      }
     }
   }
 
