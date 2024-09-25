@@ -467,11 +467,12 @@ export function init() {
       dataTable.addRows(rows)
 
       const options = {
-        timeline: { showRowLabels: false },
+        timeline: { showRowLabels: false, colorByRowLabel: true },
         avoidOverlappingGridLines: false,
         forceIFrame: true,
         //h = 100 + (rows * 41)
-        height: 100 + context.ds_estimari.length * 41
+        height: 100 + context.ds_estimari.length * 41,
+        backgroundColor: '#f0f0f0',
       }
 
       chart.draw(dataTable, options)
