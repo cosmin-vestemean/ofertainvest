@@ -299,7 +299,7 @@ export class listaEstimari extends LitElement {
         }
         //add on click event for each row
         //load my_table5 with the selected o.ds_estimari_flat
-        tr.onclick = () => {
+        tr.onclick = async () => {
           let id = tr.getAttribute('data-id') || null
           if (id) {
             //getDataset from CCCACTIVITESTIMARI
@@ -329,31 +329,26 @@ order by A.CCCINSTANTE,
 	d.DUPLICATEOF,
 	A.CCCACTIVITINSTANTE,
 	b.path;`
-            client
-              .service('getDataset')
-              .find({
+            try {
+              const response = await client.service('getDataset').find({
                 query: {
                   sqlQuery: query
                 }
               })
-              .then(async (response) => {
-                let ds = response.data
-                console.log('ds', ds)
-                const transf = await convertDBAntemasuratori(ds)
-                console.log('transf', transf)
-                //add row_selected to each object
-                for (let i = 0; i < transf.length; i++) {
-                  transf[i].ROW_SELECTED = true
-                }
-                //hide all tables except my_table
-                tables.hideAllBut([tables.my_table5])
-                tables.my_table5.element.ds = transf
-              })
-            //CANTITATE_ARTICOL_ESTIMARI_gt_0 checked
-            let CANTITATE_ARTICOL_ESTIMARI_gt_0 = tables.my_table5.element.shadowRoot.getElementById(
-              'CANTITATE_ARTICOL_ESTIMARI_gt_0'
-            )
-            if (CANTITATE_ARTICOL_ESTIMARI_gt_0) CANTITATE_ARTICOL_ESTIMARI_gt_0.click()
+              let ds = response.data
+              console.log('ds', ds)
+              const transf = await convertDBAntemasuratori(ds)
+              console.log('transf', transf)
+              // add row_selected to each object
+              for (let i = 0; i < transf.length; i++) {
+                transf[i].ROW_SELECTED = true
+              }
+              // hide all tables except my_table5
+              tables.hideAllBut([tables.my_table5])
+              tables.my_table5.element.ds = transf
+            } catch (error) {
+              console.error('Error fetching dataset:', error)
+            }
           } else {
             console.log('id not found')
           }
