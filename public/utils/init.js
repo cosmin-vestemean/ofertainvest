@@ -478,7 +478,9 @@ export function init() {
       const options = {
       height: 100 + context.ds_estimari.length * 41,
       gantt: {
-        trackHeight: 30
+        trackHeight: 30,
+        shadowEnabled: true,
+        barCornerRadius: 4
       }
       }
 
