@@ -468,7 +468,8 @@ export function init() {
 
       const options = {
         timeline: { showRowLabels: false },
-        avoidOverlappingGridLines: false
+        avoidOverlappingGridLines: false,
+        forceIFrame: true
       }
 
       chart.draw(dataTable, options)
