@@ -366,7 +366,7 @@ order by A.CCCINSTANTE,
         tbody.appendChild(tr)
       }
 
-      const timeline = document.createElement('div')
+      var timeline = document.createElement('div')
       timeline.id = 'estimari_timeline'
     }
 
