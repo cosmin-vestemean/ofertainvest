@@ -469,7 +469,9 @@ export function init() {
       const options = {
         timeline: { showRowLabels: false },
         avoidOverlappingGridLines: false,
-        forceIFrame: true
+        forceIFrame: true,
+        //h = 100 + (rows * 41)
+        height: 100 + context.ds_estimari.length * 41
       }
 
       chart.draw(dataTable, options)
