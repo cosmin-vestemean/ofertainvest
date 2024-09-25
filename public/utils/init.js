@@ -435,9 +435,44 @@ export function init() {
   let btn_estimari = document.getElementById('btn_estimari')
   btn_estimari.onclick = function () {
     //hide all tables but 6
-    tables.hideAllBut([tables.my_table6])
+    tables.hideAllBut([tables.my_table6, tables.estimari_timeline])
     tables.my_table6.element.ds = context.ds_estimari
     console.log('ds_estimari', context.ds_estimari)
+
+    google.charts.load('current', { packages: ['timeline'] })
+    google.charts.setOnLoadCallback(drawChart)
+
+    function drawChart() {
+      const timeline = tables.estimari_timeline.element
+      if (!timeline) {
+        console.log('timeline not found')
+        return
+      }
+      const chart = new google.visualization.Timeline(timeline)
+      const dataTable = new google.visualization.DataTable()
+
+      dataTable.addColumn({ type: 'string', id: 'Position' })
+      dataTable.addColumn({ type: 'string', id: 'Name' })
+      dataTable.addColumn({ type: 'date', id: 'Start' })
+      dataTable.addColumn({ type: 'date', id: 'End' })
+
+      const rows = this.ds.map((item) => [
+        item.CCCESTIMARI.toString(),
+        item.NAME.toString(),
+        new Date(item.DATASTART),
+        new Date(item.DATASTOP)
+      ])
+
+      console.log('rows', rows)
+      dataTable.addRows(rows)
+
+      const options = {
+        timeline: { showRowLabels: false },
+        avoidOverlappingGridLines: false
+      }
+
+      chart.draw(dataTable, options)
+    }
   }
 
   let btn_planificari = document.getElementById('btn_planificari')

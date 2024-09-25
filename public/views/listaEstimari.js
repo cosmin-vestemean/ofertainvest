@@ -163,47 +163,6 @@ export class listaEstimari extends LitElement {
     console.log('events added to listaEstimari element')
   }
 
-  async firstUpdated() {
-    await super.firstUpdated()
-    const children = this.shadowRoot.querySelectorAll('*');
-    await Promise.all(Array.from(children).map((c) => c.updateComplete));
-    console.log('listaEstimari element updated')
-    google.charts.load('current', { packages: ['timeline'] })
-    google.charts.setOnLoadCallback(drawChart)
-
-    function drawChart() {
-      const timeline = tables.my_table6.element.shadowRoot.getElementById('estimari_timeline')
-      if (!timeline) {
-        console.log('timeline not found')
-        return
-      }
-      const chart = new google.visualization.Timeline(timeline)
-      const dataTable = new google.visualization.DataTable()
-
-      dataTable.addColumn({ type: 'string', id: 'Position' })
-      dataTable.addColumn({ type: 'string', id: 'Name' })
-      dataTable.addColumn({ type: 'date', id: 'Start' })
-      dataTable.addColumn({ type: 'date', id: 'End' })
-
-      const rows = this.ds.map((item) => [
-        item.CCCESTIMARI.toString(),
-        item.NAME.toString(),
-        new Date(item.DATASTART),
-        new Date(item.DATASTOP)
-      ])
-
-      console.log('rows', rows)
-      dataTable.addRows(rows)
-
-      const options = {
-        timeline: { showRowLabels: false },
-        avoidOverlappingGridLines: false
-      }
-
-      chart.draw(dataTable, options)
-    }
-  }
-
   render() {
     console.log('rendering listaEstimari element with following array', this.ds, 'added at', new Date())
 
