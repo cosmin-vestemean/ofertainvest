@@ -464,11 +464,8 @@ export function init() {
       const rows = context.ds_estimari.map((item) => [
       item.CCCESTIMARI.toString(),
       item.NAME.toString(),
-      null,
-      //new Date(item.DATASTART),
-      //use moment.js to format date
+      item.CCCESTIMARI.toString(),
       moment(item.DATASTART).toDate(),
-      //new Date(item.DATAEND),
       moment(item.DATAEND).toDate(),
       null,
       item.PERCENT_COMPLETE || 0,
