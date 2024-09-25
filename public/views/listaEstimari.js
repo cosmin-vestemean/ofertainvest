@@ -163,9 +163,8 @@ export class listaEstimari extends LitElement {
     console.log('events added to listaEstimari element')
   }
 
-  connectedCallback() {
-    super.connectedCallback()
-    console.log('listaEstimari element added to the DOM')
+  update(changedProperties) {
+    console.log('listaEstimari element updated')
     google.charts.load('current', { packages: ['timeline'] })
     google.charts.setOnLoadCallback(drawChart)
 
