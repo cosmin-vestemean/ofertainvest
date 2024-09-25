@@ -480,7 +480,12 @@ export function init() {
       gantt: {
         trackHeight: 30,
         shadowEnabled: true,
-        barCornerRadius: 4
+        barCornerRadius: 4,
+        labelStyle: {
+        fontName: 'Roboto',
+        fontSize: 13,
+        color: '#757575'
+        }
       }
       }
 
