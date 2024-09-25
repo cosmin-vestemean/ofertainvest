@@ -467,7 +467,7 @@ export function init() {
       item.CCCESTIMARI.toString(),
       moment(item.DATASTART).toDate(),
       moment(item.DATAEND).toDate(),
-      null,
+      0,
       item.PERCENT_COMPLETE || 0,
       null
       ])
