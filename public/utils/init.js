@@ -445,8 +445,6 @@ export function init() {
 
     function drawChart() {
       const gantt = tables.estimari_timeline.element
-      //add title to gantt
-      gantt.innerHTML = '<h3>Calendar</h3>'
       if (!gantt) {
         console.log('gantt not found')
         return
