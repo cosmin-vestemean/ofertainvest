@@ -336,6 +336,7 @@ order by A.CCCINSTANTE,
                   sqlQuery: query
                 }
               })
+              console.log('response', response)
               let ds = response.data
               console.log('ds', ds)
               const transf = await convertDBAntemasuratori(ds)
