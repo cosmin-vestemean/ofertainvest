@@ -360,8 +360,12 @@ order by A.CCCINSTANTE,
 
       var timeline = document.createElement('div')
       timeline.id = 'estimari_timeline'
+      var title1 = document.createElement('h5')
+      title1.innerHTML = 'Lista'
+      var title2 = document.createElement('h5')
+      title2.innerHTML = 'Gantt'
     }
 
-    return html`${table}${timeline}`
+    return html`${title1}${table}${title2}${timeline}`
   }
 }
