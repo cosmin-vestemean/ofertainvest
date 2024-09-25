@@ -363,8 +363,12 @@ order by A.CCCINSTANTE,
 
       var timeline = document.createElement('div')
       timeline.id = 'estimari_timeline'
+      var title1 = document.createElement('h3')
+      title1.innerHTML = 'Lista estimari'
+      var title2 = document.createElement('h3')
+      title2.innerHTML = 'Timeline estimari'
     }
 
-    return html`${table}${timeline}`
+    return html`${title1}${table}${title2}/${timeline}`
   }
 }
