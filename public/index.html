@@ -396,24 +396,8 @@
         </div>
         <my-antemasuratori id="my_table_antemasuratori" style="display: none"></my-antemasuratori>
         <my-estimari id="my_table_estimari" style="display: none"></my-estimari>
-        <div class="col-12" id="estimariTab">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="estimari-tab" data-bs-toggle="tab" data-bs-target="#estimari" type="button" role="tab" aria-controls="estimari" aria-selected="true">Lista</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="timeline-tab" data-bs-toggle="tab" data-bs-target="#timeline" type="button" role="tab" aria-controls="timeline" aria-selected="false">Gantt</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabEstimari">
-            <div class="tab-pane fade show active" id="estimari" role="tabpanel" aria-labelledby="estimari-tab">
-              <my-lista-estimari id="my_table_lista_estimari" style="display: none"></my-lista-estimari>
-            </div>
-            <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
-              <div id="estimari_timeline" style="display: none" class="col-12 width-100 height-100"></div>
-            </div>
-          </div>
-        </div>
+        <my-lista-estimari id="my_table_lista_estimari" style="display: none"></my-lista-estimari>
+        <div id="estimari_timeline" style="display: none" class="col-12 width-100 height-100"></div>
         <div col-10>
           <my-lista-estimari id="my_table_lista_planificari" style="display: none"></my-lista-estimari>
         </div>
