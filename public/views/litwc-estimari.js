@@ -216,12 +216,9 @@ export class estimari extends LitElement {
     list_icon.classList.add('bi-list-ol', 'text-success', 'fs-4', 'mb-3')
     list_icon.style.cursor = 'pointer'
     list_icon.onclick = function () {
-      //clean
-      context.ds_estimari = context.ds_estimari.filter((o) => o.ds_estimari_flat.length > 0)
-      tables.hideAllBut([tables.my_table6])
-      //read ds_estimari array and create a list with all estimari
-      tables.my_table6.element.ds = context.ds_estimari
-      console.log('ds_estimari', context.ds_estimari)
+      //btn_estimari click
+      let btn_estimari = document.getElementById('btn_estimari')
+      btn_estimari.click()
     }
     btnList.appendChild(list_icon)
     buttonsPannel.appendChild(btnList)
