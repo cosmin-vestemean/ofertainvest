@@ -277,8 +277,12 @@ export async function convertDBAntemasuratori(antemasuratori) {
     for (let j = 0; j < keys.length; j++) {
       if (!Object.keys(DBtoWBS).includes(keys[j])) {
         //rename key CANTITATE to _cantitate_antemasuratori
-        if (keys[j] === 'CANTITATE') {
-          aTransformed[_cantitate_antemasuratori] = a[keys[j]]
+        if (keys[j] === 'CANTITATE1' || keys[j] === 'CANTITATE2') {
+          if (keys[j] === 'CANTITATE1') {
+            aTransformed[_cantitate_antemasuratori] = a[keys[j]]
+          } else if (keys[j] === 'CANTITATE2') {
+            aTransformed[_cantitate_estimari] = a[keys[j]]
+          }
         } else {
           aTransformed[keys[j]] = a[keys[j]]
         }
@@ -341,7 +345,6 @@ export async function deleteAntemasuratore(id) {
       })
   })
 }
-
 
 export async function updateAntemasuratori(antemasuratori) {
   return new Promise((resolve, reject) => {
