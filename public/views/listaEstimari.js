@@ -165,6 +165,8 @@ export class listaEstimari extends LitElement {
 
   async firstUpdated() {
     await super.firstUpdated()
+    const children = this.shadowRoot.querySelectorAll('*');
+    await Promise.all(Array.from(children).map((c) => c.updateComplete));
     console.log('listaEstimari element updated')
     google.charts.load('current', { packages: ['timeline'] })
     google.charts.setOnLoadCallback(drawChart)
