@@ -456,7 +456,7 @@ export function init() {
       dataTable.addColumn({ type: 'date', id: 'Start' })
       dataTable.addColumn({ type: 'date', id: 'End' })
 
-      const rows = this.ds.map((item) => [
+      const rows = context.ds_estimari.map((item) => [
         item.CCCESTIMARI.toString(),
         item.NAME.toString(),
         new Date(item.DATASTART),
