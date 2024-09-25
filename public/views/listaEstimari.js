@@ -365,8 +365,37 @@ order by A.CCCINSTANTE,
         }
         tbody.appendChild(tr)
       }
+
+      //<div id="estimari_timeline" style="display: none; height: 180px;"></div>
+      const timeline = document.createElement('div')
+      timeline.id = 'estimari_timeline'
+      google.charts.load('current', { packages: ['timeline'] })
+      google.charts.setOnLoadCallback(drawChart)
+      function drawChart() {
+        var container = document.getElementById('estimari_timeline')
+        var chart = new google.visualization.Timeline(container)
+        var dataTable = new google.visualization.DataTable()
+        dataTable.addColumn({ type: 'string', id: 'Position' })
+        dataTable.addColumn({ type: 'string', id: 'Name' })
+        dataTable.addColumn({ type: 'date', id: 'Start' })
+        dataTable.addColumn({ type: 'date', id: 'End' })
+        //convert result.data from array of objects to array of arrays
+        const rows = ds.map((item) => [
+          item.CCCESTIMARI.toString(),
+          item.NAME.toString(),
+          new Date(item.DATASTART),
+          new Date(item.DATASTOP)
+        ])
+        console.log('rows', rows)
+        dataTable.addRows(rows)
+        var options = {
+          timeline: { showRowLabels: false },
+          avoidOverlappingGridLines: false
+        }
+        chart.draw(dataTable, options)
+      }
     }
 
-    return html`${table}`
+    return html`${table}${timeline}`
   }
 }
