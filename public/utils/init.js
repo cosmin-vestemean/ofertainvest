@@ -437,7 +437,7 @@ export function init() {
   let btn_estimari = document.getElementById('btn_estimari')
   btn_estimari.onclick = function () {
     //hide all tables but 6
-    tables.hideAllBut([tables.my_table6, tables.estimari_timeline])
+    tables.hideAllBut([tables.my_table6, tables.myTabEstimari])
     tables.my_table6.element.ds = context.ds_estimari
     console.log('ds_estimari', context.ds_estimari)
 
