@@ -383,7 +383,7 @@ export class estimari extends LitElement {
     INSERT INTO CCCESTIMARI (
       CCCOFERTEWEB, NAME, DATASTART, DATASTOP
     ) VALUES (
-      ${contextOferta.CCCOFERTEWEB}, 'Estimare ${right_now}', '${start_date_formatted}', '${end_date_formatted}'
+      ${contextOferta.CCCOFERTEWEB}, '${right_now}', '${start_date_formatted}', '${end_date_formatted}'
     ); `
 
       // Execute the query to get the new CCCESTIMARI ID
