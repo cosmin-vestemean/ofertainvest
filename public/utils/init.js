@@ -181,7 +181,7 @@ export function init() {
             if (result.success) {
               if (result.data && result.data.length > 0) {
                 context.setDsEstimari(result.data)
-                const timeline = document.getElementById('estimari_timeline')
+                const timeline = document.getElementById(tables.estimari_timeline.element.id)
                 timeline.innerHTML = ''
                 google.charts.load('current', { packages: ['timeline'] })
                 google.charts.setOnLoadCallback(drawChart)
@@ -204,8 +204,7 @@ export function init() {
                   dataTable.addRows(rows);
                   var options = {
                     timeline: { showRowLabels: false },
-                    avoidOverlappingGridLines: false,
-                    height: 300,
+                    avoidOverlappingGridLines: false
                   }
                   chart.draw(dataTable, options)
                 }
