@@ -363,7 +363,7 @@ order by A.CCCINSTANTE,
       var title1 = document.createElement('h5')
       title1.innerHTML = 'Lista'
       var title2 = document.createElement('h5')
-      title2.innerHTML = 'Timeline'
+      title2.innerHTML = 'Gantt'
     }
 
     return html`${title1}${table}${title2}${timeline}`
