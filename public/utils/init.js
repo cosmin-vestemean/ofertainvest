@@ -476,7 +476,7 @@ export function init() {
       dataTable.addRows(rows)
 
       const options = {
-        height: 100 + context.ds_estimari.length * 41,
+        height: 100 + context.ds_estimari.length * 30,
         gantt: {
           trackHeight: 30,
           shadowEnabled: true,
