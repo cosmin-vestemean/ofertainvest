@@ -206,7 +206,8 @@ export function init() {
                   dataTable.addRows(rows);
                   var options = {
                     timeline: { showRowLabels: false },
-                    avoidOverlappingGridLines: false
+                    avoidOverlappingGridLines: false,
+                    forceIFrame: true
                   }
                   chart.draw(dataTable, options)
                 }
