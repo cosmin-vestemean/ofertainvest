@@ -476,11 +476,16 @@ export function init() {
       dataTable.addRows(rows)
 
       const options = {
-        height: 100 + context.ds_estimari.length * 30,
+        height: 50 + context.ds_estimari.length * 30,
         gantt: {
           trackHeight: 30,
           shadowEnabled: true,
           barCornerRadius: 4,
+          labelStyle: {
+            //--bs-body-font-family is a Bootstrap variable
+            fontName: 'var(--bs-body-font-family)',
+            fontSize: 13,
+          },
           percentEnabled: true,
           criticalPathEnabled: false
         }
