@@ -465,8 +465,8 @@ export function init() {
       item.CCCESTIMARI.toString(),
       item.NAME.toString(),
       item.CCCESTIMARI.toString(),
-      moment(item.DATASTART).toDate(),
-      moment(item.DATAEND).toDate(),
+      new Date(item.DATASTART.split('.')[2], item.DATASTART.split('.')[1], item.DATASTART.split('.')[0]),
+      new Date(item.DATASTOP.split('.')[2], item.DATASTOP.split('.')[1], item.DATASTOP.split('.')[0]),
       0,
       item.PERCENT_COMPLETE || 0,
       null
