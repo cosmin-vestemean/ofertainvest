@@ -71,6 +71,11 @@ export class estimari extends LitElement {
     console.log('rendering estimari element with following array', this.ds, 'added at', new Date())
     //create a div with buttons for adding new estimari, saving estimari, refreshing estimari, moving to prior/next estimari
     //add buttons
+    //add h3 title 'Lista'
+    var h3 = document.createElement('h3')
+    h3.classList.add('text-center')
+    h3.innerHTML = 'Lista'
+    //add table with estimari
     var buttonsPannel = this.createButtonsPanel()
     var floatingTableFilter = this.createFloatingTableFilter()
 
@@ -200,7 +205,7 @@ export class estimari extends LitElement {
       }, this)
     }
 
-    return html`${buttonsPannel}${floatingTableFilter}${table}`
+    return html`${h3}${buttonsPannel}${floatingTableFilter}${table}`
   }
 
   createButtonsPanel() {

@@ -445,9 +445,11 @@ export function init() {
 
     function drawChart() {
       const gantt = tables.estimari_timeline.element
+      //add title to gantt
+      gantt.innerHTML = '<h3>Calendar</h3>'
       if (!gantt) {
-      console.log('gantt not found')
-      return
+        console.log('gantt not found')
+        return
       }
       const chart = new google.visualization.Gantt(gantt)
       const dataTable = new google.visualization.DataTable()
@@ -462,32 +464,33 @@ export function init() {
       dataTable.addColumn('string', 'Dependencies')
 
       const rows = context.ds_estimari.map((item) => [
-      item.CCCESTIMARI.toString(),
-      item.NAME.toString(),
-      item.CCCESTIMARI.toString(),
-      new Date(item.DATASTART),
-      new Date(item.DATASTOP),
-      0,
-      item.PERCENT_COMPLETE || 0,
-      null
+        item.CCCESTIMARI.toString(),
+        item.NAME.toString(),
+        item.CCCESTIMARI.toString(),
+        new Date(item.DATASTART),
+        new Date(item.DATASTOP),
+        0,
+        item.PERCENT_COMPLETE || 0,
+        null
       ])
 
       console.log('rows', rows)
       dataTable.addRows(rows)
 
       const options = {
-      height: 100 + context.ds_estimari.length * 41,
-      gantt: {
-        trackHeight: 30,
-        shadowEnabled: true,
-        barCornerRadius: 4,
-        labelStyle: {
-        fontName: 'Roboto',
-        fontSize: 13,
-        color: '#757575'
-        },
-        percentEnabled: true
-      }
+        height: 100 + context.ds_estimari.length * 41,
+        gantt: {
+          trackHeight: 30,
+          shadowEnabled: true,
+          barCornerRadius: 4,
+          labelStyle: {
+            fontName: 'Roboto',
+            fontSize: 13,
+            color: '#757575'
+          },
+          percentEnabled: true,
+          criticalPathEnabled: false
+        }
       }
 
       chart.draw(dataTable, options)
