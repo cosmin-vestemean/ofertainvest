@@ -301,6 +301,7 @@ export class listaEstimari extends LitElement {
         //load my_table5 with the selected o.ds_estimari_flat
         tr.onclick = async () => {
           let id = tr.getAttribute('data-id') || null
+          console.log('id', id)
           if (id) {
             //getDataset from CCCACTIVITESTIMARI
             let query = `select j.*, 	*
