@@ -452,8 +452,8 @@ export function init() {
       const chart = new google.visualization.Gantt(gantt)
       const dataTable = new google.visualization.DataTable()
 
-      dataTable.addColumn('string', 'Task ID')
-      dataTable.addColumn('string', 'Task Name')
+      dataTable.addColumn('string', 'ID')
+      dataTable.addColumn('string', 'Name')
       dataTable.addColumn('string', 'Resource')
       dataTable.addColumn('date', 'Start Date')
       dataTable.addColumn('date', 'End Date')
@@ -465,8 +465,11 @@ export function init() {
       item.CCCESTIMARI.toString(),
       item.NAME.toString(),
       null,
-      new Date(item.DATASTART),
-      new Date(item.DATASTOP),
+      //new Date(item.DATASTART),
+      //use moment.js to format date
+      moment(item.DATASTART).toDate(),
+      //new Date(item.DATAEND),
+      moment(item.DATAEND).toDate(),
       null,
       item.PERCENT_COMPLETE || 0,
       null
@@ -485,7 +488,8 @@ export function init() {
         fontName: 'Roboto',
         fontSize: 13,
         color: '#757575'
-        }
+        },
+        percentEnabled: true
       }
       }
 
