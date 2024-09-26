@@ -67,12 +67,12 @@ class LitwcSelectAntemasuratori extends LitElement {
         var tr = document.createElement('tr')
         tbody.appendChild(tr)
         for (var key in antemasuratoriDisplayMask) {
-          if (Object.keys(object).includes(key)) {
+          if (Object.keys(o).includes(key)) {
             //check if visible
             if (antemasuratoriDisplayMask[key].visible) {
               var td = document.createElement('td')
               td.innerHTML =
-                typeof object[key] === 'number' ? object[key].toFixed(2) : object[key] ? object[key] : ''
+                typeof o[key] === 'number' ? o[key].toFixed(2) : o[key] ? o[key] : ''
             }
           }
         }
