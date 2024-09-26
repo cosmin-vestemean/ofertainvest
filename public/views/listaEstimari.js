@@ -20,7 +20,11 @@ import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
 export async function addFromAntemasuratori() {
-  alert('work in progress')
+  //get html elem ModalGeneric
+  let modal = document.getElementById('ModalGeneric')
+ 
+  //show modal
+  modal.show()
 }
 
 export async function addNewEstimare() {
