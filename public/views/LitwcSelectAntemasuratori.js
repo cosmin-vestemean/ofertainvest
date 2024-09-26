@@ -1,9 +1,9 @@
-import { LitElement, html, css } from 'lit-element'
+import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { template } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import { antemasuratoriDisplayMask } from '../controllers/antemasuratori.js'
 
-class LitwcSelectAntemasuratori extends HTMLElement {
+class LitwcSelectAntemasuratori extends LitElement {
   static properties = {
     ds: { type: Array } //ds_antemasuratori
   }
