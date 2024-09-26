@@ -73,8 +73,6 @@ class LitwcSelectAntemasuratori extends LitElement {
             if (antemasuratoriDisplayMask[key].type == 'number') {
               td.style.textAlign = 'right'
               td.innerHTML = this.ds[i][key].toFixed(2)
-            } else if (antemasuratoriDisplayMask[key].type == 'date') {
-              td.innerHTML = new Date(this.ds[i][key]).toLocaleDateString()
             } else {
               td.innerHTML = this.ds[i][key]
             }

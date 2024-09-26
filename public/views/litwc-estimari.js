@@ -204,6 +204,27 @@ export class estimari extends LitElement {
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
+
+    //remove keys from ds_antemasuratori that are not in ds_estimari
+    let maxLevels = 0
+    for (let i = 0; i < ds_antemasuratori.length; i++) {
+      let a = ds_antemasuratori
+      let keys = Object.keys(a)
+      for (let j = 0; j < keys.length; j++) {
+        if (keys[j].includes(_nivel_oferta)) {
+          maxLevels = Math.max(maxLevels, parseInt(keys[j].replace(_nivel_oferta, '')))
+        }
+      }
+    }
+    for (let i = 0; i < ds_antemasuratori.length; i++) {
+      let a = ds_antemasuratori[i]
+      let keys = Object.keys(a)
+      for (let j = 0; j < keys.length; j++) {
+        if (keys[j].includes(_nivel_oferta) && parseInt(keys[j].replace(_nivel_oferta, '')) > maxLevels) {
+          delete a[keys[j]]
+        }
+      }
+    }
     litwcSelectAntemasuratori.ds = ds_antemasuratori
     modal_body.appendChild(litwcSelectAntemasuratori)
     modal.show()
