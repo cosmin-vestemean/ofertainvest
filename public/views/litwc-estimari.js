@@ -209,6 +209,8 @@ export class estimari extends LitElement {
     modal_body.appendChild(litwcSelectAntemasuratori)
     //show modal
     modal.show()
+    // Ensure the LitwcSelectAntemasuratori component is properly updated
+    litwcSelectAntemasuratori.requestUpdate()
   }
 
   createButtonsPanel() {
