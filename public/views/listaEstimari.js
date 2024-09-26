@@ -20,7 +20,7 @@ import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
 export async function addFromAntemasuratori() {
-  alert('addFromAntemasuratori')
+  alert('work in progress')
 }
 
 export async function addNewEstimare() {
@@ -184,6 +184,8 @@ export class listaEstimari extends LitElement {
       let plus_icon = document.createElement('i')
       plus_icon.classList.add('bi bi-plus-square text-primary fs-4 mb-3')
       plus_icon.classList.add('text-primary')
+      //add tooltip
+      button.title = 'Adauga articol oferta/activitate din antemasuratori'
       button.appendChild(plus_icon)
       button.onclick = addFromAntemasuratori
       div.appendChild(button)
