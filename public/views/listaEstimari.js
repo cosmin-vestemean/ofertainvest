@@ -178,7 +178,7 @@ export class listaEstimari extends LitElement {
       button.classList.add('btn', 'btn-primary-sm')
       //add plus icon
       let plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi bi-plus-square text-primary fs-4 mb-3')
+      plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
       plus_icon.classList.add('text-primary')
       //add tooltip
       button.setAttribute('data-toggle', 'tooltip')
