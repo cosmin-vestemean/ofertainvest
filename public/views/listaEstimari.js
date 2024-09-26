@@ -256,7 +256,7 @@ export class listaEstimari extends LitElement {
           if (id) {
             delete this.ds[id]
             let tr = document
-              .getElementById('table_lista_estimari')
+              .getElementById('my_table_lista_estimari')
               .shadowRoot.getElementById('tbody_lista_estimari')
               .querySelector('tr[data-id="' + id + '"]')
             tr.remove()
