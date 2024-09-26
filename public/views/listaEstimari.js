@@ -19,6 +19,10 @@ import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
+export async function addFromAntemasuratori() {
+  alert('addFromAntemasuratori')
+}
+
 export async function addNewEstimare() {
   const query = `select a.CCCINSTANTE,
 	d.DUPLICATEOF,
@@ -178,10 +182,10 @@ export class listaEstimari extends LitElement {
       button.classList.add('btn', 'btn-primary-sm')
       //add plus icon
       let plus_icon = document.createElement('i')
-      plus_icon.classList.add('bi', 'bi-plus-square', 'fs-4')
+      plus_icon.classList.add('bi bi-plus-square text-primary fs-4 mb-3')
       plus_icon.classList.add('text-primary')
       button.appendChild(plus_icon)
-      button.onclick = addNewEstimare
+      button.onclick = addFromAntemasuratori
       div.appendChild(button)
       return html`${div}`
     } else {
