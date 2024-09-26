@@ -199,11 +199,13 @@ export class estimari extends LitElement {
 
   addFromAntemasuratori() {
     //get html elem ModalGeneric
-    let modal = document.getElementById('ModalGeneric')
+    let popup = document.getElementById('ModalGeneric')
+    var modal = new bootstrap.Modal(popup)
+    var modal_body = document.getElementById('modal-body3')
     //add LitwcSelectAntemasuratori to modal
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
-    modal.innerHTML = ''
-    modal.appendChild(litwcSelectAntemasuratori)
+    modal_body.innerHTML = ''
+    modal_body.appendChild(litwcSelectAntemasuratori)
     litwcSelectAntemasuratori.ds = ds_antemasuratori
     //show modal
     modal.show()
