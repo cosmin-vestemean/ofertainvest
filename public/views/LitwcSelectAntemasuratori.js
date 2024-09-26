@@ -79,6 +79,8 @@ class LitwcSelectAntemasuratori extends LitElement {
         tr.appendChild(td)
       }
     }
+
+    return html`${table}`
   }
 }
 
