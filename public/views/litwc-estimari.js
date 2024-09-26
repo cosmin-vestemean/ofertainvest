@@ -216,6 +216,7 @@ export class estimari extends LitElement {
         }
       }
     }
+    console.log('maxLevels', maxLevels)
     for (let i = 0; i < thisDs.length; i++) {
       let a = thisDs[i]
       let keys = Object.keys(a)
@@ -225,8 +226,8 @@ export class estimari extends LitElement {
         }
       }
     }
-    litwcSelectAntemasuratori.ds = thisDs
     modal_body.appendChild(litwcSelectAntemasuratori)
+    litwcSelectAntemasuratori.ds = thisDs
     modal.show()
   }
 
