@@ -1,5 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { LitwcSelectAntemasuratori } from './LitwcSelectAntemasuratori.js'
+import { LitwcSelectAntemasuratori } from './views/LitwcSelectAntemasuratori.js'
 import { estimari } from './views/litwc-estimari.js'
 import { myTable } from './views/myTable.js'
 import { antemasuratori } from './views/litwc-antemasuratori.js'
