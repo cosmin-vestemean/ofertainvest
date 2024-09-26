@@ -9,6 +9,7 @@ import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
+import { LitwcSelectAntemasuratori } from './LitwcSelectAntemasuratori.js'
 
 export const semafoare = {
   oferta_is_loaded: false,
@@ -3237,3 +3238,4 @@ customElements.define('my-table', myTable)
 customElements.define('my-recipe', Recipe)
 customElements.define('my-antemasuratori', antemasuratori)
 customElements.define('my-estimari', estimari)
+customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)

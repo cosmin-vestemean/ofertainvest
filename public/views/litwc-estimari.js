@@ -17,7 +17,6 @@ import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
-import { LitwcSelectAntemasuratori } from './LitwcSelectAntemasuratori.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -205,8 +204,8 @@ export class estimari extends LitElement {
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
-    modal_body.appendChild(litwcSelectAntemasuratori)
     litwcSelectAntemasuratori.ds = ds_antemasuratori
+    modal_body.appendChild(litwcSelectAntemasuratori)
     modal.show()
   }
 
