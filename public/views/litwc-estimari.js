@@ -203,10 +203,10 @@ export class estimari extends LitElement {
     var modal = new bootstrap.Modal(popup)
     var modal_body = document.getElementById('modal-body3')
     //add LitwcSelectAntemasuratori to modal
-    let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
     modal_body.innerHTML = ''
-    modal_body.appendChild(litwcSelectAntemasuratori)
+    let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
     litwcSelectAntemasuratori.ds = ds_antemasuratori
+    modal_body.appendChild(litwcSelectAntemasuratori)
     //show modal
     modal.show()
   }
