@@ -15,7 +15,7 @@ import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
 import { newTree } from '../controllers/antemasuratori.js'
-import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
+import { _cantitate_antemasuratori, _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
@@ -100,7 +100,10 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 
   console.log('new_ds', new_ds)
 
-  let ds_estimari_pool = await convertDBAntemasuratori(new_ds)
+  let ds_estimari_pool = await convertDBAntemasuratori(new_ds, [
+    { _cantitate_antemasuratori: 'CANTITATE_1' },
+    { _cantitate_estimari: 'CANTITATE_2' }
+  ])
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
   for (let i = 0; i < ds_estimari_pool.length; i++) {
@@ -343,7 +346,10 @@ order by A.CCCINSTANTE,
               }
               let ds = response.data
               console.log('ds', ds)
-              const transf = await convertDBAntemasuratori(ds)
+              const transf = await convertDBAntemasuratori(ds, [
+                { _cantitate_antemasuratori: 'CANTITATE_1' },
+                { _cantitate_estimari: 'CANTITATE_2' }
+              ])
               console.log('transf', transf)
               // add row_selected to each object
               for (let i = 0; i < transf.length; i++) {
