@@ -185,7 +185,8 @@ export class listaEstimari extends LitElement {
       plus_icon.classList.add('bi bi-plus-square text-primary fs-4 mb-3')
       plus_icon.classList.add('text-primary')
       //add tooltip
-      button.title = 'Adauga articol oferta/activitate din antemasuratori'
+      button.setAttribute('data-toggle', 'tooltip')
+      button.setAttribute('title', 'Adauga articol oferta/activitate din antemasuratori')
       button.appendChild(plus_icon)
       button.onclick = addFromAntemasuratori
       div.appendChild(button)
