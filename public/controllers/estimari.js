@@ -290,7 +290,7 @@ function createNewRow(a, o, i, indexActivit, k, ISMAIN, maxLevelA, maxLevelObjec
   o[_cantitate_estimari_anterioare] = 0
   o[_start_date] = ''
   o[_end_date] = ''
-  o.ROW_SELECTED = true
+  o.ROW_SELECTED = false
   //create main activity row
   //addTableRow(i, k, counter, o)
   return {

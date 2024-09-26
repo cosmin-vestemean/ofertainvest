@@ -249,8 +249,6 @@ export class estimari extends LitElement {
         var tds = trs[i].getElementsByTagName('td')
         //get td with class _cantitate_estimari
         var tdEstimari = Array.from(tds).find((o) => o.classList.contains(_cantitate_estimari))
-        //get td with class "ROW_SELECTED"
-        var tdRowSelected = Array.from(tds).find((o) => o.classList.contains('ROW_SELECTED'))
         //_cantitate_antemasuratori
         var tdCantitateAntemasuratori = Array.from(tds).find((o) =>
           o.classList.contains(_cantitate_antemasuratori)
@@ -264,7 +262,7 @@ export class estimari extends LitElement {
           }
         }
         var iputInside = tdRowSelected.getElementsByTagName('input')[0]
-        if (tdEstimari && tdRowSelected) {
+        if (tdEstimari) {
           if (
             isNaN(parseFloat(tdEstimari.textContent)) ||
             parseFloat(tdEstimari.textContent) === 0 ||
@@ -352,9 +350,9 @@ export class estimari extends LitElement {
   }
 
   async filterAndSaveSelectedEstimari() {
-    //filter context.ds_estimari_pool for ROW_SELECTED = true and _cantitate_estimari > 0
+    //filter context.ds_estimari_pool for _cantitate_estimari > 0
     const ds_estimari_pool_filterd = context.ds_estimari_pool.filter(
-      (o) => o.ROW_SELECTED && parseFloat(o[_cantitate_estimari]) > 0
+      (o) => parseFloat(o[_cantitate_estimari]) > 0
     )
 
     let sqlList = []
@@ -590,10 +588,7 @@ export class estimari extends LitElement {
           let tds = trs[i].getElementsByTagName('td')
           let td = Array.from(tds).find((o) => o.classList.contains(columnName))
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
-          let iputInside = Array.from(tds)
-            .find((o) => o.classList.contains('ROW_SELECTED'))
-            .getElementsByTagName('input')[0]
-          if (td && iputInside) {
+          if (td) {
             if (isEqual) {
               if (val > 0) {
                 trs[i].style.display = 'table-row'
@@ -625,10 +620,7 @@ export class estimari extends LitElement {
           let val = td.textContent.trim() === '' ? 0 : parseFloat(td.textContent)
           let tda = Array.from(tds).find((o) => o.classList.contains(_cantitate_antemasuratori))
           let vala = tda.textContent.trim() === '' ? 0 : parseFloat(tda.textContent)
-          let iputInside = Array.from(tds)
-            .find((o) => o.classList.contains('ROW_SELECTED'))
-            .getElementsByTagName('input')[0]
-          if (td && iputInside) {
+          if (td) {
             if (isEqual) {
               if (val !== vala) {
                 trs[i].style.display = 'table-row'
@@ -705,7 +697,6 @@ export class estimari extends LitElement {
     checkbox.id = 'checkbox-' + id
     checkbox.classList.add('form-check-input', 'align-middle')
     checkbox.checked = o['ROW_SELECTED']
-    this.updateCheckboxStatus(checkbox)
     td.appendChild(checkbox)
     tr.appendChild(td)
     td = document.createElement('td')
@@ -823,24 +814,6 @@ export class estimari extends LitElement {
       }
     }
     return i
-  }
-
-  updateCheckboxStatus(checkbox) {
-    checkbox.onchange = function () {
-      //change context.ds_estimari_pool
-      let position = context.locateTrInEstimariPool(checkbox.parentElement)
-      let instanta = position.instanta
-      let ramura = position.ramura
-      let activitateIndex = position.activitateIndex
-      //context.ds_estimari_pool[instanta][ramura][activitateIndex].row_data['ROW_SELECTED'] = checkbox.checked
-      context.setValueOfDsEstimariPoolByKey(
-        instanta,
-        ramura,
-        activitateIndex,
-        'ROW_SELECTED',
-        checkbox.checked
-      )
-    }
   }
 
   _onFocusIn() {

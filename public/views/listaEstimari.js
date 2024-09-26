@@ -109,7 +109,7 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
     o[_cantitate_estimari] = 0
     o[_start_date] = ''
     o[_end_date] = ''
-    o['ROW_SELECTED'] = true
+    o['ROW_SELECTED'] = false
   }
 
   context.ds_estimari_pool = ds_estimari_pool
@@ -347,7 +347,7 @@ order by A.CCCINSTANTE,
               console.log('transf', transf)
               // add row_selected to each object
               for (let i = 0; i < transf.length; i++) {
-                transf[i].ROW_SELECTED = true
+                transf[i].ROW_SELECTED = false
               }
               // hide all tables except my_table5
               tables.hideAllBut([tables.my_table5])
