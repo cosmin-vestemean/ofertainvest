@@ -229,6 +229,11 @@ export class listaEstimari extends LitElement {
       th.scope = 'col'
       //add icon
       var plus_icon = document.createElement('i')
+      //id
+      plus_icon.id = 'addFromAntemasuratori'
+      //add tooltip
+      plus_icon.setAttribute('data-toggle', 'tooltip')
+      plus_icon.setAttribute('title', 'Adauga articol oferta/activitate din antemasuratori')
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square')
       plus_icon.classList.add('text-primary')
