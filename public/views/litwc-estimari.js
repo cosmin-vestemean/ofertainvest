@@ -4,11 +4,6 @@ import {
   _start_date,
   _end_date,
   theadIsSet,
-  addOnChangeEvt,
-  ierarhii,
-  flatFind,
-  selected_ds,
-  delimiter,
   _nivel_oferta,
   contextOferta
 } from '../client.js'
@@ -21,8 +16,7 @@ import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
-import { newTree } from '../controllers/antemasuratori.js'
-import { addNewEstimare } from './listaEstimari.js'
+import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -203,6 +197,18 @@ export class estimari extends LitElement {
     return html`${buttonsPannel}${floatingTableFilter}${table}`
   }
 
+  addFromAntemasuratori() {
+    //get html elem ModalGeneric
+    let modal = document.getElementById('ModalGeneric')
+    //add LitwcSelectAntemasuratori to modal
+    let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
+    modal.innerHTML = ''
+    modal.appendChild(litwcSelectAntemasuratori)
+    litwcSelectAntemasuratori.ds = ds_antemasuratori
+    //show modal
+    modal.show()
+  }
+
   createButtonsPanel() {
     var buttonsPannel = document.createElement('div')
     buttonsPannel.classList.add('d-flex', 'flex-row', 'justify-content-between', 'align-items-center')
@@ -230,7 +236,7 @@ export class estimari extends LitElement {
     plus_icon.classList.add('bi')
     plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
     plus_icon.style.cursor = 'pointer'
-    plus_icon.onclick = addNewEstimare
+    plus_icon.onclick = addFromAntemasuratori
     btnAdd.appendChild(plus_icon)
     //add validate icon
     var btnValidate = document.createElement('div')

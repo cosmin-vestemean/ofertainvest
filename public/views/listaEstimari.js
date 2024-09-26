@@ -19,18 +19,6 @@ import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
-export async function addFromAntemasuratori() {
-  //get html elem ModalGeneric
-  let modal = document.getElementById('ModalGeneric')
-  //add LitwcSelectAntemasuratori to modal
-  let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
-  modal.innerHTML = ''
-  modal.appendChild(litwcSelectAntemasuratori)
-  litwcSelectAntemasuratori.ds = ds_antemasuratori
-  //show modal
-  modal.show()
-}
-
 export async function addNewEstimare() {
   const query = `select a.CCCINSTANTE,
 	d.DUPLICATEOF,
@@ -196,7 +184,7 @@ export class listaEstimari extends LitElement {
       button.setAttribute('data-toggle', 'tooltip')
       button.setAttribute('title', 'Adauga articol oferta/activitate din antemasuratori')
       button.appendChild(plus_icon)
-      button.onclick = addFromAntemasuratori
+      button.onclick = addNewEstimare
       div.appendChild(button)
       return html`${div}`
     } else {
@@ -229,16 +217,11 @@ export class listaEstimari extends LitElement {
       th.scope = 'col'
       //add icon
       var plus_icon = document.createElement('i')
-      //id
-      plus_icon.id = 'addFromAntemasuratori'
-      //add tooltip
-      plus_icon.setAttribute('data-toggle', 'tooltip')
-      plus_icon.setAttribute('title', 'Adauga articol oferta/activitate din antemasuratori')
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square')
       plus_icon.classList.add('text-primary')
       plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = addFromAntemasuratori
+      plus_icon.onclick = addNewEstimare
       th.appendChild(plus_icon)
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
