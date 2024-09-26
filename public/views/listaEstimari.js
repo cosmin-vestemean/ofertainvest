@@ -217,9 +217,14 @@ export class listaEstimari extends LitElement {
       th.scope = 'col'
       //add icon
       var plus_icon = document.createElement('i')
+      //add tooltip
+      plus_icon.setAttribute('data-toggle', 'tooltip')
+      plus_icon.setAttribute('title', 'Adauga estimare')
       plus_icon.classList.add('bi')
       plus_icon.classList.add('bi-plus-square')
       plus_icon.classList.add('text-primary')
+      plus_icon.classList.add('fs-4')
+      plus_icon.classList.add('mb-3')
       plus_icon.style.cursor = 'pointer'
       plus_icon.onclick = addNewEstimare
       th.appendChild(plus_icon)
