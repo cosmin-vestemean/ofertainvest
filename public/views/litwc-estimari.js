@@ -109,7 +109,7 @@ export class estimari extends LitElement {
         checkbox.type = 'checkbox'
         checkbox.id = 'checkbox_all'
         checkbox.classList.add('form-check-input')
-        checkbox.checked = true
+        checkbox.checked = false
         th.appendChild(checkbox)
         tr.appendChild(th)
         //append plus/minus icon
