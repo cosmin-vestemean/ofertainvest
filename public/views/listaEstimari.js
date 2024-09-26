@@ -337,6 +337,10 @@ order by A.CCCINSTANTE,
                 }
               })
               console.log('response', response)
+              if (!response.success) {
+                alert('Error fetching dataset\nWork in progress')
+                return
+              }
               let ds = response.data
               console.log('ds', ds)
               const transf = await convertDBAntemasuratori(ds)
