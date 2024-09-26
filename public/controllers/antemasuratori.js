@@ -50,72 +50,80 @@ export const setNewTree = (value) => {
 }
 
 export const antemasuratoriDisplayMask = {
-  old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
-  WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
+  old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi', filter: 'search' },
+  WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS', filter: 'search' },
   SERIE_ARTICOL_OFERTA: {
     value: 'SERIE_ARTICOL_OFERTA',
     RW: false,
     visible: false,
     label: 'Serie articol',
-    isEnumerable: false
+    isEnumerable: false,
+    filter: 'search'
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
     label: 'Denumire',
-    isEnumerable: true
+    isEnumerable: true,
+    filter: 'search'
   },
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
     RW: false,
     visible: false,
     label: 'Tip articol',
-    isEnumerable: true
+    isEnumerable: true,
+    filter: 'filter'
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
     RW: false,
     visible: false,
     label: 'Subtip articol',
-    isEnumerable: true
+    isEnumerable: true,
+    filter: 'filter'
   },
-  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', isEnumerable: true },
-  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', isEnumerable: true },
-  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', isEnumerable: true },
-  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', isEnumerable: true },
-  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', isEnumerable: true },
-  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', isEnumerable: true },
-  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', isEnumerable: true },
-  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', isEnumerable: true },
-  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', isEnumerable: true },
+  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', isEnumerable: true, filter: 'filter' },
+  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', isEnumerable: true, filter: 'filter' },
   NIVEL_OFERTA_10: {
     value: 'NIVEL_OFERTA_10',
     RW: false,
     visible: true,
     label: 'Nivel 10',
-    isEnumerable: true
+    isEnumerable: true,
+    filter: 'filter'
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
     label: 'Cantitate<br>oferta',
-    isEnumerable: false
+    isEnumerable: false,
+    filter: 'search'
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
     RW: false,
     visible: true,
     label: 'UM',
-    isEnumerable: false
+    isEnumerable: false,
+    filter: 'filter'
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
     RW: true,
     visible: true,
     label: 'Cantitate<br>antemasuratori',
-    isEnumerable: false
+    isEnumerable: false,
+    filter: 'search'
   }
 }
 

@@ -14,7 +14,7 @@ import {
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
-import { newTree } from '../controllers/antemasuratori.js'
+import { ds_antemasuratori, newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
@@ -22,7 +22,11 @@ import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 export async function addFromAntemasuratori() {
   //get html elem ModalGeneric
   let modal = document.getElementById('ModalGeneric')
- 
+  //add LitwcSelectAntemasuratori to modal
+  let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
+  modal.innerHTML = ''
+  modal.appendChild(litwcSelectAntemasuratori)
+  litwcSelectAntemasuratori.ds = ds_antemasuratori
   //show modal
   modal.show()
 }
