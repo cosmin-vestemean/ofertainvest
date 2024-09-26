@@ -31,7 +31,7 @@ export async function setDsAntemasuratori() {
     }
   })
   if (response.success && response.data && response.data.length > 0) {
-    const transf = await convertDBAntemasuratori(response.data, [{ _cantitate_antemasuratori: 'CANTITATE' }])
+    const transf = await convertDBAntemasuratori(response.data)
     ds_antemasuratori = transf
     console.log('ds_antemasuratori', ds_antemasuratori)
     semafoare.antemasuratoriIsLoaded = true
@@ -220,8 +220,7 @@ export async function createAntemasuratori() {
     })
 }
 
-export async function convertDBAntemasuratori(antemasuratori, matchingArray) {
-  //de exemplu: [{_cantitate_antemasuratori : CANTITATE_1}, {_cantitate_estimari : CANTITATE_2}] sau [{_cantitate_antemasuratori: CANTITATE}]
+export async function convertDBAntemasuratori(antemasuratori) {
   let antemasuratoriTransformed = []
   const uniqNodesResponse = await client.service('getDataset').find({
     query: {
@@ -277,19 +276,16 @@ export async function convertDBAntemasuratori(antemasuratori, matchingArray) {
     keys = Object.keys(a)
     for (let j = 0; j < keys.length; j++) {
       if (!Object.keys(DBtoWBS).includes(keys[j])) {
-        let matched = false
-        if (matchingArray && Array.isArray(matchingArray)) {
-          for (let match of matchingArray) {
-            let matchKey = Object.keys(match)[0]
-            let matchValue = Object.values(match)[0]
-            if (keys[j] === matchValue) {
-              aTransformed[matchKey] = a[keys[j]]
-              matched = true
-              break
-            }
+        //rename key CANTITATE to _cantitate_antemasuratori
+        if (keys[j] === 'CANTITATE_1' || keys[j] === 'CANTITATE_2' || keys[j] === 'CANTITATE') {
+          if (keys[j] === 'CANTITATE_1') {
+            aTransformed[_cantitate_antemasuratori] = a[keys[j]]
+          } else if (keys[j] === 'CANTITATE_2') {
+            aTransformed[_cantitate_estimari] = a[keys[j]]
+          } else {
+            aTransformed[_cantitate_antemasuratori] = a[keys[j]]
           }
-        }
-        if (!matched) {
+        } else {
           aTransformed[keys[j]] = a[keys[j]]
         }
       }
