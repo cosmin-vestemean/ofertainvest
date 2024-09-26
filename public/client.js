@@ -1,4 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
+import { LitwcSelectAntemasuratori } from './LitwcSelectAntemasuratori.js'
 import { estimari } from './views/litwc-estimari.js'
 import { myTable } from './views/myTable.js'
 import { antemasuratori } from './views/litwc-antemasuratori.js'
@@ -9,7 +10,6 @@ import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
-import { LitwcSelectAntemasuratori } from './LitwcSelectAntemasuratori.js'
 
 export const semafoare = {
   oferta_is_loaded: false,
