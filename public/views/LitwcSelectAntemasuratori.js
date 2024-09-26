@@ -63,20 +63,25 @@ class LitwcSelectAntemasuratori extends LitElement {
       tbody.id = 'tbody_lista_antemasuratori'
       table.appendChild(tbody)
 
-      for (let o of this.ds) {
+      //add rows
+      for (var i = 0; i < this.ds.length; i++) {
         var tr = document.createElement('tr')
-        tbody.appendChild(tr)
+        tr.id = `tr_${this.ds[i].CCCANTEMASURATORI}`
         for (var key in antemasuratoriDisplayMask) {
-          if (Object.keys(o).includes(key)) {
-            //check if visible
-            if (antemasuratoriDisplayMask[key].visible) {
-              var td = document.createElement('td')
-              td.innerHTML =
-                typeof o[key] === 'number' ? o[key].toFixed(2) : o[key] ? o[key] : ''
+          if (antemasuratoriDisplayMask[key].visible) {
+            var td = document.createElement('td')
+            if (antemasuratoriDisplayMask[key].type == 'number') {
+              td.style.textAlign = 'right'
+              td.innerHTML = this.ds[i][key].toFixed(2)
+            } else if (antemasuratoriDisplayMask[key].type == 'date') {
+              td.innerHTML = new Date(this.ds[i][key]).toLocaleDateString()
+            } else {
+              td.innerHTML = this.ds[i][key]
             }
+            tr.appendChild(td)
           }
         }
-        tr.appendChild(td)
+        tbody.appendChild(tr)
       }
     }
 
