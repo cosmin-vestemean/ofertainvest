@@ -238,7 +238,7 @@ export class estimari extends LitElement {
     plus_icon.classList.add('bi')
     plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
     plus_icon.style.cursor = 'pointer'
-    plus_icon.onclick = addFromAntemasuratori
+    plus_icon.onclick = this.addFromAntemasuratori
     btnAdd.appendChild(plus_icon)
     //add validate icon
     var btnValidate = document.createElement('div')
