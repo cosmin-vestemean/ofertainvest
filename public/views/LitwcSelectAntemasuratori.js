@@ -83,3 +83,5 @@ class LitwcSelectAntemasuratori extends HTMLElement {
 }
 
 customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)
+
+export { LitwcSelectAntemasuratori }
