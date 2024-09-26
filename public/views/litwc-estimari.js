@@ -238,6 +238,10 @@ export class estimari extends LitElement {
     plus_icon.classList.add('bi')
     plus_icon.classList.add('bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
     plus_icon.style.cursor = 'pointer'
+    //add tooltip
+    plus_icon.setAttribute('data-bs-toggle', 'tooltip')
+    plus_icon.setAttribute('data-bs-placement', 'top')
+    plus_icon.setAttribute('title', 'Adauga din antemasuratori')
     plus_icon.onclick = this.addFromAntemasuratori
     btnAdd.appendChild(plus_icon)
     //add validate icon
