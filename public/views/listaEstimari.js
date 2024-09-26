@@ -100,10 +100,7 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
 
   console.log('new_ds', new_ds)
 
-  let ds_estimari_pool = await convertDBAntemasuratori(new_ds, [
-    { _cantitate_antemasuratori: 'CANTITATE_1' },
-    { _cantitate_estimari: 'CANTITATE_2' }
-  ])
+  let ds_estimari_pool = await convertDBAntemasuratori(new_ds, [{ _cantitate_antemasuratori: 'CANTITATE' }])
 
   //zero out _start_date and _end_date and _cantitate_estimari in pool
   for (let i = 0; i < ds_estimari_pool.length; i++) {
