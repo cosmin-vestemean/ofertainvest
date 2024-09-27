@@ -27,25 +27,26 @@ function setValuesOfDsEstimari(index, key, value) {
 }
 
 var estimariDisplayMask = {
-  WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string' },
+  WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string', filter: 'search' },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
     label: 'Denumire',
-    type: 'string'
+    type: 'string',
+    filter: 'search'
   },
-  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string' },
-  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string' },
-  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string' },
-  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string' },
-  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string' },
-  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string' },
-  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string' },
-  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string' },
-  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string' },
-  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string' },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string' },
+  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string', filter: 'search' },
+  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string', filter: 'search' },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string', filter: 'none' },
 }
 
 function addParametricDisplayMask(key, value) {

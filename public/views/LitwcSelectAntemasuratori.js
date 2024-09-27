@@ -32,8 +32,47 @@ class LitwcSelectAntemasuratori extends LitElement {
       table.classList.add('table-responsive')
       table.id = 'lista_antemasuratori'
       table.style.fontSize = 'small'
-      table.style.width = '100%'
-      //no thead
+      var thead = document.createElement('thead')
+      //look in antemasuratoriDisplayMask for visible fields and check property 'filter'. If filter = 'search', add input field. If filter = 'filter', add select field with distinct values
+      //search or filter the table according to the input value or select value
+      //add 'ROW_SELECTED' column with checkbox; on closing the modal, get the selected rows and update the parent component
+
+      thead.id = 'thead_lista_select_antemasuratori'
+      thead.classList.add('align-middle')
+      var tr = document.createElement('tr')
+      thead.appendChild(tr)
+      //add checkbox for selecting rows
+      var th = document.createElement('th')
+      th.innerHTML = `<input type="checkbox" id="checkbox-all">`
+      tr.appendChild(th)
+      //add plus/minus icon
+      var th = document.createElement('th')
+      th.innerHTML = ''
+      tr.appendChild(th)
+      //add counter
+      var th = document.createElement('th')
+      th.innerHTML = 'Nr.'
+      tr.appendChild(th)
+      //add columns based on estimariDisplayMask
+      for (var key in context.estimariDisplayMask) {
+        if (context.estimariDisplayMask[key].visible) {
+          if (context.estimariDisplayMask[key].filter == 'search') {
+            var th = document.createElement('th')
+            th.innerHTML = `<input type="text" id="search_${key}">`
+            tr.appendChild(th)
+          } else if (context.estimariDisplayMask[key].filter == 'filter') {
+            var th = document.createElement('th')
+            th.innerHTML = `<select id="filter_${key}"></select>`
+            tr.appendChild(th)
+          } else {
+            var th = document.createElement('th')
+            th.innerHTML = context.estimariDisplayMask[key].label || key
+            tr.appendChild(th)
+          }
+        }
+      }
+      table.appendChild(thead)
+
       var tbody = document.createElement('tbody')
       tbody.id = 'tbody_lista_select_antemasuratori'
       table.appendChild(tbody)
