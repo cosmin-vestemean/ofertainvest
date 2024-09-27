@@ -131,6 +131,13 @@ class LitwcSelectAntemasuratori extends LitElement {
               option.innerHTML = 'Select'
               select.appendChild(option)
               //add options
+              let distinct = this.distinctNames(this.ds, key)
+              distinct.forEach(function (o) {
+                let option = document.createElement('option')
+                option.value = o
+                option.innerHTML = o
+                select.appendChild(option)
+              })
             } else {
               th.innerHTML = context.estimariDisplayMask[key].label
             }
