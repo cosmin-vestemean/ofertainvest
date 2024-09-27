@@ -1,7 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { template } from '../client.js'
+import { template, _nivel_oferta } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
-import { antemasuratoriDisplayMask } from '../controllers/antemasuratori.js'
 import { context } from '../controllers/estimari.js'
 
 class LitwcSelectAntemasuratori extends LitElement {
@@ -32,51 +31,12 @@ class LitwcSelectAntemasuratori extends LitElement {
       table.classList.add('table-responsive')
       table.id = 'lista_antemasuratori'
       table.style.fontSize = 'small'
-      var thead = document.createElement('thead')
-      //look in antemasuratoriDisplayMask for visible fields and check property 'filter'. If filter = 'search', add input field. If filter = 'filter', add select field with distinct values
-      //search or filter the table according to the input value or select value
-      //add 'ROW_SELECTED' column with checkbox; on closing the modal, get the selected rows and update the parent component
-
-      thead.id = 'thead_lista_select_antemasuratori'
-      thead.classList.add('align-middle')
-      var tr = document.createElement('tr')
-      thead.appendChild(tr)
-      //add checkbox for selecting rows
-      var th = document.createElement('th')
-      th.innerHTML = `<input type="checkbox" id="checkbox-all">`
-      tr.appendChild(th)
-      //add plus/minus icon
-      var th = document.createElement('th')
-      th.innerHTML = ''
-      tr.appendChild(th)
-      //add counter
-      var th = document.createElement('th')
-      th.innerHTML = 'Nr.'
-      tr.appendChild(th)
-      //add columns based on estimariDisplayMask
-      for (var key in context.estimariDisplayMask) {
-        if (context.estimariDisplayMask[key].visible) {
-          if (context.estimariDisplayMask[key].filter == 'search') {
-            var th = document.createElement('th')
-            th.innerHTML = `<input type="text" id="search_${key}">`
-            tr.appendChild(th)
-          } else if (context.estimariDisplayMask[key].filter == 'filter') {
-            var th = document.createElement('th')
-            th.innerHTML = `<select id="filter_${key}"></select>`
-            tr.appendChild(th)
-          } else {
-            var th = document.createElement('th')
-            th.innerHTML = context.estimariDisplayMask[key].label || key
-            tr.appendChild(th)
-          }
-        }
-      }
-      table.appendChild(thead)
 
       var tbody = document.createElement('tbody')
       tbody.id = 'tbody_lista_select_antemasuratori'
       table.appendChild(tbody)
 
+      let maxNivele = 0
       //add rows
       this.ds.forEach(function (o) {
         let instanta = o.CCCINSTANTE
@@ -100,10 +60,77 @@ class LitwcSelectAntemasuratori extends LitElement {
 
         if (ISMAIN) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d)
+          let mn = this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d)
+          if (mn > maxNivele) {
+            maxNivele = mn
+          }
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d)
+        let mn = this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d)
+        if (mn > maxNivele) {
+          maxNivele = mn
+        }
       }, this)
+
+      //add table header
+      var thead = document.createElement('thead')
+      var tr = document.createElement('tr')
+      //add checkbox for main activity
+      var th = document.createElement('th')
+      th.innerHTML = 'Select'
+      tr.appendChild(th)
+      //add plus/minus icon
+      th = document.createElement('th')
+      tr.appendChild(th)
+      //add counter
+      th = document.createElement('th')
+      th.innerHTML = 'Nr.'
+      tr.appendChild(th)
+      //add columns based on estimariDisplayMask
+      for (var key in context.estimariDisplayMask) {
+        if (context.estimariDisplayMask[key].visible) {
+          //check maxNivele
+          if (key.includes(_nivel_oferta)) {
+            let n = parseInt(key.split('_')[2])
+            if (n <= maxNivele) {
+              th = document.createElement('th')
+              if (context.estimariDisplayMask[key].filter === 'select') {
+                let select = document.createElement('select')
+                select.classList.add('form-select', 'form-select-sm')
+                let option = document.createElement('option')
+                option.value = ''
+                option.innerHTML = 'Select'
+                select.appendChild(option)
+                //add options
+              } else {
+              }
+              tr.appendChild(th)
+            }
+          } else {
+            th = document.createElement('th')
+            if (context.estimariDisplayMask[key].filter === 'text') {
+              //add search input
+              let input = document.createElement('input')
+              input.type = 'text'
+              input.classList.add('form-control', 'form-control-sm')
+              input.placeholder = 'Search'
+              th.appendChild(input)
+            } else if (context.estimariDisplayMask[key].filter === 'select') {
+              let select = document.createElement('select')
+              select.classList.add('form-select', 'form-select-sm')
+              let option = document.createElement('option')
+              option.value = ''
+              option.innerHTML = 'Select'
+              select.appendChild(option)
+              //add options
+            } else {
+              th.innerHTML = context.estimariDisplayMask[key].label
+            }
+            tr.appendChild(th)
+          }
+        }
+      }
+      thead.appendChild(tr)
+      table.appendChild(thead)
     }
 
     return html`${table}`
@@ -176,6 +203,7 @@ class LitwcSelectAntemasuratori extends LitElement {
     }
     tr.appendChild(td)
 
+    let maxNivele = 0
     //add columns based on estimariDisplayMask
     for (var key in context.estimariDisplayMask) {
       //check key vs estimariDisplayMask
@@ -183,6 +211,13 @@ class LitwcSelectAntemasuratori extends LitElement {
       if (Object.keys(o).includes(key)) {
         //check if visible
         if (context.estimariDisplayMask[key].visible) {
+          //maxNivele based on _nivel_oferta
+          if (key.includes(_nivel_oferta)) {
+            let n = parseInt(key.split('_')[2])
+            if (n > maxNivele) {
+              maxNivele = n
+            }
+          }
           let td = document.createElement('td')
           if (context.estimariDisplayMask[key].type === 'number') {
             td.style.textAlign = 'right'
@@ -195,6 +230,8 @@ class LitwcSelectAntemasuratori extends LitElement {
         }
       }
     }
+
+    return maxNivele
   }
 
   toggleChildrenVisibility(plus_icon, i, k) {
