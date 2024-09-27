@@ -41,19 +41,32 @@ class LitwcSelectAntemasuratori extends LitElement {
       thead.classList.add('align-middle')
       var tr = document.createElement('tr')
       thead.appendChild(tr)
-      for (var key in antemasuratoriDisplayMask) {
-        if (antemasuratoriDisplayMask[key].visible) {
-          if (antemasuratoriDisplayMask[key].filter == 'search') {
+      //add checkbox for selecting rows
+      var th = document.createElement('th')
+      th.innerHTML = `<input type="checkbox" id="checkbox-all">`
+      tr.appendChild(th)
+      //add plus/minus icon
+      var th = document.createElement('th')
+      th.innerHTML = ''
+      tr.appendChild(th)
+      //add counter
+      var th = document.createElement('th')
+      th.innerHTML = 'Nr.'
+      tr.appendChild(th)
+      //add columns based on estimariDisplayMask
+      for (var key in context.estimariDisplayMask) {
+        if (context.estimariDisplayMask[key].visible) {
+          if (context.estimariDisplayMask[key].filter == 'search') {
             var th = document.createElement('th')
-            th.innerHTML = `<input type="text" id="search_${key}" placeholder="Search ${antemasuratoriDisplayMask[key].label || key}">`
+            th.innerHTML = `<input type="text" id="search_${key}">`
             tr.appendChild(th)
-          } else if (antemasuratoriDisplayMask[key].filter == 'filter') {
+          } else if (context.estimariDisplayMask[key].filter == 'filter') {
             var th = document.createElement('th')
-            th.innerHTML = `<select id="filter_${key}" placeholder="Filter ${antemasuratoriDisplayMask[key].label || key}"></select>`
+            th.innerHTML = `<select id="filter_${key}"></select>`
             tr.appendChild(th)
           } else {
             var th = document.createElement('th')
-            th.innerHTML = antemasuratoriDisplayMask[key].label || key
+            th.innerHTML = context.estimariDisplayMask[key].label || key
             tr.appendChild(th)
           }
         }
