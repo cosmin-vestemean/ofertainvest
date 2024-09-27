@@ -76,7 +76,11 @@ class LitwcSelectAntemasuratori extends LitElement {
       var tr = document.createElement('tr')
       //add checkbox for main activity
       var th = document.createElement('th')
-      th.innerHTML = 'Select'
+      var checkbox = document.createElement('input')
+      checkbox.type = 'checkbox'
+      checkbox.id = 'checkbox-all'
+      checkbox.classList.add('form-check-input', 'align-middle')
+      th.appendChild(checkbox)
       tr.appendChild(th)
       //add plus/minus icon
       th = document.createElement('th')
@@ -87,7 +91,7 @@ class LitwcSelectAntemasuratori extends LitElement {
       tr.appendChild(th)
       //add columns based on estimariDisplayMask
       for (var key in context.estimariDisplayMask) {
-        if (context.estimariDisplayMask[key].visible) {
+        if (context.estimariDisplayMask[key].visible && context.estimariDisplayMask[key].inPopup) {
           //check maxNivele
           if (key.includes(_nivel_oferta)) {
             let n = parseInt(key.split('_')[2])

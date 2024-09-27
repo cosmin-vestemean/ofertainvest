@@ -27,26 +27,27 @@ function setValuesOfDsEstimari(index, key, value) {
 }
 
 var estimariDisplayMask = {
-  WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string', filter: 'text' },
+  WBS: { value: 'WBS', RW: false, visible: true, label: 'WBS', type: 'string', filter: 'text', inPopup: true },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: false,
     visible: true,
     label: 'Denumire',
     type: 'string',
-    filter: 'text'
+    filter: 'text',
+    inPopup: true
   },
-  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string', filter: 'select' },
-  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string', filter: 'select' },
-  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string', filter: 'none' },
+  NIVEL_OFERTA_1: { value: 'NIVEL_OFERTA_1', RW: false, visible: true, label: 'Nivel 1', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_2: { value: 'NIVEL_OFERTA_2', RW: false, visible: true, label: 'Nivel 2', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_3: { value: 'NIVEL_OFERTA_3', RW: false, visible: true, label: 'Nivel 3', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_4: { value: 'NIVEL_OFERTA_4', RW: false, visible: true, label: 'Nivel 4', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_5: { value: 'NIVEL_OFERTA_5', RW: false, visible: true, label: 'Nivel 5', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_6: { value: 'NIVEL_OFERTA_6', RW: false, visible: true, label: 'Nivel 6', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_7: { value: 'NIVEL_OFERTA_7', RW: false, visible: true, label: 'Nivel 7', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_8: { value: 'NIVEL_OFERTA_8', RW: false, visible: true, label: 'Nivel 8', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_9: { value: 'NIVEL_OFERTA_9', RW: false, visible: true, label: 'Nivel 9', type: 'string', filter: 'select', inPopup: true },
+  NIVEL_OFERTA_10: { value: 'NIVEL_OFERTA_10', RW: false, visible: true, label: 'Nivel 10', type: 'string', filter: 'select', inPopup: true },
+  UM_ARTICOL_OFERTA: { value: 'UM_ARTICOL_OFERTA', RW: false, visible: true, label: 'UM', type: 'string', filter: 'none', inPopup: true },
 }
 
 function addParametricDisplayMask(key, value) {
@@ -58,7 +59,9 @@ addParametricDisplayMask(_cantitate_oferta, {
   RW: false,
   visible: true,
   label: 'Cantitate<br>oferta',
-  type: 'number'
+  type: 'number',
+  filter: 'none',
+  inPopup: true
 })
 
 addParametricDisplayMask(_cantitate_antemasuratori, {
@@ -66,7 +69,9 @@ addParametricDisplayMask(_cantitate_antemasuratori, {
   RW: false,
   visible: true,
   label: 'Cantitate<br>antemasuratori',
-  type: 'number'
+  type: 'number',
+  filter: 'none',
+  inPopup: true
 })
 
 addParametricDisplayMask(_cantitate_estimari_anterioare, {
@@ -74,7 +79,9 @@ addParametricDisplayMask(_cantitate_estimari_anterioare, {
   RW: false,
   visible: true,
   label: 'Total<br>estimare<br>anterioara',
-  type: 'number'
+  type: 'number',
+  filter: 'none',
+  inPopup: true
 })
 
 addParametricDisplayMask(_cantitate_estimari, {
@@ -82,7 +89,9 @@ addParametricDisplayMask(_cantitate_estimari, {
   RW: true,
   visible: true,
   label: 'Cantitate<br>estimari',
-  type: 'number'
+  type: 'number',
+  filter: 'none',
+  inPopup: false
 })
 
 function setDsEstimari(obj) {
