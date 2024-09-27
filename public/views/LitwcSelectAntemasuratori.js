@@ -36,7 +36,7 @@ class LitwcSelectAntemasuratori extends LitElement {
       //search or filter the table according to the input value or select value
       //add 'ROW_SELECTED' column with checkbox; on closing the modal, get the selected rows and update the parent component
 
-      thead.id = 'thead_lista_antemasuratori'
+      thead.id = 'thead_lista_select_antemasuratori'
       thead.classList.add('align-middle')
       var tr = document.createElement('tr')
       thead.appendChild(tr)
@@ -60,7 +60,7 @@ class LitwcSelectAntemasuratori extends LitElement {
       table.appendChild(thead)
 
       var tbody = document.createElement('tbody')
-      tbody.id = 'tbody_lista_antemasuratori'
+      tbody.id = 'tbody_lista_select_antemasuratori'
       table.appendChild(tbody)
 
       //add rows
@@ -183,6 +183,31 @@ class LitwcSelectAntemasuratori extends LitElement {
         }
       }
     }
+  }
+
+  toggleChildrenVisibility(plus_icon, i, k) {
+    plus_icon.onclick = function () {
+      //show hide all children, identified by same id and a "_some_number"
+      var children = this.shadowRoot
+        .getElementById('tbody_lista_select_antemasuratori')
+        .querySelectorAll('[id^="' + i + '@' + k + '_"]')
+      for (let i = 0; i < children.length; i++) {
+        if (children[i].classList.contains('d-none')) {
+          children[i].classList.remove('d-none')
+        } else {
+          children[i].classList.add('d-none')
+        }
+      }
+      //change icon
+      if (plus_icon.classList.contains('bi-dash-square')) {
+        plus_icon.classList.remove('bi-dash-square')
+        plus_icon.classList.add('bi-plus-square')
+      } else {
+        plus_icon.classList.remove('bi-plus-square')
+        plus_icon.classList.add('bi-dash-square')
+      }
+    }
+    return i
   }
 }
 
