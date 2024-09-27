@@ -138,7 +138,7 @@ export class antemasuratori extends LitElement {
             if (antemasuratoriDisplayMask[key].visible) {
               var td = document.createElement('td')
               td.innerHTML =
-                typeof object[key] === 'number' ? object[key].toFixed(2) : object[key] ? object[key] : ''
+                typeof object[key] === 'number' ? parseFloat(object[key]) : object[key] ? object[key] : ''
               if (key == _cantitate_oferta || key == _cantitate_antemasuratori) {
                 td.style.fontWeight = 'bold'
               }

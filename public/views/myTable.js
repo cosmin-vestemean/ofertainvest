@@ -157,7 +157,7 @@ export class myTable extends LitElement {
         tr.appendChild(td);
         for (var key in object) {
           var td = document.createElement('td');
-          td.innerHTML = typeof object[key] === 'number' ? object[key].toFixed(2) : object[key];
+          td.innerHTML = typeof object[key] === 'number' ? parseFloat(object[key]) : object[key];
           tr.appendChild(td);
         }
       });

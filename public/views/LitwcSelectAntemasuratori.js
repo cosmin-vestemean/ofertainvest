@@ -64,26 +64,125 @@ class LitwcSelectAntemasuratori extends LitElement {
       table.appendChild(tbody)
 
       //add rows
-      for (var i = 0; i < this.ds.length; i++) {
-        var tr = document.createElement('tr')
-        tr.id = `tr_${this.ds[i].CCCANTEMASURATORI}`
-        for (var key in antemasuratoriDisplayMask) {
-          if (antemasuratoriDisplayMask[key].visible) {
-            var td = document.createElement('td')
-            if (antemasuratoriDisplayMask[key].type == 'number') {
-              td.style.textAlign = 'right'
-              td.innerHTML = this.ds[i][key].toFixed(2)
-            } else {
-              td.innerHTML = this.ds[i][key]
-            }
-            tr.appendChild(td)
-          }
+      this.ds.forEach(function (o) {
+        let instanta = o.CCCINSTANTE
+        let r = o.CCCPATHS
+        let ISMAIN = o.ISMAIN
+        let counter = o.CCCINSTANTE
+        let counter2 = o.CCCPATHS
+        let counter3 = o.CCCACTIVITINSTANTE
+        let CCCANTEMASURATORI = Object.hasOwnProperty.call(o, 'CCCANTEMASURATORI')
+          ? o.CCCANTEMASURATORI
+          : null
+        let CCCESTIMARI = Object.hasOwnProperty.call(o, 'CCCESTIMARI') ? o.CCCESTIMARI : null
+        let CCCACTIVITESTIMARI = Object.hasOwnProperty.call(o, 'CCCACTIVITESTIMARI')
+          ? o.CCCACTIVITESTIMARI
+          : null
+
+        let a = CCCANTEMASURATORI
+        let b = CCCESTIMARI
+        let c = CCCACTIVITESTIMARI
+        let d = CCCACTIVITESTIMARI ? true : false
+
+        if (ISMAIN) {
+          //add main activity row
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d)
         }
-        tbody.appendChild(tr)
-      }
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d)
+
+        arrayIndex++
+      }, this)
     }
 
     return html`${table}`
+  }
+
+  addTableRow(
+    tbody,
+    i,
+    k,
+    counter,
+    counter2,
+    counter3,
+    o,
+    ISMAIN,
+    CCCANTEMASURATORI,
+    CCCESTIMARI,
+    CCCACTIVITESTIMARI,
+    isDB
+  ) {
+    let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
+    let tr = document.createElement('tr')
+    let id = ''
+    if (ISMAIN) {
+      id = i + '@' + k
+    } else {
+      id = i + '@' + k + '_' + counter3
+    }
+    tr.id = id
+    tr.setAttribute('data-cccantemasuratori', CCCANTEMASURATORI)
+    tr.setAttribute('data-cccestimari', CCCESTIMARI)
+    tr.setAttribute('data-cccactivitestimari', CCCACTIVITESTIMARI)
+    tr.setAttribute('data-is-db', isDB)
+    if (ISMAIN) {
+      tr.classList.add('table-primary')
+    } else {
+      tr.classList.add(bg_color)
+    }
+    tbody.appendChild(tr)
+    //create a checkbox for main activity
+    let td = document.createElement('td')
+    td.classList.add('ROW_SELECTED')
+    //create a checkbox
+    let checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    checkbox.id = 'checkbox-' + id
+    checkbox.classList.add('form-check-input', 'align-middle')
+    checkbox.checked = o['ROW_SELECTED']
+    td.appendChild(checkbox)
+    tr.appendChild(td)
+    td = document.createElement('td')
+    if (ISMAIN) {
+      //add plus/minus icon
+      let plus_icon = document.createElement('i')
+      plus_icon.classList.add('bi', 'bi-dash-square', 'fs-6', 'align-middle')
+      plus_icon.style.cursor = 'pointer'
+      i = this.toggleChildrenVisibility(plus_icon, i, k)
+      td.appendChild(plus_icon)
+    } else {
+      td.innerHTML = ''
+    }
+    tr.appendChild(td)
+
+    //add counter
+    td = document.createElement('td')
+    td.classList.add('align-middle')
+    if (!ISMAIN) {
+      td.innerHTML = counter + '.' + counter2 + '.' + counter3
+    } else {
+      td.innerHTML = counter + '.' + counter2
+    }
+    tr.appendChild(td)
+
+    //add columns based on estimariDisplayMask
+    for (var key in context.estimariDisplayMask) {
+      //check key vs estimariDisplayMask
+      //first check if key exists in estimariDisplayMask
+      if (Object.keys(o).includes(key)) {
+        //check if visible
+        if (context.estimariDisplayMask[key].visible) {
+          let td = document.createElement('td')
+          if (context.estimariDisplayMask[key].type === 'number') {
+            td.style.textAlign = 'right'
+            td.innerHTML = parseFloat(o[key]) || ''
+          } else {
+            td.innerHTML = o[key] || ''
+          }
+          td.classList.add(key)
+          tr.appendChild(td)
+        }
+      }
+    }
   }
 }
 
