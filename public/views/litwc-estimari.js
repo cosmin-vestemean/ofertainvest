@@ -1,12 +1,5 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import {
-  template,
-  _start_date,
-  _end_date,
-  theadIsSet,
-  _nivel_oferta,
-  contextOferta
-} from '../client.js'
+import { template, _start_date, _end_date, theadIsSet, _nivel_oferta, contextOferta } from '../client.js'
 import {
   _cantitate_estimari,
   _cantitate_antemasuratori,
@@ -17,6 +10,8 @@ import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { context } from '../controllers/estimari.js'
+import { addNewEstimare } from './listaEstimari.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -205,27 +200,21 @@ export class estimari extends LitElement {
     modal_body.innerHTML = ''
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
 
-    let thisDs = [ ...ds_antemasuratori ]
-    let maxLevels = 0
-    for (let i = 0; i < thisDs.length; i++) {
-      let a = thisDs
-      let keys = Object.keys(a)
-      for (let j = 0; j < keys.length; j++) {
-        if (keys[j].includes(_nivel_oferta)) {
-          maxLevels = Math.max(maxLevels, parseInt(keys[j].replace(_nivel_oferta, '')))
+    //loop through all context.ds_estimari_pool and copy all objects from context.ds_estimari_pool[i] to thisDs
+    let thisDs = []
+    for (let i = 0; i < context.ds_estimari_pool.length; i++) {
+      let thiDsi = context.ds_estimari_pool[i]
+      for (let j = 0; j < thiDsi.length; j++) {
+        let copied = []
+        for (let key in thiDsi[j]) {
+          copied[key] = thiDsi[j][key]
         }
+        thisDs.push(copied)
       }
     }
-    console.log('maxLevels', maxLevels)
-    for (let i = 0; i < thisDs.length; i++) {
-      let a = thisDs[i]
-      let keys = Object.keys(a)
-      for (let j = 0; j < keys.length; j++) {
-        if (keys[j].includes(_nivel_oferta) && parseInt(keys[j].replace(_nivel_oferta, '')) > maxLevels) {
-          delete a[keys[j]]
-        }
-      }
-    }
+
+    litwcSelectAntemasuratori.ds = thisDs
+
     modal_body.appendChild(litwcSelectAntemasuratori)
     litwcSelectAntemasuratori.ds = thisDs
     modal.show()
