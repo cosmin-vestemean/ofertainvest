@@ -101,7 +101,14 @@ class LitwcSelectAntemasuratori extends LitElement {
                 option.value = ''
                 option.innerHTML = 'Select'
                 select.appendChild(option)
-                //add options
+                //add options: all distinct values from ds
+                let distinct = this.distinctNames(this.ds, key)
+                distinct.forEach(function (o) {
+                  let option = document.createElement('option')
+                  option.value = o
+                  option.innerHTML = o
+                  select.appendChild(option)
+                })
               } else {
               }
               th.appendChild(select)
@@ -136,6 +143,16 @@ class LitwcSelectAntemasuratori extends LitElement {
     }
 
     return html`${table}`
+  }
+
+  distinctNames(ds, key) {
+    let distinct = []
+    ds.forEach(function (o) {
+      if (!distinct.includes(o[key])) {
+        distinct.push(o[key])
+      }
+    })
+    return distinct
   }
 
   addTableRow(
