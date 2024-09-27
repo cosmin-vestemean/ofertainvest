@@ -90,8 +90,6 @@ class LitwcSelectAntemasuratori extends LitElement {
           this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d)
         }
         this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d)
-
-        arrayIndex++
       }, this)
     }
 
