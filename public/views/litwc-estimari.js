@@ -195,6 +195,10 @@ export class estimari extends LitElement {
     //get html elem ModalGeneric
     let popup = document.getElementById('ModalGeneric')
     var modal = new bootstrap.Modal(popup)
+    var genericContainer = document.getElementById('genericContainer')
+    //socate clasa modal-lg si adauga clasa modal-fullscreen
+    genericContainer.classList.remove('modal-lg')
+    genericContainer.classList.add('modal-fullscreen')
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
