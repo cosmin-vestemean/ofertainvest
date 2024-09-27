@@ -76,11 +76,8 @@ class LitwcSelectAntemasuratori extends LitElement {
       var tr = document.createElement('tr')
       //add checkbox for main activity
       var th = document.createElement('th')
-      var checkbox = document.createElement('input')
-      checkbox.type = 'checkbox'
-      checkbox.id = 'checkbox-all'
-      checkbox.classList.add('form-check-input', 'align-middle', 'text-primary')
-      th.appendChild(checkbox)
+      th.innerHTML = 'Select'
+      th.classList.add('ROW_SELECTED')
       tr.appendChild(th)
       //add plus/minus icon
       th = document.createElement('th')

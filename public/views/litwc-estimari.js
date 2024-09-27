@@ -204,6 +204,7 @@ export class estimari extends LitElement {
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
     litwcSelectAntemasuratori.id = 'litwcSelectAntemasuratori'
     await addNewEstimare(false)
+    //TODO: nu apela addNewEstimare de fiecare data
     tables.hideAllBut([tables.my_table5])
     litwcSelectAntemasuratori.ds = context.ds_estimari_pool
     modal_body.appendChild(litwcSelectAntemasuratori)
