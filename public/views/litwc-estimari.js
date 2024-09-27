@@ -10,7 +10,6 @@ import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
-import { context } from '../controllers/estimari.js'
 import { addNewEstimare } from './listaEstimari.js'
 
 export class estimari extends LitElement {
@@ -199,24 +198,11 @@ export class estimari extends LitElement {
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
-
-    //loop through all context.ds_estimari_pool and copy all objects from context.ds_estimari_pool[i] to thisDs
-    let thisDs = []
-    for (let i = 0; i < context.ds_estimari_pool.length; i++) {
-      let thiDsi = context.ds_estimari_pool[i]
-      for (let j = 0; j < thiDsi.length; j++) {
-        let copied = []
-        for (let key in thiDsi[j]) {
-          copied[key] = thiDsi[j][key]
-        }
-        thisDs.push(copied)
-      }
-    }
-
-    litwcSelectAntemasuratori.ds = thisDs
-
+    litwcSelectAntemasuratori.id = 'litwcSelectAntemasuratori'
+    addNewEstimare(false)
+    tables.hideAllBut([tables.my_table5])
+    litwcSelectAntemasuratori.ds = context.ds_estimari_pool
     modal_body.appendChild(litwcSelectAntemasuratori)
-    litwcSelectAntemasuratori.ds = thisDs
     modal.show()
   }
 

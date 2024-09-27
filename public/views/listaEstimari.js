@@ -1,25 +1,12 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import {
-  addOnChangeEvt,
-  delimiter,
-  ierarhii,
-  flatFind,
-  _start_date,
-  _end_date,
-  template,
-  contextOferta,
-  client,
-  DBtoWBS
-} from '../client.js'
+import { _start_date, _end_date, template, contextOferta, client } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
-import { runSQLTransaction, saveAntemasuratoriAndTreeToDB } from '../utils/S1.js'
-import { ds_antemasuratori, newTree } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
-export async function addNewEstimare(aTable) {
+export async function addNewEstimare(addDate = true) {
   const query = `select a.CCCINSTANTE,
 	d.DUPLICATEOF,
 	c.id,
@@ -107,8 +94,10 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
     let o = ds_estimari_pool[i]
     o[_cantitate_estimari_anterioare] = 0
     o[_cantitate_estimari] = 0
-    o[_start_date] = ''
-    o[_end_date] = ''
+    if (addDate) {
+      o[_start_date] = ''
+      o[_end_date] = ''
+    }
     o['ROW_SELECTED'] = false
   }
 
@@ -136,10 +125,6 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
       console.log('ant not found', o)
     }
   }
-
-  //hide all tables except my_table5
-  tables.hideAllBut([aTable])
-  aTable.element.ds = context.ds_estimari_pool
 }
 
 let listaEstimariDisplayMask = {
@@ -184,7 +169,12 @@ export class listaEstimari extends LitElement {
       button.setAttribute('data-toggle', 'tooltip')
       button.setAttribute('title', 'Adauga estimare')
       button.appendChild(plus_icon)
-      button.onclick = addNewEstimare(tables.my_table5)
+      button.onclick = () => {
+        addNewEstimare(true)
+        //hide all tables except my_table5
+        tables.hideAllBut([tables.my_table5])
+        tables.my_table5.element.ds = context.ds_estimari_pool
+      }
       div.appendChild(button)
       return html`${div}`
     } else {
@@ -226,7 +216,12 @@ export class listaEstimari extends LitElement {
       plus_icon.classList.add('fs-4')
       plus_icon.classList.add('mb-3')
       plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = addNewEstimare(tables.my_table5)
+      plus_icon.onclick = () => {
+        addNewEstimare(true)
+        //hide all tables except my_table5
+        tables.hideAllBut([tables.my_table5])
+        tables.my_table5.element.ds = context.ds_estimari_pool
+      }
       th.appendChild(plus_icon)
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
