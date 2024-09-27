@@ -191,7 +191,7 @@ export class estimari extends LitElement {
     return html`${buttonsPannel}${floatingTableFilter}${table}`
   }
 
-  addFromAntemasuratori() {
+  async addFromAntemasuratori() {
     //get html elem ModalGeneric
     let popup = document.getElementById('ModalGeneric')
     var modal = new bootstrap.Modal(popup)
@@ -199,7 +199,7 @@ export class estimari extends LitElement {
     modal_body.innerHTML = ''
     let litwcSelectAntemasuratori = document.createElement('litwc-select-antemasuratori')
     litwcSelectAntemasuratori.id = 'litwcSelectAntemasuratori'
-    addNewEstimare(false)
+    await addNewEstimare(false)
     tables.hideAllBut([tables.my_table5])
     litwcSelectAntemasuratori.ds = context.ds_estimari_pool
     modal_body.appendChild(litwcSelectAntemasuratori)
@@ -237,7 +237,9 @@ export class estimari extends LitElement {
     plus_icon.setAttribute('data-bs-toggle', 'tooltip')
     plus_icon.setAttribute('data-bs-placement', 'top')
     plus_icon.setAttribute('title', 'Adauga din antemasuratori')
-    plus_icon.onclick = this.addFromAntemasuratori
+    plus_icon.onclick = async () => {
+      await this.addFromAntemasuratori()
+    }
     btnAdd.appendChild(plus_icon)
     //add validate icon
     var btnValidate = document.createElement('div')

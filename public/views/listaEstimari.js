@@ -169,8 +169,8 @@ export class listaEstimari extends LitElement {
       button.setAttribute('data-toggle', 'tooltip')
       button.setAttribute('title', 'Adauga estimare')
       button.appendChild(plus_icon)
-      button.onclick = () => {
-        addNewEstimare(true)
+      button.onclick = async () => {
+        await addNewEstimare(true)
         //hide all tables except my_table5
         tables.hideAllBut([tables.my_table5])
         tables.my_table5.element.ds = context.ds_estimari_pool
@@ -216,8 +216,8 @@ export class listaEstimari extends LitElement {
       plus_icon.classList.add('fs-4')
       plus_icon.classList.add('mb-3')
       plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = () => {
-        addNewEstimare(true)
+      plus_icon.onclick = async () => {
+        await addNewEstimare(true)
         //hide all tables except my_table5
         tables.hideAllBut([tables.my_table5])
         tables.my_table5.element.ds = context.ds_estimari_pool
