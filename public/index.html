@@ -418,7 +418,15 @@
         <div class="modal-content">
           <div class="modal-body" id="modal-body3"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button
+              type="button"
+              id="genericCloseBtn"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              onclick="let genCon = document.getElementById('genericContainer'); genCon.classList.remove('modal-fullscreen'); genCon.classList.add('modal-lg');"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
