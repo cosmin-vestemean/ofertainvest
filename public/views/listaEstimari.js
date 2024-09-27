@@ -19,7 +19,7 @@ import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
 
-export async function addNewEstimare() {
+export async function addNewEstimare(aTable) {
   const query = `select a.CCCINSTANTE,
 	d.DUPLICATEOF,
 	c.id,
@@ -138,8 +138,8 @@ order by d.DUPLICATEOF, a.CCCINSTANTE, f.path, a.CCCACTIVITINSTANTE`
   }
 
   //hide all tables except my_table5
-  tables.hideAllBut([tables.my_table5])
-  tables.my_table5.element.ds = context.ds_estimari_pool
+  tables.hideAllBut([aTable])
+  aTable.element.ds = context.ds_estimari_pool
 }
 
 let listaEstimariDisplayMask = {
@@ -184,7 +184,7 @@ export class listaEstimari extends LitElement {
       button.setAttribute('data-toggle', 'tooltip')
       button.setAttribute('title', 'Adauga estimare')
       button.appendChild(plus_icon)
-      button.onclick = addNewEstimare
+      button.onclick = addNewEstimare(tables.my_table5)
       div.appendChild(button)
       return html`${div}`
     } else {
@@ -226,7 +226,7 @@ export class listaEstimari extends LitElement {
       plus_icon.classList.add('fs-4')
       plus_icon.classList.add('mb-3')
       plus_icon.style.cursor = 'pointer'
-      plus_icon.onclick = addNewEstimare
+      plus_icon.onclick = addNewEstimare(tables.my_table5)
       th.appendChild(plus_icon)
       tr.appendChild(th)
       for (let [key, value] of Object.entries(listaEstimariDisplayMask)) {
