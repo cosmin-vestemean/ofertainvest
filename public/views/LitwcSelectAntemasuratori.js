@@ -29,7 +29,7 @@ class LitwcSelectAntemasuratori extends LitElement {
       table.classList.add('table-sm')
       table.classList.add('table-hover')
       table.classList.add('table-responsive')
-      table.id = 'lista_antemasuratori'
+      table.id = 'lista_select_antemasuratori'
       table.style.fontSize = 'small'
 
       var tbody = document.createElement('tbody')
@@ -79,7 +79,7 @@ class LitwcSelectAntemasuratori extends LitElement {
       var checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
       checkbox.id = 'checkbox-all'
-      checkbox.classList.add('form-check-input', 'align-middle')
+      checkbox.classList.add('form-check-input', 'align-middle', 'text-primary')
       th.appendChild(checkbox)
       tr.appendChild(th)
       //add plus/minus icon
@@ -107,6 +107,7 @@ class LitwcSelectAntemasuratori extends LitElement {
                 //add options
               } else {
               }
+              th.appendChild(select)
               tr.appendChild(th)
             }
           } else {
