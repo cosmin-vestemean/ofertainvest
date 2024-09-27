@@ -98,7 +98,7 @@ class LitwcSelectAntemasuratori extends LitElement {
             if (n <= maxNivele) {
               th = document.createElement('th')
               if (context.estimariDisplayMask[key].filter === 'select') {
-                let select = document.createElement('select')
+                var select = document.createElement('select')
                 select.classList.add('form-select', 'form-select-sm')
                 let option = document.createElement('option')
                 option.value = ''
