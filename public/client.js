@@ -109,7 +109,7 @@ export var contextOferta = {
   TRDR: 0,
   FILENAME: '',
   CCCOFERTEWEB: 0,
-  angajati = []
+  angajati : []
 }
 
 export var optimal_ds = []
