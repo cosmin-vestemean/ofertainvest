@@ -218,7 +218,7 @@ export class estimari extends LitElement {
     //TODO: extract the current estimare from copy
     //filter this.ds for ISMAIN = true
     let articoleOferta = this.ds.find((o) => o.ISMAIN)
-    //remove from copy all rows with articoleOferta.CCCINSTANTE and articoleOferta.CCCPATHS
+    //remove from copy all rows with articoleOferta.CCCINSTANTE, articoleOferta.CCCPATHS, articoleOferta.CCCANTEMASURATORI, articoleOferta.CCCINSTANTE, articoleOferta.CCCESTIMARI, articoleOferta.CCCACTIVITESTIMARI
     litwcSelectAntemasuratori.ds = copy
     modal_body.appendChild(litwcSelectAntemasuratori)
     modal.show()
@@ -712,6 +712,7 @@ export class estimari extends LitElement {
     tr.setAttribute('data-cccactivitestimari', CCCACTIVITESTIMARI)
     tr.setAttribute('data-cccpaths', CCCPATHS)
     tr.setAttribute('data-initial-path', INITIAL_PATH)
+    tr.setAttribute('data-cccinstante', i)
     tr.setAttribute('data-is-db', isDB)
     if (ISMAIN) {
       tr.classList.add('table-primary')
