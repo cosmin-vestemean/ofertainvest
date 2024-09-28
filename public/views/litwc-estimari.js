@@ -173,16 +173,21 @@ export class estimari extends LitElement {
           ? o.CCCACTIVITESTIMARI
           : null
 
+        let CCCPATHS = Object.hasOwnProperty.call(o, 'CCCPATHS') ? o.CCCPATHS : null
+        let INITIAL_PATH = Object.hasOwnProperty.call(o, 'INITIAL_PATH') ? o.INITIAL_PATH : null
+
         let a = CCCANTEMASURATORI ? CCCANTEMASURATORI : arrayIndex
         let b = CCCESTIMARI ? CCCESTIMARI : arrayIndex
         let c = CCCACTIVITESTIMARI ? CCCACTIVITESTIMARI : arrayIndex
         let d = CCCACTIVITESTIMARI ? true : false
+        let e = CCCPATHS ? CCCPATHS : arrayIndex
+        let f = INITIAL_PATH ? INITIAL_PATH : arrayIndex
 
         if (ISMAIN) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d, e, f)
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d)
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d, e, f)
 
         arrayIndex++
       }, this)
@@ -211,7 +216,9 @@ export class estimari extends LitElement {
     //use immer to copy ds_estimari_pool
     let copy = immer.produce(context.ds_estimari_pool, (draft) => {})
     //TODO: extract the current estimare from copy
-    
+    //filter this.ds for ISMAIN = true
+    let articoleOferta = this.ds.find((o) => o.ISMAIN)
+    //remove from copy all rows with articoleOferta.CCCINSTANTE and articoleOferta.CCCPATHS
     litwcSelectAntemasuratori.ds = copy
     modal_body.appendChild(litwcSelectAntemasuratori)
     modal.show()
@@ -687,7 +694,9 @@ export class estimari extends LitElement {
     CCCANTEMASURATORI,
     CCCESTIMARI,
     CCCACTIVITESTIMARI,
-    isDB
+    isDB,
+    CCCPATHS,
+    INITIAL_PATH
   ) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
@@ -701,6 +710,8 @@ export class estimari extends LitElement {
     tr.setAttribute('data-cccantemasuratori', CCCANTEMASURATORI)
     tr.setAttribute('data-cccestimari', CCCESTIMARI)
     tr.setAttribute('data-cccactivitestimari', CCCACTIVITESTIMARI)
+    tr.setAttribute('data-cccpaths', CCCPATHS)
+    tr.setAttribute('data-initial-path', INITIAL_PATH)
     tr.setAttribute('data-is-db', isDB)
     if (ISMAIN) {
       tr.classList.add('table-primary')
