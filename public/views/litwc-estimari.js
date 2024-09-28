@@ -879,13 +879,14 @@ export class estimari extends LitElement {
             tr.appendChild(td2)
             const select = document.createElement('select')
             select.classList.add('form-select', 'form-select-sm')
-            //add options
-            const options = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-            options.forEach((o) => {
-              const option = document.createElement('option')
-              option.value = o
-              option.innerHTML = o
-              select.appendChild(option)
+            //add options from contextOferta.angajati
+            //for ex: [{PRSN: 99, NAME2: 'Mihai'}, {PRSN: 100, NAME2: 'Ion'}, {PRSN: 101, NAME2: 'Gheorghe'}]
+            const options = contextOferta.angajati
+            options.forEach((option) => {
+              const opt = document.createElement('option')
+              opt.value = option.PRSN
+              opt.innerHTML = option.NAME2
+              select.appendChild(opt)
             })
             td2.appendChild(select)
             target.innerHTML = ''
