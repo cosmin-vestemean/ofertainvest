@@ -402,6 +402,7 @@ export class estimari extends LitElement {
     let right_now = moment().format('DD-MM-YYYY HH:mm:ss')
     let newEstimariId = CCCESTIMARI
 
+    //TODO: update does not work
     if (CCCESTIMARI) {
       //update CCCESTIMARI
       let estimariQuery = `UPDATE CCCESTIMARI SET DATASTART = '${start_date_formatted}', DATASTOP = '${end_date_formatted}' WHERE CCCESTIMARI = ${CCCESTIMARI};`

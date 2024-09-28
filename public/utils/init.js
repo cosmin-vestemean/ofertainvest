@@ -628,7 +628,8 @@ export function init() {
       }
     })
     .then((result) => {
-      console.info('angajati', result)
+      if (result.success) contextOferta.angajati = result.data
+      else console.error('error getting angajati', result)
     })
     .catch((error) => {
       console.error('error', error)
