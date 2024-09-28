@@ -212,22 +212,18 @@ export class estimari extends LitElement {
     //TODO: nu apela addNewEstimare de fiecare data
     tables.hideAllBut([tables.my_table5])
     //TODO: add event listener to litwcSelectAntemasuratori to update current estimare with selected antemasuratori
-    //TODO: use a true copy of the ds_estimari_pool instead of the original, maybe by using Immer library
-    //use immer to copy ds_estimari_pool
     let copy = immer.produce(context.ds_estimari_pool, (draft) => {})
-    //TODO: extract the current estimare from copy
-    //filter this.ds for ISMAIN = true
     let articoleOferta = this.ds.filter((o) => o.ISMAIN)
     //remove from copy all rows with articoleOferta.CCCINSTANTE, articoleOferta.CCCPATHS, articoleOferta.CCCANTEMASURATORI, articoleOferta.CCCINSTANTE, articoleOferta.CCCESTIMARI, articoleOferta.CCCACTIVITESTIMARI
     articoleOferta.forEach((articol) => {
       copy = copy.filter(
-      (o) =>
-        o.CCCINSTANTE !== articol.CCCINSTANTE &&
-        o.CCCPATHS !== articol.CCCPATHS &&
-        o.CCCANTEMASURATORI !== articol.CCCANTEMASURATORI &&
-        o.CCCINSTANTE !== articol.CCCINSTANTE &&
-        o.CCCESTIMARI !== articol.CCCESTIMARI &&
-        o.CCCACTIVITESTIMARI !== articol.CCCACTIVITESTIMARI
+        (o) =>
+          o.CCCINSTANTE !== articol.CCCINSTANTE &&
+          o.CCCPATHS !== articol.CCCPATHS &&
+          o.CCCANTEMASURATORI !== articol.CCCANTEMASURATORI &&
+          o.CCCINSTANTE !== articol.CCCINSTANTE &&
+          o.CCCESTIMARI !== articol.CCCESTIMARI &&
+          o.CCCACTIVITESTIMARI !== articol.CCCACTIVITESTIMARI
       )
     })
     litwcSelectAntemasuratori.ds = copy
@@ -861,11 +857,44 @@ export class estimari extends LitElement {
 
   _onFocusIn() {
     return function (e) {
-      var range = document.createRange()
-      range.selectNodeContents(e.target)
-      var sel = window.getSelection()
-      sel.removeAllRanges()
-      sel.addRange(range)
+      const target = e.target
+      console.log('FocusIn target class:', target.classList)
+      if (target && target.innerHTML) {
+        if (target.tagName === 'TD') {
+          if (target.classList.contains(_cantitate_estimari)) {
+            //insert table with two columns, one for _cantitate_estimari and one is a select for people to choose from
+            const table = document.createElement('table')
+            table.classList.add('table', 'table-sm', 'table-light')
+            const tbody = document.createElement('tbody')
+            table.appendChild(tbody)
+            const tr = document.createElement('tr')
+            tbody.appendChild(tr)
+            const td1 = document.createElement('td')
+            tr.appendChild(td1)
+            const td2 = document.createElement('td')
+            tr.appendChild(td2)
+            const select = document.createElement('select')
+            input.classList.add('form-select', 'form-select-sm')
+            //add options
+            const options = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+            options.forEach((o) => {
+              const option = document.createElement('option')
+              option.value = o
+              option.innerHTML = o
+              select.appendChild(option)
+            })
+            td2.appendChild(select)
+            target.innerHTML = ''
+            target.appendChild(table)
+          } else {
+            const range = document.createRange()
+            range.selectNodeContents(target)
+            const selection = window.getSelection()
+            selection.removeAllRanges()
+            selection.addRange(range)
+          }
+        }
+      }
     }
   }
 
@@ -938,21 +967,6 @@ export class estimari extends LitElement {
         }
         context.setValuesOfDsEstimari(index, key, val)
       }
-    }
-  }
-
-  async salveazaStartingPoolInBazaDeDate(ds_estimari_pool) {
-    //update CCCOFERTEWEB with ds_estimari_pool, column JSONESTIMPOOLSTR
-    let JSONESTIMPOOLSTR = JSON.stringify(ds_estimari_pool)
-    let updateQuery = `UPDATE CCCOFERTEWEB SET JSONESTIMPOOLSTR = '${JSONESTIMPOOLSTR}' WHERE CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB};`
-    let objSqlList = {
-      sqlList: [updateQuery]
-    }
-    var result = await runSQLTransaction(objSqlList)
-    if (result.success) {
-      console.log('Estimari pool saved successfully')
-    } else {
-      console.error('Error saving estimari pool:', result.error, result.sql)
     }
   }
 }
