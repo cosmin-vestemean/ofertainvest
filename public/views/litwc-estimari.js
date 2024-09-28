@@ -874,13 +874,13 @@ export class estimari extends LitElement {
             const th1 = document.createElement('th')
             trh.appendChild(th1)
             const plus_icon = document.createElement('i')
-            plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+            plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary')
             plus_icon.style.cursor = 'pointer'
             th1.appendChild(plus_icon)
             const th2 = document.createElement('th')
             tr.appendChild(th2)
             const minus_icon = document.createElement('i')
-            minus_icon.classList.add('bi', 'bi-dash-square', 'text-danger', 'fs-4', 'mb-3')
+            minus_icon.classList.add('bi', 'bi-dash-square', 'text-danger')
             minus_icon.style.cursor = 'pointer'
             th2.appendChild(minus_icon)
             //tbody contains one tr with two td
