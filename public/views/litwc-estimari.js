@@ -206,7 +206,12 @@ export class estimari extends LitElement {
     await addNewEstimare(false)
     //TODO: nu apela addNewEstimare de fiecare data
     tables.hideAllBut([tables.my_table5])
-    litwcSelectAntemasuratori.ds = context.ds_estimari_pool
+    //TODO: add event listener to litwcSelectAntemasuratori to update current estimare with selected antemasuratori
+    //TODO: extract the current estimare from context.ds_estimari_pool
+    //TODO: use a true copy of the ds_estimari_pool instead of the original, maybe by using Immer library
+    //use immer to copy ds_estimari_pool
+    let copy = immer.produce(context.ds_estimari_pool, (draft) => {})
+    litwcSelectAntemasuratori.ds = copy
     modal_body.appendChild(litwcSelectAntemasuratori)
     modal.show()
   }
