@@ -885,6 +885,13 @@ export class estimari extends LitElement {
               const tbody = table.getElementsByTagName('tbody')[0]
               const tr = document.createElement('tr')
               tbody.appendChild(tr)
+              //add checkbox for row with class ROW_SELECTED
+              const td = document.createElement('td')
+              tr.appendChild(td)
+              const checkbox = document.createElement('input')
+              checkbox.type = 'checkbox'
+              checkbox.classList.add('form-check-input', 'align-middle')
+              td.appendChild(checkbox)
               const td1 = document.createElement('td')
               //contenteditable
               td1.contentEditable = true
@@ -929,7 +936,7 @@ export class estimari extends LitElement {
               }
             }
             th2.appendChild(minus_icon)
-            
+
             //tbody contains one tr with two td
             const tbody = document.createElement('tbody')
             table.appendChild(tbody)
