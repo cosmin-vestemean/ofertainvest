@@ -864,7 +864,8 @@ export class estimari extends LitElement {
         if (target.tagName === 'TD') {
           if (target.classList.contains(_cantitate_estimari)) {
             //insert table with two columns, one for _cantitate_estimari and one is a select for people to choose from
-            const table = document.createElement('table')
+            const table = document.getElementById('table_detalii_canitate_linie_estimari') || document.createElement('table')
+            table.id = 'table_detalii_canitate_linie_estimari' + target.parentElement.id
             table.classList.add('table', 'table-sm', 'table-light')
             //thead contains two th with buttons add (plus icon) and remove (minus icon)
             const thead = document.createElement('thead')
