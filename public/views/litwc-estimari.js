@@ -865,7 +865,7 @@ export class estimari extends LitElement {
           if (target.classList.contains(_cantitate_estimari)) {
             //insert table with two columns, one for _cantitate_estimari and one is a select for people to choose from
             const table = document.getElementById('table_detalii_canitate_linie_estimari') || document.createElement('table')
-            table.id = 'table_detalii_canitate_linie_estimari' + target.parentElement.id
+            table.id = 'table_detalii_canitate_linie_estimari>' + target.parentElement.id
             table.classList.add('table', 'table-sm', 'table-light')
             //thead contains two th with buttons add (plus icon) and remove (minus icon)
             const thead = document.createElement('thead')
@@ -881,7 +881,7 @@ export class estimari extends LitElement {
             plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary')
             plus_icon.style.cursor = 'pointer'
             //add another row
-            plus_icon.onclick = function () {
+            plus_icon.onclick = () => {
               //add another row
               const tbody = table.getElementsByTagName('tbody')[0]
               const tr = document.createElement('tr')
@@ -923,7 +923,7 @@ export class estimari extends LitElement {
             minus_icon.classList.add('bi', 'bi-dash-square', 'text-danger')
             minus_icon.style.cursor = 'pointer'
             //remove selected rows (ROW_SELECTED class) checkboxes checked
-            minus_icon.onclick = function () {
+            minus_icon.onclick = () => {
               //remove selected rows
               const tbody = table.getElementsByTagName('tbody')[0]
               const trs = tbody.getElementsByTagName('tr')
