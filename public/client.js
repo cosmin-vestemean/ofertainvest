@@ -108,7 +108,8 @@ export var contextOferta = {
   PRJC: 0,
   TRDR: 0,
   FILENAME: '',
-  CCCOFERTEWEB: 0
+  CCCOFERTEWEB: 0,
+  angajati = []
 }
 
 export var optimal_ds = []
@@ -510,6 +511,7 @@ export async function setTrees() {
 
   semafoare.treesIsLoaded = true
 }
+
 export var niveluri = []
 export var _nivel_oferta = 'NIVEL_OFERTA_'
 export var _grupare_oferta = 'GRUPARE_ARTICOL_OFERTA'

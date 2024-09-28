@@ -873,7 +873,7 @@ export class estimari extends LitElement {
             //contenteditable
             td1.contentEditable = true
             //width
-            td1.style.width = '50%'
+            td1.placeholder = 'Cantitate'
             tr.appendChild(td1)
             const td2 = document.createElement('td')
             tr.appendChild(td2)

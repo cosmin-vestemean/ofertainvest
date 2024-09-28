@@ -503,15 +503,8 @@ export function init() {
   let btn_planificari = document.getElementById('btn_planificari')
   btn_planificari.onclick = async function () {
     //hide all tables but 7
-    tables.hideAllBut([tables.my_table7, tables.my_table8])
+    tables.hideAllBut([tables.my_table7])
     tables.my_table7.element.ds = context.ds_estimari
-    const angajati = await client.service('getDataset').find({
-      query: {
-        sqlQuery: `SELECT A.PRSN, A.NAME2 FROM PRSN A LEFT OUTER JOIN PRSEXTRA B ON A.PRSN=B.PRSN AND A.SODTYPE=B.SODTYPE AND B.COMPANY=1 WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
-      }
-    })
-    console.log('angajati', angajati)
-    tables.my_table8.element.ds = angajati.data
   }
 
   //btn_listaRetete
@@ -625,6 +618,21 @@ export function init() {
     tables.hideAllBut([tables.my_table1])
     tables.my_table1.element.ds = listaMateriale
   }
+
+  //load lisa angajati
+  client
+    .service('getDataset')
+    .find({
+      query: {
+        sqlQuery: `SELECT A.PRSN, A.NAME2 FROM PRSN A LEFT OUTER JOIN PRSEXTRA B ON A.PRSN=B.PRSN AND A.SODTYPE=B.SODTYPE AND B.COMPANY=1 WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
+      }
+    })
+    .then((result) => {
+      console.info('angajati', result)
+    })
+    .catch((error) => {
+      console.error('error', error)
+    })
 }
 function applyTheme(theme) {
   let link = null
