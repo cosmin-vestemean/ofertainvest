@@ -870,6 +870,10 @@ export class estimari extends LitElement {
             const tr = document.createElement('tr')
             tbody.appendChild(tr)
             const td1 = document.createElement('td')
+            //contenteditable
+            td1.contentEditable = true
+            //width
+            td1.style.width = '50%'
             tr.appendChild(td1)
             const td2 = document.createElement('td')
             tr.appendChild(td2)
