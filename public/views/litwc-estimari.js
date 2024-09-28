@@ -876,18 +876,69 @@ export class estimari extends LitElement {
             const plus_icon = document.createElement('i')
             plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary')
             plus_icon.style.cursor = 'pointer'
+            //add another row
+            plus_icon.onclick = function () {
+              //add another row
+              const tbody = table.getElementsByTagName('tbody')[0]
+              const tr = document.createElement('tr')
+              tbody.appendChild(tr)
+              const td1 = document.createElement('td')
+              //contenteditable
+              td1.contentEditable = true
+              //width
+              td1.style.width = '40px'
+              //border style
+              td1.classList.add('border', 'border-1', 'border-dark', 'rounded')
+              tr.appendChild(td1)
+              const td2 = document.createElement('td')
+              tr.appendChild(td2)
+              const select = document.createElement('select')
+              select.classList.add('form-select', 'form-select-sm')
+              //add options from contextOferta.angajati
+              //for ex: [{PRSN: 99, NAME2: 'Mihai'}, {PRSN: 100, NAME2: 'Ion'}, {PRSN: 101, NAME2: 'Gheorghe'}]
+              const options = contextOferta.angajati
+              options.forEach((option) => {
+                const opt = document.createElement('option')
+                opt.value = option.PRSN
+                opt.innerHTML = option.NAME2
+                select.appendChild(opt)
+              })
+              td2.appendChild(select)
+            }
             th1.appendChild(plus_icon)
             const th2 = document.createElement('th')
             tr.appendChild(th2)
             const minus_icon = document.createElement('i')
             minus_icon.classList.add('bi', 'bi-dash-square', 'text-danger')
             minus_icon.style.cursor = 'pointer'
+            //remove selected rows (ROW_SELECTED class) checkboxes checked
+            minus_icon.onclick = function () {
+              //remove selected rows
+              const tbody = table.getElementsByTagName('tbody')[0]
+              const trs = tbody.getElementsByTagName('tr')
+              for (let i = 0; i < trs.length; i++) {
+                const tr = trs[i]
+                const td = tr.getElementsByTagName('td')[0]
+                const checkbox = td.getElementsByTagName('input')[0]
+                if (checkbox.checked) {
+                  tbody.removeChild(tr)
+                }
+              }
+            }
             th2.appendChild(minus_icon)
             //tbody contains one tr with two td
             const tbody = document.createElement('tbody')
             table.appendChild(tbody)
             const tr = document.createElement('tr')
             tbody.appendChild(tr)
+            //add checkbox for row with class ROW_SELECTED
+            const td = document.createElement('td')
+            tr.appendChild(td)
+            const checkbox = document.createElement('input')
+            checkbox.type = 'checkbox'
+            checkbox.classList.add('form-check-input', 'align-middle')
+            td.appendChild(checkbox)
+            //add td with contenteditable for _cantitate_estimari
             const td1 = document.createElement('td')
             //contenteditable
             td1.contentEditable = true
