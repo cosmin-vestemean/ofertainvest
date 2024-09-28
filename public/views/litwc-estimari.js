@@ -173,21 +173,38 @@ export class estimari extends LitElement {
           ? o.CCCACTIVITESTIMARI
           : null
 
-        let CCCPATHS = Object.hasOwnProperty.call(o, 'CCCPATHS') ? o.CCCPATHS : null
-        let INITIAL_PATH = Object.hasOwnProperty.call(o, 'INITIAL_PATH') ? o.INITIAL_PATH : null
+        let CCCRETETE = Object.hasOwnProperty.call(o, 'CCCRETETE') ? o.CCCRETETE : null
+        let CCCACTIVITRETETE = Object.hasOwnProperty.call(o, 'CCCACTIVITRETETE') ? o.CCCACTIVITRETETE : null
+        let CCCOFERTEWEBLINII = Object.hasOwnProperty.call(o, 'CCCOFERTEWEBLINII')
+          ? o.CCCOFERTEWEBLINII
+          : null
 
-        let a = CCCANTEMASURATORI ? CCCANTEMASURATORI : arrayIndex
-        let b = CCCESTIMARI ? CCCESTIMARI : arrayIndex
-        let c = CCCACTIVITESTIMARI ? CCCACTIVITESTIMARI : arrayIndex
-        let d = CCCACTIVITESTIMARI ? true : false
-        let e = CCCPATHS ? CCCPATHS : arrayIndex
-        let f = INITIAL_PATH ? INITIAL_PATH : arrayIndex
+        let a = CCCOFERTEWEBLINII ? CCCOFERTEWEBLINII : arrayIndex
+        let b = CCCRETETE ? CCCRETETE : arrayIndex
+        let c = CCCACTIVITRETETE ? CCCACTIVITRETETE : arrayIndex
+        let e = CCCANTEMASURATORI ? CCCANTEMASURATORI : arrayIndex
+        let g = CCCESTIMARI ? CCCESTIMARI : arrayIndex
+        let h = CCCACTIVITESTIMARI ? CCCACTIVITESTIMARI : arrayIndex
+        let i = CCCACTIVITESTIMARI ? true : false
+
+        let data_attributes = [
+          { 'data-cccoferteweblinii': a },
+          { 'data-cccretete': b },
+          { 'data-ccactivitretete': c },
+          { 'data-cccinstante': counter },
+          { 'data-ccactivitinstante': counter3 },
+          { 'data-cccantemasuratori': e },
+          { 'data-cccpaths': counter2 },
+          { 'data-cccestimari': g },
+          { 'data-ccactivitestimari': h },
+          { 'data-isDb': i }
+        ]
 
         if (ISMAIN) {
           //add main activity row
-          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, a, b, c, d, e, f)
+          this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, true, data_attributes)
         }
-        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, a, b, c, d, e, f)
+        this.addTableRow(tbody, instanta, r, counter, counter2, counter3, o, false, data_attributes)
 
         arrayIndex++
       }, this)
@@ -689,22 +706,7 @@ export class estimari extends LitElement {
     }
   }
 
-  addTableRow(
-    tbody,
-    i,
-    k,
-    counter,
-    counter2,
-    counter3,
-    o,
-    ISMAIN,
-    CCCANTEMASURATORI,
-    CCCESTIMARI,
-    CCCACTIVITESTIMARI,
-    isDB,
-    CCCPATHS,
-    INITIAL_PATH
-  ) {
+  addTableRow(tbody, i, k, counter, counter2, counter3, o, ISMAIN, data_attributes) {
     let bg_color = counter % 2 == 0 ? 'table-light' : 'table-white'
     let tr = document.createElement('tr')
     let id = ''
@@ -714,13 +716,11 @@ export class estimari extends LitElement {
       id = i + '@' + k + '_' + counter3
     }
     tr.id = id
-    tr.setAttribute('data-cccantemasuratori', CCCANTEMASURATORI)
-    tr.setAttribute('data-cccestimari', CCCESTIMARI)
-    tr.setAttribute('data-cccactivitestimari', CCCACTIVITESTIMARI)
-    tr.setAttribute('data-cccpaths', CCCPATHS)
-    tr.setAttribute('data-initial-path', INITIAL_PATH)
-    tr.setAttribute('data-cccinstante', i)
-    tr.setAttribute('data-is-db', isDB)
+    data_attributes.forEach((o) => {
+      for (let key in o) {
+        tr.setAttribute(key, o[key])
+      }
+    })
     if (ISMAIN) {
       tr.classList.add('table-primary')
     } else {
