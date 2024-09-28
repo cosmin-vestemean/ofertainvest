@@ -217,8 +217,19 @@ export class estimari extends LitElement {
     let copy = immer.produce(context.ds_estimari_pool, (draft) => {})
     //TODO: extract the current estimare from copy
     //filter this.ds for ISMAIN = true
-    let articoleOferta = this.ds.find((o) => o.ISMAIN)
+    let articoleOferta = this.ds.filter((o) => o.ISMAIN)
     //remove from copy all rows with articoleOferta.CCCINSTANTE, articoleOferta.CCCPATHS, articoleOferta.CCCANTEMASURATORI, articoleOferta.CCCINSTANTE, articoleOferta.CCCESTIMARI, articoleOferta.CCCACTIVITESTIMARI
+    articoleOferta.forEach((articol) => {
+      copy = copy.filter(
+      (o) =>
+        o.CCCINSTANTE !== articol.CCCINSTANTE &&
+        o.CCCPATHS !== articol.CCCPATHS &&
+        o.CCCANTEMASURATORI !== articol.CCCANTEMASURATORI &&
+        o.CCCINSTANTE !== articol.CCCINSTANTE &&
+        o.CCCESTIMARI !== articol.CCCESTIMARI &&
+        o.CCCACTIVITESTIMARI !== articol.CCCACTIVITESTIMARI
+      )
+    })
     litwcSelectAntemasuratori.ds = copy
     modal_body.appendChild(litwcSelectAntemasuratori)
     modal.show()
