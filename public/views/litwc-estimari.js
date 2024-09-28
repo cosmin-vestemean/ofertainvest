@@ -159,12 +159,12 @@ export class estimari extends LitElement {
       //add activitati to table
       let arrayIndex = 0
       this.ds.forEach(function (o) {
-        let instanta = o.CCCINSTANTE
-        let r = o.CCCPATHS
+        let instanta = Object.hasOwnProperty.call(o, 'CCCINSTANTE') ? o.CCCINSTANTE : null
+        let r = Object.hasOwnProperty.call(o, 'CCCPATHS') ? o.CCCPATHS : null
         let ISMAIN = o.ISMAIN
-        let counter = o.CCCINSTANTE
-        let counter2 = o.CCCPATHS
-        let counter3 = o.CCCACTIVITINSTANTE
+        let counter = Object.hasOwnProperty.call(o, 'CCCINSTANTE') ? o.CCCINSTANTE : null
+        let counter2 = Object.hasOwnProperty.call(o, 'CCCPATHS') ? o.CCCPATHS : null
+        let counter3 = Object.hasOwnProperty.call(o, 'CCCACTIVITINSTANTE') ? o.CCCACTIVITINSTANTE : null
         let CCCANTEMASURATORI = Object.hasOwnProperty.call(o, 'CCCANTEMASURATORI')
           ? o.CCCANTEMASURATORI
           : null
@@ -197,7 +197,7 @@ export class estimari extends LitElement {
           { 'data-cccpaths': counter2 },
           { 'data-cccestimari': g },
           { 'data-ccactivitestimari': h },
-          { 'data-isDb': i }
+          { 'data-is-db': i }
         ]
 
         if (ISMAIN) {
