@@ -866,6 +866,24 @@ export class estimari extends LitElement {
             //insert table with two columns, one for _cantitate_estimari and one is a select for people to choose from
             const table = document.createElement('table')
             table.classList.add('table', 'table-sm', 'table-light')
+            //thead contains two th with buttons add (plus icon) and remove (minus icon)
+            const thead = document.createElement('thead')
+            table.appendChild(thead)
+            const trh = document.createElement('tr')
+            thead.appendChild(trh)
+            const th1 = document.createElement('th')
+            trh.appendChild(th1)
+            const plus_icon = document.createElement('i')
+            plus_icon.classList.add('bi', 'bi-plus-square', 'text-primary', 'fs-4', 'mb-3')
+            plus_icon.style.cursor = 'pointer'
+            th1.appendChild(plus_icon)
+            const th2 = document.createElement('th')
+            tr.appendChild(th2)
+            const minus_icon = document.createElement('i')
+            minus_icon.classList.add('bi', 'bi-dash-square', 'text-danger', 'fs-4', 'mb-3')
+            minus_icon.style.cursor = 'pointer'
+            th2.appendChild(minus_icon)
+            //tbody contains one tr with two td
             const tbody = document.createElement('tbody')
             table.appendChild(tbody)
             const tr = document.createElement('tr')
