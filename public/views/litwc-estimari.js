@@ -871,6 +871,9 @@ export class estimari extends LitElement {
             table.appendChild(thead)
             const trh = document.createElement('tr')
             thead.appendChild(trh)
+            //add empty th for alignment
+            let th0 = document.createElement('th')
+            trh.appendChild(th0)
             const th1 = document.createElement('th')
             trh.appendChild(th1)
             const plus_icon = document.createElement('i')
@@ -907,7 +910,7 @@ export class estimari extends LitElement {
             }
             th1.appendChild(plus_icon)
             const th2 = document.createElement('th')
-            tr.appendChild(th2)
+            trh.appendChild(th2)
             const minus_icon = document.createElement('i')
             minus_icon.classList.add('bi', 'bi-dash-square', 'text-danger')
             minus_icon.style.cursor = 'pointer'
@@ -926,6 +929,7 @@ export class estimari extends LitElement {
               }
             }
             th2.appendChild(minus_icon)
+            
             //tbody contains one tr with two td
             const tbody = document.createElement('tbody')
             table.appendChild(tbody)
