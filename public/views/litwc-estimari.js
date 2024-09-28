@@ -874,7 +874,7 @@ export class estimari extends LitElement {
             const td2 = document.createElement('td')
             tr.appendChild(td2)
             const select = document.createElement('select')
-            input.classList.add('form-select', 'form-select-sm')
+            select.classList.add('form-select', 'form-select-sm')
             //add options
             const options = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
             options.forEach((o) => {
