@@ -116,7 +116,7 @@ class LitwcCantitatePersoana extends LitElement {
     tr.appendChild(td)
 
     // Initialize UseBootstrapSelect after appending the select element to the DOM
-    new UseBootstrapSelect(select)
+    //new UseBootstrapSelect(select)
 
     td = document.createElement('td')
     const inputCantitate = document.createElement('input')
