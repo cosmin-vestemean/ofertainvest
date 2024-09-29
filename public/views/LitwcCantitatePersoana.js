@@ -25,6 +25,7 @@ class LitwcCantitatePersoana extends LitElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this.table = this.createTable()
+    this.controlPanel = this.createControlPanel()
   }
 
   connectedCallback() {
@@ -65,6 +66,62 @@ class LitwcCantitatePersoana extends LitElement {
     return table
   }
 
+  createControlPanel() {
+    const controlPanel = document.createElement('div')
+    controlPanel.classList.add('d-flex', 'justify-content-between', 'align-items-center')
+
+    const div = document.createElement('div')
+    controlPanel.appendChild(div)
+
+    let button = document.createElement('button')
+    button.classList.add('btn', 'btn-sm', 'btn-primary')
+    button.textContent = 'Adauga'
+    button.addEventListener('click', () => {
+      this.addEmptyRow()
+    })
+    div.appendChild(button)
+
+    button = document.createElement('button')
+    button.classList.add('btn', 'btn-sm', 'btn-danger')
+    button.textContent = 'Sterge'
+    button.addEventListener('click', () => {
+      this.deleteRows()
+    })
+    div.appendChild(button)
+
+    const span = document.createElement('span')
+    span.textContent = 'Total cantitate: '
+    div.appendChild(span)
+
+    const input = document.createElement('input')
+    input.id = 'total_cantitate'
+    input.type = 'text'
+    input.classList.add('form-control', 'form-control-sm')
+    input.size = 5
+    input.readOnly = true
+    div.appendChild(input)
+
+    div.appendChild(document.createTextNode(' '))
+
+    button = document.createElement('button')
+    button.classList.add('btn', 'btn-sm', 'btn-primary')
+    button.textContent = 'Selecteaza tot'
+    button.addEventListener('click', () => {
+      this.selectAll()
+    })
+    div.appendChild(button)
+
+    button = document.createElement('button')
+    button.classList.add('btn', 'btn-sm', 'btn-primary')
+    button.textContent = 'Deselecteaza tot'
+    button.addEventListener('click', () => {
+      this.deselectAll()
+    })
+    div.appendChild(button)
+
+    return controlPanel
+  }
+
   render() {
     const tbody = this.table.querySelector('#tbody_detalii_cantitate_persoana')
     tbody.innerHTML = '' // Clear existing rows
@@ -78,7 +135,7 @@ class LitwcCantitatePersoana extends LitElement {
       })
     }
 
-    return html`${this.table}`
+    return html`${controlPanel}${this.table}`
   }
 
   addEmptyRow() {
