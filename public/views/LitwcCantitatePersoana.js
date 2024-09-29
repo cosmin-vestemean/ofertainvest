@@ -33,7 +33,7 @@ class LitwcCantitatePersoana extends LitElement {
 
   createTable() {
     const table = document.createElement('table')
-    table.classList.add('table', 'table-sm', 'table-hover', 'table-responsive')
+    table.classList.add('table', 'table-sm', 'table-responsive')
     table.id = 'detalii_cantitate_persoana'
     table.style.fontSize = 'small'
 
