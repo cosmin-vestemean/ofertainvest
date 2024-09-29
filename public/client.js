@@ -1,5 +1,6 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { LitwcSelectAntemasuratori } from './views/LitwcSelectAntemasuratori.js'
+import { LitwcCantitatePersoana } from './views/LitwcCantitatePersoana.js'
 import { estimari } from './views/litwc-estimari.js'
 import { myTable } from './views/myTable.js'
 import { antemasuratori } from './views/litwc-antemasuratori.js'
@@ -3241,3 +3242,4 @@ customElements.define('my-recipe', Recipe)
 customElements.define('my-antemasuratori', antemasuratori)
 customElements.define('my-estimari', estimari)
 customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)
+customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)

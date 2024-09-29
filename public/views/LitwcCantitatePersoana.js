@@ -15,9 +15,10 @@ Are un trash_icon care sterge liniile selectate (vezi ckeckbox).
 
 class LitwcCantitatePersoana extends LitElement {
   static properties = {
-    ds: { type: Array }
+    ds: { type: Array } //[{CCCESTIMARIPERS: 1, PRSN: 12, NAME2: 'Popescu Ion', CANTITATE: 10}]
   }
 
+  //lit methods
   constructor() {
     super()
     this.attachShadow({ mode: 'open' })
@@ -29,6 +30,19 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   render() {}
+
+  //class methods
+    //add a new row to the table
+    addRow() {}
+
+    //delete selected rows
+    deleteRows() {}
+
+    //select all rows
+    selectAll() {}
+
+    //deselect all rows
+    deselectAll() {}
 }
 
 export { LitwcCantitatePersoana }

@@ -10,9 +10,6 @@ import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { addNewEstimare } from './listaEstimari.js'
-import { LitwcCantitatePersoana } from './LitwcCantitatePersoana.js'
-
-customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
