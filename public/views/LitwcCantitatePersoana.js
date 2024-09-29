@@ -73,51 +73,38 @@ class LitwcCantitatePersoana extends LitElement {
     const div = document.createElement('div')
     controlPanel.appendChild(div)
 
-    let button = document.createElement('button')
-    button.classList.add('btn', 'btn-sm', 'btn-primary')
-    button.textContent = 'Adauga'
-    button.addEventListener('click', () => {
+    let icon = document.createElement('i')
+    icon.classList.add('bi', 'bi-plus-square')
+    icon.addEventListener('click', () => {
       this.addEmptyRow()
     })
-    div.appendChild(button)
+    div.appendChild(icon)
 
-    button = document.createElement('button')
-    button.classList.add('btn', 'btn-sm', 'btn-danger')
-    button.textContent = 'Sterge'
-    button.addEventListener('click', () => {
+    icon = document.createElement('i')
+    icon.classList.add('bi', 'bi-trash')
+    icon.addEventListener('click', () => {
       this.deleteRows()
     })
-    div.appendChild(button)
+    div.appendChild(icon)
 
     const span = document.createElement('span')
-    span.textContent = 'Total cantitate: '
+    span.classList.add('badge', 'bg-primary', 'rounded-pill')
+    span.textContent = 'Total: '
     div.appendChild(span)
 
-    const input = document.createElement('input')
-    input.id = 'total_cantitate'
-    input.type = 'text'
-    input.classList.add('form-control', 'form-control-sm')
-    input.size = 5
-    input.readOnly = true
-    div.appendChild(input)
-
-    div.appendChild(document.createTextNode(' '))
-
-    button = document.createElement('button')
-    button.classList.add('btn', 'btn-sm', 'btn-primary')
-    button.textContent = 'Selecteaza tot'
-    button.addEventListener('click', () => {
+    icon = document.createElement('i')
+    icon.classList.add('bi', 'bi-check-all')
+    icon.addEventListener('click', () => {
       this.selectAll()
     })
-    div.appendChild(button)
+    div.appendChild(icon)
 
-    button = document.createElement('button')
-    button.classList.add('btn', 'btn-sm', 'btn-primary')
-    button.textContent = 'Deselecteaza tot'
-    button.addEventListener('click', () => {
+    icon = document.createElement('i')
+    icon.classList.add('bi', 'bi-x-all')
+    icon.addEventListener('click', () => {
       this.deselectAll()
     })
-    div.appendChild(button)
+    div.appendChild(icon)
 
     return controlPanel
   }
