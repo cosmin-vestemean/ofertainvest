@@ -82,7 +82,7 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   addEmptyRow() {
-    const tbody = this.shadowRoot.getElementById('tbody_detalii_cantitate_persoana')
+    const tbody = this.table.querySelector('#tbody_detalii_cantitate_persoana')
     const nrTableRow = tbody.rows.length + 1
     const tr = document.createElement('tr')
     tbody.appendChild(tr)
@@ -115,7 +115,7 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   deleteRows() {
-    const tbody = this.shadowRoot.getElementById('tbody_detalii_cantitate_persoana')
+    const tbody = this.table.querySelector('#tbody_detalii_cantitate_persoana')
     const rows = tbody.rows
     for (let i = rows.length - 1; i >= 0; i--) {
       const row = rows[i]
@@ -127,7 +127,7 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   selectAll() {
-    const tbody = this.shadowRoot.getElementById('tbody_detalii_cantitate_persoana')
+    const tbody = this.table.querySelector('#tbody_detalii_cantitate_persoana')
     const rows = tbody.rows
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i]
@@ -137,7 +137,7 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   deselectAll() {
-    const tbody = this.shadowRoot.getElementById('tbody_detalii_cantitate_persoana')
+    const tbody = this.table.querySelector('#tbody_detalii_cantitate_persoana')
     const rows = tbody.rows
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i]
@@ -147,7 +147,7 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   getTotalCantitate() {
-    const tbody = this.shadowRoot.getElementById('tbody_detalii_cantitate_persoana')
+    const tbody = this.table.querySelector('#tbody_detalii_cantitate_persoana')
     const rows = tbody.rows
     let total = 0
     for (let i = 0; i < rows.length; i++) {
