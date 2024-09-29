@@ -38,7 +38,7 @@ class LitwcCantitatePersoana extends LitElement {
     table.id = 'detalii_cantitate_persoana'
     table.style.fontSize = 'small'
 
-    const thead = document.createElement('thead')
+    /* const thead = document.createElement('thead')
     table.appendChild(thead)
 
     const tr = document.createElement('tr')
@@ -57,7 +57,7 @@ class LitwcCantitatePersoana extends LitElement {
 
     th = document.createElement('th')
     th.textContent = 'Cantitate'
-    tr.appendChild(th)
+    tr.appendChild(th) */
 
     const tbody = document.createElement('tbody')
     tbody.id = 'tbody_detalii_cantitate_persoana'
@@ -148,6 +148,8 @@ class LitwcCantitatePersoana extends LitElement {
     const input = document.createElement('input')
     input.id = 'checkbox' + nrTableRow
     input.type = 'checkbox'
+    //placeholder
+    input.setAttribute('placeholder', 'Cantitate')
     td.appendChild(input)
     tr.appendChild(td)
 
@@ -158,6 +160,8 @@ class LitwcCantitatePersoana extends LitElement {
     select.classList.add('form-select', 'form-select-sm')
     //text small
     select.style.fontSize = 'small'
+    //placeholder
+    select.setAttribute('placeholder', 'Responsabil')
     //add default option
     const option = document.createElement('option')
     option.value = ''
