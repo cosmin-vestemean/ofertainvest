@@ -99,6 +99,8 @@ class LitwcCantitatePersoana extends LitElement {
     select.id = 'select_angajat' + nrTableRow
     select.setAttribute('data-searchable', 'true')
     select.classList.add('form-select', 'form-select-sm')
+    //text small
+    select.style.fontSize = 'small'
     //add default option
     const option = document.createElement('option')
     option.value = ''
