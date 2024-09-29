@@ -774,27 +774,6 @@ export class estimari extends LitElement {
             td.contentEditable = true
           }
 
-          if (key == _cantitate_estimari) {
-            td.style.fontWeight = 'bold'
-            //adauga litwc-cantitatePersoana
-            let litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
-            litwc_cantitate_persoana.classList.add('form-control', 'form-control-sm', 'rounded')
-            if (ISMAIN) {
-              litwc_cantitate_persoana.id = 'cp_' + i + '@' + k
-            } else {
-              litwc_cantitate_persoana.id = 'cp_' + i + '@' + k + '_' + counter3
-            }
-            //add data attributes
-            data_attributes.forEach((o) => {
-              for (let key in o) {
-                litwc_cantitate_persoana.setAttribute(key, o[key])
-              }
-            })
-            //add to DOM
-            td.appendChild(litwc_cantitate_persoana)
-            litwc_cantitate_persoana.ds = []
-          }
-
           if (context.estimariDisplayMask[key].type === 'number') {
             td.style.textAlign = 'right'
             td.innerHTML = parseFloat(o[key]) || ''
@@ -814,6 +793,27 @@ export class estimari extends LitElement {
             td.appendChild(input1)
           } else {
             td.innerHTML = o[key] || ''
+          }
+
+          if (key == _cantitate_estimari) {
+            td.style.fontWeight = 'bold'
+            //adauga litwc-cantitatePersoana
+            let litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
+            litwc_cantitate_persoana.classList.add('form-control', 'form-control-sm', 'rounded')
+            if (ISMAIN) {
+              litwc_cantitate_persoana.id = 'cp_' + i + '@' + k
+            } else {
+              litwc_cantitate_persoana.id = 'cp_' + i + '@' + k + '_' + counter3
+            }
+            //add data attributes
+            data_attributes.forEach((o) => {
+              for (let key in o) {
+                litwc_cantitate_persoana.setAttribute(key, o[key])
+              }
+            })
+            //add to DOM
+            td.appendChild(litwc_cantitate_persoana)
+            litwc_cantitate_persoana.ds = []
           }
 
           td.classList.add(key)
