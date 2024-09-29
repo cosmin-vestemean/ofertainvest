@@ -86,8 +86,8 @@ class LitwcCantitatePersoana extends LitElement {
   //class methods
   //add a new row to the table
   addEmptyRow() {
-    let nrTableRow = tbody.rows.length + 1
     var tbody = document.getElementById('tbody_detalii_cantitate_persoana')
+    let nrTableRow = tbody.rows.length + 1
     var tr = document.createElement('tr')
     tbody.appendChild(tr)
 
@@ -154,6 +154,18 @@ class LitwcCantitatePersoana extends LitElement {
       var checkbox = row.cells[0].firstChild
       checkbox.checked = false
     }
+  }
+
+  getTotalCantitate() {
+    var tbody = document.getElementById('tbody_detalii_cantitate_persoana')
+    var rows = tbody.rows
+    var total = 0
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i]
+      var cantitate = row.cells[2].firstChild
+      total += parseFloat(cantitate.value)
+    }
+    return total
   }
 }
 
