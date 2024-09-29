@@ -100,13 +100,16 @@ class LitwcCantitatePersoana extends LitElement {
     select.setAttribute('data-searchable', 'true')
     select.classList.add('form-select', 'form-select-sm')
     contextOferta.angajati.forEach((o) => {
-        const option = document.createElement('option')
-        option.value = o.PRSN
-        option.text = o.NAME2
-        select.appendChild(option)
+      const option = document.createElement('option')
+      option.value = o.PRSN
+      option.text = o.NAME2
+      select.appendChild(option)
     })
     td.appendChild(select)
     tr.appendChild(td)
+
+    // Initialize UseBootstrapSelect after appending the select element to the DOM
+    new UseBootstrapSelect(select)
 
     td = document.createElement('td')
     const inputCantitate = document.createElement('input')
