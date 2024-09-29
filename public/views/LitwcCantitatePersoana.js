@@ -30,7 +30,7 @@ class LitwcCantitatePersoana extends LitElement {
   }
 
   render() {
-
+    return html`can you see me?`
   }
 
   //class methods

@@ -777,7 +777,7 @@ export class estimari extends LitElement {
           if (key == _cantitate_estimari) {
             td.style.fontWeight = 'bold'
             //adauga litwc-cantitatePersoana
-            var litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
+            let litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
             if (ISMAIN) {
               litwc_cantitate_persoana.id = 'cp_' + i + '@' + k
             } else {
