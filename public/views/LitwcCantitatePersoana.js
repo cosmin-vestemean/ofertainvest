@@ -26,6 +26,7 @@ class LitwcCantitatePersoana extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this.table = this.createTable()
     this.controlPanel = this.createControlPanel()
+    this.selected = false
   }
 
   connectedCallback() {
@@ -74,35 +75,34 @@ class LitwcCantitatePersoana extends LitElement {
     controlPanel.appendChild(div)
 
     let icon = document.createElement('i')
-    icon.classList.add('bi', 'bi-plus-square')
+    icon.classList.add('bi', 'bi-plus-square', 'me-2')
     icon.addEventListener('click', () => {
       this.addEmptyRow()
     })
     div.appendChild(icon)
 
     icon = document.createElement('i')
-    icon.classList.add('bi', 'bi-trash')
+    icon.classList.add('bi', 'bi-trash', 'me-2')
     icon.addEventListener('click', () => {
       this.deleteRows()
     })
     div.appendChild(icon)
 
     const span = document.createElement('span')
-    span.classList.add('badge', 'bg-primary', 'rounded-pill')
+    span.classList.add('badge', 'bg-primary', 'me-2')
     span.textContent = 'Total: '
     div.appendChild(span)
 
     icon = document.createElement('i')
-    icon.classList.add('bi', 'bi-check-all')
+    icon.classList.add('bi', 'bi-check-all', 'me-2')
     icon.addEventListener('click', () => {
-      this.selectAll()
-    })
-    div.appendChild(icon)
-
-    icon = document.createElement('i')
-    icon.classList.add('bi', 'bi-x-all')
-    icon.addEventListener('click', () => {
-      this.deselectAll()
+      if (this.selected) {
+        this.deselectAll()
+        this.selected = false
+      } else {
+        this.selectAll()
+        this.selected = true
+      }
     })
     div.appendChild(icon)
 
@@ -174,6 +174,11 @@ class LitwcCantitatePersoana extends LitElement {
     inputCantitate.size = 5
     td.appendChild(inputCantitate)
     tr.appendChild(td)
+    //add event listener for inputCantitate
+    inputCantitate.addEventListener('input', () => {
+      const total = this.getTotalCantitate()
+      this.controlPanel.querySelector('span').textContent = 'Total: ' + total
+    })
   }
 
   deleteRows() {
