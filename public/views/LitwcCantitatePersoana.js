@@ -98,7 +98,7 @@ class LitwcCantitatePersoana extends LitElement {
     const select = document.createElement('select')
     select.id = 'select_angajat' + nrTableRow
     select.setAttribute('data-searchable', 'true')
-    const select_angajat = new UseBootstrapSelect(select)
+    const select_angajat = new UseBootstrapSelect(tbody.querySelector('#select_angajat' + nrTableRow))
     contextOferta.angajati.forEach((o) => {
       select_angajat.addOption(o.PRSN, o.NAME2)
     })
