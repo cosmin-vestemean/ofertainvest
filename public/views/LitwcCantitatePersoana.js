@@ -135,7 +135,7 @@ class LitwcCantitatePersoana extends LitElement {
       })
     }
 
-    return html`${controlPanel}${this.table}`
+    return html`${this.controlPanel}${this.table}`
   }
 
   addEmptyRow() {
