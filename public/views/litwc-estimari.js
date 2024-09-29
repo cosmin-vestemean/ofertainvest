@@ -778,10 +778,12 @@ export class estimari extends LitElement {
             td.style.fontWeight = 'bold'
             //adauga litwc-cantitatePersoana
             let litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
+            litwc_cantitate_persoana.classList.add('form-control', 'form-control-sm', 'rounded')
+            litwc_cantitate_persoana.ds = []
             if (ISMAIN) {
               litwc_cantitate_persoana.id = 'cp_' + i + '@' + k
             } else {
-              litwc_cantitate_persoana.id = 'cp_' +  i + '@' + k + '_' + counter3
+              litwc_cantitate_persoana.id = 'cp_' + i + '@' + k + '_' + counter3
             }
             //add data attributes
             data_attributes.forEach((o) => {
