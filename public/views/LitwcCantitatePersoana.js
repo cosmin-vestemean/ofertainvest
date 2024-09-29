@@ -98,7 +98,13 @@ class LitwcCantitatePersoana extends LitElement {
     const select = document.createElement('select')
     select.id = 'select_angajat' + nrTableRow
     select.setAttribute('data-searchable', 'true')
+    select.setAttribute('data-clearable', 'true')
     select.classList.add('form-select', 'form-select-sm')
+    //add default option
+    const option = document.createElement('option')
+    option.value = ''
+    option.text = 'Select'
+    select.appendChild(option)
     contextOferta.angajati.forEach((o) => {
       const option = document.createElement('option')
       option.value = o.PRSN
