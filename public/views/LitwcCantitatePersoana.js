@@ -122,6 +122,7 @@ class LitwcCantitatePersoana extends LitElement {
     const inputCantitate = document.createElement('input')
     inputCantitate.id = 'cantitate' + nrTableRow
     inputCantitate.type = 'text'
+    inputCantitate.classList.add('form-control', 'form-control-sm')
     inputCantitate.size = 5
     td.appendChild(inputCantitate)
     tr.appendChild(td)
