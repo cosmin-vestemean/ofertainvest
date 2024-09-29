@@ -146,12 +146,13 @@ class LitwcCantitatePersoana extends LitElement {
     select.classList.add('form-select', 'form-select-sm')
     //text small
     select.style.fontSize = 'small'
-    //add placeholder
-    select.placeholder = 'Responsabil'
     //add default option
     const option = document.createElement('option')
     option.value = ''
-    option.text = ''
+    option.text = 'Responsabil'
+    option.selected = true
+    //disable default option
+    option.disabled = true
     select.appendChild(option)
     contextOferta.angajati.forEach((o) => {
       const option = document.createElement('option')
