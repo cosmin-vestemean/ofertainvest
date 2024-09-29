@@ -792,6 +792,8 @@ export class estimari extends LitElement {
                 litwc_cantitate_persoana.setAttribute(key, o[key])
               }
             })
+            //add to DOM
+            td.appendChild(litwc_cantitate_persoana)
           }
 
           if (context.estimariDisplayMask[key].type === 'number') {
