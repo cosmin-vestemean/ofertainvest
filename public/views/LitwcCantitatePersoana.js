@@ -135,8 +135,7 @@ class LitwcCantitatePersoana extends LitElement {
     const input = document.createElement('input')
     input.id = 'checkbox' + nrTableRow
     input.type = 'checkbox'
-    //placeholder
-    input.setAttribute('placeholder', 'Cantitate')
+    input.classList.add('form-check-input', 'align-middle')
     td.appendChild(input)
     tr.appendChild(td)
 
@@ -147,8 +146,8 @@ class LitwcCantitatePersoana extends LitElement {
     select.classList.add('form-select', 'form-select-sm')
     //text small
     select.style.fontSize = 'small'
-    //placeholder
-    select.setAttribute('placeholder', 'Responsabil')
+    //add placeholder
+    select.placeholder = 'Responsabil'
     //add default option
     const option = document.createElement('option')
     option.value = ''
@@ -172,6 +171,8 @@ class LitwcCantitatePersoana extends LitElement {
     inputCantitate.type = 'text'
     inputCantitate.classList.add('form-control', 'form-control-sm')
     inputCantitate.size = 5
+    //add placeholder
+    inputCantitate.placeholder = 'Cantitate'
     td.appendChild(inputCantitate)
     tr.appendChild(td)
     //add event listener for inputCantitate
