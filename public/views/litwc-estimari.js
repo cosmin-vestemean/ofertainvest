@@ -779,7 +779,6 @@ export class estimari extends LitElement {
             //adauga litwc-cantitatePersoana
             let litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
             litwc_cantitate_persoana.classList.add('form-control', 'form-control-sm', 'rounded')
-            litwc_cantitate_persoana.ds = []
             if (ISMAIN) {
               litwc_cantitate_persoana.id = 'cp_' + i + '@' + k
             } else {
@@ -793,6 +792,7 @@ export class estimari extends LitElement {
             })
             //add to DOM
             td.appendChild(litwc_cantitate_persoana)
+            litwc_cantitate_persoana.ds = []
           }
 
           if (context.estimariDisplayMask[key].type === 'number') {
