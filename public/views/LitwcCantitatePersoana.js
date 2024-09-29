@@ -11,7 +11,7 @@ Are un plus_icon care adauga o noua linie in tabel.
 Are un minus_icon care sterge liniile selectate (vezi ckeckbox).
 */
 
-class LitwcSelectAntemasuratori extends LitElement {
+class LitwcCantitatePersoana extends LitElement {
   static properties = {
     ds: { type: Array }
   }
@@ -28,7 +28,5 @@ class LitwcSelectAntemasuratori extends LitElement {
 
   render() {}
 }
-
-customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
 export { LitwcCantitatePersoana }
