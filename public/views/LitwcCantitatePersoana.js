@@ -7,10 +7,10 @@ Reprezinta si afiseaza un tabel cu trei coloane:
     2. select with angajati [{PRSN: 12, NAME2: 'Popescu Ion'}] + new UseBootstrapSelect(document.getElementById('select_angajati'))
     3. cantitate estimata atibuita persoanei.
 Lista persoane: contextOferta.angajati from client.js.
-Header:
-Are un checkbox care selecteaza/deselecteaza toate liniile.
-Are un plus_icon care adauga o noua linie in tabel.
-Are un trash_icon care sterge liniile selectate (vezi ckeckbox).
+Header (colspan=3):
+1. Are un checkbox care selecteaza/deselecteaza toate liniile.
+2. Are un plus_icon care adauga o noua linie in tabel.
+3. Are un trash_icon care sterge liniile selectate (vezi ckeckbox).
 */
 
 class LitwcCantitatePersoana extends LitElement {
@@ -29,7 +29,9 @@ class LitwcCantitatePersoana extends LitElement {
     super.connectedCallback()
   }
 
-  render() {}
+  render() {
+
+  }
 
   //class methods
     //add a new row to the table
