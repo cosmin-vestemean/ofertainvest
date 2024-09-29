@@ -9,8 +9,8 @@ import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
-import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { addNewEstimare } from './listaEstimari.js'
+import { LitwcCantitatePersoana } from './LitwcCantitatePersoana.js'
 
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
@@ -777,6 +777,19 @@ export class estimari extends LitElement {
 
           if (key == _cantitate_estimari) {
             td.style.fontWeight = 'bold'
+            //adauga litwc-cantitatePersoana
+            let litwc_cantitate_persoana = document.createElement('litwc-cantitate-persoana')
+            if (ISMAIN) {
+              litwc_cantitate_persoana.id = 'cp_' + i + '@' + k
+            } else {
+              litwc_cantitate_persoana.id = 'cp_' +  i + '@' + k + '_' + counter3
+            }
+            //add data attributes
+            data_attributes.forEach((o) => {
+              for (let key in o) {
+                litwc_cantitate_persoana.setAttribute(key, o[key])
+              }
+            })
           }
 
           if (context.estimariDisplayMask[key].type === 'number') {
