@@ -818,14 +818,16 @@ export class estimari extends LitElement {
 
           td.classList.add(key)
 
-          //add event listener for input for td class cantitate_estimari
-          td.addEventListener('focusout', this._onFocusOut())
+          if (key !== _cantitate_estimari) {
+            //add event listener for input for td class cantitate_estimari
+            td.addEventListener('focusout', this._onFocusOut())
 
-          //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
-          td.addEventListener('keydown', this._onKeyDown())
+            //add keydown event arrow up/down to move to prior/next td _cantitate_estimari
+            td.addEventListener('keydown', this._onKeyDown())
 
-          //select all inner html in cell on focusin
-          td.addEventListener('focusin', this._onFocusIn())
+            //select all inner html in cell on focusin
+            td.addEventListener('focusin', this._onFocusIn())
+          }
 
           tr.appendChild(td)
         }
