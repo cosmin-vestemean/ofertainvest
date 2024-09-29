@@ -1,9 +1,14 @@
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { template } from '../client.js'
+import { template, contextOferta } from '../client.js'
 
 /*
-reprezinta si afiseaza un tabel cu trei coloane: 1. checkbox, 2. nume persoana, 3. cantitate estimata atibuita persoanei
-lista persoane: contextOferta.angajati from client.js
+Reprezinta si afiseaza un tabel cu trei coloane: 
+    1. checkbox, 
+    2. select with angajati [{PRSN: 12, NAME2: 'Popescu Ion'}] + new UseBootstrapSelect(document.getElementById('select_angajati'))
+    3. cantitate estimata atibuita persoanei.
+Lista persoane: contextOferta.angajati from client.js.
+Are un plus_icon care adauga o noua linie in tabel.
+Are un minus_icon care sterge liniile selectate (vezi ckeckbox).
 */
 
 class LitwcSelectAntemasuratori extends LitElement {
@@ -24,6 +29,6 @@ class LitwcSelectAntemasuratori extends LitElement {
   render() {}
 }
 
-customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)
+customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
-export { LitwcSelectAntemasuratori }
+export { LitwcCantitatePersoana }
