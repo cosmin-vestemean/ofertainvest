@@ -110,6 +110,8 @@ client.use('runSQLTransaction', socketClient.service('runSQLTransaction'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
+console.log('socketClient', client)
+
 export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 export var contextOferta = {
   PRJC: 0,
