@@ -11,11 +11,6 @@ import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
-// For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
-import { feathers } from '@feathersjs/feathers'
-import authenticationClient from '@feathersjs/authentication-client'
-import { userClient } from './services/users/users.shared.js'
-import { createClient } from '../src/client.js' // Import createClient from /src/client.js
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
