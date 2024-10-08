@@ -1,6 +1,9 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+export {}
+
+import { userClient } from './services/users/users.shared.js'
 
 /**
  * Returns a  client for the ofertainvest app.
@@ -16,6 +19,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(connection)
   client.configure(authenticationClient(authenticationOptions))
   client.set('connection', connection)
+
+  client.configure(userClient)
 
   return client
 }
