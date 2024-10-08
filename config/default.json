@@ -3,7 +3,8 @@
   "port": 3030,
   "public": "./public/",
   "origins": [
-    "http://localhost:3030", "https://ofertainvest-6e1a879e95f3.herokuapp.com"
+    "http://localhost:3030",
+    "https://ofertainvest-6e1a879e95f3.herokuapp.com"
   ],
   "paginate": {
     "default": 10,
@@ -12,5 +13,26 @@
   "mssql": {
     "client": "mssql",
     "connection": "mssql://root:password@localhost:1433/ofertainvest"
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "HDOysw/+Bc3mIlETN9/Ib/zMWv4w3Tfi",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    }
   }
 }

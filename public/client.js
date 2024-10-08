@@ -11,6 +11,11 @@ import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
+// For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
+import { feathers } from '@feathersjs/feathers'
+import authenticationClient from '@feathersjs/authentication-client'
+import { userClient } from './services/users/users.shared.js'
+import { createClient } from '../src/client.js' // Import createClient from /src/client.js
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
@@ -75,10 +80,9 @@ console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
-export const client = feathers()
-const socketClient = feathers.socketio(socket)
+const socketClient = createClient(feathers.socketio(socket)) // Use createClient to create the Feathers client
 
-client.configure(socketClient)
+export const client = socketClient
 
 client.use('connectToS1', socketClient.service('connectToS1'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
