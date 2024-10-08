@@ -9,7 +9,12 @@ export const userSchema = Type.Object(
   {
     id: Type.Number(),
     email: Type.String(),
-    password: Type.Optional(Type.String())
+    password: Type.Optional(Type.String()),
+    googleId: Type.Optional(Type.String()),
+    facebookId: Type.Optional(Type.String()),
+    twitterId: Type.Optional(Type.String()),
+    githubId: Type.Optional(Type.String()),
+    auth0Id: Type.Optional(Type.String())
   },
   { $id: 'User', additionalProperties: false }
 )
@@ -22,9 +27,13 @@ export const userExternalResolver = resolve({
 })
 
 // Schema for creating new entries
-export const userDataSchema = Type.Pick(userSchema, ['email', 'password'], {
-  $id: 'UserData'
-})
+export const userDataSchema = Type.Pick(
+  userSchema,
+  ['email', 'password', 'googleId', 'facebookId', 'twitterId', 'githubId', 'auth0Id'],
+  {
+    $id: 'UserData'
+  }
+)
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
   password: passwordHash({ strategy: 'local' })
@@ -40,7 +49,15 @@ export const userPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const userQueryProperties = Type.Pick(userSchema, ['id', 'email'])
+export const userQueryProperties = Type.Pick(userSchema, [
+  'id',
+  'email',
+  'googleId',
+  'facebookId',
+  'twitterId',
+  'githubId',
+  'auth0Id'
+])
 export const userQuerySchema = Type.Intersect(
   [
     querySyntax(userQueryProperties),

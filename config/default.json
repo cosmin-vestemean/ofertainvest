@@ -17,7 +17,7 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "HDOysw/+Bc3mIlETN9/Ib/zMWv4w3Tfi",
+    "secret": "FKBiKM7dGyeXzH5eOBK0JjHXDkIcjvLW",
     "authStrategies": [
       "jwt",
       "local"
@@ -33,6 +33,28 @@
     "local": {
       "usernameField": "email",
       "passwordField": "password"
+    },
+    "oauth": {
+      "google": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      },
+      "facebook": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      },
+      "twitter": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      },
+      "github": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      },
+      "auth0": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      }
     }
   }
 }

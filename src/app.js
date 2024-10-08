@@ -10,6 +10,8 @@ import { mssql } from './mssql.js'
 
 import { authentication } from './authentication.js'
 
+export {}
+
 import { services } from './services/index.js'
 import { channels } from './channels.js'
 
@@ -35,6 +37,8 @@ app.configure(
   })
 )
 app.configure(mssql)
+
+app.configure(authentication)
 
 app.configure(authentication)
 

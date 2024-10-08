@@ -3,7 +3,6 @@ import assert from 'assert'
 import axios from 'axios'
 
 import rest from '@feathersjs/rest-client'
-import authenticationClient from '@feathersjs/authentication-client'
 import { app } from '../src/app.js'
 import { createClient } from '../src/client.js'
 
