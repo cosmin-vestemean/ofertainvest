@@ -80,9 +80,10 @@ console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
-const socketClient = createClient(feathers.socketio(socket)) // Use createClient to create the Feathers client
+export const client = feathers()
+const socketClient = feathers.socketio(socket)
 
-export const client = socketClient
+client.configure(socketClient)
 
 client.use('connectToS1', socketClient.service('connectToS1'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
@@ -109,8 +110,6 @@ client.use('getValFromQuery', socketClient.service('getValFromQuery'), {
 client.use('runSQLTransaction', socketClient.service('runSQLTransaction'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
-
-console.log('socketClient', client)
 
 export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 export var contextOferta = {
