@@ -20,7 +20,5 @@ export const createClient = (connection, authenticationOptions = {}) => {
 
   client.configure(userClient)
 
-  client.configure(userClient)
-
   return client
 }
