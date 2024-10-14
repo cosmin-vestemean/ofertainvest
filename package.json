@@ -64,6 +64,7 @@
     "@feathersjs/typebox": "^5.0.21",
     "knex": "^3.1.0",
     "lit-html": "^3.1.3",
+    "module-alias": "^2.2.3",
     "mssql": "^10.0.2",
     "use-bootstrap-select": "^2.2.0",
     "winston": "^3.11.0"

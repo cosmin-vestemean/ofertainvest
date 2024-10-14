@@ -11,6 +11,7 @@ import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
+import { createClient } from '@src/client.js';
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
@@ -75,10 +76,7 @@ console.log('client.js loaded')
 
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com'
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
-export const client = feathers()
-const socketClient = feathers.socketio(socket)
-
-client.configure(socketClient)
+export const client = createClient(socket)
 
 client.use('connectToS1', socketClient.service('connectToS1'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
