@@ -1,3 +1,5 @@
+//module-alias/register
+import 'module-alias/register';
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { LitwcSelectAntemasuratori } from './views/LitwcSelectAntemasuratori.js'
 import { LitwcCantitatePersoana } from './views/LitwcCantitatePersoana.js'
