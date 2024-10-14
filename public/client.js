@@ -115,6 +115,11 @@ client.use('users', socketClient.service('users'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
+// Use localStorage to store our login token
+client.configure(feathers.authentication({
+  storage: window.localStorage
+}));
+
 export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 export var contextOferta = {
   PRJC: 0,
