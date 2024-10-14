@@ -120,6 +120,33 @@ client.configure(feathers.authentication({
   storage: window.localStorage
 }));
 
+const login = async () => {
+  try {
+    // First try to log in with an existing JWT
+    return await client.reAuthenticate();
+  } catch (error) {
+    // If that errors, log in with email/password
+    // Here we would normally show a login page
+    // to get the login information
+    return await client.authenticate({
+      strategy: 'local',
+      email: 'hello@feathersjs.com',
+      password: 'supersecret'
+    });
+  }
+};
+
+const main = async () => {
+  const auth = await login();
+
+  console.log('User is authenticated', auth);
+
+  // Log us out again
+  await client.logout();
+};
+
+main();
+
 export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 export var contextOferta = {
   PRJC: 0,
