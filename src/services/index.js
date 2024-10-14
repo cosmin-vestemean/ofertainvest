@@ -1,5 +1,3 @@
-export {}
-
 export const services = (app) => {
   app.configure(user)
 
