@@ -36,6 +36,7 @@ app.configure(mssql)
 
 app.configure(services)
 app.configure(channels)
+app.configure(authentication)
 
 // Register hooks that run on all service methods
 app.hooks({
