@@ -6,7 +6,7 @@ class CustomStrategy extends Strategy {
     const { email, password } = authentication
 
     // Call your API to validate user
-    const response = await post('https://your-api-endpoint', { email, password })
+    const response = await post('https://investdej.oncloud.gr/s1services', { email, password })
 
     if (response.data.isValid) {
       const user = response.data.user // Extract user details from the API response
