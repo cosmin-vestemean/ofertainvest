@@ -13,5 +13,26 @@
   "mssql": {
     "client": "mssql",
     "connection": "mssql://root:password@localhost:1433/ofertainvest"
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "pC4CrzRdZFJv5ubR945W2UrD5ZcD3h+y",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    }
   }
 }

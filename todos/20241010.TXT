@@ -1,0 +1,7 @@
+Oferta: Director comercial / Productie
+antemasuratori: manager proeict / director productie
+Estimari: Manager proiect
+Planificare: Coordonator Executie
+Programare Responsbili Executie
+
+Total realizat= antemasuratori+estimare+Planificare+Programare
