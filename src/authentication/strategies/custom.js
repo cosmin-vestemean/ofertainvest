@@ -1,12 +1,12 @@
-const { Strategy } = require('@feathersjs/authentication')
-const axios = require('axios')
+import { Strategy } from '@feathersjs/authentication'
+import { post } from 'axios'
 
 class CustomStrategy extends Strategy {
   async authenticate(authentication, params) {
     const { email, password } = authentication
 
     // Call your API to validate user
-    const response = await axios.post('https://your-api-endpoint', { email, password })
+    const response = await post('https://your-api-endpoint', { email, password })
 
     if (response.data.isValid) {
       const user = response.data.user // Extract user details from the API response
@@ -20,4 +20,4 @@ class CustomStrategy extends Strategy {
   }
 }
 
-module.exports = CustomStrategy
+export default CustomStrategy
