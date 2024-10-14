@@ -34,8 +34,5 @@
       "usernameField": "email",
       "passwordField": "password"
     }
-  },
-  "_moduleAliases": {
-    "@src": "src"
   }
 }

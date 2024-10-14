@@ -1,5 +1,3 @@
-//module-alias/register
-require('module-alias/register')
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { LitwcSelectAntemasuratori } from './views/LitwcSelectAntemasuratori.js'
 import { LitwcCantitatePersoana } from './views/LitwcCantitatePersoana.js'
@@ -13,7 +11,7 @@ import { selectedTheme } from './utils/init.js'
 import { setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { ds_antemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
-import { createClient } from '@src/client.js';
+import { createClient } from '#src/client.js';
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
