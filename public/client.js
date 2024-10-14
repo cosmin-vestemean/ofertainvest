@@ -145,7 +145,7 @@ const main = async () => {
   await client.logout();
 };
 
-main();
+//main();
 
 export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 export var contextOferta = {
