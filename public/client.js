@@ -106,6 +106,15 @@ client.use('runSQLTransaction', socketClient.service('runSQLTransaction'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
 
+client.use('authentication', socketClient.service('authentication'), {
+  methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
+})
+
+//users
+client.use('users', socketClient.service('users'), {
+  methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
+})
+
 export const ierarhii = new UseBootstrapSelect(document.getElementById('ierarhii'))
 export var contextOferta = {
   PRJC: 0,
