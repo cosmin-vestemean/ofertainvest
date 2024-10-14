@@ -11,7 +11,9 @@ export class UserService {
   async get(id, _params) {
     return {
       id: 0,
-      text: `A new message with ID: ${id}!`
+      email: "hello@feathersjs.com",
+      password: "supersecret",
+      text: `Bine ai venit, ID: ${id}!`
     }
   }
   async create(data, params) {
