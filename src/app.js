@@ -10,6 +10,7 @@ import { mssql } from './mssql.js'
 
 import { services } from './services/index.js'
 import { channels } from './channels.js'
+import { authentication } from './authentication.js'
 
 const app = koa(feathers())
 
