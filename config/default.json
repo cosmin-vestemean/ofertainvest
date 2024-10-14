@@ -26,7 +26,7 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
+      "audience": "https://ofertainvest-6e1a879e95f3.herokuapp.com",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
