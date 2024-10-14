@@ -31,8 +31,8 @@
       "expiresIn": "1d"
     },
     "local": {
-      "usernameField": "email",
-      "passwordField": "password"
+      "usernameField": "hello@feathersjs.com",
+      "passwordField": "supersecret"
     }
   }
 }
