@@ -80,38 +80,6 @@ const socketClient = feathers.socketio(socket)
 
 client.configure(socketClient)
 
-// Use localStorage to store our login token
-client.configure(feathers.authentication({
-  storage: window.localStorage
-}));
-
-const login = async () => {
-  try {
-    // First try to log in with an existing JWT
-    return await client.reAuthenticate();
-  } catch (error) {
-    // If that errors, log in with email/password
-    // Here we would normally show a login page
-    // to get the login information
-    return await client.authenticate({
-      strategy: 'local',
-      email: 'hello@feathersjs.com',
-      password: 'supersecret'
-    });
-  }
-};
-
-const main = async () => {
-  const auth = await login();
-
-  console.log('User is authenticated', auth);
-
-  // Log us out again
-  await client.logout();
-};
-
-main();
-
 client.use('connectToS1', socketClient.service('connectToS1'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
 })
