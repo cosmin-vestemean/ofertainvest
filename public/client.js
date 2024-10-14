@@ -78,7 +78,7 @@ console.log('client.js loaded')
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
 export const client = createClient(socket)
 
-client.configure(socketClient)
+const socketClient = client.io
 
 client.use('connectToS1', socketClient.service('connectToS1'), {
   methods: ['find', 'get', 'create', 'update', 'patch', 'remove']
