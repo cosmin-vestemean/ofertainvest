@@ -1,0 +1,6 @@
+A. estimare, planificare
+1. Doc nou => pop-up cu: owner + data start/stop -> header doc (ascunde din linii)
+2. in linii (in relatie cu owner, vezi header) -> [{ asignees : cantitate }]
+3. Criterii de folding implicit (cat si restrictionare) editare activitati +  manopera/transport/etc (articol si activitate 1:1); exceptii: end with L si grupare activitati (unfolded obligatoriu)
+B. Retete
+1. activit + custom preselectat la "nou"
