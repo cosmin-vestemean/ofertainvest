@@ -18,7 +18,7 @@ export async function populateSelects() {
   await connectToS1Service()
     .then(async (result) => {
       const clientID = result.token
-      //console.log('clientID', clientID)
+      console.log('clientID', clientID)
       let params = {
         query: {
           clientID: clientID,
