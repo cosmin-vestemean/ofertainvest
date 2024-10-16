@@ -72,7 +72,7 @@ class connectToS1ServiceClass {
     const response = await fetch(url, { method: method, body: JSON.stringify(body) })
     const json = await response.json()
     console.log(json)
-    if (jsonsuccess === false) {
+    if (json.success === false) {
       return { token: null, errorcode: json.errorcode, error: json.error }
     } else {
       const clientID = json.clientID
