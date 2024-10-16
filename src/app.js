@@ -72,25 +72,36 @@ class connectToS1ServiceClass {
     const response = await fetch(url, { method: method, body: JSON.stringify(body) })
     const json = await response.json()
     console.log(json)
-    const clientID = json.clientID
-    const REFID = json.objs[0].REFID
-    const MODULE = json.objs[0].MODULE
-    const COMPANY = json.objs[0].COMPANY
-    const BRANCH = json.objs[0].BRANCH
-    const authenticateBody = {
-      service: 'authenticate',
-      clientID: clientID,
-      COMPANY: COMPANY,
-      BRANCH: BRANCH,
-      MODULE: MODULE,
-      REFID: REFID
+    if (jsonsuccess === false) {
+      return { token: null, errorcode: json.errorcode, error: json.error }
+    } else {
+      const clientID = json.clientID
+      const REFID = json.objs[0].REFID
+      const MODULE = json.objs[0].MODULE
+      const COMPANY = json.objs[0].COMPANY
+      const BRANCH = json.objs[0].BRANCH
+      const authenticateBody = {
+        service: 'authenticate',
+        clientID: clientID,
+        COMPANY: COMPANY,
+        BRANCH: BRANCH,
+        MODULE: MODULE,
+        REFID: REFID
+      }
+      console.log(authenticateBody)
+      const authenticateResponse = await fetch(url, {
+        method: method,
+        body: JSON.stringify(authenticateBody)
+      })
+      const authenticateJson = await authenticateResponse.json()
+      if (authenticateJson.success === false) {
+        return { token: null, errorcode: authenticateJson.errorcode, error: authenticateJson.error }
+      } else {
+        console.log(authenticateJson)
+        const token = authenticateJson.clientID
+        return { token: token }
+      }
     }
-    console.log(authenticateBody)
-    const authenticateResponse = await fetch(url, { method: method, body: JSON.stringify(authenticateBody) })
-    const authenticateJson = await authenticateResponse.json()
-    console.log(authenticateJson)
-    const token = authenticateJson.clientID
-    return { token: token }
   }
 }
 
