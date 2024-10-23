@@ -2374,7 +2374,7 @@ Activitate 1183.7.18.23.L
   return result
 }
 
-function findDuplicatesInOfertaInitiala() {}
+//function findDuplicatesInOfertaInitiala() {}
 
 function applyFilterChildrenEndsWith0(data) {
   //1.look into every obj's data.chidren
