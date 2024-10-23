@@ -13,7 +13,7 @@
   "contributors": [],
   "bugs": {},
   "engines": {
-    "node": "20.2.0"
+    "node": "22.10.0"
   },
   "feathers": {
     "language": "js",
