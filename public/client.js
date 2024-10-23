@@ -8,8 +8,7 @@ import { saveTreesInDB, getValFromS1Query, runSQLTransaction } from './utils/S1.
 import { listaEstimari } from './views/listaEstimari.js'
 import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
-import { setDsAntemasuratori } from './controllers/antemasuratori.js'
-import { ds_antemasuratori } from './controllers/antemasuratori.js'
+import { ds_antemasuratori, setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
