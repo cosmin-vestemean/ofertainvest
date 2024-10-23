@@ -17,7 +17,7 @@ import {
 } from '../client.js'
 import {
   _cantitate_antemasuratori,
-  _cantitate_oferta,
+  //_cantitate_oferta,
   _cantitate_estimari
 } from '../utils/_cantitate_oferta.js'
 import { runSQLTransaction } from '../utils/S1.js'
