@@ -569,7 +569,7 @@ export var retetaCurenta = {}
 var activitateCurenta = {}
 var combinatii_unice = []
 var visible_columns = []
-var denumireUnica_ds = []
+//var denumireUnica_ds = []
 
 const recipeDisplayMask = {
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi' },
