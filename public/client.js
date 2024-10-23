@@ -2508,7 +2508,7 @@ function eliminateDuplicates(data) {
   //instantele reteta care nu sunt marcate ca duplicate in acest moment trebuiesc marcate ca instante singulare, citeriul fiind name
   for (let i = 0; i < instanteRetete.length; i++) {
     let obj = instanteRetete[i]
-    if (!obj.hasOwnProperty('duplicate')) {
+    if (!Object.prototype.hasOwnProperty.call(obj, 'duplicate')) {
       obj.duplicate = false
       obj.duplicateOf = i
     }

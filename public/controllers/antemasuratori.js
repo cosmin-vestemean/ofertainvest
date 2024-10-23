@@ -529,11 +529,11 @@ export function calculateAntemasAndNewTree() {
         let old = ds_antemasuratori_old.find((o) => {
           let keys = Object.keys(o)
           //keep keys according to antemasuratoriDisplayMask
-          keys = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key))
+          keys = Object.keys(activit).filter((key) => Object.prototype.hasOwnProperty.call(antemasuratoriDisplayMask, key))
           delete keys[_cantitate_antemasuratori]
           let values = Object.values(o)
           let keys2 = Object.keys(activit)
-          keys2 = Object.keys(activit).filter((key) => antemasuratoriDisplayMask.hasOwnProperty(key))
+          keys2 = Object.keys(activit).filter((key) => Object.prototype.hasOwnProperty.call(antemasuratoriDisplayMask, key))
           delete keys2[_cantitate_antemasuratori]
           //console.log('keys', keys, 'keys2', keys2)
           let values2 = Object.values(activit)
