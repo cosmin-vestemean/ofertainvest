@@ -621,7 +621,7 @@ const recipeDisplayMask = {
     value: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA',
     RW: true,
     visible: true,
-    label: 'Pondere decont',
+    label: 'Pondere realizare',
     linkOferta: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA'
   },
   PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: {
