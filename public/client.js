@@ -2044,7 +2044,7 @@ function createTreesFromWBS(ds) {
 
   //console.log('instanteRetete4', [...resultPlus])
   let instanteRetete = applyFilterTipSubTip(resultPlus)
-  console.log('instanteRetete3', [...instanteRetete])
+  //console.log('instanteRetete3', [...instanteRetete])
 
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
@@ -2089,7 +2089,7 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  //console.log('instanteRetete2', [...instanteRetete])
+  console.log('instanteRetete2', [...instanteRetete])
 
   //returns old WBS and newly created WBS, if any
   instanteRetete = applyFilterChildrenEndsWith0(instanteRetete)
