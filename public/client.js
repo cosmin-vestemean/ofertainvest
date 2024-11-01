@@ -1470,9 +1470,9 @@ export function detectieRetete() {
   })
 
   intrari_orfane = rez.orphans
-  let rescuedOrphans = rez.rescuedOrphans
+  //let rescuedOrphans = rez.rescuedOrphans
   //scoate din intrari_orfane.object.WBS care sunt in rescuedOrphans.WBS
-  intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.find((r) => r.WBS === o.object.WBS))
+  //intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.find((r) => r.WBS === o.object.WBS))
   WBSMap = rez.trees
   recipes_ds = rez.retete
   ds_instanteRetete = rez.instanteRetete
@@ -2155,7 +2155,7 @@ function createTreesFromWBS(ds) {
     resultPlusVirtualFalse,
     resultPlusVirtualFalseNoDuplicates,
     orphans,
-    rescuedOrphans
+    //rescuedOrphans
   }
 }
 
