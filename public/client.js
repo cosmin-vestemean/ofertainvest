@@ -2101,7 +2101,7 @@ function createTreesFromWBS(ds) {
   //instanteRetete = applyFilterEndsWithL(instanteRetete)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
-  let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
+  /* let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
   let rescuedOrphans = []
   if (reteteGrupateArtificial.rescuedOrphans && reteteGrupateArtificial.rescuedOrphans.length > 0) {
     rescuedOrphans = reteteGrupateArtificial.rescuedOrphans
@@ -2111,9 +2111,9 @@ function createTreesFromWBS(ds) {
     instanteRetete1 = [...instanteRetete, ...reteteGrupateArtificial.result]
   } else {
     instanteRetete1 = instanteRetete
-  }
+  } */
 
-  let rez = eliminateDuplicates(instanteRetete1)
+  let rez = eliminateDuplicates(instanteRetete)
   let retete = rez.retete
   instanteRetete = rez.instanteRetete
 
@@ -2224,7 +2224,6 @@ function applyFilterByGrupareArticolOferta(data, retete) {
     if (obj.GRUPARE_ARTICOL_OFERTA) {
       let grupare = obj.GRUPARE_ARTICOL_OFERTA
       if (!grupari.includes(grupare)) {
-        var newObj = {}
         grupari.push(grupare)
         let related = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
         rescuedOrphans.push(...related)
