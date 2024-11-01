@@ -1,0 +1,14 @@
+-antemasuratori grupate vizual per reteta
+-retete lista + derulare (acum)
+-in antemasuratori in cazul scenriului trotuar apar in antemas > ... trotuar + scandura rasina + beton marfa
+-1.p sau 2.p sau 3.p => 1,1,1 si 2,2,2 si 3,3,3 (x.p denota isMain = 1; la el se raporteaza TOATE subartcolele)
+-5 costuri in oferta (material, manopera, utilaje, transport si echipamente) => 5 coloane in tabelul de oferte
+-nu mai exista subartcol custom
+
+
+
+
+------------
+1. Retete lista
+2. ident la subarticole (orice nu este principal) (retete + antemasuratori) cu buton de plus
+3. adaugare subarticol in retete(cap tabel)

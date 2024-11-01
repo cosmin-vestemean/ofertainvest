@@ -1993,7 +1993,7 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  console.log('maxLevels', maxLevels)
+  //console.log('maxLevels', maxLevels)
 
   //sunt maxLevels niveluri in tree
   //pornind de la primul nivel, pentru fiecare nivel, creeaza un array cu toate nodurile unice de pe acel nivel
@@ -2044,7 +2044,7 @@ function createTreesFromWBS(ds) {
 
   //console.log('instanteRetete4', [...resultPlus])
   let instanteRetete = applyFilterTipSubTip(resultPlus)
-  //console.log('instanteRetete3', [...instanteRetete])
+  console.log('instanteRetete3', [...instanteRetete])
 
   resultPlus.forEach(function (obj) {
     obj.level = obj.branch.length
@@ -2164,7 +2164,7 @@ function applyFilterTipSubTip(data) {
   //and keep their children (eg: ["1183","7","18","23"] and children ["1183","7","18","23","1"], ["1183","7","18","23","2"], ["1183","7","18","23","3"], etc.)
   const objFilter = {
     TIP_ARTICOL_OFERTA: ['articol'],
-    SUBTIP_ARTICOL_OFERTA: ['principal', 'manopera', 'transport', 'utilaj']
+    SUBTIP_ARTICOL_OFERTA: ['principal', 'manopera', 'transport', 'utilaj', 'echipament']
   }
   let arr = []
   data.forEach(function (obj) {
