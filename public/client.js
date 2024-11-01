@@ -2228,7 +2228,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
         let related = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
         rescuedOrphans.push(...related)
         console.log('related', related)
-        if (related.length > 1) {
+        /* if (related.length > 1) {
           let principal = related.find(
             (child) =>
               child.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
@@ -2261,7 +2261,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
           } else {
             console.log('Principal not found for grupare', grupare)
           }
-        }
+        } */
       }
     }
   })
