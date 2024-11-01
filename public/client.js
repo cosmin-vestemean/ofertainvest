@@ -2096,9 +2096,9 @@ function createTreesFromWBS(ds) {
   //console.log('instanteRetete1', [...instanteRetete])
 
   instanteRetete = prepareForMultipleActivities(instanteRetete)
-  console.log('instanteRetete', [...instanteRetete])
+  //console.log('instanteRetete', [...instanteRetete])
 
-  instanteRetete = applyFilterEndsWithL(instanteRetete)
+  //instanteRetete = applyFilterEndsWithL(instanteRetete)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
   let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
