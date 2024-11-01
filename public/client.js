@@ -1470,9 +1470,9 @@ export function detectieRetete() {
   })
 
   intrari_orfane = rez.orphans
-  //let rescuedOrphans = rez.rescuedOrphans
+  let rescuedOrphans = rez.rescuedOrphans
   //scoate din intrari_orfane.object.WBS care sunt in rescuedOrphans.WBS
-  //intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.find((r) => r.WBS === o.object.WBS))
+  intrari_orfane = intrari_orfane.filter((o) => !rescuedOrphans.find((r) => r.WBS === o.object.WBS))
   WBSMap = rez.trees
   recipes_ds = rez.retete
   ds_instanteRetete = rez.instanteRetete
@@ -2101,7 +2101,7 @@ function createTreesFromWBS(ds) {
   //instanteRetete = applyFilterEndsWithL(instanteRetete)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
-  /* let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
+  let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
   let rescuedOrphans = []
   if (reteteGrupateArtificial.rescuedOrphans && reteteGrupateArtificial.rescuedOrphans.length > 0) {
     rescuedOrphans = reteteGrupateArtificial.rescuedOrphans
@@ -2111,9 +2111,9 @@ function createTreesFromWBS(ds) {
     instanteRetete1 = [...instanteRetete, ...reteteGrupateArtificial.result]
   } else {
     instanteRetete1 = instanteRetete
-  } */
+  }
 
-  let rez = eliminateDuplicates(instanteRetete)
+  let rez = eliminateDuplicates(instanteRetete1)
   let retete = rez.retete
   instanteRetete = rez.instanteRetete
 
@@ -2155,7 +2155,7 @@ function createTreesFromWBS(ds) {
     resultPlusVirtualFalse,
     resultPlusVirtualFalseNoDuplicates,
     orphans,
-    //rescuedOrphans
+    rescuedOrphans
   }
 }
 
