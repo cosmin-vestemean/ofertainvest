@@ -2228,7 +2228,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
         let related = data.filter((child) => child.GRUPARE_ARTICOL_OFERTA == grupare)
         rescuedOrphans.push(...related)
         console.log('related', related)
-        /* if (related.length > 1) {
+        if (related.length > 1) {
           let principal = related.find(
             (child) =>
               child.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
@@ -2245,14 +2245,16 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //delete from related
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
-              adaugaInReteta(reteta, related)
+              //adaugaInReteta(reteta, related)
+              adaugaInReteta2(principal, related)
               reteta.name =
                 'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (include gruparea ' + grupare + ')'
             } else {
               console.log('reteta nu exista', principal)
               //creaza reteta in retete
               reteta = []
-              adaugaInReteta(reteta, related)
+              //adaugaInReteta(reteta, related)
+              adaugaInReteta2(principal, related)
               result.push({
                 name: 'Reteta ' + (retete.length + 1).toString() + ' (include gruparea ' + grupare + ')',
                 reteta
@@ -2261,7 +2263,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
           } else {
             console.log('Principal not found for grupare', grupare)
           }
-        } */
+        }
       }
     }
   })
@@ -2301,6 +2303,14 @@ function adaugaInReteta(reteta, related) {
     newObj2.virtual = false
     reteta.reteta.push(newObj2)
   }
+}
+
+function adaugaInReteta2(principal, related) {
+  //add related to principal's children
+  for (let i = 0; i < related.length; i++) {
+    //add CANTITATE_UNITARA_ARTICOL_RETETA
+    related[i].CANTITATE_UNITARA_ARTICOL_RETETA = 0
+    principal.children.push(related[i])
 }
 
 function prepareForMultipleActivities(data) {
