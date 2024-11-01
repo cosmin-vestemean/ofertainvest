@@ -115,14 +115,16 @@ client.use('users', socketClient.service('users'), {
 })
 
 // Use localStorage to store our login token
-client.configure(feathers.authentication({
-  storage: window.localStorage
-}));
+client.configure(
+  feathers.authentication({
+    storage: window.localStorage
+  })
+)
 
 const login = async () => {
   try {
     // First try to log in with an existing JWT
-    return await client.reAuthenticate();
+    return await client.reAuthenticate()
   } catch (error) {
     // If that errors, log in with email/password
     // Here we would normally show a login page
@@ -131,18 +133,18 @@ const login = async () => {
       strategy: 'local',
       email: 'hello@feathersjs.com',
       password: 'supersecret'
-    });
+    })
   }
-};
+}
 
 const main = async () => {
-  const auth = await login();
+  const auth = await login()
 
-  console.log('User is authenticated', auth);
+  console.log('User is authenticated', auth)
 
   // Log us out again
-  await client.logout();
-};
+  await client.logout()
+}
 
 //main();
 
@@ -152,7 +154,7 @@ export var contextOferta = {
   TRDR: 0,
   FILENAME: '',
   CCCOFERTEWEB: 0,
-  angajati : []
+  angajati: []
 }
 
 export var optimal_ds = []
@@ -714,17 +716,17 @@ export async function fromXls2Recipes(excel_object) {
   processExcelData(optimal_ds)
   //add value to contextOferta.CCCOFERTEWEB
   try {
-    const query = `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`;
-    const result = await getValFromS1Query(query);
-  
+    const query = `select isnull(max(isnull(CCCOFERTEWEB, 0)), 0) + 1 from CCCOFERTEWEB`
+    const result = await getValFromS1Query(query)
+
     if (result.success) {
-      contextOferta.CCCOFERTEWEB = result.value;
-      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB);
+      contextOferta.CCCOFERTEWEB = result.value
+      console.log('CCCOFERTEWEB=', contextOferta.CCCOFERTEWEB)
     } else {
-      console.log('Educated guessing next CCCOFERTEWEB failed', result);
+      console.log('Educated guessing next CCCOFERTEWEB failed', result)
     }
   } catch (error) {
-    console.error('Error in finding CCCOFETEWEB:', error);
+    console.error('Error in finding CCCOFETEWEB:', error)
   }
   detectieRetete() //recipes_ds, instanteRetete
 }
@@ -2311,6 +2313,7 @@ function adaugaInReteta2(principal, related) {
     //add CANTITATE_UNITARA_ARTICOL_RETETA
     related[i].CANTITATE_UNITARA_ARTICOL_RETETA = 0
     principal.children.push(related[i])
+  }
 }
 
 function prepareForMultipleActivities(data) {
