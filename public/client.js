@@ -2089,14 +2089,14 @@ function createTreesFromWBS(ds) {
     }
   })
 
-  console.log('instanteRetete2', [...instanteRetete])
+  //console.log('instanteRetete2', [...instanteRetete])
 
   //returns old WBS and newly created WBS, if any
   instanteRetete = applyFilterChildrenEndsWith0(instanteRetete)
   //console.log('instanteRetete1', [...instanteRetete])
 
   instanteRetete = prepareForMultipleActivities(instanteRetete)
-  //console.log('instanteRetete', [...instanteRetete])
+  console.log('instanteRetete', [...instanteRetete])
 
   instanteRetete = applyFilterEndsWithL(instanteRetete)
 
