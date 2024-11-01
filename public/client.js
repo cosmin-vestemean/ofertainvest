@@ -2309,6 +2309,8 @@ function adaugaInReteta(reteta, related) {
 
 function adaugaInReteta2(principal, related) {
   //add related to principal's children
+  //add children array to principal
+  principal.children = []
   for (let i = 0; i < related.length; i++) {
     //add CANTITATE_UNITARA_ARTICOL_RETETA
     related[i].CANTITATE_UNITARA_ARTICOL_RETETA = 0
