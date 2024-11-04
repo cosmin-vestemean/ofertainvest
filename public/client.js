@@ -2318,6 +2318,7 @@ function adaugaInReteta2(reteta, related) {
     child.virtual = true
     child.hasChildren = false
     reteta.reteta[0].children.push(child)
+    reteta.reteta[0].hasChildren = true
   }
 }
 
@@ -3162,7 +3163,7 @@ class Recipe extends LitElement {
       let counter = 0
       for (let i = 0; i < this.reteta.length; i++) {
         let activitate = this.reteta[i]
-        let isActivitatePrincipala = activitate.object.ISMAIN
+        let isActivitatePrincipala = activitate.ISMAIN
         let ISCUSTOM = activitate.object.ISCUSTOM
         counter++
         var tr = document.createElement('tr')
