@@ -2317,7 +2317,7 @@ function adaugaInReteta2(reteta, related) {
     child.level = child.branch.length
     child.virtual = true
     child.hasChildren = false
-    reteta.reteta.children.push(child)
+    reteta.reteta[0].children.push(child)
   }
 }
 
