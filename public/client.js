@@ -2321,6 +2321,17 @@ function adaugaInReteta2(reteta, principal, related) {
     child.hasChildren = false
     newObj.children.push(child)
   }
+
+  newObj.object.old_WBS = ''
+  newObj.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+  newObj.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+  //PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
+  newObj.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+  newObj.hasChildren = true
+  newObj.branch = principal.WBS.split('.')
+  newObj.level = newObj.branch.length
+  newObj.virtual = false
+  reteta.reteta.push(newObj)  
 }
 
 function prepareForMultipleActivities(data) {
