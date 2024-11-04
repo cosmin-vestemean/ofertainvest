@@ -2307,14 +2307,37 @@ function adaugaInReteta(reteta, related) {
   }
 }
 
-function adaugaInReteta2(principal, related) {
-  //add related to principal's children
-  //add children array to principal
-  principal.children = []
+function adaugaInReteta2(reteta, related) {
   for (let i = 0; i < related.length; i++) {
-    //add CANTITATE_UNITARA_ARTICOL_RETETA
-    related[i].CANTITATE_UNITARA_ARTICOL_RETETA = 0
-    principal.children.push(related[i])
+    let newObj1 = { object: { ...related[i] } }
+    let newObj2 = { object: { ...related[i] } }
+    newObj1.object.old_WBS = related[i].WBS
+    newObj1.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
+    newObj1.branch = newObj1.object.WBS.split('.')
+    newObj1.level = newObj1.branch.length
+    newObj1.virtual = true
+    newObj1.hasChildren = false
+    newObj1.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+    newObj2.children = []
+    newObj2.children.push(newObj1)
+    newObj2.object.old_WBS = ''
+    newObj2.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+    newObj2.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+    if (
+      (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
+        newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') ||
+      (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
+        newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'manopera')
+    ) {
+      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+    } else {
+      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+    }
+    newObj2.hasChildren = true
+    newObj2.branch = related[i].WBS.split('.')
+    newObj2.level = newObj2.branch.length
+    newObj2.virtual = false
+    reteta.reteta.push(newObj2)
   }
 }
 
