@@ -2248,7 +2248,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
               //adaugaInReteta(reteta, related)
-              adaugaInReteta2(reteta, principal, related)
+              adaugaInReteta2(reteta, related)
               reteta.name =
                 'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (include gruparea ' + grupare + ')'
             } else {
@@ -2256,7 +2256,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //creaza reteta in retete
               reteta = []
               //adaugaInReteta(reteta, related)
-              adaugaInReteta2(reteta, principal, related)
+              adaugaInReteta2(reteta, related)
               result.push({
                 name: 'Reteta ' + (retete.length + 1).toString() + ' (include gruparea ' + grupare + ')',
                 reteta
@@ -2309,9 +2309,8 @@ function adaugaInReteta(reteta, related) {
 
 function adaugaInReteta2(reteta, principal, related) {
   //make principal object, add all related objects to principal.children but principal and add principal to reteta
-  let newObj = { object: { ...principal } }
-  newObj.children = []
   for (let i = 0; i < related.length; i++) {
+    let newObj = { object: { ...related[i] } }
     let child = { object: { ...related[i] } }
     child.object.old_WBS = related[i].WBS
     child.object.WBS = related[i].WBS.split('.').join('.') + '.' + (i + 1).toString()
@@ -2320,18 +2319,8 @@ function adaugaInReteta2(reteta, principal, related) {
     child.virtual = true
     child.hasChildren = false
     newObj.children.push(child)
+    reteta.reteta.object.children.push(newObj)
   }
-
-  newObj.object.old_WBS = ''
-  newObj.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-  newObj.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-  //PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
-  newObj.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
-  newObj.hasChildren = true
-  newObj.branch = principal.WBS.split('.')
-  newObj.level = newObj.branch.length
-  newObj.virtual = false
-  reteta.reteta.push(newObj)  
 }
 
 function prepareForMultipleActivities(data) {
