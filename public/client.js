@@ -3088,7 +3088,7 @@ class Recipe extends LitElement {
         //5.  ISCUSTOM  = 0: update CCCACTIVITRETETE, CCCMATRETETE  //always has CCCOFERTEWEBLINII + CCCACTIVITRETETE + CCCMATRETETE
         reteta.reteta.forEach(async (item) => {
           let o = item.object
-          let ISMAIN = item.ISMAIN
+          let ISMAIN = o.ISMAIN
           let ISCUSTOM = o.ISCUSTOM
           let idReteta = item.idReteta
           if (ISCUSTOM === 1) {
@@ -3210,7 +3210,7 @@ class Recipe extends LitElement {
         checkbox.id = 'checkbox_' + counter
         checkbox.classList.add('form-check-input')
         checkbox.classList.add('activitati_reteta')
-        checkbox.checked = isActivitatePrincipala
+        checkbox.checked = isActivitatePrincipala ? true : false
         checkbox.style.marginLeft = '5px'
         //onchange, set activitate.ISMAIN = checkbox.checked
         checkbox.onchange = function () {
