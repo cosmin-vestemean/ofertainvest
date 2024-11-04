@@ -2307,10 +2307,10 @@ function adaugaInReteta(reteta, related) {
   }
 }
 
-function adaugaInReteta2(reteta, related) {
+function adaugaInReteta2(principal, related) {
+  principal.children = []
   for (let i = 0; i < related.length; i++) {
     let newObj1 = { object: { ...related[i] } }
-    let newObj2 = { object: { ...related[i] } }
     newObj1.object.old_WBS = related[i].WBS
     newObj1.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
     newObj1.branch = newObj1.object.WBS.split('.')
@@ -2318,26 +2318,7 @@ function adaugaInReteta2(reteta, related) {
     newObj1.virtual = true
     newObj1.hasChildren = false
     newObj1.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-    newObj2.children = []
-    newObj2.children.push(newObj1)
-    newObj2.object.old_WBS = ''
-    newObj2.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-    newObj2.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-    if (
-      (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
-        newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') ||
-      (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
-        newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'manopera')
-    ) {
-      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
-    } else {
-      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
-    }
-    newObj2.hasChildren = true
-    newObj2.branch = related[i].WBS.split('.')
-    newObj2.level = newObj2.branch.length
-    newObj2.virtual = false
-    reteta.reteta.push(newObj2)
+    principal.children.push(newObj1)
   }
 }
 
