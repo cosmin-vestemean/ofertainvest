@@ -2248,7 +2248,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               related = related.filter((child) => child.WBS != principal.WBS)
               //add each related to reteta array as object using for (let...)
               //adaugaInReteta(reteta, related)
-              adaugaInReteta2(principal, related)
+              adaugaInReteta2(reteta, principal, related)
               reteta.name =
                 'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (include gruparea ' + grupare + ')'
             } else {
@@ -2256,7 +2256,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //creaza reteta in retete
               reteta = []
               //adaugaInReteta(reteta, related)
-              adaugaInReteta2(principal, related)
+              adaugaInReteta2(reteta, principal, related)
               result.push({
                 name: 'Reteta ' + (retete.length + 1).toString() + ' (include gruparea ' + grupare + ')',
                 reteta
@@ -2307,18 +2307,19 @@ function adaugaInReteta(reteta, related) {
   }
 }
 
-function adaugaInReteta2(principal, related) {
-  principal.children = []
+function adaugaInReteta2(reteta, principal, related) {
+  //make principal object, add all related objects to principal.children but principal and add principal to reteta
+  let newObj = { object: { ...principal } }
+  newObj.children = []
   for (let i = 0; i < related.length; i++) {
-    let newObj1 = { object: { ...related[i] } }
-    newObj1.object.old_WBS = related[i].WBS
-    newObj1.object.WBS = related[i].WBS.split('.').join('.') + '.' + '1'
-    newObj1.branch = newObj1.object.WBS.split('.')
-    newObj1.level = newObj1.branch.length
-    newObj1.virtual = true
-    newObj1.hasChildren = false
-    newObj1.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-    principal.children.push(newObj1)
+    let child = { object: { ...related[i] } }
+    child.object.old_WBS = related[i].WBS
+    child.object.WBS = related[i].WBS.split('.').join('.') + '.' + (i + 1).toString()
+    child.branch = child.object.WBS.split('.')
+    child.level = child.branch.length
+    child.virtual = true
+    child.hasChildren = false
+    newObj.children.push(child)
   }
 }
 
