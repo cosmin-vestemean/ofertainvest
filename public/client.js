@@ -2310,7 +2310,6 @@ function adaugaInReteta(reteta, related) {
 function adaugaInReteta2(reteta, related) {
   //make principal object, add all related objects to principal.children but principal and add principal to reteta
   for (let i = 0; i < related.length; i++) {
-    let newObj = { object: { ...related[i] } }
     let child = { object: { ...related[i] } }
     child.object.old_WBS = related[i].WBS
     child.object.WBS = related[i].WBS.split('.').join('.') + '.' + (i + 1).toString()
@@ -2318,8 +2317,7 @@ function adaugaInReteta2(reteta, related) {
     child.level = child.branch.length
     child.virtual = true
     child.hasChildren = false
-    newObj.children.push(child)
-    reteta.reteta.children.push(newObj)
+    reteta.reteta.children.push(child)
   }
 }
 
