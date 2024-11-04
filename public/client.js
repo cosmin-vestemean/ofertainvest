@@ -3088,7 +3088,7 @@ class Recipe extends LitElement {
         //5.  ISCUSTOM  = 0: update CCCACTIVITRETETE, CCCMATRETETE  //always has CCCOFERTEWEBLINII + CCCACTIVITRETETE + CCCMATRETETE
         reteta.reteta.forEach(async (item) => {
           let o = item.object
-          let ISMAIN = o.ISMAIN
+          let ISMAIN = item.ISMAIN
           let ISCUSTOM = o.ISCUSTOM
           let idReteta = item.idReteta
           if (ISCUSTOM === 1) {
