@@ -2307,7 +2307,7 @@ function adaugaInReteta(reteta, related) {
   }
 }
 
-function adaugaInReteta2(reteta, principal, related) {
+function adaugaInReteta2(reteta, related) {
   //make principal object, add all related objects to principal.children but principal and add principal to reteta
   for (let i = 0; i < related.length; i++) {
     let newObj = { object: { ...related[i] } }
