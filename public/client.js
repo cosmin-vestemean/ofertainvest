@@ -2319,7 +2319,7 @@ function adaugaInReteta2(reteta, principal, related) {
     child.virtual = true
     child.hasChildren = false
     newObj.children.push(child)
-    reteta.reteta.object.children.push(newObj)
+    reteta.reteta.children.push(newObj)
   }
 }
 
