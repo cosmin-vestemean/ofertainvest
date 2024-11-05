@@ -32,7 +32,7 @@ export const tables = {
     visible: true
   },
   my_table8: {
-    element: document.getElementById('my_table_detalii_reteta'),
+    element: document.getElementById('my_table_lista_retete'),
     visible: true
   },
   allTables() {

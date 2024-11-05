@@ -10,8 +10,10 @@ import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
 import { ds_antemasuratori, setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
+import { myTableListaRetete } from './views/myTableListaRetete.js'
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
+customElements.define('my-table-lista-retete', myTableListaRetete)
 
 export const semafoare = {
   oferta_is_loaded: false,
@@ -1461,7 +1463,8 @@ export function showRecipes() {
     tables.my_table2.element.ds = listaRetete
   } else {
     //show lista retete intr-o singura pagina
-    console.log('lista retete intr-o singura pagina')
+    tables.hideAllBut([tables.my_table8])
+    tables.my_table8.element.ds = recipes_ds
   }
 }
 
