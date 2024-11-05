@@ -1464,7 +1464,7 @@ export function showRecipes() {
   } else {
     //show lista retete intr-o singura pagina
     tables.hideAllBut([tables.my_table8])
-    tables.my_table8.element.ds = recipes_ds
+    tables.my_table8.element.data = recipes_ds
   }
 }
 
