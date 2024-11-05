@@ -55,33 +55,33 @@ export class myTableListaRetete extends LitElement {
         theadReteta.id = 'thead_' + idReteta
         for (let j = 0; j < reteta.length; j++) {
           let activitate = reteta[j].object
-            //add activitate to header reteta
-            let thActivitate = document.createElement('th')
-            thActivitate.textContent = activitate.DENUMIRE_ARTICOL_OFERTA
-            let tbodyReteta = document.createElement('tbody')
-            tbodyReteta.id = 'tbody_' + idReteta
-            tblReteta.appendChild(tbodyReteta)
+          //add activitate to header reteta
+          let thActivitate = document.createElement('th')
+          thActivitate.textContent = activitate.DENUMIRE_ARTICOL_OFERTA
+          let tbodyReteta = document.createElement('tbody')
+          tbodyReteta.id = 'tbody_' + idReteta
+          tblReteta.appendChild(tbodyReteta)
           let subarticole = activitate.children
-            for (let k = 0; k < subarticole.length; k++) {
-                let subarticol = subarticole[k].object
-                //add subarticol to tbody reteta
-                let tr = document.createElement('tr')
-                tbodyReteta.appendChild(tr)
-                //append counter
-                let td = document.createElement('td')
-                td.textContent = k + 1
-                tr.appendChild(td)
-                //append subarticol
-                let tdSubarticol = document.createElement('td')
-                tdSubarticol.textContent = subarticol.DENUMIRE_ARTICOL_OFERTA
-                tr.appendChild(tdSubarticol)
-            }
+          for (let k = 0; k < subarticole.length; k++) {
+            let subarticol = subarticole[k].object
+            //add subarticol to tbody reteta
+            let tr = document.createElement('tr')
+            tbodyReteta.appendChild(tr)
+            //append counter
+            let td = document.createElement('td')
+            td.textContent = k + 1
+            tr.appendChild(td)
+            //append subarticol
+            let tdSubarticol = document.createElement('td')
+            tdSubarticol.textContent = subarticol.DENUMIRE_ARTICOL_OFERTA
+            tr.appendChild(tdSubarticol)
+          }
         }
         table.appendChild(tblReteta)
       }
       table.appendChild(tbody)
     }
 
-return html`${table}`
+    return html`${table}`
   }
 }
