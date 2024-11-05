@@ -44,6 +44,7 @@ export const tables = {
       this.my_table5,
       this.my_table6,
       this.my_table7,
+      this.my_table8,
       this.estimari_timeline
     ]
   },
