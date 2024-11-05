@@ -51,16 +51,15 @@ export class myTableListaRetete extends LitElement {
         //font size
         tblReteta.style.fontSize = 'small'
         let theadReteta = document.createElement('thead')
-        tbody.appendChild(tblReteta)
         theadReteta.id = 'thead_' + idReteta
+        let tbodyReteta = document.createElement('tbody')
+        tbodyReteta.id = 'tbody_' + idReteta
         for (let j = 0; j < reteta.length; j++) {
           let activitate = reteta[j].object
           //add activitate to header reteta
           let thActivitate = document.createElement('th')
           thActivitate.textContent = activitate.DENUMIRE_ARTICOL_OFERTA
-          let tbodyReteta = document.createElement('tbody')
-          tbodyReteta.id = 'tbody_' + idReteta
-          tblReteta.appendChild(tbodyReteta)
+          theadReteta.appendChild(thActivitate)
           let subarticole = activitate.children
           for (let k = 0; k < subarticole.length; k++) {
             let subarticol = subarticole[k].object
@@ -76,12 +75,13 @@ export class myTableListaRetete extends LitElement {
             tdSubarticol.textContent = subarticol.DENUMIRE_ARTICOL_OFERTA
             tr.appendChild(tdSubarticol)
           }
+          tblReteta.appendChild(theadReteta)
+          tblReteta.appendChild(tbodyReteta)
         }
         table.appendChild(tblReteta)
       }
       table.appendChild(tbody)
+      return html`${table}`
     }
-
-    return html`${table}`
   }
 }
