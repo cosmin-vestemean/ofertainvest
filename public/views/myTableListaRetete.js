@@ -77,8 +77,8 @@ export class myTableListaRetete extends LitElement {
           }
           tblReteta.appendChild(theadReteta)
           tblReteta.appendChild(tbodyReteta)
-          table.appendChild(tblReteta)
         }
+        tbody.appendChild(tblReteta)
       }
       table.appendChild(tbody)
       return html`${table}`
