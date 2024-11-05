@@ -65,7 +65,6 @@ export class myTableListaRetete extends LitElement {
             let subarticol = subarticole[k].object
             //add subarticol to tbody reteta
             let tr = document.createElement('tr')
-            tbodyReteta.appendChild(tr)
             //append counter
             let td = document.createElement('td')
             td.textContent = k + 1
@@ -74,6 +73,7 @@ export class myTableListaRetete extends LitElement {
             let tdSubarticol = document.createElement('td')
             tdSubarticol.textContent = subarticol.DENUMIRE_ARTICOL_OFERTA
             tr.appendChild(tdSubarticol)
+            tbodyReteta.appendChild(tr)
           }
           tblReteta.appendChild(theadReteta)
           tblReteta.appendChild(tbodyReteta)
