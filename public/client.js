@@ -1461,6 +1461,7 @@ export function showRecipes() {
     tables.my_table2.element.ds = listaRetete
   } else {
     //show lista retete intr-o singura pagina
+    console.log('lista retete intr-o singura pagina')
   }
 }
 
