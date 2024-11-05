@@ -54,6 +54,7 @@ export class myTableListaRetete extends LitElement {
         theadReteta.id = 'thead_' + idReteta
         let tbodyReteta = document.createElement('tbody')
         tbodyReteta.id = 'tbody_' + idReteta
+        //activitatile (articolul oferta)
         for (let j = 0; j < reteta.length; j++) {
           let activitate = reteta[j].object
           //add activitate to header reteta
@@ -61,6 +62,7 @@ export class myTableListaRetete extends LitElement {
           thActivitate.textContent = activitate.DENUMIRE_ARTICOL_OFERTA
           theadReteta.appendChild(thActivitate)
           let subarticole = activitate.children
+          //subarticole
           for (let k = 0; k < subarticole.length; k++) {
             let subarticol = subarticole[k].object
             //add subarticol to tbody reteta
