@@ -247,13 +247,20 @@ export function init() {
   //lista_retete_scurta
   let lista_retete_scurta = document.getElementById('lista_retete_scurta')
   lista_retete_scurta.onclick = function () {
-    let listaRetete = []
-    if (recipes_ds && recipes_ds.length > 0) {
-      recipes_ds.forEach((o) => {
-        listaRetete.push({ Reteta: o.name })
-      })
-      tables.hideAllBut([tables.my_table2])
-      tables.my_table2.element.ds = listaRetete
+    let viewScrollRetete = document.getElementById('afisare_retete_scroll')
+    let checkedScroll = viewScrollRetete.checked ? true : false
+    if (checkedScroll) {
+      let listaRetete = []
+      if (recipes_ds && recipes_ds.length > 0) {
+        recipes_ds.forEach((o) => {
+          listaRetete.push({ Reteta: o.name })
+        })
+        tables.hideAllBut([tables.my_table2])
+        tables.my_table2.element.ds = listaRetete
+      }
+    } else {
+      //show list of recipes
+      alert('Not implemented yet')
     }
   }
   let orfani = document.getElementById('orfani')

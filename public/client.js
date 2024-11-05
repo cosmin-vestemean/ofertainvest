@@ -1447,13 +1447,21 @@ export function populateSelectIerarhiiFromTrees() {
 }
 
 export function showRecipes() {
-  //hide table1
-  tables.hideAllBut([tables.my_table2, tables.my_table3])
-  let listaRetete = []
-  recipes_ds.forEach((o) => {
-    listaRetete.push({ id: o.id, Reteta: o.name })
-  })
-  tables.my_table2.element.ds = listaRetete
+  //afisare_retete_lista
+  let viewScrollRetete = document.getElementById('afisare_retete_scroll')
+  //which one is checked
+  let checkedScroll = viewScrollRetete.checked ? true : false
+  //if it's scroll
+  if (checkedScroll === true) {
+    tables.hideAllBut([tables.my_table2, tables.my_table3])
+    let listaRetete = []
+    recipes_ds.forEach((o) => {
+      listaRetete.push({ id: o.id, Reteta: o.name })
+    })
+    tables.my_table2.element.ds = listaRetete
+  } else {
+    //show lista retete intr-o singura pagina
+  }
 }
 
 export function detectieRetete() {
