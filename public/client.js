@@ -10,10 +10,9 @@ import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
 import { ds_antemasuratori, setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
-import { myTableListaRetete } from './views/myTableListaRetete.js'
+import { MyTableListaRetete } from './views/myTableListaRetete.js'
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
-customElements.define('my-table-lista-retete', myTableListaRetete)
 
 export const semafoare = {
   oferta_is_loaded: false,

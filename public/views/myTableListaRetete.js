@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { template, theadIsSet } from '../client.js'
 
-export class myTableListaRetete extends LitElement {
+class MyTableListaRetete extends LitElement {
   static properties = {
     data: { type: Array }
   }
@@ -13,77 +13,129 @@ export class myTableListaRetete extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
-  render() {
-    //No data
-    if (!this.data || this.data.length == 0) {
-      return html`<p class="label label-danger">No data</p>`
-    } else {
-      //add table
-      var table = document.createElement('table')
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.classList.add('table-hover')
-      table.classList.add('table-responsive')
-      table.id = 'table_lista_retete'
-      //font size
-      table.style.fontSize = 'small'
-      //get or create thead and tbody
-      var thead = document.createElement('thead')
-      thead.id = 'thead_lista_retete'
-      thead.classList.add('align-middle')
-      var tbody = document.createElement('tbody')
-      tbody.id = 'tbody_lista_retete'
-      if (theadIsSet) {
-        //add thead
-        table.appendChild(thead)
+  static styles = css`
+  .subarticol {
+    padding-left: 20px;
+  }
+  .foldable {
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  }
+`;
+
+  toggleFold(event) {
+    const subarticole = event.target.nextElementSibling;
+    if (subarticole) {
+      subarticole.classList.toggle('hidden');
+    }
+  }
+
+  addSubarticol(event) {
+    const idReteta = event.target.dataset.idReteta;
+    const idArticol = event.target.dataset.idArticol;
+    const newSubarticol = {
+      object: {
+        DENUMIRE_ARTICOL_OFERTA: 'New Subarticol',
+        editable: true
       }
-      //add tbody
-      for (let i = 0; i < this.data.length; i++) {
-        let idReteta = this.data[i].id
-        let reteta = this.data[i].reteta
-        //add table reteta to tbody
-        let tblReteta = document.createElement('table')
-        tblReteta.classList.add('table')
-        tblReteta.classList.add('table-sm')
-        tblReteta.classList.add('table-hover')
-        tblReteta.classList.add('table-responsive')
-        tblReteta.id = idReteta
-        //font size
-        tblReteta.style.fontSize = 'small'
-        let theadReteta = document.createElement('thead')
-        theadReteta.id = 'thead_' + idReteta
-        let tbodyReteta = document.createElement('tbody')
-        tbodyReteta.id = 'tbody_' + idReteta
-        //activitatile (articolul oferta)
-        for (let j = 0; j < reteta.length; j++) {
-          let activitate = reteta[j].object
-          //add activitate to header reteta
-          let thActivitate = document.createElement('th')
-          thActivitate.textContent = activitate.DENUMIRE_ARTICOL_OFERTA
-          theadReteta.appendChild(thActivitate)
-          let subarticole = activitate.children
-          //subarticole
-          for (let k = 0; k < subarticole.length; k++) {
-            let subarticol = subarticole[k].object
-            //add subarticol to tbody reteta
-            let tr = document.createElement('tr')
-            //append counter
-            let td = document.createElement('td')
-            td.textContent = k + 1
-            tr.appendChild(td)
-            //append subarticol
-            let tdSubarticol = document.createElement('td')
-            tdSubarticol.textContent = subarticol.DENUMIRE_ARTICOL_OFERTA
-            tr.appendChild(tdSubarticol)
-            tbodyReteta.appendChild(tr)
+    };
+    this.data = this.data.map(reteta => {
+      if (reteta.id === idReteta) {
+        reteta.reteta = reteta.reteta.map(articol => {
+          if (articol.object.id === idArticol) {
+            articol.children.push(newSubarticol);
           }
-          tblReteta.appendChild(theadReteta)
-          tblReteta.appendChild(tbodyReteta)
-        }
-        tbody.appendChild(tblReteta)
+          return articol;
+        });
       }
-      table.appendChild(tbody)
-      return html`${table}`
+      return reteta;
+    });
+  }
+
+  editSubarticol(event) {
+    const idReteta = event.target.dataset.idReteta;
+    const idArticol = event.target.dataset.idArticol;
+    const idSubarticol = event.target.dataset.idSubarticol;
+    const newValue = event.target.textContent;
+    this.data = this.data.map(reteta => {
+      if (reteta.id === idReteta) {
+        reteta.reteta = reteta.reteta.map(articol => {
+          if (articol.object.id === idArticol) {
+            articol.children = articol.children.map(subarticol => {
+              if (subarticol.object.id === idSubarticol) {
+                subarticol.object.DENUMIRE_ARTICOL_OFERTA = newValue;
+              }
+              return subarticol;
+            });
+          }
+          return articol;
+        });
+      }
+      return reteta;
+    });
+  }
+
+  deleteSubarticol(event) {
+    const idReteta = event.target.dataset.idReteta;
+    const idArticol = event.target.dataset.idArticol;
+    const idSubarticol = event.target.dataset.idSubarticol;
+    this.data = this.data.map(reteta => {
+      if (reteta.id === idReteta) {
+        reteta.reteta = reteta.reteta.map(articol => {
+          if (articol.object.id === idArticol) {
+            articol.children = articol.children.filter(subarticol => subarticol.object.id !== idSubarticol);
+          }
+          return articol;
+        });
+      }
+      return reteta;
+    });
+  }
+
+  render() {
+    if (!this.data || this.data.length == 0) {
+      return html`<p class="label label-danger">No data</p>`;
+    } else {
+      return html`
+        <table>
+          ${this.data.map(reteta => html`
+            <tr>
+              <td colspan="2"><strong>Reteta ID: ${reteta.id}</strong></td>
+            </tr>
+            ${reteta.reteta.map(articol => html`
+              <tr>
+                <td class="foldable" @click="${this.toggleFold}">${articol.object.DENUMIRE_ARTICOL_OFERTA}</td>
+                <td>
+                  <button @click="${this.addSubarticol}" data-id-reteta="${reteta.id}" data-id-articol="${articol.object.id}">Add Subarticol</button>
+                </td>
+              </tr>
+              <tr class="hidden">
+                <td colspan="2">
+                  <table class="subarticol">
+                    ${articol.children.map(subarticol => html`
+                      <tr>
+                        <td contenteditable="${subarticol.object.editable}" @blur="${this.editSubarticol}" data-id-reteta="${reteta.id}" data-id-articol="${articol.object.id}" data-id-subarticol="${subarticol.object.id}">
+                          ${subarticol.object.DENUMIRE_ARTICOL_OFERTA}
+                        </td>
+                        ${subarticol.object.editable ? html`
+                          <td>
+                            <button @click="${this.deleteSubarticol}" data-id-reteta="${reteta.id}" data-id-articol="${articol.object.id}" data-id-subarticol="${subarticol.object.id}">Delete</button>
+                          </td>
+                        ` : ''}
+                      </tr>
+                    `)}
+                  </table>
+                </td>
+              </tr>
+            `)}
+          `)}
+        </table>
+      `;
     }
   }
 }
+
+customElements.define('my-table-lista-retete', MyTableListaRetete);
+
