@@ -110,12 +110,12 @@ class MyTableListaRetete extends LitElement {
       table.classList.add('table-responsive')
 
       this.data.forEach((reteta) => {
-        const retetaRow = document.createElement('tr')
+        /* const retetaRow = document.createElement('tr')
         const retetaCell = document.createElement('td')
         retetaCell.colSpan = 2
         retetaCell.innerHTML = `<strong>Reteta ID: ${reteta.id}</strong>`
         retetaRow.appendChild(retetaCell)
-        table.appendChild(retetaRow)
+        table.appendChild(retetaRow) */
 
         reteta.reteta.forEach((articol) => {
           const articolRow = document.createElement('tr')
@@ -126,12 +126,11 @@ class MyTableListaRetete extends LitElement {
           articolRow.appendChild(articolCell)
 
           const addButtonCell = document.createElement('td')
-          const addButton = document.createElement('button')
+          const addButton = document.createElement('i')
           //add class to addButton
-          addButton.classList.add('btn')
-          addButton.classList.add('btn-sm')
-          addButton.classList.add('btn-primary')
-          addButton.innerHTML = '<i class="bi bi-plus text-primary"></i>'
+          addButton.classList.add('bi')
+          addButton.classList.add('bi-plus')
+          addButton.classList.add('text-primary')
           addButton.dataset.idReteta = reteta.id
           addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
           addButton.addEventListener('click', this.addSubarticol.bind(this))
@@ -150,7 +149,7 @@ class MyTableListaRetete extends LitElement {
           subarticolTable.classList.add('table-sm')
           subarticolTable.classList.add('table-hover')
           subarticolTable.classList.add('table-responsive')
-          subarticolTable.className = 'subarticol'
+          subarticolTable.classList.add('subarticol')
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
@@ -166,12 +165,11 @@ class MyTableListaRetete extends LitElement {
 
             if (isCustom) {
               const deleteButtonCell = document.createElement('td')
-              const deleteButton = document.createElement('button')
-              //add class to deleteButton
-              deleteButton.classList.add('btn')
-              deleteButton.classList.add('btn-sm')
-              deleteButton.classList.add('btn-danger')
-              deleteButton.innerHTML = '<i class="bi bi-trash bi bi-trash text-danger"></i>'
+                const deleteButton = document.createElement('i')
+                //add class to deleteButton
+                deleteButton.classList.add('bi')
+                deleteButton.classList.add('bi-trash')
+                deleteButton.classList.add('text-danger')
               deleteButton.dataset.idReteta = reteta.id
               deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
               deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
