@@ -103,6 +103,11 @@ class MyTableListaRetete extends LitElement {
       return html`${noDataMessage}`
     } else {
       const table = document.createElement('table')
+      //add class to table
+      table.classList.add('table')
+      table.classList.add('table-sm')
+      table.classList.add('table-hover')
+      table.classList.add('table-responsive')
 
       this.data.forEach((reteta) => {
         const retetaRow = document.createElement('tr')
@@ -122,6 +127,10 @@ class MyTableListaRetete extends LitElement {
 
           const addButtonCell = document.createElement('td')
           const addButton = document.createElement('button')
+          //add class to addButton
+          addButton.classList.add('btn')
+          addButton.classList.add('btn-sm')
+          addButton.classList.add('btn-primary')
           addButton.innerHTML = '<i class="bi bi-plus text-primary"></i>'
           addButton.dataset.idReteta = reteta.id
           addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
@@ -136,6 +145,11 @@ class MyTableListaRetete extends LitElement {
           const subarticolCell = document.createElement('td')
           subarticolCell.colSpan = 2
           const subarticolTable = document.createElement('table')
+          //add class to subarticolTable
+          subarticolTable.classList.add('table')
+          subarticolTable.classList.add('table-sm')
+          subarticolTable.classList.add('table-hover')
+          subarticolTable.classList.add('table-responsive')
           subarticolTable.className = 'subarticol'
 
           articol.children.forEach((subarticol) => {
@@ -153,6 +167,10 @@ class MyTableListaRetete extends LitElement {
             if (isCustom) {
               const deleteButtonCell = document.createElement('td')
               const deleteButton = document.createElement('button')
+              //add class to deleteButton
+              deleteButton.classList.add('btn')
+              deleteButton.classList.add('btn-sm')
+              deleteButton.classList.add('btn-danger')
               deleteButton.innerHTML = '<i class="bi bi-trash bi bi-trash text-danger"></i>'
               deleteButton.dataset.idReteta = reteta.id
               deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
