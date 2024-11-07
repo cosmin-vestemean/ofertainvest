@@ -140,21 +140,22 @@ class MyTableListaRetete extends LitElement {
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
             const subarticolTableCell = document.createElement('td')
-            subarticolTableCell.contentEditable = subarticol.object.editable
+            const isCustom = subarticol.object.ISCUSTOM || true
+            subarticolTableCell.contentEditable = isCustom
             subarticolTableCell.textContent = subarticol.object.DENUMIRE_ARTICOL_OFERTA
-            subarticolTableCell.dataset.idReteta = reteta.id
-            subarticolTableCell.dataset.idArticol = articol.object.id
-            subarticolTableCell.dataset.idSubarticol = subarticol.object.id
+            subarticolTableCell.dataset.idReteta = reteta.CCCRETETE
+            subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
+            subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
             subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
             subarticolTableRow.appendChild(subarticolTableCell)
 
-            if (subarticol.object.editable) {
+            if (isCustom) {
               const deleteButtonCell = document.createElement('td')
               const deleteButton = document.createElement('button')
               deleteButton.textContent = 'Delete'
-              deleteButton.dataset.idReteta = reteta.id
-              deleteButton.dataset.idArticol = articol.object.id
-              deleteButton.dataset.idSubarticol = subarticol.object.id
+              deleteButton.dataset.idReteta = reteta.CCCRETETE
+              deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
+              deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
               deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
               deleteButtonCell.appendChild(deleteButton)
               subarticolTableRow.appendChild(deleteButtonCell)
