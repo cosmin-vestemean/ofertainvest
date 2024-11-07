@@ -14,128 +14,164 @@ class MyTableListaRetete extends LitElement {
   }
 
   static styles = css`
-  .subarticol {
-    padding-left: 20px;
-  }
-  .foldable {
-    cursor: pointer;
-  }
-  .hidden {
-    display: none;
-  }
-`;
+    .subarticol {
+      padding-left: 20px;
+    }
+    .foldable {
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+  `
 
   toggleFold(event) {
-    const subarticole = event.target.nextElementSibling;
+    const subarticole = event.target.nextElementSibling
     if (subarticole) {
-      subarticole.classList.toggle('hidden');
+      subarticole.classList.toggle('hidden')
     }
   }
 
   addSubarticol(event) {
-    const idReteta = event.target.dataset.idReteta;
-    const idArticol = event.target.dataset.idArticol;
+    const idReteta = event.target.dataset.idReteta
+    const idArticol = event.target.dataset.idArticol
     const newSubarticol = {
       object: {
         DENUMIRE_ARTICOL_OFERTA: 'New Subarticol',
         editable: true
       }
-    };
-    this.data = this.data.map(reteta => {
+    }
+    this.data = this.data.map((reteta) => {
       if (reteta.id === idReteta) {
-        reteta.reteta = reteta.reteta.map(articol => {
+        reteta.reteta = reteta.reteta.map((articol) => {
           if (articol.object.id === idArticol) {
-            articol.children.push(newSubarticol);
+            articol.children.push(newSubarticol)
           }
-          return articol;
-        });
+          return articol
+        })
       }
-      return reteta;
-    });
+      return reteta
+    })
   }
 
   editSubarticol(event) {
-    const idReteta = event.target.dataset.idReteta;
-    const idArticol = event.target.dataset.idArticol;
-    const idSubarticol = event.target.dataset.idSubarticol;
-    const newValue = event.target.textContent;
-    this.data = this.data.map(reteta => {
+    const idReteta = event.target.dataset.idReteta
+    const idArticol = event.target.dataset.idArticol
+    const idSubarticol = event.target.dataset.idSubarticol
+    const newValue = event.target.textContent
+    this.data = this.data.map((reteta) => {
       if (reteta.id === idReteta) {
-        reteta.reteta = reteta.reteta.map(articol => {
+        reteta.reteta = reteta.reteta.map((articol) => {
           if (articol.object.id === idArticol) {
-            articol.children = articol.children.map(subarticol => {
+            articol.children = articol.children.map((subarticol) => {
               if (subarticol.object.id === idSubarticol) {
-                subarticol.object.DENUMIRE_ARTICOL_OFERTA = newValue;
+                subarticol.object.DENUMIRE_ARTICOL_OFERTA = newValue
               }
-              return subarticol;
-            });
+              return subarticol
+            })
           }
-          return articol;
-        });
+          return articol
+        })
       }
-      return reteta;
-    });
+      return reteta
+    })
   }
 
   deleteSubarticol(event) {
-    const idReteta = event.target.dataset.idReteta;
-    const idArticol = event.target.dataset.idArticol;
-    const idSubarticol = event.target.dataset.idSubarticol;
-    this.data = this.data.map(reteta => {
+    const idReteta = event.target.dataset.idReteta
+    const idArticol = event.target.dataset.idArticol
+    const idSubarticol = event.target.dataset.idSubarticol
+    this.data = this.data.map((reteta) => {
       if (reteta.id === idReteta) {
-        reteta.reteta = reteta.reteta.map(articol => {
+        reteta.reteta = reteta.reteta.map((articol) => {
           if (articol.object.id === idArticol) {
-            articol.children = articol.children.filter(subarticol => subarticol.object.id !== idSubarticol);
+            articol.children = articol.children.filter((subarticol) => subarticol.object.id !== idSubarticol)
           }
-          return articol;
-        });
+          return articol
+        })
       }
-      return reteta;
-    });
+      return reteta
+    })
   }
 
   render() {
     if (!this.data || this.data.length == 0) {
-      return html`<p class="label label-danger">No data</p>`;
+      const noDataMessage = document.createElement('p')
+      noDataMessage.className = 'label label-danger'
+      noDataMessage.textContent = 'No data'
+      return html`${noDataMessage}`
     } else {
-      return html`
-        <table>
-          ${this.data.map(reteta => html`
-            <tr>
-              <td colspan="2"><strong>Reteta ID: ${reteta.id}</strong></td>
-            </tr>
-            ${reteta.reteta.map(articol => html`
-              <tr>
-                <td class="foldable" @click="${this.toggleFold}">${articol.object.DENUMIRE_ARTICOL_OFERTA}</td>
-                <td>
-                  <button @click="${this.addSubarticol}" data-id-reteta="${reteta.id}" data-id-articol="${articol.object.id}">Add Subarticol</button>
-                </td>
-              </tr>
-              <tr class="hidden">
-                <td colspan="2">
-                  <table class="subarticol">
-                    ${articol.children.map(subarticol => html`
-                      <tr>
-                        <td contenteditable="${subarticol.object.editable}" @blur="${this.editSubarticol}" data-id-reteta="${reteta.id}" data-id-articol="${articol.object.id}" data-id-subarticol="${subarticol.object.id}">
-                          ${subarticol.object.DENUMIRE_ARTICOL_OFERTA}
-                        </td>
-                        ${subarticol.object.editable ? html`
-                          <td>
-                            <button @click="${this.deleteSubarticol}" data-id-reteta="${reteta.id}" data-id-articol="${articol.object.id}" data-id-subarticol="${subarticol.object.id}">Delete</button>
-                          </td>
-                        ` : ''}
-                      </tr>
-                    `)}
-                  </table>
-                </td>
-              </tr>
-            `)}
-          `)}
-        </table>
-      `;
+      const table = document.createElement('table')
+
+      this.data.forEach((reteta) => {
+        const retetaRow = document.createElement('tr')
+        const retetaCell = document.createElement('td')
+        retetaCell.colSpan = 2
+        retetaCell.innerHTML = `<strong>Reteta ID: ${reteta.id}</strong>`
+        retetaRow.appendChild(retetaCell)
+        table.appendChild(retetaRow)
+
+        reteta.reteta.forEach((articol) => {
+          const articolRow = document.createElement('tr')
+          const articolCell = document.createElement('td')
+          articolCell.className = 'foldable'
+          articolCell.textContent = articol.object.DENUMIRE_ARTICOL_OFERTA
+          articolCell.addEventListener('click', this.toggleFold.bind(this))
+          articolRow.appendChild(articolCell)
+
+          const addButtonCell = document.createElement('td')
+          const addButton = document.createElement('button')
+          addButton.textContent = 'Add Subarticol'
+          addButton.dataset.idReteta = reteta.id
+          addButton.dataset.idArticol = articol.object.id
+          addButton.addEventListener('click', this.addSubarticol.bind(this))
+          addButtonCell.appendChild(addButton)
+          articolRow.appendChild(addButtonCell)
+
+          table.appendChild(articolRow)
+
+          const subarticolRow = document.createElement('tr')
+          subarticolRow.className = 'hidden'
+          const subarticolCell = document.createElement('td')
+          subarticolCell.colSpan = 2
+          const subarticolTable = document.createElement('table')
+          subarticolTable.className = 'subarticol'
+
+          articol.children.forEach((subarticol) => {
+            const subarticolTableRow = document.createElement('tr')
+            const subarticolTableCell = document.createElement('td')
+            subarticolTableCell.contentEditable = subarticol.object.editable
+            subarticolTableCell.textContent = subarticol.object.DENUMIRE_ARTICOL_OFERTA
+            subarticolTableCell.dataset.idReteta = reteta.id
+            subarticolTableCell.dataset.idArticol = articol.object.id
+            subarticolTableCell.dataset.idSubarticol = subarticol.object.id
+            subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
+            subarticolTableRow.appendChild(subarticolTableCell)
+
+            if (subarticol.object.editable) {
+              const deleteButtonCell = document.createElement('td')
+              const deleteButton = document.createElement('button')
+              deleteButton.textContent = 'Delete'
+              deleteButton.dataset.idReteta = reteta.id
+              deleteButton.dataset.idArticol = articol.object.id
+              deleteButton.dataset.idSubarticol = subarticol.object.id
+              deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
+              deleteButtonCell.appendChild(deleteButton)
+              subarticolTableRow.appendChild(deleteButtonCell)
+            }
+
+            subarticolTable.appendChild(subarticolTableRow)
+          })
+
+          subarticolCell.appendChild(subarticolTable)
+          subarticolRow.appendChild(subarticolCell)
+          table.appendChild(subarticolRow)
+        })
+      })
+
+      return html`${table}`
     }
   }
 }
 
-customElements.define('my-table-lista-retete', MyTableListaRetete);
-
+customElements.define('my-table-lista-retete', MyTableListaRetete)
