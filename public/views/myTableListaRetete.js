@@ -26,10 +26,8 @@ class MyTableListaRetete extends LitElement {
   `
 
   toggleFold(event) {
-    const subarticole = event.target.nextElementSibling
-    if (subarticole) {
-      subarticole.classList.toggle('hidden')
-    }
+    const subarticolRow = event.target.parentElement.nextElementSibling
+    subarticolRow.classList.toggle('hidden')
   }
 
   addSubarticol(event) {
