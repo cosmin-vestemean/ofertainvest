@@ -130,7 +130,7 @@ class MyTableListaRetete extends LitElement {
           const addButton = document.createElement('i')
           //add class to addButton
           addButton.classList.add('bi')
-          addButton.classList.add('bi-plus')
+          addButton.classList.add('bi-plus-square fs-4')
           addButton.classList.add('text-primary')
           addButton.dataset.idReteta = reteta.id
           addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
