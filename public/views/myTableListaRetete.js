@@ -122,7 +122,7 @@ class MyTableListaRetete extends LitElement {
 
           const addButtonCell = document.createElement('td')
           const addButton = document.createElement('button')
-          addButton.innerHTML = '<i class="bi bi-plus"></i>'
+          addButton.innerHTML = '<i class="bi bi-plus text-primary"></i>'
           addButton.dataset.idReteta = reteta.id
           addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
           addButton.addEventListener('click', this.addSubarticol.bind(this))
@@ -153,7 +153,7 @@ class MyTableListaRetete extends LitElement {
             if (isCustom) {
               const deleteButtonCell = document.createElement('td')
               const deleteButton = document.createElement('button')
-              deleteButton.innerHTML = '<i class="bi bi-trash"></i>'
+              deleteButton.innerHTML = '<i class="bi bi-trash bi bi-trash text-danger"></i>'
               deleteButton.dataset.idReteta = reteta.id
               deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
               deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
