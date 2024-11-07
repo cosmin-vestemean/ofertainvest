@@ -108,6 +108,7 @@ class MyTableListaRetete extends LitElement {
       table.classList.add('table-sm')
       table.classList.add('table-hover')
       table.classList.add('table-responsive')
+      table.style.fontSize = 'small'
 
       this.data.forEach((reteta) => {
         /* const retetaRow = document.createElement('tr')
@@ -140,6 +141,8 @@ class MyTableListaRetete extends LitElement {
           table.appendChild(articolRow)
 
           const subarticolRow = document.createElement('tr')
+          //add left margin to subarticolRow
+          subarticolRow.style.marginLeft = '20px'
           subarticolRow.className = 'hidden'
           const subarticolCell = document.createElement('td')
           subarticolCell.colSpan = 2
@@ -150,6 +153,7 @@ class MyTableListaRetete extends LitElement {
           subarticolTable.classList.add('table-hover')
           subarticolTable.classList.add('table-responsive')
           subarticolTable.classList.add('subarticol')
+          subarticolTable.style.fontSize = 'small'
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
