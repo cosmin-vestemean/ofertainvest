@@ -44,7 +44,7 @@ class MyTableListaRetete extends LitElement {
     this.data = this.data.map((reteta) => {
       if (reteta.id === idReteta) {
         reteta.reteta = reteta.reteta.map((articol) => {
-          if (articol.object.id === idArticol) {
+          if (articol.object.CCCACTIVITRETETE === idArticol) {
             articol.children.push(newSubarticol)
           }
           return articol
@@ -62,9 +62,9 @@ class MyTableListaRetete extends LitElement {
     this.data = this.data.map((reteta) => {
       if (reteta.id === idReteta) {
         reteta.reteta = reteta.reteta.map((articol) => {
-          if (articol.object.id === idArticol) {
+          if (articol.object.CCCACTIVITRETETE === idArticol) {
             articol.children = articol.children.map((subarticol) => {
-              if (subarticol.object.id === idSubarticol) {
+              if (subarticol.object.CCCMATRETETE === idSubarticol) {
                 subarticol.object.DENUMIRE_ARTICOL_OFERTA = newValue
               }
               return subarticol
@@ -84,8 +84,8 @@ class MyTableListaRetete extends LitElement {
     this.data = this.data.map((reteta) => {
       if (reteta.id === idReteta) {
         reteta.reteta = reteta.reteta.map((articol) => {
-          if (articol.object.id === idArticol) {
-            articol.children = articol.children.filter((subarticol) => subarticol.object.id !== idSubarticol)
+          if (articol.object.CCCACTIVITRETETE === idArticol) {
+            articol.children = articol.children.filter((subarticol) => subarticol.object.CCCMATRETETE !== idSubarticol)
           }
           return articol
         })
@@ -122,7 +122,7 @@ class MyTableListaRetete extends LitElement {
           const addButtonCell = document.createElement('td')
           const addButton = document.createElement('button')
           addButton.textContent = 'Add Subarticol'
-          addButton.dataset.idReteta = articol.object.CCCRETETE
+          addButton.dataset.idReteta = reteta.id
           addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
           addButton.addEventListener('click', this.addSubarticol.bind(this))
           addButtonCell.appendChild(addButton)
@@ -143,8 +143,8 @@ class MyTableListaRetete extends LitElement {
             const isCustom = subarticol.object.ISCUSTOM || true
             subarticolTableCell.contentEditable = isCustom
             subarticolTableCell.textContent = subarticol.object.DENUMIRE_ARTICOL_OFERTA
-            subarticolTableCell.dataset.idReteta = subarticol.object.CCCRETETE
-            subarticolTableCell.dataset.idArticol = subarticol.object.CCCACTIVITRETETE
+            subarticolTableCell.dataset.idReteta = reteta.id
+            subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
             subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
             subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
             subarticolTableRow.appendChild(subarticolTableCell)
@@ -153,8 +153,8 @@ class MyTableListaRetete extends LitElement {
               const deleteButtonCell = document.createElement('td')
               const deleteButton = document.createElement('button')
               deleteButton.textContent = 'Delete'
-              deleteButton.dataset.idReteta = subarticol.object.CCCRETETE
-              deleteButton.dataset.idArticol = subarticol.object.CCCACTIVITRETETE
+              deleteButton.dataset.idReteta = reteta.id
+              deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
               deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
               deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
               deleteButtonCell.appendChild(deleteButton)
