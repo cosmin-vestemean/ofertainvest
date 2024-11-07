@@ -27,6 +27,7 @@ class MyTableListaRetete extends LitElement {
 
   toggleFold(event) {
     const subarticolRow = event.target.parentElement.nextElementSibling
+    if (!subarticolRow.children.length) return
     subarticolRow.classList.toggle('hidden')
   }
 
@@ -83,7 +84,9 @@ class MyTableListaRetete extends LitElement {
       if (reteta.id === idReteta) {
         reteta.reteta = reteta.reteta.map((articol) => {
           if (articol.object.CCCACTIVITRETETE === idArticol) {
-            articol.children = articol.children.filter((subarticol) => subarticol.object.CCCMATRETETE !== idSubarticol)
+            articol.children = articol.children.filter(
+              (subarticol) => subarticol.object.CCCMATRETETE !== idSubarticol
+            )
           }
           return articol
         })
