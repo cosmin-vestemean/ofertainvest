@@ -122,8 +122,8 @@ class MyTableListaRetete extends LitElement {
           const addButtonCell = document.createElement('td')
           const addButton = document.createElement('button')
           addButton.textContent = 'Add Subarticol'
-          addButton.dataset.idReteta = reteta.id
-          addButton.dataset.idArticol = articol.object.id
+          addButton.dataset.idReteta = articol.object.CCCRETETE
+          addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
           addButton.addEventListener('click', this.addSubarticol.bind(this))
           addButtonCell.appendChild(addButton)
           articolRow.appendChild(addButtonCell)
