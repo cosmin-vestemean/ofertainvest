@@ -162,7 +162,6 @@ class MyTableListaRetete extends LitElement {
           const subarticolRow = document.createElement('tr')
           //add left margin to subarticolRow
           subarticolRow.classList.add('hidden')
-          subarticolRow.classList.add('d-flex')
           const subarticolCell = document.createElement('td')
           subarticolCell.colSpan = 2
           const subarticolTable = document.createElement('table')
