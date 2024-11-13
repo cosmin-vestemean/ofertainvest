@@ -173,6 +173,7 @@ class MyTableListaRetete extends LitElement {
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
+                subarticolTableCell.style.borderColor = 'lightgray'
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
                 subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
