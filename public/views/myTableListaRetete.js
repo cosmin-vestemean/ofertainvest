@@ -163,7 +163,13 @@ class MyTableListaRetete extends LitElement {
           subarticolRow.style.borderBottom = '1px solid lightgray'
           //add left margin to subarticolRow
           subarticolRow.classList.add('hidden')
+          //add a "indent" cell to subarticolRow
+          const subarticolIndentCell = document.createElement('td')
+          subarticolIndentCell.style.width = '5%'
+          subarticolRow.appendChild(subarticolIndentCell)
           const subarticolCell = document.createElement('td')
+          //add width to subarticolCell
+          subarticolCell.style.width = '90%'
           const subarticolTable = document.createElement('table')
           //add class to subarticolTable
           subarticolTable.classList.add('table')
@@ -178,11 +184,6 @@ class MyTableListaRetete extends LitElement {
             const subarticolTableRow = document.createElement('tr')
             //add border bottom to subarticolTableRow lightgray
             subarticolTableRow.style.borderBottom = '1px solid lightgray'
-            //add td for padding/ident
-            const subarticolCellIndent = document.createElement('td')
-            subarticolCellIndent.textContent = ' '
-            subarticolCellIndent.style.width = '2%'
-            subarticolTableRow.appendChild(subarticolCellIndent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
@@ -220,6 +221,26 @@ class MyTableListaRetete extends LitElement {
 
           subarticolCell.appendChild(subarticolTable)
           subarticolRow.appendChild(subarticolCell)
+          //add td Actions
+          const subarticolActionsCell = document.createElement('td')
+          const subarticolActions = document.createElement('div')
+          subarticolActions.classList.add('d-flex')
+          subarticolActions.classList.add('justify-content-center')
+          subarticolActions.classList.add('align-items-center')
+          subarticolActions.style.width = '5%'
+          //add buttons fpr various actions
+          const subarticolAddButton = document.createElement('i')
+          //add class to subarticolAddButton
+          subarticolAddButton.classList.add('bi')
+          subarticolAddButton.classList.add('bi-plus-square')
+          subarticolAddButton.classList.add('fs-4')
+          subarticolAddButton.classList.add('text-primary')
+          subarticolAddButton.dataset.idReteta = reteta.id
+          subarticolAddButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
+          subarticolAddButton.addEventListener('click', this.addSubarticol.bind(this))
+          subarticolActions.appendChild(subarticolAddButton)
+          subarticolActionsCell.appendChild(subarticolActions)
+          subarticolRow.appendChild(subarticolActionsCell)
           table.appendChild(subarticolRow)
         })
       })
