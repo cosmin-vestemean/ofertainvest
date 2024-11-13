@@ -130,7 +130,7 @@ class MyTableListaRetete extends LitElement {
           // Loop through recipeDisplayMask to set text content
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
-              articolCell.textContent = recipeDisplayMask[mask].label ? recipeDisplayMask[mask].label : recipeDisplayMask[mask].value
+              articolCell.textContent += articol.object[recipeDisplayMask[mask].label] ? articol.object[recipeDisplayMask[mask].label] : articol.object[recipeDisplayMask[mask].value] 
             }
           })
 
@@ -176,7 +176,7 @@ class MyTableListaRetete extends LitElement {
             // Loop through recipeDisplayMask to set text content
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
-                subarticolTableCell.textContent += recipeDisplayMask[mask].label ? recipeDisplayMask[mask].label : recipeDisplayMask[mask].value
+                subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label] ? subarticol.object[recipeDisplayMask[mask].label] : subarticol.object[recipeDisplayMask[mask].value]
               }
             })
 
