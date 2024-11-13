@@ -159,10 +159,11 @@ class MyTableListaRetete extends LitElement {
           table.appendChild(articolRow)
 
           const subarticolRow = document.createElement('tr')
+          //add border bottom to subarticolRow lightgray
+          subarticolRow.style.borderBottom = '1px solid lightgray'
           //add left margin to subarticolRow
           subarticolRow.classList.add('hidden')
           const subarticolCell = document.createElement('td')
-          subarticolCell.colSpan = 2
           const subarticolTable = document.createElement('table')
           //add class to subarticolTable
           subarticolTable.classList.add('table')
@@ -180,7 +181,6 @@ class MyTableListaRetete extends LitElement {
             //add td for padding/ident
             const subarticolCellIndent = document.createElement('td')
             subarticolCellIndent.textContent = ' '
-            //set width
             subarticolCellIndent.style.width = '2%'
             subarticolTableRow.appendChild(subarticolCellIndent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
