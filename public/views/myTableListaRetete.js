@@ -125,6 +125,8 @@ class MyTableListaRetete extends LitElement {
 
         reteta.reteta.forEach((articol) => {
           const articolRow = document.createElement('tr')
+          //add border bottom to articolRow lightgray
+          articolRow.style.borderBottom = '1px solid lightgray'
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
               const articolCell = document.createElement('td')
@@ -172,18 +174,17 @@ class MyTableListaRetete extends LitElement {
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
+            //add border bottom to subarticolTableRow lightgray
+            subarticolTableRow.style.borderBottom = '1px solid lightgray'
             //add td for padding/ident
             const subarticolCellIndent = document.createElement('td')
             subarticolCellIndent.textContent = ' '
             //set width
-            subarticolCellIndent.style.width = '20px'
+            subarticolCellIndent.style.width = '2%'
             subarticolTableRow.appendChild(subarticolCellIndent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
-                subarticolTableCell.style.borderColor = 'lightgray'
-                subarticolTableCell.style.borderWidth = '1px'
-                subarticolTableCell.style.borderStyle = 'solid'
                 subarticolTableCell.style.width = recipeDisplayMask[mask].width
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
