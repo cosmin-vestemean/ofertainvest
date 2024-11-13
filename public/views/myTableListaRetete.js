@@ -103,7 +103,10 @@ class MyTableListaRetete extends LitElement {
       noDataMessage.className = 'label label-danger'
       noDataMessage.textContent = 'No data'
       return html`${noDataMessage}`
-    } else {
+    } else { 
+      //add div container fluid
+      const container = document.createElement('div')
+      container.classList.add('container-fluid')
       const table = document.createElement('table')
       //add class to table
       table.classList.add('table')
@@ -122,6 +125,7 @@ class MyTableListaRetete extends LitElement {
 
         reteta.reteta.forEach((articol) => {
           const articolRow = document.createElement('tr')
+          articolRow.classList.add('d-flex')
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
               const articolCell = document.createElement('td')
@@ -157,8 +161,8 @@ class MyTableListaRetete extends LitElement {
 
           const subarticolRow = document.createElement('tr')
           //add left margin to subarticolRow
-          subarticolRow.style.marginLeft = '20px'
-          subarticolRow.className = 'hidden'
+          subarticolRow.classList.add('hidden')
+          subarticolRow.classList.add('d-flex')
           const subarticolCell = document.createElement('td')
           subarticolCell.colSpan = 2
           const subarticolTable = document.createElement('table')
@@ -172,6 +176,7 @@ class MyTableListaRetete extends LitElement {
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
+            subarticolTableRow.classList.add('d-flex')
             //add td for padding/ident
             const subarticolCellIndent = document.createElement('td')
             subarticolCellIndent.textContent = ' '
@@ -223,7 +228,9 @@ class MyTableListaRetete extends LitElement {
         })
       })
 
-      return html`${table}`
+      container.appendChild(table)
+
+      return html`${container}`
     }
   }
 }
