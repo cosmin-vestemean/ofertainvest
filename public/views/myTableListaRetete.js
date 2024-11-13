@@ -124,19 +124,20 @@ class MyTableListaRetete extends LitElement {
           const articolRow = document.createElement('tr')
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
-          const articolCell = document.createElement('td')
-          articolCell.classList.add('foldable')
-          articolCell.classList.add('articol')
-          
+              const articolCell = document.createElement('td')
+              articolCell.classList.add('foldable')
+              articolCell.classList.add('articol')
+
               articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
                 ? articol.object[recipeDisplayMask[mask].label]
                 : articol.object[recipeDisplayMask[mask].value]
-            
 
-          articolCell.addEventListener('click', this.toggleFold.bind(this))
-          articolRow.appendChild(articolCell)
-        }
-      })
+              if (articol.children.length) {
+                articolCell.addEventListener('click', this.toggleFold.bind(this))
+              }
+              articolRow.appendChild(articolCell)
+            }
+          })
           const addButtonCell = document.createElement('td')
           const addButton = document.createElement('i')
           //add class to addButton
