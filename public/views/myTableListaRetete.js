@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { template, theadIsSet } from '../client.js'
+import { recipeDisplayMask } from './masks.js'
 
 class MyTableListaRetete extends LitElement {
   static properties = {
@@ -125,7 +126,14 @@ class MyTableListaRetete extends LitElement {
           articolCell.classList.add('foldable')
           //add class "articol" to articolCell
           articolCell.classList.add('articol')
-          articolCell.textContent = articol.object.DENUMIRE_ARTICOL_OFERTA
+
+          // Loop through recipeDisplayMask to set text content
+          Object.keys(recipeDisplayMask).forEach((mask) => {
+            if (recipeDisplayMask[mask].visible) {
+              articolCell.textContent += `${recipeDisplayMask[mask].label}: ${articol.object[recipeDisplayMask[mask].linkOferta]} `
+            }
+          })
+
           articolCell.addEventListener('click', this.toggleFold.bind(this))
           articolRow.appendChild(articolCell)
 
@@ -164,7 +172,14 @@ class MyTableListaRetete extends LitElement {
             const subarticolTableCell = document.createElement('td')
             const isCustom = subarticol.object.ISCUSTOM || true
             subarticolTableCell.contentEditable = isCustom
-            subarticolTableCell.textContent = subarticol.object.DENUMIRE_ARTICOL_OFERTA
+
+            // Loop through recipeDisplayMask to set text content
+            Object.keys(recipeDisplayMask).forEach((mask) => {
+              if (recipeDisplayMask[mask].visible) {
+                subarticolTableCell.textContent += `${recipeDisplayMask[mask].label}: ${subarticol.object[recipeDisplayMask[mask].linkOferta]} `
+              }
+            })
+
             subarticolTableCell.dataset.idReteta = reteta.id
             subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
             subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
