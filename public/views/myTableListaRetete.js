@@ -133,6 +133,8 @@ class MyTableListaRetete extends LitElement {
               articolCell.classList.add('articol')
               if (recipeDisplayMask[mask].value === 'DENUMIRE_ARTICOL_OFERTA') {
                 articolCell.classList.add('col-6')
+              } else {
+                articolCell.classList.add('col-1')
               }
               articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
                 ? articol.object[recipeDisplayMask[mask].label]
@@ -189,6 +191,9 @@ class MyTableListaRetete extends LitElement {
                 if (recipeDisplayMask[mask].value === 'DENUMIRE_ARTICOL_OFERTA') {
                   //add class col-6
                   subarticolTableCell.classList.add('col-6')
+                } else {
+                  //add class col-1
+                  subarticolTableCell.classList.add('col-1')
                 }
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
