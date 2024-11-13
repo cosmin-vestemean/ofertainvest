@@ -130,7 +130,9 @@ class MyTableListaRetete extends LitElement {
           // Loop through recipeDisplayMask to set text content
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
-              articolCell.textContent += articol.object[recipeDisplayMask[mask].label] ? articol.object[recipeDisplayMask[mask].label] : articol.object[recipeDisplayMask[mask].value] 
+              articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
+                ? articol.object[recipeDisplayMask[mask].label]
+                : articol.object[recipeDisplayMask[mask].value]
             }
           })
 
@@ -169,37 +171,36 @@ class MyTableListaRetete extends LitElement {
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
-            const subarticolTableCell = document.createElement('td')
-            const isCustom = subarticol.object.ISCUSTOM || true
-            subarticolTableCell.contentEditable = isCustom
-
-            // Loop through recipeDisplayMask to set text content
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
-                subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label] ? subarticol.object[recipeDisplayMask[mask].label] : subarticol.object[recipeDisplayMask[mask].value]
+                const subarticolTableCell = document.createElement('td')
+                const isCustom = subarticol.object.ISCUSTOM || false
+                subarticolTableCell.contentEditable = isCustom
+                subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
+                  ? subarticol.object[recipeDisplayMask[mask].label]
+                  : subarticol.object[recipeDisplayMask[mask].value]
+
+                subarticolTableCell.dataset.idReteta = reteta.id
+                subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
+                subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
+                subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
+                subarticolTableRow.appendChild(subarticolTableCell)
+                if (isCustom) {
+                  const deleteButtonCell = document.createElement('td')
+                  const deleteButton = document.createElement('i')
+                  //add class to deleteButton
+                  deleteButton.classList.add('bi')
+                  deleteButton.classList.add('bi-trash')
+                  deleteButton.classList.add('text-danger')
+                  deleteButton.dataset.idReteta = reteta.id
+                  deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
+                  deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
+                  deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
+                  deleteButtonCell.appendChild(deleteButton)
+                  subarticolTableRow.appendChild(deleteButtonCell)
+                }
               }
             })
-
-            subarticolTableCell.dataset.idReteta = reteta.id
-            subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
-            subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
-            subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
-            subarticolTableRow.appendChild(subarticolTableCell)
-
-            if (isCustom) {
-              const deleteButtonCell = document.createElement('td')
-                const deleteButton = document.createElement('i')
-                //add class to deleteButton
-                deleteButton.classList.add('bi')
-                deleteButton.classList.add('bi-trash')
-                deleteButton.classList.add('text-danger')
-              deleteButton.dataset.idReteta = reteta.id
-              deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-              deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
-              deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
-              deleteButtonCell.appendChild(deleteButton)
-              subarticolTableRow.appendChild(deleteButtonCell)
-            }
 
             subarticolTable.appendChild(subarticolTableRow)
           })
