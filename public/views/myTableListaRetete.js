@@ -223,11 +223,11 @@ class MyTableListaRetete extends LitElement {
           subarticolRow.appendChild(subarticolCell)
           //add td Actions
           const subarticolActionsCell = document.createElement('td')
+          subarticolActionsCell.style.width = '5%'
           const subarticolActions = document.createElement('div')
           subarticolActions.classList.add('d-flex')
           subarticolActions.classList.add('justify-content-center')
           subarticolActions.classList.add('align-items-center')
-          subarticolActions.style.width = '5%'
           //add buttons fpr various actions
           const subarticolAddButton = document.createElement('i')
           //add class to subarticolAddButton
