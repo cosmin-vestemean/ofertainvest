@@ -134,21 +134,20 @@ class MyTableListaRetete extends LitElement {
 
               articolCell.addEventListener('click', this.toggleFold.bind(this))
               articolRow.appendChild(articolCell)
-
-              const addButtonCell = document.createElement('td')
-              const addButton = document.createElement('i')
-              //add class to addButton
-              addButton.classList.add('bi')
-              addButton.classList.add('bi-plus-square')
-              addButton.classList.add('fs-4')
-              addButton.classList.add('text-primary')
-              addButton.dataset.idReteta = reteta.id
-              addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-              addButton.addEventListener('click', this.addSubarticol.bind(this))
-              addButtonCell.appendChild(addButton)
-              articolRow.appendChild(addButtonCell)
             }
           })
+          const addButtonCell = document.createElement('td')
+          const addButton = document.createElement('i')
+          //add class to addButton
+          addButton.classList.add('bi')
+          addButton.classList.add('bi-plus-square')
+          addButton.classList.add('fs-4')
+          addButton.classList.add('text-primary')
+          addButton.dataset.idReteta = reteta.id
+          addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
+          addButton.addEventListener('click', this.addSubarticol.bind(this))
+          addButtonCell.appendChild(addButton)
+          articolRow.appendChild(addButtonCell)
 
           table.appendChild(articolRow)
 
