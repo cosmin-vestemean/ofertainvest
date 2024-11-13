@@ -169,6 +169,7 @@ class MyTableListaRetete extends LitElement {
           subarticolTable.classList.add('table-sm')
           subarticolTable.classList.add('table-hover')
           subarticolTable.classList.add('table-responsive')
+          subarticolTable.classList.add('w-100')
           subarticolTable.classList.add('subarticol')
           subarticolTable.style.fontSize = 'small'
 
