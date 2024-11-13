@@ -170,6 +170,12 @@ class MyTableListaRetete extends LitElement {
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
+            //add td for padding/ident
+            const subarticolCellIndent = document.createElement('td')
+            subarticolCellIndent.textContent = ' '
+            //set width
+            subarticolCellIndent.style.width = '20px'
+            subarticolTableRow.appendChild(subarticolCellIndent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
