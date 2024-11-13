@@ -163,13 +163,8 @@ class MyTableListaRetete extends LitElement {
           subarticolRow.style.borderBottom = '1px solid lightgray'
           //add left margin to subarticolRow
           subarticolRow.classList.add('hidden')
-          //add a "indent" cell to subarticolRow
-          const subarticolIndentCell = document.createElement('td')
-          subarticolIndentCell.style.width = '5%'
-          subarticolRow.appendChild(subarticolIndentCell)
           const subarticolCell = document.createElement('td')
           //add width to subarticolCell
-          subarticolCell.style.width = '90%'
           const subarticolTable = document.createElement('table')
           //add class to subarticolTable
           subarticolTable.classList.add('table')
@@ -184,6 +179,10 @@ class MyTableListaRetete extends LitElement {
             const subarticolTableRow = document.createElement('tr')
             //add border bottom to subarticolTableRow lightgray
             subarticolTableRow.style.borderBottom = '1px solid lightgray'
+            //add cell as ident 5%
+            const subarticolCellIdent = document.createElement('td')
+            subarticolCellIdent.style.width = '5%'
+            subarticolTableRow.appendChild(subarticolCellIdent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
@@ -223,7 +222,6 @@ class MyTableListaRetete extends LitElement {
           subarticolRow.appendChild(subarticolCell)
           //add td Actions
           const subarticolActionsCell = document.createElement('td')
-          subarticolActionsCell.style.width = '5%'
           const subarticolActions = document.createElement('div')
           subarticolActions.classList.add('d-flex')
           subarticolActions.classList.add('justify-content-center')
