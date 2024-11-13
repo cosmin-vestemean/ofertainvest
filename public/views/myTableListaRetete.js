@@ -32,6 +32,7 @@ class MyTableListaRetete extends LitElement {
   }
 
   addSubarticol(event) {
+    //afiseaza lista standard articole
     const idReteta = event.target.dataset.idReteta
     const idArticol = event.target.dataset.idArticol
     const newSubarticol = {
@@ -121,7 +122,9 @@ class MyTableListaRetete extends LitElement {
         reteta.reteta.forEach((articol) => {
           const articolRow = document.createElement('tr')
           const articolCell = document.createElement('td')
-          articolCell.className = 'foldable'
+          articolCell.classList.add('foldable')
+          //add class "articol" to articolCell
+          articolCell.classList.add('articol')
           articolCell.textContent = articol.object.DENUMIRE_ARTICOL_OFERTA
           articolCell.addEventListener('click', this.toggleFold.bind(this))
           articolRow.appendChild(articolCell)
