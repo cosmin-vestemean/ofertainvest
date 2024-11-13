@@ -103,7 +103,7 @@ class MyTableListaRetete extends LitElement {
       noDataMessage.className = 'label label-danger'
       noDataMessage.textContent = 'No data'
       return html`${noDataMessage}`
-    } else { 
+    } else {
       //add div container fluid
       const container = document.createElement('div')
       container.classList.add('container-fluid')
@@ -125,17 +125,12 @@ class MyTableListaRetete extends LitElement {
 
         reteta.reteta.forEach((articol) => {
           const articolRow = document.createElement('tr')
-          articolRow.classList.add('d-flex')
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
               const articolCell = document.createElement('td')
               articolCell.classList.add('foldable')
               articolCell.classList.add('articol')
-              if (recipeDisplayMask[mask].value === 'DENUMIRE_ARTICOL_OFERTA') {
-                articolCell.classList.add('col-6')
-              } else {
-                articolCell.classList.add('col-1')
-              }
+              articolCell.style.width = recipeDisplayMask[mask].width
               articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
                 ? articol.object[recipeDisplayMask[mask].label]
                 : articol.object[recipeDisplayMask[mask].value]
@@ -177,7 +172,6 @@ class MyTableListaRetete extends LitElement {
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
-            subarticolTableRow.classList.add('d-flex')
             //add td for padding/ident
             const subarticolCellIndent = document.createElement('td')
             subarticolCellIndent.textContent = ' '
@@ -188,13 +182,9 @@ class MyTableListaRetete extends LitElement {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
                 subarticolTableCell.style.borderColor = 'lightgray'
-                if (recipeDisplayMask[mask].value === 'DENUMIRE_ARTICOL_OFERTA') {
-                  //add class col-6
-                  subarticolTableCell.classList.add('col-6')
-                } else {
-                  //add class col-1
-                  subarticolTableCell.classList.add('col-1')
-                }
+                subarticolTableCell.style.borderWidth = '1px'
+                subarticolTableCell.style.borderStyle = 'solid'
+                subarticolTableCell.style.width = recipeDisplayMask[mask].width
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
                 subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
