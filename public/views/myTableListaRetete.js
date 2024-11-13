@@ -127,7 +127,9 @@ class MyTableListaRetete extends LitElement {
               const articolCell = document.createElement('td')
               articolCell.classList.add('foldable')
               articolCell.classList.add('articol')
-
+              if (recipeDisplayMask[mask].label === 'DENUMIRE_ARTICOL_OFERTA') {
+                articolCell.classList.add('col-6')
+              }
               articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
                 ? articol.object[recipeDisplayMask[mask].label]
                 : articol.object[recipeDisplayMask[mask].value]
@@ -180,6 +182,10 @@ class MyTableListaRetete extends LitElement {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
                 subarticolTableCell.style.borderColor = 'lightgray'
+                if (recipeDisplayMask[mask].label === 'DENUMIRE_ARTICOL_OFERTA') {
+                  //add class col-6
+                  subarticolTableCell.classList.add('col-6')
+                }
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
                 subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
