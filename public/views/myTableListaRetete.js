@@ -124,17 +124,19 @@ class MyTableListaRetete extends LitElement {
           const articolRow = document.createElement('tr')
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
-              const articolCell = document.createElement('td')
-              articolCell.classList.add('foldable')
-              articolCell.classList.add('articol')
-
+          const articolCell = document.createElement('td')
+          articolCell.classList.add('foldable')
+          articolCell.classList.add('articol')
+          
               articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
                 ? articol.object[recipeDisplayMask[mask].label]
                 : articol.object[recipeDisplayMask[mask].value]
+            
 
-              articolRow.appendChild(articolCell)
-            }
-          })
+          articolCell.addEventListener('click', this.toggleFold.bind(this))
+          articolRow.appendChild(articolCell)
+        }
+      })
           const addButtonCell = document.createElement('td')
           const addButton = document.createElement('i')
           //add class to addButton
@@ -150,62 +152,60 @@ class MyTableListaRetete extends LitElement {
 
           table.appendChild(articolRow)
 
-          if (articol.children && articol.children.length > 0) {
-            const subarticolRow = document.createElement('tr')
-            //add left margin to subarticolRow
-            subarticolRow.style.marginLeft = '20px'
-            subarticolRow.className = 'hidden'
-            const subarticolCell = document.createElement('td')
-            subarticolCell.colSpan = 2
-            const subarticolTable = document.createElement('table')
-            //add class to subarticolTable
-            subarticolTable.classList.add('table')
-            subarticolTable.classList.add('table-sm')
-            subarticolTable.classList.add('table-hover')
-            subarticolTable.classList.add('table-responsive')
-            subarticolTable.classList.add('subarticol')
-            subarticolTable.style.fontSize = 'small'
+          const subarticolRow = document.createElement('tr')
+          //add left margin to subarticolRow
+          subarticolRow.style.marginLeft = '20px'
+          subarticolRow.className = 'hidden'
+          const subarticolCell = document.createElement('td')
+          subarticolCell.colSpan = 2
+          const subarticolTable = document.createElement('table')
+          //add class to subarticolTable
+          subarticolTable.classList.add('table')
+          subarticolTable.classList.add('table-sm')
+          subarticolTable.classList.add('table-hover')
+          subarticolTable.classList.add('table-responsive')
+          subarticolTable.classList.add('subarticol')
+          subarticolTable.style.fontSize = 'small'
 
-            articol.children.forEach((subarticol) => {
-              const subarticolTableRow = document.createElement('tr')
-              Object.keys(recipeDisplayMask).forEach((mask) => {
-                if (recipeDisplayMask[mask].visible) {
-                  const subarticolTableCell = document.createElement('td')
-                  const isCustom = subarticol.object.ISCUSTOM || false
-                  subarticolTableCell.contentEditable = isCustom
-                  subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
-                    ? subarticol.object[recipeDisplayMask[mask].label]
-                    : subarticol.object[recipeDisplayMask[mask].value]
+          articol.children.forEach((subarticol) => {
+            const subarticolTableRow = document.createElement('tr')
+            Object.keys(recipeDisplayMask).forEach((mask) => {
+              if (recipeDisplayMask[mask].visible) {
+                const subarticolTableCell = document.createElement('td')
+                const isCustom = subarticol.object.ISCUSTOM || false
+                subarticolTableCell.contentEditable = isCustom
+                subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
+                  ? subarticol.object[recipeDisplayMask[mask].label]
+                  : subarticol.object[recipeDisplayMask[mask].value]
 
-                  subarticolTableCell.dataset.idReteta = reteta.id
-                  subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
-                  subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
-                  subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
-                  subarticolTableRow.appendChild(subarticolTableCell)
-                  if (isCustom) {
-                    const deleteButtonCell = document.createElement('td')
-                    const deleteButton = document.createElement('i')
-                    //add class to deleteButton
-                    deleteButton.classList.add('bi')
-                    deleteButton.classList.add('bi-trash')
-                    deleteButton.classList.add('text-danger')
-                    deleteButton.dataset.idReteta = reteta.id
-                    deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-                    deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
-                    deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
-                    deleteButtonCell.appendChild(deleteButton)
-                    subarticolTableRow.appendChild(deleteButtonCell)
-                  }
+                subarticolTableCell.dataset.idReteta = reteta.id
+                subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
+                subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
+                subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
+                subarticolTableRow.appendChild(subarticolTableCell)
+                if (isCustom) {
+                  const deleteButtonCell = document.createElement('td')
+                  const deleteButton = document.createElement('i')
+                  //add class to deleteButton
+                  deleteButton.classList.add('bi')
+                  deleteButton.classList.add('bi-trash')
+                  deleteButton.classList.add('text-danger')
+                  deleteButton.dataset.idReteta = reteta.id
+                  deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
+                  deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
+                  deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
+                  deleteButtonCell.appendChild(deleteButton)
+                  subarticolTableRow.appendChild(deleteButtonCell)
                 }
-              })
-
-              subarticolTable.appendChild(subarticolTableRow)
+              }
             })
 
-            subarticolCell.appendChild(subarticolTable)
-            subarticolRow.appendChild(subarticolCell)
-            table.appendChild(subarticolRow)
-          }
+            subarticolTable.appendChild(subarticolTableRow)
+          })
+
+          subarticolCell.appendChild(subarticolTable)
+          subarticolRow.appendChild(subarticolCell)
+          table.appendChild(subarticolRow)
         })
       })
 
