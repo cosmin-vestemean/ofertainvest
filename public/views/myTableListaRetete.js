@@ -43,14 +43,17 @@ class MyTableListaRetete extends LitElement {
       //add main div container
       let container = document.createElement('div')
       container.className = 'container-fluid'
+      let articole = []
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
           let articol = activitate.object
+          let newArticol = {}
+          let newSubarticole = []
           //recipieDisplayMask
           for (let key in recipeDisplayMask) {
             if (recipeDisplayMask[key].visible) {
               if (Object.keys(articol).includes(key)) {
-                console.log('articol', articol, 'key', key, 'value', articol[key])
+                newArticol[key] = articol[key]
               }
             }
           }
@@ -59,11 +62,14 @@ class MyTableListaRetete extends LitElement {
             for (let key in recipeSubsDisplayMask) {
               if (recipeSubsDisplayMask[key].visible) {
                 if (Object.keys(subarticol).includes(key)) {
-                  console.log('subarticol', subarticol, 'key', key, 'value', subarticol[key])
+                  newSubarticole.push({ [key]: subarticol[key] })
                 }
               }
             }
           }
+
+          articole.push({ articol: newArticol, subarticole: newSubarticole })
+          console.log('articole', articole)
         })
       })
 
