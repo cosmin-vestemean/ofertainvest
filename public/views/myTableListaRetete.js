@@ -14,75 +14,6 @@ class MyTableListaRetete extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
-  static styles = css`
-    .subarticol {
-      padding-left: 20px;
-    }
-    .foldable {
-      cursor: pointer;
-    }
-    .hidden {
-      display: none;
-    }
-    .articol {
-      cursor: pointer;
-    }
-    table td, table th {
-      border-bottom: 1px solid lightgray;
-  `
-
-  toggleFold(event) {
-    const subarticolRow = event.target.parentElement.nextElementSibling
-    if (!subarticolRow.children.length) return
-    subarticolRow.classList.toggle('hidden')
-  }
-
-  addSubarticol(event) {
-    //afiseaza lista standard articole
-    const idReteta = event.target.dataset.idReteta
-    const idArticol = event.target.dataset.idArticol
-    const newSubarticol = {
-      object: {
-        DENUMIRE_ARTICOL_OFERTA: 'New Subarticol',
-        editable: true
-      }
-    }
-    this.data = this.data.map((reteta) => {
-      if (reteta.id === idReteta) {
-        reteta.reteta = reteta.reteta.map((articol) => {
-          if (articol.object.CCCACTIVITRETETE === idArticol) {
-            articol.children.push(newSubarticol)
-          }
-          return articol
-        })
-      }
-      return reteta
-    })
-  }
-
-  editSubarticol(event) {
-    const idReteta = event.target.dataset.idReteta
-    const idArticol = event.target.dataset.idArticol
-    const idSubarticol = event.target.dataset.idSubarticol
-    const newValue = event.target.textContent
-    this.data = this.data.map((reteta) => {
-      if (reteta.id === idReteta) {
-        reteta.reteta = reteta.reteta.map((articol) => {
-          if (articol.object.CCCACTIVITRETETE === idArticol) {
-            articol.children = articol.children.map((subarticol) => {
-              if (subarticol.object.CCCMATRETETE === idSubarticol) {
-                subarticol.object.DENUMIRE_ARTICOL_OFERTA = newValue
-              }
-              return subarticol
-            })
-          }
-          return articol
-        })
-      }
-      return reteta
-    })
-  }
-
   deleteSubarticol(event) {
     const idReteta = event.target.dataset.idReteta
     const idArticol = event.target.dataset.idArticol
@@ -109,135 +40,48 @@ class MyTableListaRetete extends LitElement {
       noDataMessage.textContent = 'No data'
       return html`${noDataMessage}`
     } else {
-      //add div container fluid
-      const container = document.createElement('div')
-      container.classList.add('container-fluid')
-      const table = document.createElement('table')
-      //add class to table
-      table.classList.add('table')
-      table.classList.add('table-sm')
-      table.classList.add('table-hover')
-      table.classList.add('table-responsive')
-      table.style.fontSize = 'small'
-
+      //add main div container
+      let container = document.createElement('div')
+      container.className = 'container-fluid'
       this.data.forEach((reteta) => {
-        reteta.reteta.forEach((articol) => {
-          const articolRow = document.createElement('tr')
-          Object.keys(recipeDisplayMask).forEach((mask) => {
-            if (recipeDisplayMask[mask].visible) {
-              const articolCell = document.createElement('td')
-              articolCell.dataset.idReteta = reteta.id
-              articolCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
-              articolCell.classList.add('foldable')
-              articolCell.classList.add('articol')
-              articolCell.style.width = recipeDisplayMask[mask].width
-              articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
-                ? articol.object[recipeDisplayMask[mask].label]
-                : articol.object[recipeDisplayMask[mask].value]
-
-              if (articol.children.length) {
-                articolCell.addEventListener('click', this.toggleFold.bind(this))
-              }
-              articolRow.appendChild(articolCell)
+        reteta.reteta.forEach((activitate) => {
+          let articol = activitate.object
+          //div class row with divs class col for each column from recipeDisplayMask, if articol key exists in recipeDisplayMask has visible property set to true
+          let row = document.createElement('div')
+          row.className = 'row'
+          recipeDisplayMask.forEach((column) => {
+            if (articol[column.value] && column.visible) {
+              let col = document.createElement('div')
+              col.className = 'col'
+              col.textContent = articol[column.label]
+              row.appendChild(col)
             }
           })
-          const addButtonCell = document.createElement('td')
-          const addButton = document.createElement('i')
-          //add class to addButton
-          addButton.classList.add('bi')
-          addButton.classList.add('bi-plus-square')
-          addButton.classList.add('fs-4')
-          addButton.classList.add('text-primary')
-          addButton.dataset.idReteta = reteta.id
-          addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-          addButton.addEventListener('click', this.addSubarticol.bind(this))
-          addButtonCell.appendChild(addButton)
-          articolRow.appendChild(addButtonCell)
-
-          table.appendChild(articolRow)
-
-          const subarticolRow = document.createElement('tr')
-          //add left margin to subarticolRow
-          subarticolRow.classList.add('hidden')
-          const subarticolCell = document.createElement('td')
-          //add width to subarticolCell
-          const subarticolTable = document.createElement('table')
-          //add class to subarticolTable
-          subarticolTable.classList.add('table')
-          subarticolTable.classList.add('table-sm')
-          subarticolTable.classList.add('table-hover')
-          subarticolTable.classList.add('table-responsive')
-          subarticolTable.classList.add('w-100')
-          subarticolTable.classList.add('subarticol')
-          subarticolTable.style.fontSize = 'small'
-
-          articol.children.forEach((subarticol) => {
-            const subarticolTableRow = document.createElement('tr')
-            //add cell as ident 5%
-            const subarticolCellIdent = document.createElement('td')
-            subarticolCellIdent.style.width = '5%'
-            subarticolTableRow.appendChild(subarticolCellIdent)
-            Object.keys(recipeDisplayMask).forEach((mask) => {
-              if (recipeDisplayMask[mask].visible) {
-                const subarticolTableCell = document.createElement('td')
-                subarticolTableCell.style.width = recipeDisplayMask[mask].width
-                const isCustom = subarticol.object.ISCUSTOM || false
-                subarticolTableCell.contentEditable = isCustom
-                subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
-                  ? subarticol.object[recipeDisplayMask[mask].label]
-                  : subarticol.object[recipeDisplayMask[mask].value]
-
-                subarticolTableCell.dataset.idReteta = reteta.id
-                subarticolTableCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
-                subarticolTableCell.dataset.idSubarticol = subarticol.object.CCCMATRETETE
-                subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
-                subarticolTableRow.appendChild(subarticolTableCell)
-                if (isCustom) {
-                  const deleteButtonCell = document.createElement('td')
-                  const deleteButton = document.createElement('i')
-                  //add class to deleteButton
-                  deleteButton.classList.add('bi')
-                  deleteButton.classList.add('bi-trash')
-                  deleteButton.classList.add('text-danger')
-                  deleteButton.dataset.idReteta = reteta.id
-                  deleteButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-                  deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
-                  deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
-                  deleteButtonCell.appendChild(deleteButton)
-                  subarticolTableRow.appendChild(deleteButtonCell)
-                }
+          let subarticole = activitate.children
+          subarticole.forEach((subarticol) => {
+            let subarticolObject = subarticol.object
+            let subrow = document.createElement('div')
+            subrow.className = 'row'
+            recipeDisplayMask.forEach((column) => {
+              if (subarticolObject[column.value] && column.visible) {
+                let col = document.createElement('div')
+                col.className = 'col'
+                col.textContent = subarticolObject[column.label]
+                subrow.appendChild(col)
               }
             })
-
-            subarticolTable.appendChild(subarticolTableRow)
+            let deleteButton = document.createElement('button')
+            deleteButton.className = 'btn btn-danger'
+            deleteButton.textContent = 'Delete'
+            deleteButton.dataset.idReteta = reteta.id
+            deleteButton.dataset.idArticol = articol.CCCACTIVITRETETE
+            deleteButton.dataset.idSubarticol = subarticolObject.CCCMATRETETE
+            deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
+            subrow.appendChild(deleteButton)
+            row.appendChild(subrow)
           })
-
-          subarticolCell.appendChild(subarticolTable)
-          subarticolRow.appendChild(subarticolCell)
-          //add td Actions
-          const subarticolActionsCell = document.createElement('td')
-          const subarticolActions = document.createElement('div')
-          subarticolActions.classList.add('d-flex')
-          subarticolActions.classList.add('justify-content-center')
-          subarticolActions.classList.add('align-items-center')
-          //add buttons fpr various actions
-          const subarticolAddButton = document.createElement('i')
-          //add class to subarticolAddButton
-          subarticolAddButton.classList.add('bi')
-          subarticolAddButton.classList.add('bi-plus-square')
-          subarticolAddButton.classList.add('fs-4')
-          subarticolAddButton.classList.add('text-primary')
-          subarticolAddButton.dataset.idReteta = reteta.id
-          subarticolAddButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-          subarticolAddButton.addEventListener('click', this.addSubarticol.bind(this))
-          subarticolActions.appendChild(subarticolAddButton)
-          subarticolActionsCell.appendChild(subarticolActions)
-          subarticolRow.appendChild(subarticolActionsCell)
-          table.appendChild(subarticolRow)
         })
       })
-
-      container.appendChild(table)
 
       return html`${container}`
     }
