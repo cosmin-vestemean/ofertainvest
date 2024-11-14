@@ -119,20 +119,18 @@ class MyTableListaRetete extends LitElement {
       table.classList.add('table-hover')
       table.classList.add('table-responsive')
       table.style.fontSize = 'small'
+      table.style.border = '1px solid red'
 
       this.data.forEach((reteta) => {
-        /* const retetaRow = document.createElement('tr')
-        const retetaCell = document.createElement('td')
-        retetaCell.colSpan = 2
-        retetaCell.innerHTML = `<strong>Reteta ID: ${reteta.id}</strong>`
-        retetaRow.appendChild(retetaCell)
-        table.appendChild(retetaRow) */
-
         reteta.reteta.forEach((articol) => {
           const articolRow = document.createElement('tr')
+          articolRow.style.border = '1px solid blue'
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
               const articolCell = document.createElement('td')
+              articolCell.style.border = '1px solid green'
+              articolCell.dataset.idReteta = reteta.id
+              articolCell.dataset.idArticol = articol.object.CCCACTIVITRETETE
               articolCell.classList.add('foldable')
               articolCell.classList.add('articol')
               articolCell.style.width = recipeDisplayMask[mask].width
@@ -146,29 +144,18 @@ class MyTableListaRetete extends LitElement {
               articolRow.appendChild(articolCell)
             }
           })
-          const addButtonCell = document.createElement('td')
-          const addButton = document.createElement('i')
-          //add class to addButton
-          addButton.classList.add('bi')
-          addButton.classList.add('bi-plus-square')
-          addButton.classList.add('fs-4')
-          addButton.classList.add('text-primary')
-          addButton.dataset.idReteta = reteta.id
-          addButton.dataset.idArticol = articol.object.CCCACTIVITRETETE
-          addButton.addEventListener('click', this.addSubarticol.bind(this))
-          addButtonCell.appendChild(addButton)
-          articolRow.appendChild(addButtonCell)
 
           table.appendChild(articolRow)
 
           const subarticolRow = document.createElement('tr')
-          //add left margin to subarticolRow
+          subarticolRow.style.border = '1px solid yellow'
           subarticolRow.classList.add('hidden')
           const subarticolCell = document.createElement('td')
           //add width to subarticolCell
           const subarticolTable = document.createElement('table')
           //add class to subarticolTable
           subarticolTable.classList.add('table')
+          subarticolTable.style.border = '1px solid purple'
           subarticolTable.classList.add('table-sm')
           subarticolTable.classList.add('table-hover')
           subarticolTable.classList.add('table-responsive')
@@ -178,13 +165,16 @@ class MyTableListaRetete extends LitElement {
 
           articol.children.forEach((subarticol) => {
             const subarticolTableRow = document.createElement('tr')
+            subarticolTableRow.style.border = '1px solid pink'
             //add cell as ident 5%
             const subarticolCellIdent = document.createElement('td')
+            subarticolCellIdent.style.border = '1px solid orange'
             subarticolCellIdent.style.width = '5%'
             subarticolTableRow.appendChild(subarticolCellIdent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
+                subarticolTableCell.style.border = '1px solid red'
                 subarticolTableCell.style.width = recipeDisplayMask[mask].width
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
@@ -221,6 +211,7 @@ class MyTableListaRetete extends LitElement {
           subarticolRow.appendChild(subarticolCell)
           //add td Actions
           const subarticolActionsCell = document.createElement('td')
+          subarticolActionsCell.style.border = '1px solid black'
           const subarticolActions = document.createElement('div')
           subarticolActions.classList.add('d-flex')
           subarticolActions.classList.add('justify-content-center')
