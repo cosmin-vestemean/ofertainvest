@@ -69,9 +69,10 @@ class MyTableListaRetete extends LitElement {
           }
 
           articole.push({ articol: newArticol, subarticole: newSubarticole })
-          console.log('articole', articole)
         })
       })
+
+      console.log('articole', articole)
 
       return html`${container}`
     }
