@@ -15,6 +15,11 @@ class MyTableListaRetete extends LitElement {
     this.articole = [];
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.processData();
+  }
+
   visibleDisplayMask = (mask) => {
     let displayMask = {}
     for (let column in mask) {
