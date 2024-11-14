@@ -65,22 +65,51 @@ class MyTableListaRetete extends LitElement {
         <div class="container-fluid">
           ${articole.map(
             (item) => html`
-              <div>
-                <!-- Display articol -->
-                ${Object.entries(item.articol).map(
-                  ([key, value]) => html`<div>${key}: ${value}</div>`
-                )}
-                <!-- Display subarticole -->
-                ${item.subarticole.map(
-                  (sub) => html`
-                    <div>
-                      ${Object.entries(sub).map(
-                        ([key, value]) => html`<div>${key}: ${value}</div>`
-                      )}
-                    </div>
-                  `
-                )}
-              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    ${Object.keys(visibleRecipeDisplayMask).map(
+                      (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    ${Object.keys(visibleRecipeDisplayMask).map(
+                      (key) => html`<td>${item.articol[key]}</td>`
+                    )}
+                  </tr>
+                  ${item.subarticole.length > 0
+                    ? html`
+                        <tr>
+                          <td colspan="${Object.keys(visibleRecipeDisplayMask).length}">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  ${Object.keys(visibleRecipeSubsDisplayMask).map(
+                                    (key) =>
+                                      html`<th>${visibleRecipeSubsDisplayMask[key].label || key}</th>`
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                ${item.subarticole.map(
+                                  (sub) => html`
+                                    <tr>
+                                      ${Object.keys(visibleRecipeSubsDisplayMask).map(
+                                        (key) => html`<td>${sub[key]}</td>`
+                                      )}
+                                    </tr>
+                                  `
+                                )}
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      `
+                    : ''}
+                </tbody>
+              </table>
             `
           )}
         </div>
