@@ -62,8 +62,7 @@ class MyTableListaRetete extends LitElement {
             }
           }
           container.appendChild(row)
-          let row1 = document.createElement('div')
-          row1.className = 'row'
+
           let subarticole = activitate.children
           subarticole.forEach((subarticol) => {
             let subarticolObject = subarticol.object
@@ -89,9 +88,8 @@ class MyTableListaRetete extends LitElement {
             deleteButton.dataset.idSubarticol = subarticolObject.CCCMATRETETE
             deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
             subrow.appendChild(deleteButton)
-            row1.appendChild(subrow)
+            container.appendChild(subrow)
           })
-          container.appendChild(row1)
         })
       })
       return html`${container}`
