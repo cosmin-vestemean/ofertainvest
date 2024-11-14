@@ -15,11 +15,6 @@ class MyTableListaRetete extends LitElement {
     this.articole = [];
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.processData();
-  }
-
   visibleDisplayMask = (mask) => {
     let displayMask = {}
     for (let column in mask) {
@@ -30,55 +25,46 @@ class MyTableListaRetete extends LitElement {
     return displayMask
   }
 
-  updated(changedProperties) {
-    if (changedProperties.has('data')) {
-      this.processData();
-    }
-  }
-
-  processData() {
-    const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask);
-    const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask);
-
-    this.articole = [];
-    this.data.forEach((reteta) => {
-      reteta.reteta.forEach((activitate) => {
-        let articol = activitate.object;
-        let newArticol = {};
-
-        for (let key in visibleRecipeDisplayMask) {
-          if (Object.keys(articol).includes(key)) {
-            newArticol[key] = articol[key];
-          }
-        }
-
-        let newSubarticole = [];
-        let subarticole = activitate.children.map((subarticol) => subarticol.object);
-        for (let subarticol of subarticole) {
-          let newSubarticol = {};
-          for (let key in visibleRecipeSubsDisplayMask) {
-            if (Object.keys(subarticol).includes(key)) {
-              newSubarticol[key] = subarticol[key];
-            }
-          }
-          newSubarticole.push(newSubarticol);
-        }
-
-        this.articole.push({
-          articol: newArticol,
-          subarticole: newSubarticole,
-          isExpanded: true // default to expanded
-        });
-      });
-    });
-  }
-
   render() {
     if (!this.data || this.data.length == 0) {
       return html`<p class="label label-danger">No data</p>`;
     } else {
       const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask);
       const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask);
+
+      this.articole = [];
+      this.data.forEach((reteta) => {
+        reteta.reteta.forEach((activitate) => {
+          let articol = activitate.object;
+          let newArticol = {};
+          let newSubarticole = [];
+
+          for (let key in visibleRecipeDisplayMask) {
+            if (Object.keys(articol).includes(key)) {
+              newArticol[key] = articol[key];
+            }
+          }
+
+          let subarticole = activitate.children.map((subarticol) => subarticol.object);
+          for (let subarticol of subarticole) {
+            let newSubarticol = {};
+            for (let key in visibleRecipeSubsDisplayMask) {
+              if (Object.keys(subarticol).includes(key)) {
+                newSubarticol[key] = subarticol[key];
+              }
+            }
+            newSubarticole.push(newSubarticol);
+          }
+
+          this.articole.push({
+            articol: newArticol,
+            subarticole: newSubarticole,
+            isExpanded: true // default to expanded
+          });
+        });
+      });
+
+      console.log('articole', this.articole);
 
       return html`
         <div class="container-fluid">
@@ -146,7 +132,7 @@ class MyTableListaRetete extends LitElement {
 
   toggleSubarticles = (index) => {
     this.articole[index].isExpanded = !this.articole[index].isExpanded;
-    this.requestUpdate();
+    //this.requestUpdate();
   };
 }
 
