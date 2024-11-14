@@ -51,7 +51,7 @@ class MyTableListaRetete extends LitElement {
           row.className = 'row'
           Object.keys(recipeDisplayMask).forEach((key) => {
             let column = recipeDisplayMask[key]
-            if (articol[column.value] && column.visible) {
+            if (articol[column] && column.visible) {
               let col = document.createElement('div')
               col.className = 'col'
               col.textContent = articol[column.label]
@@ -65,7 +65,7 @@ class MyTableListaRetete extends LitElement {
             subrow.className = 'row'
             Object.keys(recipeDisplayMask).forEach((key) => {
               let column = recipeDisplayMask[key]
-              if (subarticolObject[column.value] && column.visible) {
+              if (subarticolObject[column] && column.visible) {
                 let col = document.createElement('div')
                 col.className = 'col'
                 col.textContent = subarticolObject[column.label]
