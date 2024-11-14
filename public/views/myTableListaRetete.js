@@ -133,6 +133,7 @@ class MyTableListaRetete extends LitElement {
               articolCell.classList.add('foldable')
               articolCell.classList.add('articol')
               articolCell.style.width = recipeDisplayMask[mask].width
+              articolCell.style.borderBottom = '1px solid lightgray'
               articolCell.textContent += articol.object[recipeDisplayMask[mask].label]
                 ? articol.object[recipeDisplayMask[mask].label]
                 : articol.object[recipeDisplayMask[mask].value]
@@ -182,11 +183,13 @@ class MyTableListaRetete extends LitElement {
             //add cell as ident 5%
             const subarticolCellIdent = document.createElement('td')
             subarticolCellIdent.style.width = '5%'
+            subarticolCellIdent.style.borderBottom = '1px solid lightgray'
             subarticolTableRow.appendChild(subarticolCellIdent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
                 const subarticolTableCell = document.createElement('td')
                 subarticolTableCell.style.width = recipeDisplayMask[mask].width
+                subarticolTableCell.style.borderBottom = '1px solid lightgray'
                 const isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
                 subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
@@ -210,6 +213,7 @@ class MyTableListaRetete extends LitElement {
                   deleteButton.dataset.idSubarticol = subarticol.object.CCCMATRETETE
                   deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
                   deleteButtonCell.appendChild(deleteButton)
+                  deleteButtonCell.style.borderBottom = '1px solid lightgray'
                   subarticolTableRow.appendChild(deleteButtonCell)
                 }
               }
