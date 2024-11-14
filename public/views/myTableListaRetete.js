@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { template, theadIsSet } from '../client.js'
-import { recipeDisplayMask } from './masks.js'
+import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 
 class MyTableListaRetete extends LitElement {
   static properties = {
@@ -46,8 +46,24 @@ class MyTableListaRetete extends LitElement {
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
           let articol = activitate.object
+          //recipieDisplayMask
+          for (let key in recipeDisplayMask) {
+            if (recipeDisplayMask[key].visible) {
+              if (Object.keys(articol).includes(key)) {
+                console.log('articol', articol, 'key', key, 'value', articol[key])
+              }
+            }
+          }
           let subarticole = activitate.children.map((subarticol) => subarticol.object)
-          console.log('articol', articol, 'subarticole', subarticole)
+          for (let subarticol of subarticole) {
+            for (let key in recipeSubsDisplayMask) {
+              if (recipeSubsDisplayMask[key].visible) {
+                if (Object.keys(subarticol).includes(key)) {
+                  console.log('subarticol', subarticol, 'key', key, 'value', subarticol[key])
+                }
+              }
+            }
+          }
         })
       })
 
