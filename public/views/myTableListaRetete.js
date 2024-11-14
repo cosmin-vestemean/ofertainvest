@@ -7,12 +7,18 @@ class MyTableListaRetete extends LitElement {
     data: { type: Array }
   }
 
+  static styles = css`
+    .hidden {
+      display: none;
+    }
+  `
+
   constructor() {
     super()
     this.data = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    this.articole = [];
+    this.articole = []
   }
 
   visibleDisplayMask = (mask) => {
@@ -27,113 +33,103 @@ class MyTableListaRetete extends LitElement {
 
   render() {
     if (!this.data || this.data.length == 0) {
-      return html`<p class="label label-danger">No data</p>`;
+      return html`<p class="label label-danger">No data</p>`
     } else {
-      const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask);
-      const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask);
+      const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask)
+      const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask)
 
-      this.articole = [];
+      this.articole = []
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
-          let articol = activitate.object;
-          let newArticol = {};
-          let newSubarticole = [];
+          let articol = activitate.object
+          let newArticol = {}
+          let newSubarticole = []
 
           for (let key in visibleRecipeDisplayMask) {
             if (Object.keys(articol).includes(key)) {
-              newArticol[key] = articol[key];
+              newArticol[key] = articol[key]
             }
           }
 
-          let subarticole = activitate.children.map((subarticol) => subarticol.object);
+          let subarticole = activitate.children.map((subarticol) => subarticol.object)
           for (let subarticol of subarticole) {
-            let newSubarticol = {};
+            let newSubarticol = {}
             for (let key in visibleRecipeSubsDisplayMask) {
               if (Object.keys(subarticol).includes(key)) {
-                newSubarticol[key] = subarticol[key];
+                newSubarticol[key] = subarticol[key]
               }
             }
-            newSubarticole.push(newSubarticol);
+            newSubarticole.push(newSubarticol)
           }
 
           this.articole.push({
             articol: newArticol,
             subarticole: newSubarticole,
             isExpanded: true // default to expanded
-          });
-        });
-      });
+          })
+        })
+      })
 
-      console.log('articole', this.articole);
+      console.log('articole', this.articole)
 
       return html`
         <div class="container-fluid">
-          ${this.articole.map(
-            (item, index) => html`
-              <table class="table table-sm">
-                <thead>
-                  <tr>
-                    <th>
-                      <i
-                        class="bi ${item.isExpanded ? 'bi-dash-square' : 'bi-plus-square'}"
-                        style="cursor: pointer;"
-                        @click="${() => this.toggleSubarticles(index)}"
-                      ></i>
-                    </th>
-                    ${Object.keys(visibleRecipeDisplayMask).map(
-                      (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
-                    )}
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th></th>
+                ${Object.keys(visibleRecipeDisplayMask).map(
+                  (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              ${this.articole.map(
+                (item, index) => html`
+                  <tr data-index="${index}">
+                    <td>
+                      ${item.subarticole.length > 0
+                        ? html`<i
+                            class="bi bi-dash-square"
+                            style="cursor: pointer;"
+                            @click="${() => this.toggleSubarticles(index)}"
+                          ></i>`
+                        : ''}
+                    </td>
+                    ${Object.keys(visibleRecipeDisplayMask).map((key) => html`<td>${item.articol[key]}</td>`)}
                   </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td></td>
-                    ${Object.keys(visibleRecipeDisplayMask).map(
-                      (key) => html`<td>${item.articol[key]}</td>`
-                    )}
-                  </tr>
-                  ${item.isExpanded && item.subarticole.length > 0
-                    ? html`
-                        <tr>
-                          <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                                    (key) =>
-                                      html`<th>${visibleRecipeSubsDisplayMask[key].label || key}</th>`
-                                  )}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                ${item.subarticole.map(
-                                  (sub) => html`
-                                    <tr>
-                                      ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                                        (key) => html`<td>${sub[key]}</td>`
-                                      )}
-                                    </tr>
-                                  `
-                                )}
-                              </tbody>
-                            </table>
-                          </td>
-                        </tr>
-                      `
-                    : ''}
-                </tbody>
-              </table>
-            `
-          )}
+                  ${item.subarticole.map(
+                    (sub) => html`
+                      <tr class="subarticle" data-parent-index="${index}">
+                        <td></td>
+                        ${Object.keys(visibleRecipeSubsDisplayMask).map((key) => html`<td>${sub[key]}</td>`)}
+                      </tr>
+                    `
+                  )}
+                `
+              )}
+            </tbody>
+          </table>
         </div>
-      `;
+      `
     }
   }
 
-  toggleSubarticles = (index) => {
-    this.articole[index].isExpanded = !this.articole[index].isExpanded;
-    //this.requestUpdate();
-  };
+  toggleSubarticles(index) {
+    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`)
+    rows.forEach((row) => {
+      row.classList.toggle('hidden')
+    })
+    // Toggle the icon
+    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
+    if (toggleIcon.classList.contains('bi-dash-square')) {
+      toggleIcon.classList.remove('bi-dash-square')
+      toggleIcon.classList.add('bi-plus-square')
+    } else {
+      toggleIcon.classList.remove('bi-plus-square')
+      toggleIcon.classList.add('bi-dash-square')
+    }
+  }
 }
 
 customElements.define('my-table-lista-retete', MyTableListaRetete)
