@@ -50,7 +50,7 @@ class MyTableListaRetete extends LitElement {
           let row = document.createElement('div')
           row.className = 'row'
           for (var key in recipeDisplayMask) {
-            if (Object.prototype.hasOwnProperty.call(recipeDisplayMask, key)) {
+            if (Object.prototype.hasOwnProperty.call(articol, key)) {
               let column = recipeDisplayMask[key]
               if (articol[column.value] && column.visible) {
                 let col = document.createElement('div')
@@ -69,7 +69,7 @@ class MyTableListaRetete extends LitElement {
             let subrow = document.createElement('div')
             subrow.className = 'row'
             for (var key in recipeDisplayMask) {
-              if (Object.prototype.hasOwnProperty.call(recipeDisplayMask, key)) {
+              if (Object.prototype.hasOwnProperty.call(subarticol, key)) {
                 let column = recipeDisplayMask[key]
                 if (subarticolObject[column.value] && column.visible) {
                   let subcol = document.createElement('div')
