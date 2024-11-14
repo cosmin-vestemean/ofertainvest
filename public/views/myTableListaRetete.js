@@ -73,7 +73,7 @@ class MyTableListaRetete extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm" style="font-size: small;">
+          <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
               <tr>
                 <th></th>
@@ -99,7 +99,7 @@ class MyTableListaRetete extends LitElement {
                   </tr>
                   <tr class="subarticle hidden" data-parent-index="${index}">
                     <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
-                      <table class="table table-sm" style="font-size: small;">
+                      <table class="table table-sm is-responsive" style="font-size: small;">
                         <thead>
                           <tr>
                             ${Object.keys(visibleRecipeSubsDisplayMask).map(
