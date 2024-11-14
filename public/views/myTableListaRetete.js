@@ -103,7 +103,7 @@ class MyTableListaRetete extends LitElement {
                         <thead>
                           <tr>
                             ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                              (key) => html`<th>${visibleRecipeSubsDisplayMask[key].label || key}</th>`
+                              (key) => html`<th/><th>${visibleRecipeSubsDisplayMask[key].label || key}</th>`
                             )}
                           </tr>
                         </thead>
@@ -111,7 +111,7 @@ class MyTableListaRetete extends LitElement {
                           ${item.subarticole.map(
                             (sub) => html`
                               <tr>
-                                ${Object.keys(visibleRecipeSubsDisplayMask).map((key) => html`<td/><td/><td>${sub[key]}</td>`)}
+                                ${Object.keys(visibleRecipeSubsDisplayMask).map((key) => html`<td/><td>${sub[key]}</td>`)}
                               </tr>
                             `
                           )}
