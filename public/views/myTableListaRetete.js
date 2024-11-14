@@ -89,7 +89,7 @@ class MyTableListaRetete extends LitElement {
                     <td>
                       ${item.subarticole.length > 0
                         ? html`<i
-                            class="bi bi-dash-square"
+                            class="bi bi-plus-square"
                             style="cursor: pointer;"
                             @click="${() => this.toggleSubarticles(index)}"
                           ></i>`
@@ -133,12 +133,12 @@ class MyTableListaRetete extends LitElement {
     row.classList.toggle('hidden')
     // Toggle the icon
     const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
-    if (toggleIcon.classList.contains('bi-dash-square')) {
-      toggleIcon.classList.remove('bi-dash-square')
-      toggleIcon.classList.add('bi-plus-square')
-    } else {
+    if (toggleIcon.classList.contains('bi-plus-square')) {
       toggleIcon.classList.remove('bi-plus-square')
       toggleIcon.classList.add('bi-dash-square')
+    } else {
+      toggleIcon.classList.remove('bi-dash-square')
+      toggleIcon.classList.add('bi-plus-square')
     }
   }
 }
