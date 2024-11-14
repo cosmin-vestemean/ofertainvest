@@ -80,14 +80,6 @@ class MyTableListaRetete extends LitElement {
                 }
               }
             }
-            let deleteButton = document.createElement('button')
-            deleteButton.className = 'btn btn-danger'
-            deleteButton.textContent = 'Delete'
-            deleteButton.dataset.idReteta = reteta.id
-            deleteButton.dataset.idArticol = articol.CCCACTIVITRETETE
-            deleteButton.dataset.idSubarticol = subarticolObject.CCCMATRETETE
-            deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
-            subrow.appendChild(deleteButton)
             container.appendChild(subrow)
           })
         })
