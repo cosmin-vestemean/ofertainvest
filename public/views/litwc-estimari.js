@@ -70,7 +70,7 @@ export class estimari extends LitElement {
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-hover')
-      //table.classList.add('table-mobile-responsive');
+      table.classList.add('is-responsive');
       table.id = 'table_estimari'
       //font size
       table.style.fontSize = 'small'
