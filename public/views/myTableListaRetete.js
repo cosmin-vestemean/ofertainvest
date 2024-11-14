@@ -59,7 +59,7 @@ class MyTableListaRetete extends LitElement {
           this.articole.push({
             articol: newArticol,
             subarticole: newSubarticole,
-            isExpanded: true // default to expanded
+            isExpanded: false // default to expanded
           });
         });
       });
@@ -130,10 +130,10 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
-  toggleSubarticles(index) {
+  toggleSubarticles = (index) => {
     this.articole[index].isExpanded = !this.articole[index].isExpanded;
     this.requestUpdate();
-  }
+  };
 }
 
 customElements.define('my-table-lista-retete', MyTableListaRetete)
