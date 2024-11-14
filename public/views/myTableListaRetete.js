@@ -38,18 +38,19 @@ class MyTableListaRetete extends LitElement {
       const noDataMessage = document.createElement('p')
       noDataMessage.className = 'label label-danger'
       noDataMessage.textContent = 'No data'
-      return html`${noDataMessage}`
+      return noDataMessage
     } else {
-      //add main div container
+      // Add main div container
       let container = document.createElement('div')
       container.className = 'container-fluid'
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
           let articol = activitate.object
-          //div class row with divs class col for each column from recipeDisplayMask, if articol key exists in recipeDisplayMask has visible property set to true
+          // Div class row with divs class col for each column from recipeDisplayMask, if articol key exists in recipeDisplayMask has visible property set to true
           let row = document.createElement('div')
           row.className = 'row'
-          recipeDisplayMask.forEach((column) => {
+          Object.keys(recipeDisplayMask).forEach((key) => {
+            let column = recipeDisplayMask[key]
             if (articol[column.value] && column.visible) {
               let col = document.createElement('div')
               col.className = 'col'
@@ -62,7 +63,8 @@ class MyTableListaRetete extends LitElement {
             let subarticolObject = subarticol.object
             let subrow = document.createElement('div')
             subrow.className = 'row'
-            recipeDisplayMask.forEach((column) => {
+            Object.keys(recipeDisplayMask).forEach((key) => {
+              let column = recipeDisplayMask[key]
               if (subarticolObject[column.value] && column.visible) {
                 let col = document.createElement('div')
                 col.className = 'col'
@@ -80,10 +82,10 @@ class MyTableListaRetete extends LitElement {
             subrow.appendChild(deleteButton)
             row.appendChild(subrow)
           })
+          container.appendChild(row)
         })
       })
-
-      return html`${container}`
+      return container
     }
   }
 }
