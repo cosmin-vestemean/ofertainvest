@@ -14,6 +14,15 @@ class MyTableListaRetete extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
+  applyMask(obj, mask) {
+    //take into account visible key of mask; interested into visible keys only
+    let keys = Object.keys(mask).filter((key) => mask[key].visible)
+    let newObj = {}
+    keys.forEach((key) => {
+      newObj[key] = obj[key]
+    })
+  }
+
   render() {
     if (!this.data || this.data.length == 0) {
       const noDataMessage = document.createElement('p')
@@ -28,36 +37,15 @@ class MyTableListaRetete extends LitElement {
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
           let articol = activitate.object
-          let newArticol = {}
-          let newSubarticole = []
-          //recipieDisplayMask
-          for (let key in recipeDisplayMask) {
-            if (recipeDisplayMask[key].visible) {
-              if (Object.keys(articol).includes(key)) {
-                newArticol[key] = articol[key]
-              }
-            }
-          }
+          let newArticol = this.applyMask(articol, recipeDisplayMask)
           let subarticole = activitate.children.map((subarticol) => subarticol.object)
-          for (let subarticol of subarticole) {
-            let newSubarticol = {}
-            for (let key in recipeSubsDisplayMask) {
-              if (recipeSubsDisplayMask[key].visible) {
-                if (Object.keys(subarticol).includes(key)) {
-                  newSubarticol[key] = subarticol[key]
-                }
-              }
-            }
-            newSubarticole.push(newSubarticol)
-          }
-
+          let newSubarticole = subarticole.map((subarticol) => this.applyMask(subarticol, recipeSubsDisplayMask))
           articole.push({ articol: newArticol, subarticole: newSubarticole })
         })
       })
 
       console.log('articole', articole)
-      
-
+            
 
       return html`${container}`
     }
