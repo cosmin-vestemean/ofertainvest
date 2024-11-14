@@ -582,7 +582,9 @@ template.innerHTML = `
   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
   crossorigin="anonymous">
 </script>
-<style>/*responsive table: 1. every tr is displayed like a card with margin 2. every td will stacked vertically to be scrolled*/
+<style>
+@media screen and (max-width: 800px) {
+        /*responsive table: 1. every tr is displayed like a card with margin 2. every td will stacked vertically to be scrolled*/
         .is-responsive {
           display: block;
           width: 100%;
@@ -618,17 +620,6 @@ template.innerHTML = `
         .is-responsive thead {
           display: none;
         }
-      }
-      .message-header {
-        /*font normal*/
-        font-weight: normal;
-        /*cursor*/
-        cursor: pointer;
-      }
-      .operatii {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1em;
       }
   </style>`
 
