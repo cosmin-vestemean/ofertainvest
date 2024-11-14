@@ -38,7 +38,7 @@ class MyTableListaRetete extends LitElement {
       const noDataMessage = document.createElement('p')
       noDataMessage.className = 'label label-danger'
       noDataMessage.textContent = 'No data'
-      return noDataMessage
+      return html`${noDataMessage}`
     } else {
       // Add main div container
       let container = document.createElement('div')
