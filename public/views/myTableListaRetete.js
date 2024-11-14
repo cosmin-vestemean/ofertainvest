@@ -89,7 +89,7 @@ class MyTableListaRetete extends LitElement {
           container.appendChild(row)
         })
       })
-      return container
+      return html`${container}`
     }
   }
 }
