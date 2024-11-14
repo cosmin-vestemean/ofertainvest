@@ -581,7 +581,56 @@ template.innerHTML = `
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
   crossorigin="anonymous">
-</script>`
+</script>
+<style>/*responsive table: 1. every tr is displayed like a card with margin 2. every td will stacked vertically to be scrolled*/
+        .is-responsive {
+          display: block;
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          -ms-overflow-style: -ms-autohiding-scrollbar;
+          border-collapse: collapse;
+          border-spacing: 0;
+          border: none;
+        }
+        .is-responsive th,
+        .is-responsive td {
+          min-width: 140px;
+          width: 100%;
+          display: block;
+          text-align: left;
+          padding: 0.5em 1em;
+          border: none;
+        }
+        .is-responsive th {
+          font-weight: bold;
+        }
+        .is-responsive tr {
+          margin-bottom: 2em;
+          border-bottom: 1px solid #ddd;
+          display: flex;
+          flex-direction: column;
+          box-shadow: rgba(10, 10, 10, 0.1) 0px 8px 16px -2px, rgba(10, 10, 10, 0.02) 0px 0px 0px 1px;
+          box-sizing: border-box;
+          border-radius: 0.5em;
+          width: 100%;
+        }
+        .is-responsive thead {
+          display: none;
+        }
+      }
+      .message-header {
+        /*font normal*/
+        font-weight: normal;
+        /*cursor*/
+        cursor: pointer;
+      }
+      .operatii {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+      }
+  </style>`
 
 // 1. load excel file by file chooser xlsx.js
 export function loadDataFromFile(evt) {
