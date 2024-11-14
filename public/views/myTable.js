@@ -64,7 +64,7 @@ export class myTable extends LitElement {
       table.classList.add('table');
       table.classList.add('table-sm');
       table.classList.add('table-hover');
-      table.classList.add('table-responsive');
+      table.classList.add('is-responsive');
       table.id = 'table_' + this.tableId;
       //get or create thead and tbody
       var thead = document.getElementById('thead_' + this.tableId) || document.createElement('thead');
