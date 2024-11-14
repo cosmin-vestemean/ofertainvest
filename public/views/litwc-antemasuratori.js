@@ -47,7 +47,7 @@ export class antemasuratori extends LitElement {
       table.classList.add('table')
       table.classList.add('table-sm')
       table.classList.add('table-hover')
-      table.classList.add('table-responsive')
+      table.classList.add('is-responsive')
       table.id = 'table_antemasuratori'
       //font size
       table.style.fontSize = 'small'
