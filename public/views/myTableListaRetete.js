@@ -124,12 +124,12 @@ class MyTableListaRetete extends LitElement {
         table.appendChild(retetaRow) */
 
         reteta.reteta.forEach((articol) => {
-          const articolRow = document.createElement('tr')
+          let articolRow = document.createElement('tr')
           //add border bottom to articolRow lightgray
           articolRow.style.borderBottom = '1px solid lightgray'
           Object.keys(recipeDisplayMask).forEach((mask) => {
             if (recipeDisplayMask[mask].visible) {
-              const articolCell = document.createElement('td')
+              let articolCell = document.createElement('td')
               articolCell.classList.add('foldable')
               articolCell.classList.add('articol')
               articolCell.style.width = recipeDisplayMask[mask].width
@@ -144,8 +144,8 @@ class MyTableListaRetete extends LitElement {
               articolRow.appendChild(articolCell)
             }
           })
-          const addButtonCell = document.createElement('td')
-          const addButton = document.createElement('i')
+          let addButtonCell = document.createElement('td')
+          let addButton = document.createElement('i')
           //add class to addButton
           addButton.classList.add('bi')
           addButton.classList.add('bi-plus-square')
@@ -159,14 +159,14 @@ class MyTableListaRetete extends LitElement {
 
           table.appendChild(articolRow)
 
-          const subarticolRow = document.createElement('tr')
+          let subarticolRow = document.createElement('tr')
           //add border bottom to subarticolRow lightgray
           subarticolRow.style.borderBottom = '1px solid lightgray'
           //add left margin to subarticolRow
           subarticolRow.classList.add('hidden')
-          const subarticolCell = document.createElement('td')
+          let subarticolCell = document.createElement('td')
           //add width to subarticolCell
-          const subarticolTable = document.createElement('table')
+          let subarticolTable = document.createElement('table')
           //add class to subarticolTable
           subarticolTable.classList.add('table')
           subarticolTable.classList.add('table-sm')
@@ -177,7 +177,7 @@ class MyTableListaRetete extends LitElement {
           subarticolTable.style.fontSize = 'small'
 
           articol.children.forEach((subarticol) => {
-            const subarticolTableRow = document.createElement('tr')
+            let subarticolTableRow = document.createElement('tr')
             //add border bottom to subarticolTableRow lightgray
             subarticolTableRow.style.borderBottom = '1px solid lightgray'
             //add cell as ident 5%
@@ -187,10 +187,10 @@ class MyTableListaRetete extends LitElement {
             subarticolTableRow.appendChild(subarticolCellIdent)
             Object.keys(recipeDisplayMask).forEach((mask) => {
               if (recipeDisplayMask[mask].visible) {
-                const subarticolTableCell = document.createElement('td')
+                let subarticolTableCell = document.createElement('td')
                 subarticolTableCell.style.width = recipeDisplayMask[mask].width
                 subarticolTableCell.style.borderBottom = '1px solid lightgray'
-                const isCustom = subarticol.object.ISCUSTOM || false
+                let isCustom = subarticol.object.ISCUSTOM || false
                 subarticolTableCell.contentEditable = isCustom
                 subarticolTableCell.textContent += subarticol.object[recipeDisplayMask[mask].label]
                   ? subarticol.object[recipeDisplayMask[mask].label]
@@ -202,8 +202,8 @@ class MyTableListaRetete extends LitElement {
                 subarticolTableCell.addEventListener('blur', this.editSubarticol.bind(this))
                 subarticolTableRow.appendChild(subarticolTableCell)
                 if (isCustom) {
-                  const deleteButtonCell = document.createElement('td')
-                  const deleteButton = document.createElement('i')
+                  let deleteButtonCell = document.createElement('td')
+                  let deleteButton = document.createElement('i')
                   //add class to deleteButton
                   deleteButton.classList.add('bi')
                   deleteButton.classList.add('bi-trash')
@@ -225,13 +225,13 @@ class MyTableListaRetete extends LitElement {
           subarticolCell.appendChild(subarticolTable)
           subarticolRow.appendChild(subarticolCell)
           //add td Actions
-          const subarticolActionsCell = document.createElement('td')
-          const subarticolActions = document.createElement('div')
+          let subarticolActionsCell = document.createElement('td')
+          let subarticolActions = document.createElement('div')
           subarticolActions.classList.add('d-flex')
           subarticolActions.classList.add('justify-content-center')
           subarticolActions.classList.add('align-items-center')
           //add buttons fpr various actions
-          const subarticolAddButton = document.createElement('i')
+          let subarticolAddButton = document.createElement('i')
           //add class to subarticolAddButton
           subarticolAddButton.classList.add('bi')
           subarticolAddButton.classList.add('bi-plus-square')
