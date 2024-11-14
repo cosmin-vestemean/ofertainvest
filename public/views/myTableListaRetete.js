@@ -96,15 +96,13 @@ class MyTableListaRetete extends LitElement {
                 <tbody>
                   <tr>
                     <td></td>
-                    ${Object.keys(visibleRecipeDisplayMask).map(
-                      (key) => html`<td>${item.articol[key]}</td>`
-                    )}
+                    ${Object.keys(visibleRecipeDisplayMask).map((key) => html`<td>${item.articol[key]}</td>`)}
                   </tr>
                   ${item.isExpanded && item.subarticole.length > 0
                     ? html`
                         <tr>
                           <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
-                            <table class="table table-sm">
+                            <table class="table table-sm" style="font-size: small;">
                               <thead>
                                 <tr>
                                   ${Object.keys(visibleRecipeSubsDisplayMask).map(
@@ -138,8 +136,8 @@ class MyTableListaRetete extends LitElement {
   }
 
   toggleSubarticles(index) {
-    this.articole[index].isExpanded = !this.articole[index].isExpanded;
-    this.requestUpdate();
+    this.articole[index].isExpanded = !this.articole[index].isExpanded
+    this.requestUpdate()
   }
 }
 
