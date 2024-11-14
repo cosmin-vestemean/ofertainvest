@@ -62,26 +62,6 @@ class MyTableListaRetete extends LitElement {
             }
           }
           container.appendChild(row)
-
-          let subarticole = activitate.children
-          subarticole.forEach((subarticol) => {
-            let subarticolObject = subarticol.object
-            let subrow = document.createElement('div')
-            subrow.className = 'row'
-            for (var key in recipeDisplayMask) {
-              if (Object.prototype.hasOwnProperty.call(subarticol, key)) {
-                let column = recipeDisplayMask[key]
-                if (subarticolObject[column.value] && column.visible) {
-                  let subcol = document.createElement('div')
-                  subcol.className = 'col'
-                  subcol.textContent = subarticolObject[column.label]
-                  subrow.appendChild(subcol)
-                  console.log(subarticolObject[column.value], subarticolObject[column.label])
-                }
-              }
-            }
-            container.appendChild(subrow)
-          })
         })
       })
       return html`${container}`
