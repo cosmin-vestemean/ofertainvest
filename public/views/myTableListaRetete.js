@@ -14,25 +14,6 @@ class MyTableListaRetete extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
-  deleteSubarticol(event) {
-    const idReteta = event.target.dataset.idReteta
-    const idArticol = event.target.dataset.idArticol
-    const idSubarticol = event.target.dataset.idSubarticol
-    this.data = this.data.map((reteta) => {
-      if (reteta.id === idReteta) {
-        reteta.reteta = reteta.reteta.map((articol) => {
-          if (articol.object.CCCACTIVITRETETE === idArticol) {
-            articol.children = articol.children.filter(
-              (subarticol) => subarticol.object.CCCMATRETETE !== idSubarticol
-            )
-          }
-          return articol
-        })
-      }
-      return reteta
-    })
-  }
-
   render() {
     if (!this.data || this.data.length == 0) {
       const noDataMessage = document.createElement('p')
@@ -59,13 +40,15 @@ class MyTableListaRetete extends LitElement {
           }
           let subarticole = activitate.children.map((subarticol) => subarticol.object)
           for (let subarticol of subarticole) {
+            let newSubarticol = {}
             for (let key in recipeSubsDisplayMask) {
               if (recipeSubsDisplayMask[key].visible) {
                 if (Object.keys(subarticol).includes(key)) {
-                  newSubarticole.push({ [key]: subarticol[key] })
+                  newSubarticol[key] = subarticol[key]
                 }
               }
             }
+            newSubarticole.push(newSubarticol)
           }
 
           articole.push({ articol: newArticol, subarticole: newSubarticole })
@@ -73,6 +56,8 @@ class MyTableListaRetete extends LitElement {
       })
 
       console.log('articole', articole)
+      
+
 
       return html`${container}`
     }
