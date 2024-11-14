@@ -35,49 +35,63 @@ class MyTableListaRetete extends LitElement {
 
   render() {
     if (!this.data || this.data.length == 0) {
-      return html`<p class="label label-danger">No data</p>`
+      const noDataMessage = document.createElement('p')
+      noDataMessage.className = 'label label-danger'
+      noDataMessage.textContent = 'No data'
+      return noDataMessage
     } else {
-      return html`
-        <div class="container-fluid">
-          ${this.data.map((reteta) =>
-            reteta.reteta.map((activitate) => {
-              let articol = activitate.object
-              return html`
-                <div class="row">
-                  ${Object.keys(recipeDisplayMask).map((key) => {
-                    let column = recipeDisplayMask[key]
-                    return articol[column.value] && column.visible
-                      ? html`<div class="col">${articol[column.label]}</div>`
-                      : ''
-                  })}
-                  ${activitate.children.map((subarticol) => {
-                    let subarticolObject = subarticol.object
-                    return html`
-                      <div class="row">
-                        ${Object.keys(recipeDisplayMask).map((key) => {
-                          let column = recipeDisplayMask[key]
-                          return subarticolObject[column.value] && column.visible
-                            ? html`<div class="col">${subarticolObject[column.label]}</div>`
-                            : ''
-                        })}
-                        <button
-                          class="btn btn-danger"
-                          data-id-reteta="${reteta.id}"
-                          data-id-articol="${articol.CCCACTIVITRETETE}"
-                          data-id-subarticol="${subarticolObject.CCCMATRETETE}"
-                          @click="${this.deleteSubarticol}"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    `
-                  })}
-                </div>
-              `
-            })
-          )}
-        </div>
-      `
+      // Add main div container
+      let container = document.createElement('div')
+      container.className = 'container-fluid'
+      this.data.forEach((reteta) => {
+        reteta.reteta.forEach((activitate) => {
+          let articol = activitate.object
+          // Div class row with divs class col for each column from recipeDisplayMask, if articol key exists in recipeDisplayMask has visible property set to true
+          let row = document.createElement('div')
+          row.className = 'row'
+          for (var key in recipeDisplayMask) {
+            if (Object.prototype.hasOwnProperty.call(recipeDisplayMask, key)) {
+              let column = recipeDisplayMask[key]
+              if (articol[column.value] && column.visible) {
+                let col = document.createElement('div')
+                col.className = 'col'
+                col.textContent = articol[column.label]
+                row.appendChild(col)
+                console.log(articol[column.value], articol[column.label])
+              }
+            }
+          }
+          let subarticole = activitate.children
+          subarticole.forEach((subarticol) => {
+            let subarticolObject = subarticol.object
+            let subrow = document.createElement('div')
+            subrow.className = 'row'
+            for (var key in recipeDisplayMask) {
+              if (Object.prototype.hasOwnProperty.call(recipeDisplayMask, key)) {
+                let column = recipeDisplayMask[key]
+                if (subarticolObject[column.value] && column.visible) {
+                  let subcol = document.createElement('div')
+                  subcol.className = 'col'
+                  subcol.textContent = subarticolObject[column.label]
+                  subrow.appendChild(subcol)
+                  console.log(subarticolObject[column.value], subarticolObject[column.label])
+                }
+              }
+            }
+            let deleteButton = document.createElement('button')
+            deleteButton.className = 'btn btn-danger'
+            deleteButton.textContent = 'Delete'
+            deleteButton.dataset.idReteta = reteta.id
+            deleteButton.dataset.idArticol = articol.CCCACTIVITRETETE
+            deleteButton.dataset.idSubarticol = subarticolObject.CCCMATRETETE
+            deleteButton.addEventListener('click', this.deleteSubarticol.bind(this))
+            subrow.appendChild(deleteButton)
+            row.appendChild(subrow)
+          })
+          container.appendChild(row)
+        })
+      })
+      return html`${container}`
     }
   }
 }
