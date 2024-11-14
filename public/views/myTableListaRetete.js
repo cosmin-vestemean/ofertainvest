@@ -49,29 +49,33 @@ class MyTableListaRetete extends LitElement {
           // Div class row with divs class col for each column from recipeDisplayMask, if articol key exists in recipeDisplayMask has visible property set to true
           let row = document.createElement('div')
           row.className = 'row'
-          Object.keys(recipeDisplayMask).forEach((key) => {
-            let column = recipeDisplayMask[key]
-            if (articol[column] && column.visible) {
-              let col = document.createElement('div')
-              col.className = 'col'
-              col.textContent = articol[column.label]
-              row.appendChild(col)
+          for (var key in recipeDisplayMask) {
+            if (Object.prototype.hasOwnProperty.call(recipeDisplayMask, key)) {
+              let column = recipeDisplayMask[key]
+              if (articol[column] && column.visible) {
+                let col = document.createElement('div')
+                col.className = 'col'
+                col.textContent = articol[column.label]
+                row.appendChild(col)
+              }
             }
-          })
+          }
           let subarticole = activitate.children
           subarticole.forEach((subarticol) => {
             let subarticolObject = subarticol.object
             let subrow = document.createElement('div')
             subrow.className = 'row'
-            Object.keys(recipeDisplayMask).forEach((key) => {
-              let column = recipeDisplayMask[key]
-              if (subarticolObject[column] && column.visible) {
-                let col = document.createElement('div')
-                col.className = 'col'
-                col.textContent = subarticolObject[column.label]
-                subrow.appendChild(col)
+            for (var key in recipeDisplayMask) {
+              if (Object.prototype.hasOwnProperty.call(recipeDisplayMask, key)) {
+                let column = recipeDisplayMask[key]
+                if (subarticolObject[column] && column.visible) {
+                  let subcol = document.createElement('div')
+                  subcol.className = 'col'
+                  subcol.textContent = subarticolObject[column.label]
+                  subrow.appendChild(subcol)
+                }
               }
-            })
+            }
             let deleteButton = document.createElement('button')
             deleteButton.className = 'btn btn-danger'
             deleteButton.textContent = 'Delete'
