@@ -14,40 +14,77 @@ class MyTableListaRetete extends LitElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
-  applyMask(obj, mask) {
-    //take into account visible key of mask; interested into visible keys only
-    let keys = Object.keys(mask).filter((key) => mask[key].visible)
-    let newObj = {}
-    keys.forEach((key) => {
-      newObj[key] = obj[key]
-    })
+  visibleDisplayMask = (mask) => {
+    let displayMask = {}
+    for (let column in mask) {
+      if (mask[column].visible) {
+        displayMask[column] = mask[column]
+      }
+    }
+    return displayMask
   }
 
   render() {
     if (!this.data || this.data.length == 0) {
-      const noDataMessage = document.createElement('p')
-      noDataMessage.className = 'label label-danger'
-      noDataMessage.textContent = 'No data'
-      return html`${noDataMessage}`
+      return html`<p class="label label-danger">No data</p>`;
     } else {
-      //add main div container
-      let container = document.createElement('div')
-      container.className = 'container-fluid'
-      let articole = []
+      const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask);
+      const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask);
+
+      let articole = [];
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
-          let articol = activitate.object
-          let newArticol = this.applyMask(articol, recipeDisplayMask)
-          let subarticole = activitate.children.map((subarticol) => subarticol.object)
-          let newSubarticole = subarticole.map((subarticol) => this.applyMask(subarticol, recipeSubsDisplayMask))
-          articole.push({ articol: newArticol, subarticole: newSubarticole })
-        })
-      })
+          let articol = activitate.object;
+          let newArticol = {};
+          let newSubarticole = [];
 
-      console.log('articole', articole)
-            
+          for (let key in visibleRecipeDisplayMask) {
+            if (Object.keys(articol).includes(key)) {
+              newArticol[key] = articol[key];
+            }
+          }
 
-      return html`${container}`
+          let subarticole = activitate.children.map((subarticol) => subarticol.object);
+          for (let subarticol of subarticole) {
+            let newSubarticol = {};
+            for (let key in visibleRecipeSubsDisplayMask) {
+              if (Object.keys(subarticol).includes(key)) {
+                newSubarticol[key] = subarticol[key];
+              }
+            }
+            newSubarticole.push(newSubarticol);
+          }
+
+          articole.push({ articol: newArticol, subarticole: newSubarticole });
+        });
+      });
+
+      console.log('articole', articole);
+
+      return html`
+        <div class="container-fluid">
+          ${articole.map(
+            (item) => html`
+              <div>
+                <!-- Display articol -->
+                ${Object.entries(item.articol).map(
+                  ([key, value]) => html`<div>${key}: ${value}</div>`
+                )}
+                <!-- Display subarticole -->
+                ${item.subarticole.map(
+                  (sub) => html`
+                    <div>
+                      ${Object.entries(sub).map(
+                        ([key, value]) => html`<div>${key}: ${value}</div>`
+                      )}
+                    </div>
+                  `
+                )}
+              </div>
+            `
+          )}
+        </div>
+      `;
     }
   }
 }
