@@ -12,6 +12,7 @@ class MyTableListaRetete extends LitElement {
     this.data = []
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.articole = [];
   }
 
   visibleDisplayMask = (mask) => {
@@ -31,7 +32,7 @@ class MyTableListaRetete extends LitElement {
       const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask);
       const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask);
 
-      let articole = [];
+      this.articole = [];
       this.data.forEach((reteta) => {
         reteta.reteta.forEach((activitate) => {
           let articol = activitate.object;
@@ -55,19 +56,30 @@ class MyTableListaRetete extends LitElement {
             newSubarticole.push(newSubarticol);
           }
 
-          articole.push({ articol: newArticol, subarticole: newSubarticole });
+          this.articole.push({
+            articol: newArticol,
+            subarticole: newSubarticole,
+            isExpanded: true // default to expanded
+          });
         });
       });
 
-      console.log('articole', articole);
+      console.log('articole', this.articole);
 
       return html`
         <div class="container-fluid">
-          ${articole.map(
-            (item) => html`
+          ${this.articole.map(
+            (item, index) => html`
               <table class="table">
                 <thead>
                   <tr>
+                    <th>
+                      <i
+                        class="bi ${item.isExpanded ? 'bi-dash-square' : 'bi-plus-square'}"
+                        style="cursor: pointer;"
+                        @click="${() => this.toggleSubarticles(index)}"
+                      ></i>
+                    </th>
                     ${Object.keys(visibleRecipeDisplayMask).map(
                       (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
                     )}
@@ -75,14 +87,15 @@ class MyTableListaRetete extends LitElement {
                 </thead>
                 <tbody>
                   <tr>
+                    <td></td>
                     ${Object.keys(visibleRecipeDisplayMask).map(
                       (key) => html`<td>${item.articol[key]}</td>`
                     )}
                   </tr>
-                  ${item.subarticole.length > 0
+                  ${item.isExpanded && item.subarticole.length > 0
                     ? html`
                         <tr>
-                          <td colspan="${Object.keys(visibleRecipeDisplayMask).length}">
+                          <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
                             <table class="table">
                               <thead>
                                 <tr>
@@ -115,6 +128,11 @@ class MyTableListaRetete extends LitElement {
         </div>
       `;
     }
+  }
+
+  toggleSubarticles(index) {
+    this.articole[index].isExpanded = !this.articole[index].isExpanded;
+    this.requestUpdate();
   }
 }
 
