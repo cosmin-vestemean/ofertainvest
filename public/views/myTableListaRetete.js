@@ -103,7 +103,12 @@ class MyTableListaRetete extends LitElement {
                         <thead>
                           <tr>
                             ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                              (key) => html`<th style="width: 3%;"></th><th>${visibleRecipeSubsDisplayMask[key].label || key}</th>`
+                              (key) => html`
+                                <th style="width: 3%;">
+                                  <i class="bi bi-plus-square" style="cursor: pointer;" @click="${this.addArticle}"></i>
+                                </th>
+                                <th>${visibleRecipeSubsDisplayMask[key].label || key}</th>
+                              `
                             )}
                           </tr>
                         </thead>
@@ -140,6 +145,11 @@ class MyTableListaRetete extends LitElement {
       toggleIcon.classList.remove('bi-dash-square')
       toggleIcon.classList.add('bi-plus-square')
     }
+  }
+
+  addArticle() {
+    // Logic to add more articles manually
+    console.log('Add article clicked');
   }
 }
 
