@@ -1,9 +1,6 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
 import { template, theadIsSet } from '../client.js'
 import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
-import 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css';
-import 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js';
-import 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js';
 
 class MyTableListaRetete extends LitElement {
   static properties = {
