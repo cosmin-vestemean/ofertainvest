@@ -13,6 +13,27 @@ class MyTableListaRetete extends LitElement {
     }
   `
 
+  script() {
+    //load jQuery and bootstrap bundle
+    const scrip1 = document.createElement('script')
+    scrip1.type = 'text/javascript'
+    scrip1.src = 'https://code.jquery.com/jquery-3.6.0.min.js'
+    scrip1.integrity = 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'
+    scrip1.crossOrigin = 'anonymous'
+    scrip1.onload = this.onLoad.bind(this)
+    document.head.appendChild(scrip1)
+    const script2 = document.createElement('script')
+    script2.type = 'text/javascript'
+    script2.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
+    script2.integrity = 'YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
+    script2.crossOrigin = 'anonymous'
+    document.head.appendChild(script2)
+  }
+
+  onLoad() {
+    console.log('jQuery loaded')
+  }
+
   constructor() {
     super()
     this.data = []
@@ -104,18 +125,73 @@ class MyTableListaRetete extends LitElement {
                           <tr>
                             <th>
                               <div class="dropdown">
-                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button
+                                  class="btn btn-sm btn-secondary dropdown-toggle"
+                                  type="button"
+                                  id="dropdownMenuButton"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
                                   <i class="bi bi-plus-square"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a></li>
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a></li>
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a></li>
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a></li>
-                                  <li><hr class="dropdown-divider"></li>
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material + Manopera')}">Material + Manopera</a></li>
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material + Transport')}">Material + Transport</a></li>
-                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material + Utilaj')}">Material + Utilaj</a></li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material')}"
+                                      >Material</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Manopera')}"
+                                      >Manopera</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Transport')}"
+                                      >Transport</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Utilaj')}"
+                                      >Utilaj</a
+                                    >
+                                  </li>
+                                  <li><hr class="dropdown-divider" /></li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Manopera')}"
+                                      >Material + Manopera</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Transport')}"
+                                      >Material + Transport</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Utilaj')}"
+                                      >Material + Utilaj</a
+                                    >
+                                  </li>
                                 </ul>
                               </div>
                             </th>
@@ -165,7 +241,7 @@ class MyTableListaRetete extends LitElement {
 
   addArticle(type) {
     // Logic to add more articles manually based on the type
-    console.log('Add article clicked:', type);
+    console.log('Add article clicked:', type)
   }
 }
 
