@@ -21,13 +21,13 @@ class MyTableListaRetete extends LitElement {
     scrip1.integrity = 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'
     scrip1.crossOrigin = 'anonymous'
     scrip1.onload = this.onLoad.bind(this)
-    this.shadowRoot.head.appendChild(scrip1)
+    this.shadowRoot.appendChild(scrip1)
     const script2 = document.createElement('script')
     script2.type = 'text/javascript'
     script2.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
     script2.integrity = 'YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
     script2.crossOrigin = 'anonymous'
-    this.shadowRoot.head.appendChild(script2)
+    this.shadowRoot.appendChild(script2)
   }
 
   onLoad() {
