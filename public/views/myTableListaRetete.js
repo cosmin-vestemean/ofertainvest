@@ -102,23 +102,21 @@ class MyTableListaRetete extends LitElement {
                       <table class="table table-sm is-responsive" style="font-size: small;">
                         <thead>
                           <tr>
+                            <th style="width: 3%;">
+                              <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Add
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a>
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a>
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a>
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a>
+                                </div>
+                              </div>
+                            </th>
                             ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                              (key) => html`
-                                <th style="width: 3%;">
-                                  <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Add
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a>
-                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a>
-                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a>
-                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a>
-                                    </div>
-                                  </div>
-                                </th>
-                                <th>${visibleRecipeSubsDisplayMask[key].label || key}</th>
-                              `
+                              (key) => html` <th>${visibleRecipeSubsDisplayMask[key].label || key}</th> `
                             )}
                           </tr>
                         </thead>
@@ -126,7 +124,11 @@ class MyTableListaRetete extends LitElement {
                           ${item.subarticole.map(
                             (sub) => html`
                               <tr>
-                                ${Object.keys(visibleRecipeSubsDisplayMask).map((key) => html`<td style="width: 3%;"></td><td>${sub[key]}</td>`)}
+                                ${Object.keys(visibleRecipeSubsDisplayMask).map(
+                                  (key) =>
+                                    html`<td style="width: 3%;"></td>
+                                      <td>${sub[key]}</td>`
+                                )}
                               </tr>
                             `
                           )}
