@@ -105,7 +105,17 @@ class MyTableListaRetete extends LitElement {
                             ${Object.keys(visibleRecipeSubsDisplayMask).map(
                               (key) => html`
                                 <th style="width: 3%;">
-                                  <i class="bi bi-plus-square" style="cursor: pointer;" @click="${this.addArticle}"></i>
+                                  <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Add
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a>
+                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a>
+                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a>
+                                      <a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a>
+                                    </div>
+                                  </div>
                                 </th>
                                 <th>${visibleRecipeSubsDisplayMask[key].label || key}</th>
                               `
@@ -147,9 +157,9 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
-  addArticle() {
-    // Logic to add more articles manually
-    console.log('Add article clicked');
+  addArticle(type) {
+    // Logic to add more articles manually based on the type
+    console.log('Add article clicked:', type);
   }
 }
 
