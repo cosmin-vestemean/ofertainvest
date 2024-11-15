@@ -103,23 +103,15 @@ class MyTableListaRetete extends LitElement {
                         <thead>
                           <tr>
                             <th>
-                              <div class="dropdown show">
-                                <a
-                                  class="btn btn-secondary dropdown-toggle"
-                                  href="#"
-                                  role="button"
-                                  id="dropdownMenuLink"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                >
-                                  Dropdown link
-                                </a>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                  <a class="dropdown-item" href="#">Action</a>
-                                  <a class="dropdown-item" href="#">Another action</a>
-                                  <a class="dropdown-item" href="#">Something else here</a>
+                              <div class="dropdown">
+                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="bi bi-plus-square"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a>
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a>
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a>
+                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a>
                                 </div>
                               </div>
                             </th>
@@ -169,7 +161,7 @@ class MyTableListaRetete extends LitElement {
 
   addArticle(type) {
     // Logic to add more articles manually based on the type
-    console.log('Add article clicked:', type)
+    console.log('Add article clicked:', type);
   }
 }
 
