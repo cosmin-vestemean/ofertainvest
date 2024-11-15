@@ -112,6 +112,10 @@ class MyTableListaRetete extends LitElement {
                                   <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a></li>
                                   <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a></li>
                                   <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material + Manopera')}">Material + Manopera</a></li>
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material + Transport')}">Material + Transport</a></li>
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material + Utilaj')}">Material + Utilaj</a></li>
                                 </ul>
                               </div>
                             </th>
