@@ -25,7 +25,7 @@ class MyTableListaRetete extends LitElement {
     const script2 = document.createElement('script')
     script2.type = 'text/javascript'
     script2.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
-    script2.integrity = 'YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
+    script2.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
     script2.crossOrigin = 'anonymous'
     this.shadowRoot.appendChild(script2)
   }
