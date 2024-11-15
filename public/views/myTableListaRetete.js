@@ -104,15 +104,15 @@ class MyTableListaRetete extends LitElement {
                           <tr>
                             <th>
                               <div class="dropdown">
-                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                   <i class="bi bi-plus-square"></i>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a>
-                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a>
-                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a>
-                                  <a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a>
-                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Material')}">Material</a></li>
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Manopera')}">Manopera</a></li>
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Transport')}">Transport</a></li>
+                                  <li><a class="dropdown-item" href="#" @click="${() => this.addArticle('Utilaj')}">Utilaj</a></li>
+                                </ul>
                               </div>
                             </th>
                             ${Object.keys(visibleRecipeSubsDisplayMask).map(
