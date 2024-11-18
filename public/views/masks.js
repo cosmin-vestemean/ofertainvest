@@ -24,7 +24,7 @@ const recipeDisplayMask = {
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
-    visible: true,
+    visible: false,
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF',
     DBName: ''
