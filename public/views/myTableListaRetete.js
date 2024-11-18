@@ -203,10 +203,10 @@ class MyTableListaRetete extends LitElement {
                           ${item.subarticole.map(
                             (sub) => html`
                               <tr>
+                                <td></td>
                                 ${Object.keys(visibleRecipeSubsDisplayMask).map(
                                   (key) =>
-                                    html`<td style="width: 3%;"></td>
-                                      <td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">${sub[key]}</td>`
+                                    html`<td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">${sub[key]}</td>`
                                 )}
                               </tr>
                             `
