@@ -109,7 +109,7 @@ class MyTableListaRetete extends LitElement {
                     <td>
                       ${item.subarticole.length > 0
                         ? html`<i
-                            class="bi bi-plus-square bg-light"
+                            class="bi bi-plus-square"
                             style="cursor: pointer;"
                             @click="${() => this.toggleSubarticles(index)}"
                           ></i>`
@@ -125,7 +125,7 @@ class MyTableListaRetete extends LitElement {
                             <th>
                               <div class="dropdown">
                                 <button
-                                  class="btn btn-sm btn-secondary dropdown-toggle"
+                                  class="btn btn-sm btn-light dropdown-toggle"
                                   type="button"
                                   id="dropdownMenuButton"
                                   data-bs-toggle="dropdown"
