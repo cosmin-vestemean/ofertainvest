@@ -14,8 +14,8 @@ const recipeDisplayMask = {
   WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS' },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
-    RW: true,
-    visible: false,
+    RW: false,
+    visible: true,
     label: 'Denumire',
     linkOferta: 'DENUMIRE_ART_OF',
     width: '50%',
@@ -24,7 +24,7 @@ const recipeDisplayMask = {
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
     RW: false,
-    visible: false,
+    visible: true,
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF',
     DBName: ''
