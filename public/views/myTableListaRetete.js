@@ -105,11 +105,11 @@ class MyTableListaRetete extends LitElement {
             <tbody>
               ${this.articole.map(
                 (item, index) => html`
-                  <tr data-index="${index}" class="table-light">
+                  <tr data-index="${index}" class="${item.subarticole.length > 0 ? 'table-light' : ''}">
                     <td>
                       ${item.subarticole.length > 0
                         ? html`<i
-                            class="bi bi-plus-square"
+                            class="bi bi-plus-square bg-light"
                             style="cursor: pointer;"
                             @click="${() => this.toggleSubarticles(index)}"
                           ></i>`
