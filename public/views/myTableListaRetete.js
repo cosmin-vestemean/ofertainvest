@@ -38,14 +38,14 @@ class MyTableListaRetete extends LitElement {
   }
 
   loadBootstrap() {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-    script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz';
-    script.crossOrigin = 'anonymous';
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
+    script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
+    script.crossOrigin = 'anonymous'
     script.onload = () => {
-      console.log('Bootstrap loaded');
-    };
-    this.shadowRoot.appendChild(script);
+      console.log('Bootstrap loaded')
+    }
+    this.shadowRoot.appendChild(script)
   }
 
   loadBootstrapSelect = () => {
@@ -126,7 +126,12 @@ class MyTableListaRetete extends LitElement {
                           ></i>`
                         : ''}
                     </td>
-                    ${Object.keys(visibleRecipeDisplayMask).map((key) => html`<td contenteditable="${visibleRecipeDisplayMask[key].RW}">${item.articol[key]}</td>`)}
+                    ${Object.keys(visibleRecipeDisplayMask).map(
+                      (key) =>
+                        html`<td contenteditable="${visibleRecipeDisplayMask[key].RW}">
+                          ${item.articol[key]}
+                        </td>`
+                    )}
                   </tr>
                   <tr class="subarticle hidden" data-parent-index="${index}">
                     <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
@@ -217,7 +222,9 @@ class MyTableListaRetete extends LitElement {
                                 <td></td>
                                 ${Object.keys(visibleRecipeSubsDisplayMask).map(
                                   (key) => html`
-                                    <td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">${sub[key]}</td>
+                                    <td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">
+                                      ${sub[key]}
+                                    </td>
                                   `
                                 )}
                               </tr>
