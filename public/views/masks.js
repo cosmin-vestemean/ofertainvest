@@ -15,7 +15,7 @@ const recipeDisplayMask = {
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     RW: true,
-    visible: true,
+    visible: false,
     label: 'Denumire',
     linkOferta: 'DENUMIRE_ART_OF',
     width: '50%',
@@ -23,7 +23,7 @@ const recipeDisplayMask = {
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
-    RW: true,
+    RW: false,
     visible: false,
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF',
@@ -31,7 +31,7 @@ const recipeDisplayMask = {
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
-    RW: true,
+    RW: false,
     visible: true,
     label: 'UM',
     linkOferta: 'UM_ART_OF',
@@ -40,7 +40,7 @@ const recipeDisplayMask = {
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
-    RW: true,
+    RW: false,
     visible: true,
     label: 'Tip articol',
     linkOferta: 'TIP_ART_OF',
@@ -49,7 +49,7 @@ const recipeDisplayMask = {
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
-    RW: true,
+    RW: false,
     visible: true,
     label: 'Subtip articol',
     linkOferta: 'SUBTIP_ART_OF',
