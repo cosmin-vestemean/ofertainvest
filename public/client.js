@@ -247,9 +247,14 @@ export async function setRecipesDs() {
           //if visible
           if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
         })
-        odm.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = material.SUMCANTANTE || 0
-        odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = material.AVGNORMUNITOREMAN || 0
-        odm.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = material.SUMOREMAN || 0
+        odm.CANTITATE_SUBARTICOL_RETETA = material.CANTTOTAL || 0
+        odm.CANTITATE_UNITARA_SUBARTICOL_RETETA = material.CANTUNIT || 0
+        odm.CANTITATE_REALIZARE_ARTICOL_RETETA = material.CANTREAL || 0
+        odm.CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA = material.CANTREALUNIT
+        //NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA
+        odm.NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA = material.NORMUNITMAN || 0
+        odm.TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA = material.TOTALOREMAN || 0
+        odm.PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA = material.PONNORMMAN || 0
         odm.CCCMATRETETE = material.CCCMATRETETE
         odm.CCCACTIVITRETETE = material.CCCACTIVITRETETE
         odm.CCCRETETE = material.CCCRETETE
@@ -2109,12 +2114,20 @@ function createTreesFromWBS(ds) {
       //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
       for (let k = 0; k < materiale.length; k++) {
         let material = materiale[k]
-        if (!material.object.CANTITATE_UNITARA_ARTICOL_RETETA)
-          material.object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
-        if (!material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
-          material.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
-        if (!material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA)
-          material.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+        if (!material.object.CANTITATE_SUBARTICOL_RETETA)
+          material.object.CANTITATE_SUBARTICOL_RETETA = 0
+        if (!material.object.CANTITATE_UNITARA_SUBARTICOL_RETETA)
+          material.object.CANTITATE_UNITARA_SUBARTICOL_RETETA = null
+        if (!material.object.CANTITATE_REALIZARE_ARTICOL_RETETA)
+          material.object.CANTITATE_REALIZARE_ARTICOL_RETETA = null
+        if (!material.object.CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA)
+          material.object.CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA = null
+        if (!material.object.NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA)
+          material.object.NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA = null
+        if (!material.object.TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA)
+          material.object.TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA = null
+        if (!material.object.PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA)
+          material.object.PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA = null
       }
     }
   }
@@ -3095,7 +3108,7 @@ class Recipe extends LitElement {
 
               // Insert children into CCCMATRETETE
               item.children.forEach(async (child) => {
-                let insertCCCMATRETETEQuery = `INSERT INTO CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCMATRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, ${idReteta}, ${CCCACTIVITRETETE}, ${CCCOFERTEWEBLINII}, ${child.CANTITATEUNITARA || 0}, ${child.PONDEREDECONT || 0}, ${child.PONDERENORMA || 0}, ${ISCUSTOM})`
+                let insertCCCMATRETETEQuery = `INSERT INTO CCCMATRETETE (CCCOFERTEWEB, CCCRETETE, CCCMATRETETE, CCCACTIVITRETETE, CCCOFERTEWEBLINII, CANTTOTAL, CANTUNIT, CANTREAL, CANTREALUNIT, NORMUNITMAN, TOTALOREMAN, PONNORMMAN, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, ${idReteta}, ${CCCACTIVITRETETE}, ${CCCOFERTEWEBLINII}, ${child.CANTTOTAL || 0}, ${child.CANTUNIT || 0}, ${child.CANTREAL || 0}, ${child.CANTREALUNIT || 0}, ${child.NORMUNITMAN || 0}, ${child.TOTALOREMAN || 0}, ${child.PONNORMMAN || 0},  ${ISCUSTOM})`
                 const resInsertMatReteta = await client
                   .service('runSQLTransaction')
                   .create({ sqlList: [insertCCCMATRETETEQuery] })
@@ -3110,7 +3123,7 @@ class Recipe extends LitElement {
               if (item.children && item.children.length) {
                 item.children.forEach(async (childPack) => {
                   let child = childPack.object
-                  let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
+                  let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTTOTAL=${child.CANTTOTAL || 0}, CANTUNIT=${child.CANTUNIT || 0}, CANTREAL=${child.CANTREAL || 0}, CANTREALUNIT=${child.CANTREALUNIT || 0}, NORMUNITMAN=${child.NORMUNITMAN || 0}, TOTALOREMAN=${child.TOTALOREMAN || 0}, PONNORMMAN=${child.PONNORMMAN || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
                   sqlList.push(updateCCCMATRETETEQuery)
                 })
               }
@@ -3123,7 +3136,7 @@ class Recipe extends LitElement {
             if (item.children && item.children.length) {
               item.children.forEach(async (childPack) => {
                 let child = childPack.object
-                let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTITATEUNITARA=${child.CANTITATEUNITARA || 0}, PONDEREDECONT=${child.PONDEREDECONT || 0}, PONDERENORMA=${child.PONDERENORMA || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
+                let updateCCCMATRETETEQuery = `UPDATE CCCMATRETETE SET CANTTOTAL=${child.CANTTOTAL || 0}, CANTUNIT=${child.CANTUNIT || 0}, CANTREAL=${child.CANTREAL || 0}, CANTREALUNIT=${child.CANTREALUNIT || 0}, NORMUNITMAN=${child.NORMUNITMAN || 0}, TOTALOREMAN=${child.TOTALOREMAN || 0}, PONNORMMAN=${child.PONNORMMAN || 0} WHERE CCCMATRETETE=${child.CCCMATRETETE}`
                 sqlList.push(updateCCCMATRETETEQuery)
               })
             }
