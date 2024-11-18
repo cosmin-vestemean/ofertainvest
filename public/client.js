@@ -221,9 +221,9 @@ export async function setRecipesDs() {
         //if visible
         if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
       })
-      odm.CANTITATE_UNITARA_ARTICOL_RETETA = activitate.CANTITATEUNITARA || 0
-      odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = activitate.PONDEREDECONT || 0
-      odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = activitate.PONDERENORMA || 0
+      odm.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = activitate.SUMCANTANTE || 0
+      odm.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = activitate.AVGNORMUNITOREMAN || 0
+      odm.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = activitate.SUMOREMAN || 0
       odm.ISMAIN = activitate.ISMAIN
       odm.ISCUSTOM = activitate.ISCUSTOM
       odm.CCCACTIVITRETETE = activitate.CCCACTIVITRETETE
@@ -247,9 +247,9 @@ export async function setRecipesDs() {
           //if visible
           if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
         })
-        odm.CANTITATE_UNITARA_ARTICOL_RETETA = material.CANTITATEUNITARA || 0
-        odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = material.PONDEREDECONT || 0
-        odm.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = material.PONDERENORMA || 0
+        odm.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = material.SUMCANTANTE || 0
+        odm.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = material.AVGNORMUNITOREMAN || 0
+        odm.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = material.SUMOREMAN || 0
         odm.CCCMATRETETE = material.CCCMATRETETE
         odm.CCCACTIVITRETETE = material.CCCACTIVITRETETE
         odm.CCCRETETE = material.CCCRETETE
@@ -572,6 +572,10 @@ let themeLink =
   selectedTheme === 'default'
     ? ''
     : `<link id="theme_link" rel="stylesheet" href="./css/${selectedTheme}.css">`
+/*
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.js"></script>
+*/
 template.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>${themeLink}
@@ -1499,9 +1503,9 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
           if (!isMaterial) {
             return
           } else {
-            activitate.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-            activitate.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-            activitate.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+            activitate.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
+            activitate.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 1
+            activitate.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 1
             children.forEach((child) => {
               let parent = activitate.object.WBS
               let sum_parent = 0
@@ -1520,7 +1524,7 @@ CANTITATE_UNITARA_MATERIAL_ACTIVITATE_ARTICOL_RETETA. Completat automat cu CANTI
                   }
                 }
               })
-              child.object.CANTITATE_UNITARA_ARTICOL_RETETA = sum_child / sum_parent
+              child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = sum_child / sum_parent
             })
           }
         }
@@ -2092,15 +2096,15 @@ function createTreesFromWBS(ds) {
   let retete = rez.retete
   instanteRetete = rez.instanteRetete
 
-  //add to retete > reteta > object CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA, PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA, PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA
+  //add to retete > reteta > object SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA, MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA, SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA
   for (let i = 0; i < retete.length; i++) {
     let reteta = retete[i].reteta
     for (let j = 0; j < reteta.length; j++) {
       let object = reteta[j].object
-      if (!object.CANTITATE_UNITARA_ARTICOL_RETETA) object.CANTITATE_UNITARA_ARTICOL_RETETA = 0
-      if (!object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA)
-        object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 0
-      if (!object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA) object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+      if (!object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA) object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 0
+      if (!object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA)
+        object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 0
+      if (!object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA) object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 0
       let materiale = reteta[j].children
       //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
       for (let k = 0; k < materiale.length; k++) {
@@ -2256,21 +2260,21 @@ function adaugaInReteta(reteta, related) {
     newObj1.level = newObj1.branch.length
     newObj1.virtual = true
     newObj1.hasChildren = false
-    newObj1.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
+    newObj1.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
     newObj2.children = []
     newObj2.children.push(newObj1)
     newObj2.object.old_WBS = ''
-    newObj2.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-    newObj2.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
+    newObj2.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
+    newObj2.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 1
     if (
       (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
         newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') ||
       (newObj2.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
         newObj2.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'manopera')
     ) {
-      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 1
+      newObj2.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 1
     } else {
-      newObj2.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+      newObj2.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 0
     }
     newObj2.hasChildren = true
     newObj2.branch = related[i].WBS.split('.')
@@ -2340,16 +2344,16 @@ Activitate 1183.7.18.23.L
       if (childrenEndsWithL.length > 0) {
         activitate.ISMAIN = true
         childrenEndsWithL.forEach(function (child) {
-          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = 1
-          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = 0
+          child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
+          child.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 1
+          child.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 0
           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
           newActivitateInReteta.level = activitate.level
           newActivitateInReteta.children = []
           newActivitateInReteta.hasChildren = true
-          child.object.CANTITATE_UNITARA_ARTICOL_RETETA = 1
-          child.object.PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA = null
-          child.object.PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA = null
+          child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
+          child.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = null
+          child.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = null
           newActivitateInReteta.children.push(child)
           newActivitateInReteta.ISMAIN = false
           reteta.push(newActivitateInReteta)
@@ -2970,9 +2974,9 @@ class Recipe extends LitElement {
             UM_ARTICOL_OFERTA: '',
             TIP_ARTICOL_OFERTA: '',
             SUBTIP_ARTICOL_OFERTA: '',
-            CANTITATE_UNITARA_ARTICOL_RETETA: 1,
-            PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA: 1,
-            PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA: 1,
+            SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA: 1,
+            MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA: 1,
+            SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA: 1,
             ISCUSTOM: 1,
             ISMAIN: false
           },
@@ -3078,7 +3082,7 @@ class Recipe extends LitElement {
               let CCCOFERTEWEBLINII = await getValFromS1Query(getLastInsertedCCCOFERTEWEBLINIIQuery).value
               //insert into CCCACTIVITRETETE, get last CCCACTIVITRETETE by IDENT_CURRENT('CCCACTIVITRETETE') to use in next step then insert children into CCCMATRETETE
               // Insert into CCCACTIVITRETETE
-              let insertCCCACTIVITRETETEQuery = `INSERT INTO CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, CANTITATEUNITARA, PONDEREDECONT, PONDERENORMA, ISMAIN, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, (select CCCRETETE from CCCRETETE where id=${idReteta} and CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}), ${CCCOFERTEWEBLINII}, ${o.CANTITATEUNITARA || 0}, ${o.PONDEREDECONT || 0}, ${o.PONDERENORMA || 0}, ${ISMAIN}, ${ISCUSTOM})`
+              let insertCCCACTIVITRETETEQuery = `INSERT INTO CCCACTIVITRETETE (CCCOFERTEWEB, CCCRETETE, CCCOFERTEWEBLINII, SUMCANTANTE, AVGNORMUNITOREMAN, SUMOREMAN, ISMAIN, ISCUSTOM) VALUES (${contextOferta.CCCOFERTEWEB}, (select CCCRETETE from CCCRETETE where id=${idReteta} and CCCOFERTEWEB=${contextOferta.CCCOFERTEWEB}), ${CCCOFERTEWEBLINII}, ${o.SUMCANTANTE || 0}, ${o.AVGNORMUNITOREMAN || 0}, ${o.SUMOREMAN || 0}, ${ISMAIN}, ${ISCUSTOM})`
               const resInsertActivitReteta = await client
                 .service('runSQLTransaction')
                 .create({ sqlList: [insertCCCACTIVITRETETEQuery] })
@@ -3100,7 +3104,7 @@ class Recipe extends LitElement {
             } else {
               //ISCUSTOM = 1 and has CCCOFERTEWEBLINII
               //update CCCACTIVITRETETE
-              let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${ISMAIN} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
+              let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET SUMCANTANTE=${o.SUMCANTANTE || 0}, AVGNORMUNITOREMAN=${o.AVGNORMUNITOREMAN || 0}, SUMOREMAN=${o.SUMOREMAN || 0}, ISMAIN=${ISMAIN} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
               sqlList.push(updateCCCACTIVITRETETEQuery)
               //update CCCMATRETETE
               if (item.children && item.children.length) {
@@ -3114,7 +3118,7 @@ class Recipe extends LitElement {
           } else {
             //ISCUSTOM = 0
             //update CCCACTIVITRETETE
-            let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET CANTITATEUNITARA=${o.CANTITATEUNITARA || 0}, PONDEREDECONT=${o.PONDEREDECONT || 0}, PONDERENORMA=${o.PONDERENORMA || 0}, ISMAIN=${ISMAIN ? 1 : 0} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
+            let updateCCCACTIVITRETETEQuery = `UPDATE CCCACTIVITRETETE SET SUMCANTANTE=${o.SUMCANTANTE || 0}, AVGNORMUNITOREMAN=${o.AVGNORMUNITOREMAN || 0}, SUMOREMAN=${o.SUMOREMAN || 0}, ISMAIN=${ISMAIN ? 1 : 0} WHERE CCCACTIVITRETETE=${o.CCCACTIVITRETETE}`
             sqlList.push(updateCCCACTIVITRETETEQuery)
             if (item.children && item.children.length) {
               item.children.forEach(async (childPack) => {

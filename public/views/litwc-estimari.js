@@ -11,6 +11,8 @@ import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { addNewEstimare } from './listaEstimari.js'
 
+//
+
 export class estimari extends LitElement {
   //loop through newTree and create a table with columns according to antemasuratoriDisplayMask
   //newTree is an array Arr containing arrays Arr[i]; each Arr[i] contains arrays: one is object ,let's call it Arr1 and one is antemasuratori (Arr2)
