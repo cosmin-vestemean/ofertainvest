@@ -220,8 +220,6 @@ class MyTableListaRetete extends LitElement {
               )}
             </tbody>
           </table>
-          ${this.script1()}
-          ${this.script2()}
         </div>
       `
     }
