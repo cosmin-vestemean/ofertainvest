@@ -105,7 +105,7 @@ class MyTableListaRetete extends LitElement {
             <tbody>
               ${this.articole.map(
                 (item, index) => html`
-                  <tr data-index="${index}">
+                  <tr data-index="${index}" class="table-info">
                     <td>
                       ${item.subarticole.length > 0
                         ? html`<i
