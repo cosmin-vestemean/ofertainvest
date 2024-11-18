@@ -21,6 +21,12 @@ class MyTableListaRetete extends LitElement {
     this.articole = []
   }
 
+  connectedCallback() {
+    super.connectedCallback()
+    //this.loadBootstrap()
+    //this.loadBootstrapSelect()
+  }
+
   visibleDisplayMask = (mask) => {
     let displayMask = {}
     for (let column in mask) {
@@ -31,20 +37,25 @@ class MyTableListaRetete extends LitElement {
     return displayMask
   }
 
-  script1 = () => {
-    let script = document.createElement('script')
-    script.onload = this.onLoad.bind(this)
-    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
-    script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
-    script.crossOrigin = 'anonymous'
-    return script
+  loadBootstrap() {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+    script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz';
+    script.crossOrigin = 'anonymous';
+    script.onload = () => {
+      console.log('Bootstrap loaded');
+    };
+    this.shadowRoot.appendChild(script);
   }
 
-  script2 = () => {
+  loadBootstrapSelect = () => {
     let script = document.createElement('script')
     script.onload = this.onLoad.bind(this)
     script.src = 'https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.js'
-    return script
+    script.onload = () => {
+      console.log('Bootstrap select loaded')
+    }
+    this.shadowRoot.appendChild(script)
   }
 
   onLoad() {
