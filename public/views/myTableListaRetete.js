@@ -119,8 +119,7 @@ class MyTableListaRetete extends LitElement {
                 (item, index) => html`
                   <tr
                     data-index="${index}"
-                    class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-                    style="${item.reteta.type === 'grupare artificiala' ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
+                    class="${item.subarticole.length > 0 ? 'table-light' : ''} ${item.reteta.type === 'grupare artificiala' ? 'border-start border-end border-warning' : ''}"
                   >
                     <td>
                       ${item.subarticole.length > 0
@@ -139,9 +138,8 @@ class MyTableListaRetete extends LitElement {
                     )}
                   </tr>
                   <tr
-                    class="subarticle hidden"
+                    class="subarticle hidden ${item.reteta.type === 'grupare artificiala' ? 'border-start border-end border-warning' : ''}"
                     data-parent-index="${index}"
-                    style="${item.reteta.type === 'grupare artificiala' ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
                   >
                     <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
                       <table class="table table-sm is-responsive" style="font-size: small;">

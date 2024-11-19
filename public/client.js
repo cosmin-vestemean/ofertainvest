@@ -1424,7 +1424,7 @@ export function showRecipes() {
     tables.hideAllBut([tables.my_table2, tables.my_table3])
     let listaRetete = []
     recipes_ds.forEach((o) => {
-      listaRetete.push({ id: o.id || -1, Reteta: o.name || '', Type: o.type || ''})
+      listaRetete.push({ id: o.id > 0 ? o.id : -1, Reteta: o.name || '', Type: o.type || '' })
     })
     tables.my_table2.element.ds = listaRetete
   } else {
@@ -2102,7 +2102,8 @@ function createTreesFromWBS(ds) {
     let reteta = retete[i].reteta
     for (let j = 0; j < reteta.length; j++) {
       let object = reteta[j].object
-      if (!object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA) object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 0
+      if (!object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA)
+        object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 0
       if (!object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA)
         object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 0
       if (!object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA) object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 0
@@ -2110,8 +2111,7 @@ function createTreesFromWBS(ds) {
       //add CANTITATE_UNITARA_ACTIVITATE_ARTICOL_RETETA to every material
       for (let k = 0; k < materiale.length; k++) {
         let material = materiale[k]
-        if (!material.object.CANTITATE_SUBARTICOL_RETETA)
-          material.object.CANTITATE_SUBARTICOL_RETETA = 0
+        if (!material.object.CANTITATE_SUBARTICOL_RETETA) material.object.CANTITATE_SUBARTICOL_RETETA = 0
         if (!material.object.CANTITATE_UNITARA_SUBARTICOL_RETETA)
           material.object.CANTITATE_UNITARA_SUBARTICOL_RETETA = null
         if (!material.object.CANTITATE_REALIZARE_ARTICOL_RETETA)
