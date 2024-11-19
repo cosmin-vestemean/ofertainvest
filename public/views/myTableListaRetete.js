@@ -94,6 +94,7 @@ class MyTableListaRetete extends LitElement {
           }
 
           this.articole.push({
+            reteta: {id: reteta.id, name: reteta.name, type: reteta.type},
             articol: newArticol,
             subarticole: newSubarticole
           })

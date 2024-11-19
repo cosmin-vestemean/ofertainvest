@@ -2234,6 +2234,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //add each related to reteta array as object using for (let...)
               //adaugaInReteta(reteta, related)
               adaugaInReteta2(reteta, related)
+              reteta.type = 'grupare artificiala'
               reteta.name =
                 'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (include gruparea ' + grupare + ')'
             } else {
@@ -2244,6 +2245,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               adaugaInReteta2(reteta, related)
               result.push({
                 name: 'Reteta ' + (retete.length + 1).toString() + ' (include gruparea ' + grupare + ')',
+                type: 'grupare artificiala',
                 reteta
               })
             }
