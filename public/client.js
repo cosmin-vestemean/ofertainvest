@@ -210,6 +210,7 @@ export async function setRecipesDs() {
     let retetaObj = {
       id: reteta.ID,
       name: reteta.NAME,
+      type: reteta.TYPE,
       reteta: []
     }
     let activitati = activitatiDB.filter((activitate) => activitate.CCCRETETE == reteta.CCCRETETE)
@@ -1423,7 +1424,7 @@ export function showRecipes() {
     tables.hideAllBut([tables.my_table2, tables.my_table3])
     let listaRetete = []
     recipes_ds.forEach((o) => {
-      listaRetete.push({ id: o.id, Reteta: o.name })
+      listaRetete.push({ id: o.id || -1, Reteta: o.name || '', Type: o.type || ''})
     })
     tables.my_table2.element.ds = listaRetete
   } else {
