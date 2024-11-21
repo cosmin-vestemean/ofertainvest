@@ -302,7 +302,11 @@ class MyTableListaRetete extends LitElement {
     event.preventDefault()
     console.log('Context menu opened for:', item)
 
-    //get tr element
+    // Remove table-info class from all tr elements
+    const allRows = this.shadowRoot.querySelectorAll('tr.table-info')
+    allRows.forEach((row) => row.classList.remove('table-info'))
+
+    // Get tr element
     const tr = event.target.closest('tr')
     tr.classList.add('table-info')
 
@@ -326,9 +330,9 @@ class MyTableListaRetete extends LitElement {
       <button type="button" class="btn btn-sm btn-danger" @click="${() => this.deleteArticle(item)}">
         <i class="bi bi-trash"></i>
       </button>
-    <button type="button" class="btn btn-sm btn-success" @click="${() => this.saveArticle(item)}">
-      <i class="bi bi-check-square"></i>
-    </button>
+      <button type="button" class="btn btn-sm btn-success" @click="${() => this.saveArticle(item)}">
+        <i class="bi bi-check-square"></i>
+      </button>
     </div>`
 
     // Adjust the position after adding the popover to the DOM
