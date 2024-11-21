@@ -89,9 +89,9 @@ class MyTableListaRetete extends LitElement {
               if (Object.keys(subarticol).includes(key)) {
                 if (usefullRecipeSubsDisplayMask[key].type === 'boolean') {
                   if (subarticol[key] === 1) {
-                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.true);
+                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.true)
                   } else {
-                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.false);
+                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.false)
                   }
                 } else if (usefullRecipeSubsDisplayMask[key].type === 'number') {
                   newSubarticol[key] = isNaN(parseFloat(subarticol[key]))
@@ -302,11 +302,11 @@ class MyTableListaRetete extends LitElement {
   handleContextMenu(event, item) {
     event.preventDefault()
     console.log('Context menu opened for:', item)
-    
+
     // Close all existing popovers
     const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
-    existingPopovers.forEach(popover => popover.remove())
-  
+    existingPopovers.forEach((popover) => popover.remove())
+
     // Create a new popover
     const popover = document.createElement('div')
     popover.className = 'popover'
@@ -319,15 +319,29 @@ class MyTableListaRetete extends LitElement {
     popover.style.zIndex = '1000'
     popover.style.boxShadow = '3px 3px 3px rgba(0, 0, 0, 0.6)'
     popover.style.borderRadius = '5px'
-    popover.innerHTML = `<p>Context menu</p>`
+    popover.innerHTML = `<div class="btn-group" role="group">
+      <button type="button" class="btn btn-primary" @click="${() => this.toggleSelect(item)}">
+        <i class="bi bi-plus-square"></i> Add
+      </button>
+      <button type="button" class="btn btn-secondary" @click="${() => this.editArticle(item)}">
+        <i class="bi bi-pencil-square"></i> Edit
+      </button>
+      <button type="button" class="btn btn-danger" @click="${() => this.deleteArticle(item)}">
+        <i class="bi bi-trash"></i> Delete
+      </button>
+    </div>`
     this.shadowRoot.appendChild(popover)
-  
+
     // Close the popover when clicking outside of it
-    document.addEventListener('click', (e) => {
-      if (!popover.contains(e.target)) {
-        popover.remove()
-      }
-    }, { once: true })
+    document.addEventListener(
+      'click',
+      (e) => {
+        if (!popover.contains(e.target)) {
+          popover.remove()
+        }
+      },
+      { once: true }
+    )
   }
 }
 
