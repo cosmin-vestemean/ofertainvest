@@ -250,7 +250,7 @@ class MyTableListaRetete extends LitElement {
                         <tbody>
                           ${item.subarticole.map(
                             (sub) => html`
-                              <tr @hover="${(e) => this.handleContextMenu(e, sub)}">
+                              <tr @mouseover="${(e) => this.handleContextMenu(e, sub)}">
                                 <td></td>
                                 ${Object.keys(usefullRecipeSubsDisplayMask).map(
                                   (key) => html`
