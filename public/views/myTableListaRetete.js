@@ -342,7 +342,7 @@ class MyTableListaRetete extends LitElement {
     const popoverHeight = popover.offsetHeight  //contextmenu event
     const popoverWidth = popover.offsetWidth  //contextmenu event
     //popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2 + navbarHeight + pageHeaderHeight}px`  //contextmenu event
-    popover.style.top = trTop + navbarHeight + pageHeaderHeight  //mouseover
+    popover.style.top = `${trTop + this.shadowRoot.host.scrollTop + tr.offsetHeight / 2 - popoverHeight / 2 + navbarHeight + pageHeaderHeight}px`  //mouseover event
     //popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft + popoverWidth / 2}px`  //contextmenu event
     popover.style.left = 0; //mouseover event
 
