@@ -336,8 +336,8 @@ class MyTableListaRetete extends LitElement {
     </div>`
 
     // Adjust the position after adding the popover to the DOM
-    popover.style.top = `${trRect.top - rect.top + this.shadowRoot.host.scrollTop}px`
-    popover.style.left = `${trRect.left - rect.left + this.shadowRoot.host.scrollLeft}px`
+    popover.style.top = `${trRect.top + rect.top + this.shadowRoot.host.scrollTop}px`
+    popover.style.left = `0px`
 
     // Close the popover when clicking outside of it
     document.addEventListener(
