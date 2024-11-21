@@ -312,8 +312,11 @@ class MyTableListaRetete extends LitElement {
     popover.className = 'popover'
     popover.style.position = 'absolute'
     const rect = this.shadowRoot.host.getBoundingClientRect()
-    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop}px`
-    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft}px`
+    this.shadowRoot.appendChild(popover)
+    const popoverHeight = popover.offsetHeight
+    const popoverWidth = popover.offsetWidth
+    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2}px`
+    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft - popoverWidth / 2}px`
     popover.style.backgroundColor = 'white'
     popover.style.zIndex = '1000'
     popover.style.borderRadius = '5px'
@@ -328,7 +331,6 @@ class MyTableListaRetete extends LitElement {
         <i class="bi bi-trash"></i>
       </button>
     </div>`
-    this.shadowRoot.appendChild(popover)
 
     // Close the popover when clicking outside of it
     document.addEventListener(
