@@ -259,6 +259,7 @@ export async function setRecipesDs() {
         odm.CCCMATRETETE = material.CCCMATRETETE
         odm.CCCACTIVITRETETE = material.CCCACTIVITRETETE
         odm.CCCRETETE = material.CCCRETETE
+        odm.ISARTOF = material.ISARTOF
         activitateObj.children.push({ object: odm })
       })
       if (activitateObj.children.length == 0) {
