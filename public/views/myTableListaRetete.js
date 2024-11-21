@@ -311,8 +311,9 @@ class MyTableListaRetete extends LitElement {
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
-    popover.style.top = `${event.clientY}px`
-    popover.style.left = `${event.clientX}px`
+    const rect = this.shadowRoot.host.getBoundingClientRect()
+    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop}px`
+    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft}px`
     popover.style.backgroundColor = 'white'
     popover.style.border = '1px solid black'
     popover.style.padding = '5px'
