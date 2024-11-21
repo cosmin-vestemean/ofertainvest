@@ -137,7 +137,6 @@ class MyTableListaRetete extends LitElement {
                     style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
                       ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
                       : ''}"
-                    @contextmenu="${(e) => this.handleContextMenu(e, item.articol)}"
                   >
                     <td>
                       ${item.subarticole.length > 0
