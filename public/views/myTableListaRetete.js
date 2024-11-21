@@ -313,11 +313,6 @@ class MyTableListaRetete extends LitElement {
     popover.style.position = 'absolute'
     const rect = this.shadowRoot.host.getBoundingClientRect()
     this.shadowRoot.appendChild(popover)
-    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop}px`
-    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft}px`
-    popover.style.backgroundColor = 'white'
-    popover.style.zIndex = '1000'
-    popover.style.borderRadius = '5px'
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
         <i class="bi bi-plus-square"></i>
@@ -331,8 +326,10 @@ class MyTableListaRetete extends LitElement {
     </div>`
 
     // Adjust the position after adding the popover to the DOM
-    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popover.offsetHeight / 2}px`
-    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft - popover.offsetWidth / 2}px`
+    const popoverHeight = popover.offsetHeight
+    const popoverWidth = popover.offsetWidth
+    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2}px`
+    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft - popoverWidth / 2}px`
 
     // Close the popover when clicking outside of it
     document.addEventListener(
