@@ -317,8 +317,10 @@ class MyTableListaRetete extends LitElement {
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
-    popover.style.zIndex = '1000'
-
+    const rect = this.shadowRoot.host.getBoundingClientRect()
+    const navbarHeight = document.querySelector('.navbar').offsetHeight
+    const pageHeaderHeight = document.querySelector('.page-header').offsetHeight
+    this.shadowRoot.appendChild(popover)
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
         <i class="bi bi-plus-square"></i>
@@ -334,13 +336,13 @@ class MyTableListaRetete extends LitElement {
       </button>
     </div>`
 
-    // Append the popover to the document body
-    document.body.appendChild(popover)
-
     // Adjust the position after adding the popover to the DOM
-    const trRect = tr.getBoundingClientRect()
-    popover.style.top = `${trRect.top + trRect.height}px`
-    popover.style.left = `0px`
+    const popoverHeight = popover.offsetHeight  //contextmenu event
+    const popoverWidth = popover.offsetWidth  //contextmenu event
+    //popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2 + navbarHeight + pageHeaderHeight}px`  //contextmenu event
+    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop + navbarHeight + pageHeaderHeight}px`  //mouseover event
+    //popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft + popoverWidth / 2}px`  //contextmenu event
+    popover.style.left = 0; //mouseover event
 
     // Close the popover when clicking outside of it
     document.addEventListener(
