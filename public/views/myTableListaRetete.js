@@ -117,7 +117,7 @@ class MyTableListaRetete extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm is-responsive table-hover" style="font-size: small;">
+          <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
               <tr>
                 <th></th>
@@ -166,7 +166,7 @@ class MyTableListaRetete extends LitElement {
                       : ''}"
                   >
                     <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
-                      <table class="table table-sm is-responsive table-hover" style="font-size: small;">
+                      <table class="table table-sm is-responsive" style="font-size: small;">
                         <thead>
                           <tr>
                             <th>
@@ -302,6 +302,10 @@ class MyTableListaRetete extends LitElement {
     event.preventDefault()
     console.log('Context menu opened for:', item)
 
+    //get tr element
+    const tr = event.target.closest('tr')
+    tr.classList.add('table-info')
+
     // Close all existing popovers
     const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
     existingPopovers.forEach((popover) => popover.remove())
@@ -339,6 +343,7 @@ class MyTableListaRetete extends LitElement {
       (e) => {
         if (!popover.contains(e.target)) {
           popover.remove()
+          tr.classList.remove('table-info')
         }
       },
       { once: true }
