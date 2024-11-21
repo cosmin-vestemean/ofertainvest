@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
+import { unsafeHTML } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/directives/unsafe-html.js';
 import { template, theadIsSet } from '../client.js'
 import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 
@@ -89,9 +90,9 @@ class MyTableListaRetete extends LitElement {
               if (Object.keys(subarticol).includes(key)) {
                 if (usefullRecipeSubsDisplayMask[key].type === 'boolean') {
                   if (subarticol[key] === 1) {
-                    newSubarticol[key] = usefullRecipeSubsDisplayMask[key].UI.true
+                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.true);
                   } else {
-                    newSubarticol[key] = usefullRecipeSubsDisplayMask[key].UI.false
+                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.false);
                   }
                 } else if (usefullRecipeSubsDisplayMask[key].type === 'number') {
                   newSubarticol[key] = isNaN(parseFloat(subarticol[key]))
