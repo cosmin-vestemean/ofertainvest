@@ -137,6 +137,7 @@ class MyTableListaRetete extends LitElement {
                     style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
                       ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
                       : ''}"
+                    @contextmenu="${(e) => this.handleContextMenu(e, item.articol)}"
                   >
                     <td>
                       ${item.subarticole.length > 0
@@ -163,6 +164,7 @@ class MyTableListaRetete extends LitElement {
                     style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
                       ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
                       : ''}"
+                    @contextmenu="${(e) => this.handleContextMenu(e, item.subarticole)}"
                   >
                     <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
                       <table class="table table-sm is-responsive" style="font-size: small;">
@@ -250,7 +252,7 @@ class MyTableListaRetete extends LitElement {
                         <tbody>
                           ${item.subarticole.map(
                             (sub) => html`
-                              <tr>
+                              <tr @contextmenu="${(e) => this.handleContextMenu(e, sub)}">
                                 <td></td>
                                 ${Object.keys(usefullRecipeSubsDisplayMask).map(
                                   (key) => html`
@@ -295,6 +297,12 @@ class MyTableListaRetete extends LitElement {
   addArticle(type) {
     // Logic to add more articles manually based on the type
     console.log('Add article clicked:', type)
+  }
+
+  handleContextMenu(event, item) {
+    event.preventDefault()
+    console.log('Context menu opened for:', item)
+    // Add your custom context menu logic here
   }
 }
 
