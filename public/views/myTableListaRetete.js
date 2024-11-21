@@ -340,7 +340,8 @@ class MyTableListaRetete extends LitElement {
     const popoverHeight = popover.offsetHeight
     const popoverWidth = popover.offsetWidth
     popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2 + navbarHeight + pageHeaderHeight}px`
-    popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft + popoverWidth / 2}px`
+    //popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft + popoverWidth / 2}px`
+    popover.style.left = 0;
 
     // Close the popover when clicking outside of it
     document.addEventListener(
