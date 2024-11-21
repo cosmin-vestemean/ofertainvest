@@ -117,7 +117,7 @@ class MyTableListaRetete extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm is-responsive" style="font-size: small;">
+          <table class="table table-sm is-responsive table-hover" style="font-size: small;">
             <thead>
               <tr>
                 <th></th>
@@ -166,7 +166,7 @@ class MyTableListaRetete extends LitElement {
                       : ''}"
                   >
                     <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
-                      <table class="table table-sm is-responsive" style="font-size: small;">
+                      <table class="table table-sm is-responsive table-hover" style="font-size: small;">
                         <thead>
                           <tr>
                             <th>
