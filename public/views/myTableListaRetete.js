@@ -312,7 +312,7 @@ class MyTableListaRetete extends LitElement {
     popover.style.position = 'absolute'
     const rect = this.shadowRoot.host.getBoundingClientRect()
     this.shadowRoot.appendChild(popover)
-    popover.innerHTML = `<div class="btn-group" role="group">
+    popover.innerHTML = `<p>${item.DENUMIRE_ARTICOL_OFERTA}</p><div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
         <i class="bi bi-plus-square"></i>
       </button>
