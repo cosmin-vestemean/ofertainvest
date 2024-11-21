@@ -164,7 +164,6 @@ class MyTableListaRetete extends LitElement {
                     style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
                       ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
                       : ''}"
-                    @contextmenu="${(e) => this.handleContextMenu(e, item.subarticole)}"
                   >
                     <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
                       <table class="table table-sm is-responsive" style="font-size: small;">
