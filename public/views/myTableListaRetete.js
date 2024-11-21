@@ -317,7 +317,7 @@ class MyTableListaRetete extends LitElement {
     popover.style.border = '1px solid black'
     popover.style.padding = '5px'
     popover.style.zIndex = '1000'
-    popover.style.boxShadow = '2px 2px 2px rgba(0, 0, 0, 0.5)'
+    popover.style.boxShadow = '3px 3px 3px rgba(0, 0, 0, 0.6)'
     popover.style.borderRadius = '5px'
     popover.innerHTML = `<p>Context menu</p>`
     this.shadowRoot.appendChild(popover)
