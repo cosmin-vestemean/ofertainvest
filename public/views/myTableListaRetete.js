@@ -318,7 +318,7 @@ class MyTableListaRetete extends LitElement {
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
-    const rect = this.shadowRoot.host.getBoundingClientRect()
+    const rect = this.shadowRoot.getBoundingClientRect()
     this.shadowRoot.appendChild(popover)
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
