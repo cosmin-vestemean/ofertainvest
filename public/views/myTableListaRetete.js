@@ -323,6 +323,9 @@ class MyTableListaRetete extends LitElement {
       <button type="button" class="btn btn-sm btn-danger" @click="${() => this.deleteArticle(item)}">
         <i class="bi bi-trash"></i>
       </button>
+    <button type="button" class="btn btn-sm btn-success" @click="${() => this.saveArticle(item)}">
+      <i class="bi bi-check-square"></i>
+    </button>
     </div>`
 
     // Adjust the position after adding the popover to the DOM
