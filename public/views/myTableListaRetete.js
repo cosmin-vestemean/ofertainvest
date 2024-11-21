@@ -87,16 +87,17 @@ class MyTableListaRetete extends LitElement {
             let newSubarticol = {}
             for (let key in usefullRecipeSubsDisplayMask) {
               if (Object.keys(subarticol).includes(key)) {
-                newSubarticol[key] =
-                  usefullRecipeSubsDisplayMask[key].type === 'boolean'
-                    ? subarticol[key]
-                      ? usefullRecipeSubsDisplayMask[key].UI.true
-                      : usefullRecipeSubsDisplayMask[key].UI.false
-                    : subarticol[key]
+                newSubarticol[key] = subarticol[key]
               }
             }
             newSubarticole.push(newSubarticol)
           }
+
+          this.articole.push({
+            reteta: { id: reteta.id, name: reteta.name, type: reteta.type },
+            articol: newArticol,
+            subarticole: newSubarticole
+          })
         })
       })
 
@@ -108,10 +109,8 @@ class MyTableListaRetete extends LitElement {
             <thead>
               <tr>
                 <th></th>
-                ${Object.keys(usefullRecipeDisplayMask).map((key) =>
-                  usefullRecipeDisplayMask[key].visible
-                    ? html`<th>${usefullRecipeDisplayMask[key].label || key}</th>`
-                    : ''
+                ${Object.keys(usefullRecipeDisplayMask).map(
+                  (key) => usefullRecipeDisplayMask[key].visible ? html`<th>${usefullRecipeDisplayMask[key].label || key}</th>` : ''
                 )}
               </tr>
             </thead>
@@ -136,10 +135,7 @@ class MyTableListaRetete extends LitElement {
                     </td>
                     ${Object.keys(usefullRecipeDisplayMask).map(
                       (key) =>
-                        html`<td
-                          contenteditable="${usefullRecipeDisplayMask[key].RW}"
-                          class="${usefullRecipeDisplayMask[key].visible ? '' : 'hidden'}"
-                        >
+                        html`<td contenteditable="${usefullRecipeDisplayMask[key].RW}" class="${usefullRecipeDisplayMask[key].visible ? '' : 'hidden'}">
                           ${item.articol[key]}
                         </td>`
                     )}
@@ -227,10 +223,8 @@ class MyTableListaRetete extends LitElement {
                                 </ul>
                               </div>
                             </th>
-                            ${Object.keys(usefullRecipeSubsDisplayMask).map((key) =>
-                              usefullRecipeSubsDisplayMask[key].visible
-                                ? html`<th>${usefullRecipeSubsDisplayMask[key].label || key}</th>`
-                                : ''
+                            ${Object.keys(usefullRecipeSubsDisplayMask).map(
+                              (key) => usefullRecipeSubsDisplayMask[key].visible ? html`<th>${usefullRecipeSubsDisplayMask[key].label || key}</th>` : ''
                             )}
                           </tr>
                         </thead>
@@ -241,10 +235,7 @@ class MyTableListaRetete extends LitElement {
                                 <td></td>
                                 ${Object.keys(usefullRecipeSubsDisplayMask).map(
                                   (key) => html`
-                                    <td
-                                      contenteditable="${usefullRecipeSubsDisplayMask[key].RW}"
-                                      class="${usefullRecipeSubsDisplayMask[key].visible ? '' : 'hidden'}"
-                                    >
+                                    <td contenteditable="${usefullRecipeSubsDisplayMask[key].RW}" class="${usefullRecipeSubsDisplayMask[key].visible ? '' : 'hidden'}">
                                       ${sub[key]}
                                     </td>
                                   `
