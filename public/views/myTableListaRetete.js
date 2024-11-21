@@ -106,146 +106,146 @@ class MyTableListaRetete extends LitElement {
       return html`
         <div class="container-fluid">
           <table class="table table-sm is-responsive" style="font-size: small;">
-        <thead>
-          <tr>
-            <th></th>
-            ${Object.keys(visibleRecipeDisplayMask).map(
-          (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          ${this.articole.map(
-            (item, index) => html`
-          <tr
-            data-index="${index}"
-            class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-            style="${item.reteta.type.includes('grupare artificiala') ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
-          >
-            <td>
-              ${item.subarticole.length > 0
-            ? html`<i
-                class="bi bi-plus-square"
-                style="cursor: pointer;"
-                @click="${() => this.toggleSubarticles(index)}"
-              ></i>`
-            : ''}
-            </td>
-            ${Object.keys(visibleRecipeDisplayMask).map(
-              (key) =>
-            html`<td contenteditable="${visibleRecipeDisplayMask[key].RW}">
-              ${item.articol[key]}
-            </td>`
-            )}
-          </tr>
-          <tr
-            class="subarticle hidden"
-            data-parent-index="${index}"
-            style="${item.reteta.type.includes('grupare artificiala') ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
-          >
-            <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
-              <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
               <tr>
-                <th>
-              <div class="dropdown">
-                <button
-                  class="btn btn-sm btn-light dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="bi bi-plus-square"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Material')}"
-                  >Material</a
-                >
-                  </li>
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Manopera')}"
-                  >Manopera</a
-                >
-                  </li>
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Transport')}"
-                  >Transport</a
-                >
-                  </li>
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Utilaj')}"
-                  >Utilaj</a
-                >
-                  </li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Material + Manopera')}"
-                  >Material + Manopera</a
-                >
-                  </li>
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Material + Transport')}"
-                  >Material + Transport</a
-                >
-                  </li>
-                  <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  @click="${() => this.addArticle('Material + Utilaj')}"
-                  >Material + Utilaj</a
-                >
-                  </li>
-                </ul>
-              </div>
-                </th>
-                ${Object.keys(visibleRecipeSubsDisplayMask).map(
-              (key) => html` <th>${visibleRecipeSubsDisplayMask[key].label || key}</th> `
+                <th></th>
+                ${Object.keys(visibleRecipeDisplayMask).map(
+                  (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
                 )}
               </tr>
             </thead>
             <tbody>
-              ${item.subarticole.map(
-                (sub) => html`
-              <tr>
-                <td></td>
-                ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                  (key) => html`
-                <td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">
-                  ${sub[key]}
-                </td>
-                  `
-                )}
-              </tr>
+              ${this.articole.map(
+                (item, index) => html`
+                  <tr
+                    data-index="${index}"
+                    class="${item.subarticole.length > 0 ? 'table-light' : ''}"
+                    style="${item.reteta.type.includes('grupare artificiala') ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
+                  >
+                    <td>
+                      ${item.subarticole.length > 0
+                        ? html`<i
+                            class="bi bi-plus-square"
+                            style="cursor: pointer;"
+                            @click="${() => this.toggleSubarticles(index)}"
+                          ></i>`
+                        : ''}
+                    </td>
+                    ${Object.keys(visibleRecipeDisplayMask).map(
+                      (key) =>
+                        html`<td contenteditable="${visibleRecipeDisplayMask[key].RW}">
+                          ${item.articol[key]}
+                        </td>`
+                    )}
+                  </tr>
+                  <tr
+                    class="subarticle hidden"
+                    data-parent-index="${index}"
+                    style="${item.reteta.type.includes('grupare artificiala') ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
+                  >
+                    <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
+                      <table class="table table-sm is-responsive" style="font-size: small;">
+                        <thead>
+                          <tr>
+                            <th>
+                              <div class="dropdown">
+                                <button
+                                  class="btn btn-sm btn-light dropdown-toggle"
+                                  type="button"
+                                  id="dropdownMenuButton"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <i class="bi bi-plus-square"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material')}"
+                                      >Material</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Manopera')}"
+                                      >Manopera</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Transport')}"
+                                      >Transport</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Utilaj')}"
+                                      >Utilaj</a
+                                    >
+                                  </li>
+                                  <li><hr class="dropdown-divider" /></li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Manopera')}"
+                                      >Material + Manopera</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Transport')}"
+                                      >Material + Transport</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Utilaj')}"
+                                      >Material + Utilaj</a
+                                    >
+                                  </li>
+                                </ul>
+                              </div>
+                            </th>
+                            ${Object.keys(visibleRecipeSubsDisplayMask).map(
+                              (key) => html` <th>${visibleRecipeSubsDisplayMask[key].label || key}</th> `
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          ${item.subarticole.map(
+                            (sub) => html`
+                              <tr>
+                                <td></td>
+                                ${Object.keys(visibleRecipeSubsDisplayMask).map(
+                                  (key) => html`
+                                    <td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">
+                                      ${sub[key]}
+                                    </td>
+                                  `
+                                )}
+                              </tr>
+                            `
+                          )}
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
                 `
               )}
             </tbody>
-              </table>
-            </td>
-          </tr>
-            `
-          )}
-        </tbody>
           </table>
         </div>
       `
