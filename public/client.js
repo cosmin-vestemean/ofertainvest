@@ -2079,6 +2079,7 @@ function createTreesFromWBS(ds) {
   //console.log('instanteRetete', [...instanteRetete])
 
   //instanteRetete = applyFilterEndsWithL(instanteRetete)
+  instanteRetete = markLAsAO(instanteRetete)
 
   //applyFilterByGrupareArticolOferta to optimal_ds and merge with retete
   let reteteGrupateArtificial = applyFilterByGrupareArticolOferta(optimal_ds, instanteRetete)
@@ -2235,7 +2236,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               //add each related to reteta array as object using for (let...)
               //adaugaInReteta(reteta, related)
               adaugaInReteta2(reteta, related)
-              reteta.type = 'grupare artificiala'
+              reteta.type = 'grupare artificiala' + '@' + grupare
               reteta.name =
                 'Reteta ' + (retete.indexOf(reteta) + 1).toString() + ' (include gruparea ' + grupare + ')'
             } else {
@@ -2246,7 +2247,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
               adaugaInReteta2(reteta, related)
               result.push({
                 name: 'Reteta ' + (retete.length + 1).toString() + ' (include gruparea ' + grupare + ')',
-                type: 'grupare artificiala',
+                type: 'grupare artificiala' + '@' + grupare,
                 reteta
               })
             }
@@ -2381,6 +2382,36 @@ Activitate 1183.7.18.23.L
 }
 
 //function findDuplicatesInOfertaInitiala() {}
+
+function markLAsAO(data) {
+  //return a copy of data and mark with ISARTOF = 1 all children objects with branch ending in 'L'
+  /*
+  1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
+1183.7.18.23.5	NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM	2200513	SUBARTICOL	MATERIAL
+1183.7.18.23.6	SARMA OTEL MOALE, NEAGRA, D = 1 MM	3803881	SUBARTICOL	MATERIAL
+1183.7.18.23.7	APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA	6202818	SUBARTICOL	MATERIAL
+1183.7.18.23.L	SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942	2903907	MATERIAL	PRINCIPAL
+1183.7.18.23.L	BETON MARFA CLASA C 25/30 ( BC 30/ B 400)	2100916	MATERIAL	PRINCIPAL
+  */
+  let result = []
+  result = JSON.parse(JSON.stringify(data))
+  result.forEach(function (obj) {
+    let reteta = obj.reteta //array of objects
+    reteta.forEach(function (activitate) {
+      let children = activitate.children
+      if (children) {
+        children.forEach(function (child) {
+          if (child.branch[child.branch.length - 1] == 'L') {
+            child.ISARTOF = 1
+            reteta.type = 'grupare artificiala@L'
+          }
+        })
+      }
+    })
+  })
+
+  return result
+}
 
 function applyFilterChildrenEndsWith0(data) {
   //1.look into every obj's data.chidren
