@@ -341,10 +341,7 @@ class MyTableListaRetete extends LitElement {
     // Calculate the midpoint of the tr element
     const y = trRect.top + trRect.height / 2
 
-    // Get half of the popover's height
-    const popoverHeight = popover.offsetHeight / 2
-
-    popover.style.top = `${y - rect.top + this.shadowRoot.host.scrollTop + popoverHeight + navbarHeight + pageHeaderHeight}px`
+    popover.style.top = `${y - rect.top + this.shadowRoot.host.scrollTop + navbarHeight + pageHeaderHeight}px`
     popover.style.left = `0px`
 
     // Close the popover when clicking outside of it
