@@ -302,9 +302,12 @@ class MyTableListaRetete extends LitElement {
   handleContextMenu(event, item) {
     event.preventDefault()
     console.log('Context menu opened for:', item)
-    // Add your custom context menu logic here
-    //create a floating div with options, like a popover
     
+    // Close all existing popovers
+    const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
+    existingPopovers.forEach(popover => popover.remove())
+  
+    // Create a new popover
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
@@ -317,13 +320,14 @@ class MyTableListaRetete extends LitElement {
     popover.style.boxShadow = '5px 5px 5px rgba(0, 0, 0, 0.5)'
     popover.style.borderRadius = '5px'
     popover.innerHTML = `<p>Context menu</p>`
-    document.body.appendChild(popover)
+    this.shadowRoot.appendChild(popover)
+  
     // Close the popover when clicking outside of it
     document.addEventListener('click', (e) => {
       if (!popover.contains(e.target)) {
         popover.remove()
       }
-    })
+    }, { once: true })
   }
 }
 
