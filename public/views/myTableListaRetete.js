@@ -315,10 +315,7 @@ class MyTableListaRetete extends LitElement {
     popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop}px`
     popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft}px`
     popover.style.backgroundColor = 'white'
-    popover.style.border = '1px solid black'
-    popover.style.padding = '5px'
     popover.style.zIndex = '1000'
-    popover.style.boxShadow = '3px 3px 3px rgba(0, 0, 0, 0.6)'
     popover.style.borderRadius = '5px'
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
