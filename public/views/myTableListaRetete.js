@@ -305,10 +305,6 @@ class MyTableListaRetete extends LitElement {
     const allRows = this.shadowRoot.querySelectorAll('tr.table-info')
     allRows.forEach((row) => row.classList.remove('table-info'))
 
-    // Get tr element
-    const tr = event.target.closest('tr')
-    tr.classList.add('table-info')
-
     // Close all existing popovers
     const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
     existingPopovers.forEach((popover) => popover.remove())
@@ -317,7 +313,6 @@ class MyTableListaRetete extends LitElement {
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
-    const rect = this.shadowRoot.host.getBoundingClientRect()
     this.shadowRoot.appendChild(popover)
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
@@ -335,6 +330,10 @@ class MyTableListaRetete extends LitElement {
     </div>`
 
     // Adjust the position after adding the popover to the DOM
+    const rect = this.shadowRoot.host.getBoundingClientRect()
+    // Get tr element
+    const tr = event.target.closest('tr')
+    tr.classList.add('table-info')
     const trRect = tr.getBoundingClientRect()
     const navbarHeight = document.querySelector('.navbar').offsetHeight
     const pageHeaderHeight = document.querySelector('.page-header').offsetHeight
@@ -342,7 +341,10 @@ class MyTableListaRetete extends LitElement {
     // Calculate the midpoint of the tr element
     const y = trRect.top + trRect.height / 2
 
-    popover.style.top = `${y - rect.top + this.shadowRoot.host.scrollTop + navbarHeight + pageHeaderHeight}px`
+    // Get half of the popover's height
+    const popoverHeight = popover.offsetHeight / 2
+
+    popover.style.top = `${y - rect.top + this.shadowRoot.host.scrollTop - popoverHeight + navbarHeight + pageHeaderHeight}px`
     popover.style.left = `0px`
 
     // Close the popover when clicking outside of it
