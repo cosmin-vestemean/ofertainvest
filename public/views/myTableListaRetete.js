@@ -135,7 +135,7 @@ class MyTableListaRetete extends LitElement {
                     </td>
                     ${Object.keys(usefullRecipeDisplayMask).map(
                       (key) =>
-                        html`<td contenteditable="${usefullRecipeDisplayMask[key].RW}" class="${item.articol.visible ? '' : 'hidden'}">
+                        html`<td contenteditable="${usefullRecipeDisplayMask[key].RW}" class="${usefullRecipeDisplayMask[key].visible ? '' : 'hidden'}">
                           ${item.articol[key]}
                         </td>`
                     )}
@@ -235,7 +235,7 @@ class MyTableListaRetete extends LitElement {
                                 <td></td>
                                 ${Object.keys(usefullRecipeSubsDisplayMask).map(
                                   (key) => html`
-                                    <td contenteditable="${usefullRecipeSubsDisplayMask[key].RW}" class="${sub.visible ? '' : 'hidden'}">
+                                    <td contenteditable="${usefullRecipeSubsDisplayMask[key].RW}" class="${usefullRecipeSubsDisplayMask[key].visible ? '' : 'hidden'}">
                                       ${sub[key]}
                                     </td>
                                   `
