@@ -317,9 +317,8 @@ class MyTableListaRetete extends LitElement {
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
-    const rect = this.shadowRoot.host.getBoundingClientRect()
-    const trRect = tr.getBoundingClientRect()
-    this.shadowRoot.appendChild(popover)
+    popover.style.zIndex = '1000'
+
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
         <i class="bi bi-plus-square"></i>
@@ -335,8 +334,12 @@ class MyTableListaRetete extends LitElement {
       </button>
     </div>`
 
+    // Append the popover to the document body
+    document.body.appendChild(popover)
+
     // Adjust the position after adding the popover to the DOM
-    popover.style.top = `${trRect.top + rect.top + this.shadowRoot.host.scrollTop}px`
+    const trRect = tr.getBoundingClientRect()
+    popover.style.top = `${trRect.top + trRect.height}px`
     popover.style.left = `0px`
 
     // Close the popover when clicking outside of it
