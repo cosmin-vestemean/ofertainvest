@@ -2401,7 +2401,7 @@ function markLAsAO(data) {
       let children = activitate.children
       if (children) {
         children.forEach(function (child) {
-          if (child.branch[child.branch.length - 1] == 'L') {
+          if (child.WBS[child.WBS.length - 1] == 'L') {
             child.ISARTOF = 1
             reteta.type = 'grupare artificiala@L'
           }
