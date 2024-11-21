@@ -318,6 +318,7 @@ class MyTableListaRetete extends LitElement {
     popover.className = 'popover'
     popover.style.position = 'absolute'
     const rect = this.shadowRoot.host.getBoundingClientRect()
+    const trRect = tr.getBoundingClientRect()
     const navbarHeight = document.querySelector('.navbar').offsetHeight
     const pageHeaderHeight = document.querySelector('.page-header').offsetHeight
     this.shadowRoot.appendChild(popover)
@@ -339,10 +340,8 @@ class MyTableListaRetete extends LitElement {
     // Adjust the position after adding the popover to the DOM
     const popoverHeight = popover.offsetHeight  //contextmenu event
     const popoverWidth = popover.offsetWidth  //contextmenu event
-    //popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2 + navbarHeight + pageHeaderHeight}px`  //contextmenu event
-    popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop + popoverHeight + navbarHeight + pageHeaderHeight}px`  //mouseover event
-    //popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft + popoverWidth / 2}px`  //contextmenu event
-    popover.style.left = 0; //mouseover event
+    popover.style.top = `${trRect.top - rect.top + this.shadowRoot.host.scrollTop - navbarHeight - pageHeaderHeight}px`
+    popover.style.left = 0
 
     // Close the popover when clicking outside of it
     document.addEventListener(
