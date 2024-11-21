@@ -27,10 +27,10 @@ class MyTableListaRetete extends LitElement {
     //this.loadBootstrapSelect()
   }
 
-  visibleDisplayMask = (mask) => {
+  usefullDisplayMask = (mask) => {
     let displayMask = {}
     for (let column in mask) {
-      if (mask[column].visible) {
+      if (mask[column].usefull) {
         displayMask[column] = mask[column]
       }
     }
@@ -66,8 +66,8 @@ class MyTableListaRetete extends LitElement {
     if (!this.data || this.data.length == 0) {
       return html`<p class="label label-danger">No data</p>`
     } else {
-      const visibleRecipeDisplayMask = this.visibleDisplayMask(recipeDisplayMask)
-      const visibleRecipeSubsDisplayMask = this.visibleDisplayMask(recipeSubsDisplayMask)
+      const usefullRecipeDisplayMask = this.usefullDisplayMask(recipeDisplayMask)
+      const usefullRecipeSubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
 
       this.articole = []
       this.data.forEach((reteta) => {
@@ -76,7 +76,7 @@ class MyTableListaRetete extends LitElement {
           let newArticol = {}
           let newSubarticole = []
 
-          for (let key in visibleRecipeDisplayMask) {
+          for (let key in usefullRecipeDisplayMask) {
             if (Object.keys(articol).includes(key)) {
               newArticol[key] = articol[key]
             }
@@ -85,7 +85,7 @@ class MyTableListaRetete extends LitElement {
           let subarticole = activitate.children.map((subarticol) => subarticol.object)
           for (let subarticol of subarticole) {
             let newSubarticol = {}
-            for (let key in visibleRecipeSubsDisplayMask) {
+            for (let key in usefullRecipeSubsDisplayMask) {
               if (Object.keys(subarticol).includes(key)) {
                 newSubarticol[key] = subarticol[key]
               }
@@ -94,7 +94,7 @@ class MyTableListaRetete extends LitElement {
           }
 
           this.articole.push({
-            reteta: {id: reteta.id, name: reteta.name, type: reteta.type},
+            reteta: { id: reteta.id, name: reteta.name, type: reteta.type },
             articol: newArticol,
             subarticole: newSubarticole
           })
@@ -109,8 +109,8 @@ class MyTableListaRetete extends LitElement {
             <thead>
               <tr>
                 <th></th>
-                ${Object.keys(visibleRecipeDisplayMask).map(
-                  (key) => html`<th>${visibleRecipeDisplayMask[key].label || key}</th>`
+                ${Object.keys(usefullRecipeDisplayMask).map(
+                  (key) => html`<th>${usefullRecipeDisplayMask[key].label || key}</th>`
                 )}
               </tr>
             </thead>
@@ -120,7 +120,9 @@ class MyTableListaRetete extends LitElement {
                   <tr
                     data-index="${index}"
                     class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala') ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
+                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+                      ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+                      : ''}"
                   >
                     <td>
                       ${item.subarticole.length > 0
@@ -131,9 +133,9 @@ class MyTableListaRetete extends LitElement {
                           ></i>`
                         : ''}
                     </td>
-                    ${Object.keys(visibleRecipeDisplayMask).map(
+                    ${Object.keys(usefullRecipeDisplayMask).map(
                       (key) =>
-                        html`<td contenteditable="${visibleRecipeDisplayMask[key].RW}">
+                        html`<td contenteditable="${usefullRecipeDisplayMask[key].RW}" class="${item.articol.visible ? '' : 'hidden'}">
                           ${item.articol[key]}
                         </td>`
                     )}
@@ -141,9 +143,11 @@ class MyTableListaRetete extends LitElement {
                   <tr
                     class="subarticle hidden"
                     data-parent-index="${index}"
-                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala') ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;' : ''}"
+                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+                      ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+                      : ''}"
                   >
-                    <td colspan="${Object.keys(visibleRecipeDisplayMask).length + 1}">
+                    <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
                       <table class="table table-sm is-responsive" style="font-size: small;">
                         <thead>
                           <tr>
@@ -219,8 +223,8 @@ class MyTableListaRetete extends LitElement {
                                 </ul>
                               </div>
                             </th>
-                            ${Object.keys(visibleRecipeSubsDisplayMask).map(
-                              (key) => html` <th>${visibleRecipeSubsDisplayMask[key].label || key}</th> `
+                            ${Object.keys(usefullRecipeSubsDisplayMask).map(
+                              (key) => html` <th>${usefullRecipeSubsDisplayMask[key].label || key}</th> `
                             )}
                           </tr>
                         </thead>
@@ -229,9 +233,9 @@ class MyTableListaRetete extends LitElement {
                             (sub) => html`
                               <tr>
                                 <td></td>
-                                ${Object.keys(visibleRecipeSubsDisplayMask).map(
+                                ${Object.keys(usefullRecipeSubsDisplayMask).map(
                                   (key) => html`
-                                    <td contenteditable="${visibleRecipeSubsDisplayMask[key].RW}">
+                                    <td contenteditable="${usefullRecipeSubsDisplayMask[key].RW}" class="${sub.visible ? '' : 'hidden'}">
                                       ${sub[key]}
                                     </td>
                                   `
