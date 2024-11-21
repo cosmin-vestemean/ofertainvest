@@ -309,6 +309,8 @@ class MyTableListaRetete extends LitElement {
     const tr = event.target.closest('tr')
     tr.classList.add('table-info')
 
+    const trTop = tr.getBoundingClientRect().top
+
     // Close all existing popovers
     const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
     existingPopovers.forEach((popover) => popover.remove())
@@ -318,7 +320,6 @@ class MyTableListaRetete extends LitElement {
     popover.className = 'popover'
     popover.style.position = 'absolute'
     const rect = this.shadowRoot.host.getBoundingClientRect()
-    const trRect = tr.getBoundingClientRect()
     const navbarHeight = document.querySelector('.navbar').offsetHeight
     const pageHeaderHeight = document.querySelector('.page-header').offsetHeight
     this.shadowRoot.appendChild(popover)
@@ -340,8 +341,10 @@ class MyTableListaRetete extends LitElement {
     // Adjust the position after adding the popover to the DOM
     const popoverHeight = popover.offsetHeight  //contextmenu event
     const popoverWidth = popover.offsetWidth  //contextmenu event
-    popover.style.top = `${trRect.top - rect.top + this.shadowRoot.host.scrollTop - navbarHeight - pageHeaderHeight}px`
-    popover.style.left = 0
+    //popover.style.top = `${event.clientY - rect.top + this.shadowRoot.host.scrollTop - popoverHeight / 2 + navbarHeight + pageHeaderHeight}px`  //contextmenu event
+    popover.style.top = trTop + navbarHeight + pageHeaderHeight  //mouseover
+    //popover.style.left = `${event.clientX - rect.left + this.shadowRoot.host.scrollLeft + popoverWidth / 2}px`  //contextmenu event
+    popover.style.left = 0; //mouseover event
 
     // Close the popover when clicking outside of it
     document.addEventListener(
