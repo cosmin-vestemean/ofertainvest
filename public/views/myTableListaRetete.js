@@ -320,13 +320,13 @@ class MyTableListaRetete extends LitElement {
     popover.style.boxShadow = '3px 3px 3px rgba(0, 0, 0, 0.6)'
     popover.style.borderRadius = '5px'
     popover.innerHTML = `<div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary" @click="${() => this.toggleSelect(item)}">
+      <button type="button" class="btn btn-sm btn-primary" @click="${() => this.toggleSelect(item)}">
         <i class="bi bi-plus-square"></i> Add
       </button>
-      <button type="button" class="btn btn-secondary" @click="${() => this.editArticle(item)}">
+      <button type="button" class="btn btn-sm btn-secondary" @click="${() => this.editArticle(item)}">
         <i class="bi bi-pencil-square"></i> Edit
       </button>
-      <button type="button" class="btn btn-danger" @click="${() => this.deleteArticle(item)}">
+      <button type="button" class="btn btn-sm btn-danger" @click="${() => this.deleteArticle(item)}">
         <i class="bi bi-trash"></i> Delete
       </button>
     </div>`
