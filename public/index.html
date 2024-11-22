@@ -409,40 +409,40 @@
             <a type="button" class="btn btn-primary btn-sm" id="btn_planificari">Planificari</a>
           </div>
         </div>
+        <div class="page-header content" id="content">
+          <div class="row header">
+            <div class="col-sm">
+              <label for="saldoc" class="form-label text-primary">Oferte</label>
+              <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
+            </div>
+            <div class="col-sm">
+              <label for="trndate" class="form-label text-primary">Data</label>
+              <input class="form-control form-control-sm" type="date" id="trndate" name="trndate" />
+            </div>
+            <div class="col-sm">
+              <label for="trdr" class="form-label text-primary">Clienti</label>
+              <select class="form-select form-select-sm" id="trdr" aria-label="Trader"></select>
+            </div>
+            <div class="col-sm">
+              <label for="prjc" class="form-label text-primary">Proiecte</label>
+              <select class="form-select form-select-sm" id="prjc" aria-label="Project"></select>
+            </div>
+          </div>
+          <div class="row">
+            <select
+              class="form-select form-select-sm"
+              id="ierarhii"
+              aria-label="Ierarhii"
+              data-clearable="true"
+              data-searchable="true"
+              multiple
+            ></select>
+          </div>
+        </div>
       </div>
       <div class="col-11">
         <!-- Main Content -->
         <div id="mainDiv" class="container">
-          <div class="page-header content" id="content">
-            <div class="row header">
-              <div class="col-sm">
-                <label for="saldoc" class="form-label text-primary">Oferte</label>
-                <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
-              </div>
-              <div class="col-sm">
-                <label for="trndate" class="form-label text-primary">Data</label>
-                <input class="form-control form-control-sm" type="date" id="trndate" name="trndate" />
-              </div>
-              <div class="col-sm">
-                <label for="trdr" class="form-label text-primary">Clienti</label>
-                <select class="form-select form-select-sm" id="trdr" aria-label="Trader"></select>
-              </div>
-              <div class="col-sm">
-                <label for="prjc" class="form-label text-primary">Proiecte</label>
-                <select class="form-select form-select-sm" id="prjc" aria-label="Project"></select>
-              </div>
-            </div>
-            <div class="row">
-              <select
-                class="form-select form-select-sm"
-                id="ierarhii"
-                aria-label="Ierarhii"
-                data-clearable="true"
-                data-searchable="true"
-                multiple
-              ></select>
-            </div>
-          </div>
           <div class="row overflow-auto width-100 height-100" id="central">
             <my-table id="my_table_oferta_initiala"></my-table>
             <div class="col-2">
