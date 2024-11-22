@@ -118,45 +118,14 @@
               </button>
             </div>
             <div class="row-sm">
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                id="btn_regenerare_antemas"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Regenereaza antemasuratorile"
-              >
-                <i class="bi bi-arrow-clockwise"></i>
-              </button>
               <button type="button" class="btn btn-primary btn-sm" id="btn_antemasuratori">
                 Antemasuratori <i class="bi bi-list-ol"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                id="btn_save_antemas"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Salveaza antemasuratorile"
-              >
-                <i class="bi bi-save"></i>
               </button>
             </div>
             <div class="row-sm">
               <button type="button" class="btn btn-primary btn-sm" id="btn_estimari">
                 Estimari <i class="bi bi-list-ol"></i>
-              </button>
-              <!--adauga buton mic patrat cu icoana reload-->
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                id="btn_regenerare_estimari"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Regenereaza estimarile"
-              >
-                <i class="bi bi-arrow-clockwise"></i>
-              </button>
+              </button>             
             </div>
             <div class="row-sm">
               <button type="button" class="btn btn-primary btn-sm" id="btn_planificari">
@@ -257,7 +226,9 @@
                               >
                             </li>
                             <li>
-                              <a class="dropdown-item" href="#" id="lista_activitati">Lista activitati oferta</a>
+                              <a class="dropdown-item" href="#" id="lista_activitati"
+                                >Lista activitati oferta</a
+                              >
                             </li>
                             <li>
                               <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
@@ -275,11 +246,6 @@
                             </li>
                             <li>
                               <a class="dropdown-item" href="#" id="WBSMap">Vizualizare harta WBS</a>
-                            </li>
-                            <li>
-                              <button type="button" id="btn_listaRetete" class="dropdown-item">
-                                Retete <i class="bi bi-list-ol"></i>
-                              </button>
                             </li>
                             <li>
                               <div class="btn-group btn-group-toggle mx-3 my-2" data-toggle="buttons">
@@ -322,7 +288,29 @@
                           </a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li>
-                              <a class="dropdown-item" id="listaAntemasuratori" href="#">Antemasuratori</a>
+                              <a class="dropdown-item" id="listaAntemasuratori" href="#">Lista antemasuratori</a>
+                            </li>
+                            <li>
+                              <a class="dropdown-item" href="#" id="btn_regenerare_antemas">Regenereaza antemasuratori</a>
+                            </li>
+                            <li>
+                              <a class="dropdown-item" href="#" id="btn_save_antemas">Salveaza antemasuratori</a>
+                          </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdownMenuLink"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            Estimari
+                          </a>
+                          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li>
+                              <a class="dropdown-item" href="#" id="btn_regenerare_estimari">Regenereaza estimarile</a>
                             </li>
                           </ul>
                         </li>
