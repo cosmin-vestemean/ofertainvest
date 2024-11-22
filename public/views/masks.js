@@ -205,7 +205,7 @@ const recipeSubsDisplayMask = {
     usefull: true,
     visible: true,
     RW: true,
-    label: 'Norma unitara',
+    label: 'Realizare unitara',
     linkOferta: '',
     width: '5%',
     DBName: '',
