@@ -396,36 +396,25 @@
     <div class="row">
       <div class="col-1 pt-2">
         <!-- Menu -->
-        <div id="tabs" class="tabs">
-          <div class="row">
-            <a type="button" id="btn_oferta" class="btn btn-primary btn-sm">Oferta</a>
-          </div>
-          <div class="row">
-            <a
-              type="button"
+        <div id="tabs" class="leftMenu row">
+          <ul class="list-group">
+            <li id="btn_oferta" class="list-group-item active" aria-current="true">Oferta</li>
+            <li
               id="btn_oferta_initiala"
-              class="btn btn-primary btn-sm text-light"
+              class="list-group-item"
               data-bs-toggle="modal"
               data-bs-target="#ModalCytoscape"
             >
               Niveluri
-            </a>
-          </div>
-          <div class="row">
-            <a type="button" id="btn_listaRetete" class="btn btn-primary text-light btn-sm"> Retete </a>
-          </div>
-          <div class="row">
-            <a type="button" class="btn btn-primary btn-sm" id="btn_antemasuratori"> Antemasuratori </a>
-          </div>
-          <div class="row">
-            <a type="button" class="btn btn-primary btn-sm" id="btn_estimari">Estimari</a>
-          </div>
-          <div class="row">
-            <a type="button" class="btn btn-primary btn-sm" id="btn_planificari">Planificari</a>
-          </div>
+            </li>
+            <li id="btn_listaRetete" class="list-group-item">Retete</li>
+            <li id="btn_antemasuratori" class="list-group-item">Antemasuratori</li>
+            <li id="btn_estimari" class="list-group-item">Estimari</li>
+            <li id="btn_planificari" class="list-group-item">Planificari</li>
+          </ul>
         </div>
       </div>
-      <div class="col-11">
+      <div class="col-11" id="main">
         <!-- Main Content -->
         <div id="mainDiv" class="container">
           <div class="row overflow-auto width-100 height-100" id="central">
