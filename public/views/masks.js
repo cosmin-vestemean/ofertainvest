@@ -10,8 +10,25 @@ const SUBTIP_ARTICOL_OFERTA = [
 ]
 
 const recipeDisplayMask = {
-  old_WBS: { value: 'old_WBS', usefull: true, visible: false, RW: false, label: 'WBS vechi', DBName: '', type: 'string' },
-  WBS: { value: 'WBS', usefull: true, visible: false, RW: false, label: 'WBS', DBName: '', linkOferta: '', type: 'string' },
+  old_WBS: {
+    value: 'old_WBS',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'WBS vechi',
+    DBName: '',
+    type: 'string'
+  },
+  WBS: {
+    value: 'WBS',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'WBS',
+    DBName: '',
+    linkOferta: '',
+    type: 'string'
+  },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     usefull: true,
@@ -33,17 +50,6 @@ const recipeDisplayMask = {
     DBName: '',
     type: 'number'
   },
-  UM_ARTICOL_OFERTA: {
-    value: 'UM_ARTICOL_OFERTA',
-    usefull: true,
-    visible: true,
-    RW: false,
-    label: 'UM',
-    linkOferta: 'UM_ART_OF',
-    width: '5%',
-    DBName: '',
-    type: 'string'
-  },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
     usefull: true,
@@ -62,6 +68,17 @@ const recipeDisplayMask = {
     RW: false,
     label: 'Subtip articol',
     linkOferta: 'SUBTIP_ART_OF',
+    width: '5%',
+    DBName: '',
+    type: 'string'
+  },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    usefull: true,
+    visible: true,
+    RW: false,
+    label: 'UM',
+    linkOferta: 'UM_ART_OF',
     width: '5%',
     DBName: '',
     type: 'string'
@@ -112,7 +129,16 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     type: 'string'
   },
-  WBS: { value: 'WBS', usefull: true, visible: false, RW: false, label: 'WBS', DBName: '', linkOferta: '', type: 'string' },
+  WBS: {
+    value: 'WBS',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'WBS',
+    DBName: '',
+    linkOferta: '',
+    type: 'string'
+  },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
     usefull: true,
@@ -134,17 +160,6 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'number'
   },
-  UM_ARTICOL_OFERTA: {
-    value: 'UM_ARTICOL_OFERTA',
-    usefull: true,
-    visible: true,
-    RW: false,
-    label: 'UM',
-    linkOferta: 'UM_ART_OF',
-    width: '5%',
-    DBName: '',
-    type: 'string'
-  },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
     usefull: true,
@@ -163,6 +178,17 @@ const recipeSubsDisplayMask = {
     RW: false,
     label: 'Subtip articol',
     linkOferta: 'SUBTIP_ART_OF',
+    width: '5%',
+    DBName: '',
+    type: 'string'
+  },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    usefull: true,
+    visible: true,
+    RW: false,
+    label: 'UM',
+    linkOferta: 'UM_ART_OF',
     width: '5%',
     DBName: '',
     type: 'string'
