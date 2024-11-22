@@ -110,7 +110,7 @@ const recipeDisplayMask = {
     usefull: true,
     visible: true,
     RW: true,
-    label: 'Ore total',
+    label: 'Total ore',
     linkOferta: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA',
     width: '5%',
     DBName: 'SUMOREMAN',
