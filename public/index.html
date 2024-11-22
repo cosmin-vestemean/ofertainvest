@@ -364,7 +364,7 @@
       </div>
     </div>
     <div class="row ms-2" id="page-header">
-      <div class="row header">
+      <div class="row">
         <div class="col-2">
           <label for="trndate" class="form-label text-primary">Data</label>
           <input class="form-control form-control-sm" type="date" id="trndate" name="trndate" />
@@ -396,7 +396,7 @@
     <div class="row">
       <div class="col-1 pt-2">
         <!-- Menu -->
-        <div id="tabs" class="leftMenu row">
+        <div id="leftMenu" class="row">
           <ul class="list-group">
             <li id="btn_oferta" class="list-group-item active" aria-current="true">Oferta</li>
             <li
@@ -534,5 +534,13 @@
         <script type="module" src="./views/myTableListaRetete.js"></script>
       </div>
     </div>
+    <script>
+      document.querySelectorAll('#leftMenu .list-group-item').forEach(item => {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('#leftMenu .list-group-item').forEach(li => li.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    </script>
   </body>
 </html>
