@@ -116,28 +116,6 @@
               <button type="button" id="btn_listaRetete" class="btn btn-primary text-light btn-sm">
                 Retete <i class="bi bi-list-ol"></i>
               </button>
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-sm btn-primary active">
-                  <input type="radio" name="options" id="afisare_retete_lista" autocomplete="off" checked /><i
-                    class="bi bi-list-ol"
-                  ></i
-                ></label>
-                <label class="btn btn-sm btn-primary">
-                  <input type="radio" name="options" id="afisare_retete_scroll" autocomplete="off" /><i
-                    class="bi bi-1-square"
-                  ></i
-                ></label>
-              </div>
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                id="btn_save_retete"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Salveaza retetele"
-              >
-                <i class="bi bi-save"></i>
-              </button>
             </div>
             <div class="row-sm">
               <button
@@ -297,6 +275,37 @@
                             </li>
                             <li>
                               <a class="dropdown-item" href="#" id="WBSMap">Vizualizare harta WBS</a>
+                            </li>
+                            <li>
+                              <button type="button" id="btn_listaRetete" class="dropdown-item">
+                                Retete <i class="bi bi-list-ol"></i>
+                              </button>
+                            </li>
+                            <li>
+                              <div class="btn-group btn-group-toggle mx-3 my-2" data-toggle="buttons">
+                                <label class="btn btn-sm btn-secondary active">
+                                  <input
+                                    type="radio"
+                                    name="options"
+                                    id="afisare_retete_lista"
+                                    autocomplete="off"
+                                    checked
+                                  />
+                                  <i class="bi bi-list-ol"></i>
+                                </label>
+                                <label class="btn btn-sm btn-secondary">
+                                  <input
+                                    type="radio"
+                                    name="options"
+                                    id="afisare_retete_scroll"
+                                    autocomplete="off"
+                                  />
+                                  <i class="bi bi-1-square"></i>
+                                </label>
+                              </div>
+                            </li>
+                            <li>
+                              <a id="btn_save_retete" class="dropdown-item" href="#">Salveaza retetele</a>
                             </li>
                           </ul>
                         </li>
