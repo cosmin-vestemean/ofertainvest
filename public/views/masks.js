@@ -248,17 +248,6 @@ const recipeSubsDisplayMask = {
     DBName: 'NORMUNITMAN',
     type: 'number'
   },
-  TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA: {
-    value: 'TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA',
-    usefull: true,
-    visible: true,
-    RW: true,
-    label: 'Total ore',
-    linkOferta: '',
-    width: '5%',
-    DBName: 'TOTALOREMAN',
-    type: 'number'
-  },
   PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA',
     usefull: true,
@@ -268,6 +257,17 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     width: '5%',
     DBName: '',
+    type: 'number'
+  },
+  TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA: {
+    value: 'TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA',
+    usefull: true,
+    visible: true,
+    RW: true,
+    label: 'Total ore',
+    linkOferta: '',
+    width: '5%',
+    DBName: 'TOTALOREMAN',
     type: 'number'
   },
   ISARTOF: {
