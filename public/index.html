@@ -346,123 +346,90 @@
             <select class="form-select form-select-sm" id="prjc" aria-label="Project"></select>
           </div>
         </div>
-        <div class="row">
-          <div class="col-2">
-            <!-- Vertical nav tabs -->
-            <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="oferta-tab" data-bs-toggle="tab" data-bs-target="#oferta" type="button" role="tab" aria-controls="oferta" aria-selected="true">Oferta</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="afl-tab" data-bs-toggle="tab" data-bs-target="#afl" type="button" role="tab" aria-controls="afl" aria-selected="false">AFL</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="reteta-tab" data-bs-toggle="tab" data-bs-target="#reteta" type="button" role="tab" aria-controls="reteta" aria-selected="false">Reteta</button>
-              </li>
-              <!-- ...other tabs... -->
-            </ul>
+        <div class="row tabs">
+          <div class="col-sm">
+            <button
+              type="button"
+              id="btn_oferta_initiala"
+              class="btn btn-primary btn-sm text-light"
+              data-bs-toggle="modal"
+              data-bs-target="#ModalCytoscape"
+            >
+              Reprezentare grafica <i class="bi bi-graph-up"></i>
+            </button>
           </div>
-          <div class="col-10">
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="oferta" role="tabpanel" aria-labelledby="oferta-tab">
-                <!-- Existing content for Oferta -->
-                <div class="row tabs">
-                  <div class="col-sm">
-                    <button
-                      type="button"
-                      id="btn_oferta_initiala"
-                      class="btn btn-primary btn-sm text-light"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalCytoscape"
-                    >
-                      Reprezentare grafica <i class="bi bi-graph-up"></i>
-                    </button>
-                  </div>
-                  <div class="col-sm">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-sm btn-primary active">
-                        <input type="radio" name="options" id="afisare_retete_lista" autocomplete="off" checked /><i
-                          class="bi bi-list-ol"
-                        ></i
-                      ></label>
-                      <label class="btn btn-sm btn-primary">
-                        <input type="radio" name="options" id="afisare_retete_scroll" autocomplete="off" /><i
-                          class="bi bi-1-square"
-                        ></i
-                      ></label>
-                    </div>
-                    <button type="button" id="btn_listaRetete" class="btn btn-primary text-light btn-sm">
-                      Retete <i class="bi bi-list-ol"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-sm"
-                      id="btn_save_retete"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Salveaza retetele"
-                    >
-                      <i class="bi bi-save"></i>
-                    </button>
-                  </div>
-                  <div class="col">
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-sm"
-                      id="btn_regenerare_antemas"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Regenereaza antemasuratorile"
-                    >
-                      <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary btn-sm" id="btn_antemasuratori">
-                      Antemasuratori <i class="bi bi-list-ol"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-sm"
-                      id="btn_save_antemas"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Salveaza antemasuratorile"
-                    >
-                      <i class="bi bi-save"></i>
-                    </button>
-                  </div>
-                  <div class="col-sm">
-                    <button type="button" class="btn btn-primary btn-sm" id="btn_estimari">
-                      Estimari <i class="bi bi-list-ol"></i>
-                    </button>
-                    <!--adauga buton mic patrat cu icoana reload-->
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-sm"
-                      id="btn_regenerare_estimari"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Regenereaza estimarile"
-                    >
-                      <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                  </div>
-                  <div class="col-sm">
-                    <button type="button" class="btn btn-primary btn-sm" id="btn_planificari">
-                      Planificari <i class="bi bi-list-ol"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="afl" role="tabpanel" aria-labelledby="afl-tab">
-                <!-- Content for AFL -->
-                <!-- ...existing code or new content... -->
-              </div>
-              <div class="tab-pane fade" id="reteta" role="tabpanel" aria-labelledby="reteta-tab">
-                <!-- Content for Reteta -->
-                <!-- ...existing code or new content... -->
-              </div>
-              <!-- ...other tab panes... -->
+          <div class="col-sm">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-sm btn-primary active">
+                <input type="radio" name="options" id="afisare_retete_lista" autocomplete="off" checked /><i
+                  class="bi bi-list-ol"
+                ></i
+              ></label>
+              <label class="btn btn-sm btn-primary">
+                <input type="radio" name="options" id="afisare_retete_scroll" autocomplete="off" /><i
+                  class="bi bi-1-square"
+                ></i
+              ></label>
             </div>
+            <button type="button" id="btn_listaRetete" class="btn btn-primary text-light btn-sm">
+              Retete <i class="bi bi-list-ol"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              id="btn_save_retete"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Salveaza retetele"
+            >
+              <i class="bi bi-save"></i>
+            </button>
+          </div>
+          <div class="col">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              id="btn_regenerare_antemas"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Regenereaza antemasuratorile"
+            >
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn_antemasuratori">
+              Antemasuratori <i class="bi bi-list-ol"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              id="btn_save_antemas"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Salveaza antemasuratorile"
+            >
+              <i class="bi bi-save"></i>
+            </button>
+          </div>
+          <div class="col-sm">
+            <button type="button" class="btn btn-primary btn-sm" id="btn_estimari">
+              Estimari <i class="bi bi-list-ol"></i>
+            </button>
+            <!--adauga buton mic patrat cu icoana reload-->
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              id="btn_regenerare_estimari"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Regenereaza estimarile"
+            >
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+          <div class="col-sm">
+            <button type="button" class="btn btn-primary btn-sm" id="btn_planificari">
+              Planificari <i class="bi bi-list-ol"></i>
+            </button>
           </div>
         </div>
         <div class="row">
