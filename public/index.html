@@ -491,59 +491,57 @@
             </div>
           </div>
         </div>
-        <div class="row page-footer" id="footer">
-          <button
-            type="button"
-            id="btn_top"
-            class="btn btn-secondary rounded-circle position-fixed bottom-0 end-0 m-2"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Top"
-          >
-            <i class="bi bi-arrow-up"></i>
-          </button>
-          <!--another second button right to above, for showing/hiding all my-table header-->
-          <button
-            type="button"
-            id="btn_showHideHeader"
-            class="btn btn-secondary rounded-circle position-fixed bottom-0 m-2"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Show hide header. Reload dataset after show/hide"
-          >
-            <i class="bi bi-eye"></i>
-          </button>
-          <!--another button, left bottom fixed-->
-          <button
-            type="button"
-            id="btn_column_filter"
-            class="btn btn-secondary rounded-circle position-fixed bottom-0 start-0 m-2"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Column filter"
-          >
-            <i class="bi bi-columns-gap"></i>
-          </button>
-        </div>
-        <script type="module">
-          import { init } from './utils/init.js'
-          window.onload = init
-        </script>
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous"
-        ></script>
-        <script type="module" src="./views/myTableListaRetete.js"></script>
       </div>
     </div>
+    <div class="row page-footer" id="footer">
+      <button
+      type="button"
+      id="btn_top"
+      class="btn btn-secondary rounded-circle position-fixed bottom-0 end-0 m-2"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Top"
+      >
+      <i class="bi bi-arrow-up"></i>
+      </button>
+      <button
+      type="button"
+      id="btn_showHideHeader"
+      class="btn btn-secondary rounded-circle position-fixed bottom-0 m-2"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Show hide header. Reload dataset after show/hide"
+      >
+      <i class="bi bi-eye"></i>
+      </button>
+      <button
+      type="button"
+      id="btn_column_filter"
+      class="btn btn-secondary rounded-circle position-fixed bottom-0 start-0 m-2"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Column filter"
+      >
+      <i class="bi bi-columns-gap"></i>
+      </button>
+    </div>
+    <script type="module">
+      import { init } from './utils/init.js'
+      window.onload = init
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="./views/myTableListaRetete.js"></script>
     <script>
       document.querySelectorAll('#leftMenu .list-group-item').forEach(item => {
-        item.addEventListener('click', function() {
-          document.querySelectorAll('#leftMenu .list-group-item').forEach(li => li.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
+        item.addEventListener('click', function () {
+          document.querySelectorAll('#leftMenu .list-group-item').forEach(li => li.classList.remove('active'))
+          this.classList.add('active')
+        })
+      })
     </script>
   </body>
 </html>
