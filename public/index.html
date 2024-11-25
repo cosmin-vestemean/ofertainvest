@@ -101,6 +101,12 @@
         top: 0;
         z-index: 1000;
       }
+      #quickPanel {
+        position: absolute;
+        bottom: 0;
+        z-index: 1000;
+        width: 100%;
+      }
     </style>
   </head>
   <body>
@@ -434,7 +440,7 @@
               Planificari
             </li>
           </ul>
-          <row>
+          <row id="quickPanel">
             <button
               type="button"
               id="btn_top"
