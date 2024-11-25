@@ -336,6 +336,10 @@ class MyTableListaRetete extends LitElement {
     const trRect = tr.getBoundingClientRect()
 
     // Calculăm poziția `top` fără a adăuga offset-ul scrollTop
+    /*
+      Pentru ca popover-ul să se poziționeze corect, containerul părinte ar trebui să aibă stilul position: relative;. 
+      Astfel, poziționarea absolută a popover-ului va fi relativă la acest container.
+    */
     const y = trRect.top - rect.top
 
     popover.style.top = `${y}px`

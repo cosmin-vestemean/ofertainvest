@@ -410,7 +410,13 @@
         <!-- Menu -->
         <div id="leftMenu" class="row">
           <ul class="list-group">
-            <li id="btn_oferta" class="list-group-item active border-top border-right border-primary" aria-current="true">Oferta</li>
+            <li
+              id="btn_oferta"
+              class="list-group-item active border-top border-right border-primary"
+              aria-current="true"
+            >
+              Oferta
+            </li>
             <li
               id="btn_oferta_initiala"
               class="list-group-item border-right border-primary"
@@ -420,13 +426,49 @@
               Niveluri
             </li>
             <li id="btn_listaRetete" class="list-group-item border-right border-primary">Retete</li>
-            <li id="btn_antemasuratori" class="list-group-item border-right border-primary">Antemasuratori</li>
+            <li id="btn_antemasuratori" class="list-group-item border-right border-primary">
+              Antemasuratori
+            </li>
             <li id="btn_estimari" class="list-group-item border-right border-primary">Estimari</li>
-            <li id="btn_planificari" class="list-group-item border-right border-bottom border-primary">Planificari</li>
+            <li id="btn_planificari" class="list-group-item border-right border-bottom border-primary">
+              Planificari
+            </li>
           </ul>
+          <row>
+            <button
+              type="button"
+              id="btn_top"
+              class="col btn btn-secondary rounded-circle bottom-0 end-0 m-2"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Top"
+            >
+              <i class="bi bi-arrow-up"></i>
+            </button>
+            <button
+              type="button"
+              id="btn_showHideHeader"
+              class="col btn btn-secondary rounded-circle bottom-0 m-2"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Show hide header. Reload dataset after show/hide"
+            >
+              <i class="bi bi-eye"></i>
+            </button>
+            <button
+              type="button"
+              id="btn_column_filter"
+              class="col btn btn-secondary rounded-circle bottom-0 start-0 m-2"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Column filter"
+            >
+              <i class="bi bi-columns-gap"></i>
+            </button>
+          </row>
         </div>
       </div>
-      <div class="col-11" id="main" style="position: relative;">
+      <div class="col-11" id="main" style="position: relative">
         <!-- Main Content -->
         <div id="mainDiv">
           <div class="row overflow-auto width-100 height-100" id="central">
@@ -502,37 +544,11 @@
         </div>
       </div>
     </div>
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" id="footer">
-      <button
-      type="button"
-      id="btn_top"
-      class="col btn btn-secondary rounded-circle bottom-0 end-0 m-2"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Top"
-      >
-      <i class="bi bi-arrow-up"></i>
-      </button>
-      <button
-      type="button"
-      id="btn_showHideHeader"
-      class=" col btn btn-secondary rounded-circle bottom-0 m-2"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Show hide header. Reload dataset after show/hide"
-      >
-      <i class="bi bi-eye"></i>
-      </button>
-      <button
-      type="button"
-      id="btn_column_filter"
-      class="col btn btn-secondary rounded-circle  bottom-0 start-0 m-2"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Column filter"
-      >
-      <i class="bi bi-columns-gap"></i>
-      </button>
+    <footer
+      class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+      id="footer"
+    >
+      Invest Dej &copy; 2024
     </footer>
     <script type="module">
       import { init } from './utils/init.js'
