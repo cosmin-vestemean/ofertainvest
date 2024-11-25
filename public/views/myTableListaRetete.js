@@ -335,11 +335,8 @@ class MyTableListaRetete extends LitElement {
     tr.classList.add('table-info')
     const trRect = tr.getBoundingClientRect()
 
-    // Dacă scroll-ul se face în containerul shadowRoot.host
-    const y = trRect.top - rect.top + trRect.height / 2 + this.shadowRoot.host.scrollTop
-
-    // Dacă scroll-ul se face la nivelul ferestrei
-    // const y = trRect.top + trRect.height / 2 + window.scrollY
+    // Calculăm poziția `top` fără a adăuga offset-ul scrollTop
+    const y = trRect.top - rect.top + trRect.height / 2
 
     popover.style.top = `${y}px`
     popover.style.left = `0px`
