@@ -101,6 +101,12 @@
         top: 0;
         z-index: 1000;
       }
+      #quickPanel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+      }
     </style>
   </head>
   <body>
@@ -436,36 +442,27 @@
           </ul>
         </div>
         <div id="quickPanel" class="row">
-            <button
-              type="button"
+            <i
               id="btn_top"
-              class="col btn btn-sm btn-secondary rounded-circle"
+              class="bi bi-arrow-up col btn btn-sm btn-secondary rounded-circle"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Top"
-            >
-              <i class="bi bi-arrow-up"></i>
-            </button>
-            <button
-              type="button"
+            ></i>
+            <i
               id="btn_showHideHeader"
-              class="col btn btn-sm btn-secondary rounded-circle"
+              class="bi bi-eye col btn btn-sm btn-success rounded-circle"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Show hide header. Reload dataset after show/hide"
-            >
-              <i class="bi bi-eye"></i>
-            </button>
-            <button
-              type="button"
+            ></i>
+            <i
               id="btn_column_filter"
-              class="col btn btn-sm btn-secondary rounded-circle"
+              class="bi bi-columns-gap col btn btn-sm btn-secondary rounded-circle"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Column filter"
-            >
-              <i class="bi bi-columns-gap"></i>
-            </button>
+            ></i>
           </div>
       </div>
       <div class="col-11" id="main" style="position: relative">
