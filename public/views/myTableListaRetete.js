@@ -336,7 +336,7 @@ class MyTableListaRetete extends LitElement {
     const trRect = tr.getBoundingClientRect()
 
     // Calculăm poziția `top` fără a adăuga offset-ul scrollTop
-    const y = trRect.top - rect.top + trRect.height / 2
+    const y = trRect.top - rect.top
 
     popover.style.top = `${y}px`
     popover.style.left = `0px`
