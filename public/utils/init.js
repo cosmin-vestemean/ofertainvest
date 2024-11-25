@@ -546,7 +546,7 @@ export function init() {
   let zenView = document.getElementById('zenView')
   //hide/show all page-header class elements
   zenView.onclick = function () {
-    let pageHeaders = document.getElementsByClassName('page-header')
+    let pageHeaders = document.getElementsByClassName('zenView')
     for (let i = 0; i < pageHeaders.length; i++) {
       let pageHeader = pageHeaders[i]
       if (pageHeader.style.display === 'none') {
