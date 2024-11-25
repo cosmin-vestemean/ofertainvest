@@ -551,8 +551,16 @@ export function init() {
       let pageHeader = pageHeaders[i]
       if (pageHeader.style.display === 'none') {
         pageHeader.style.display = 'block'
+        let mainContent = document.getElementById('mainContent')
+        //col-12 -> col-11
+        mainContent.classList.remove('col-12')
+        mainContent.classList.add('col-11')
       } else {
         pageHeader.style.display = 'none'
+        let mainContent = document.getElementById('mainContent')
+        //col-11 -> col-12
+        mainContent.classList.remove('col-11')
+        mainContent.classList.add('col-12')
       }
     }
     showHideHeader()
