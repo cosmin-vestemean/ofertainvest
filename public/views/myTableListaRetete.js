@@ -331,17 +331,17 @@ class MyTableListaRetete extends LitElement {
 
     // Adjust the position after adding the popover to the DOM
     const rect = this.shadowRoot.host.getBoundingClientRect()
-    // Get tr element
     const tr = event.target.closest('tr')
     tr.classList.add('table-info')
     const trRect = tr.getBoundingClientRect()
-    const navbarHeight = document.querySelector('.navbar').offsetHeight
-    const pageHeaderHeight = document.querySelector('.page-header').offsetHeight
 
-    // Calculate the midpoint of the tr element
-    const y = trRect.top + trRect.height / 2
+    // Dacă scroll-ul se face în containerul shadowRoot.host
+    const y = trRect.top - rect.top + trRect.height / 2 + this.shadowRoot.host.scrollTop
 
-    popover.style.top = `${y - rect.top + this.shadowRoot.host.scrollTop + navbarHeight + pageHeaderHeight}px`
+    // Dacă scroll-ul se face la nivelul ferestrei
+    // const y = trRect.top + trRect.height / 2 + window.scrollY
+
+    popover.style.top = `${y}px`
     popover.style.left = `0px`
 
     // Close the popover when clicking outside of it
