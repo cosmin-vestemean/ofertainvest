@@ -305,7 +305,8 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'ISARTOF',
     type: 'boolean',
-    UI: { true: '<i class="bi bi-check2"></i>', false: '' }
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
+    master: -1
   }
 }
 
