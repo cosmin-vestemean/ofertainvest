@@ -19,6 +19,7 @@ class MyTableListaRetete extends LitElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this.articole = []
+    this.openRecipeRowIndexes = []
   }
 
   connectedCallback() {
@@ -60,6 +61,19 @@ class MyTableListaRetete extends LitElement {
 
   onLoad() {
     console.log('Script loaded')
+  }
+
+  // Grouping function to sort and group keys by master
+  groupKeysByMaster(displayMask) {
+    return Object.keys(displayMask)
+      .filter((key) => displayMask[key].visible)
+      .sort((a, b) => (displayMask[a].master || a).localeCompare(displayMask[b].master || b))
+      .reduce((acc, key) => {
+        const master = displayMask[key].master || key;
+        if (!acc[master]) acc[master] = [];
+        acc[master].push(key);
+        return acc;
+      }, {});
   }
 
   render() {
@@ -115,16 +129,31 @@ class MyTableListaRetete extends LitElement {
 
       console.log('articole', this.articole)
 
+      // Group articol and subarticol keys
+      const groupArticolKeysByMaster = this.groupKeysByMaster(usefullRecipeDisplayMask);
+      const groupSubarticolKeysByMaster = this.groupKeysByMaster(usefullRecipeSubsDisplayMask);
+
       return html`
         <div class="container-fluid">
           <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
+              <!-- Master header -->
               <tr>
-                <th></th>
-                ${Object.keys(usefullRecipeDisplayMask).map((key) =>
-                  usefullRecipeDisplayMask[key].visible
-                    ? html`<th>${usefullRecipeDisplayMask[key].label || key}</th>`
-                    : ''
+                <th rowspan="2"></th>
+                ${Object.keys(groupArticolKeysByMaster).map(
+                  (master) => html`
+                    <th colspan="${groupArticolKeysByMaster[master].length}">
+                      ${master}
+                    </th>
+                  `
+                )}
+              </tr>
+              <!-- Child headers -->
+              <tr>
+                ${Object.values(groupArticolKeysByMaster).flat().map(
+                  (key) => html`
+                    <th>${usefullRecipeDisplayMask[key].label || key}</th>
+                  `
                 )}
               </tr>
             </thead>
@@ -141,13 +170,13 @@ class MyTableListaRetete extends LitElement {
                     <td>
                       ${item.subarticole.length > 0
                         ? html`<i
-                            class="bi bi-plus-square"
+                            class="bi ${this.openRecipeRowIndexes.includes(index) ? 'bi-dash-square' : 'bi-plus-square'}"
                             style="cursor: pointer;"
                             @click="${() => this.toggleSubarticles(index)}"
                           ></i>`
                         : ''}
                     </td>
-                    ${Object.keys(usefullRecipeDisplayMask).map(
+                    ${Object.values(groupArticolKeysByMaster).flat().map(
                       (key) =>
                         html`<td
                           contenteditable="${usefullRecipeDisplayMask[key].RW}"
@@ -157,46 +186,61 @@ class MyTableListaRetete extends LitElement {
                         </td>`
                     )}
                   </tr>
-                  <tr
-                    class="subarticle hidden"
-                    data-parent-index="${index}"
-                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-                      ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-                      : ''}"
-                  >
-                    <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
-                      <table class="table table-sm is-responsive" style="font-size: small;">
-                        <thead>
-                          <tr>
-                            <th></th>
-                            ${Object.keys(usefullRecipeDisplayMask).map((key) =>
-                              usefullRecipeSubsDisplayMask[key] && usefullRecipeSubsDisplayMask[key].visible
-                                ? html`<th>${usefullRecipeSubsDisplayMask[key].label || key}</th>`
-                                : html`<th></th>`
-                            )}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          ${item.subarticole.map(
-                            (sub) => html`
-                              <tr @mouseover="${(e) => this.handleContextMenu(e, sub)}">
-                                <td></td>
-                                ${Object.keys(usefullRecipeDisplayMask).map(
-                                  (key) =>
-                                    html`<td
-                                      contenteditable="${usefullRecipeSubsDisplayMask[key]?.RW || false}"
-                                      class="${usefullRecipeSubsDisplayMask[key]?.visible ? '' : 'hidden'}"
-                                    >
-                                      ${sub[key] || ''}
-                                    </td>`
+                  ${item.subarticole.length > 0 && this.openRecipeRowIndexes.includes(index)
+                    ? html`
+                        <tr
+                          class="subarticle"
+                          data-parent-index="${index}"
+                          style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+                            ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+                            : ''}"
+                        >
+                          <td colspan="${Object.values(groupArticolKeysByMaster).flat().length + 1}">
+                            <table class="table table-sm is-responsive" style="font-size: small;">
+                              <thead>
+                                <!-- Master header -->
+                                <tr>
+                                  <th rowspan="2"></th>
+                                  ${Object.keys(groupSubarticolKeysByMaster).map(
+                                    (master) => html`
+                                      <th colspan="${groupSubarticolKeysByMaster[master].length}">
+                                        ${master}
+                                      </th>
+                                    `
+                                  )}
+                                </tr>
+                                <!-- Child headers -->
+                                <tr>
+                                  ${Object.values(groupSubarticolKeysByMaster).flat().map(
+                                    (key) => html`
+                                      <th>${usefullRecipeSubsDisplayMask[key]?.label || key}</th>
+                                    `
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                ${item.subarticole.map(
+                                  (sub) => html`
+                                    <tr @mouseover="${(e) => this.handleContextMenu(e, sub)}">
+                                      <td></td>
+                                      ${Object.values(groupSubarticolKeysByMaster).flat().map(
+                                        (key) =>
+                                          html`<td
+                                            contenteditable="${usefullRecipeSubsDisplayMask[key]?.RW || false}"
+                                            class="${usefullRecipeSubsDisplayMask[key]?.visible ? '' : 'hidden'}"
+                                          >
+                                            ${sub[key] || ''}
+                                          </td>`
+                                      )}
+                                    </tr>
+                                  `
                                 )}
-                              </tr>
-                            `
-                          )}
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      `
+                    : ''}
                 `
               )}
             </tbody>
@@ -214,9 +258,11 @@ class MyTableListaRetete extends LitElement {
     if (toggleIcon.classList.contains('bi-plus-square')) {
       toggleIcon.classList.remove('bi-plus-square')
       toggleIcon.classList.add('bi-dash-square')
+      this.openRecipeRowIndexes.push(index)
     } else {
       toggleIcon.classList.remove('bi-dash-square')
       toggleIcon.classList.add('bi-plus-square')
+      this.openRecipeRowIndexes = this.openRecipeRowIndexes.filter(i => i !== index)
     }
   }
 
