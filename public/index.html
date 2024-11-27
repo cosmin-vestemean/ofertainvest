@@ -113,11 +113,6 @@
         background-color: var(--bs-white);
         z-index: 1000;
       }
-      #leftContent {
-        margin-top: 60px; /* Adjust this value based on the height of #page-header */
-        height: calc(100vh - 60px); /* Adjust this value based on the height of #page-header */
-        overflow-y: auto;
-      }
     </style>
   </head>
   <body>
@@ -592,11 +587,9 @@
     <script>
       window.addEventListener('load', () => {
         const pageHeader = document.getElementById('page-header');
-        const leftContent = document.getElementById('leftContent');
+        const leftMenu = document.getElementById('leftMenu');
         const headerHeight = pageHeader.offsetHeight;
-
-        leftContent.style.marginTop = `${headerHeight}px`;
-        leftContent.style.height = `calc(100vh - ${headerHeight}px)`;
+        leftMenu.style.top = `${headerHeight}px`;
       });
     </script>
   </body>
