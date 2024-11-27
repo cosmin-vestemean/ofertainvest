@@ -132,6 +132,8 @@ class MyTableListaRetete extends LitElement {
       // Group articol and subarticol keys
       const groupArticolKeysByMaster = this.groupKeysByMaster(usefullRecipeDisplayMask);
       const groupSubarticolKeysByMaster = this.groupKeysByMaster(usefullRecipeSubsDisplayMask);
+      console.log('groupArticolKeysByMaster', groupArticolKeysByMaster)
+      console.log('groupSubarticolKeysByMaster', groupSubarticolKeysByMaster)
 
       return html`
         <div class="container-fluid">
