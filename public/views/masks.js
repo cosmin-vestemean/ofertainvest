@@ -17,7 +17,8 @@ const recipeDisplayMask = {
     RW: false,
     label: 'WBS vechi',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 1
   },
   WBS: {
     value: 'WBS',
@@ -27,7 +28,9 @@ const recipeDisplayMask = {
     label: 'WBS',
     DBName: '',
     linkOferta: '',
-    type: 'string'
+    type: 'string',
+    master: 2
+
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -38,7 +41,8 @@ const recipeDisplayMask = {
     linkOferta: 'DENUMIRE_ART_OF',
     width: '50%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 3
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
@@ -48,7 +52,8 @@ const recipeDisplayMask = {
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF',
     DBName: '',
-    type: 'number'
+    type: 'number',
+    master: 4
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
@@ -59,7 +64,8 @@ const recipeDisplayMask = {
     linkOferta: 'TIP_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 5
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
@@ -70,7 +76,8 @@ const recipeDisplayMask = {
     linkOferta: 'SUBTIP_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 6
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -81,7 +88,8 @@ const recipeDisplayMask = {
     linkOferta: 'UM_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 7
   },
   SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA: {
     value: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
@@ -92,7 +100,8 @@ const recipeDisplayMask = {
     linkOferta: 'CANT_UNITARA_ART_OF',
     width: '5%',
     DBName: 'SUMCANTANTE',
-    type: 'number'
+    type: 'number',
+    master: 8
   },
   MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -103,7 +112,8 @@ const recipeDisplayMask = {
     linkOferta: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA',
     width: '5%',
     DBName: 'AVGNORMUNITOREMAN',
-    type: 'number'
+    type: 'number',
+    master: 9
   },
   SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -114,7 +124,8 @@ const recipeDisplayMask = {
     linkOferta: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA',
     width: '5%',
     DBName: 'SUMOREMAN',
-    type: 'number'
+    type: 'number',
+    master: 10
   }
 }
 
@@ -127,7 +138,8 @@ const recipeSubsDisplayMask = {
     label: 'WBS vechi',
     DBName: '',
     linkOferta: '',
-    type: 'string'
+    type: 'string',
+    master: 1
   },
   WBS: {
     value: 'WBS',
@@ -137,7 +149,8 @@ const recipeSubsDisplayMask = {
     label: 'WBS',
     DBName: '',
     linkOferta: '',
-    type: 'string'
+    type: 'string',
+    master: 2
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -148,7 +161,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'DENUMIRE_ART_OF',
     width: '50%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 3
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
@@ -158,7 +172,8 @@ const recipeSubsDisplayMask = {
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF',
     DBName: '',
-    type: 'number'
+    type: 'number',
+    master: 4
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
@@ -169,7 +184,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'TIP_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 5
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
@@ -180,7 +196,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'SUBTIP_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 6
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -191,7 +208,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'UM_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string'
+    type: 'string',
+    master: 7
   },
   CANTITATE_SUBARTICOL_RETETA: {
     value: 'CANTITATE_SUBARTICOL_RETETA',
@@ -202,7 +220,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'CANT_UNITARA_ART_OF',
     width: '5%',
     DBName: 'CANTTOTAL',
-    type: 'number'
+    type: 'number',
+    master: 8
   },
   CANTITATE_UNITARA_SUBARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_SUBARTICOL_RETETA',
@@ -213,7 +232,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'PONDERE_DECONT_ACTIVITATE_ARTICOL_RETETA',
     width: '5%',
     DBName: 'CANTUNIT',
-    type: 'number'
+    type: 'number',
+    master: 8
   },
   CANTITATE_REALIZARE_ARTICOL_RETETA: {
     value: 'CANTITATE_REALIZARE_ARTICOL_RETETA ',
@@ -224,7 +244,8 @@ const recipeSubsDisplayMask = {
     linkOferta: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA',
     width: '5%',
     DBName: 'CANTREAL',
-    type: 'number'
+    type: 'number',
+    master: 8
   },
   CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA',
@@ -235,7 +256,8 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     width: '5%',
     DBName: '',
-    type: 'number'
+    type: 'number',
+    master: 8
   },
   NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -246,7 +268,8 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     width: '5%',
     DBName: 'NORMUNITMAN',
-    type: 'number'
+    type: 'number',
+    master: 9
   },
   PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -257,7 +280,8 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     width: '5%',
     DBName: '',
-    type: 'number'
+    type: 'number',
+    master: 9
   },
   TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -268,7 +292,8 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     width: '5%',
     DBName: 'TOTALOREMAN',
-    type: 'number'
+    type: 'number',
+    master: 10
   },
   ISARTOF: {
     value: 'ISARTOF',

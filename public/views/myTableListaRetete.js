@@ -169,10 +169,10 @@ class MyTableListaRetete extends LitElement {
                         <thead>
                           <tr>
                             <th></th>
-                            ${Object.keys(usefullRecipeSubsDisplayMask).map((key) =>
-                              usefullRecipeSubsDisplayMask[key].visible
+                            ${Object.keys(usefullRecipeDisplayMask).map((key) =>
+                              usefullRecipeSubsDisplayMask[key] && usefullRecipeSubsDisplayMask[key].visible
                                 ? html`<th>${usefullRecipeSubsDisplayMask[key].label || key}</th>`
-                                : ''
+                                : html`<th></th>`
                             )}
                           </tr>
                         </thead>
@@ -181,15 +181,14 @@ class MyTableListaRetete extends LitElement {
                             (sub) => html`
                               <tr @mouseover="${(e) => this.handleContextMenu(e, sub)}">
                                 <td></td>
-                                ${Object.keys(usefullRecipeSubsDisplayMask).map(
-                                  (key) => html`
-                                    <td
-                                      contenteditable="${usefullRecipeSubsDisplayMask[key].RW}"
-                                      class="${usefullRecipeSubsDisplayMask[key].visible ? '' : 'hidden'}"
+                                ${Object.keys(usefullRecipeDisplayMask).map(
+                                  (key) =>
+                                    html`<td
+                                      contenteditable="${usefullRecipeSubsDisplayMask[key]?.RW || false}"
+                                      class="${usefullRecipeSubsDisplayMask[key]?.visible ? '' : 'hidden'}"
                                     >
-                                      ${sub[key]}
-                                    </td>
-                                  `
+                                      ${sub[key] || ''}
+                                    </td>`
                                 )}
                               </tr>
                             `
