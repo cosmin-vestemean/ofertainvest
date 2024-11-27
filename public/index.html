@@ -114,9 +114,9 @@
         z-index: 1000;
       }
       #leftContent {
-        height: 100vh;
+        margin-top: 60px; /* Adjust this value based on the height of #page-header */
+        height: calc(100vh - 60px); /* Adjust this value based on the height of #page-header */
         overflow-y: auto;
-        position: relative;
       }
     </style>
   </head>
@@ -588,6 +588,16 @@
           this.classList.add('active')
         })
       })
+    </script>
+    <script>
+      window.addEventListener('load', () => {
+        const pageHeader = document.getElementById('page-header');
+        const leftContent = document.getElementById('leftContent');
+        const headerHeight = pageHeader.offsetHeight;
+
+        leftContent.style.marginTop = `${headerHeight}px`;
+        leftContent.style.height = `calc(100vh - ${headerHeight}px)`;
+      });
     </script>
   </body>
 </html>
