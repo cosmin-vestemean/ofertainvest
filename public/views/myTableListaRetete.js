@@ -168,11 +168,82 @@ class MyTableListaRetete extends LitElement {
                       <table class="table table-sm is-responsive" style="font-size: small;">
                         <thead>
                           <tr>
-                            <th></th>
-                            ${Object.keys(usefullRecipeDisplayMask).map((key) =>
-                              usefullRecipeSubsDisplayMask[key] && usefullRecipeSubsDisplayMask[key].visible
+                            <th>
+                              <div class="dropdown">
+                                <button
+                                  class="btn btn-sm btn-light dropdown-toggle"
+                                  type="button"
+                                  id="dropdownMenuButton"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <i class="bi bi-plus-square"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material')}"
+                                      >Material</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Manopera')}"
+                                      >Manopera</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Transport')}"
+                                      >Transport</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Utilaj')}"
+                                      >Utilaj</a
+                                    >
+                                  </li>
+                                  <li><hr class="dropdown-divider" /></li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Manopera')}"
+                                      >Material + Manopera</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Transport')}"
+                                      >Material + Transport</a
+                                    >
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      href="#"
+                                      @click="${() => this.addArticle('Material + Utilaj')}"
+                                      >Material + Utilaj</a
+                                    >
+                                  </li>
+                                </ul>
+                              </div>
+                            </th>
+                            ${Object.keys(usefullRecipeSubsDisplayMask).map((key) =>
+                              usefullRecipeSubsDisplayMask[key].visible
                                 ? html`<th>${usefullRecipeSubsDisplayMask[key].label || key}</th>`
-                                : html`<th></th>`
+                                : ''
                             )}
                           </tr>
                         </thead>
@@ -181,14 +252,15 @@ class MyTableListaRetete extends LitElement {
                             (sub) => html`
                               <tr @mouseover="${(e) => this.handleContextMenu(e, sub)}">
                                 <td></td>
-                                ${Object.keys(usefullRecipeDisplayMask).map(
-                                  (key) =>
-                                    html`<td
-                                      contenteditable="${usefullRecipeSubsDisplayMask[key]?.RW || false}"
-                                      class="${usefullRecipeSubsDisplayMask[key]?.visible ? '' : 'hidden'}"
+                                ${Object.keys(usefullRecipeSubsDisplayMask).map(
+                                  (key) => html`
+                                    <td
+                                      contenteditable="${usefullRecipeSubsDisplayMask[key].RW}"
+                                      class="${usefullRecipeSubsDisplayMask[key].visible ? '' : 'hidden'}"
                                     >
-                                      ${sub[key] || ''}
-                                    </td>`
+                                      ${sub[key]}
+                                    </td>
+                                  `
                                 )}
                               </tr>
                             `
@@ -264,10 +336,6 @@ class MyTableListaRetete extends LitElement {
     const trRect = tr.getBoundingClientRect()
 
     // Calculăm poziția `top` fără a adăuga offset-ul scrollTop
-    /*
-      Pentru ca popover-ul să se poziționeze corect, containerul părinte ar trebui să aibă stilul position: relative;. 
-      Astfel, poziționarea absolută a popover-ului va fi relativă la acest container.
-    */
     const y = trRect.top - rect.top
 
     popover.style.top = `${y}px`
