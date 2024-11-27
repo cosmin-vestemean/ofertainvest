@@ -169,76 +169,6 @@ class MyTableListaRetete extends LitElement {
                         <thead>
                           <tr>
                             <th>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-sm btn-light dropdown-toggle"
-                                  type="button"
-                                  id="dropdownMenuButton"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i class="bi bi-plus-square"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Material')}"
-                                      >Material</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Manopera')}"
-                                      >Manopera</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Transport')}"
-                                      >Transport</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Utilaj')}"
-                                      >Utilaj</a
-                                    >
-                                  </li>
-                                  <li><hr class="dropdown-divider" /></li>
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Material + Manopera')}"
-                                      >Material + Manopera</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Material + Transport')}"
-                                      >Material + Transport</a
-                                    >
-                                  </li>
-                                  <li>
-                                    <a
-                                      class="dropdown-item"
-                                      href="#"
-                                      @click="${() => this.addArticle('Material + Utilaj')}"
-                                      >Material + Utilaj</a
-                                    >
-                                  </li>
-                                </ul>
-                              </div>
                             </th>
                             ${Object.keys(usefullRecipeSubsDisplayMask).map((key) =>
                               usefullRecipeSubsDisplayMask[key].visible
@@ -290,11 +220,6 @@ class MyTableListaRetete extends LitElement {
       toggleIcon.classList.remove('bi-dash-square')
       toggleIcon.classList.add('bi-plus-square')
     }
-  }
-
-  addArticle(type) {
-    // Logic to add more articles manually based on the type
-    console.log('Add article clicked:', type)
   }
 
   handleContextMenu(event, item) {
