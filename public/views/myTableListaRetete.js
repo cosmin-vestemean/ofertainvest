@@ -186,6 +186,21 @@ class MyTableListaRetete extends LitElement {
                         </td>`
                     )}
                   </tr>
+                  ${item.subarticole.length > 0
+                    ? html`
+                        <tr
+                          class="subarticle hidden"
+                          data-parent-index="${index}"
+                          style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+                            ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+                            : ''}"
+                        >
+                          <td colspan="${Object.values(groupArticolKeysByMaster).flat().length + 1}">
+                            <!-- Subarticle content -->
+                          </td>
+                        </tr>
+                      `
+                    : ''}
                   ${item.subarticole.length > 0 && this.openRecipeRowIndexes.includes(index)
                     ? html`
                         <tr
@@ -252,7 +267,10 @@ class MyTableListaRetete extends LitElement {
 
   toggleSubarticles(index) {
     const row = this.shadowRoot.querySelector(`tr[data-parent-index="${index}"]`)
-    row.classList.toggle('hidden')
+    if (row) {
+      row.classList.toggle('hidden')
+    }
+
     // Toggle the icon
     const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
     if (toggleIcon.classList.contains('bi-plus-square')) {
