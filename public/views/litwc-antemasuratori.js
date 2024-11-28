@@ -66,9 +66,6 @@ export class antemasuratori extends LitElement {
         table.appendChild(thead)
         var tr = document.createElement('tr')
         thead.appendChild(tr)
-        //append thrash icon
-        var th = document.createElement('th')
-        th.scope = 'col'
         tr.appendChild(th)
         //append counter
         var th = document.createElement('th')
@@ -107,25 +104,7 @@ export class antemasuratori extends LitElement {
         var tr = document.createElement('tr')
         tr.id = object.CCCANTEMASURATORI
         tbody.appendChild(tr)
-        //add thrash icon
-        var td = document.createElement('td')
-        var i = document.createElement('i')
-        i.id = 't_' + object.CCCANTEMASURATORI
-        i.classList.add('bi')
-        i.classList.add('bi-trash')
-        i.classList.add('text-danger')
-        i.style.cursor = 'pointer'
-        i.addEventListener('click', function (e) {
-          //are you sure you want to delete?
-          if (!confirm('Are you sure you want to delete this antemasuratoare?')) {
-            return
-          }
-          let index = e.target.id.split('_')[1]
-          console.log('delete antemasuratoare', index)
-          deleteAntemasuratore(index)
-        })
-        td.appendChild(i)
-        tr.appendChild(td)
+        //append counter
         var td = document.createElement('td')
         td.style.fontWeight = 'bold'
         td.innerHTML = counter
