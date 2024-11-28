@@ -292,7 +292,7 @@ export async function salveazaReteteInDB() {
     ) || 1
   //insert/update retete in CCCRETETE
   recipes_ds.forEach((reteta) => {
-    let sql = `insert into CCCRETETE (CCCOFERTEWEB, NAME, ID, TYPE) values (${contextOferta.CCCOFERTEWEB}, '${reteta.name}', ${reteta.id}, ${reteta.reteta.type || 'null'})`
+    let sql = `insert into CCCRETETE (CCCOFERTEWEB, NAME, ID, TYPE) values (${contextOferta.CCCOFERTEWEB}, '${reteta.name}', ${reteta.id}, '${reteta.reteta.type || 'null'}')`
     sqlList.push(sql)
   })
   //insert/update activitati in CCCACTIVITRETETE
