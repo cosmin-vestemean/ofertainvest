@@ -246,7 +246,7 @@ export async function setRecipesDs() {
         //map o to odm by recipeDisplayMask
         Object.keys(recipeDisplayMask).forEach((mask) => {
           //if visible
-          if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
+          if (recipeDisplayMask[mask].usefull) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
         })
         odm.CANTITATE_SUBARTICOL_RETETA = material.CANTTOTAL || 0
         odm.CANTITATE_UNITARA_SUBARTICOL_RETETA = material.CANTUNIT || 0
