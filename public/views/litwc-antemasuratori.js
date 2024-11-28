@@ -66,7 +66,6 @@ export class antemasuratori extends LitElement {
         table.appendChild(thead)
         var tr = document.createElement('tr')
         thead.appendChild(tr)
-        tr.appendChild(th)
         //append counter
         var th = document.createElement('th')
         th.scope = 'col'
