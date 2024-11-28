@@ -62,7 +62,8 @@ export async function createAntemasuratori() {
   btn_antemasuratori.appendChild(spinner)
   const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
-      sqlQuery: `select * from CCCACTIVITINSTANTE a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}`
+      sqlQuery: `select * from CCCACTIVITINSTANTE a inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}
+      union all select CCCOFERTEWEB, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII FROM CCCMATINSTANTE WHERE CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB} AND ISARTOF = 1`
     }
   })
 
@@ -452,11 +453,15 @@ export function calculateAntemasAndNewTree() {
         let old = ds_antemasuratori_old.find((o) => {
           let keys = Object.keys(o)
           //keep keys according to antemasuratoriDisplayMask
-          keys = Object.keys(activit).filter((key) => Object.prototype.hasOwnProperty.call(antemasuratoriDisplayMask, key))
+          keys = Object.keys(activit).filter((key) =>
+            Object.prototype.hasOwnProperty.call(antemasuratoriDisplayMask, key)
+          )
           delete keys[_cantitate_antemasuratori]
           let values = Object.values(o)
           let keys2 = Object.keys(activit)
-          keys2 = Object.keys(activit).filter((key) => Object.prototype.hasOwnProperty.call(antemasuratoriDisplayMask, key))
+          keys2 = Object.keys(activit).filter((key) =>
+            Object.prototype.hasOwnProperty.call(antemasuratoriDisplayMask, key)
+          )
           delete keys2[_cantitate_antemasuratori]
           //console.log('keys', keys, 'keys2', keys2)
           let values2 = Object.values(activit)
