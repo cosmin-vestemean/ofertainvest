@@ -223,6 +223,7 @@ from cccmatinstante a
 	inner join CCCACTIVITINSTANTE b on a.CCCACTIVITINSTANTE = b.CCCACTIVITINSTANTE
 	inner join cccoferteweblinii c on (a.cccoferteweblinii = c.cccoferteweblinii)
 	inner join cccoferteweblinii d on (b.cccoferteweblinii = d.cccoferteweblinii);
+alter table CCCMATINSTANTE ADD ISARTOF SMALLINT NOT NULL DEFAULT 0;
 create table CCCANTEMASURATORI (
 	CCCOFERTEWEB INT NOT NULL,
 	CCCANTEMASURATORI INT NOT NULL PRIMARY KEY IDENTITY(1, 1),

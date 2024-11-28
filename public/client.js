@@ -1456,6 +1456,7 @@ export function detectieRetete() {
   WBSMap = rez.trees
   recipes_ds = rez.retete
   ds_instanteRetete = rez.instanteRetete
+  console.log('ds_instanteRetete', ds_instanteRetete)
 
   autocompleteRetete_1()
 
