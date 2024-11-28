@@ -507,7 +507,7 @@ export function init() {
       return
     }
     if (recipes_ds && recipes_ds.length > 0) {
-      console.log('listing recipes')
+      console.log('listing recipes', recipes_ds)
       let lista_retete = document.getElementById('lista_retete_scurta')
       lista_retete.click()
     } else {
