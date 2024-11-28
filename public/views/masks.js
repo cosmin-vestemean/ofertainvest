@@ -18,7 +18,8 @@ const recipeDisplayMask = {
     label: 'WBS vechi',
     DBName: '',
     type: 'string',
-    master: '1'
+    master: '1',
+    linkOferta: ''
   },
   WBS: {
     value: 'WBS',
@@ -27,7 +28,7 @@ const recipeDisplayMask = {
     RW: false,
     label: 'WBS',
     DBName: '',
-    linkOferta: '',
+    linkOferta: 'WBS',
     type: 'string',
     master: '2'
 
