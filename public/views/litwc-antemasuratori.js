@@ -3,12 +3,12 @@ import { template, theadIsSet } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import {
   ds_antemasuratori,
-  antemasuratoriDisplayMask,
   newTree,
   setDsAntemasuratoriValue,
   updateAntemasuratoare,
   deleteAntemasuratore
 } from '../controllers/antemasuratori.js'
+import { antemasuratoriDisplayMask } from './masks.js'
 
 export class antemasuratori extends LitElement {
   static properties = {
