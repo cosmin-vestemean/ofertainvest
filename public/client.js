@@ -220,7 +220,7 @@ export async function setRecipesDs() {
       //map o to odm by recipeDisplayMask
       Object.keys(recipeDisplayMask).forEach((mask) => {
         //if visible
-        if (recipeDisplayMask[mask].visible) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
+        if (recipeDisplayMask[mask].usefull) odm[mask] = o[recipeDisplayMask[mask].linkOferta]
       })
       odm.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = activitate.SUMCANTANTE || 0
       odm.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = activitate.AVGNORMUNITOREMAN || 0
@@ -2385,7 +2385,7 @@ Activitate 1183.7.18.23.L
 //function findDuplicatesInOfertaInitiala() {}
 
 function markLAsAO(data) {
-  console.log('data', data)
+  //console.log('data', data)
   //return a copy of data and mark with ISARTOF = 1 all children objects with branch ending in 'L'
   /*
   1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
@@ -2403,8 +2403,12 @@ function markLAsAO(data) {
       let children = activitate.children
       if (children) {
         children.forEach(function (child) {
+          let hasL = false;
           if (child.WBS[child.WBS.length - 1] == 'L') {
             child.ISARTOF = 1
+            hasL = true
+          }
+          if (hasL) {
             reteta.type = 'grupare artificiala@L'
           }
         })
