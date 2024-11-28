@@ -357,6 +357,7 @@ export function init() {
     }
     if (ds_instanteRetete && ds_instanteRetete.length > 0) {
       console.log('Exista instante retete, se afiseaza antemasuratori')
+      console.log('ds_instanteRetete', ds_instanteRetete)
       let nav_antemasuratori = document.getElementById('listaAntemasuratori')
       nav_antemasuratori.click()
     } else {
