@@ -2396,7 +2396,8 @@ function markLAsAO(data) {
 1183.7.18.23.L	BETON MARFA CLASA C 25/30 ( BC 30/ B 400)	2100916	MATERIAL	PRINCIPAL
   */
   let result = []
-  result = JSON.parse(JSON.stringify(data))
+  //result = JSON.parse(JSON.stringify(data))
+  result = data
   result.forEach(function (obj) {
     let reteta = obj.reteta //array of objects
     reteta.forEach(function (activitate) {
