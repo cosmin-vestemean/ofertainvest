@@ -2404,7 +2404,7 @@ function markLAsAO(data) {
       if (children) {
         children.forEach(function (child) {
           let hasL = false;
-          if (child.WBS[child.WBS.length - 1] == 'L') {
+          if (child.WBS[child.object.WBS.length - 1] == 'L') {
             child.ISARTOF = 1
             hasL = true
           }
