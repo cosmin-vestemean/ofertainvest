@@ -2385,6 +2385,7 @@ Activitate 1183.7.18.23.L
 //function findDuplicatesInOfertaInitiala() {}
 
 function markLAsAO(data) {
+  console.log('data', data)
   //return a copy of data and mark with ISARTOF = 1 all children objects with branch ending in 'L'
   /*
   1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
