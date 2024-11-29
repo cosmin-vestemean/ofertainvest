@@ -2299,63 +2299,63 @@ function prepareForMultipleActivities(data) {
   return result
 }
 
-/* function applyFilterEndsWithL(data) {
-  /*
-1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
-1183.7.18.23.5	NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM	2200513	SUBARTICOL	MATERIAL
-1183.7.18.23.6	SARMA OTEL MOALE, NEAGRA, D = 1 MM	3803881	SUBARTICOL	MATERIAL
-1183.7.18.23.7	APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA	6202818	SUBARTICOL	MATERIAL
-1183.7.18.23.L	SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942	2903907	MATERIAL	PRINCIPAL
-1183.7.18.23.L	BETON MARFA CLASA C 25/30 ( BC 30/ B 400)	2100916	MATERIAL	PRINCIPAL
+// function applyFilterEndsWithL(data) {
+//   /*
+// 1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
+// 1183.7.18.23.5	NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM	2200513	SUBARTICOL	MATERIAL
+// 1183.7.18.23.6	SARMA OTEL MOALE, NEAGRA, D = 1 MM	3803881	SUBARTICOL	MATERIAL
+// 1183.7.18.23.7	APA INDUSTRIALA PENTRU MORTARE SI BETOANE DE LA RETEA	6202818	SUBARTICOL	MATERIAL
+// 1183.7.18.23.L	SCINDURA RASIN LUNGA TIV CLS D GR = 18MM L = 3,00M S 942	2903907	MATERIAL	PRINCIPAL
+// 1183.7.18.23.L	BETON MARFA CLASA C 25/30 ( BC 30/ B 400)	2100916	MATERIAL	PRINCIPAL
 
-Reteta
-Activitate 1183.7.18.23
-+ materialele aferente care se termina in L devin activitati:
-Activitate 1183.7.18.23.L
-*/
+// Reteta
+// Activitate 1183.7.18.23
+// + materialele aferente care se termina in L devin activitati:
+// Activitate 1183.7.18.23.L
+// */
 
-  //1 detect every child that ends with L, that is in it's chidren array
-  //2 add child to it's parent's outer array
-  //3 level of it's parent
-  //4 and a new single child in it's children
-  //branch remains the same
+//   //1 detect every child that ends with L, that is in it's chidren array
+//   //2 add child to it's parent's outer array
+//   //3 level of it's parent
+//   //4 and a new single child in it's children
+//   //branch remains the same
 
-  let result = []
-  result = JSON.parse(JSON.stringify(data))
-  result.forEach(function (obj) {
-    let reteta = obj.reteta //array of objects
-    reteta.forEach(function (activitate) {
-      let children = activitate.children
-      //console.log('children', children)
-      let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
-      //console.log('childrenEndsWithL', childrenEndsWithL)
-      if (childrenEndsWithL.length > 0) {
-        activitate.ISMAIN = true
-        childrenEndsWithL.forEach(function (child) {
-          child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
-          child.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 1
-          child.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 0
-          let newActivitateInReteta = JSON.parse(JSON.stringify(child))
-          newActivitateInReteta.level = activitate.level
-          newActivitateInReteta.children = []
-          newActivitateInReteta.hasChildren = true
-          child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
-          child.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = null
-          child.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = null
-          newActivitateInReteta.children.push(child)
-          newActivitateInReteta.ISMAIN = false
-          reteta.push(newActivitateInReteta)
-          //delete the newly created activitate from reteta's children
-          activitate.children = activitate.children.filter(
-            (child) => child.branch[child.branch.length - 1] != 'L'
-          )
-        })
-      }
-    })
-  })
+//   let result = []
+//   result = JSON.parse(JSON.stringify(data))
+//   result.forEach(function (obj) {
+//     let reteta = obj.reteta //array of objects
+//     reteta.forEach(function (activitate) {
+//       let children = activitate.children
+//       //console.log('children', children)
+//       let childrenEndsWithL = children.filter((child) => child.branch[child.branch.length - 1] == 'L')
+//       //console.log('childrenEndsWithL', childrenEndsWithL)
+//       if (childrenEndsWithL.length > 0) {
+//         activitate.ISMAIN = true
+//         childrenEndsWithL.forEach(function (child) {
+//           child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
+//           child.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = 1
+//           child.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = 0
+//           let newActivitateInReteta = JSON.parse(JSON.stringify(child))
+//           newActivitateInReteta.level = activitate.level
+//           newActivitateInReteta.children = []
+//           newActivitateInReteta.hasChildren = true
+//           child.object.SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA = 1
+//           child.object.MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA = null
+//           child.object.SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA = null
+//           newActivitateInReteta.children.push(child)
+//           newActivitateInReteta.ISMAIN = false
+//           reteta.push(newActivitateInReteta)
+//           //delete the newly created activitate from reteta's children
+//           activitate.children = activitate.children.filter(
+//             (child) => child.branch[child.branch.length - 1] != 'L'
+//           )
+//         })
+//       }
+//     })
+//   })
 
-  return result
-} */
+//   return result
+// }
 
 //function findDuplicatesInOfertaInitiala() {}
 
