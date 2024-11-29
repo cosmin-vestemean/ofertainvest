@@ -88,9 +88,11 @@ class MyTableListaRetete extends LitElement {
               if (Object.keys(subarticol).includes(key)) {
                 if (usefullRecipeSubsDisplayMask[key].type === 'boolean') {
                   if (subarticol[key] === 1) {
-                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.true)
+                    //newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.true)
+                    newSubarticol[key] = subarticol[key]
                   } else {
-                    newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.false)
+                    //newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.false)
+                    newSubarticol[key] = subarticol[key]
                   }
                 } else if (usefullRecipeSubsDisplayMask[key].type === 'number') {
                   newSubarticol[key] = isNaN(parseFloat(subarticol[key]))
