@@ -159,6 +159,7 @@ class MyTableListaRetete extends LitElement {
                     style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
                       ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
                       : ''}"
+                    @contextmenu="${(e) => this.handleContextMenu(e, item)}"
                   >
                     <td>
                       ${item.subarticole.length > 0
@@ -184,7 +185,7 @@ class MyTableListaRetete extends LitElement {
                   </tr>
                   ${item.subarticole.map(
                     (sub) => html`
-                      <tr class="subarticle hidden" data-parent-index="${index}">
+                      <tr class="subarticle hidden" data-parent-index="${index}" @contextmenu="${(e) => this.handleContextMenu(e, sub)}">
                         <td></td>
                         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
                           if (usefullRecipeDisplayMask[key].visible) {
