@@ -126,7 +126,8 @@ class MyTableListaRetete extends LitElement {
         if (usefullRecipeDisplayMask[key].visible) {
           const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
             (subKey) =>
-              usefullRecipeSubsDisplayMask[subKey].visible && usefullRecipeSubsDisplayMask[subKey].master === key
+              usefullRecipeSubsDisplayMask[subKey].visible &&
+              usefullRecipeSubsDisplayMask[subKey].master === key
           )
           const colspan = subKeys.length || 1
           headers.push(html`<th colspan="${colspan}">${usefullRecipeDisplayMask[key].label || key}</th>`)
@@ -173,12 +174,16 @@ class MyTableListaRetete extends LitElement {
                     </td>
                     ${Object.keys(usefullRecipeDisplayMask).map((key) => {
                       if (usefullRecipeDisplayMask[key].visible) {
-                        const colspan = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                          (subKey) =>
-                            usefullRecipeSubsDisplayMask[subKey].visible &&
-                            usefullRecipeSubsDisplayMask[subKey].master === key
-                        ).length || 1
-                        return html`<td colspan="${colspan}" contenteditable="${usefullRecipeDisplayMask[key].RW}">
+                        const colspan =
+                          Object.keys(usefullRecipeSubsDisplayMask).filter(
+                            (subKey) =>
+                              usefullRecipeSubsDisplayMask[subKey].visible &&
+                              usefullRecipeSubsDisplayMask[subKey].master === key
+                          ).length || 1
+                        return html`<td
+                          colspan="${colspan}"
+                          contenteditable="${usefullRecipeDisplayMask[key].RW}"
+                        >
                           ${item.articol[key]}
                         </td>`
                       }
@@ -186,7 +191,14 @@ class MyTableListaRetete extends LitElement {
                   </tr>
                   ${item.subarticole.map(
                     (sub) => html`
-                      <tr class="subarticle hidden" data-parent-index="${index}" @contextmenu="${(e) => this.handleContextMenu(e, sub)}">
+                      <tr
+                        class="subarticle hidden"
+                        style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+                          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+                          : ''}"
+                        data-parent-index="${index}"
+                        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
+                      >
                         <td></td>
                         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
                           if (usefullRecipeDisplayMask[key].visible) {
@@ -194,7 +206,7 @@ class MyTableListaRetete extends LitElement {
                               (subKey) =>
                                 usefullRecipeSubsDisplayMask[subKey].visible &&
                                 usefullRecipeSubsDisplayMask[subKey].master === key
-                            );
+                            )
                             if (subKeys.length > 0) {
                               return subKeys.map(
                                 (subKey) => html`
@@ -202,9 +214,9 @@ class MyTableListaRetete extends LitElement {
                                     ${sub[subKey]}
                                   </td>
                                 `
-                              );
+                              )
                             } else {
-                              return html`<td></td>`;
+                              return html`<td></td>`
                             }
                           }
                         })}
@@ -221,18 +233,18 @@ class MyTableListaRetete extends LitElement {
   }
 
   toggleSubarticles(index) {
-    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`);
+    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`)
     rows.forEach((row) => {
-      row.classList.toggle('hidden');
-    });
+      row.classList.toggle('hidden')
+    })
     // Toggle the icon
-    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`);
+    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
     if (toggleIcon.classList.contains('bi-plus-square')) {
-      toggleIcon.classList.remove('bi-plus-square');
-      toggleIcon.classList.add('bi-dash-square');
+      toggleIcon.classList.remove('bi-plus-square')
+      toggleIcon.classList.add('bi-dash-square')
     } else {
-      toggleIcon.classList.remove('bi-dash-square');
-      toggleIcon.classList.add('bi-plus-square');
+      toggleIcon.classList.remove('bi-dash-square')
+      toggleIcon.classList.add('bi-plus-square')
     }
   }
 
