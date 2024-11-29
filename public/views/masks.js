@@ -289,7 +289,7 @@ const recipeSubsDisplayMask = {
   ISARTOF: {
     value: 'ISARTOF',
     usefull: true,
-    visible: false,
+    visible: true,
     RW: false,
     label: 'Articol oferta',
     linkOferta: '',
