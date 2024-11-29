@@ -219,16 +219,18 @@ class MyTableListaRetete extends LitElement {
   }
 
   toggleSubarticles(index) {
-    const row = this.shadowRoot.querySelector(`tr[data-parent-index="${index}"]`)
-    row.classList.toggle('hidden')
+    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`);
+    rows.forEach((row) => {
+      row.classList.toggle('hidden');
+    });
     // Toggle the icon
-    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
+    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`);
     if (toggleIcon.classList.contains('bi-plus-square')) {
-      toggleIcon.classList.remove('bi-plus-square')
-      toggleIcon.classList.add('bi-dash-square')
+      toggleIcon.classList.remove('bi-plus-square');
+      toggleIcon.classList.add('bi-dash-square');
     } else {
-      toggleIcon.classList.remove('bi-dash-square')
-      toggleIcon.classList.add('bi-plus-square')
+      toggleIcon.classList.remove('bi-dash-square');
+      toggleIcon.classList.add('bi-plus-square');
     }
   }
 
