@@ -157,48 +157,22 @@ class MyTableListaRetete extends LitElement {
                         </td>`
                     )}
                   </tr>
-                  <tr
-                    class="subarticle hidden"
-                    data-parent-index="${index}"
-                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-                      ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-                      : ''}"
-                  >
-                    <td colspan="${Object.keys(usefullRecipeDisplayMask).length + 1}">
-                      <table class="table table-sm is-responsive" style="font-size: small;">
-                        <thead>
-                          <tr>
-                            <th>
-                            </th>
-                            ${Object.keys(usefullRecipeSubsDisplayMask).map((key) =>
-                              usefullRecipeSubsDisplayMask[key].visible
-                                ? html`<th>${usefullRecipeSubsDisplayMask[key].label || key}</th>`
-                                : ''
-                            )}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          ${item.subarticole.map(
-                            (sub) => html`
-                              <tr @mouseover="${(e) => this.handleContextMenu(e, sub)}">
-                                <td></td>
-                                ${Object.keys(usefullRecipeSubsDisplayMask).map(
-                                  (key) => html`
-                                    <td
-                                      contenteditable="${usefullRecipeSubsDisplayMask[key].RW}"
-                                      class="${usefullRecipeSubsDisplayMask[key].visible ? '' : 'hidden'}"
-                                    >
-                                      ${sub[key]}
-                                    </td>
-                                  `
-                                )}
-                              </tr>
-                            `
-                          )}
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
+                  ${item.subarticole.map(
+                    (sub) => html`
+                      <tr class="subarticle hidden" data-parent-index="${index}">
+                        <td></td>
+                        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                          const masterKey = usefullRecipeSubsDisplayMask[key]?.master
+                          return html`<td
+                            contenteditable="${usefullRecipeSubsDisplayMask[masterKey]?.RW}"
+                            class="${usefullRecipeSubsDisplayMask[masterKey]?.visible ? '' : 'hidden'}"
+                          >
+                            ${sub[masterKey]}
+                          </td>`
+                        })}
+                      </tr>
+                    `
+                  )}
                 `
               )}
             </tbody>
