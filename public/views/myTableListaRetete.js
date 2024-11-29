@@ -96,7 +96,7 @@ class MyTableListaRetete extends LitElement {
                   }
                 } else if (usefullRecipeSubsDisplayMask[key].type === 'number') {
                   newSubarticol[key] = isNaN(parseFloat(subarticol[key]))
-                    ? 0
+                    ? parseFloat(0).toFixed(2)
                     : parseFloat(subarticol[key]).toFixed(2)
                 } else {
                   newSubarticol[key] = subarticol[key]
