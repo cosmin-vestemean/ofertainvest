@@ -4,18 +4,19 @@ import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 
 class MyTableListaRetete extends LitElement {
   static properties = {
-    data: { type: Array }
-  }
+    data: { type: Array },
+  };
 
   static styles = css`
     .hidden {
       display: none;
     }
-  `
+  `;
 
   constructor() {
-    super()
-    this.data = []
+    super();
+    this.data = [];
+    this.openRecipeRowIndexes = [];
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this.articole = []
@@ -209,16 +210,19 @@ class MyTableListaRetete extends LitElement {
   }
 
   toggleSubarticles(index) {
-    const row = this.shadowRoot.querySelector(`tr[data-parent-index="${index}"]`)
-    row.classList.toggle('hidden')
+    const row = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`);
+    row.forEach((r) => r.classList.toggle('hidden'));
+
     // Toggle the icon
-    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
+    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`);
     if (toggleIcon.classList.contains('bi-plus-square')) {
-      toggleIcon.classList.remove('bi-plus-square')
-      toggleIcon.classList.add('bi-dash-square')
+      toggleIcon.classList.remove('bi-plus-square');
+      toggleIcon.classList.add('bi-dash-square');
+      this.openRecipeRowIndexes.push(index);
     } else {
-      toggleIcon.classList.remove('bi-dash-square')
-      toggleIcon.classList.add('bi-plus-square')
+      toggleIcon.classList.remove('bi-dash-square');
+      toggleIcon.classList.add('bi-plus-square');
+      this.openRecipeRowIndexes = this.openRecipeRowIndexes.filter((i) => i !== index);
     }
   }
 
