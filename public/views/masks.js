@@ -116,6 +116,18 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'SUMOREMAN',
     type: 'number',
+  },
+  ISARTOF: {
+    value: 'ISARTOF',
+    usefull: true,
+    visible: true,
+    RW: false,
+    label: 'Articol oferta',
+    linkOferta: '',
+    width: '5%',
+    DBName: 'ISARTOF',
+    type: 'boolean',
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
   }
 }
 
@@ -297,7 +309,7 @@ const recipeSubsDisplayMask = {
     DBName: 'ISARTOF',
     type: 'boolean',
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-    master: 'none'
+    master: 'ISARTOF'
   }
 }
 
