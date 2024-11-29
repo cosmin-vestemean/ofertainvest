@@ -957,7 +957,6 @@ export class estimari extends LitElement {
             break
           default:
             val = e.target.textContent.trim().length > 0 ? e.target.textContent.trim() : null
-            end
         }
         context.setValuesOfDsEstimari(index, key, val)
       }

@@ -61,7 +61,7 @@ export const semafoare = {
 }
 
 console.log('client.js loaded')
-
+/* global io, feathers */
 //const socket = io('https://retailers-ac9953f6caca.herokuapp.com'
 const socket = io('https://ofertainvest-6e1a879e95f3.herokuapp.com/')
 export const client = feathers()
@@ -119,6 +119,7 @@ const login = async () => {
     // If that errors, log in with email/password
     // Here we would normally show a login page
     // to get the login information
+    console.log('Logging in...', error)
     return await client.authenticate({
       strategy: 'local',
       email: 'hello@feathersjs.com',
@@ -621,7 +622,7 @@ template.innerHTML = `
         }
       }
   </style>`
-
+/* global XLSX */
 // 1. load excel file by file chooser xlsx.js
 export function loadDataFromFile(evt) {
   var file = document.getElementById('file_oferta_initiala').files[0]
@@ -998,6 +999,7 @@ SUBSOLURI	INSTALATII ELECTRICE	DISTRIBUTIE
   return { niveluri, combinatii_unice_as_str, combinatii_unice }
 }
 
+/* global UseBootstrapSelect */
 function populateSelect(combinatii_unice_as_str, delimiter) {
   UseBootstrapSelect.clearAll(document.getElementById('ierarhii'))
   //add combinatii_unice_as_str as options
@@ -1125,6 +1127,7 @@ function createGraphs(combinatii_unice) {
     createGraph(tree, id)
   }
 
+/* global cytoscape */
   function createGraph(tree, id) {
     console.log('selected tree', tree)
     //create a graph for tree
@@ -1321,34 +1324,6 @@ create tree branches: SUPRATERAN -> INSTALATII ELECTRICE -> DISTRIBUTIE -> ETAJ 
   console.log('elements', elements)
 
   return elements
-}
-
-function showHideColumn(checkbox_state, column, thead_name, tbody_name) {
-  //visible_columns
-  //if exists update it's state
-  try {
-    visible_columns.find((o) => o.column === column).state = checkbox_state
-  } catch (error) {
-    visible_columns.push({ column: column, state: checkbox_state })
-  } finally {
-    console.log('visible_columns', visible_columns)
-  }
-  var thead = document.getElementById(thead_name)
-  var ths = thead.getElementsByTagName('td')
-  var columnIndex = -1
-  Array.from(ths).forEach((th) => {
-    if (th.innerHTML == column) {
-      columnIndex = Array.from(ths).indexOf(th)
-      //hide
-      th.style.display = checkbox_state ? '' : 'none'
-    }
-  })
-  //tbody
-  var tbody = document.getElementById(tbody_name)
-  var rows = tbody.rows
-  Array.from(rows).forEach((row) => {
-    row.cells[columnIndex].style.display = checkbox_state ? '' : 'none'
-  })
 }
 
 export async function saveOferta() {
@@ -2263,7 +2238,7 @@ function applyFilterByGrupareArticolOferta(data, retete) {
   return { result, rescuedOrphans }
 }
 
-function adaugaInReteta(reteta, related) {
+/* function adaugaInReteta(reteta, related) {
   for (let i = 0; i < related.length; i++) {
     let newObj1 = { object: { ...related[i] } }
     let newObj2 = { object: { ...related[i] } }
@@ -2295,7 +2270,7 @@ function adaugaInReteta(reteta, related) {
     newObj2.virtual = false
     reteta.reteta.push(newObj2)
   }
-}
+} */
 
 function adaugaInReteta2(reteta, related) {
   //make principal object, add all related objects to principal.children but principal and add principal to reteta
@@ -2324,7 +2299,7 @@ function prepareForMultipleActivities(data) {
   return result
 }
 
-function applyFilterEndsWithL(data) {
+/* function applyFilterEndsWithL(data) {
   /*
 1183.7.18.23	TROTUAR DIN DALE...100 X 100 X 10 CM,BETON SIMPLU C10/8(B 150) TURNATE PE LOC FARA SCLIV PE STRAT NISIP PILONAT 10 CM, ROSTURI UMPLUTE	CO01B#	ARTICOL	PRINCIPAL
 1183.7.18.23.5	NISIP SORTAT NESPALAT DE RAU SI LACURI 0,0-3,0 MM	2200513	SUBARTICOL	MATERIAL
@@ -2380,7 +2355,7 @@ Activitate 1183.7.18.23.L
   })
 
   return result
-}
+} */
 
 //function findDuplicatesInOfertaInitiala() {}
 
