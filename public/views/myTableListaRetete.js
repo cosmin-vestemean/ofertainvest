@@ -182,30 +182,33 @@ class MyTableListaRetete extends LitElement {
                       }
                     })}
                   </tr>
-                  ${item.subarticole.map(
-                    (sub) => html`
+                  ${item.subarticole.map((sub) => {
+                    const tds = [];
+                    Object.keys(usefullRecipeDisplayMask).forEach((key) => {
+                      if (usefullRecipeDisplayMask[key].visible) {
+                        const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                          (subKey) =>
+                            usefullRecipeSubsDisplayMask[subKey].visible &&
+                            usefullRecipeSubsDisplayMask[subKey].master === key
+                        );
+                        if (subKeys.length > 0) {
+                          subKeys.forEach((subKey) => {
+                            tds.push(html`<td contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}">
+                              ${sub[subKey]}
+                            </td>`);
+                          });
+                        } else {
+                          tds.push(html`<td></td>`);
+                        }
+                      }
+                    });
+                    return html`
                       <tr class="subarticle hidden" data-parent-index="${index}">
                         <td></td>
-                        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                          if (usefullRecipeDisplayMask[key].visible) {
-                            const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                              (subKey) =>
-                                usefullRecipeSubsDisplayMask[subKey].visible &&
-                                usefullRecipeSubsDisplayMask[subKey].master === key
-                            )
-                            return subKeys.length > 0
-                              ? subKeys.map(
-                                  (subKey) =>
-                                    html`<td contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}">
-                                      ${sub[subKey]}
-                                    </td>`
-                                )
-                              : html`<td></td>`
-                          }
-                        })}
+                        ${tds}
                       </tr>
-                    `
-                  )}
+                    `;
+                  })}
                 `
               )}
             </tbody>
