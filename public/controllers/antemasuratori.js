@@ -63,14 +63,16 @@ export async function createAntemasuratori() {
   const activitatiInstanteResponse = await client.service('getDataset').find({
     query: {
       sqlQuery: `
-select * from (select 0 as rank, a.CCCINSTANTE, a.CCCACTIVITINSTANTE, b.* from CCCACTIVITINSTANTE a 
+select * from (select 0 as rank, f.isduplicate, f.duplicateof, a.CCCINSTANTE, a.CCCACTIVITINSTANTE, b.* from CCCACTIVITINSTANTE a 
  inner join cccoferteweblinii b on (a.cccoferteweblinii=b.cccoferteweblinii and a.cccoferteweb=b.cccoferteweb) 
+ inner join cccinstante f on f.cccinstante=a.cccinstante
  where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB}
 union all 
-select c.CCCMATINSTANTE as rank, c.CCCINSTANTE, c.CCCACTIVITINSTANTE, d.* FROM CCCMATINSTANTE c
+select c.CCCMATINSTANTE as rank, g.isduplicate, g.duplicateof, c.CCCINSTANTE, c.CCCACTIVITINSTANTE, d.* FROM CCCMATINSTANTE c
+ inner join cccinstante g on g.cccinstante=c.cccinstante
  inner join cccoferteweblinii d on (c.CCCOFERTEWEBLINII = d.CCCOFERTEWEBLINII and c.CCCOFERTEWEB = d.CCCOFERTEWEB)
  WHERE c.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB} AND c.ISARTOF = 1
-) e order by cccoferteweb, cccinstante, cccactivitinstante, rank`
+) e order by cccoferteweb, duplicateof, cccinstante, cccactivitinstante, rank`
     }
   })
 
