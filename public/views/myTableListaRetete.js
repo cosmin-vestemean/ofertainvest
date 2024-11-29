@@ -186,7 +186,7 @@ class MyTableListaRetete extends LitElement {
                     (sub) => html`
                       <tr class="subarticle hidden" data-parent-index="${index}">
                         <td></td>
-                        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                        ${Object.keys(usefullRecipeDisplayMask).flatMap((key) => {
                           if (usefullRecipeDisplayMask[key].visible) {
                             const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
                               (subKey) =>
@@ -202,8 +202,10 @@ class MyTableListaRetete extends LitElement {
                                 `
                               );
                             } else {
-                              return html`<td></td>`;
+                              return [html`<td></td>`];
                             }
+                          } else {
+                            return [];
                           }
                         })}
                       </tr>
