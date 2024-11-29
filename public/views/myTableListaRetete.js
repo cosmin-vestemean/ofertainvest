@@ -1,5 +1,4 @@
-import { LitElement, html, css, unsafeHTML } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js'
-import { template, theadIsSet } from '../client.js'
+import { template, theadIsSet, LitElement, html, css, unsafeHTML } from '../client.js'
 import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 
 class MyTableListaRetete extends LitElement {

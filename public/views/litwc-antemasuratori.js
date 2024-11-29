@@ -1,5 +1,4 @@
-import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { template, theadIsSet } from '../client.js'
+import { template, theadIsSet, LitElement, html } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
 import {
   ds_antemasuratori,

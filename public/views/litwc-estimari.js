@@ -1,5 +1,4 @@
-import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { template, _start_date, _end_date, theadIsSet, _nivel_oferta, contextOferta } from '../client.js'
+import { template, _start_date, _end_date, theadIsSet, _nivel_oferta, contextOferta, LitElement, html } from '../client.js'
 import {
   _cantitate_estimari,
   _cantitate_antemasuratori,
@@ -10,7 +9,6 @@ import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { addNewEstimare } from './listaEstimari.js'
-import { recipeDisplayMask, recipeSubsDisplayMask, antemasuratoriDisplayMask } from './masks.js'
 
 //add commented global variables immer and bootstrap
 /* global immer */

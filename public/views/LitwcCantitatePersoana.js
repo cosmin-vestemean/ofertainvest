@@ -1,5 +1,4 @@
-import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { template, contextOferta } from '../client.js'
+import { template, contextOferta, LitElement, html } from '../client.js'
 
 /*
 Reprezinta si afiseaza un tabel cu trei coloane: 

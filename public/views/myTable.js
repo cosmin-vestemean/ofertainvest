@@ -1,5 +1,4 @@
-import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-import { template, theadIsSet } from "../client.js";
+import { template, theadIsSet, LitElement, html, css } from "../client.js";
 import { tables } from '../utils/tables.js';
 
 export class myTable extends LitElement {

@@ -1,5 +1,4 @@
-import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js'
-import { _start_date, _end_date, template, contextOferta, client } from '../client.js'
+import { _start_date, _end_date, template, contextOferta, client, LitElement, html } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
