@@ -115,17 +115,39 @@ class MyTableListaRetete extends LitElement {
 
       console.log('articole', this.articole)
 
+      // Prepare headers with grouped columns
+      const headers = []
+      const subHeaders = []
+
+      headers.push(html`<th rowspan="2"></th>`)
+
+      Object.keys(usefullRecipeDisplayMask).forEach((key) => {
+        if (usefullRecipeDisplayMask[key].visible) {
+          const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+            (subKey) =>
+              usefullRecipeSubsDisplayMask[subKey].visible && usefullRecipeSubsDisplayMask[subKey].master === key
+          )
+          const colspan = subKeys.length || 1
+          headers.push(html`<th colspan="${colspan}">${usefullRecipeDisplayMask[key].label || key}</th>`)
+          if (subKeys.length === 0) {
+            subHeaders.push(html`<th style="display:none"></th>`)
+          } else {
+            subKeys.forEach((subKey) => {
+              subHeaders.push(html`<th>${usefullRecipeSubsDisplayMask[subKey].label || subKey}</th>`)
+            })
+          }
+        }
+      })
+
       return html`
         <div class="container-fluid">
           <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
               <tr>
-                <th></th>
-                ${Object.keys(usefullRecipeDisplayMask).map((key) =>
-                  usefullRecipeDisplayMask[key].visible
-                    ? html`<th>${usefullRecipeDisplayMask[key].label || key}</th>`
-                    : ''
-                )}
+                ${headers}
+              </tr>
+              <tr>
+                ${subHeaders}
               </tr>
             </thead>
             <tbody>
@@ -147,28 +169,39 @@ class MyTableListaRetete extends LitElement {
                           ></i>`
                         : ''}
                     </td>
-                    ${Object.keys(usefullRecipeDisplayMask).map(
-                      (key) =>
-                        html`<td
-                          contenteditable="${usefullRecipeDisplayMask[key].RW}"
-                          class="${usefullRecipeDisplayMask[key].visible ? '' : 'hidden'}"
-                        >
+                    ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                      if (usefullRecipeDisplayMask[key].visible) {
+                        const colspan = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                          (subKey) =>
+                            usefullRecipeSubsDisplayMask[subKey].visible &&
+                            usefullRecipeSubsDisplayMask[subKey].master === key
+                        ).length || 1
+                        return html`<td colspan="${colspan}" contenteditable="${usefullRecipeDisplayMask[key].RW}">
                           ${item.articol[key]}
                         </td>`
-                    )}
+                      }
+                    })}
                   </tr>
                   ${item.subarticole.map(
                     (sub) => html`
                       <tr class="subarticle hidden" data-parent-index="${index}">
                         <td></td>
                         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                          const masterKey = usefullRecipeSubsDisplayMask[key]?.master
-                          return html`<td
-                            contenteditable="${usefullRecipeSubsDisplayMask[masterKey]?.RW}"
-                            class="${usefullRecipeSubsDisplayMask[masterKey]?.visible ? '' : 'hidden'}"
-                          >
-                            ${sub[masterKey]}
-                          </td>`
+                          if (usefullRecipeDisplayMask[key].visible) {
+                            const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                              (subKey) =>
+                                usefullRecipeSubsDisplayMask[subKey].visible &&
+                                usefullRecipeSubsDisplayMask[subKey].master === key
+                            )
+                            return subKeys.length > 0
+                              ? subKeys.map(
+                                  (subKey) =>
+                                    html`<td contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}">
+                                      ${sub[subKey]}
+                                    </td>`
+                                )
+                              : html`<td></td>`
+                          }
                         })}
                       </tr>
                     `
