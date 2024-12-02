@@ -148,9 +148,7 @@ class MyTableListaRetete extends LitElement {
               <tr>
                 ${headers}
               </tr>
-              <tr>
-                ${subHeaders}
-              </tr>
+              <!-- Remove the second header row -->
             </thead>
             <tbody>
               ${this.articole.map(
@@ -189,6 +187,34 @@ class MyTableListaRetete extends LitElement {
                       }
                     })}
                   </tr>
+                  ${
+                    item.subarticole.length > 0
+                      ? html`
+                          <!-- Add sub-article headers for this batch -->
+                          <tr class="subarticle-header hidden" data-parent-index="${index}">
+                            <td></td>
+                            ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                              if (usefullRecipeDisplayMask[key].visible) {
+                                const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                                  (subKey) =>
+                                    usefullRecipeSubsDisplayMask[subKey].visible &&
+                                    usefullRecipeSubsDisplayMask[subKey].master === key
+                                )
+                                if (subKeys.length > 0) {
+                                  return subKeys.map(
+                                    (subKey) => html`
+                                      <th>${usefullRecipeSubsDisplayMask[subKey].label || subKey}</th>
+                                    `
+                                  )
+                                } else {
+                                  return html`<th style="display:none"></th>`
+                                }
+                              }
+                            })}
+                          </tr>
+                        `
+                      : ''
+                  }
                   ${item.subarticole.map(
                     (sub) => html`
                       <tr
