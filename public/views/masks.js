@@ -107,6 +107,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'AVGNORMUNITOREMAN',
     type: 'number',
+    verticalDelimiterStyleClass: 'zone3'
   },
   SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -275,8 +276,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'NORMUNITMAN',
     type: 'number',
-    master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
-    verticalDelimiterStyleClass: 'zone3'
+    master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA'
   },
   PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA',
