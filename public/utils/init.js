@@ -51,7 +51,6 @@ import {
   updateAntemasuratori
 } from '../controllers/antemasuratori.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
-import { zenView } from '../utils/zenView.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
