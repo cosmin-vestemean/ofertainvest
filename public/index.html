@@ -584,10 +584,14 @@
         })
       })
     </script>
-    <script type="module">
-      import { zenView } from './utils/zenView.js'
+    <script>
       window.addEventListener('load', () => {
-        zenView();
+        const pageHeader = document.getElementById('page-header');
+        const leftMenu = document.getElementById('leftMenu');
+        const headerHeight = pageHeader.offsetHeight;
+        leftMenu.style.top = `${headerHeight}px`;
+        const mainTableHeader = document.getElementById('mainTableHeader');
+        mainTableHeader.style.top = `${headerHeight}px`;
       });
     </script>
   </body>

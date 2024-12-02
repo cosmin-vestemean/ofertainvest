@@ -556,7 +556,6 @@ export function init() {
         //col-12 -> col-11
         mainContent.classList.remove('col-12')
         mainContent.classList.add('col-11')
-        zenView()
       } else {
         pageHeader.style.display = 'none'
         let mainContent = document.getElementById('mainContent')
