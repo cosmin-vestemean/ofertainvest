@@ -586,12 +586,14 @@
     </script>
     <script>
       window.addEventListener('load', () => {
-        const pageHeader = document.getElementById('page-header');
-        const leftMenu = document.getElementById('leftMenu');
-        const headerHeight = pageHeader.offsetHeight;
-        leftMenu.style.top = `${headerHeight}px`;
-        const mainHeader = document.getElementById('mainHeader');
-        mainHeader.style.top = `${headerHeight}px`;
+        if (!pageHeader.classList.contains('hidden')) {
+          const headerHeight = pageHeader.offsetHeight;
+          leftMenu.style.top = `${headerHeight}px`;
+          mainTableHeader.style.top = `${headerHeight}px`;
+        } else {
+          leftMenu.style.top = '0';
+          mainTableHeader.style.top = '0';
+        }
       });
     </script>
   </body>
