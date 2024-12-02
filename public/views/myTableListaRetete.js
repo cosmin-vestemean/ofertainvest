@@ -329,7 +329,6 @@ class MyTableListaRetete extends LitElement {
   }
 
   actionsBar(item) {
-    console.log('item', item)
     return html`
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
