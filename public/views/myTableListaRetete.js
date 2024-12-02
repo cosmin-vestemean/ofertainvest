@@ -342,7 +342,7 @@ class MyTableListaRetete extends LitElement {
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
         <!-- Your custom actions -->
-        <<button type="button" class="btn btn-sm btn-primary" @click="${this.handleAction}">
+        <button type="button" class="btn btn-sm btn-primary" @click="${this.handleAction}">
           <i class="bi bi-plus-square"></i>
         </button>
         <!-- Add more actions as needed -->
