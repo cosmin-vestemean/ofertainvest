@@ -206,7 +206,7 @@ class MyTableListaRetete extends LitElement {
                                     usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                                   const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
                                   const headerContent = hasActions
-                                    ? this.actionsBar()
+                                    ? this.actionsBar(item)
                                     : usefullRecipeSubsDisplayMask[subKey].label || subKey
                                   return html`<th class="${zoneClass}">${headerContent}</th>`
                                 })
@@ -328,7 +328,8 @@ class MyTableListaRetete extends LitElement {
     )
   }
 
-  actionsBar() {
+  actionsBar(item) {
+    console.log('item', item)
     return html`
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
