@@ -10,8 +10,13 @@ class MyTableListaRetete extends LitElement {
     .hidden {
       display: none;
     }
-    .zone1, .zone2, .zone3 {
+    .zone1VerticalDelimiter, .zone2VerticalDelimiter, .zone3VerticalDelimiter {
       border-right: 1px solid var(--bs-secondary);
+    }
+    .mainHeader {
+      position: sticky;
+      top: 0;
+    }
   `
 
   constructor() {
@@ -147,7 +152,7 @@ class MyTableListaRetete extends LitElement {
         <div class="container-fluid">
           <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
-              <tr>
+              <tr class="mainHeader">
                 ${headers}
               </tr>
               <!-- Remove the second header row -->

@@ -83,7 +83,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: '',
     type: 'string',
-    verticalDelimiterStyleClass: 'zone1',
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter',
   },
   SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA: {
     value: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
@@ -95,7 +95,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'SUMCANTANTE',
     type: 'number',
-    verticalDelimiterStyleClass: 'zone2',
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter',
   },
   MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -107,7 +107,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'AVGNORMUNITOREMAN',
     type: 'number',
-    verticalDelimiterStyleClass: 'zone3'
+    verticalDelimiterStyleClass: 'zone3VerticalDelimiter'
   },
   SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -215,7 +215,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'string',
     master: 'UM_ARTICOL_OFERTA',
-    verticalDelimiterStyleClass: 'zone1'
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
   },
   CANTITATE_SUBARTICOL_RETETA: {
     value: 'CANTITATE_SUBARTICOL_RETETA',
@@ -264,7 +264,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'number',
     master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-    verticalDelimiterStyleClass: 'zone2'
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
   },
   NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -289,7 +289,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'number',
     master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
-    verticalDelimiterStyleClass: 'zone3'
+    verticalDelimiterStyleClass: 'zone3VerticalDelimiter'
   },
   TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA',
