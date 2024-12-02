@@ -333,7 +333,7 @@ class MyTableListaRetete extends LitElement {
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
         <!-- Your custom actions -->
-        <button type="button" class="btn btn-sm" @click="${() => this.addArticle(item)}">
+        <button type="button" class="btn btn-sm" @click="${(e) => this.showPopover(e, item)}">
           <i class="bi bi-plus-square text-primary"></i>
         </button>
         <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
@@ -343,9 +343,14 @@ class MyTableListaRetete extends LitElement {
     `
   }
 
-  addArticle(item) {
-    console.log('Add article', item)
-    //add popover with form list: Material, Manopera, Utilaj, Echipament under the button
+  showPopover(event, item) {
+    event.preventDefault()
+    console.log('Show popover for:', item)
+
+    // Remove existing popovers
+    const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
+    existingPopovers.forEach((popover) => popover.remove())
+
     // Create a new popover
     const popover = document.createElement('div')
     popover.className = 'popover'
@@ -353,50 +358,44 @@ class MyTableListaRetete extends LitElement {
     this.shadowRoot.appendChild(popover)
     popover.innerHTML = `
       <div class="popover-content">
-      <form>
-        <div class="form-group">
-        <label for="articleType">Select Type</label>
-        <select id="articleType" class="form-control">
-          <option value="Material">Material</option>
-          <option value="Manopera">Manopera</option>
-          <option value="Utilaj">Utilaj</option>
-          <option value="Echipament">Echipament</option>
-        </select>
-        </div>
-        <button type="button" class="btn btn-primary btn-sm" @click="${() => this.submitArticleForm(item)}">Submit</button>
-      </form>
+        <form>
+          <div class="form-group">
+            <label for="articleType">Select Type</label>
+            <select id="articleType" class="form-control">
+              <option value="Material">Material</option>
+              <option value="Manopera">Manopera</option>
+              <option value="Utilaj">Utilaj</option>
+              <option value="Echipament">Echipament</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-sm btn-primary" @click="${() => this.addArticle(item)}">Add</button>
+        </form>
       </div>
     `
 
     // Adjust the position after adding the popover to the DOM
     const rect = this.shadowRoot.host.getBoundingClientRect()
-    const button = this.shadowRoot.querySelector(`button[@click="${() => this.addArticle(item)}"]`)
-    const buttonRect = button.getBoundingClientRect()
+    const buttonRect = event.target.getBoundingClientRect()
 
-    // Calculate the position
-    const y = buttonRect.top - rect.top + buttonRect.height
-    const x = buttonRect.left - rect.left
-
-    popover.style.top = `${y}px`
-    popover.style.left = `${x}px`
+    popover.style.top = `${buttonRect.top - rect.top + buttonRect.height}px`
+    popover.style.left = `${buttonRect.left - rect.left}px`
 
     // Close the popover when clicking outside of it
     document.addEventListener(
       'click',
       (e) => {
-      if (!popover.contains(e.target)) {
-        popover.remove()
-      }
+        if (!popover.contains(e.target)) {
+          popover.remove()
+        }
       },
       { once: true }
     )
-    }
+  }
 
-    submitArticleForm(item) {
+  addArticle(item) {
     const articleType = this.shadowRoot.querySelector('#articleType').value
-    console.log('Selected article type:', articleType)
-    // Handle the form submission logic here
-    }
+    console.log('Add article of type:', articleType, 'for item:', item)
+    // Implement the logic to add the article based on the selected type
   }
 
   saveArticle(item) {
