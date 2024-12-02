@@ -133,14 +133,11 @@ class MyTableListaRetete extends LitElement {
               usefullRecipeSubsDisplayMask[subKey].master === key
           )
           const colspan = subKeys.length || 1
-          headers.push(html`<th colspan="${colspan}">${usefullRecipeDisplayMask[key].label || key}</th>`)
-          if (subKeys.length === 0) {
-            subHeaders.push(html`<th style="display:none"></th>`)
-          } else {
-            subKeys.forEach((subKey) => {
-              subHeaders.push(html`<th>${usefullRecipeSubsDisplayMask[subKey].label || subKey}</th>`)
-            })
-          }
+          const hasActions = usefullRecipeDisplayMask[key].hasActions || false
+          const headerContent = hasActions
+            ? this.actionsBar()
+            : usefullRecipeDisplayMask[key].label || key
+          headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
         }
       })
 
@@ -209,8 +206,12 @@ class MyTableListaRetete extends LitElement {
                                   return subKeys.map((subKey) => {
                                     const zoneClass =
                                       usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                                    const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
+                                    const headerContent = hasActions
+                                      ? this.actionsBar()
+                                      : usefullRecipeSubsDisplayMask[subKey].label || subKey
                                     return html`<th class="${zoneClass}">
-                                      ${usefullRecipeSubsDisplayMask[subKey].label || subKey}
+                                      ${headerContent}
                                     </th>`
                                   })
                                 } else {
@@ -339,6 +340,17 @@ class MyTableListaRetete extends LitElement {
       },
       { once: true }
     )
+  }
+
+  actionsBar() {
+    return html`
+      <!-- Custom HTML for actionsBar -->
+      <div class="actions-bar">
+        <!-- Your custom actions -->
+        <button @click="${this.handleAction}">Action</button>
+        <!-- Add more actions as needed -->
+      </div>
+    `
   }
 }
 
