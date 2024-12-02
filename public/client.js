@@ -1127,7 +1127,7 @@ function createGraphs(combinatii_unice) {
     createGraph(tree, id)
   }
 
-/* global cytoscape */
+  /* global cytoscape */
   function createGraph(tree, id) {
     console.log('selected tree', tree)
     //create a graph for tree
@@ -2379,7 +2379,7 @@ function markLAsAO(data) {
       let children = activitate.children
       if (children) {
         children.forEach(function (child) {
-          let hasL = false;
+          let hasL = false
           if (child.object.WBS[child.object.WBS.length - 1] == 'L') {
             child.ISARTOF = 1
             hasL = true
@@ -3306,4 +3306,4 @@ customElements.define('my-antemasuratori', antemasuratori)
 customElements.define('my-estimari', estimari)
 customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)
 
-export { LitElement, html, css, unsafeHTML };
+export { LitElement, html, css, unsafeHTML }

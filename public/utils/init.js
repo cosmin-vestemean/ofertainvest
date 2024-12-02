@@ -51,6 +51,7 @@ import {
   updateAntemasuratori
 } from '../controllers/antemasuratori.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
+import { zenView } from '../utils/zenView.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
@@ -556,12 +557,14 @@ export function init() {
         //col-12 -> col-11
         mainContent.classList.remove('col-12')
         mainContent.classList.add('col-11')
+        zenView()
       } else {
         pageHeader.style.display = 'none'
         let mainContent = document.getElementById('mainContent')
         //col-11 -> col-12
         mainContent.classList.remove('col-11')
         mainContent.classList.add('col-12')
+        zenView()
       }
     }
     showHideHeader()

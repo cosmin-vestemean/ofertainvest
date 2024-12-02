@@ -585,15 +585,9 @@
       })
     </script>
     <script>
+      import { zenView } from './utils/zenView.js'
       window.addEventListener('load', () => {
-        if (!pageHeader.classList.contains('hidden')) {
-          const headerHeight = pageHeader.offsetHeight;
-          leftMenu.style.top = `${headerHeight}px`;
-          mainTableHeader.style.top = `${headerHeight}px`;
-        } else {
-          leftMenu.style.top = '0';
-          mainTableHeader.style.top = '0';
-        }
+        zenView();
       });
     </script>
   </body>
