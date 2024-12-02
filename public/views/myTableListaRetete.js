@@ -340,7 +340,7 @@ class MyTableListaRetete extends LitElement {
           <i class="bi bi-plus-square"></i>
         </button>
         <button type="button" class="btn btn-sm btn-success" @click="${() => this.saveArticle(item)}">
-          <i class="bi bi-check-square"></i>
+        <i class="bi bi-save"></i>
         </button>
       </div>
     `
