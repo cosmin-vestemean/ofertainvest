@@ -10,6 +10,8 @@ class MyTableListaRetete extends LitElement {
     .hidden {
       display: none;
     }
+    .zone1, .zone2, .zone3 {
+      border-right: 1px solid;
   `
 
   constructor() {
@@ -178,9 +180,11 @@ class MyTableListaRetete extends LitElement {
                               usefullRecipeSubsDisplayMask[subKey].visible &&
                               usefullRecipeSubsDisplayMask[subKey].master === key
                           ).length || 1
+                        const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
                         return html`<td
                           colspan="${colspan}"
                           contenteditable="${usefullRecipeDisplayMask[key].RW}"
+                          class="${zoneClass}"
                         >
                           ${item.articol[key]}
                         </td>`
@@ -234,13 +238,16 @@ class MyTableListaRetete extends LitElement {
                                 usefullRecipeSubsDisplayMask[subKey].master === key
                             )
                             if (subKeys.length > 0) {
-                              return subKeys.map(
-                                (subKey) => html`
-                                  <td contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}">
-                                    ${sub[subKey]}
-                                  </td>
-                                `
-                              )
+                              return subKeys.map((subKey) => {
+                                const zoneClass =
+                                  usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                                return html`<td
+                                  contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
+                                  class="${zoneClass}"
+                                >
+                                  ${sub[subKey]}
+                                </td>`
+                              })
                             } else {
                               return html`<td></td>`
                             }
