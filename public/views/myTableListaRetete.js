@@ -345,6 +345,58 @@ class MyTableListaRetete extends LitElement {
 
   addArticle(item) {
     console.log('Add article', item)
+    //add popover with form list: Material, Manopera, Utilaj, Echipament under the button
+    // Create a new popover
+    const popover = document.createElement('div')
+    popover.className = 'popover'
+    popover.style.position = 'absolute'
+    this.shadowRoot.appendChild(popover)
+    popover.innerHTML = `
+      <div class="popover-content">
+      <form>
+        <div class="form-group">
+        <label for="articleType">Select Type</label>
+        <select id="articleType" class="form-control">
+          <option value="Material">Material</option>
+          <option value="Manopera">Manopera</option>
+          <option value="Utilaj">Utilaj</option>
+          <option value="Echipament">Echipament</option>
+        </select>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" @click="${() => this.submitArticleForm(item)}">Submit</button>
+      </form>
+      </div>
+    `
+
+    // Adjust the position after adding the popover to the DOM
+    const rect = this.shadowRoot.host.getBoundingClientRect()
+    const button = this.shadowRoot.querySelector(`button[@click="${() => this.addArticle(item)}"]`)
+    const buttonRect = button.getBoundingClientRect()
+
+    // Calculate the position
+    const y = buttonRect.top - rect.top + buttonRect.height
+    const x = buttonRect.left - rect.left
+
+    popover.style.top = `${y}px`
+    popover.style.left = `${x}px`
+
+    // Close the popover when clicking outside of it
+    document.addEventListener(
+      'click',
+      (e) => {
+      if (!popover.contains(e.target)) {
+        popover.remove()
+      }
+      },
+      { once: true }
+    )
+    }
+
+    submitArticleForm(item) {
+    const articleType = this.shadowRoot.querySelector('#articleType').value
+    console.log('Selected article type:', articleType)
+    // Handle the form submission logic here
+    }
   }
 
   saveArticle(item) {
