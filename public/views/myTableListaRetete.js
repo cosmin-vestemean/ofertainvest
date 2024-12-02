@@ -333,10 +333,10 @@ class MyTableListaRetete extends LitElement {
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
         <!-- Your custom actions -->
-        <button type="button" class="btn btn-sm btn-primary" @click="${this.handleAction}">
+        <button type="button" class="btn btn-sm" @click="${this.addArticle()}">
           <i class="bi bi-plus-square"></i>
         </button>
-        <button type="button" class="btn btn-sm btn-success" @click="${() => this.saveArticle(item)}">
+        <button type="button" class="btn btn-sm" @click="${() => this.saveArticle()}">
         <i class="bi bi-save"></i>
         </button>
       </div>
