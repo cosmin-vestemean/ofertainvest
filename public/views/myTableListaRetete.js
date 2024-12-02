@@ -11,7 +11,7 @@ class MyTableListaRetete extends LitElement {
       display: none;
     }
     .zone1, .zone2, .zone3 {
-      border-right: 1px solid var(--bs-light);
+      border-right: 1px solid var(--bs-info);
   `
 
   constructor() {
