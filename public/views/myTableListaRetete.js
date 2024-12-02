@@ -344,27 +344,18 @@ class MyTableListaRetete extends LitElement {
   }
 
   showPopover(event, item) {
-    event.preventDefault();
-    console.log('Show popover for:', item);
+    event.preventDefault()
+    console.log('Show popover for:', item)
 
     // Remove existing popovers
-    const existingPopovers = this.shadowRoot.querySelectorAll('.popover');
-    existingPopovers.forEach((popover) => popover.remove());
+    const existingPopovers = this.shadowRoot.querySelectorAll('.popoverAddSub')
+    existingPopovers.forEach((popover) => popover.remove())
 
     // Create a new popover
-    const popover = document.createElement('div');
-    popover.className = 'popover';
-    popover.style.position = 'absolute';
-    popover.style.top = `${event.clientY}px`;
-    popover.style.left = `${event.clientX}px`;
-    popover.style.backgroundColor = 'white';
-    popover.style.border = '1px solid black';
-    popover.style.padding = '10px';
-    popover.style.zIndex = '1000';
-    popover.style.boxShadow = '3px 3px 3px rgba(0, 0, 0, 0.6)';
-    popover.style.borderRadius = '5px';
-    this.shadowRoot.appendChild(popover);
-
+    const popover = document.createElement('div')
+    popover.className = 'popoverAddSub'
+    popover.style.position = 'absolute'
+    this.shadowRoot.appendChild(popover)
     popover.innerHTML = `
       <div class="popover-content">
         <form>
@@ -377,25 +368,34 @@ class MyTableListaRetete extends LitElement {
               <option value="Echipament">Echipament</option>
             </select>
           </div>
-          <button type="button" class="btn btn-sm btn-primary" id="addArticleButton">Add</button>
+          <button type="button" class="btn btn-sm btn-primary" @click="${() => this.addArticle(item)}">Add</button>
         </form>
       </div>
-    `;
+    `
 
-    // Add event listener for the Add button
-    popover.querySelector('#addArticleButton').addEventListener('click', () => this.addArticle(item));
+    // Adjust the position after adding the popover to the DOM
+    const rect = this.shadowRoot.host.getBoundingClientRect()
+    const buttonRect = event.target.getBoundingClientRect()
+
+    popover.style.top = `${buttonRect.top - rect.top + buttonRect.height}px`
+    popover.style.left = `${buttonRect.left - rect.left}px`
 
     // Close the popover when clicking outside of it
-    document.addEventListener('click', (e) => {
-      if (!popover.contains(e.target)) {
-        popover.remove();
-      }
-    }, { once: true });
+    document.addEventListener(
+      'click',
+      (e) => {
+        if (!popover.contains(e.target)) {
+          popover.remove()
+        }
+      },
+      { once: true }
+    )
   }
 
   addArticle(item) {
-    console.log('Add article to', item);
-    // Implement the logic to add the article
+    const articleType = this.shadowRoot.querySelector('#articleType').value
+    console.log('Add article of type:', articleType, 'for item:', item)
+    // Implement the logic to add the article based on the selected type
   }
 
   saveArticle(item) {
