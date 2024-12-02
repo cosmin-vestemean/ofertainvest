@@ -10,7 +10,9 @@ class MyTableListaRetete extends LitElement {
     .hidden {
       display: none;
     }
-    .zone1VerticalDelimiter, .zone2VerticalDelimiter, .zone3VerticalDelimiter {
+    .zone1VerticalDelimiter,
+    .zone2VerticalDelimiter,
+    .zone3VerticalDelimiter {
       border-right: 1px solid var(--bs-secondary);
     }
   `
@@ -121,7 +123,6 @@ class MyTableListaRetete extends LitElement {
 
       // Prepare headers with grouped columns
       const headers = []
-      const subHeaders = []
 
       headers.push(html`<th rowspan="2"></th>`)
 
@@ -134,9 +135,7 @@ class MyTableListaRetete extends LitElement {
           )
           const colspan = subKeys.length || 1
           const hasActions = usefullRecipeDisplayMask[key].hasActions || false
-          const headerContent = hasActions
-            ? this.actionsBar()
-            : usefullRecipeDisplayMask[key].label || key
+          const headerContent = hasActions ? this.actionsBar() : usefullRecipeDisplayMask[key].label || key
           headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
         }
       })
@@ -189,40 +188,36 @@ class MyTableListaRetete extends LitElement {
                       }
                     })}
                   </tr>
-                  ${
-                    item.subarticole.length > 0
-                      ? html`
-                          <!-- Add sub-article headers for this batch -->
-                          <tr class="subarticle-header hidden" data-parent-index="${index}">
-                            <td></td>
-                            ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                              if (usefullRecipeDisplayMask[key].visible) {
-                                const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                                  (subKey) =>
-                                    usefullRecipeSubsDisplayMask[subKey].visible &&
-                                    usefullRecipeSubsDisplayMask[subKey].master === key
-                                )
-                                if (subKeys.length > 0) {
-                                  return subKeys.map((subKey) => {
-                                    const zoneClass =
-                                      usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                                    const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
-                                    const headerContent = hasActions
-                                      ? this.actionsBar()
-                                      : usefullRecipeSubsDisplayMask[subKey].label || subKey
-                                    return html`<th class="${zoneClass}">
-                                      ${headerContent}
-                                    </th>`
-                                  })
-                                } else {
-                                  return html`<th style="display:none"></th>`
-                                }
+                  ${item.subarticole.length > 0
+                    ? html`
+                        <!-- Add sub-article headers for this batch -->
+                        <tr class="subarticle-header hidden" data-parent-index="${index}">
+                          <td></td>
+                          ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                            if (usefullRecipeDisplayMask[key].visible) {
+                              const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                                (subKey) =>
+                                  usefullRecipeSubsDisplayMask[subKey].visible &&
+                                  usefullRecipeSubsDisplayMask[subKey].master === key
+                              )
+                              if (subKeys.length > 0) {
+                                return subKeys.map((subKey) => {
+                                  const zoneClass =
+                                    usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                                  const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
+                                  const headerContent = hasActions
+                                    ? this.actionsBar()
+                                    : usefullRecipeSubsDisplayMask[subKey].label || subKey
+                                  return html`<th class="${zoneClass}">${headerContent}</th>`
+                                })
+                              } else {
+                                return html`<th style="display:none"></th>`
                               }
-                            })}
-                          </tr>
-                        `
-                      : ''
-                  }
+                            }
+                          })}
+                        </tr>
+                      `
+                    : ''}
                   ${item.subarticole.map(
                     (sub) => html`
                       <tr
@@ -347,7 +342,9 @@ class MyTableListaRetete extends LitElement {
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
         <!-- Your custom actions -->
-        <button @click="${this.handleAction}">Action</button>
+        <<button type="button" class="btn btn-sm btn-primary" @click="${this.handleAction}">
+          <i class="bi bi-plus-square"></i>
+        </button>
         <!-- Add more actions as needed -->
       </div>
     `

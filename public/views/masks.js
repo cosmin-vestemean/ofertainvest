@@ -19,7 +19,7 @@ const recipeDisplayMask = {
     DBName: '',
     type: 'string',
     linkOferta: '',
-    hasActions: false
+
   },
   WBS: {
     value: 'WBS',
@@ -30,7 +30,7 @@ const recipeDisplayMask = {
     DBName: '',
     linkOferta: 'WBS',
     type: 'string',
-    hasActions: false
+
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -42,7 +42,7 @@ const recipeDisplayMask = {
     width: '50%',
     DBName: '',
     type: 'string',
-    hasActions: false
+
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
@@ -53,7 +53,7 @@ const recipeDisplayMask = {
     linkOferta: 'CANT_ART_OF',
     DBName: '',
     type: 'number',
-    hasActions: false
+
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
@@ -65,7 +65,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: '',
     type: 'string',
-    hasActions: false
+
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
@@ -77,7 +77,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: '',
     type: 'string',
-    hasActions: false
+
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -90,7 +90,7 @@ const recipeDisplayMask = {
     DBName: '',
     type: 'string',
     verticalDelimiterStyleClass: 'zone1VerticalDelimiter',
-    hasActions: false
+
   },
   SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA: {
     value: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
@@ -103,7 +103,7 @@ const recipeDisplayMask = {
     DBName: 'SUMCANTANTE',
     type: 'number',
     verticalDelimiterStyleClass: 'zone2VerticalDelimiter',
-    hasActions: false
+
   },
   MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -116,7 +116,7 @@ const recipeDisplayMask = {
     DBName: 'AVGNORMUNITOREMAN',
     type: 'number',
     verticalDelimiterStyleClass: 'zone3VerticalDelimiter',
-    hasActions: false
+
   },
   SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -128,7 +128,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'SUMOREMAN',
     type: 'number',
-    hasActions: false
+
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -141,7 +141,7 @@ const recipeDisplayMask = {
     DBName: 'ISARTOF',
     type: 'boolean',
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-    hasActions: false
+
   }
 }
 
@@ -156,7 +156,7 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     type: 'string',
     master: 'old_WBS',
-    hasActions: false
+
   },
   WBS: {
     value: 'WBS',
@@ -168,7 +168,7 @@ const recipeSubsDisplayMask = {
     linkOferta: '',
     type: 'string',
     master: 'WBS',
-    hasActions: false
+
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -193,7 +193,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'number',
     master: 'CANTITATE_ARTICOL_OFERTA',
-    hasActions: false
+
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
@@ -206,7 +206,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'string',
     master: 'TIP_ARTICOL_OFERTA',
-    hasActions: false
+
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
@@ -219,7 +219,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'string',
     master: 'SUBTIP_ARTICOL_OFERTA',
-    hasActions: false
+
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -233,7 +233,7 @@ const recipeSubsDisplayMask = {
     type: 'string',
     master: 'UM_ARTICOL_OFERTA',
     verticalDelimiterStyleClass: 'zone1VerticalDelimiter',
-    hasActions: false
+
   },
   CANTITATE_SUBARTICOL_RETETA: {
     value: 'CANTITATE_SUBARTICOL_RETETA',
@@ -246,7 +246,7 @@ const recipeSubsDisplayMask = {
     DBName: 'CANTTOTAL',
     type: 'number',
     master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-    hasActions: false
+
   },
   CANTITATE_UNITARA_SUBARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_SUBARTICOL_RETETA',
@@ -259,7 +259,7 @@ const recipeSubsDisplayMask = {
     DBName: 'CANTUNIT',
     type: 'number',
     master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-    hasActions: false
+
   },
   CANTITATE_REALIZARE_ARTICOL_RETETA: {
     value: 'CANTITATE_REALIZARE_ARTICOL_RETETA ',
@@ -272,7 +272,7 @@ const recipeSubsDisplayMask = {
     DBName: 'CANTREAL',
     type: 'number',
     master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-    hasActions: false
+
   },
   CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA',
@@ -286,7 +286,7 @@ const recipeSubsDisplayMask = {
     type: 'number',
     master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
     verticalDelimiterStyleClass: 'zone2VerticalDelimiter',
-    hasActions: false
+
   },
   NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -299,7 +299,7 @@ const recipeSubsDisplayMask = {
     DBName: 'NORMUNITMAN',
     type: 'number',
     master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
-    hasActions: false
+
   },
   PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -313,7 +313,7 @@ const recipeSubsDisplayMask = {
     type: 'number',
     master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
     verticalDelimiterStyleClass: 'zone3VerticalDelimiter',
-    hasActions: false
+
   },
   TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -326,7 +326,7 @@ const recipeSubsDisplayMask = {
     DBName: 'TOTALOREMAN',
     type: 'number',
     master: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
-    hasActions: false
+
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -340,7 +340,7 @@ const recipeSubsDisplayMask = {
     type: 'boolean',
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
     master: 'ISARTOF',
-    hasActions: false
+
   }
 }
 
@@ -354,7 +354,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-    hasActions: false
+
   },
   DUPLICATEOF: { value: 'DUPLICATEOF', RW: false, visible: false, label: 'Reteta', filter: 'search', usefull: true, hasActions: false },
   old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi', filter: 'search', usefull: true, hasActions: false },
@@ -367,7 +367,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     filter: 'search',
     usefull: true,
-    hasActions: false
+
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -377,7 +377,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'search',
     usefull: true,
-    hasActions: false
+
   },
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
@@ -387,7 +387,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
@@ -397,7 +397,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_1: {
     value: 'NIVEL_OFERTA_1',
@@ -407,7 +407,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_2: {
     value: 'NIVEL_OFERTA_2',
@@ -417,7 +417,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_3: {
     value: 'NIVEL_OFERTA_3',
@@ -427,7 +427,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_4: {
     value: 'NIVEL_OFERTA_4',
@@ -437,7 +437,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_5: {
     value: 'NIVEL_OFERTA_5',
@@ -447,7 +447,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_6: {
     value: 'NIVEL_OFERTA_6',
@@ -457,7 +457,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_7: {
     value: 'NIVEL_OFERTA_7',
@@ -467,7 +467,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_8: {
     value: 'NIVEL_OFERTA_8',
@@ -477,7 +477,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_9: {
     value: 'NIVEL_OFERTA_9',
@@ -487,7 +487,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   NIVEL_OFERTA_10: {
     value: 'NIVEL_OFERTA_10',
@@ -497,7 +497,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
@@ -507,7 +507,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     filter: 'search',
     usefull: true,
-    hasActions: false
+
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -517,7 +517,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     filter: 'filter',
     usefull: true,
-    hasActions: false
+
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
@@ -527,7 +527,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     filter: 'search',
     usefull: true,
-    hasActions: false
+
   }
 }
 
