@@ -563,7 +563,6 @@ export function init() {
         //col-11 -> col-12
         mainContent.classList.remove('col-11')
         mainContent.classList.add('col-12')
-        zenView()
       }
     }
     showHideHeader()
