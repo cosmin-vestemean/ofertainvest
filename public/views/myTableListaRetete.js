@@ -11,7 +11,7 @@ class MyTableListaRetete extends LitElement {
       display: none;
     }
     .zone1, .zone2, .zone3 {
-      border-right: 1px solid var(--bs-info);
+      border-right: 1px solid var(--bs-tertiary);
   `
 
   constructor() {
@@ -205,11 +205,13 @@ class MyTableListaRetete extends LitElement {
                                     usefullRecipeSubsDisplayMask[subKey].master === key
                                 )
                                 if (subKeys.length > 0) {
-                                  return subKeys.map(
-                                    (subKey) => html`
-                                      <th>${usefullRecipeSubsDisplayMask[subKey].label || subKey}</th>
-                                    `
-                                  )
+                                  return subKeys.map((subKey) => {
+                                    const zoneClass =
+                                      usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                                    return html`<th class="${zoneClass}">
+                                      ${usefullRecipeSubsDisplayMask[subKey].label || subKey}
+                                    </th>`
+                                  })
                                 } else {
                                   return html`<th style="display:none"></th>`
                                 }
