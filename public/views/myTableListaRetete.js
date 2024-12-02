@@ -298,10 +298,7 @@ class MyTableListaRetete extends LitElement {
     popover.style.position = 'absolute'
     this.shadowRoot.appendChild(popover)
     popover.innerHTML = `<div class="btn-group" role="group">
-      <button type="button" class="btn btn-sm btn-secondary" @click="${() => this.editArticle(item)}">
-        <i class="bi bi-pencil-square"></i>
-      </button>
-      <button type="button" class="btn btn-sm btn-danger" @click="${() => this.deleteArticle(item)}">
+      <button type="button" class="btn btn-sm btn-danger" @click="${() => this.deleteSub(item)}">
         <i class="bi bi-trash"></i>
       </button>
     </div>`
