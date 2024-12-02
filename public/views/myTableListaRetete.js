@@ -346,56 +346,6 @@ class MyTableListaRetete extends LitElement {
   showPopover(event, item) {
     event.preventDefault()
     console.log('Show popover for:', item)
-
-    // Remove existing popovers
-    const existingPopovers = this.shadowRoot.querySelectorAll('.popoverAddSub')
-    existingPopovers.forEach((popover) => popover.remove())
-
-    // Create a new popover
-    const popover = document.createElement('div')
-    popover.className = 'popoverAddSub'
-    popover.style.position = 'absolute'
-    this.shadowRoot.appendChild(popover)
-    popover.innerHTML = `
-      <div class="popover-content">
-        <form>
-          <div class="form-group">
-            <label for="articleType">Select Type</label>
-            <select id="articleType" class="form-control">
-              <option value="Material">Material</option>
-              <option value="Manopera">Manopera</option>
-              <option value="Utilaj">Utilaj</option>
-              <option value="Echipament">Echipament</option>
-            </select>
-          </div>
-          <button type="button" class="btn btn-sm btn-primary" @click="${() => this.addArticle(item)}">Add</button>
-        </form>
-      </div>
-    `
-
-    // Adjust the position after adding the popover to the DOM
-    const rect = this.shadowRoot.host.getBoundingClientRect()
-    const buttonRect = event.target.getBoundingClientRect()
-
-    popover.style.top = `${buttonRect.top - rect.top + buttonRect.height}px`
-    popover.style.left = `${buttonRect.left - rect.left}px`
-
-    // Close the popover when clicking outside of it
-    document.addEventListener(
-      'click',
-      (e) => {
-        if (!popover.contains(e.target)) {
-          popover.remove()
-        }
-      },
-      { once: true }
-    )
-  }
-
-  addArticle(item) {
-    const articleType = this.shadowRoot.querySelector('#articleType').value
-    console.log('Add article of type:', articleType, 'for item:', item)
-    // Implement the logic to add the article based on the selected type
   }
 
   saveArticle(item) {
