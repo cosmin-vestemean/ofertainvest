@@ -83,7 +83,7 @@ class MyTableListaRetete extends LitElement {
       const headers = this.generateHeaders(usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
 
       return html`
-        <div class="container-fluid">
+        <div class="container-fluid min-vh-100">
           <table class="table table-sm is-responsive ms-3" style="font-size: small;">
             <thead>
               <tr>
