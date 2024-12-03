@@ -207,6 +207,7 @@ class MyTableListaRetete extends LitElement {
   }
 
   handleMouseOver(event, item) {
+    if (!item.subarticole.length) return
     const tr = event.target.closest('tr')
     if (tr && !tr.dataset.popoverShown) {
       tr.dataset.popoverShown = true
