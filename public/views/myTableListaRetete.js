@@ -124,7 +124,6 @@ class MyTableListaRetete extends LitElement {
   }
 
   renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
-    const isArtOfCount = item.subarticole.filter(sub => sub.ISARTOF === 1).length;
     return html`
       <tr
         data-index="${index}"
@@ -161,9 +160,6 @@ class MyTableListaRetete extends LitElement {
             </td>`
           }
         })}
-        <td>
-          ${this.actionsBar(item, isArtOfCount)}
-        </td>
       </tr>
       ${item.subarticole.length > 0
         ? html`
@@ -299,7 +295,7 @@ class MyTableListaRetete extends LitElement {
     )
   }
 
-  actionsBar(item, isArtOfCount) {
+  actionsBar(item) {
     return html`
       <div class="actions-bar row">
         <div class="dropdown col">
@@ -323,9 +319,6 @@ class MyTableListaRetete extends LitElement {
         <button type="button" class="btn btn-sm col" @click="${() => this.saveArticle(item)}">
           <i class="bi bi-save text-info"></i>
         </button>
-        ${isArtOfCount > 0
-          ? html`<span class="badge bg-primary">${isArtOfCount}</span>`
-          : ''}
       </div>
     `
   }
