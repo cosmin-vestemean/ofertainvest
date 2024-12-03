@@ -320,7 +320,10 @@ class MyTableListaRetete extends LitElement {
           </button>
           <ul class="dropdown-menu">
             ${this.dropdownItems.map(
-              (dropdownItem) => html`<li><a class="dropdown-item" href="#">${dropdownItem}</a></li>`
+              (dropdownItem) =>
+                html`<li>
+                  <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
+                </li>`
             )}
           </ul>
         </div>
@@ -329,6 +332,10 @@ class MyTableListaRetete extends LitElement {
         </button>
       </div>
     `
+  }
+
+  addSub(item) {
+    console.log('Add sub', item)
   }
 
   saveArticle(item) {
