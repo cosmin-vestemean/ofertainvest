@@ -170,7 +170,7 @@ class MyTableListaRetete extends LitElement {
                 >
                   <i class="bi bi-plus-square text-primary"></i>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-start">
                   ${this.dropdownItems.map(
                     (dropdownItem) =>
                       html`<li>
