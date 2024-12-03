@@ -197,7 +197,7 @@ class MyTableListaRetete extends LitElement {
 
   handleMouseOver(event, item) {
     const tr = event.target.closest('tr')
-    if (tr && !tr.dataset.popoverShown) {
+    if (tr && tr.dataset.popoverShown === 'false') {
       tr.dataset.popoverShown = true
       const count = item.subarticole.filter(sub => sub.ISARTOF === 1).length
       const popoverContent = `<span class="badge bg-info">${count}</span>`
