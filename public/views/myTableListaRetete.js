@@ -161,7 +161,16 @@ class MyTableListaRetete extends LitElement {
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : ''}
+            : html`<ul class="dropdown-menu">
+                ${this.dropdownItems.map(
+                  (dropdownItem) =>
+                    html`<li>
+                      <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}"
+                        >${dropdownItem}</a
+                      >
+                    </li>`
+                )}
+              </ul>`}
         </td>
         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
           if (usefullRecipeDisplayMask[key].visible) {
