@@ -196,24 +196,24 @@ class MyTableListaRetete extends LitElement {
   }
 
   handleMouseOver(event, item) {
-    const tr = event.target.closest('tr')
-    if (tr && tr.dataset.popoverShown && tr.dataset.popoverShown === 'false') {
-      tr.dataset.popoverShown = true
-      const count = item.subarticole.filter(sub => sub.ISARTOF === 1).length
-      const popoverContent = `<span class="badge bg-info">${count}</span>`
-      const popover = document.createElement('div')
-      popover.className = 'popover'
-      popover.style.position = 'absolute'
-      popover.innerHTML = popoverContent
-      this.appendChild(popover)
-      const rect = tr.getBoundingClientRect()
-      const containerRect = this.getBoundingClientRect()
-      popover.style.top = `${rect.top - containerRect.top}px`
-      popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+    const tr = event.target.closest('tr');
+    if (tr && !tr.dataset.popoverShown) {
+      tr.dataset.popoverShown = true;
+      const count = item.subarticole.filter(sub => sub.ISARTOF === 1).length;
+      const popoverContent = `<span class="badge bg-info">${count}</span>`;
+      const popover = document.createElement('div');
+      popover.className = 'popover';
+      popover.style.position = 'absolute';
+      popover.innerHTML = popoverContent;
+      this.appendChild(popover);
+      const rect = tr.getBoundingClientRect();
+      const containerRect = this.getBoundingClientRect();
+      popover.style.top = `${rect.top - containerRect.top}px`;
+      popover.style.left = `${rect.left - containerRect.left + rect.width}px`;
       setTimeout(() => {
-        popover.remove()
+        popover.remove();
         delete tr.dataset.popoverShown; // Allow popover to be shown again
-      }, 3000)
+      }, 3000);
     }
   }
 
