@@ -84,14 +84,33 @@ class MyTableListaRetete extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm is-responsive ms-3" style="font-size: small;">
+          <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
               <tr>
                 ${headers}
               </tr>
             </thead>
-            ${this.articole.map((item, index) =>
-              this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
+            ${this.articole.map(
+              (item, index) => html`
+                <tbody class="cardReteta shadow-sm">
+                  ${this.renderArticleRow(
+                    item,
+                    index,
+                    usefullRecipeDisplayMask,
+                    usefullRecipeSubsDisplayMask
+                  )}
+                  ${item.subarticole.map((sub, subIndex) =>
+                    this.renderSubarticleRow(
+                      sub,
+                      index,
+                      subIndex,
+                      item.reteta.type,
+                      usefullRecipeDisplayMask,
+                      usefullRecipeSubsDisplayMask
+                    )
+                  )}
+                </tbody>
+              `
             )}
           </table>
         </div>
@@ -138,126 +157,66 @@ class MyTableListaRetete extends LitElement {
   }
 
   renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+    const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length
     return html`
-      <tbody class="cardReteta shadow-sm">
-        <tr
-          data-index="${index}"
-          class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-          style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
-          @contextmenu="${(e) => this.handleContextMenu(e, item)}"
-          @mouseover="${(e) => this.handleMouseOver(e, item)}"
-        >
-          <td>
-            ${item.subarticole.length > 0
-              ? html`<i
-                  class="bi bi-plus-square"
-                  style="cursor: pointer;"
-                  @click="${() => this.toggleSubarticles(index)}"
-                ></i>`
-              : ''}
-          </td>
-          ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-            if (usefullRecipeDisplayMask[key].visible) {
-              const colspan =
-                Object.keys(usefullRecipeSubsDisplayMask).filter(
-                  (subKey) =>
-                    usefullRecipeSubsDisplayMask[subKey].visible &&
-                    usefullRecipeSubsDisplayMask[subKey].master === key
-                ).length || 1
-              const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
-              return html`<td
-                colspan="${colspan}"
-                contenteditable="${usefullRecipeDisplayMask[key].RW}"
-                class="${zoneClass}"
-              >
-                ${item.articol[key]}
-              </td>`
-            }
-          })}
-        </tr>
-        ${item.subarticole.length > 0
-          ? html`
-              <tr
-                class="subarticle-header d-none"
-                data-parent-index="${index}"
-                style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
-              >
-                <td></td>
-                ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                  if (usefullRecipeDisplayMask[key].visible) {
-                    const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                      (subKey) =>
-                        usefullRecipeSubsDisplayMask[subKey].visible &&
-                        usefullRecipeSubsDisplayMask[subKey].master === key
-                    )
-                    if (subKeys.length > 0) {
-                      return subKeys.map((subKey) => {
-                        const zoneClass =
-                          usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                        const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
-                        const headerContent = hasActions
-                          ? this.actionsBar(item)
-                          : usefullRecipeSubsDisplayMask[subKey].label || subKey
-                        return html`<th class="${zoneClass}">${headerContent}</th>`
-                      })
-                    } else {
-                      return html`<th style="display:none"></th>`
-                    }
-                  }
-                })}
-              </tr>
-            `
-          : ''}
-        ${item.subarticole.map((sub) =>
-          this.renderSubarticleRow(
-            item,
-            sub,
-            index,
-            item.reteta.type,
-            usefullRecipeDisplayMask,
-            usefullRecipeSubsDisplayMask
-          )
-        )}
-      </tbody>
+      <tr
+        data-index="${index}"
+        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
+        style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+          : ''}"
+        @contextmenu="${(e) => this.handleContextMenu(e, item)}"
+      >
+        <td>
+          ${item.subarticole.length > 0
+            ? html`<i
+                class="bi bi-plus-square"
+                style="cursor: pointer;"
+                @click="${() => this.toggleSubarticles(index)}"
+              ></i>`
+            : ''}
+        </td>
+        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+          if (usefullRecipeDisplayMask[key].visible) {
+            const colspan =
+              Object.keys(usefullRecipeSubsDisplayMask).filter(
+                (subKey) =>
+                  usefullRecipeSubsDisplayMask[subKey].visible &&
+                  usefullRecipeSubsDisplayMask[subKey].master === key
+              ).length || 1
+            const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
+            return html`<td
+              colspan="${colspan}"
+              contenteditable="${usefullRecipeDisplayMask[key].RW}"
+              class="${zoneClass}"
+            >
+              ${item.articol[key]}
+            </td>`
+          }
+        })}
+        <td>${this.actionsBar(item, isArtOfCount)}</td>
+      </tr>
     `
   }
 
-  handleMouseOver(event, item) {
-    if (!item.subarticole.length) return
-    const tr = event.target.closest('tr')
-    if (tr && !tr.dataset.popoverShown) {
-      tr.dataset.popoverShown = true
-      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
-      const totalSubCount = item.subarticole.length
-      const popoverContent = `
-        <span class="badge text-bg-info">${totalSubCount}</span>
-        <span class="badge text-bg-warning">${isArtOfCount}</span>
-      `
-      const popover = document.createElement('div')
-      popover.className = 'popover'
-      popover.style.position = 'absolute'
-      popover.style.border = 'none'
-      popover.innerHTML = popoverContent
-      this.appendChild(popover)
-      const rect = tr.getBoundingClientRect()
-      const containerRect = this.getBoundingClientRect()
-      popover.style.top = `${rect.top - containerRect.top}px`
-      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
-      popover.style.left = `0px`
-      setTimeout(() => {
-        popover.remove()
-        delete tr.dataset.popoverShown // Allow popover to be shown again
-      }, 3000)
-    }
-  }
-
-  renderSubarticleRow(item, sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  renderSubarticleRow(
+    sub,
+    index,
+    subIndex,
+    retetaType,
+    usefullRecipeDisplayMask,
+    usefullRecipeSubsDisplayMask
+  ) {
     return html`
       <tr
         class="subarticle d-none"
-        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+        style="${retetaType && retetaType.includes('grupare artificiala')
+          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+          : ''}"
         data-parent-index="${index}"
+        data-sub-index="${subIndex}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
+        @mouseover="${(e) => this.handleMouseOver(e, sub)}"
       >
         <td></td>
         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
@@ -347,6 +306,35 @@ class MyTableListaRetete extends LitElement {
       },
       { once: true }
     )
+  }
+
+  handleMouseOver(event, item) {
+    if (!item.subarticole.length) return
+    const tr = event.target.closest('tr')
+    if (tr && !tr.dataset.popoverShown) {
+      tr.dataset.popoverShown = true
+      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
+      const totalSubCount = item.subarticole.length
+      const popoverContent = `
+        <span class="badge text-bg-info">${totalSubCount}</span>
+        <span class="badge text-bg-warning">${isArtOfCount}</span>
+      `
+      const popover = document.createElement('div')
+      popover.className = 'popover'
+      popover.style.position = 'absolute'
+      popover.style.border = 'none'
+      popover.innerHTML = popoverContent
+      this.appendChild(popover)
+      const rect = tr.getBoundingClientRect()
+      const containerRect = this.getBoundingClientRect()
+      popover.style.top = `${rect.top - containerRect.top}px`
+      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+      popover.style.left = `0px`
+      setTimeout(() => {
+        popover.remove()
+        delete tr.dataset.popoverShown // Allow popover to be shown again
+      }, 3000)
+    }
   }
 
   actionsBar(item) {
