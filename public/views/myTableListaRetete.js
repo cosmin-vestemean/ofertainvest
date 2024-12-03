@@ -21,14 +21,13 @@ class MyTableListaRetete extends LitElement {
     super()
     this.data = []
     this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.appendChild(template.content.cloneNode(true))
     this.articole = []
   }
 
   connectedCallback() {
     super.connectedCallback()
-    this.loadBootstrap()
-    //this.loadBootstrapSelect()
+    //... do something when connected
   }
 
   usefullDisplayMask = (mask) => {
@@ -39,38 +38,6 @@ class MyTableListaRetete extends LitElement {
       }
     }
     return displayMask
-  }
-
-  loadBootstrap() {
-    if (
-      !document.querySelector(
-        'script[src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"]'
-      )
-    ) {
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
-      script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
-      script.crossOrigin = 'anonymous'
-      script.onload = () => {
-        console.log('Bootstrap loaded')
-      }
-      this.shadowRoot.appendChild(script)
-      //document.head.appendChild(script)
-    }
-  }
-
-  loadBootstrapSelect = () => {
-    let script = document.createElement('script')
-    script.onload = this.onLoad.bind(this)
-    script.src = 'https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.0/dist/use-bootstrap-select.min.js'
-    script.onload = () => {
-      console.log('Bootstrap select loaded')
-    }
-    this.shadowRoot.appendChild(script)
-  }
-
-  onLoad() {
-    console.log('Script loaded')
   }
 
   render() {
@@ -271,13 +238,17 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
+  createRenderRoot() {
+    return this;
+  }
+
   toggleSubarticles(index) {
-    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`)
+    const rows = this.querySelectorAll(`tr[data-parent-index="${index}"]`)
     rows.forEach((row) => {
       row.classList.toggle('hidden')
     })
     // Toggle the icon
-    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
+    const toggleIcon = this.querySelector(`tr[data-index="${index}"] i`)
     if (toggleIcon.classList.contains('bi-plus-square')) {
       toggleIcon.classList.remove('bi-plus-square')
       toggleIcon.classList.add('bi-dash-square')
@@ -292,18 +263,18 @@ class MyTableListaRetete extends LitElement {
     console.log('Context menu opened for:', item)
 
     // Remove table-info class from all tr elements
-    const allRows = this.shadowRoot.querySelectorAll('tr.table-info')
+    const allRows = this.querySelectorAll('tr.table-info')
     allRows.forEach((row) => row.classList.remove('table-info'))
 
     // Close all existing popovers
-    const existingPopovers = this.shadowRoot.querySelectorAll('.popover')
+    const existingPopovers = this.querySelectorAll('.popover')
     existingPopovers.forEach((popover) => popover.remove())
 
     // Create a new popover
     const popover = document.createElement('div')
     popover.className = 'popover'
     popover.style.position = 'absolute'
-    this.shadowRoot.appendChild(popover)
+    this.appendChild(popover)
     popover.innerHTML = `<div class="btn-group" role="group">
       <button type="button" class="btn btn-sm" @click="${() => this.deleteSub(item)}">
         <i class="bi bi-trash text-danger"></i>
@@ -311,7 +282,7 @@ class MyTableListaRetete extends LitElement {
     </div>`
 
     // Adjust the position after adding the popover to the DOM
-    const rect = this.shadowRoot.host.getBoundingClientRect()
+    const rect = this.host.getBoundingClientRect()
     const tr = event.target.closest('tr')
     tr.classList.add('table-info')
     const trRect = tr.getBoundingClientRect()
@@ -343,16 +314,6 @@ class MyTableListaRetete extends LitElement {
         <button type="button" class="btn btn-sm" @click="${(e) => this.showPopover(e, item)}">
           <i class="bi bi-plus-square text-primary"></i>
         </button>
-        <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Dropdown button
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </div>
         <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
           <i class="bi bi-save text-info"></i>
         </button>
