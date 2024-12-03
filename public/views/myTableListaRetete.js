@@ -6,17 +6,6 @@ class MyTableListaRetete extends LitElement {
     data: { type: Array }
   }
 
-  static styles = css`
-    .hidden {
-      display: none;
-    }
-    .zone1VerticalDelimiter,
-    .zone2VerticalDelimiter,
-    .zone3VerticalDelimiter {
-      border-right: 1px solid var(--bs-secondary);
-    }
-  `
-
   constructor() {
     super()
     this.data = []
@@ -251,7 +240,6 @@ class MyTableListaRetete extends LitElement {
       toggleIcon.classList.remove('bi-plus-square')
       toggleIcon.classList.add('bi-dash-square')
     } else {
-      toggleIcon.classList.remove('bi-dash-square')
       toggleIcon.classList.add('bi-plus-square')
     }
   }

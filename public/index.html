@@ -113,6 +113,14 @@
         background-color: var(--bs-white);
         z-index: 1000;
       }
+      .hidden {
+        display: none;
+      }
+      .zone1VerticalDelimiter,
+      .zone2VerticalDelimiter,
+      .zone3VerticalDelimiter {
+        border-right: 1px solid var(--bs-secondary);
+      }
     </style>
   </head>
   <body>
@@ -586,11 +594,11 @@
     </script>
     <script>
       window.addEventListener('load', () => {
-        const pageHeader = document.getElementById('page-header');
-        const leftMenu = document.getElementById('leftMenu');
-        const headerHeight = pageHeader.offsetHeight;
-        leftMenu.style.top = `${headerHeight}px`;
-      });
+        const pageHeader = document.getElementById('page-header')
+        const leftMenu = document.getElementById('leftMenu')
+        const headerHeight = pageHeader.offsetHeight
+        leftMenu.style.top = `${headerHeight}px`
+      })
     </script>
   </body>
 </html>
