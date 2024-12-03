@@ -79,7 +79,9 @@ class MyTableListaRetete extends LitElement {
               </tr>
             </thead>
             <tbody>
-              ${this.articole.map((item, index) => this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask))}
+              ${this.articole.map((item, index) =>
+                this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
+              )}
             </tbody>
           </table>
         </div>
@@ -94,7 +96,9 @@ class MyTableListaRetete extends LitElement {
         if (mask[key].type === 'boolean') {
           newObject[key] = object[key] === 1 ? object[key] : object[key]
         } else if (mask[key].type === 'number') {
-          newObject[key] = isNaN(parseFloat(object[key])) ? parseFloat(0).toFixed(2) : parseFloat(object[key]).toFixed(2)
+          newObject[key] = isNaN(parseFloat(object[key]))
+            ? parseFloat(0).toFixed(2)
+            : parseFloat(object[key]).toFixed(2)
         } else {
           newObject[key] = object[key]
         }
@@ -175,8 +179,7 @@ class MyTableListaRetete extends LitElement {
                   )
                   if (subKeys.length > 0) {
                     return subKeys.map((subKey) => {
-                      const zoneClass =
-                        usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                      const zoneClass = usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                       const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
                       const headerContent = hasActions
                         ? this.actionsBar(item)
@@ -191,30 +194,41 @@ class MyTableListaRetete extends LitElement {
             </tr>
           `
         : ''}
-      ${item.subarticole.map((sub) => this.renderSubarticleRow(sub, index, item.reteta.type, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask))}
+      ${item.subarticole.map((sub) =>
+        this.renderSubarticleRow(
+          sub,
+          index,
+          item.reteta.type,
+          usefullRecipeDisplayMask,
+          usefullRecipeSubsDisplayMask
+        )
+      )}
     `
   }
 
   handleMouseOver(event, item) {
-    const tr = event.target.closest('tr');
+    const tr = event.target.closest('tr')
     if (tr && !tr.dataset.popoverShown) {
-      tr.dataset.popoverShown = true;
-      const count = item.subarticole.filter(sub => sub.ISARTOF === 1).length;
-      const popoverContent = `<span class="badge bg-info">${count}</span>`;
-      const popover = document.createElement('div');
-      popover.className = 'popover';
-      popover.style.position = 'absolute';
-      popover.innerHTML = popoverContent;
-      this.appendChild(popover);
-      const rect = tr.getBoundingClientRect();
-      const containerRect = this.getBoundingClientRect();
-      popover.style.top = `${rect.top - containerRect.top}px`;
-      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`;
-      popover.style.left = `0px`;
+      tr.dataset.popoverShown = true
+      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length
+      const totalSubCount = item.subarticole.length
+      const popoverContent = `
+        <span class="badge bg-secondary">${totalSubCount}</span>
+        <span class="badge bg-">${isArtOfCount}</span>
+      `
+      const popover = document.createElement('div')
+      popover.className = 'popover'
+      popover.style.position = 'absolute'
+      popover.innerHTML = popoverContent
+      this.appendChild(popover)
+      const rect = tr.getBoundingClientRect()
+      const containerRect = this.getBoundingClientRect()
+      popover.style.top = `${rect.top - containerRect.top}px`
+      popover.style.left = `${rect.left - containerRect.left + rect.width}px`
       setTimeout(() => {
-        popover.remove();
-        delete tr.dataset.popoverShown; // Allow popover to be shown again
-      }, 3000);
+        popover.remove()
+        delete tr.dataset.popoverShown // Allow popover to be shown again
+      }, 3000)
     }
   }
 
@@ -238,8 +252,7 @@ class MyTableListaRetete extends LitElement {
             )
             if (subKeys.length > 0) {
               return subKeys.map((subKey) => {
-                const zoneClass =
-                  usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                const zoneClass = usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                 return html`<td
                   contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
                   class="${zoneClass}"
