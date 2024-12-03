@@ -132,6 +132,7 @@ class MyTableListaRetete extends LitElement {
           ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
           : ''}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
+        @mouseover="${(e) => this.handleMouseOver(e, item)}"
       >
         <td>
           ${item.subarticole.length > 0
@@ -192,6 +193,25 @@ class MyTableListaRetete extends LitElement {
         : ''}
       ${item.subarticole.map((sub) => this.renderSubarticleRow(sub, index, item.reteta.type, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask))}
     `
+  }
+
+  handleMouseOver(event, item) {
+    const tr = event.target.closest('tr')
+    if (tr && !tr.dataset.popoverShown) {
+      tr.dataset.popoverShown = true
+      const count = item.subarticole.filter(sub => sub.ISARTOF === 1).length
+      const popoverContent = `<span class="badge bg-info">${count}</span>`
+      const popover = document.createElement('div')
+      popover.className = 'popover'
+      popover.style.position = 'absolute'
+      popover.innerHTML = popoverContent
+      this.appendChild(popover)
+      const rect = tr.getBoundingClientRect()
+      const containerRect = this.getBoundingClientRect()
+      popover.style.top = `${rect.top - containerRect.top}px`
+      popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+      setTimeout(() => popover.remove(), 3000)
+    }
   }
 
   renderSubarticleRow(sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
