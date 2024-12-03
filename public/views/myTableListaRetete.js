@@ -205,6 +205,7 @@ class MyTableListaRetete extends LitElement {
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
       >
         <td></td>
+        <td></td>
         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
           if (usefullRecipeDisplayMask[key].visible) {
             const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
