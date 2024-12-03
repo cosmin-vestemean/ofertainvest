@@ -99,16 +99,6 @@ class MyTableListaRetete extends LitElement {
                     usefullRecipeDisplayMask,
                     usefullRecipeSubsDisplayMask
                   )}
-                  ${item.subarticole.map((sub) =>
-                    this.renderSubarticleRow(
-                      item,
-                      sub,
-                      index,
-                      item.reteta.type,
-                      usefullRecipeDisplayMask,
-                      usefullRecipeSubsDisplayMask
-                    )
-                  )}
                 </tbody>
               `
             )}
