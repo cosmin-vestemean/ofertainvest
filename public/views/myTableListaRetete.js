@@ -43,6 +43,18 @@ class MyTableListaRetete extends LitElement {
     return displayMask
   }
 
+  getBorderStyle(type, length) {
+    if (length > 0) {
+      if (type && type.includes('grupare artificiala')) {
+        return 'border-left: 2px solid var(--bs-warning); border-right: 2px solid var(--bs-warning);'
+      } else {
+        return 'border-left: 2px solid var(--bs-info); border-right: 2px solid var(--bs-info);'
+      }
+    } else {
+      return ''
+    }
+  }
+
   render() {
     if (!this.data || this.data.length == 0) {
       return html`<p class="label label-danger">No data</p>`
@@ -132,9 +144,7 @@ class MyTableListaRetete extends LitElement {
       <tr
         data-index="${index}"
         class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-        style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-          ? 'border-left: 2px solid var(--bs-warning); border-right: 2px solid var(--bs-warning);'
-          : 'border-left: 2px solid var(--bs-info); border-right: 2px solid var(--bs-info);'}"
+        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
       >
@@ -171,9 +181,7 @@ class MyTableListaRetete extends LitElement {
             <tr
               class="subarticle-header d-none"
               data-parent-index="${index}"
-              style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-              ? 'border-left: 2px solid var(--bs-warning); border-right: 2px solid var(--bs-warning);'
-              : 'border-left: 2px solid var(--bs-info); border-right: 2px solid var(--bs-info);'}"
+              style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
             >
               <td></td>
               ${Object.keys(usefullRecipeDisplayMask).map((key) => {
@@ -202,6 +210,7 @@ class MyTableListaRetete extends LitElement {
         : ''}
       ${item.subarticole.map((sub) =>
         this.renderSubarticleRow(
+          item,
           sub,
           index,
           item.reteta.type,
@@ -241,13 +250,11 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
-  renderSubarticleRow(sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  renderSubarticleRow(item, sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
     return html`
       <tr
         class="subarticle d-none"
-        style="${retetaType && retetaType.includes('grupare artificiala')
-          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-          : ''}"
+        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
         data-parent-index="${index}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
       >
