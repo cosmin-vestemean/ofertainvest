@@ -210,7 +210,10 @@ class MyTableListaRetete extends LitElement {
       const containerRect = this.getBoundingClientRect()
       popover.style.top = `${rect.top - containerRect.top}px`
       popover.style.left = `${rect.left - containerRect.left + rect.width}px`
-      setTimeout(() => popover.remove(), 3000)
+      setTimeout(() => {
+        popover.remove()
+        tr.dataset.popoverShown = false
+      }, 3000)
     }
   }
 
