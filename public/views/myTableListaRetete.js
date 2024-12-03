@@ -20,14 +20,16 @@ class MyTableListaRetete extends LitElement {
   constructor() {
     super()
     this.data = []
-    //this.attachShadow({ mode: 'open' })
-    //this.appendChild(template.content.cloneNode(true))
     this.articole = []
   }
 
   connectedCallback() {
     super.connectedCallback()
     //... do something when connected
+  }
+
+  createRenderRoot() {
+    return this
   }
 
   usefullDisplayMask = (mask) => {
@@ -238,17 +240,13 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
-  createRenderRoot() {
-    return this
-  }
-
   toggleSubarticles(index) {
-    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`)
+    const rows = this.querySelectorAll(`tr[data-parent-index="${index}"]`)
     rows.forEach((row) => {
       row.classList.toggle('hidden')
     })
     // Toggle the icon
-    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
+    const toggleIcon = this.querySelector(`tr[data-index="${index}"] i`)
     if (toggleIcon.classList.contains('bi-plus-square')) {
       toggleIcon.classList.remove('bi-plus-square')
       toggleIcon.classList.add('bi-dash-square')
@@ -314,21 +312,6 @@ class MyTableListaRetete extends LitElement {
         <button type="button" class="btn btn-sm" @click="${(e) => this.showPopover(e, item)}">
           <i class="bi bi-plus-square text-primary"></i>
         </button>
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Dropdown button
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </div>
         <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
           <i class="bi bi-save text-info"></i>
         </button>
