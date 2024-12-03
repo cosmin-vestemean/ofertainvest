@@ -214,7 +214,7 @@ class MyTableListaRetete extends LitElement {
       const totalSubCount = item.subarticole.length
       const popoverContent = `
         <span class="badge bg-secondary">${totalSubCount}</span>
-        <span class="badge bg-info">${isArtOfCount}</span>
+        <span class="badge bg-warning">${isArtOfCount}</span>
       `
       const popover = document.createElement('div')
       popover.className = 'popover'
