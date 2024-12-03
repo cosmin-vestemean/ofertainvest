@@ -299,9 +299,9 @@ class MyTableListaRetete extends LitElement {
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar row">
         <!-- Your custom actions -->
-        <div class="dropdown">
+        <div class="dropdown col">
           <button
-            class="btn btn-sm dropdown-toggle col"
+            class="btn btn-sm dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
