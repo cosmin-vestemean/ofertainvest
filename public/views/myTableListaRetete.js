@@ -3,13 +3,15 @@ import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 
 class MyTableListaRetete extends LitElement {
   static properties = {
-    data: { type: Array }
+    data: { type: Array },
+    dropdownItems: { type: Array }
   }
 
   constructor() {
     super()
     this.data = []
     this.articole = []
+    this.dropdownItems = ["Material", "Manopera", "Transport", "Utilaj", "Echipament"]
   }
 
   connectedCallback() {
@@ -297,9 +299,6 @@ class MyTableListaRetete extends LitElement {
       <!-- Custom HTML for actionsBar -->
       <div class="actions-bar">
         <!-- Your custom actions -->
-        <button type="button" class="btn btn-sm" @click="${(e) => this.showPopover(e, item)}">
-          <i class="bi bi-plus-square text-primary"></i>
-        </button>
         <div class="dropdown">
           <button
             class="btn btn-sm dropdown-toggle"
@@ -310,9 +309,9 @@ class MyTableListaRetete extends LitElement {
           <i class="bi bi-plus-square text-primary"></i>
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            ${this.dropdownItems.map(
+              (dropdownItem) => html`<li><a class="dropdown-item" href="#">${dropdownItem}</a></li>`
+            )}
           </ul>
         </div>
         <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
@@ -320,11 +319,6 @@ class MyTableListaRetete extends LitElement {
         </button>
       </div>
     `
-  }
-
-  showPopover(event, item) {
-    event.preventDefault()
-    console.log('Show popover for:', item)
   }
 
   saveArticle(item) {
