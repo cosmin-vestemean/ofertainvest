@@ -156,7 +156,7 @@ class MyTableListaRetete extends LitElement {
                   ${item.subarticole.length > 0
                     ? html`
                         <!-- Add sub-article headers for this batch -->
-                        <tr class="subarticle-header hidden" data-parent-index="${index}">
+                        <tr class="subarticle-header d-none" data-parent-index="${index}">
                           <td></td>
                           ${Object.keys(usefullRecipeDisplayMask).map((key) => {
                             if (usefullRecipeDisplayMask[key].visible) {
@@ -186,7 +186,7 @@ class MyTableListaRetete extends LitElement {
                   ${item.subarticole.map(
                     (sub) => html`
                       <tr
-                        class="subarticle hidden"
+                        class="subarticle d-none"
                         style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
                           ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
                           : ''}"
@@ -232,7 +232,7 @@ class MyTableListaRetete extends LitElement {
   toggleSubarticles(index) {
     const rows = this.querySelectorAll(`tr[data-parent-index="${index}"]`)
     rows.forEach((row) => {
-      row.classList.toggle('hidden')
+      row.classList.toggle('d-none')
     })
     // Toggle the icon
     const toggleIcon = this.querySelector(`tr[data-index="${index}"] i`)
