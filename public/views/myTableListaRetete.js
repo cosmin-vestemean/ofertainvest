@@ -54,8 +54,8 @@ class MyTableListaRetete extends LitElement {
       script.onload = () => {
         console.log('Bootstrap loaded')
       }
-      //this.shadowRoot.appendChild(script)
-      document.head.appendChild(script)
+      this.shadowRoot.appendChild(script)
+      //document.head.appendChild(script)
     }
   }
 
