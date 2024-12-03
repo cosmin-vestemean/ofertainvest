@@ -50,72 +50,25 @@ class MyTableListaRetete extends LitElement {
       const usefullRecipeDisplayMask = this.usefullDisplayMask(recipeDisplayMask)
       const usefullRecipeSubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
 
-      this.articole = []
-      this.data.forEach((reteta) => {
-        reteta.reteta.forEach((activitate) => {
-          let articol = activitate.object
-          let newArticol = {}
-          let newSubarticole = []
+      this.articole = this.data.flatMap((reteta) =>
+        reteta.reteta.map((activitate) => {
+          const articol = activitate.object
+          const newArticol = this.extractFields(articol, usefullRecipeDisplayMask)
+          const subarticole = activitate.children.map((subarticol) =>
+            this.extractFields(subarticol.object, usefullRecipeSubsDisplayMask)
+          )
 
-          for (let key in usefullRecipeDisplayMask) {
-            if (Object.keys(articol).includes(key)) {
-              newArticol[key] = articol[key]
-            }
-          }
-
-          let subarticole = activitate.children.map((subarticol) => subarticol.object)
-          for (let subarticol of subarticole) {
-            let newSubarticol = {}
-            for (let key in usefullRecipeSubsDisplayMask) {
-              if (Object.keys(subarticol).includes(key)) {
-                if (usefullRecipeSubsDisplayMask[key].type === 'boolean') {
-                  if (subarticol[key] === 1) {
-                    //newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.true)
-                    newSubarticol[key] = subarticol[key]
-                  } else {
-                    //newSubarticol[key] = unsafeHTML(usefullRecipeSubsDisplayMask[key].UI.false)
-                    newSubarticol[key] = subarticol[key]
-                  }
-                } else if (usefullRecipeSubsDisplayMask[key].type === 'number') {
-                  newSubarticol[key] = isNaN(parseFloat(subarticol[key]))
-                    ? parseFloat(0).toFixed(2)
-                    : parseFloat(subarticol[key]).toFixed(2)
-                } else {
-                  newSubarticol[key] = subarticol[key]
-                }
-              }
-            }
-            newSubarticole.push(newSubarticol)
-          }
-
-          this.articole.push({
+          return {
             reteta: { id: reteta.id, name: reteta.name, type: reteta.type },
             articol: newArticol,
-            subarticole: newSubarticole
-          })
+            subarticole: subarticole
+          }
         })
-      })
+      )
 
       console.log('articole', this.articole)
 
-      // Prepare headers with grouped columns
-      const headers = []
-
-      headers.push(html`<th rowspan="2"></th>`)
-
-      Object.keys(usefullRecipeDisplayMask).forEach((key) => {
-        if (usefullRecipeDisplayMask[key].visible) {
-          const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-            (subKey) =>
-              usefullRecipeSubsDisplayMask[subKey].visible &&
-              usefullRecipeSubsDisplayMask[subKey].master === key
-          )
-          const colspan = subKeys.length || 1
-          const hasActions = usefullRecipeDisplayMask[key].hasActions || false
-          const headerContent = hasActions ? this.actionsBar() : usefullRecipeDisplayMask[key].label || key
-          headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
-        }
-      })
+      const headers = this.generateHeaders(usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
 
       return html`
         <div class="container-fluid">
@@ -124,121 +77,159 @@ class MyTableListaRetete extends LitElement {
               <tr>
                 ${headers}
               </tr>
-              <!-- Remove the second header row -->
             </thead>
             <tbody>
-              ${this.articole.map(
-                (item, index) => html`
-                  <tr
-                    data-index="${index}"
-                    class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-                    style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-                      ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-                      : ''}"
-                    @contextmenu="${(e) => this.handleContextMenu(e, item)}"
-                  >
-                    <td>
-                      ${item.subarticole.length > 0
-                        ? html`<i
-                            class="bi bi-plus-square"
-                            style="cursor: pointer;"
-                            @click="${() => this.toggleSubarticles(index)}"
-                          ></i>`
-                        : ''}
-                    </td>
-                    ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                      if (usefullRecipeDisplayMask[key].visible) {
-                        const colspan =
-                          Object.keys(usefullRecipeSubsDisplayMask).filter(
-                            (subKey) =>
-                              usefullRecipeSubsDisplayMask[subKey].visible &&
-                              usefullRecipeSubsDisplayMask[subKey].master === key
-                          ).length || 1
-                        const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
-                        return html`<td
-                          colspan="${colspan}"
-                          contenteditable="${usefullRecipeDisplayMask[key].RW}"
-                          class="${zoneClass}"
-                        >
-                          ${item.articol[key]}
-                        </td>`
-                      }
-                    })}
-                  </tr>
-                  ${item.subarticole.length > 0
-                    ? html`
-                        <!-- Add sub-article headers for this batch -->
-                        <tr class="subarticle-header d-none" data-parent-index="${index}">
-                          <td></td>
-                          ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                            if (usefullRecipeDisplayMask[key].visible) {
-                              const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                                (subKey) =>
-                                  usefullRecipeSubsDisplayMask[subKey].visible &&
-                                  usefullRecipeSubsDisplayMask[subKey].master === key
-                              )
-                              if (subKeys.length > 0) {
-                                return subKeys.map((subKey) => {
-                                  const zoneClass =
-                                    usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                                  const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
-                                  const headerContent = hasActions
-                                    ? this.actionsBar(item)
-                                    : usefullRecipeSubsDisplayMask[subKey].label || subKey
-                                  return html`<th class="${zoneClass}">${headerContent}</th>`
-                                })
-                              } else {
-                                return html`<th style="display:none"></th>`
-                              }
-                            }
-                          })}
-                        </tr>
-                      `
-                    : ''}
-                  ${item.subarticole.map(
-                    (sub) => html`
-                      <tr
-                        class="subarticle d-none"
-                        style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-                          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-                          : ''}"
-                        data-parent-index="${index}"
-                        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
-                      >
-                        <td></td>
-                        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                          if (usefullRecipeDisplayMask[key].visible) {
-                            const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                              (subKey) =>
-                                usefullRecipeSubsDisplayMask[subKey].visible &&
-                                usefullRecipeSubsDisplayMask[subKey].master === key
-                            )
-                            if (subKeys.length > 0) {
-                              return subKeys.map((subKey) => {
-                                const zoneClass =
-                                  usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                                return html`<td
-                                  contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
-                                  class="${zoneClass}"
-                                >
-                                  ${sub[subKey]}
-                                </td>`
-                              })
-                            } else {
-                              return html`<td></td>`
-                            }
-                          }
-                        })}
-                      </tr>
-                    `
-                  )}
-                `
-              )}
+              ${this.articole.map((item, index) => this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask))}
             </tbody>
           </table>
         </div>
       `
     }
+  }
+
+  extractFields(object, mask) {
+    const newObject = {}
+    for (let key in mask) {
+      if (Object.keys(object).includes(key)) {
+        if (mask[key].type === 'boolean') {
+          newObject[key] = object[key] === 1 ? object[key] : object[key]
+        } else if (mask[key].type === 'number') {
+          newObject[key] = isNaN(parseFloat(object[key])) ? parseFloat(0).toFixed(2) : parseFloat(object[key]).toFixed(2)
+        } else {
+          newObject[key] = object[key]
+        }
+      }
+    }
+    return newObject
+  }
+
+  generateHeaders(usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+    const headers = [html`<th rowspan="2"></th>`]
+
+    Object.keys(usefullRecipeDisplayMask).forEach((key) => {
+      if (usefullRecipeDisplayMask[key].visible) {
+        const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+          (subKey) =>
+            usefullRecipeSubsDisplayMask[subKey].visible &&
+            usefullRecipeSubsDisplayMask[subKey].master === key
+        )
+        const colspan = subKeys.length || 1
+        const hasActions = usefullRecipeDisplayMask[key].hasActions || false
+        const headerContent = hasActions ? this.actionsBar() : usefullRecipeDisplayMask[key].label || key
+        headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
+      }
+    })
+
+    return headers
+  }
+
+  renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+    return html`
+      <tr
+        data-index="${index}"
+        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
+        style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+          : ''}"
+        @contextmenu="${(e) => this.handleContextMenu(e, item)}"
+      >
+        <td>
+          ${item.subarticole.length > 0
+            ? html`<i
+                class="bi bi-plus-square"
+                style="cursor: pointer;"
+                @click="${() => this.toggleSubarticles(index)}"
+              ></i>`
+            : ''}
+        </td>
+        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+          if (usefullRecipeDisplayMask[key].visible) {
+            const colspan =
+              Object.keys(usefullRecipeSubsDisplayMask).filter(
+                (subKey) =>
+                  usefullRecipeSubsDisplayMask[subKey].visible &&
+                  usefullRecipeSubsDisplayMask[subKey].master === key
+              ).length || 1
+            const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
+            return html`<td
+              colspan="${colspan}"
+              contenteditable="${usefullRecipeDisplayMask[key].RW}"
+              class="${zoneClass}"
+            >
+              ${item.articol[key]}
+            </td>`
+          }
+        })}
+      </tr>
+      ${item.subarticole.length > 0
+        ? html`
+            <tr class="subarticle-header d-none" data-parent-index="${index}">
+              <td></td>
+              ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                if (usefullRecipeDisplayMask[key].visible) {
+                  const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                    (subKey) =>
+                      usefullRecipeSubsDisplayMask[subKey].visible &&
+                      usefullRecipeSubsDisplayMask[subKey].master === key
+                  )
+                  if (subKeys.length > 0) {
+                    return subKeys.map((subKey) => {
+                      const zoneClass =
+                        usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                      const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
+                      const headerContent = hasActions
+                        ? this.actionsBar(item)
+                        : usefullRecipeSubsDisplayMask[subKey].label || subKey
+                      return html`<th class="${zoneClass}">${headerContent}</th>`
+                    })
+                  } else {
+                    return html`<th style="display:none"></th>`
+                  }
+                }
+              })}
+            </tr>
+          `
+        : ''}
+      ${item.subarticole.map((sub) => this.renderSubarticleRow(sub, index, item.reteta.type, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask))}
+    `
+  }
+
+  renderSubarticleRow(sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+    return html`
+      <tr
+        class="subarticle d-none"
+        style="${retetaType && retetaType.includes('grupare artificiala')
+          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+          : ''}"
+        data-parent-index="${index}"
+        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
+      >
+        <td></td>
+        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+          if (usefullRecipeDisplayMask[key].visible) {
+            const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+              (subKey) =>
+                usefullRecipeSubsDisplayMask[subKey].visible &&
+                usefullRecipeSubsDisplayMask[subKey].master === key
+            )
+            if (subKeys.length > 0) {
+              return subKeys.map((subKey) => {
+                const zoneClass =
+                  usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                return html`<td
+                  contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
+                  class="${zoneClass}"
+                >
+                  ${sub[subKey]}
+                </td>`
+              })
+            } else {
+              return html`<td></td>`
+            }
+          }
+        })}
+      </tr>
+    `
   }
 
   toggleSubarticles(index) {
@@ -306,9 +297,7 @@ class MyTableListaRetete extends LitElement {
 
   actionsBar(item) {
     return html`
-      <!-- Custom HTML for actionsBar -->
       <div class="actions-bar row">
-        <!-- Your custom actions -->
         <div class="dropdown col">
           <button
             class="btn btn-sm dropdown-toggle"
