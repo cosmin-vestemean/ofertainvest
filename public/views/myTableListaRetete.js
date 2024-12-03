@@ -224,7 +224,8 @@ class MyTableListaRetete extends LitElement {
       const rect = tr.getBoundingClientRect()
       const containerRect = this.getBoundingClientRect()
       popover.style.top = `${rect.top - containerRect.top}px`
-      popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+      popover.style.left = `0px`
       setTimeout(() => {
         popover.remove()
         delete tr.dataset.popoverShown // Allow popover to be shown again
