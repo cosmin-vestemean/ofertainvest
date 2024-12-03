@@ -27,7 +27,7 @@ class MyTableListaRetete extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    //this.loadBootstrap()
+    this.loadBootstrap()
     //this.loadBootstrapSelect()
   }
 
@@ -42,14 +42,21 @@ class MyTableListaRetete extends LitElement {
   }
 
   loadBootstrap() {
-    const script = document.createElement('script')
-    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
-    script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
-    script.crossOrigin = 'anonymous'
-    script.onload = () => {
-      console.log('Bootstrap loaded')
+    if (
+      !document.querySelector(
+        'script[src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"]'
+      )
+    ) {
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
+      script.integrity = 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz'
+      script.crossOrigin = 'anonymous'
+      script.onload = () => {
+        console.log('Bootstrap loaded')
+      }
+      //this.shadowRoot.appendChild(script)
+      document.head.appendChild(script)
     }
-    this.shadowRoot.appendChild(script)
   }
 
   loadBootstrapSelect = () => {
@@ -337,7 +344,7 @@ class MyTableListaRetete extends LitElement {
           <i class="bi bi-plus-square text-primary"></i>
         </button>
         <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
-        <i class="bi bi-save text-info"></i>
+          <i class="bi bi-save text-info"></i>
         </button>
       </div>
     `
