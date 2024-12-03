@@ -90,11 +90,9 @@ class MyTableListaRetete extends LitElement {
                 ${headers}
               </tr>
             </thead>
-            <tbody>
-              ${this.articole.map((item, index) =>
-                this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
-              )}
-            </tbody>
+            ${this.articole.map((item, index) =>
+              this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
+            )}
           </table>
         </div>
       `
@@ -141,83 +139,86 @@ class MyTableListaRetete extends LitElement {
 
   renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
     return html`
-      <tr
-        data-index="${index}"
-        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
-        @contextmenu="${(e) => this.handleContextMenu(e, item)}"
-        @mouseover="${(e) => this.handleMouseOver(e, item)}"
-      >
-        <td>
-          ${item.subarticole.length > 0
-            ? html`<i
-                class="bi bi-plus-square"
-                style="cursor: pointer;"
-                @click="${() => this.toggleSubarticles(index)}"
-              ></i>`
-            : ''}
-        </td>
-        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-          if (usefullRecipeDisplayMask[key].visible) {
-            const colspan =
-              Object.keys(usefullRecipeSubsDisplayMask).filter(
-                (subKey) =>
-                  usefullRecipeSubsDisplayMask[subKey].visible &&
-                  usefullRecipeSubsDisplayMask[subKey].master === key
-              ).length || 1
-            const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
-            return html`<td
-              colspan="${colspan}"
-              contenteditable="${usefullRecipeDisplayMask[key].RW}"
-              class="${zoneClass}"
-            >
-              ${item.articol[key]}
-            </td>`
-          }
-        })}
-      </tr>
-      ${item.subarticole.length > 0
-        ? html`
-            <tr
-              class="subarticle-header d-none"
-              data-parent-index="${index}"
-              style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
-            >
-              <td></td>
-              ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                if (usefullRecipeDisplayMask[key].visible) {
-                  const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                    (subKey) =>
-                      usefullRecipeSubsDisplayMask[subKey].visible &&
-                      usefullRecipeSubsDisplayMask[subKey].master === key
-                  )
-                  if (subKeys.length > 0) {
-                    return subKeys.map((subKey) => {
-                      const zoneClass = usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                      const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
-                      const headerContent = hasActions
-                        ? this.actionsBar(item)
-                        : usefullRecipeSubsDisplayMask[subKey].label || subKey
-                      return html`<th class="${zoneClass}">${headerContent}</th>`
-                    })
-                  } else {
-                    return html`<th style="display:none"></th>`
+      <tbody class="cardReteta">
+        <tr
+          data-index="${index}"
+          class="${item.subarticole.length > 0 ? 'table-light' : ''}"
+          style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+          @contextmenu="${(e) => this.handleContextMenu(e, item)}"
+          @mouseover="${(e) => this.handleMouseOver(e, item)}"
+        >
+          <td>
+            ${item.subarticole.length > 0
+              ? html`<i
+                  class="bi bi-plus-square"
+                  style="cursor: pointer;"
+                  @click="${() => this.toggleSubarticles(index)}"
+                ></i>`
+              : ''}
+          </td>
+          ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+            if (usefullRecipeDisplayMask[key].visible) {
+              const colspan =
+                Object.keys(usefullRecipeSubsDisplayMask).filter(
+                  (subKey) =>
+                    usefullRecipeSubsDisplayMask[subKey].visible &&
+                    usefullRecipeSubsDisplayMask[subKey].master === key
+                ).length || 1
+              const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
+              return html`<td
+                colspan="${colspan}"
+                contenteditable="${usefullRecipeDisplayMask[key].RW}"
+                class="${zoneClass}"
+              >
+                ${item.articol[key]}
+              </td>`
+            }
+          })}
+        </tr>
+        ${item.subarticole.length > 0
+          ? html`
+              <tr
+                class="subarticle-header d-none"
+                data-parent-index="${index}"
+                style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+              >
+                <td></td>
+                ${Object.keys(usefullRecipeDisplayMask).map((key) => {
+                  if (usefullRecipeDisplayMask[key].visible) {
+                    const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+                      (subKey) =>
+                        usefullRecipeSubsDisplayMask[subKey].visible &&
+                        usefullRecipeSubsDisplayMask[subKey].master === key
+                    )
+                    if (subKeys.length > 0) {
+                      return subKeys.map((subKey) => {
+                        const zoneClass =
+                          usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                        const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
+                        const headerContent = hasActions
+                          ? this.actionsBar(item)
+                          : usefullRecipeSubsDisplayMask[subKey].label || subKey
+                        return html`<th class="${zoneClass}">${headerContent}</th>`
+                      })
+                    } else {
+                      return html`<th style="display:none"></th>`
+                    }
                   }
-                }
-              })}
-            </tr>
-          `
-        : ''}
-      ${item.subarticole.map((sub) =>
-        this.renderSubarticleRow(
-          item,
-          sub,
-          index,
-          item.reteta.type,
-          usefullRecipeDisplayMask,
-          usefullRecipeSubsDisplayMask
-        )
-      )}
+                })}
+              </tr>
+            `
+          : ''}
+        ${item.subarticole.map((sub) =>
+          this.renderSubarticleRow(
+            item,
+            sub,
+            index,
+            item.reteta.type,
+            usefullRecipeDisplayMask,
+            usefullRecipeSubsDisplayMask
+          )
+        )}
+      </tbody>
     `
   }
 
