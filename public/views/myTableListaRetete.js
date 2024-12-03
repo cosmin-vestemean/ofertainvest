@@ -11,7 +11,17 @@ class MyTableListaRetete extends LitElement {
     super()
     this.data = []
     this.articole = []
-    this.dropdownItems = ["Material", "Manopera", "Transport", "Utilaj", "Echipament"]
+    this.dropdownItems = [
+      'Material',
+      'Manopera',
+      'Transport',
+      'Utilaj',
+      'Echipament',
+      'Material+Manopera',
+      'Material+Transport',
+      'Material+Utilaj',
+      'Material+Echipament'
+    ]
   }
 
   connectedCallback() {
@@ -306,7 +316,7 @@ class MyTableListaRetete extends LitElement {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-          <i class="bi bi-plus-square text-primary"></i>
+            <i class="bi bi-plus-square text-primary"></i>
           </button>
           <ul class="dropdown-menu">
             ${this.dropdownItems.map(
