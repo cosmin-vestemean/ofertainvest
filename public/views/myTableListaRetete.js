@@ -204,6 +204,8 @@ class MyTableListaRetete extends LitElement {
       const popover = document.createElement('div');
       popover.className = 'popover';
       popover.style.position = 'absolute';
+      //make div borderless
+      popover.style.border = 'none';
       popover.innerHTML = popoverContent;
       this.appendChild(popover);
       const rect = tr.getBoundingClientRect();
