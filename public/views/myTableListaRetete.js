@@ -143,7 +143,7 @@ class MyTableListaRetete extends LitElement {
     return html`
       <tr
         data-index="${index}"
-        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
+        class="${item.subarticole.length > 0 ? 'table-light pt-1' : ''}"
         style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
