@@ -300,6 +300,21 @@ class MyTableListaRetete extends LitElement {
         <button type="button" class="btn btn-sm" @click="${(e) => this.showPopover(e, item)}">
           <i class="bi bi-plus-square text-primary"></i>
         </button>
+        <div class="dropdown">
+          <button
+            class="btn btn-sm dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+          <i class="bi bi-plus-square text-primary"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
         <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
           <i class="bi bi-save text-info"></i>
         </button>
