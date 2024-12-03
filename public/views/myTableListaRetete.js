@@ -243,12 +243,12 @@ class MyTableListaRetete extends LitElement {
   }
 
   toggleSubarticles(index) {
-    const rows = this.querySelectorAll(`tr[data-parent-index="${index}"]`)
+    const rows = this.shadowRoot.querySelectorAll(`tr[data-parent-index="${index}"]`)
     rows.forEach((row) => {
       row.classList.toggle('hidden')
     })
     // Toggle the icon
-    const toggleIcon = this.querySelector(`tr[data-index="${index}"] i`)
+    const toggleIcon = this.shadowRoot.querySelector(`tr[data-index="${index}"] i`)
     if (toggleIcon.classList.contains('bi-plus-square')) {
       toggleIcon.classList.remove('bi-plus-square')
       toggleIcon.classList.add('bi-dash-square')
@@ -282,7 +282,7 @@ class MyTableListaRetete extends LitElement {
     </div>`
 
     // Adjust the position after adding the popover to the DOM
-    const rect = this.host.getBoundingClientRect()
+    const rect = this.getBoundingClientRect()
     const tr = event.target.closest('tr')
     tr.classList.add('table-info')
     const trRect = tr.getBoundingClientRect()
