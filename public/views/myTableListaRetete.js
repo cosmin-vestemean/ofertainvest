@@ -210,7 +210,7 @@ class MyTableListaRetete extends LitElement {
     const tr = event.target.closest('tr')
     if (tr && !tr.dataset.popoverShown) {
       tr.dataset.popoverShown = true
-      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length
+      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
       const totalSubCount = item.subarticole.length
       const popoverContent = `
         <span class="badge bg-secondary">${totalSubCount}</span>
