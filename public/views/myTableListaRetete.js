@@ -297,11 +297,11 @@ class MyTableListaRetete extends LitElement {
   actionsBar(item) {
     return html`
       <!-- Custom HTML for actionsBar -->
-      <div class="actions-bar">
+      <div class="actions-bar row">
         <!-- Your custom actions -->
         <div class="dropdown">
           <button
-            class="btn btn-sm dropdown-toggle"
+            class="btn btn-sm dropdown-toggle col"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
@@ -314,7 +314,7 @@ class MyTableListaRetete extends LitElement {
             )}
           </ul>
         </div>
-        <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
+        <button type="button" class="btn btn-sm col" @click="${() => this.saveArticle(item)}">
           <i class="bi bi-save text-info"></i>
         </button>
       </div>
