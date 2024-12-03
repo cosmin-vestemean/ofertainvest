@@ -139,7 +139,7 @@ class MyTableListaRetete extends LitElement {
 
   renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
     return html`
-      <tbody class="cardReteta">
+      <tbody class="cardReteta shadow-sm">
         <tr
           data-index="${index}"
           class="${item.subarticole.length > 0 ? 'table-light' : ''}"
