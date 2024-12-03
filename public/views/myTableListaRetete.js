@@ -143,7 +143,7 @@ class MyTableListaRetete extends LitElement {
     return html`
       <tr
         data-index="${index}"
-        class="${item.subarticole.length > 0 ? 'table-light pt-1' : ''}"
+        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
         style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
@@ -166,10 +166,11 @@ class MyTableListaRetete extends LitElement {
                   usefullRecipeSubsDisplayMask[subKey].master === key
               ).length || 1
             const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
+            const finalClass = item.subarticole.length > 0 ? `${zoneClass} mt-1` : zoneClass
             return html`<td
               colspan="${colspan}"
               contenteditable="${usefullRecipeDisplayMask[key].RW}"
-              class="${zoneClass}"
+              class="${finalClass}"
             >
               ${item.articol[key]}
             </td>`
