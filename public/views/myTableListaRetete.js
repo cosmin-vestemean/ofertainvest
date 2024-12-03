@@ -72,7 +72,7 @@ class MyTableListaRetete extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm is-responsive" style="font-size: small;">
+          <table class="table table-sm is-responsive ms-2" style="font-size: small;">
             <thead>
               <tr>
                 ${headers}
