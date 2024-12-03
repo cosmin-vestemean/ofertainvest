@@ -168,7 +168,13 @@ class MyTableListaRetete extends LitElement {
       </tr>
       ${item.subarticole.length > 0
         ? html`
-            <tr class="subarticle-header d-none" data-parent-index="${index}">
+            <tr
+              class="subarticle-header d-none"
+              data-parent-index="${index}"
+              style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+                ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+                : ''}"
+            >
               <td></td>
               ${Object.keys(usefullRecipeDisplayMask).map((key) => {
                 if (usefullRecipeDisplayMask[key].visible) {
@@ -215,7 +221,7 @@ class MyTableListaRetete extends LitElement {
       const totalSubCount = item.subarticole.length
       const popoverContent = `
         <span class="badge text-bg-primary">${totalSubCount}</span>
-        <span class="badge text-bg-warning">${isArtOfCount}</span>
+        <span class="badge text-bg-secondary">${isArtOfCount}</span>
       `
       const popover = document.createElement('div')
       popover.className = 'popover'
