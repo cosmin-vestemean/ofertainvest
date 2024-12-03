@@ -84,17 +84,34 @@ class MyTableListaRetete extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm is-responsive ms-3" style="font-size: small;">
+          <table class="table table-sm is-responsive" style="font-size: small;">
             <thead>
               <tr>
                 ${headers}
               </tr>
             </thead>
-            <tbody>
-              ${this.articole.map((item, index) =>
-                this.renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
-              )}
-            </tbody>
+            ${this.articole.map(
+              (item, index) => html`
+                <tbody>
+                  ${this.renderArticleRow(
+                    item,
+                    index,
+                    usefullRecipeDisplayMask,
+                    usefullRecipeSubsDisplayMask
+                  )}
+                  ${item.subarticole.map((sub) =>
+                    this.renderSubarticleRow(
+                      item,
+                      sub,
+                      index,
+                      item.reteta.type,
+                      usefullRecipeDisplayMask,
+                      usefullRecipeSubsDisplayMask
+                    )
+                  )}
+                </tbody>
+              `
+            )}
           </table>
         </div>
       `
@@ -143,7 +160,7 @@ class MyTableListaRetete extends LitElement {
     return html`
       <tr
         data-index="${index}"
-        class="${item.subarticole.length > 0 ? 'table-light mt-1' : ''}"
+        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
         style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
@@ -166,11 +183,10 @@ class MyTableListaRetete extends LitElement {
                   usefullRecipeSubsDisplayMask[subKey].master === key
               ).length || 1
             const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
-            const finalClass = item.subarticole.length > 0 ? `${zoneClass} mt-1` : zoneClass
             return html`<td
               colspan="${colspan}"
               contenteditable="${usefullRecipeDisplayMask[key].RW}"
-              class="${finalClass}"
+              class="${zoneClass}"
             >
               ${item.articol[key]}
             </td>`
