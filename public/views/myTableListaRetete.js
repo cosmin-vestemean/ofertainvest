@@ -204,14 +204,13 @@ class MyTableListaRetete extends LitElement {
       const popover = document.createElement('div');
       popover.className = 'popover';
       popover.style.position = 'absolute';
-      //make div borderless
-      popover.style.border = 'none';
       popover.innerHTML = popoverContent;
       this.appendChild(popover);
       const rect = tr.getBoundingClientRect();
       const containerRect = this.getBoundingClientRect();
       popover.style.top = `${rect.top - containerRect.top}px`;
-      popover.style.left = `${rect.left - containerRect.left + rect.width}px`;
+      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`;
+      popover.style.left = `0px`;
       setTimeout(() => {
         popover.remove();
         delete tr.dataset.popoverShown; // Allow popover to be shown again
