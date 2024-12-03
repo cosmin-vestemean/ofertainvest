@@ -133,8 +133,8 @@ class MyTableListaRetete extends LitElement {
         data-index="${index}"
         class="${item.subarticole.length > 0 ? 'table-light' : ''}"
         style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-          : ''}"
+          ? 'border-left: 2px solid var(--bs-warning); border-right: 2px solid var(--bs-warning);'
+          : 'border-left: 2px solid var(--bs-info); border-right: 2px solid var(--bs-info);'}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
       >
@@ -172,8 +172,8 @@ class MyTableListaRetete extends LitElement {
               class="subarticle-header d-none"
               data-parent-index="${index}"
               style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
-                ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
-                : ''}"
+              ? 'border-left: 2px solid var(--bs-warning); border-right: 2px solid var(--bs-warning);'
+              : 'border-left: 2px solid var(--bs-info); border-right: 2px solid var(--bs-info);'}"
             >
               <td></td>
               ${Object.keys(usefullRecipeDisplayMask).map((key) => {
@@ -221,7 +221,7 @@ class MyTableListaRetete extends LitElement {
       const totalSubCount = item.subarticole.length
       const popoverContent = `
         <span class="badge text-bg-primary">${totalSubCount}</span>
-        <span class="badge text-bg-secondary">${isArtOfCount}</span>
+        <span class="badge text-bg-warning">${isArtOfCount}</span>
       `
       const popover = document.createElement('div')
       popover.className = 'popover'
