@@ -1,4 +1,4 @@
-import { theadIsSet, LitElement, html, unsafeHTML } from '../client.js'
+import { LitElement, html, css } from 'lit'
 import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 
 class MyTableListaRetete extends LitElement {
@@ -43,18 +43,6 @@ class MyTableListaRetete extends LitElement {
     return displayMask
   }
 
-  getBorderStyle(type, length) {
-    if (length > 0) {
-      if (type && type.includes('grupare artificiala')) {
-        return 'border-left: 2px solid var(--bs-warning); border-right: 2px solid var(--bs-warning);'
-      } else {
-        return 'border-left: 2px solid var(--bs-info); border-right: 2px solid var(--bs-info);'
-      }
-    } else {
-      return ''
-    }
-  }
-
   render() {
     if (!this.data || this.data.length == 0) {
       return html`<p class="label label-danger">No data</p>`
@@ -92,18 +80,18 @@ class MyTableListaRetete extends LitElement {
             </thead>
             ${this.articole.map(
               (item, index) => html`
-                <tbody class="cardReteta">
+                <tbody class="cardReteta shadow-sm">
                   ${this.renderArticleRow(
                     item,
                     index,
                     usefullRecipeDisplayMask,
                     usefullRecipeSubsDisplayMask
                   )}
-                  ${item.subarticole.map((sub) =>
+                  ${item.subarticole.map((sub, subIndex) =>
                     this.renderSubarticleRow(
-                      item,
                       sub,
                       index,
+                      subIndex,
                       item.reteta.type,
                       usefullRecipeDisplayMask,
                       usefullRecipeSubsDisplayMask
@@ -157,13 +145,15 @@ class MyTableListaRetete extends LitElement {
   }
 
   renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+    const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length
     return html`
       <tr
         data-index="${index}"
         class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+        style="${item.reteta.type && item.reteta.type.includes('grupare artificiala')
+          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+          : ''}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
-        @mouseover="${(e) => this.handleMouseOver(e, item)}"
       >
         <td>
           ${item.subarticole.length > 0
@@ -192,88 +182,29 @@ class MyTableListaRetete extends LitElement {
             </td>`
           }
         })}
+        <td>${this.actionsBar(item, isArtOfCount)}</td>
       </tr>
-      ${item.subarticole.length > 0
-        ? html`
-            <tr
-              class="subarticle-header d-none"
-              data-parent-index="${index}"
-              style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
-            >
-              <td></td>
-              ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                if (usefullRecipeDisplayMask[key].visible) {
-                  const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
-                    (subKey) =>
-                      usefullRecipeSubsDisplayMask[subKey].visible &&
-                      usefullRecipeSubsDisplayMask[subKey].master === key
-                  )
-                  if (subKeys.length > 0) {
-                    return subKeys.map((subKey) => {
-                      const zoneClass = usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                      const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
-                      const headerContent = hasActions
-                        ? this.actionsBar(item)
-                        : usefullRecipeSubsDisplayMask[subKey].label || subKey
-                      return html`<th class="${zoneClass}">${headerContent}</th>`
-                    })
-                  } else {
-                    return html`<th style="display:none"></th>`
-                  }
-                }
-              })}
-            </tr>
-          `
-        : ''}
-      ${item.subarticole.map((sub) =>
-        this.renderSubarticleRow(
-          item,
-          sub,
-          index,
-          item.reteta.type,
-          usefullRecipeDisplayMask,
-          usefullRecipeSubsDisplayMask
-        )
-      )}
     `
   }
 
-  handleMouseOver(event, item) {
-    if (!item.subarticole.length) return
-    const tr = event.target.closest('tr')
-    if (tr && !tr.dataset.popoverShown) {
-      tr.dataset.popoverShown = true
-      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
-      const totalSubCount = item.subarticole.length
-      const popoverContent = `
-        <span class="badge text-bg-info">${totalSubCount}</span>
-        <span class="badge text-bg-warning">${isArtOfCount}</span>
-      `
-      const popover = document.createElement('div')
-      popover.className = 'popover'
-      popover.style.position = 'absolute'
-      popover.style.border = 'none'
-      popover.innerHTML = popoverContent
-      this.appendChild(popover)
-      const rect = tr.getBoundingClientRect()
-      const containerRect = this.getBoundingClientRect()
-      popover.style.top = `${rect.top - containerRect.top}px`
-      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
-      popover.style.left = `0px`
-      setTimeout(() => {
-        popover.remove()
-        delete tr.dataset.popoverShown // Allow popover to be shown again
-      }, 3000)
-    }
-  }
-
-  renderSubarticleRow(item, sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  renderSubarticleRow(
+    sub,
+    index,
+    subIndex,
+    retetaType,
+    usefullRecipeDisplayMask,
+    usefullRecipeSubsDisplayMask
+  ) {
     return html`
       <tr
         class="subarticle d-none"
-        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+        style="${retetaType && retetaType.includes('grupare artificiala')
+          ? 'border-left: 2px solid #ffc107; border-right: 2px solid #ffc107;'
+          : ''}"
         data-parent-index="${index}"
+        data-sub-index="${subIndex}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
+        @mouseover="${(e) => this.handleMouseOver(e, sub)}"
       >
         <td></td>
         ${Object.keys(usefullRecipeDisplayMask).map((key) => {
@@ -365,7 +296,33 @@ class MyTableListaRetete extends LitElement {
     )
   }
 
-  actionsBar(item) {
+  handleMouseOver(event, item) {
+    const tr = event.target.closest('tr')
+    if (tr && !tr.dataset.popoverShown) {
+      tr.dataset.popoverShown = true
+      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length
+      const totalSubCount = item.subarticole.length
+      const popoverContent = `
+        <span class="badge bg-info">ISARTOF: ${isArtOfCount}</span>
+        <span class="badge bg-secondary">Total: ${totalSubCount}</span>
+      `
+      const popover = document.createElement('div')
+      popover.className = 'popover'
+      popover.style.position = 'absolute'
+      popover.innerHTML = popoverContent
+      this.appendChild(popover)
+      const rect = tr.getBoundingClientRect()
+      const containerRect = this.getBoundingClientRect()
+      popover.style.top = `${rect.top - containerRect.top}px`
+      popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+      setTimeout(() => {
+        popover.remove()
+        delete tr.dataset.popoverShown // Allow popover to be shown again
+      }, 3000)
+    }
+  }
+
+  actionsBar(item, isArtOfCount) {
     return html`
       <div class="actions-bar row">
         <div class="dropdown col">
@@ -389,6 +346,7 @@ class MyTableListaRetete extends LitElement {
         <button type="button" class="btn btn-sm col" @click="${() => this.saveArticle(item)}">
           <i class="bi bi-save text-info"></i>
         </button>
+        ${isArtOfCount > 0 ? html`<span class="badge bg-primary">${isArtOfCount}</span>` : ''}
       </div>
     `
   }
