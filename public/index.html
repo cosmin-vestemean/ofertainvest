@@ -165,6 +165,15 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
+                          <a
+                            class="dropdown-item text-primary fw-bold"
+                            href="#"
+                            id="vizualizare_oferta_initiala"
+                            >Lista oferta</a
+                          >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
                           <label for="saldoc" class="form-label text-primary">Alege oferta</label>
                           <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
                         </li>
@@ -183,13 +192,9 @@
                             accept=".xlsx"
                           />
                         </li>
+                        <li><hr class="dropdown-divider" /></li>
                         <li>
                           <a class="dropdown-item" href="#">Salveaza oferta</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#" id="vizualizare_oferta_initiala"
-                            >Vizualizeaza oferta</a
-                          >
                         </li>
                       </ul>
                     </li>
@@ -223,29 +228,9 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                          <a class="dropdown-item" href="#" id="scan_oferta_initiala"
-                            >Detectie automata retete</a
+                          <a class="dropdown-item text-primary fw-bold" href="#" id="lista_retete_scurta"
+                            >Lista retete</a
                           >
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#" id="lista_activitati">Lista activitati oferta</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#" id="lista_retete"
-                            >Lista completa retete cu detalii</a
-                          >
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#" id="orfani">Intrari orfane</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Vizualizare echivalente WBS</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#" id="WBSMap">Vizualizare harta WBS</a>
                         </li>
                         <li>
                           <div class="btn-group btn-group-toggle mx-3 my-2" data-toggle="buttons">
@@ -271,6 +256,31 @@
                           </div>
                         </li>
                         <li>
+                          <a class="dropdown-item" href="#" id="lista_activitati">Lista activitati oferta</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="lista_retete"
+                            >Lista completa retete cu detalii</a
+                          >
+                        </li>
+                        <li>hr class="dropdown-divider" /></li>
+                        <li>
+                          <a class="dropdown-item text-danger fw-bold" href="#" id="scan_oferta_initiala"
+                            >Detectie automata retete</a
+                          >
+                        </li>
+                        <li>hr class="dropdown-divider" /></li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="orfani">Intrari orfane</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#">Vizualizare echivalente WBS</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" id="WBSMap">Vizualizare harta WBS</a>
+                        </li>
+                        <li>hr class="dropdown-divider" /></li>
+                        <li>
                           <a id="btn_save_retete" class="dropdown-item" href="#">Salveaza retetele</a>
                         </li>
                       </ul>
@@ -288,13 +298,15 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                          <a class="dropdown-item" id="listaAntemasuratori" href="#">Lista antemasuratori</a>
+                          <a class="dropdown-item text-primary fw-bold" id="listaAntemasuratori" href="#">Lista antemasuratori</a>
                         </li>
+                        <li><hr class="dropdown-divider" /></li>
                         <li>
-                          <a class="dropdown-item" href="#" id="btn_regenerare_antemas"
+                          <a class="dropdown-item text-danger fw-bold" href="#" id="btn_regenerare_antemas"
                             >Regenereaza antemasuratori</a
                           >
                         </li>
+                        <li><hr class="dropdown-divider" /></li>
                         <li>
                           <a class="dropdown-item" href="#" id="btn_save_antemas">Salveaza antemasuratori</a>
                         </li>
