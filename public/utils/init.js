@@ -145,15 +145,17 @@ export function init() {
     var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
-    var p = document.createElement('h1')
+    var p = document.createElement('h2')
     p.innerHTML = 'Se incarca ultima oferta...'
     modal_body.appendChild(p)
-    //add spinner to modal_body
-    var spinner = document.createElement('span')
+    //add spinner to modal_body: https://getbootstrap.com/docs/5.3/components/spinners/#border-spinner
+    var spinner = document.createElement('div')
     spinner.classList.add('spinner-border')
-    spinner.classList.add('spinner-border-lg')
+    spinner.classList.add('text-warning')
+    spinner.style.width = '3rem'
+    spinner.style.height = '3rem'
     spinner.setAttribute('role', 'status')
-    spinner.setAttribute('aria-hidden', 'true')
+    spinner.innerHTML = '<span class="visually-hidden">Incarc ultima oferta deschisa...</span>'
     modal_body.appendChild(spinner)
     modal.show()
 
