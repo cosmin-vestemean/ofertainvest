@@ -56,6 +56,8 @@ export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
 var isDrawn = false
 
+/* global bootstrap */
+
 function changeTheme(theme) {
   //remove all stylesheets with names equal to themes array and add the one with the selected theme
   let links = document.getElementsByTagName('link')
@@ -139,6 +141,22 @@ export function init() {
     let btn_oferta = document.getElementById('btn_oferta')
     btn_oferta.innerHTML =
       '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
+    //create and trigger a bootstrap modal
+    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+    var modal_body = document.getElementById('modal-body3')
+    modal_body.innerHTML = ''
+    var p = document.createElement('p')
+    p.innerHTML = 'Se incarca oferta...'
+    //add spinner to modal_body
+    var spinner = document.createElement('span')
+    spinner.classList.add('spinner-border')
+    spinner.classList.add('spinner-border-sm')
+    spinner.setAttribute('role', 'status')
+    spinner.setAttribute('aria-hidden', 'true')
+    p.appendChild(spinner)
+    modal_body.appendChild(p)
+    modal.show()
+
     //get oferta from S1 service getOferta
     let raspuns = await getOferta(contextOferta.FILENAME)
     console.log('raspuns', raspuns)
