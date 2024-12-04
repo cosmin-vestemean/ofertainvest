@@ -567,6 +567,25 @@ export function init() {
     showHideHeader()
   }
 
+  function detectMobileUserAgent() {
+    let isMobile = false
+    let userAgent = navigator.userAgent
+    let mobileUserAgents = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows Phone']
+    mobileUserAgents.forEach((agent) => {
+      if (userAgent.includes(agent)) {
+        isMobile = true
+        console.log('Mobile device detected', agent)
+      }
+    })
+    return isMobile
+  }
+
+  let isMobile = detectMobileUserAgent()
+  if (isMobile) {
+    let zenView = document.getElementById('zenView')
+    zenView.click()
+  }
+
   //fullScreen
   let fullScreen = document.getElementById('fullScreen')
   //toggle full screen
