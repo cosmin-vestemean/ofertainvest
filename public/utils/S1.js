@@ -97,7 +97,10 @@ export async function populateSelects() {
                         select_saldoc.appendChild(option)
                       })
                       //select first item by default
-                      if (result.data.length > 0) select_saldoc.selectedIndex = 0
+                      if (result.data.length > 0) {
+                        select_saldoc.selectedIndex = 0
+                        select_saldoc.dispatchEvent(new Event('change'))
+                      }
                     } else {
                       console.log('error', result.error)
                     }
