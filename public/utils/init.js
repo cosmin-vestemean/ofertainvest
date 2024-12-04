@@ -544,7 +544,7 @@ export function init() {
   })
 
   //zenView
-  let zenView = document.getElementById('zenView')
+  const zenView = document.getElementById('zenView')
   //hide/show all page-header class elements
   zenView.onclick = function () {
     let pageHeaders = document.getElementsByClassName('zenView')
@@ -581,8 +581,7 @@ export function init() {
   }
 
   let isMobile = detectMobileUserAgent()
-  if (isMobile) {
-    let zenView = document.getElementById('zenView')
+  if (!isMobile) {
     zenView.click()
   }
 
