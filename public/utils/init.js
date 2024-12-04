@@ -140,25 +140,21 @@ export function init() {
     //add spinner to btn_oferta
     let btn_oferta = document.getElementById('btn_oferta')
     btn_oferta.innerHTML =
-      '<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span> Incarc...'
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
     //create and trigger a bootstrap modal
     var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
     var modal_body = document.getElementById('modal-body3')
     modal_body.innerHTML = ''
-    var p = document.createElement('p')
+    var p = document.createElement('h1')
     p.innerHTML = 'Se incarca ultima oferta...'
-    //align center
-    p.style.textAlign = 'center'
-    //class info
-    p.classList.add('bs-info')
+    modal_body.appendChild(p)
     //add spinner to modal_body
     var spinner = document.createElement('span')
     spinner.classList.add('spinner-border')
-    spinner.classList.add('spinner-border-sm')
+    spinner.classList.add('spinner-border-lg')
     spinner.setAttribute('role', 'status')
     spinner.setAttribute('aria-hidden', 'true')
-    p.appendChild(spinner)
-    modal_body.appendChild(p)
+    modal_body.appendChild(spinner)
     modal.show()
 
     //get oferta from S1 service getOferta
