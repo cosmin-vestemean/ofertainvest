@@ -96,7 +96,7 @@ export async function populateSelects() {
                         option.text = object['FILENAME']
                         select_saldoc.appendChild(option)
                       })
-                      //select first item by default
+                      //select first item by default is last added
                       if (result.data.length > 0) {
                         select_saldoc.selectedIndex = 0
                         select_saldoc.dispatchEvent(new Event('change'))
