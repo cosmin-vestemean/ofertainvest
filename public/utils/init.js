@@ -582,6 +582,7 @@ export function init() {
 
   let isMobile = detectMobileUserAgent()
   if (!isMobile) {
+    //display zenView if not mobile, on mobile remains hidden by default
     zenView.click()
   }
 

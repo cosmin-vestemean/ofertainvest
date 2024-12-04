@@ -96,7 +96,7 @@ export async function populateSelects() {
                         option.text = object['FILENAME']
                         select_saldoc.appendChild(option)
                       })
-                      select_saldoc.selectedIndex = -1
+                        select_saldoc.selectedIndex = 0
                     } else {
                       console.log('error', result.error)
                     }
