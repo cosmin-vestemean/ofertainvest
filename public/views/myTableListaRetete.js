@@ -57,17 +57,17 @@ class MyTableListaRetete extends LitElement {
 
   render() {
     if (!this.data || this.data.length == 0) {
-      return html`<p class="label label-danger">No data</p>`
+      return html`<div class="alert alert-warning" role="alert">No data.</div>`
     } else {
-      const usefullRecipeDisplayMask = this.usefullDisplayMask(recipeDisplayMask)
-      const usefullRecipeSubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
+      const usefullEntityDisplayMask = this.usefullDisplayMask(recipeDisplayMask)
+      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
 
       this.articole = this.data.flatMap((box) =>
         box.content.map((activitate) => {
           const articol = activitate.object
-          const newArticol = this.extractFields(articol, usefullRecipeDisplayMask)
+          const newArticol = this.extractFields(articol, usefullEntityDisplayMask)
           const subarticole = activitate.children.map((subarticol) =>
-            this.extractFields(subarticol.object, usefullRecipeSubsDisplayMask)
+            this.extractFields(subarticol.object, usefullEntitySubsDisplayMask)
           )
 
           return {
@@ -80,7 +80,7 @@ class MyTableListaRetete extends LitElement {
 
       console.log('articole', this.articole)
 
-      const headers = this.generateHeaders(usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask)
+      const headers = this.generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
 
       return html`
         <div class="container-fluid">
@@ -96,8 +96,8 @@ class MyTableListaRetete extends LitElement {
                   ${this.renderArticleRow(
                     item,
                     index,
-                    usefullRecipeDisplayMask,
-                    usefullRecipeSubsDisplayMask
+                    usefullEntityDisplayMask,
+                    usefullEntitySubsDisplayMask
                   )}
                 </tbody>`
             )}
@@ -125,19 +125,19 @@ class MyTableListaRetete extends LitElement {
     return newObject
   }
 
-  generateHeaders(usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
     const headers = [html`<th rowspan="2"></th>`]
 
-    Object.keys(usefullRecipeDisplayMask).forEach((key) => {
-      if (usefullRecipeDisplayMask[key].visible) {
-        const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+    Object.keys(usefullEntityDisplayMask).forEach((key) => {
+      if (usefullEntityDisplayMask[key].visible) {
+        const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
           (subKey) =>
-            usefullRecipeSubsDisplayMask[subKey].visible &&
-            usefullRecipeSubsDisplayMask[subKey].master === key
+            usefullEntitySubsDisplayMask[subKey].visible &&
+            usefullEntitySubsDisplayMask[subKey].master === key
         )
         const colspan = subKeys.length || 1
-        const hasActions = usefullRecipeDisplayMask[key].hasActions || false
-        const headerContent = hasActions ? this.actionsBar() : usefullRecipeDisplayMask[key].label || key
+        const hasActions = usefullEntityDisplayMask[key].hasActions || false
+        const headerContent = hasActions ? this.actionsBar() : usefullEntityDisplayMask[key].label || key
         headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
       }
     })
@@ -145,7 +145,7 @@ class MyTableListaRetete extends LitElement {
     return headers
   }
 
-  renderArticleRow(item, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  renderArticleRow(item, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
     return html`
       <tr
         data-index="${index}"
@@ -182,20 +182,21 @@ class MyTableListaRetete extends LitElement {
                 </ul>
               </div>`}
         </td>
-        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-          if (usefullRecipeDisplayMask[key].visible) {
+        ${Object.keys(usefullEntityDisplayMask).map((key) => {
+          if (usefullEntityDisplayMask[key].visible) {
             const colspan =
-              Object.keys(usefullRecipeSubsDisplayMask).filter(
+              Object.keys(usefullEntitySubsDisplayMask).filter(
                 (subKey) =>
-                  usefullRecipeSubsDisplayMask[subKey].visible &&
-                  usefullRecipeSubsDisplayMask[subKey].master === key
+                  usefullEntitySubsDisplayMask[subKey].visible &&
+                  usefullEntitySubsDisplayMask[subKey].master === key
               ).length || 1
-            const zoneClass = usefullRecipeDisplayMask[key].verticalDelimiterStyleClass || ''
+            const zoneClass = usefullEntityDisplayMask[key].verticalDelimiterStyleClass || ''
             return html`<td
               colspan="${colspan}"
-              contenteditable="${usefullRecipeDisplayMask[key].RW}"
+              contenteditable="${usefullEntityDisplayMask[key].RW}"
               class="${zoneClass}"
               @focusin="${(e) => this.handleFocusIn(e, item, key)}"
+              @focusout="${(e) => this.saveArticle(item)}"
               @keydown="${(e) => this.handleKeyDown(e, item, key)}"
             >
               ${item.articol[key]}
@@ -211,20 +212,20 @@ class MyTableListaRetete extends LitElement {
               style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
             >
               <td></td>
-              ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-                if (usefullRecipeDisplayMask[key].visible) {
-                  const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+              ${Object.keys(usefullEntityDisplayMask).map((key) => {
+                if (usefullEntityDisplayMask[key].visible) {
+                  const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
                     (subKey) =>
-                      usefullRecipeSubsDisplayMask[subKey].visible &&
-                      usefullRecipeSubsDisplayMask[subKey].master === key
+                      usefullEntitySubsDisplayMask[subKey].visible &&
+                      usefullEntitySubsDisplayMask[subKey].master === key
                   )
                   if (subKeys.length > 0) {
                     return subKeys.map((subKey) => {
-                      const zoneClass = usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                      const hasActions = usefullRecipeSubsDisplayMask[subKey].hasActions || false
+                      const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                      const hasActions = usefullEntitySubsDisplayMask[subKey].hasActions || false
                       const headerContent = hasActions
                         ? this.actionsBar(item)
-                        : usefullRecipeSubsDisplayMask[subKey].label || subKey
+                        : usefullEntitySubsDisplayMask[subKey].label || subKey
                       return html`<th class="${zoneClass}">${headerContent}</th>`
                     })
                   } else {
@@ -236,13 +237,7 @@ class MyTableListaRetete extends LitElement {
           `
         : ''}
       ${item.subarticole.map((sub) =>
-        this.renderSubarticleRow(
-          item,
-          sub,
-          index,
-          usefullRecipeDisplayMask,
-          usefullRecipeSubsDisplayMask
-        )
+        this.renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
       )}
     `
   }
@@ -276,7 +271,7 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
-  renderSubarticleRow(item, sub, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
     return html`
       <tr
         class="subarticle d-none"
@@ -285,20 +280,21 @@ class MyTableListaRetete extends LitElement {
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
       >
         <td></td>
-        ${Object.keys(usefullRecipeDisplayMask).map((key) => {
-          if (usefullRecipeDisplayMask[key].visible) {
-            const subKeys = Object.keys(usefullRecipeSubsDisplayMask).filter(
+        ${Object.keys(usefullEntityDisplayMask).map((key) => {
+          if (usefullEntityDisplayMask[key].visible) {
+            const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
               (subKey) =>
-                usefullRecipeSubsDisplayMask[subKey].visible &&
-                usefullRecipeSubsDisplayMask[subKey].master === key
+                usefullEntitySubsDisplayMask[subKey].visible &&
+                usefullEntitySubsDisplayMask[subKey].master === key
             )
             if (subKeys.length > 0) {
               return subKeys.map((subKey) => {
-                const zoneClass = usefullRecipeSubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                 return html`<td
-                  contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
+                  contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
                   class="${zoneClass}"
                   @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
+                  @focusout="${(e) => this.saveArticle(sub)}"
                   @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
                 >
                   ${sub[subKey]}
@@ -418,7 +414,7 @@ class MyTableListaRetete extends LitElement {
         trs[rowIndex - 1].children[index].focus()
       }
     }
-}
+  }
 
   actionsBar(item) {
     return html`
