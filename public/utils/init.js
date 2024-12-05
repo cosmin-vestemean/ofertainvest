@@ -100,6 +100,22 @@ function changeStyleInTheShadow(table, link) {
 }
 
 export function init() {
+  //show modal with spinner announcing that the app is initializing
+  let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+  let modalBody = document.getElementById('modal-body3')
+  modalBody.innerHTML = ''
+  let p = document.createElement('h2')
+  p.innerHTML = 'Initializare aplicatie...'
+  modalBody.appendChild(p)
+  let spinner = document.createElement('div')
+  spinner.classList.add('spinner-border')
+  spinner.classList.add('text-warning')
+  spinner.style.width = '3rem'
+  spinner.style.height = '3rem'
+  spinner.setAttribute('role', 'status')
+  spinner.innerHTML = '<span class="visually-hidden">Aplicatia se initializeaza...</span>'
+  modalBody.appendChild(spinner)
+  modal.show()
   //this function executes when window is loaded
   //add event listener to select id="trdr" and select id="prjc"
   var trdr = document.getElementById('trdr')
@@ -141,13 +157,11 @@ export function init() {
     let btn_oferta = document.getElementById('btn_oferta')
     btn_oferta.innerHTML =
       '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
-    //create and trigger a bootstrap modal
-    var modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
-    var modal_body = document.getElementById('modal-body3')
-    modal_body.innerHTML = ''
-    var p = document.createElement('h2')
-    p.innerHTML = 'Se incarca ultima oferta...'
-    modal_body.appendChild(p)
+    //update modal
+    modalBody.innerHTML = ''
+    let p = document.createElement('h2')
+    p.innerHTML = 'Incarc ultima oferta deschisa...'
+    modalBody.appendChild(p)
     //add spinner to modal_body: https://getbootstrap.com/docs/5.3/components/spinners/#border-spinner
     var spinner = document.createElement('div')
     spinner.classList.add('spinner-border')
@@ -156,8 +170,7 @@ export function init() {
     spinner.style.height = '3rem'
     spinner.setAttribute('role', 'status')
     spinner.innerHTML = '<span class="visually-hidden">Incarc ultima oferta deschisa...</span>'
-    modal_body.appendChild(spinner)
-    modal.show()
+    modalBody.appendChild(spinner)
 
     //get oferta from S1 service getOferta
     let raspuns = await getOferta(contextOferta.FILENAME)
