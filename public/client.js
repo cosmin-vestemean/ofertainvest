@@ -1406,15 +1406,18 @@ export function showRecipes() {
     //show lista retete intr-o singura pagina
     tables.hideAllBut([tables.my_table8])
     let data = recipes_ds
-    data.content = recipes_ds.reteta
-    delete data.reteta
-    let meta = Object.keys(data).reduce((acc, key) => {
-      if (!Array.isArray(data[key])) {
-        acc[key] = data[key]
-      }
-      return acc
-    }, {})
-    data.meta = meta
+    recipes_ds.forEach((item) => {
+      item.content = item.reteta
+      delete item.reteta
+
+      let meta = Object.keys(item).reduce((acc, key) => {
+        if (!Array.isArray(item[key])) {
+          acc[key] = item[key]
+        }
+        return acc
+      }, {})
+      data.meta = meta
+    })
     console.log('recipes data', data)
     tables.my_table8.element.data = data
   }
