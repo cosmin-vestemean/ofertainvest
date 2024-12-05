@@ -1409,14 +1409,14 @@ export function showRecipes() {
     recipes_ds.forEach((item) => {
       item.content = item.reteta
       delete item.reteta
-
       let meta = Object.keys(item).reduce((acc, key) => {
         if (!Array.isArray(item[key])) {
           acc[key] = item[key]
+          delete item[key]
         }
         return acc
       }, {})
-      data.meta = meta
+      item.meta = meta
     })
     console.log('recipes data', data)
     tables.my_table8.element.data = data
