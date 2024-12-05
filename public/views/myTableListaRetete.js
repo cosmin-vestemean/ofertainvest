@@ -1,4 +1,4 @@
-import UI1 from './UI1';
+import UI1 from './UI1.js';
 
 class MyTableListaRetete extends UI1 {
   constructor() {
@@ -7,6 +7,10 @@ class MyTableListaRetete extends UI1 {
   }
 
   // Suprascrie metodele din UI1 sau adaugă metode noi
+  /* someMethod() {
+    super.someMethod();
+    // Implementare specifică pentru MyTableListaRetete
+  } */
 }
 
 export default MyTableListaRetete;
