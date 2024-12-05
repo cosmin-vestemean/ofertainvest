@@ -104,9 +104,13 @@ export function init() {
   let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
   let modalBody = document.getElementById('modal-body3')
   modalBody.innerHTML = ''
+  //add <div class="d-flex justify-content-center">
+  let div = document.createElement('div')
+  div.classList.add('d-flex')
+  div.classList.add('justify-content-center')
   let p = document.createElement('h2')
   p.innerHTML = 'Initializare aplicatie...'
-  modalBody.appendChild(p)
+  div.appendChild(p)
   let spinner = document.createElement('div')
   spinner.classList.add('spinner-border')
   spinner.classList.add('text-warning')
@@ -114,7 +118,8 @@ export function init() {
   spinner.style.height = '3rem'
   spinner.setAttribute('role', 'status')
   spinner.innerHTML = '<span class="visually-hidden">Aplicatia se initializeaza...</span>'
-  modalBody.appendChild(spinner)
+  div.appendChild(spinner)
+  modalBody.appendChild(div)
   modal.show()
   //this function executes when window is loaded
   //add event listener to select id="trdr" and select id="prjc"
@@ -158,19 +163,9 @@ export function init() {
     btn_oferta.innerHTML =
       '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
     //update modal
-    modalBody.innerHTML = ''
-    let p = document.createElement('h2')
-    p.innerHTML = 'Incarc ultima oferta deschisa...'
-    modalBody.appendChild(p)
-    //add spinner to modal_body: https://getbootstrap.com/docs/5.3/components/spinners/#border-spinner
-    var spinner = document.createElement('div')
-    spinner.classList.add('spinner-border')
-    spinner.classList.add('text-warning')
-    spinner.style.width = '3rem'
-    spinner.style.height = '3rem'
-    spinner.setAttribute('role', 'status')
-    spinner.innerHTML = '<span class="visually-hidden">Incarc ultima oferta deschisa...</span>'
-    modalBody.appendChild(spinner)
+    //get h2 of modal-body3
+    let h2 = modalBody.querySelector('h2')
+    h2.innerHTML = 'Incarc ultima oferta deschisa...'
 
     //get oferta from S1 service getOferta
     let raspuns = await getOferta(contextOferta.FILENAME)
