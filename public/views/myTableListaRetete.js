@@ -92,7 +92,7 @@ class MyTableListaRetete extends LitElement {
             </thead>
             ${this.articole.map(
               (item, index) =>
-                html`<tbody class="cardReteta">
+                html`<tbody>
                   ${this.renderArticleRow(
                     item,
                     index,
@@ -149,7 +149,7 @@ class MyTableListaRetete extends LitElement {
     return html`
       <tr
         data-index="${index}"
-        class="${item.subarticole.length > 0 ? 'table-light rounded-top' : ''}"
+        class="${item.subarticole.length > 0 ? 'table-light' : ''}"
         style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
