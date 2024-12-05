@@ -256,7 +256,7 @@ class MyTableListaRetete extends LitElement {
   }
 
   handleKeyDown(e) {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
       e.preventDefault()
       const cells = Array.from(this.querySelectorAll('[contenteditable="true"]'))
       const index = cells.indexOf(e.target)
@@ -264,6 +264,16 @@ class MyTableListaRetete extends LitElement {
         cells[index - 1].focus()
       } else if (e.key === 'ArrowDown' && index < cells.length - 1) {
         cells[index + 1].focus()
+      } else if (e.key === 'ArrowLeft') {
+        const prevCell = cells[index].previousElementSibling
+        if (prevCell && prevCell.contentEditable === "true") {
+          prevCell.focus()
+        }
+      } else if (e.key === 'ArrowRight') {
+        const nextCell = cells[index].nextElementSibling
+        if (nextCell && nextCell.contentEditable === "true") {
+          nextCell.focus()
+        }
       }
     }
   }
