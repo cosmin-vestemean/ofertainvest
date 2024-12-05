@@ -10,7 +10,7 @@ import { tables } from './utils/tables.js'
 import { selectedTheme } from './utils/init.js'
 import { ds_antemasuratori, setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/_cantitate_oferta.js'
-import { recipeDisplayMask } from './views/masks.js'
+import { recipeDisplayMask, recipeSubsDisplayMask } from './views/masks.js'
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
@@ -1420,7 +1420,10 @@ export function showRecipes() {
     console.log('recipes data', data)
 
     tables.hideAllBut([tables.my_table8])
+    
     tables.my_table8.element.data = data
+    tables.my_table8.element.mainMask = recipeDisplayMask
+    tables.my_table8.element.subsMask = recipeSubsDisplayMask
   }
 }
 
