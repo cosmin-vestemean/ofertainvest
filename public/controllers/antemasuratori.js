@@ -25,7 +25,7 @@ import { antemasuratoriDisplayMask } from '../views/masks.js'
 
 export var ds_antemasuratori = []
 export async function setDsAntemasuratori() {
-  const sqlQuery = `select * from CCCANTEMASURATORI a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE`
+  const sqlQuery = `select * from CCCANTEMASURATORI a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE, A.CCCOFERTEWEBLINII`
   const response = await client.service('getDataset').find({
     query: {
       sqlQuery: sqlQuery
@@ -538,6 +538,8 @@ export function showAntemasuratori() {
       flatFind(selected_options_arr, ds_antemasuratori, delimiter)
       tables.my_table4.element.ds = selected_ds
     } else {
+      tables.my_table4.element.mainMask = antemasuratoriDisplayMask
+      tables.my_table4.element.subsMask = antemasuratoriDisplayMask
       tables.my_table4.element.ds = ds_antemasuratori
     }
   }
