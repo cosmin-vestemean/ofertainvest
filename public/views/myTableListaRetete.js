@@ -62,16 +62,23 @@ class MyTableListaRetete extends LitElement {
       const usefullRecipeDisplayMask = this.usefullDisplayMask(recipeDisplayMask)
       const usefullRecipeSubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
 
-      this.articole = this.data.flatMap((reteta) =>
-        reteta.reteta.map((activitate) => {
+      this.articole = this.data.flatMap((box) =>
+        box.reteta.map((activitate) => {
           const articol = activitate.object
           const newArticol = this.extractFields(articol, usefullRecipeDisplayMask)
           const subarticole = activitate.children.map((subarticol) =>
             this.extractFields(subarticol.object, usefullRecipeSubsDisplayMask)
           )
+          
+          let meta = Object.keys(box).reduce((acc, key) => {
+            if (!Array.isArray(box[key])) {
+              acc[key] = box[key]
+            }
+            return acc
+          }, {})
 
           return {
-            reteta: { id: reteta.id, name: reteta.name, type: reteta.type },
+            reteta: meta,
             articol: newArticol,
             subarticole: subarticole
           }
