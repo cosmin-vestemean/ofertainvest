@@ -260,19 +260,23 @@ class MyTableListaRetete extends LitElement {
       e.preventDefault()
       const cells = Array.from(this.querySelectorAll('[contenteditable="true"]'))
       const index = cells.indexOf(e.target)
-      if (e.key === 'ArrowUp' && index > 0) {
-        cells[index - 1].focus()
-      } else if (e.key === 'ArrowDown' && index < cells.length - 1) {
-        cells[index + 1].focus()
+      const rowLength = this.querySelector('tr').querySelectorAll('[contenteditable="true"]').length
+
+      if (e.key === 'ArrowUp' && index >= rowLength) {
+        cells[index - rowLength].focus()
+      } else if (e.key === 'ArrowDown' && index < cells.length - rowLength) {
+        cells[index + rowLength].focus()
       } else if (e.key === 'ArrowLeft') {
-        const prevCell = cells[index].previousElementSibling
-        if (prevCell && prevCell.contentEditable === "true") {
-          prevCell.focus()
+        if (index % rowLength === 0 && index > 0) {
+          cells[index - 1].focus()
+        } else if (index % rowLength !== 0) {
+          cells[index - 1].focus()
         }
       } else if (e.key === 'ArrowRight') {
-        const nextCell = cells[index].nextElementSibling
-        if (nextCell && nextCell.contentEditable === "true") {
-          nextCell.focus()
+        if ((index + 1) % rowLength === 0 && index < cells.length - 1) {
+          cells[index + 1].focus()
+        } else if ((index + 1) % rowLength !== 0) {
+          cells[index + 1].focus()
         }
       }
     }
