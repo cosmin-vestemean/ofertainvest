@@ -92,7 +92,7 @@ class MyTableListaRetete extends LitElement {
             </thead>
             ${this.articole.map(
               (item, index) =>
-                html`<tbody class="cardReteta shadow-sm">
+                html`<tbody class="cardReteta">
                   ${this.renderArticleRow(
                     item,
                     index,
