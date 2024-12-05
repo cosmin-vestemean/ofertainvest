@@ -394,9 +394,11 @@ class MyTableListaRetete extends LitElement {
             )}
           </ul>
         </div>
-        <button type="button" class="btn btn-sm col" @click="${() => this.saveArticle(item)}">
-          <i class="bi bi-save text-info"></i>
-        </button>
+        <div class="col">
+          <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
+            <i class="bi bi-save text-info"></i>
+          </button>
+        </div>
       </div>
     `
   }
