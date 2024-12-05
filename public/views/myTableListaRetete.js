@@ -1,5 +1,5 @@
 import { theadIsSet, LitElement, html, unsafeHTML } from '../client.js'
-import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
+import * as masks from './masks.js'
 
 class MyTableListaRetete extends LitElement {
   static properties = {
@@ -24,8 +24,8 @@ class MyTableListaRetete extends LitElement {
       'Material+Utilaj',
       'Material+Echipament'
     ]
-    this.mainMask = recipeDisplayMask
-    this.subsMask = recipeSubsDisplayMask
+    this.mainMask = masks.recipeDisplayMask
+    this.subsMask = masks.recipeSubsDisplayMask
   }
 
   connectedCallback() {
