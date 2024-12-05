@@ -29,6 +29,9 @@
     <script type="module" src="client.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/immer/dist/immer.umd.js"></script>
+    <script type="module">
+      import { calculateLeftMenuTopPosition } from './utils/calculateElements.js'
+    </script>
     <style>
       .cy {
         height: 100%;
@@ -297,7 +300,9 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                          <a class="dropdown-item text-primary fw-bold" id="listaAntemasuratori" href="#">Lista antemasuratori</a>
+                          <a class="dropdown-item text-primary fw-bold" id="listaAntemasuratori" href="#"
+                            >Lista antemasuratori</a
+                          >
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
@@ -423,7 +428,7 @@
             </nav>
           </div>
         </div>
-        <div class="row zenView" style="display: none;">
+        <div class="row zenView" style="display: none">
           <div class="row" id="doc-header">
             <div class="col-2">
               <label for="trndate" class="form-label text-primary">Data</label>
@@ -457,7 +462,7 @@
       <div class="row">
         <div class="col-1 mt-4" id="leftContent">
           <!-- Menu -->
-          <div id="leftMenu" class="row zenView" style="display: none;">
+          <div id="leftMenu" class="row zenView" style="display: none">
             <ul class="list-group">
               <li
                 id="btn_oferta"
@@ -540,7 +545,8 @@
               aria-labelledby="headerlLabel"
               aria-hidden="true"
             >
-              <div id="genericContainer" class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable role="document">
+              <div id="genericContainer" class="modal-dialog modal-lg modal-dialog-centered
+              modal-dialog-scrollable role="document">
               <div class="modal-content">
                 <div class="modal-body" id="modal-body3"></div>
                 <div class="modal-footer">
@@ -609,8 +615,6 @@
           this.classList.add('active')
         })
       })
-    </script>
-    <script type="module" src="./utils/calculateElements.js">
       calculateLeftMenuTopPosition()
     </script>
   </body>
