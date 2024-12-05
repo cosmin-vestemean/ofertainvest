@@ -63,7 +63,7 @@ class MyTableListaRetete extends LitElement {
       const usefullRecipeSubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
 
       this.articole = this.data.flatMap((box) =>
-        box.reteta.map((activitate) => {
+        box.content.map((activitate) => {
           const articol = activitate.object
           const newArticol = this.extractFields(articol, usefullRecipeDisplayMask)
           const subarticole = activitate.children.map((subarticol) =>
@@ -78,7 +78,7 @@ class MyTableListaRetete extends LitElement {
           }, {})
 
           return {
-            reteta: meta,
+            meta: meta,
             articol: newArticol,
             subarticole: subarticole
           }
@@ -157,7 +157,7 @@ class MyTableListaRetete extends LitElement {
       <tr
         data-index="${index}"
         class="${item.subarticole.length > 0 ? 'table-light' : ''}"
-        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+        style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
       >
@@ -213,7 +213,7 @@ class MyTableListaRetete extends LitElement {
             <tr
               class="subarticle-header d-none"
               data-parent-index="${index}"
-              style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+              style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
             >
               <td></td>
               ${Object.keys(usefullRecipeDisplayMask).map((key) => {
@@ -245,7 +245,6 @@ class MyTableListaRetete extends LitElement {
           item,
           sub,
           index,
-          item.reteta.type,
           usefullRecipeDisplayMask,
           usefullRecipeSubsDisplayMask
         )
@@ -282,11 +281,11 @@ class MyTableListaRetete extends LitElement {
     }
   }
 
-  renderSubarticleRow(item, sub, index, retetaType, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
+  renderSubarticleRow(item, sub, index, usefullRecipeDisplayMask, usefullRecipeSubsDisplayMask) {
     return html`
       <tr
         class="subarticle d-none"
-        style="${this.getBorderStyle(item.reteta.type, item.subarticole.length)}"
+        style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
         data-parent-index="${index}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
       >
