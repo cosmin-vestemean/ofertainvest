@@ -29,9 +29,6 @@
     <script type="module" src="client.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/immer/dist/immer.umd.js"></script>
-    <script type="module">
-      import { calculateLeftMenuTopPosition } from './utils/calculateElements.js'
-    </script>
     <style>
       .cy {
         height: 100%;
@@ -489,9 +486,6 @@
               </li>
             </ul>
           </div>
-          <script>
-            calculateLeftMenuTopPosition()
-          </script>
           <div id="quickPanel" class="row">
             <i
               id="btn_column_filter"
@@ -618,6 +612,10 @@
           this.classList.add('active')
         })
       })
+    </script>
+    <script type="module">
+      import { calculateLeftMenuTopPosition } from './utils/calculateElements.js'
+      window.onload = calculateLeftMenuTopPosition
     </script>
   </body>
 </html>
