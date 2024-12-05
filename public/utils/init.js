@@ -112,6 +112,7 @@ export function init() {
   let spinner = document.createElement('div')
   spinner.classList.add('spinner-border')
   spinner.classList.add('text-warning')
+  spinner.classList.add('p-5')
   spinner.style.width = '3rem'
   spinner.style.height = '3rem'
   spinner.setAttribute('role', 'status')
