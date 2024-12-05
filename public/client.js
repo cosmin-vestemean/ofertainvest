@@ -1404,7 +1404,6 @@ export function showRecipes() {
     tables.my_table2.element.ds = listaRetete
   } else {
     //show lista retete intr-o singura pagina
-    tables.hideAllBut([tables.my_table8])
     let data = recipes_ds
     recipes_ds.forEach((item) => {
       item.content = item.reteta
@@ -1419,6 +1418,8 @@ export function showRecipes() {
       item.meta = meta
     })
     console.log('recipes data', data)
+
+    tables.hideAllBut([tables.my_table8])
     tables.my_table8.element.data = data
   }
 }

@@ -195,6 +195,8 @@ class MyTableListaRetete extends LitElement {
               colspan="${colspan}"
               contenteditable="${usefullRecipeDisplayMask[key].RW}"
               class="${zoneClass}"
+              @focusin="${this.handleFocusIn}"
+              @keydown="${this.handleKeyDown}"
             >
               ${item.articol[key]}
             </td>`
@@ -245,32 +247,24 @@ class MyTableListaRetete extends LitElement {
     `
   }
 
-  handleMouseOver(event, item) {
-    if (!item.subarticole.length) return
-    const tr = event.target.closest('tr')
-    if (tr && !tr.dataset.popoverShown) {
-      tr.dataset.popoverShown = true
-      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
-      const totalSubCount = item.subarticole.length
-      const popoverContent = `
-        <span class="badge text-bg-info">${totalSubCount}</span>
-        <span class="badge text-bg-warning">${isArtOfCount}</span>
-      `
-      const popover = document.createElement('div')
-      popover.className = 'popover'
-      popover.style.position = 'absolute'
-      popover.style.border = 'none'
-      popover.innerHTML = popoverContent
-      this.appendChild(popover)
-      const rect = tr.getBoundingClientRect()
-      const containerRect = this.getBoundingClientRect()
-      popover.style.top = `${rect.top - containerRect.top}px`
-      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
-      popover.style.left = `0px`
-      setTimeout(() => {
-        popover.remove()
-        delete tr.dataset.popoverShown // Allow popover to be shown again
-      }, 3000)
+  handleFocusIn(e) {
+    var range = document.createRange()
+    range.selectNodeContents(e.target)
+    var sel = window.getSelection()
+    sel.removeAllRanges()
+    sel.addRange(range)
+  }
+
+  handleKeyDown(e) {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      const cells = Array.from(this.querySelectorAll('[contenteditable="true"]'))
+      const index = cells.indexOf(e.target)
+      if (e.key === 'ArrowUp' && index > 0) {
+        cells[index - 1].focus()
+      } else if (e.key === 'ArrowDown' && index < cells.length - 1) {
+        cells[index + 1].focus()
+      }
     }
   }
 
@@ -296,6 +290,8 @@ class MyTableListaRetete extends LitElement {
                 return html`<td
                   contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
                   class="${zoneClass}"
+                  @focusin="${this.handleFocusIn}"
+                  @keydown="${this.handleKeyDown}"
                 >
                   ${sub[subKey]}
                 </td>`
