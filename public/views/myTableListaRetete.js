@@ -46,9 +46,9 @@ class MyTableListaRetete extends LitElement {
   getBorderStyle(type, length) {
     if (length > 0) {
       if (type && type.includes('grupare artificiala')) {
-        return 'border-left: 1px solid var(--bs-warning);'
+        return 'border-left: 2px solid var(--bs-warning);'
       } else {
-        return 'border-left: 1px solid var(--bs-info);'
+        return 'border-left: 2px solid var(--bs-info);'
       }
     } else {
       return ''
