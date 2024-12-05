@@ -1405,7 +1405,18 @@ export function showRecipes() {
   } else {
     //show lista retete intr-o singura pagina
     tables.hideAllBut([tables.my_table8])
-    tables.my_table8.element.data = recipes_ds
+    let data = recipes_ds
+    data.content = recipes_ds.reteta
+    delete data.reteta
+    let meta = Object.keys(data).reduce((acc, key) => {
+      if (!Array.isArray(data[key])) {
+        acc[key] = data[key]
+      }
+      return acc
+    }, {})
+    data.meta = meta
+    console.log('recipes data', data)
+    tables.my_table8.element.data = data
   }
 }
 
