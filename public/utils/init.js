@@ -111,6 +111,7 @@ export function init() {
   let p = document.createElement('h3')
   p.innerHTML = 'Initializare aplicatie...'
   div.appendChild(p)
+  let div1 = document.createElement('div')
   let spinner = document.createElement('div')
   spinner.classList.add('spinner-border')
   spinner.classList.add('text-warning')
@@ -118,7 +119,8 @@ export function init() {
   spinner.style.height = '3rem'
   spinner.setAttribute('role', 'status')
   spinner.innerHTML = '<span class="visually-hidden">Aplicatia se initializeaza...</span>'
-  div.appendChild(spinner)
+  div1.appendChild(spinner)
+  div.appendChild(div1)
   modalBody.appendChild(div)
   modal.show()
   //this function executes when window is loaded
