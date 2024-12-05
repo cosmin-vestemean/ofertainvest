@@ -106,15 +106,9 @@ export function init() {
   modalBody.innerHTML = ''
   //add <div class="d-flex justify-content-center">
   let div = document.createElement('div')
-  div.classList.add('d-flex')
-  div.classList.add('justify-content-center')
-  div.classList.add('col-12')
   let h3 = document.createElement('h3')
-  h3.classList.add('row')
   h3.innerHTML = 'Aplicatia se initializeaza...'
   div.appendChild(h3)
-  let div1 = document.createElement('div')
-  div1.classList.add('row')
   let spinner = document.createElement('div')
   spinner.classList.add('spinner-border')
   spinner.classList.add('text-warning')
@@ -122,8 +116,7 @@ export function init() {
   spinner.style.height = '3rem'
   spinner.setAttribute('role', 'status')
   spinner.innerHTML = '<span class="visually-hidden">Aplicatia se initializeaza...</span>'
-  div1.appendChild(spinner)
-  div.appendChild(div1)
+  div.appendChild(spinner)
   modalBody.appendChild(div)
   modal.show()
   //this function executes when window is loaded
