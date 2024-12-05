@@ -4,7 +4,9 @@ import { recipeDisplayMask, recipeSubsDisplayMask } from './masks.js'
 class MyTableListaRetete extends LitElement {
   static properties = {
     data: { type: Array },
-    dropdownItems: { type: Array }
+    dropdownItems: { type: Array },
+    mainMask: { type: Object },
+    subsMask: { type: Object },
   }
 
   constructor() {
@@ -22,6 +24,8 @@ class MyTableListaRetete extends LitElement {
       'Material+Utilaj',
       'Material+Echipament'
     ]
+    this.mainMask = recipeDisplayMask
+    this.subsMask = recipeSubsDisplayMask
   }
 
   connectedCallback() {
@@ -59,8 +63,8 @@ class MyTableListaRetete extends LitElement {
     if (!this.data || this.data.length == 0) {
       return html`<div class="alert alert-warning" role="alert">No data.</div>`
     } else {
-      const usefullEntityDisplayMask = this.usefullDisplayMask(recipeDisplayMask)
-      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
+      const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
+      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
       this.articole = this.data.flatMap((box) =>
         box.content.map((activitate) => {
