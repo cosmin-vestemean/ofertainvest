@@ -108,10 +108,15 @@ export function init() {
   let div = document.createElement('div')
   div.classList.add('d-flex')
   div.classList.add('justify-content-center')
-  let p = document.createElement('h3')
-  p.innerHTML = 'Initializare aplicatie...'
-  div.appendChild(p)
+  div.classList.add('row')
+  let h3 = document.createElement('h3')
+  h3.classList.add('col-12')
+  h3.innerHTML = 'Initializare aplicatie...'
+  div.appendChild(h3)
   let div1 = document.createElement('div')
+  div1.classList.add('d-flex')
+  div1.classList.add('justify-content-center')
+  div1.classList.add('col-12')
   let spinner = document.createElement('div')
   spinner.classList.add('spinner-border')
   spinner.classList.add('text-warning')
