@@ -63,7 +63,7 @@ class MyTableListaRetete extends LitElement {
       const usefullRecipeSubsDisplayMask = this.usefullDisplayMask(recipeSubsDisplayMask)
 
       this.articole = this.data.flatMap((box) =>
-        box.content.map((activitate) => {
+        box.reteta.map((activitate) => {
           const articol = activitate.object
           const newArticol = this.extractFields(articol, usefullRecipeDisplayMask)
           const subarticole = activitate.children.map((subarticol) =>
