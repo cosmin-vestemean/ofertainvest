@@ -115,8 +115,8 @@ export function init() {
   let spinner = document.createElement('div')
   spinner.classList.add('spinner-border')
   spinner.classList.add('text-warning')
-  spinner.style.width = '3rem'
-  spinner.style.height = '3rem'
+  spinner.style.width = '5rem'
+  spinner.style.height = '5rem'
   spinner.setAttribute('role', 'status')
   spinner.innerHTML = '<span class="visually-hidden">Aplicatia se initializeaza...</span>'
   div1.appendChild(spinner)
