@@ -195,8 +195,8 @@ class MyTableListaRetete extends LitElement {
               colspan="${colspan}"
               contenteditable="${usefullRecipeDisplayMask[key].RW}"
               class="${zoneClass}"
-              @focusin="${this.handleFocusIn}"
-              @keydown="${this.handleKeyDown}"
+              @focusin="${(e) => this.handleFocusIn(e, item, key)}"
+              @keydown="${(e) => this.handleKeyDown(e, item, key)}"
             >
               ${item.articol[key]}
             </td>`
@@ -247,38 +247,32 @@ class MyTableListaRetete extends LitElement {
     `
   }
 
-  handleFocusIn(e) {
-    var range = document.createRange()
-    range.selectNodeContents(e.target)
-    var sel = window.getSelection()
-    sel.removeAllRanges()
-    sel.addRange(range)
-  }
-
-  handleKeyDown(e) {
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-      e.preventDefault()
-      const cells = Array.from(this.querySelectorAll('[contenteditable="true"]'))
-      const index = cells.indexOf(e.target)
-      const rowLength = this.querySelector('tr').querySelectorAll('[contenteditable="true"]').length
-
-      if (e.key === 'ArrowUp' && index >= rowLength) {
-        cells[index - rowLength].focus()
-      } else if (e.key === 'ArrowDown' && index < cells.length - rowLength) {
-        cells[index + rowLength].focus()
-      } else if (e.key === 'ArrowLeft') {
-        if (index % rowLength === 0 && index > 0) {
-          cells[index - 1].focus()
-        } else if (index % rowLength !== 0) {
-          cells[index - 1].focus()
-        }
-      } else if (e.key === 'ArrowRight') {
-        if ((index + 1) % rowLength === 0 && index < cells.length - 1) {
-          cells[index + 1].focus()
-        } else if ((index + 1) % rowLength !== 0) {
-          cells[index + 1].focus()
-        }
-      }
+  handleMouseOver(event, item) {
+    if (!item.subarticole.length) return
+    const tr = event.target.closest('tr')
+    if (tr && !tr.dataset.popoverShown) {
+      tr.dataset.popoverShown = true
+      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
+      const totalSubCount = item.subarticole.length
+      const popoverContent = `
+        <span class="badge text-bg-info">${totalSubCount}</span>
+        <span class="badge text-bg-warning">${isArtOfCount}</span>
+      `
+      const popover = document.createElement('div')
+      popover.className = 'popover'
+      popover.style.position = 'absolute'
+      popover.style.border = 'none'
+      popover.innerHTML = popoverContent
+      this.appendChild(popover)
+      const rect = tr.getBoundingClientRect()
+      const containerRect = this.getBoundingClientRect()
+      popover.style.top = `${rect.top - containerRect.top}px`
+      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+      popover.style.left = `0px`
+      setTimeout(() => {
+        popover.remove()
+        delete tr.dataset.popoverShown // Allow popover to be shown again
+      }, 3000)
     }
   }
 
@@ -304,8 +298,8 @@ class MyTableListaRetete extends LitElement {
                 return html`<td
                   contenteditable="${usefullRecipeSubsDisplayMask[subKey].RW}"
                   class="${zoneClass}"
-                  @focusin="${this.handleFocusIn}"
-                  @keydown="${this.handleKeyDown}"
+                  @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
+                  @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
                 >
                   ${sub[subKey]}
                 </td>`
@@ -381,6 +375,50 @@ class MyTableListaRetete extends LitElement {
       { once: true }
     )
   }
+
+  handleFocusIn(event, item, key) {
+    //selecteaza continutul pentru o editare mai usoara
+    const td = event.target
+    const range = document.createRange()
+    range.selectNodeContents(td)
+    const sel = window.getSelection()
+    sel.removeAllRanges()
+    sel.addRange(range)
+  }
+
+  handleKeyDown(event, item, key) {
+    //navigheaza intre celulele editabile cu sagetile sus/jos si stanga/dreapta
+    //stanga dreapta - navigheaza intre celulele din acelasi rand, circular
+    //sus jos - navigheaza intre randuri
+    const td = event.target
+    const tr = td.parentElement
+    const trs = [...tr.parentElement.children]
+    const tds = [...tr.children]
+    const index = tds.indexOf(td)
+    const rowIndex = trs.indexOf(tr)
+    const keyName = event.key
+    if (keyName === 'ArrowRight') {
+      if (index < tds.length - 1) {
+        tds[index + 1].focus()
+      } else {
+        tds[0].focus()
+      }
+    } else if (keyName === 'ArrowLeft') {
+      if (index > 0) {
+        tds[index - 1].focus()
+      } else {
+        tds[tds.length - 1].focus()
+      }
+    } else if (keyName === 'ArrowDown') {
+      if (rowIndex < trs.length - 1) {
+        trs[rowIndex + 1].children[index].focus()
+      }
+    } else if (keyName === 'ArrowUp') {
+      if (rowIndex > 0) {
+        trs[rowIndex - 1].children[index].focus()
+      }
+    }
+}
 
   actionsBar(item) {
     return html`
