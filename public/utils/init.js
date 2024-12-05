@@ -108,7 +108,7 @@ export function init() {
   let div = document.createElement('div')
   div.classList.add('d-flex')
   div.classList.add('justify-content-center')
-  let p = document.createElement('h2')
+  let p = document.createElement('h3')
   p.innerHTML = 'Initializare aplicatie...'
   div.appendChild(p)
   let spinner = document.createElement('div')
@@ -164,7 +164,7 @@ export function init() {
       '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Incarc...'
     //update modal
     //get h2 of modal-body3
-    let h2 = modalBody.querySelector('h2')
+    let h2 = modalBody.querySelector('h3')
     h2.innerHTML = 'Incarc ultima oferta deschisa...'
 
     //get oferta from S1 service getOferta
