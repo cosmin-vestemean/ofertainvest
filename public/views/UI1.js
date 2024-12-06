@@ -300,7 +300,7 @@ class UI1 extends LitElement {
         data-parent-index="${index}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
       >
-        <td style="min-width: 30px;"></td>
+        <td style="min-width: 100px;"></td>
         ${Object.keys(usefullEntityDisplayMask).map((key) => {
           if (usefullEntityDisplayMask[key].visible) {
             const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
