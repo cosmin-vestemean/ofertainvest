@@ -153,7 +153,6 @@ class UI1 extends LitElement {
         class="${item.subarticole.length > 0 ? 'table-light' : ''}"
         style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
-        @mouseover="${(e) => this.handleMouseOver(e, item)}"
         @mouseenter="${(e) => this.handleMouseEnterSingleArticol(e, item)}"
         @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}"
       >
