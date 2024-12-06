@@ -156,7 +156,7 @@ class UI1 extends LitElement {
         @mouseenter="${(e) => this.handleMouseEnterSingleArticol(e, item)}"
         @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}"
       >
-        <td>
+        <td style="width: 30px;">
           ${item.subarticole.length > 0
             ? html`<i
                 class="bi bi-plus-square"
@@ -300,7 +300,7 @@ class UI1 extends LitElement {
         data-parent-index="${index}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
       >
-        <td style="min-width: 100px;"></td>
+        <td></td>
         ${Object.keys(usefullEntityDisplayMask).map((key) => {
           if (usefullEntityDisplayMask[key].visible) {
             const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
