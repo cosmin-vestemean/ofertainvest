@@ -245,7 +245,7 @@ class UI1 extends LitElement {
   }
 
   handleMouseEnterSingleArticol(event, item) {
-    if (!item.subarticole.length) {
+    if (item.subarticole.length) {
       const tr = event.target.closest('tr')
       if (tr && !tr.dataset.popoverShown) {
         tr.dataset.popoverShown = true
