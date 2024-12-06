@@ -163,7 +163,7 @@ class UI1 extends LitElement {
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : html`<div class="dropdown col d-none">
+            : html`<div class="dropdown p-0 m-0 col d-none">
                 <button
                   class="btn btn-sm dropdown-toggle"
                   type="button"
