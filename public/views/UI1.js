@@ -274,7 +274,7 @@ class UI1 extends LitElement {
     } else {
       const dropdown = event.target.closest('.dropdown')
       if (dropdown) {
-        dropdown.classList.toggle('d-none')
+        dropdown.classList.remove('d-none');
       } else {
         console.log('No dropdown found')
       }
@@ -284,7 +284,7 @@ class UI1 extends LitElement {
   handleMouseLeaveSingleArticol(event, item) {
     const dropdown = event.target.closest('.dropdown')
     if (dropdown) {
-      dropdown.classList.toggle('d-none')
+      dropdown.classList.add('d-none');
     }
   }
 
