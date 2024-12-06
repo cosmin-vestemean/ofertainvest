@@ -162,7 +162,8 @@ class UI1 extends LitElement {
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : html`<div class="dropdown col">
+            : html`<div class="dropdown col d-none">
+                @mouseover="${(e) => this.handleMouseOverSingleArticol(e, item)}"
                 <button
                   class="btn btn-sm dropdown-toggle"
                   type="button"
@@ -269,6 +270,16 @@ class UI1 extends LitElement {
         popover.remove()
         delete tr.dataset.popoverShown // Allow popover to be shown again
       }, 3000)
+    }
+  }
+
+  handleMouseOverSingleArticol(event, item) {
+    const dropdown = event.target.closest('.dropdown');
+    if (dropdown) {
+      dropdown.classList.toggle('d-none');
+      dropdown.addEventListener('mouseleave', () => {
+        dropdown.classList.add('d-none');
+      }, { once: true });
     }
   }
 
@@ -440,7 +451,7 @@ class UI1 extends LitElement {
         </div>
         <div class="col">
           <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
-            <i class="bi bi-save text-info"></i>Salveaza reteta
+            <i class="bi bi-save text-info"></i> Salveaza reteta
           </button>
         </div>
       </div>
