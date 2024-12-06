@@ -172,7 +172,7 @@ class UI1 extends LitElement {
                 >
                   <i class="bi bi-plus-square text-primary"></i>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-start">
+                <ul class="dropdown-menu">
                   ${this.dropdownItems.map(
                     (dropdownItem) =>
                       html`<li>
