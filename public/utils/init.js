@@ -195,6 +195,7 @@ export function init() {
           trndate.valueAsDate = moment(firstLine.TRNDATE).toDate()
           setOptimalDs(JSON.parse(firstLine.JSONSTR))
           tables.hideAllBut([tables.my_table1])
+          console.log('optimal_ds', optimal_ds)
           tables.my_table1.element.ds = optimal_ds
           btn_oferta.setAttribute('data-saved', 'true')
           //set trees
