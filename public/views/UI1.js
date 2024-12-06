@@ -156,14 +156,14 @@ class UI1 extends LitElement {
         @mouseenter="${(e) => this.handleMouseEnterSingleArticol(e, item)}"
         @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}"
       >
-        <td style="width: 45px;">
+        <td style="width: 50px;">
           ${item.subarticole.length > 0
             ? html`<i
                 class="bi bi-plus-square"
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : html`<div class="dropdown col d-none">
+            : html`<div class="dropdown dropstart col d-none">
                 <button
                   class="btn btn-sm dropdown-toggle"
                   type="button"
