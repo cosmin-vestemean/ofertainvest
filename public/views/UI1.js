@@ -272,7 +272,8 @@ class UI1 extends LitElement {
         }, 3000)
       }
     } else {
-      const dropdown = event.target.closest('.dropdown')
+      const tr = event.target.closest('tr');
+      const dropdown = tr.querySelector('td .dropdown');
       if (dropdown) {
         dropdown.classList.remove('d-none');
       } else {
@@ -282,9 +283,12 @@ class UI1 extends LitElement {
   }
 
   handleMouseLeaveSingleArticol(event, item) {
-    const dropdown = event.target.closest('.dropdown')
+    const tr = event.target.closest('tr');
+    const dropdown = tr.querySelector('td .dropdown');
     if (dropdown) {
       dropdown.classList.add('d-none');
+    } else {
+      console.log('No dropdown found')
     }
   }
 
