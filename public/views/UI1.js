@@ -163,7 +163,7 @@ class UI1 extends LitElement {
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : html`<div class="dropdown dropstart col d-none">
+            : html`<div class="dropdown col d-none">
                 <button
                   class="btn btn-sm dropdown-toggle"
                   type="button"
@@ -272,10 +272,10 @@ class UI1 extends LitElement {
         }, 3000)
       }
     } else {
-      const tr = event.target.closest('tr');
-      const dropdown = tr.querySelector('td .dropdown');
+      const tr = event.target.closest('tr')
+      const dropdown = tr.querySelector('td .dropdown')
       if (dropdown) {
-        dropdown.classList.remove('d-none');
+        dropdown.classList.remove('d-none')
       } else {
         console.log('No dropdown found')
       }
@@ -283,10 +283,10 @@ class UI1 extends LitElement {
   }
 
   handleMouseLeaveSingleArticol(event, item) {
-    const tr = event.target.closest('tr');
-    const dropdown = tr.querySelector('td .dropdown');
+    const tr = event.target.closest('tr')
+    const dropdown = tr.querySelector('td .dropdown')
     if (dropdown) {
-      dropdown.classList.add('d-none');
+      dropdown.classList.add('d-none')
     } else {
       console.log('No dropdown found')
     }
