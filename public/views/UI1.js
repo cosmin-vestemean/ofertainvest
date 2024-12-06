@@ -164,14 +164,12 @@ class UI1 extends LitElement {
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
             : html`<div class="dropdown p-0 m-0 col d-none">
-                <button
-                  class="btn btn-sm dropdown-toggle"
-                  type="button"
+                <i
+                  class="bi bi-plus-square text-primary dropdown-toggle"
+                  role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                >
-                  <i class="bi bi-plus-square text-primary"></i>
-                </button>
+                ></i>
                 <ul class="dropdown-menu">
                   ${this.dropdownItems.map(
                     (dropdownItem) =>
