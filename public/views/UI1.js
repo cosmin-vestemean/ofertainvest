@@ -275,6 +275,8 @@ class UI1 extends LitElement {
       const dropdown = event.target.closest('.dropdown')
       if (dropdown) {
         dropdown.classList.toggle('d-none')
+      } else {
+        console.log('No dropdown found')
       }
     }
   }
