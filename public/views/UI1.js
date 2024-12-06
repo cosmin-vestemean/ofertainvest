@@ -5,7 +5,7 @@ class UI1 extends LitElement {
     data: { type: Array },
     dropdownItems: { type: Array },
     mainMask: { type: Object },
-    subsMask: { type: Object },
+    subsMask: { type: Object }
   }
 
   constructor() {
@@ -154,6 +154,8 @@ class UI1 extends LitElement {
         style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseover="${(e) => this.handleMouseOver(e, item)}"
+        @mouseenter="${(e) => this.handleMouseEnterSingleArticol(e, item)}"
+        @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}"
       >
         <td>
           ${item.subarticole.length > 0
@@ -162,7 +164,7 @@ class UI1 extends LitElement {
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : html`<div class="dropdown col" @mouseenter="${(e) => this.handleMouseOverSingleArticol(e, item)}" @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}">
+            : html`<div class="dropdown col d-none">
                 <button
                   class="btn btn-sm dropdown-toggle"
                   type="button"
@@ -243,46 +245,45 @@ class UI1 extends LitElement {
     `
   }
 
-  handleMouseOver(event, item) {
-    if (!item.subarticole.length) return
-    const tr = event.target.closest('tr')
-    if (tr && !tr.dataset.popoverShown) {
-      tr.dataset.popoverShown = true
-      const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
-      const totalSubCount = item.subarticole.length
-      const popoverContent = `
+  handleMouseEnterSingleArticol(event, item) {
+    if (!item.subarticole.length) {
+      const tr = event.target.closest('tr')
+      if (tr && !tr.dataset.popoverShown) {
+        tr.dataset.popoverShown = true
+        const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
+        const totalSubCount = item.subarticole.length
+        const popoverContent = `
         <span class="badge text-bg-info">${totalSubCount}</span>
         <span class="badge text-bg-warning">${isArtOfCount}</span>
       `
-      const popover = document.createElement('div')
-      popover.className = 'popover'
-      popover.style.position = 'absolute'
-      popover.style.border = 'none'
-      popover.innerHTML = popoverContent
-      this.appendChild(popover)
-      const rect = tr.getBoundingClientRect()
-      const containerRect = this.getBoundingClientRect()
-      popover.style.top = `${rect.top - containerRect.top}px`
-      //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
-      popover.style.left = `0px`
-      setTimeout(() => {
-        popover.remove()
-        delete tr.dataset.popoverShown // Allow popover to be shown again
-      }, 3000)
-    }
-  }
-
-  handleMouseOverSingleArticol(event, item) {
-    const dropdown = event.target.closest('.dropdown');
-    if (dropdown) {
-      dropdown.classList.remove('d-none');
+        const popover = document.createElement('div')
+        popover.className = 'popover'
+        popover.style.position = 'absolute'
+        popover.style.border = 'none'
+        popover.innerHTML = popoverContent
+        this.appendChild(popover)
+        const rect = tr.getBoundingClientRect()
+        const containerRect = this.getBoundingClientRect()
+        popover.style.top = `${rect.top - containerRect.top}px`
+        //popover.style.left = `${rect.left - containerRect.left + rect.width}px`
+        popover.style.left = `0px`
+        setTimeout(() => {
+          popover.remove()
+          delete tr.dataset.popoverShown // Allow popover to be shown again
+        }, 3000)
+      }
+    } else {
+      const dropdown = event.target.closest('.dropdown')
+      if (dropdown) {
+        dropdown.classList.toggle('d-none')
+      }
     }
   }
 
   handleMouseLeaveSingleArticol(event, item) {
-    const dropdown = event.target.closest('.dropdown');
+    const dropdown = event.target.closest('.dropdown')
     if (dropdown) {
-      dropdown.classList.add('d-none');
+      dropdown.classList.toggle('d-none')
     }
   }
 
@@ -470,4 +471,4 @@ class UI1 extends LitElement {
   }
 }
 
-export default UI1;
+export default UI1
