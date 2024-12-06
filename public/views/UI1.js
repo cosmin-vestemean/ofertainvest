@@ -427,7 +427,7 @@ class UI1 extends LitElement {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="bi bi-plus-square text-primary"></i>
+            <i class="bi bi-plus-square text-primary"></i> Adauga subarticol
           </button>
           <ul class="dropdown-menu">
             ${this.dropdownItems.map(
