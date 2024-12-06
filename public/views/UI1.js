@@ -162,8 +162,7 @@ class UI1 extends LitElement {
                 style="cursor: pointer;"
                 @click="${() => this.toggleSubarticles(index)}"
               ></i>`
-            : html`<div class="dropdown col d-none">
-                @mouseover="${(e) => this.handleMouseOverSingleArticol(e, item)}"
+            : html`<div class="dropdown col" @mouseenter="${(e) => this.handleMouseOverSingleArticol(e, item)}" @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}">
                 <button
                   class="btn btn-sm dropdown-toggle"
                   type="button"
@@ -276,10 +275,14 @@ class UI1 extends LitElement {
   handleMouseOverSingleArticol(event, item) {
     const dropdown = event.target.closest('.dropdown');
     if (dropdown) {
-      dropdown.classList.toggle('d-none');
-      dropdown.addEventListener('mouseleave', () => {
-        dropdown.classList.add('d-none');
-      }, { once: true });
+      dropdown.classList.remove('d-none');
+    }
+  }
+
+  handleMouseLeaveSingleArticol(event, item) {
+    const dropdown = event.target.closest('.dropdown');
+    if (dropdown) {
+      dropdown.classList.add('d-none');
     }
   }
 
