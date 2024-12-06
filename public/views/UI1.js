@@ -156,7 +156,7 @@ class UI1 extends LitElement {
         @mouseenter="${(e) => this.handleMouseEnterSingleArticol(e, item)}"
         @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}"
       >
-        <td style="width: 50px;">
+        <td>
           ${item.subarticole.length > 0
             ? html`<i
                 class="bi bi-plus-square"
