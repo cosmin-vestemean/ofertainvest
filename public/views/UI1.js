@@ -145,38 +145,11 @@ class UI1 extends LitElement {
         // Check if there are any values for this key in the cells
         const hasValues = this.articole.some(item => item.articol[key] !== undefined)
 
-        if (hasValues && this.hasMainHeader) {
+        if (hasValues) {
           headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
         }
       }
     })
-
-    if (this.hasSubHeader) {
-      headers.push(html`<tr>`)
-      Object.keys(usefullEntityDisplayMask).forEach((key) => {
-        if (usefullEntityDisplayMask[key].visible) {
-          const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
-            (subKey) =>
-              usefullEntitySubsDisplayMask[subKey].visible &&
-              usefullEntitySubsDisplayMask[subKey].master === key
-          )
-          if (subKeys.length > 0) {
-            subKeys.forEach((subKey) => {
-              const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-              const hasActions = usefullEntitySubsDisplayMask[subKey].hasActions || false
-              const headerContent = hasActions
-                ? this.actionsBar()
-                : usefullEntitySubsDisplayMask[subKey].label || subKey
-              const hasValues = this.articole.some(item => item.subarticole.some(sub => sub[subKey] !== undefined))
-              if (hasValues) {
-                headers.push(html`<th class="${zoneClass}">${headerContent}</th>`)
-              }
-            })
-          }
-        }
-      })
-      headers.push(html`</tr>`)
-    }
 
     return headers
   }
