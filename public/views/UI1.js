@@ -232,7 +232,11 @@ class UI1 extends LitElement {
                       const headerContent = hasActions
                         ? this.actionsBar(item)
                         : usefullEntitySubsDisplayMask[subKey].label || subKey
-                      return html`<th class="${zoneClass}">${headerContent}</th>`
+                      // Check if there are any values for this subKey in the cells
+                      const hasValues = item.subarticole.some(sub => sub[subKey] !== undefined)
+                      if (hasValues) {
+                        return html`<th class="${zoneClass}">${headerContent}</th>`
+                      }
                     })
                   } else {
                     return html`<th style="display:none"></th>`
