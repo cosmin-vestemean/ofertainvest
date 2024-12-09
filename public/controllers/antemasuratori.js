@@ -260,7 +260,7 @@ export async function convertDBAntemasuratori(antemasuratori) {
       if (!acc[key]) {
         acc[key] = []
       }
-      acc[key].push(item)
+      acc[key].push({ object: item || {} })
       return acc
     }, {})
 
