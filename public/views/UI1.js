@@ -282,13 +282,15 @@ class UI1 extends LitElement {
                 usefullEntitySubsDisplayMask[subKey].master === key
             )
             if (subKeys.length > 0) {
-              return subKeys.map((subKey) => {
+              return subKeys.map((subKey, index) => {
                 const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                 const hasValues = sub[subKey] !== undefined
                 if (hasValues) {
+                  const isLast = index === subKeys.length - 1
+                  const additionalClass = isLast ? 'ultimulArticol' : ''
                   return html`<td
                     contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
-                    class="${zoneClass}"
+                    class="${zoneClass} ${additionalClass}"
                     @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
                     @focusout="${(e) => this.saveArticle(sub)}"
                     @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
