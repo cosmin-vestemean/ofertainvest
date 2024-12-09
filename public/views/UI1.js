@@ -262,7 +262,7 @@ class UI1 extends LitElement {
       ${item.subarticole.map((sub) =>
         this.renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
       )}
-      <tr class="spacer" style="height: 10px;"></tr>
+      <tr class="spacer"></tr>
     `
   }
 
