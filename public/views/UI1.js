@@ -234,7 +234,7 @@ class UI1 extends LitElement {
                       usefullEntitySubsDisplayMask[subKey].visible &&
                       usefullEntitySubsDisplayMask[subKey].master === key
                   )
-                  if (subKeys.length > 0 && this.hasSubHeader) {
+                  if (subKeys.length > 0) {
                     return subKeys.map((subKey) => {
                       const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                       const hasActions = usefullEntitySubsDisplayMask[subKey].hasActions || false
@@ -243,8 +243,12 @@ class UI1 extends LitElement {
                         : usefullEntitySubsDisplayMask[subKey].label || subKey
                       // Check if there are any values for this subKey in the cells
                       const hasValues = item.subarticole.some((sub) => sub[subKey] !== undefined)
-                      if (hasValues) {
-                        return html`<th class="${zoneClass}">${headerContent}</th>`
+                      if (this.hasSubHeader) {
+                        if (hasValues) {
+                          return html`<th class="${zoneClass}">${headerContent}</th>`
+                        }
+                      } else if (hasActions) {
+                        return html`<th class="${zoneClass}">${this.actionsBar(item)}</th>`
                       }
                     })
                   } else {
