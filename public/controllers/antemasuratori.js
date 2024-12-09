@@ -249,7 +249,28 @@ export async function convertDBAntemasuratori(antemasuratori) {
 
   console.log('antemasuratoriTransformed', antemasuratoriTransformed)
 
-  return antemasuratoriTransformed
+  const groupedArray = groupByCCCINSTANTE(antemasuratoriTransformed)
+  console.log(groupedArray)
+
+  return groupedArray
+
+  function groupByCCCINSTANTE(antemasuratoriTransformed) {
+    const grouped = antemasuratoriTransformed.reduce((acc, item) => {
+      const key = item.CCCINSTANTE
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(item)
+      return acc
+    }, {})
+
+    const result = Object.keys(grouped).map((key) => ({
+      meta: { CCCINSTANTE: key },
+      content: grouped[key]
+    }))
+
+    return result
+  }
 }
 
 function insertAntemasuratori(antemasuratori) {
