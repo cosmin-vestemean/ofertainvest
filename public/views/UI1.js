@@ -480,7 +480,7 @@ class UI1 extends LitElement {
         </div>
         <div class="col">
           <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
-            <i class="bi bi-save text-info"></i> Salveaza reteta
+            <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
       </div>
