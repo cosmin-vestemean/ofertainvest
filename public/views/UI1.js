@@ -252,42 +252,6 @@ class UI1 extends LitElement {
     `
   }
 
-  renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
-    return html`
-      <tr
-        class="subarticle d-none"
-        style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
-        data-parent-index="${index}"
-        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
-      >
-        <td></td>
-        ${Object.keys(usefullEntityDisplayMask).map((key) => {
-          if (usefullEntityDisplayMask[key].visible) {
-            const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
-              (subKey) =>
-                usefullEntitySubsDisplayMask[subKey].visible &&
-                usefullEntitySubsDisplayMask[subKey].master === key
-            )
-            if (subKeys.length > 0) {
-              return subKeys.map((subKey) => {
-                const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                return html`<td
-                  contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
-                  class="${zoneClass}"
-                  @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
-                  @focusout="${(e) => this.saveArticle(sub)}"
-                  @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
-                >
-                  ${sub[subKey]}
-                </td>`
-              })
-            }
-          }
-        })}
-      </tr>
-    `
-  }
-
   handleMouseEnterSingleArticol(event, item) {
     if (item.subarticole.length) {
       const tr = event.target.closest('tr')
@@ -334,6 +298,44 @@ class UI1 extends LitElement {
     } else {
       console.log('No dropdown found')
     }
+  }
+
+  renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
+    return html`
+      <tr
+        class="subarticle d-none"
+        style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
+        data-parent-index="${index}"
+        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
+      >
+        <td></td>
+        ${Object.keys(usefullEntityDisplayMask).map((key) => {
+          if (usefullEntityDisplayMask[key].visible) {
+            const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
+              (subKey) =>
+                usefullEntitySubsDisplayMask[subKey].visible &&
+                usefullEntitySubsDisplayMask[subKey].master === key
+            )
+            if (subKeys.length > 0) {
+              return subKeys.map((subKey) => {
+                const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                return html`<td
+                  contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
+                  class="${zoneClass}"
+                  @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
+                  @focusout="${(e) => this.saveArticle(sub)}"
+                  @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
+                >
+                  ${sub[subKey]}
+                </td>`
+              })
+            } else {
+              return html`<td></td>`
+            }
+          }
+        })}
+      </tr>
+    `
   }
 
   toggleSubarticles(index) {
