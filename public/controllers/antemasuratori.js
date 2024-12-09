@@ -21,7 +21,7 @@ import {
   _cantitate_estimari
 } from '../utils/_cantitate_oferta.js'
 import { runSQLTransaction } from '../utils/S1.js'
-import { antemasuratoriDisplayMask } from '../views/masks.js'
+import { antemasuratoriDisplayMask, antemasuratoriSubsDisplayMask } from '../views/masks.js'
 
 export var ds_antemasuratori = []
 export async function setDsAntemasuratori() {
@@ -578,7 +578,7 @@ export function showAntemasuratori() {
       tables.my_table4.element.ds = selected_ds
     } else {
       tables.my_table4.element.mainMask = antemasuratoriDisplayMask
-      tables.my_table4.element.subsMask = antemasuratoriDisplayMask
+      tables.my_table4.element.subsMask = antemasuratoriSubsDisplayMask
       tables.my_table4.element.data = ds_antemasuratori
     }
   }
