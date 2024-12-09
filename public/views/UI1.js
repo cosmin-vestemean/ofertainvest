@@ -139,7 +139,13 @@ class UI1 extends LitElement {
         const colspan = subKeys.length || 1
         const hasActions = usefullEntityDisplayMask[key].hasActions || false
         const headerContent = hasActions ? this.actionsBar() : usefullEntityDisplayMask[key].label || key
-        headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
+
+        // Check if there are any values for this key in the cells
+        const hasValues = this.articole.some(item => item.articol[key] !== undefined)
+
+        if (hasValues) {
+          headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
+        }
       }
     })
 
