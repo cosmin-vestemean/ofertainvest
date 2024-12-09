@@ -274,9 +274,9 @@ export async function convertDBAntemasuratori(antemasuratori) {
             parentItem.object.CCCINSTANTE === item.CCCINSTANTE && parentItem.object.CCCPATHS === item.CCCPATHS
         )
         if (parent) {
-          parent.children.push(item)
+          parent.children.push({ object: item })
         } else {
-          acc[key][subKey].push({ object: {}, children: [item] })
+          acc[key][subKey].push({ object: {}, children: [{ object: item }] })
         }
       } else {
         acc[key][subKey].push({ object: item, children: [] })
