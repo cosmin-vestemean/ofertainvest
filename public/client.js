@@ -1423,6 +1423,8 @@ export function showRecipes() {
     tables.my_table8.element.data = recipes_ds
     tables.my_table8.element.mainMask = recipeDisplayMask
     tables.my_table8.element.subsMask = recipeSubsDisplayMask
+    tables.my_table8.element.hasMainHeader = true
+    tables.my_table8.element.hasSubHeader = true
   }
 }
 
