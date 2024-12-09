@@ -257,20 +257,33 @@ export async function convertDBAntemasuratori(antemasuratori) {
 
   function groupByCCCINSTANTE(antemasuratoriTransformed) {
     const grouped = antemasuratoriTransformed.reduce((acc, item) => {
-      const key = item.CCCINSTANTE
+      const key = item.CCCINSTANTE;
+
       if (!acc[key]) {
-        acc[key] = []
+        acc[key] = [];
       }
-      acc[key].push({ object: item || {} ,children: [] })
-      return acc
-    }, {})
+
+      if (item.ISARTOF === 1) {
+        // Găsește obiectul părinte și adaugă în children
+        const parent = acc[key].find(parentItem => parentItem.object.CCCINSTANTE === item.CCCINSTANTE);
+        if (parent) {
+          parent.children.push(item);
+        } else {
+          acc[key].push({ object: {}, children: [item] });
+        }
+      } else {
+        acc[key].push({ object: item, children: [] });
+      }
+
+      return acc;
+    }, {});
 
     const result = Object.keys(grouped).map((key) => ({
       meta: { CCCINSTANTE: key },
       content: grouped[key]
-    }))
+    }));
 
-    return result
+    return result;
   }
 }
 
