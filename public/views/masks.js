@@ -528,6 +528,17 @@ const antemasuratoriDisplayMask = {
     filter: 'search',
     usefull: true,
 
+  },
+  ISARTOF: {
+    value: 'ISARTOF',
+    RW: false,
+    visible: false,
+    label: 'Articol oferta',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true,
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
+
   }
 }
 

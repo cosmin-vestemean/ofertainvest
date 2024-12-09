@@ -136,6 +136,7 @@ select c.ISARTOF, c.CCCMATINSTANTE, g.ISDUPLICATE, g.DUPLICATEOF, c.CCCINSTANTE,
           CCCINSTANTE: activitati[j].CCCINSTANTE,
           CCCACTIVITINSTANTE: activitati[j].CCCACTIVITINSTANTE,
           CCCOFERTEWEBLINII: activitati[j].CCCOFERTEWEBLINII,
+          ISARTOF: activitati[j].ISARTOF,
           CANTITATE: 0
         })
       }
