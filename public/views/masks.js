@@ -18,8 +18,7 @@ const recipeDisplayMask = {
     label: 'WBS vechi',
     DBName: '',
     type: 'string',
-    linkOferta: '',
-
+    linkOferta: ''
   },
   WBS: {
     value: 'WBS',
@@ -29,8 +28,7 @@ const recipeDisplayMask = {
     label: 'WBS',
     DBName: '',
     linkOferta: 'WBS',
-    type: 'string',
-
+    type: 'string'
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -41,8 +39,7 @@ const recipeDisplayMask = {
     linkOferta: 'DENUMIRE_ART_OF',
     width: '50%',
     DBName: '',
-    type: 'string',
-
+    type: 'string'
   },
   CANTITATE_ARTICOL_OFERTA: {
     value: 'CANTITATE_ARTICOL_OFERTA',
@@ -52,8 +49,7 @@ const recipeDisplayMask = {
     label: 'Cantitate',
     linkOferta: 'CANT_ART_OF',
     DBName: '',
-    type: 'number',
-
+    type: 'number'
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
@@ -64,8 +60,7 @@ const recipeDisplayMask = {
     linkOferta: 'TIP_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string',
-
+    type: 'string'
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
@@ -76,8 +71,7 @@ const recipeDisplayMask = {
     linkOferta: 'SUBTIP_ART_OF',
     width: '5%',
     DBName: '',
-    type: 'string',
-
+    type: 'string'
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -89,8 +83,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: '',
     type: 'string',
-    verticalDelimiterStyleClass: 'zone1VerticalDelimiter',
-
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
   },
   SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA: {
     value: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
@@ -102,8 +95,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'SUMCANTANTE',
     type: 'number',
-    verticalDelimiterStyleClass: 'zone2VerticalDelimiter',
-
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
   },
   MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -115,8 +107,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'AVGNORMUNITOREMAN',
     type: 'number',
-    verticalDelimiterStyleClass: 'zone3VerticalDelimiter',
-
+    verticalDelimiterStyleClass: 'zone3VerticalDelimiter'
   },
   SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA: {
     value: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
@@ -127,8 +118,7 @@ const recipeDisplayMask = {
     linkOferta: 'PONDERE_NORMA_ACTIVITATE_ARTICOL_RETETA',
     width: '5%',
     DBName: 'SUMOREMAN',
-    type: 'number',
-
+    type: 'number'
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -140,8 +130,7 @@ const recipeDisplayMask = {
     width: '5%',
     DBName: 'ISARTOF',
     type: 'boolean',
-    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' }
   }
 }
 
@@ -155,8 +144,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     linkOferta: '',
     type: 'string',
-    master: 'old_WBS',
-
+    master: 'old_WBS'
   },
   WBS: {
     value: 'WBS',
@@ -167,8 +155,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     linkOferta: '',
     type: 'string',
-    master: 'WBS',
-
+    master: 'WBS'
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -192,8 +179,7 @@ const recipeSubsDisplayMask = {
     linkOferta: 'CANT_ART_OF',
     DBName: '',
     type: 'number',
-    master: 'CANTITATE_ARTICOL_OFERTA',
-
+    master: 'CANTITATE_ARTICOL_OFERTA'
   },
   TIP_ARTICOL_OFERTA: {
     value: TIP_ARTICOL_OFERTA,
@@ -205,8 +191,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: '',
     type: 'string',
-    master: 'TIP_ARTICOL_OFERTA',
-
+    master: 'TIP_ARTICOL_OFERTA'
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: SUBTIP_ARTICOL_OFERTA,
@@ -218,8 +203,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: '',
     type: 'string',
-    master: 'SUBTIP_ARTICOL_OFERTA',
-
+    master: 'SUBTIP_ARTICOL_OFERTA'
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -232,8 +216,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'string',
     master: 'UM_ARTICOL_OFERTA',
-    verticalDelimiterStyleClass: 'zone1VerticalDelimiter',
-
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
   },
   CANTITATE_SUBARTICOL_RETETA: {
     value: 'CANTITATE_SUBARTICOL_RETETA',
@@ -245,8 +228,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'CANTTOTAL',
     type: 'number',
-    master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-
+    master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA'
   },
   CANTITATE_UNITARA_SUBARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_SUBARTICOL_RETETA',
@@ -258,8 +240,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'CANTUNIT',
     type: 'number',
-    master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-
+    master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA'
   },
   CANTITATE_REALIZARE_ARTICOL_RETETA: {
     value: 'CANTITATE_REALIZARE_ARTICOL_RETETA ',
@@ -271,8 +252,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'CANTREAL',
     type: 'number',
-    master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-
+    master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA'
   },
   CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA: {
     value: 'CANTITATE_UNITARA_REALIZARE_ARTICOL_RETETA',
@@ -285,8 +265,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'number',
     master: 'SUMA_CANTITATE_ARTICOL_ANTEMASURATORI_RETETA',
-    verticalDelimiterStyleClass: 'zone2VerticalDelimiter',
-
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
   },
   NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'NORMA_UNITARA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -298,8 +277,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'NORMUNITMAN',
     type: 'number',
-    master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
-
+    master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA'
   },
   PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'PONDERE_NORMA_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -312,8 +290,7 @@ const recipeSubsDisplayMask = {
     DBName: '',
     type: 'number',
     master: 'MEDIE_NORMA_UNITARA_ORE_MANOPERA_ARTICOL_OFERTA',
-    verticalDelimiterStyleClass: 'zone3VerticalDelimiter',
-
+    verticalDelimiterStyleClass: 'zone3VerticalDelimiter'
   },
   TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA: {
     value: 'TOTAL_ORE_MANOPERA_SUBARTICOL_RETETA',
@@ -325,8 +302,7 @@ const recipeSubsDisplayMask = {
     width: '5%',
     DBName: 'TOTALOREMAN',
     type: 'number',
-    master: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA',
-
+    master: 'SUMA_TOTAL_ORE_MANOPERA_ARTICOL_OFERTA'
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -339,8 +315,7 @@ const recipeSubsDisplayMask = {
     DBName: 'ISARTOF',
     type: 'boolean',
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-    master: 'ISARTOF',
-
+    master: 'ISARTOF'
   }
 }
 
@@ -353,12 +328,35 @@ const antemasuratoriDisplayMask = {
     filter: 'search',
     isEnumerable: false,
     usefull: true,
-    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' }
   },
-  DUPLICATEOF: { value: 'DUPLICATEOF', RW: false, visible: false, label: 'Reteta', filter: 'search', usefull: true, hasActions: false },
-  old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi', filter: 'search', usefull: true, hasActions: false },
-  WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS', filter: 'search', usefull: true, hasActions: false },
+  DUPLICATEOF: {
+    value: 'DUPLICATEOF',
+    RW: false,
+    visible: false,
+    label: 'Reteta',
+    filter: 'search',
+    usefull: true,
+    hasActions: false
+  },
+  old_WBS: {
+    value: 'old_WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS vechi',
+    filter: 'search',
+    usefull: true,
+    hasActions: false
+  },
+  WBS: {
+    value: 'WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS',
+    filter: 'search',
+    usefull: true,
+    hasActions: false
+  },
   SERIE_ARTICOL_OFERTA: {
     value: 'SERIE_ARTICOL_OFERTA',
     RW: false,
@@ -366,8 +364,7 @@ const antemasuratoriDisplayMask = {
     label: 'Serie articol',
     isEnumerable: false,
     filter: 'search',
-    usefull: true,
-
+    usefull: true
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -378,7 +375,7 @@ const antemasuratoriDisplayMask = {
     filter: 'search',
     usefull: true,
     hasActions: true,
-
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
   },
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
@@ -387,8 +384,7 @@ const antemasuratoriDisplayMask = {
     label: 'Tip articol',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
@@ -397,8 +393,7 @@ const antemasuratoriDisplayMask = {
     label: 'Subtip articol',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_1: {
     value: 'NIVEL_OFERTA_1',
@@ -407,8 +402,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 1',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_2: {
     value: 'NIVEL_OFERTA_2',
@@ -417,8 +411,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 2',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_3: {
     value: 'NIVEL_OFERTA_3',
@@ -427,8 +420,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 3',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_4: {
     value: 'NIVEL_OFERTA_4',
@@ -437,8 +429,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 4',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_5: {
     value: 'NIVEL_OFERTA_5',
@@ -447,8 +438,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 5',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_6: {
     value: 'NIVEL_OFERTA_6',
@@ -457,8 +447,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 6',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_7: {
     value: 'NIVEL_OFERTA_7',
@@ -467,8 +456,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 7',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_8: {
     value: 'NIVEL_OFERTA_8',
@@ -477,8 +465,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 8',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_9: {
     value: 'NIVEL_OFERTA_9',
@@ -487,8 +474,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 9',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
+    usefull: true
   },
   NIVEL_OFERTA_10: {
     value: 'NIVEL_OFERTA_10',
@@ -497,18 +483,7 @@ const antemasuratoriDisplayMask = {
     label: 'Nivel 10',
     isEnumerable: true,
     filter: 'filter',
-    usefull: true,
-
-  },
-  CANTITATE_ARTICOL_OFERTA: {
-    value: 'CANTITATE_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'Cantitate oferta',
-    isEnumerable: false,
-    filter: 'search',
-    usefull: true,
-
+    usefull: true
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -518,7 +493,16 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     filter: 'filter',
     usefull: true,
-
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
+  },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate oferta',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
@@ -527,8 +511,7 @@ const antemasuratoriDisplayMask = {
     label: 'Cantitate antemasuratori',
     isEnumerable: false,
     filter: 'search',
-    usefull: true,
-
+    usefull: true
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -538,8 +521,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: false,
     filter: 'search',
     usefull: true,
-    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' }
   }
 }
 
@@ -553,12 +535,38 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: false,
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-    master: 'ISDUPLICATE',
-
+    master: 'ISDUPLICATE'
   },
-  DUPLICATEOF: { value: 'DUPLICATEOF', RW: false, visible: false, label: 'Reteta', filter: 'search', usefull: true, hasActions: false, master: 'DUPLICATEOF' },
-  old_WBS: { value: 'old_WBS', RW: false, visible: false, label: 'WBS vechi', filter: 'search', usefull: true, hasActions: false, master: 'old_WBS' },
-  WBS: { value: 'WBS', RW: false, visible: false, label: 'WBS', filter: 'search', usefull: true, hasActions: false, master: 'WBS' },
+  DUPLICATEOF: {
+    value: 'DUPLICATEOF',
+    RW: false,
+    visible: false,
+    label: 'Reteta',
+    filter: 'search',
+    usefull: true,
+    hasActions: false,
+    master: 'DUPLICATEOF'
+  },
+  old_WBS: {
+    value: 'old_WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS vechi',
+    filter: 'search',
+    usefull: true,
+    hasActions: false,
+    master: 'old_WBS'
+  },
+  WBS: {
+    value: 'WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS',
+    filter: 'search',
+    usefull: true,
+    hasActions: false,
+    master: 'WBS'
+  },
   SERIE_ARTICOL_OFERTA: {
     value: 'SERIE_ARTICOL_OFERTA',
     RW: false,
@@ -567,8 +575,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: false,
     filter: 'search',
     usefull: true,
-    master: 'SERIE_ARTICOL_OFERTA',
-
+    master: 'SERIE_ARTICOL_OFERTA'
   },
   DENUMIRE_ARTICOL_OFERTA: {
     value: 'DENUMIRE_ARTICOL_OFERTA',
@@ -579,8 +586,8 @@ const antemasuratoriSubsDisplayMask = {
     filter: 'search',
     usefull: true,
     master: 'DENUMIRE_ARTICOL_OFERTA',
-    hasActions: true
-
+    hasActions: true,
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
   },
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
@@ -590,8 +597,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'TIP_ARTICOL_OFERTA',
-
+    master: 'TIP_ARTICOL_OFERTA'
   },
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
@@ -601,8 +607,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'SUBTIP_ARTICOL_OFERTA',
-
+    master: 'SUBTIP_ARTICOL_OFERTA'
   },
   NIVEL_OFERTA_1: {
     value: 'NIVEL_OFERTA_1',
@@ -612,8 +617,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_1',
-
+    master: 'NIVEL_OFERTA_1'
   },
   NIVEL_OFERTA_2: {
     value: 'NIVEL_OFERTA_2',
@@ -623,8 +627,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_2',
-
+    master: 'NIVEL_OFERTA_2'
   },
   NIVEL_OFERTA_3: {
     value: 'NIVEL_OFERTA_3',
@@ -634,8 +637,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_3',
-
+    master: 'NIVEL_OFERTA_3'
   },
   NIVEL_OFERTA_4: {
     value: 'NIVEL_OFERTA_4',
@@ -645,8 +647,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_4',
-
+    master: 'NIVEL_OFERTA_4'
   },
   NIVEL_OFERTA_5: {
     value: 'NIVEL_OFERTA_5',
@@ -656,8 +657,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_5',
-
+    master: 'NIVEL_OFERTA_5'
   },
   NIVEL_OFERTA_6: {
     value: 'NIVEL_OFERTA_6',
@@ -667,8 +667,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_6',
-
+    master: 'NIVEL_OFERTA_6'
   },
   NIVEL_OFERTA_7: {
     value: 'NIVEL_OFERTA_7',
@@ -678,8 +677,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_7',
-
+    master: 'NIVEL_OFERTA_7'
   },
   NIVEL_OFERTA_8: {
     value: 'NIVEL_OFERTA_8',
@@ -689,8 +687,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_8',
-
+    master: 'NIVEL_OFERTA_8'
   },
   NIVEL_OFERTA_9: {
     value: 'NIVEL_OFERTA_9',
@@ -700,8 +697,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_9',
-
+    master: 'NIVEL_OFERTA_9'
   },
   NIVEL_OFERTA_10: {
     value: 'NIVEL_OFERTA_10',
@@ -711,19 +707,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: true,
     filter: 'filter',
     usefull: true,
-    master: 'NIVEL_OFERTA_10',
-
-  },
-  CANTITATE_ARTICOL_OFERTA: {
-    value: 'CANTITATE_ARTICOL_OFERTA',
-    RW: false,
-    visible: true,
-    label: 'Cantitate oferta',
-    isEnumerable: false,
-    filter: 'search',
-    usefull: true,
-    master: 'CANTITATE_ARTICOL_OFERTA',
-
+    master: 'NIVEL_OFERTA_10'
   },
   UM_ARTICOL_OFERTA: {
     value: 'UM_ARTICOL_OFERTA',
@@ -734,7 +718,17 @@ const antemasuratoriSubsDisplayMask = {
     filter: 'filter',
     usefull: true,
     master: 'UM_ARTICOL_OFERTA',
-
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
+  },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate oferta',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true,
+    master: 'CANTITATE_ARTICOL_OFERTA'
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
     value: 'CANITATE_ARTICOL_ANTEMASURATORI',
@@ -744,8 +738,7 @@ const antemasuratoriSubsDisplayMask = {
     isEnumerable: false,
     filter: 'search',
     usefull: true,
-    master: 'CANTITATE_ARTICOL_ANTEMASURATORI',
-
+    master: 'CANTITATE_ARTICOL_ANTEMASURATORI'
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -756,8 +749,7 @@ const antemasuratoriSubsDisplayMask = {
     filter: 'search',
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
-    master: 'ISARTOF',
-
+    master: 'ISARTOF'
   }
 }
 
