@@ -149,8 +149,9 @@ select c.ISARTOF, c.CCCMATINSTANTE, g.ISDUPLICATE, g.DUPLICATEOF, c.CCCINSTANTE,
     .then(async () => {
       console.log('inserted antemasuratori')
       await setDsAntemasuratori()
-      tables.hideAllBut([tables.my_table4])
-      tables.my_table4.element.ds = ds_antemasuratori
+      //tables.hideAllBut([tables.my_table4])
+      //tables.my_table4.element.ds = ds_antemasuratori
+      showAntemasuratori()
       btn_antemasuratori.disabled = false
       //remove spinner
       btn_antemasuratori.removeChild(spinner)
@@ -540,7 +541,7 @@ export function showAntemasuratori() {
     } else {
       tables.my_table4.element.mainMask = antemasuratoriDisplayMask
       tables.my_table4.element.subsMask = antemasuratoriDisplayMask
-      tables.my_table4.element.ds = ds_antemasuratori
+      tables.my_table4.element.data = ds_antemasuratori
     }
   }
 }

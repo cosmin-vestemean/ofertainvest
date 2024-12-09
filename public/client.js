@@ -3320,7 +3320,6 @@ export function getRetetaCurenta() {
 customElements.define('my-lista-estimari', listaEstimari)
 customElements.define('my-table', myTable)
 customElements.define('my-recipe', Recipe)
-customElements.define('my-antemasuratori', antemasuratori)
 customElements.define('my-estimari', estimari)
 customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)
 
