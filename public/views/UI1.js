@@ -197,16 +197,19 @@ class UI1 extends LitElement {
                   usefullEntitySubsDisplayMask[subKey].master === key
               ).length || 1
             const zoneClass = usefullEntityDisplayMask[key].verticalDelimiterStyleClass || ''
-            return html`<td
-              colspan="${colspan}"
-              contenteditable="${usefullEntityDisplayMask[key].RW}"
-              class="${zoneClass}"
-              @focusin="${(e) => this.handleFocusIn(e, item, key)}"
-              @focusout="${(e) => this.saveArticle(item)}"
-              @keydown="${(e) => this.handleKeyDown(e, item, key)}"
-            >
-              ${item.articol[key]}
-            </td>`
+            const hasValues = item.articol[key] !== undefined
+            if (hasValues) {
+              return html`<td
+                colspan="${colspan}"
+                contenteditable="${usefullEntityDisplayMask[key].RW}"
+                class="${zoneClass}"
+                @focusin="${(e) => this.handleFocusIn(e, item, key)}"
+                @focusout="${(e) => this.saveArticle(item)}"
+                @keydown="${(e) => this.handleKeyDown(e, item, key)}"
+              >
+                ${item.articol[key]}
+              </td>`
+            }
           }
         })}
       </tr>
@@ -249,6 +252,45 @@ class UI1 extends LitElement {
       ${item.subarticole.map((sub) =>
         this.renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
       )}
+    `
+  }
+
+  renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
+    return html`
+      <tr
+        class="subarticle d-none"
+        style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
+        data-parent-index="${index}"
+        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
+      >
+        <td></td>
+        ${Object.keys(usefullEntityDisplayMask).map((key) => {
+          if (usefullEntityDisplayMask[key].visible) {
+            const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
+              (subKey) =>
+                usefullEntitySubsDisplayMask[subKey].visible &&
+                usefullEntitySubsDisplayMask[subKey].master === key
+            )
+            if (subKeys.length > 0) {
+              return subKeys.map((subKey) => {
+                const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                const hasValues = sub[subKey] !== undefined
+                if (hasValues) {
+                  return html`<td
+                    contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
+                    class="${zoneClass}"
+                    @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
+                    @focusout="${(e) => this.saveArticle(sub)}"
+                    @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
+                  >
+                    ${sub[subKey]}
+                  </td>`
+                }
+              })
+            }
+          }
+        })}
+      </tr>
     `
   }
 
@@ -298,44 +340,6 @@ class UI1 extends LitElement {
     } else {
       console.log('No dropdown found')
     }
-  }
-
-  renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
-    return html`
-      <tr
-        class="subarticle d-none"
-        style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
-        data-parent-index="${index}"
-        @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
-      >
-        <td></td>
-        ${Object.keys(usefullEntityDisplayMask).map((key) => {
-          if (usefullEntityDisplayMask[key].visible) {
-            const subKeys = Object.keys(usefullEntitySubsDisplayMask).filter(
-              (subKey) =>
-                usefullEntitySubsDisplayMask[subKey].visible &&
-                usefullEntitySubsDisplayMask[subKey].master === key
-            )
-            if (subKeys.length > 0) {
-              return subKeys.map((subKey) => {
-                const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
-                return html`<td
-                  contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
-                  class="${zoneClass}"
-                  @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
-                  @focusout="${(e) => this.saveArticle(sub)}"
-                  @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
-                >
-                  ${sub[subKey]}
-                </td>`
-              })
-            } else {
-              return html`<td></td>`
-            }
-          }
-        })}
-      </tr>
-    `
   }
 
   toggleSubarticles(index) {
