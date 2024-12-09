@@ -1424,6 +1424,7 @@ export function showRecipes() {
     tables.my_table8.element.subsMask = recipeSubsDisplayMask
     tables.my_table8.element.hasMainHeader = true
     tables.my_table8.element.hasSubHeader = true
+    tables.my_table8.element.canAddInLine = true
     tables.my_table8.element.data = recipes_ds
   }
 }

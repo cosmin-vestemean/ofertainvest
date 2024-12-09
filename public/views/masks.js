@@ -377,6 +377,7 @@ const antemasuratoriDisplayMask = {
     isEnumerable: true,
     filter: 'search',
     usefull: true,
+    hasActions: true,
 
   },
   TIP_ARTICOL_OFERTA: {

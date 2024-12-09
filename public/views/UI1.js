@@ -8,6 +8,7 @@ class UI1 extends LitElement {
     subsMask: { type: Object },
     hasMainHeader: { type: Boolean },
     hasSubHeader: { type: Boolean },
+    canAddInLine: { type: Boolean }
   }
 
   constructor() {
@@ -25,6 +26,9 @@ class UI1 extends LitElement {
       'Material+Utilaj',
       'Material+Echipament'
     ]
+    this.hasMainHeader = true
+    this.hasSubHeader = true
+    this.canAddInLine = true
   }
 
   connectedCallback() {
@@ -143,7 +147,7 @@ class UI1 extends LitElement {
         const headerContent = hasActions ? this.actionsBar() : usefullEntityDisplayMask[key].label || key
 
         // Check if there are any values for this key in the cells
-        const hasValues = this.articole.some(item => item.articol[key] !== undefined)
+        const hasValues = this.articole.some((item) => item.articol[key] !== undefined)
 
         if (hasValues) {
           headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
@@ -238,7 +242,7 @@ class UI1 extends LitElement {
                         ? this.actionsBar(item)
                         : usefullEntitySubsDisplayMask[subKey].label || subKey
                       // Check if there are any values for this subKey in the cells
-                      const hasValues = item.subarticole.some(sub => sub[subKey] !== undefined)
+                      const hasValues = item.subarticole.some((sub) => sub[subKey] !== undefined)
                       if (hasValues) {
                         return html`<th class="${zoneClass}">${headerContent}</th>`
                       }
@@ -327,7 +331,9 @@ class UI1 extends LitElement {
       const tr = event.target.closest('tr')
       const dropdown = tr.querySelector('td .dropdown')
       if (dropdown) {
-        dropdown.classList.remove('d-none')
+        if (this.canAddInLine) {
+          dropdown.classList.remove('d-none')
+        }
       } else {
         console.log('No dropdown found')
       }

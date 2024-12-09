@@ -581,6 +581,7 @@ export function showAntemasuratori() {
       tables.my_table4.element.subsMask = antemasuratoriSubsDisplayMask
       tables.my_table4.element.hasMainHeader = true
       tables.my_table4.element.hasSubHeader = false
+      tables.my_table4.element.canAddInLine = false
       tables.my_table4.element.data = ds_antemasuratori
     }
   }
