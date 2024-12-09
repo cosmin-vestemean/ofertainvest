@@ -258,28 +258,24 @@ export async function convertDBAntemasuratori(antemasuratori) {
   function groupByCCCINSTANTE(antemasuratoriTransformed) {
     const grouped = antemasuratoriTransformed.reduce((acc, item) => {
       const key = item.CCCINSTANTE
-      const subKey = item.CCCPATHS
 
       if (!acc[key]) {
-        acc[key] = {}
-      }
-      if (!acc[key][subKey]) {
-        acc[key][subKey] = []
+        acc[key] = []
       }
 
       if (item.ISARTOF === 1) {
         // Găsește obiectul părinte și adaugă în children
-        const parent = acc[key][subKey].find(
+        const parent = acc[key].find(
           (parentItem) =>
             parentItem.object.CCCINSTANTE === item.CCCINSTANTE && parentItem.object.CCCPATHS === item.CCCPATHS
         )
         if (parent) {
           parent.children.push({ object: item })
         } else {
-          acc[key][subKey].push({ object: {}, children: [{ object: item }] })
+          acc[key].push({ object: {}, children: [{ object: item }] })
         }
       } else {
-        acc[key][subKey].push({ object: item, children: [] })
+        acc[key].push({ object: item, children: [] })
       }
 
       return acc
