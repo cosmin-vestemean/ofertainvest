@@ -230,7 +230,7 @@ class UI1 extends LitElement {
                       usefullEntitySubsDisplayMask[subKey].visible &&
                       usefullEntitySubsDisplayMask[subKey].master === key
                   )
-                  if (subKeys.length > 0) {
+                  if (subKeys.length > 0 && this.hasSubHeader) {
                     return subKeys.map((subKey) => {
                       const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                       const hasActions = usefullEntitySubsDisplayMask[subKey].hasActions || false
