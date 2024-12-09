@@ -22,6 +22,6 @@ export class antemasuratori extends UI1 {
   } */
 }
 
-export default MyTableListaRetete;
+export default antemasuratori;
 
 customElements.define('my-antemasuratori', antemasuratori)
