@@ -287,10 +287,7 @@ export async function convertDBAntemasuratori(antemasuratori) {
 
     const result = Object.keys(grouped).map((key) => ({
       meta: { CCCINSTANTE: key },
-      content: Object.keys(grouped[key]).map((subKey) => ({
-        meta: { CCCPATHS: subKey },
-        content: grouped[key][subKey]
-      }))
+      content: grouped[key]
     }))
 
     return result
