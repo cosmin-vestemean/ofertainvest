@@ -262,6 +262,7 @@ class UI1 extends LitElement {
       ${item.subarticole.map((sub) =>
         this.renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
       )}
+      <tr class="spacer" style="height: 10px;"></tr>
     `
   }
 
@@ -282,15 +283,13 @@ class UI1 extends LitElement {
                 usefullEntitySubsDisplayMask[subKey].master === key
             )
             if (subKeys.length > 0) {
-              return subKeys.map((subKey, index) => {
+              return subKeys.map((subKey) => {
                 const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                 const hasValues = sub[subKey] !== undefined
                 if (hasValues) {
-                  const isLast = index === subKeys.length - 1
-                  const additionalClass = isLast ? 'ultimulArticol' : ''
                   return html`<td
                     contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
-                    class="${zoneClass} ${additionalClass}"
+                    class="${zoneClass}"
                     @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
                     @focusout="${(e) => this.saveArticle(sub)}"
                     @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
