@@ -22,6 +22,7 @@ import {
 } from '../utils/_cantitate_oferta.js'
 import { runSQLTransaction } from '../utils/S1.js'
 import { antemasuratoriDisplayMask } from '../views/masks.js'
+import { child } from 'winston'
 
 export var ds_antemasuratori = []
 export async function setDsAntemasuratori() {
@@ -260,7 +261,7 @@ export async function convertDBAntemasuratori(antemasuratori) {
       if (!acc[key]) {
         acc[key] = []
       }
-      acc[key].push({ object: item || {} })
+      acc[key].push({ object: item || {} ,children: [] })
       return acc
     }, {})
 
