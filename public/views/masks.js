@@ -579,6 +579,7 @@ const antemasuratoriSubsDisplayMask = {
     filter: 'search',
     usefull: true,
     master: 'DENUMIRE_ARTICOL_OFERTA',
+    hasActions: true
 
   },
   TIP_ARTICOL_OFERTA: {
