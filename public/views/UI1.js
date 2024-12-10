@@ -312,14 +312,14 @@ class UI1 extends LitElement {
         tr.dataset.popoverShown = true
         const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
         const totalSubCount = item.subarticole.length
-        const nrInstante = item.meta.id
+        const nrInstante = Object.keys(item.meta).includes('id')
           ? ds_instanteRetete.filter((inst) => inst.duplicateOf === item.meta.id).length
           : 0
         const popoverContent = `
           <span class="badge badge-sm text-bg-info">${totalSubCount}</span>
           ${isArtOfCount !== 0 ? `<span class="badge badge-sm text-bg-warning">${isArtOfCount}</span>` : ''}
           ${nrInstante !== 0 ? `<span class="badge badge-sm text-bg-secondary">${nrInstante}</span>` : ''}
-`
+        `
         const popover = document.createElement('div')
         popover.className = 'popover'
         popover.style.position = 'absolute'
