@@ -380,7 +380,7 @@ const antemasuratoriDisplayMask = {
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
     RW: false,
-    visible: false,
+    visible: true,
     label: 'Tip articol',
     isEnumerable: true,
     filter: 'filter',
@@ -389,7 +389,7 @@ const antemasuratoriDisplayMask = {
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
     RW: false,
-    visible: false,
+    visible: true,
     label: 'Subtip articol',
     isEnumerable: true,
     filter: 'filter',
@@ -592,7 +592,7 @@ const antemasuratoriSubsDisplayMask = {
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
     RW: false,
-    visible: false,
+    visible: true,
     label: 'Tip articol',
     isEnumerable: true,
     filter: 'filter',
@@ -602,7 +602,7 @@ const antemasuratoriSubsDisplayMask = {
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
     RW: false,
-    visible: false,
+    visible: true,
     label: 'Subtip articol',
     isEnumerable: true,
     filter: 'filter',
