@@ -1,4 +1,4 @@
-import { theadIsSet, LitElement, html, unsafeHTML } from '../client.js'
+import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete } from '../client.js'
 
 class UI1 extends LitElement {
   static properties = {
@@ -312,9 +312,11 @@ class UI1 extends LitElement {
         tr.dataset.popoverShown = true
         const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
         const totalSubCount = item.subarticole.length
+        const nrInstante = ds_instanteRetete.filter((inst) => inst.duplicateOf === item.meta.id).length
         const popoverContent = `
         <span class="badge text-bg-info">${totalSubCount}</span>
         <span class="badge text-bg-warning">${isArtOfCount}</span>
+        <span class="badge text-bg-secondary">${nrInstante}</span>
       `
         const popover = document.createElement('div')
         popover.className = 'popover'
