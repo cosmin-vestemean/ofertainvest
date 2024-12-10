@@ -314,9 +314,9 @@ class UI1 extends LitElement {
         const totalSubCount = item.subarticole.length
         const nrInstante = item.meta.id ? ds_instanteRetete.filter((inst) => inst.duplicateOf === item.meta.id).length : 0
         const popoverContent = `
-        <span class="badge text-bg-info">${totalSubCount}</span>
-        <span class="badge text-bg-warning">${isArtOfCount}</span>
-        <span class="badge text-bg-secondary">${nrInstante}</span>
+        <span class="badge badge-sm text-bg-info">${totalSubCount}</span>
+        <span class="badge badge-sm text-bg-warning">${isArtOfCount}</span>
+        <span class="badge badge-sm text-bg-secondary">${nrInstante}</span>
       `
         const popover = document.createElement('div')
         popover.className = 'popover'
