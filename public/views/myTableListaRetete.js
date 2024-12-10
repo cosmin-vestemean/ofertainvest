@@ -36,7 +36,6 @@ class MyTableListaRetete extends UI1 {
         </div>
         <div class="col form-check form-switch">
           <input type="checkbox" role="switch" class="form-check-input" id="checkboxConfirmare" name="checkboxConfirmare" />
-          <label class="form-check-label" for="checkboxConfirmare">Finalizata</label>
         </div>
         <div class="col">
           <button type="button" class="btn btn-sm" @click="${() => this.recalculate(item)}">
