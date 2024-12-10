@@ -91,7 +91,7 @@ class UI1 extends LitElement {
 
       return html`
         <div class="container-fluid">
-          <table class="table table-sm is-responsive table-hover ms-3" style="font-size: small;">
+          <table class="table table-sm is-responsive table-hover ms-4" style="font-size: small;">
             <thead>
               <tr>
                 ${headers}
@@ -312,7 +312,7 @@ class UI1 extends LitElement {
         tr.dataset.popoverShown = true
         const isArtOfCount = item.subarticole.filter((sub) => sub.ISARTOF === 1).length || 0
         const totalSubCount = item.subarticole.length
-        const nrInstante = ds_instanteRetete.filter((inst) => inst.duplicateOf === item.meta.id).length
+        const nrInstante = item.meta.id ? ds_instanteRetete.filter((inst) => inst.duplicateOf === item.meta.id).length : 0
         const popoverContent = `
         <span class="badge text-bg-info">${totalSubCount}</span>
         <span class="badge text-bg-warning">${isArtOfCount}</span>
