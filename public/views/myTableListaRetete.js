@@ -53,11 +53,11 @@ class MyTableListaRetete extends UI1 {
               ><i class="bi bi-card-checklist"></i
             ></label>
           </div>
-          <div class="col">
-            <button type="button" class="btn btn-sm" @click="${() => this.recalculate(item)}">
-              <i class="bi bi-calculator text-info"></i> Recalculeaza
-            </button>
-          </div>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-sm" @click="${() => this.recalculate(item)}">
+            <i class="bi bi-calculator text-info"></i> Recalculeaza
+          </button>
         </div>
       </div>
     `
