@@ -1,4 +1,4 @@
-import { LitElement, html} from '../client.js'
+import { LitElement, html } from '../client.js'
 import UI1 from './UI1.js'
 
 class MyTableListaRetete extends UI1 {
@@ -34,14 +34,30 @@ class MyTableListaRetete extends UI1 {
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
-        <div class="col form-check form-switch">
-          <input type="checkbox" role="switch" class="form-check-input" id="checkboxConfirmare" name="checkboxConfirmare" />
-          <i class="bi bi-card-checklist"></i>
-        </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${() => this.recalculate(item)}">
-            <i class="bi bi-calculator text-info"></i> Recalculeaza
-          </button>
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="checkboxConfirmare"
+              name="checkboxConfirmare"
+            />
+            <input
+              type="checkbox"
+              role="switch"
+              class="form-check-input"
+              id="checkboxConfirmare"
+              name="checkboxConfirmare"
+            />
+            <label class="form-check-label" for="checkboxConfirmare"
+              ><i class="bi bi-card-checklist"></i
+            ></label>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-sm" @click="${() => this.recalculate(item)}">
+              <i class="bi bi-calculator text-info"></i> Recalculeaza
+            </button>
+          </div>
         </div>
       </div>
     `
