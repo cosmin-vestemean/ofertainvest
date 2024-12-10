@@ -38,12 +38,6 @@ class MyTableListaRetete extends UI1 {
           <div class="form-check form-switch">
             <input
               type="checkbox"
-              class="form-check-input"
-              id="checkboxConfirmare"
-              name="checkboxConfirmare"
-            />
-            <input
-              type="checkbox"
               role="switch"
               class="form-check-input"
               id="checkboxConfirmare"
