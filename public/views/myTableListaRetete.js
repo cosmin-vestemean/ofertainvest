@@ -34,7 +34,7 @@ class MyTableListaRetete extends UI1 {
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
-        <div class="col">
+        <div class="col pt-1 fs-6">
           <div class="form-check form-switch">
             <input
               type="checkbox"
