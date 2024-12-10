@@ -39,7 +39,7 @@ class MyTableListaRetete extends UI1 {
           <label for="checkboxConfirmare">Finalizata</label>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${() => this.recalculate()}">
+          <button type="button" class="btn btn-sm" @click="${() => this.recalculate(item)}">
             <i class="bi bi-calculator text-info"></i> Recalculeaza
           </button>
         </div>
@@ -47,8 +47,8 @@ class MyTableListaRetete extends UI1 {
     `
   }
 
-  recalculate() {
-    console.log('Recalculeaza button clicked')
+  recalculate(item) {
+    console.log('Recalculeaza', item)
     // Implement recalculation logic here
   }
 }
