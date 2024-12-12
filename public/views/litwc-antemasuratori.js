@@ -34,14 +34,15 @@ export class antemasuratori extends UI1 {
     `
   }
 
-  async saveArticle(item, self) {
-    console.log('save ante linie', item, self)
-    const oldInnerHTML = self.innerHTML;
-    self.setAttribute('disabled', 'disabled');
+  async saveArticle(item, htmlElement) {
+    console.log('save ante linie', item, htmlElement)
+    console.log('item.CCCANTEMASURATORI', item.CCCANTEMASURATORI)
+    const oldInnerHTML = htmlElement.innerHTML;
+    htmlElement.setAttribute('disabled', 'disabled');
     //spinner
-    self.innerHTML = `<div class="spinner-border spinner-border-sm text-info" role="status"></div>`;
+    htmlElement.innerHTML = `<div class="spinner-border spinner-border-sm text-info" role="status"></div>`;
     let sqlList = [];
-    if (item.CCCANTEMASURATORI) {
+    if (item.CCCANTEMASURATORI > 0 && item.CANTITATE_ARTICOL_ANTEMASURATORI > 0) {
       // Update existing record in CCCANTEMASURATORI
       const sqlUpdate = `UPDATE CCCANTEMASURATORI SET CCCANTEMASURATORI = ${item.CANTITATE_ARTICOL_ANTEMASURATORI} WHERE CCCANTEMASURATORI = ${item.CCCANTEMASURATORI}`;
       sqlList.push(sqlUpdate);
@@ -53,12 +54,8 @@ export class antemasuratori extends UI1 {
       const response = await runSQLTransaction(objSqlList);
       if (response.success) {
         console.log('Antemasuratori updated successfully', response);
-        self.removeAttribute('disabled');
-        self.innerHTML = oldInnerHTML;
       } else {
         console.log('Error updating antemasuratori', response);
-        self.removeAttribute('disabled');
-        self.innerHTML = oldInnerHTML;
         alert('Eroare actualizare antemasuratori');
       }
     } else {
@@ -70,15 +67,13 @@ export class antemasuratori extends UI1 {
       const response = await runSQLTransaction(objSqlList);
       if (response.success) {
         console.log('Antemasuratori inserted successfully', response);
-        self.removeAttribute('disabled');
-        self.innerHTML = oldInnerHTML;
       } else {
         console.log('Error inserting antemasuratori', response);
-        self.removeAttribute('disabled');
-        self.innerHTML = oldInnerHTML;
         alert('Eroare inserare antemasuratori');
       }
     }
+    htmlElement.removeAttribute('disabled');
+    htmlElement.innerHTML = oldInnerHTML;
   }
 }
 
