@@ -64,7 +64,7 @@ class UI1 extends LitElement {
 
   render() {
     if (!this.data || this.data.length == 0) {
-      return html`<div class="alert alert-warning" role="alert">No data.</div>`
+      return html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
     } else {
       const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
       const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
@@ -350,7 +350,6 @@ class UI1 extends LitElement {
   }
 
   handleMouseLeaveSingleArticol(event, item) {
-    console.log('Mouse leave', item)
     const tr = event.target.closest('tr')
     const dropdown = tr.querySelector('td .dropdown')
     if (dropdown) {
