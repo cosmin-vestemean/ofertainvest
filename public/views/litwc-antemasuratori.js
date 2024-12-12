@@ -43,7 +43,7 @@ export class antemasuratori extends UI1 {
       alert('Valoare invalida')
       return
     }
-    if (item.CANTITATE_ARTICOL_ANTEMASURATORI === nr) {
+    if (parseFloat(item.CANTITATE_ARTICOL_ANTEMASURATORI) === nr) {
       console.log('No changes')
       return
     }
