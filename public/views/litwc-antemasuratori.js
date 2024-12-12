@@ -43,6 +43,10 @@ export class antemasuratori extends UI1 {
       alert('Valoare invalida')
       return
     }
+    if (item.CANTITATE_ARTICOL_ANTEMASURATORI === nr) {
+      console.log('No changes')
+      return
+    }
     item.CANTITATE_ARTICOL_ANTEMASURATORI = nr
     console.log('save ante linie', item, htmlElement)
     console.log('item.CCCANTEMASURATORI', item.CCCANTEMASURATORI)
