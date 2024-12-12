@@ -93,7 +93,7 @@ export class antemasuratori extends UI1 {
       this.saveLine(item, htmlElement, value)
   }
 
-  async saveLineSubarticle(item, htmlElement, value) {
+  async saveLineSubArticle(item, htmlElement, value) {
       this.saveLine(item, htmlElement, value)
   }
 }
