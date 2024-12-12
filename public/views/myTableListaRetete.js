@@ -31,7 +31,7 @@ class MyTableListaRetete extends UI1 {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item, this)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.saveArticle(item, e.target)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
@@ -71,7 +71,7 @@ class MyTableListaRetete extends UI1 {
     try {
       let sqlList = []
 
-      if (item.CCCRETETE) {
+      if (item.CCCRETETE > 0) {
         // Update existing record in CCCRETETE
         let sql = `UPDATE CCCRETETE SET 
           NAME='${item.meta.name}', 
