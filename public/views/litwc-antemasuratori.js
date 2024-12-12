@@ -51,7 +51,7 @@ export class antemasuratori extends UI1 {
     //spinner
     htmlElement.innerHTML = `<div class="spinner-border spinner-border-sm text-info" role="status"></div>`
     let sqlList = []
-    if (item.CCCANTEMASURATORI > 0 && item.CANTITATE_ARTICOL_ANTEMASURATORI > 0) {
+    if (item.CCCANTEMASURATORI > 0) {
       // Update existing record in CCCANTEMASURATORI
       const sqlUpdate = `UPDATE CCCANTEMASURATORI SET CANTITATE = ${item.CANTITATE_ARTICOL_ANTEMASURATORI} WHERE CCCANTEMASURATORI = ${item.CCCANTEMASURATORI}`
       sqlList.push(sqlUpdate)
