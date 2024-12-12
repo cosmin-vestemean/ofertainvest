@@ -846,6 +846,46 @@ const antemasuratoriSubsDisplayMask = {
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
     master: 'ISARTOF'
+  },
+  CCCANTEMASURATORI: {
+    value: 'CCCANTEMASURATORI',
+    RW: false,
+    visible: false,
+    label: 'CCCANTEMASURATORI',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCPATHS: {
+    value: 'CCCPATHS',
+    RW: false,
+    visible: false,
+    label: 'CCCPATHS',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCINSTANTE: {
+    value: 'CCCINSTANTE',
+    RW: false,
+    visible: false,
+    label: 'CCCINSTANTE',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCACTIVITINSTANTE: {
+    value: 'CCCACTIVITINSTANTE',
+    RW: false,
+    visible: false,
+    label: 'CCCACTIVITINSTANTE',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCOFERTEWEBLINII: {
+    value: 'CCCOFERTEWEBLINII',
+    RW: false,
+    visible: false,
+    label: 'CCCOFERTEWEBLINII',
+    useAsMeta: true,
+    usefull: true
   }
 }
 
