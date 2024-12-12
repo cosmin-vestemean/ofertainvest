@@ -43,7 +43,7 @@ export class antemasuratori extends UI1 {
       alert('Valoare invalida')
       return
     }
-    item.CCCANTEMASURATORI = nr
+    item.CANTITATE_ARTICOL_ANTEMASURATORI = nr
     console.log('save ante linie', item, htmlElement)
     console.log('item.CCCANTEMASURATORI', item.CCCANTEMASURATORI)
     const oldInnerHTML = htmlElement.innerHTML
@@ -53,7 +53,7 @@ export class antemasuratori extends UI1 {
     let sqlList = []
     if (item.CCCANTEMASURATORI > 0 && item.CANTITATE_ARTICOL_ANTEMASURATORI > 0) {
       // Update existing record in CCCANTEMASURATORI
-      const sqlUpdate = `UPDATE CCCANTEMASURATORI SET CCCANTEMASURATORI = ${item.CANTITATE_ARTICOL_ANTEMASURATORI} WHERE CCCANTEMASURATORI = ${item.CCCANTEMASURATORI}`
+      const sqlUpdate = `UPDATE CCCANTEMASURATORI SET CANTITATE = ${item.CANTITATE_ARTICOL_ANTEMASURATORI} WHERE CCCANTEMASURATORI = ${item.CCCANTEMASURATORI}`
       sqlList.push(sqlUpdate)
 
       // Insert into CCCACTIVITINSTANTE for articol
