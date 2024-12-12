@@ -31,7 +31,7 @@ class MyTableListaRetete extends UI1 {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
+          <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item, this)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
@@ -63,8 +63,11 @@ class MyTableListaRetete extends UI1 {
     // Implement recalculation logic here
   }
 
-  async saveArticle(item) {
+  async saveArticle(item, htmlElement) {
     console.log('Salveaza', item)
+    //make htmlElement disabled and show spinner in it
+    htmlElement.setAttribute('disabled', 'true')
+    htmlElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
     try {
       const result = await connectToS1Service()
       const clientID = result.token
@@ -141,11 +144,22 @@ class MyTableListaRetete extends UI1 {
       const response = await runSQLTransaction(objSqlList)
       if (response.success) {
         console.log('Recipe saved successfully', response)
+        //make htmlElement enabled and show save button
+        htmlElement.removeAttribute('disabled')
+        htmlElement.innerHTML = `<i class="bi bi-save text-info"></i> Salveaza`
       } else {
         console.log('Error saving Recipe', response)
+        //make htmlElement enabled and show save button
+        htmlElement.removeAttribute('disabled')
+        htmlElement.innerHTML = `<i class="bi bi-save text-info"></i> Salveaza`
+        alert('Eroare salvare reteta')
       }
     } catch (error) {
       console.log('Error saving article', error)
+      //make htmlElement enabled and show save button
+      htmlElement.removeAttribute('disabled')
+      htmlElement.innerHTML = `<i class="bi bi-save text-info"></i> Salveaza`
+      alert('Eroare salvare reteta')
     }
   }
 }
