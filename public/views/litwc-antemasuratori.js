@@ -1,6 +1,6 @@
 import { template, theadIsSet, LitElement, html, contextOferta } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
-import { connectToS1Service, runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
+import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 
 export class antemasuratori extends UI1 {
   constructor() {
@@ -14,19 +14,6 @@ export class antemasuratori extends UI1 {
     self.setAttribute('disabled', 'disabled');
     //spinner
     self.innerHTML = `<div class="spinner-border spinner-border-sm text-info" role="status"></div>`;
-    //connect to S1
-    const responseS1 = await connectToS1Service();
-    const clientID = ''
-    if (!responseS1.success) {
-      console.log('Error connecting to S1', responseS1);
-      self.removeAttribute('disabled');
-      self.innerHTML = oldInnerHTML;
-      alert('Eroare conectare S1');
-      return;
-    } else {
-      console.log('Connected to S1', responseS1);
-      clientID = responseS1.token;
-    }
     let sqlList = [];
     if (item.CCCANTEMASURATORI) {
       // Update existing record in CCCANTEMASURATORI

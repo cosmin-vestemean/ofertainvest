@@ -1,6 +1,6 @@
 import { html, contextOferta } from '../client.js'
 import UI1 from './UI1.js'
-import { connectToS1Service, runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
+import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 
 class MyTableListaRetete extends UI1 {
   constructor() {
@@ -69,8 +69,6 @@ class MyTableListaRetete extends UI1 {
     htmlElement.setAttribute('disabled', 'true')
     htmlElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
     try {
-      const result = await connectToS1Service()
-      const clientID = result.token
       let sqlList = []
 
       if (item.CCCRETETE) {
