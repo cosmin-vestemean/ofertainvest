@@ -585,7 +585,8 @@ const antemasuratoriDisplayMask = {
     visible: false,
     label: 'CCCANTEMASURATORI',
     useAsMeta: true,
-    usefull: true
+    usefull: true,
+    type: 'number'
   },
   CCCPATHS: {
     value: 'CCCPATHS',
@@ -853,7 +854,8 @@ const antemasuratoriSubsDisplayMask = {
     visible: false,
     label: 'CCCANTEMASURATORI',
     useAsMeta: true,
-    usefull: true
+    usefull: true,
+    type: 'number'
   },
   CCCPATHS: {
     value: 'CCCPATHS',
