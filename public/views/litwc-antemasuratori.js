@@ -35,7 +35,8 @@ export class antemasuratori extends UI1 {
   }
 
   async saveArticle(item, htmlElement) {
-    console.log('save ante linie', item, htmlElement)
+    item.CCCANTEMASURATORI = htmlElement.closest('tr').querySelector('td').innerText;
+    console.log('save ante linie', item, htmlElement);
     console.log('item.CCCANTEMASURATORI', item.CCCANTEMASURATORI)
     const oldInnerHTML = htmlElement.innerHTML;
     htmlElement.setAttribute('disabled', 'disabled');
