@@ -1,13 +1,6 @@
-import { template, theadIsSet, LitElement, html } from '../client.js'
+import { template, theadIsSet, LitElement, html, contextOferta } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
-import {
-  ds_antemasuratori,
-  newTree,
-  setDsAntemasuratoriValue,
-  updateAntemasuratoare,
-  deleteAntemasuratore
-} from '../controllers/antemasuratori.js'
-import UI1 from './UI1.js';
+import { connectToS1Service, runSQLTransaction, getValFromS1Query } from './S1.js'
 
 export class antemasuratori extends UI1 {
   constructor() {
@@ -15,11 +8,65 @@ export class antemasuratori extends UI1 {
     // Constructorul clasei MyTableListaRetete
   }
 
-  // Suprascrie metodele din UI1 sau adaugă metode noi
-  /* someMethod() {
-    super.someMethod();
-    // Implementare specifică pentru MyTableListaRetete
-  } */
+  async saveArticle(item, self) {
+    // console.log('saveArticle', item, self)
+    const oldInnerHTML = self.innerHTML;
+    self.setAttribute('disabled', 'disabled');
+    //spinner
+    self.innerHTML = `<div class="spinner-border spinner-border-sm text-info" role="status"></div>`;
+    //connect to S1
+    const responseS1 = await connectToS1Service();
+    const clientID = ''
+    if (!responseS1.success) {
+      console.log('Error connecting to S1', responseS1);
+      self.removeAttribute('disabled');
+      self.innerHTML = oldInnerHTML;
+      alert('Eroare conectare S1');
+      return;
+    } else {
+      console.log('Connected to S1', responseS1);
+      clientID = responseS1.token;
+    }
+    let sqlList = [];
+    if (item.CCCANTEMASURATORI) {
+      // Update existing record in CCCANTEMASURATORI
+      const sqlUpdate = `UPDATE CCCANTEMASURATORI SET CCCANTEMASURATORI = ${item.CANTITATE_ARTICOL_ANTEMASURATORI} WHERE CCCANTEMASURATORI = ${item.CCCANTEMASURATORI}`;
+      sqlList.push(sqlUpdate);
+
+      // Insert into CCCACTIVITINSTANTE for articol
+      // Insert into CCCMATINSTANTE for each subarticol
+
+      const objSqlList = { sqlList: sqlList };
+      const response = await runSQLTransaction(objSqlList);
+      if (response.success) {
+        console.log('Antemasuratori updated successfully', response);
+        self.removeAttribute('disabled');
+        self.innerHTML = oldInnerHTML;
+      } else {
+        console.log('Error updating antemasuratori', response);
+        self.removeAttribute('disabled');
+        self.innerHTML = oldInnerHTML;
+        alert('Eroare actualizare antemasuratori');
+      }
+    } else {
+      // Insert new record into CCCANTEMASURATORI
+      const sqlInsert = `INSERT INTO CCCANTEMASURATORI (CCCOFERTEWEB, CCCPATHS, CCCINSTANTE, CCCACTIVITINSTANTE, CCCOFERTEWEBLINII, CCCANTEMASURATORI, ISARTOF) VALUES (${item.CCCOFERTEWEB}, ${item.CCCPATHS}, ${item.CCCINSTANTE}, ${item.CCCACTIVITINSTANTE}, ${item.CCCOFERTEWEBLINII}, ${item.CANTITATE_ARTICOL_ANTEMASURATORI}, ${item.ISARTOF})`;
+      sqlList.push(sqlInsert);
+
+      const objSqlList = { sqlList: sqlList };
+      const response = await runSQLTransaction(objSqlList);
+      if (response.success) {
+        console.log('Antemasuratori inserted successfully', response);
+        self.removeAttribute('disabled');
+        self.innerHTML = oldInnerHTML;
+      } else {
+        console.log('Error inserting antemasuratori', response);
+        self.removeAttribute('disabled');
+        self.innerHTML = oldInnerHTML;
+        alert('Eroare inserare antemasuratori');
+      }
+    }
+  }
 }
 
 export default antemasuratori;
