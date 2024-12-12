@@ -158,16 +158,15 @@ class MyTableListaRetete extends UI1 {
     htmlElement.removeAttribute('disabled')
     htmlElement.innerHTML = oldInnerHTML
   }
-}
+  saveLineArticle(item, htmlElement, value) {
+    console.log('Salveaza linie articol', item, htmlElement, value)
+    // Implement saveLineArticle logic here
+  }
 
-saveLineArticle(item, htmlElement, value) {
-  console.log('Salveaza linie articol', item, htmlElement, value)
-  // Implement saveLineArticle logic here
-}
-
-saveLineSubArticle(item, htmlElement, value) {
-  console.log('Salveaza linie subarticol', item, htmlElement, value)
-  // Implement saveLineSubArticle logic here
+  saveLineSubArticle(item, htmlElement, value) {
+    console.log('Salveaza linie subarticol', item, htmlElement, value)
+    // Implement saveLineSubArticle logic here
+  }
 }
 
 export default MyTableListaRetete
