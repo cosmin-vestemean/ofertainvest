@@ -167,7 +167,6 @@ class UI1 extends LitElement {
         @contextmenu="${(e) => this.handleContextMenu(e, item)}"
         @mouseenter="${(e) => this.handleMouseEnterSingleArticol(e, item)}"
         @mouseleave="${(e) => this.handleMouseLeaveSingleArticol(e, item)}"
-        ${unsafeHTML(this.getMetaAttributes(item.articol, usefullEntityDisplayMask))}
       >
         <td style="min-width: 30px;" class="align-middle">
           ${item.subarticole.length > 0
@@ -213,7 +212,6 @@ class UI1 extends LitElement {
                 @focusin="${(e) => this.handleFocusIn(e, item, key)}"
                 @focusout="${(e) => this.saveArticle(item)}"
                 @keydown="${(e) => this.handleKeyDown(e, item, key)}"
-                ${usefullEntityDisplayMask[key].useAsMeta ? unsafeHTML(`data-${key.toLowerCase()}="${item.articol[key]}"`) : ''}
               >
                 ${item.articol[key]}
               </td>`
@@ -275,7 +273,6 @@ class UI1 extends LitElement {
         style="${this.getBorderStyle(item.meta.type, item.subarticole.length)}"
         data-parent-index="${index}"
         @contextmenu="${(e) => this.handleContextMenu(e, sub)}"
-        ${unsafeHTML(this.getMetaAttributes(sub, usefullEntitySubsDisplayMask))}
       >
         <td></td>
         ${Object.keys(usefullEntityDisplayMask).map((key) => {
@@ -296,7 +293,6 @@ class UI1 extends LitElement {
                     @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
                     @focusout="${(e) => this.saveArticle(sub)}"
                     @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
-                    ${usefullEntitySubsDisplayMask[subKey].useAsMeta ? unsafeHTML(`data-${subKey.toLowerCase()}="${sub[subKey]}"`) : ''}
                   >
                     ${sub[subKey]}
                   </td>`
@@ -307,13 +303,6 @@ class UI1 extends LitElement {
         })}
       </tr>
     `
-  }
-
-  getMetaAttributes(item, mask) {
-    return Object.keys(mask)
-      .filter((key) => mask[key].useAsMeta)
-      .map((key) => `data-${key.toLowerCase()}="${item[key]}"`)
-      .join(' ')
   }
 
   handleMouseEnterSingleArticol(event, item) {
