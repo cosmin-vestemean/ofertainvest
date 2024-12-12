@@ -488,7 +488,7 @@ class UI1 extends LitElement {
         </ul>
       </div>
       <div class="col">
-        <button type="button" class="btn btn-sm" @click="${(e) => this.saveArticle(item, e.target)}">
+        <button type="button" class="btn btn-sm" @click="${(e) => this.savePackage(item, e.target)}">
         <i class="bi bi-save text-info"></i> Salveaza
         </button>
       </div>
@@ -500,7 +500,7 @@ class UI1 extends LitElement {
     console.log('Add sub', item)
   }
 
-  saveArticle(item) {
+  savePackage(item) {
     console.log('Save article', item)
   }
 
