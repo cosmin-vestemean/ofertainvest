@@ -35,7 +35,7 @@ export class antemasuratori extends UI1 {
   }
 
   async saveArticle(item, self) {
-    // console.log('saveArticle', item, self)
+    console.log('save ante linie', item, self)
     const oldInnerHTML = self.innerHTML;
     self.setAttribute('disabled', 'disabled');
     //spinner
