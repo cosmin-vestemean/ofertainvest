@@ -210,7 +210,7 @@ class UI1 extends LitElement {
                 contenteditable="${usefullEntityDisplayMask[key].RW}"
                 class="${zoneClass}"
                 @focusin="${(e) => this.handleFocusIn(e, item, key)}"
-                @focusout="${(e) => this.saveArticle(item, e.target, e.target.textContent)}"
+                @focusout="${(e) => this.saveArticle(item.articol, e.target, e.target.textContent)}"
                 @keydown="${(e) => this.handleKeyDown(e, item, key)}"
               >
                 ${item.articol[key]}
@@ -291,7 +291,7 @@ class UI1 extends LitElement {
                     contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
                     class="${zoneClass}"
                     @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
-                    @focusout="${(e) => this.saveArticle(sub, this)}"
+                    @focusout="${(e) => this.saveArticle(sub, e.target, e.target.textContent)}"
                     @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
                   >
                     ${sub[subKey]}
