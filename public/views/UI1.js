@@ -209,9 +209,8 @@ class UI1 extends LitElement {
                 colspan="${colspan}"
                 contenteditable="${usefullEntityDisplayMask[key].RW}"
                 class="${zoneClass}"
-                type="${usefullEntityDisplayMask[key].type === 'number' ? 'number' : 'text'}"
                 @focusin="${(e) => this.handleFocusIn(e, item, key)}"
-                @focusout="${(e) => this.saveArticle(item.articol, e.target, e.target.textContent)}"
+                @focusout="${(e) => this.saveLineArticle(item.articol, e.target, e.target.textContent)}"
                 @keydown="${(e) => this.handleKeyDown(e, item, key)}"
               >
                 ${item.articol[key]}
@@ -291,9 +290,8 @@ class UI1 extends LitElement {
                   return html`<td
                     contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
                     class="${zoneClass}"
-                    type="${usefullEntitySubsDisplayMask[subKey].type === 'number' ? 'number' : 'text'}"
                     @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
-                    @focusout="${(e) => this.saveArticle(sub, e.target, e.target.textContent)}"
+                    @focusout="${(e) => this.saveLineSubArticle(sub, e.target, e.target.textContent)}"
                     @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
                   >
                     ${sub[subKey]}
@@ -504,6 +502,14 @@ class UI1 extends LitElement {
 
   saveArticle(item) {
     console.log('Save article', item)
+  }
+
+  saveLineArticle(item, htmlElement, value) {
+    console.log('Save line', item, htmlElement, value)
+  }
+
+  saveLineSubArticle(item, htmlElement, value) {
+    console.log('Save sub', item, htmlElement, value)
   }
 }
 

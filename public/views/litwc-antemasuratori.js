@@ -34,7 +34,7 @@ export class antemasuratori extends UI1 {
     `
   }
 
-  async saveArticle(item, htmlElement, value) {
+  async saveLine(item, htmlElement, value) {
     let nr
     try {
       nr = parseFloat(value)
@@ -87,6 +87,14 @@ export class antemasuratori extends UI1 {
     }
     htmlElement.removeAttribute('disabled')
     htmlElement.innerHTML = oldInnerHTML
+  }
+
+  async saveLineArticle(item, htmlElement, value) {
+      this.saveLine(item, htmlElement, value)
+  }
+
+  async saveLineSubarticle(item, htmlElement, value) {
+      this.saveLine(item, htmlElement, value)
   }
 }
 
