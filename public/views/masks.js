@@ -131,6 +131,30 @@ const recipeDisplayMask = {
     DBName: 'ISARTOF',
     type: 'boolean',
     UI: { true: '<i class="bi bi-check2"></i>', false: '' }
+  },
+  CCCRETETE: {
+    value: 'CCCRETETE',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'CCCRETETE',
+    useAsMeta: true
+  },
+  CCCACTIVITRETETE: {
+    value: 'CCCACTIVITRETETE',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'CCCACTIVITRETETE',
+    useAsMeta: true
+  },
+  ISCUSTOM: {
+    value: 'ISCUSTOM',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'ISCUSTOM',
+    useAsMeta: true
   }
 }
 
@@ -316,6 +340,38 @@ const recipeSubsDisplayMask = {
     type: 'boolean',
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
     master: 'ISARTOF'
+  },
+  CCCRETETE: {
+    value: 'CCCRETETE',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'CCCRETETE',
+    useAsMeta: true
+  },
+  CCCACTIVITRETETE: {
+    value: 'CCCACTIVITRETETE',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'CCCACTIVITRETETE',
+    useAsMeta: true
+  },
+  CCCMATRETETE: {
+    value: 'CCCMATRETETE',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'CCCMATRETETE',
+    useAsMeta: true
+  },
+  ISCUSTOM: {
+    value: 'ISCUSTOM',
+    usefull: true,
+    visible: false,
+    RW: false,
+    label: 'ISCUSTOM',
+    useAsMeta: true
   }
 }
 
