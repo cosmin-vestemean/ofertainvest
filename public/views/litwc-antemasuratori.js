@@ -1,6 +1,6 @@
 import { template, theadIsSet, LitElement, html, contextOferta } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
-import { connectToS1Service, runSQLTransaction, getValFromS1Query } from './S1.js'
+import { connectToS1Service, runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 
 export class antemasuratori extends UI1 {
   constructor() {

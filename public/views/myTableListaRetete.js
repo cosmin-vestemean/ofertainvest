@@ -1,6 +1,6 @@
 import { html, contextOferta } from '../client.js'
 import UI1 from './UI1.js'
-import { connectToS1Service, runSQLTransaction, getValFromS1Query } from './S1.js'
+import { connectToS1Service, runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 
 class MyTableListaRetete extends UI1 {
   constructor() {
