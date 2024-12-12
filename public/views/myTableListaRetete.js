@@ -77,7 +77,7 @@ class MyTableListaRetete extends UI1 {
       try {
         let sqlList = []
 
-        if (item.CCCRETETE > 0) {
+        if (item.articol.CCCRETETE > 0) {
           // Update existing record in CCCRETETE
           let sql = `UPDATE CCCRETETE SET 
           NAME='${item.meta.name}', 
