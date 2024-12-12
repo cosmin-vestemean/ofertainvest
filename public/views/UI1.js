@@ -210,7 +210,7 @@ class UI1 extends LitElement {
                 contenteditable="${usefullEntityDisplayMask[key].RW}"
                 class="${zoneClass}"
                 @focusin="${(e) => this.handleFocusIn(e, item, key)}"
-                @focusout="${(e) => this.saveArticle(item)}"
+                @focusout="${(e) => this.saveArticle(item, this)}"
                 @keydown="${(e) => this.handleKeyDown(e, item, key)}"
               >
                 ${item.articol[key]}
@@ -291,7 +291,7 @@ class UI1 extends LitElement {
                     contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
                     class="${zoneClass}"
                     @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
-                    @focusout="${(e) => this.saveArticle(sub)}"
+                    @focusout="${(e) => this.saveArticle(sub, this)}"
                     @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
                   >
                     ${sub[subKey]}
@@ -488,7 +488,7 @@ class UI1 extends LitElement {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item)}">
+          <button type="button" class="btn btn-sm" @click="${() => this.saveArticle(item, this)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
