@@ -1,5 +1,7 @@
 import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees } from '../client.js'
 
+/* global bootstrap */
+
 class UI1 extends LitElement {
   static properties = {
     data: { type: Array },
@@ -69,6 +71,7 @@ class UI1 extends LitElement {
 
   showFilterModal() {
     const modal = document.createElement('div')
+    modal.id = 'filterModal'
     modal.className = 'modal'
     modal.innerHTML = `
       <div class="modal-dialog modal-dialog-scrollable">
@@ -88,6 +91,9 @@ class UI1 extends LitElement {
       </div>
     `
     document.body.appendChild(modal)
+
+    const modalInstance = new bootstrap.Modal(modal)
+    modalInstance.show()
   }
 
   generateFilterForm() {
