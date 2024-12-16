@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeHTML, contextOferta } from '../client.js'
+import { LitElement, html, contextOferta } from '../client.js'
 
 /* global bootstrap */
 
@@ -6,8 +6,17 @@ class LitwcListaPlanificari extends LitElement {
   createRenderRoot() {
     return this
   }
+
+  properties = {
+    angajati: { type: Array }
+  }
+
+  constructor() {
+    super()
+    this.angajati = contextOferta.angajati
+  }
+
   render() {
-    console.log('LitwcListaPlanificari render', contextOferta.angajati)
     return html`
       <button @click="${this.handleAddPlanificare}">Adauga planificare</button>
 
@@ -38,20 +47,16 @@ class LitwcListaPlanificari extends LitElement {
                 <div class="mb-3">
                   <label for="select1" class="form-label">Responsabil planificare</label>
                   <select class="form-select" id="select1">
-                    ${unsafeHTML(
-                      contextOferta.angajati
-                        .map((angajat) => `<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)
-                        .join('')
+                    ${this.angajati.map(
+                      (angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
                     )}
                   </select>
                 </div>
                 <div class="mb-3">
                   <label for="select2" class="form-label">Responsabil executie</label>
                   <select class="form-select" id="select2">
-                    ${unsafeHTML(
-                      contextOferta.angajati
-                        .map((angajat) => `<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)
-                        .join('')
+                    ${this.angajati.map(
+                      (angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
                     )}
                   </select>
                 </div>
@@ -69,6 +74,8 @@ class LitwcListaPlanificari extends LitElement {
 
   handleAddPlanificare() {
     console.log('Adauga planificare button clicked')
+    //update angajati
+    this.angajati = contextOferta.angajati
     const modal = new bootstrap.Modal(document.getElementById('planificareModal'))
     modal.show()
   }
