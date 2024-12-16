@@ -13,4 +13,6 @@ class LitwcListaPlanificari extends LitElement {
   }
 }
 
+export default LitwcListaPlanificari;
+
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari);
