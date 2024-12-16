@@ -16,9 +16,18 @@ class LitwcListaPlanificari extends LitElement {
     this.angajati = contextOferta.angajati
   }
 
+  connectedCallback() {
+    super.connectedCallback()
+    this.addEventListener('click', (e) => {
+      if (e.target.id === 'adaugaPlanificare') {
+        this.handleAddPlanificare()
+      }
+    })
+  }
+
   render() {
     return html`
-      <button @click="${this.handleAddPlanificare}">Adauga planificare</button>
+      <button class="button button-sm" id="adaugaPlanificare">Adauga planificare</button>
 
       <!-- Modal -->
       <div
