@@ -1,5 +1,7 @@
 import { LitElement, html, contextOferta } from '../client.js'
 
+/* global bootstrap */
+
 class LitwcListaPlanificari extends LitElement {
   createRenderRoot() {
     return this
@@ -62,7 +64,7 @@ class LitwcListaPlanificari extends LitElement {
 
   handleAddPlanificare() {
     console.log('Adauga planificare button clicked')
-    const modal = new bootstrap.Modal(this.shadowRoot.getElementById('planificareModal'))
+    const modal = new bootstrap.Modal(document.getElementById('planificareModal'))
     modal.show()
   }
 }
