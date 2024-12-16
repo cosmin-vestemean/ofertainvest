@@ -178,21 +178,20 @@ class UI1 extends LitElement {
       const cascadeKey = this.mainMask[key].cascadeFor
       const selectedValue = filterValues[key]
       if (selectedValue) {
-        this.articole.forEach((item) => {
-          if (item.articol[key] === selectedValue) {
-            item.articol.visible = true
+        const relatedTree = trees.find((tree) => tree.some((branch) => branch.includes(selectedValue)))
+        if (relatedTree) {
+          const relatedBranches = relatedTree.filter((branch) => branch.includes(selectedValue))
+          this.articole.forEach((item) => {
+            const itemValue = item.articol[key]
+            const isVisible = relatedBranches.some((branch) => branch.includes(itemValue))
+            item.articol.visible = isVisible
             item.subarticole.forEach((sub) => {
-              if (sub[cascadeKey] !== selectedValue) {
-                sub.visible = false
-              }
+              const subValue = sub[cascadeKey]
+              const isSubVisible = relatedBranches.some((branch) => branch.includes(subValue))
+              sub.visible = isSubVisible
             })
-          } else {
-            item.articol.visible = false
-            item.subarticole.forEach((sub) => {
-              sub.visible = false
-            })
-          }
-        })
+          })
+        }
       }
     })
   }
