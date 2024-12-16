@@ -23,6 +23,15 @@ class LitwcListaPlanificari extends LitElement {
         this.handleAddPlanificare()
       }
     })
+    if (!this.angajati || this.angajati.length === 0) {
+      const intervalId = setInterval(() => {
+        if (contextOferta.angajati && contextOferta.angajati.length > 0) {
+          this.angajati = contextOferta.angajati
+          this.requestUpdate()
+          clearInterval(intervalId)
+        }
+      }, 500)
+    }
   }
 
   render() {
