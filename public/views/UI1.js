@@ -133,7 +133,11 @@ class UI1 extends LitElement {
   }
 
   generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
-    const headers = [html`<th rowspan="2"><i class="bi bi-filter-square"></i></th>`]
+    const headers = [
+      html`<th rowspan="2">
+        <div class="col"><i id="planificareNoua" class="bi bi-filter-square text-info"></i></div>
+      </th>`
+    ]
 
     Object.keys(usefullEntityDisplayMask).forEach((key) => {
       if (usefullEntityDisplayMask[key].visible) {
@@ -469,29 +473,29 @@ class UI1 extends LitElement {
   actionsBar(item) {
     return html`
       <div class="actions-bar row">
-      <div class="dropdown col">
-        <button
-        class="btn btn-sm dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        >
-        <i class="bi bi-plus-square text-primary"></i> Adauga articol
-        </button>
-        <ul class="dropdown-menu">
-        ${this.dropdownItems.map(
-          (dropdownItem) =>
-          html`<li>
-            <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
-          </li>`
-        )}
-        </ul>
-      </div>
-      <div class="col">
-        <button type="button" class="btn btn-sm" @click="${(e) => this.savePackage(item, e.target)}">
-        <i class="bi bi-save text-info"></i> Salveaza
-        </button>
-      </div>
+        <div class="dropdown col">
+          <button
+            class="btn btn-sm dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-plus-square text-primary"></i> Adauga articol
+          </button>
+          <ul class="dropdown-menu">
+            ${this.dropdownItems.map(
+              (dropdownItem) =>
+                html`<li>
+                  <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
+                </li>`
+            )}
+          </ul>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.savePackage(item, e.target)}">
+            <i class="bi bi-save text-info"></i> Salveaza
+          </button>
+        </div>
       </div>
     `
   }
