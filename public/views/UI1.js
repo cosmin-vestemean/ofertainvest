@@ -135,7 +135,7 @@ class UI1 extends LitElement {
   generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
     const headers = [
       html`<th rowspan="2">
-        <div class="col"><i id="planificareNoua" class="bi bi-filter-square text-info"></i></div>
+        <div class="col"><i id="planificareNoua" class="bi bi-filter-square text-success fs-5"></i></div>
       </th>`
     ]
 
