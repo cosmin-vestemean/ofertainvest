@@ -533,7 +533,6 @@ export function init() {
   btn_planificari.onclick = async function () {
     //hide all tables but 7
     tables.hideAllBut([tables.my_table7])
-    tables.my_table7.element.ds = context.ds_estimari
   }
 
   //btn_listaRetete
