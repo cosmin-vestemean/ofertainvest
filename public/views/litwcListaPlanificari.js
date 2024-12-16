@@ -7,6 +7,7 @@ class LitwcListaPlanificari extends LitElement {
     return this
   }
   render() {
+    console.log('LitwcListaPlanificari render', contextOferta.angajati)
     return html`
       <button @click="${this.handleAddPlanificare}">Adauga planificare</button>
 
