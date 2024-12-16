@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html } from '../client.js';
 
 class LitwcListaPlanificari extends LitElement {
   render() {
