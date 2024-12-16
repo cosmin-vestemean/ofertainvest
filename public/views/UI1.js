@@ -103,6 +103,7 @@ class UI1 extends LitElement {
   generateFilterForm() {
     const filterableFields = Object.keys(this.mainMask)
       .filter((key) => this.mainMask[key].isFilterable)
+      .filter((key) => this.articole.some((item) => item.articol[key] !== undefined || item.subarticole.some((sub) => sub[key] !== undefined)))
       .map((key) => {
         if (this.mainMask[key].filter === 'filter') {
           return `
