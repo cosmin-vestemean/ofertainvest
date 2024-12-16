@@ -76,19 +76,23 @@ class UI1 extends LitElement {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Filtru Planificare</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${this.closeModal}"></button>
           </div>
           <div class="modal-body">
             ${this.generateFilterForm()}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="${this.closeModal}">Close</button>
             <button type="button" class="btn btn-primary" @click="${this.applyFilter}">Apply Filter</button>
           </div>
         </div>
       </div>
     `
     document.body.appendChild(modal)
+  }
+
+  closeModal() {
+    document.querySelector('.modal').remove()
   }
 
   generateFilterForm() {
@@ -214,6 +218,14 @@ class UI1 extends LitElement {
           }
         })
       )
+
+      // Initially set all items to visible
+      this.articole.forEach((item) => {
+        item.articol.visible = true
+        item.subarticole.forEach((sub) => {
+          sub.visible = true
+        })
+      })
 
       console.log('articole', this.articole)
 
