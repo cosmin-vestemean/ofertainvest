@@ -76,6 +76,7 @@ class LitwcListaPlanificari extends LitElement {
     console.log('Adauga planificare button clicked')
     //update angajati
     this.angajati = contextOferta.angajati
+    console.log(this.angajati)
     const modal = new bootstrap.Modal(document.getElementById('planificareModal'))
     modal.show()
   }
