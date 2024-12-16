@@ -170,7 +170,7 @@ class UI1 extends LitElement {
     })
 
     this.requestUpdate()
-    document.getElementById('filterModal').hide()
+    document.getElementById('filterModal').remove()
   }
 
   render() {
