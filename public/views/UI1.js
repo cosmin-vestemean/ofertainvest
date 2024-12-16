@@ -70,29 +70,24 @@ class UI1 extends LitElement {
   showFilterModal() {
     const modal = document.createElement('div')
     modal.className = 'modal'
-    modal.style.display = 'block'
     modal.innerHTML = `
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Filtru Planificare</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${this.closeModal}"></button>
+            <h5 class="modal-title">Filtru</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             ${this.generateFilterForm()}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="${this.closeModal}">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" @click="${this.applyFilter}">Apply Filter</button>
           </div>
         </div>
       </div>
     `
     document.body.appendChild(modal)
-  }
-
-  closeModal() {
-    document.querySelector('.modal').remove()
   }
 
   generateFilterForm() {
