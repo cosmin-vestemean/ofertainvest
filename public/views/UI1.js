@@ -13,6 +13,8 @@ class UI1 extends LitElement {
     canAddInLine: { type: Boolean }
   }
 
+  modalInstance = null
+
   constructor() {
     super()
     this.data = []
@@ -92,8 +94,8 @@ class UI1 extends LitElement {
     `
     document.body.appendChild(modal)
 
-    const modalInstance = new bootstrap.Modal(modal)
-    modalInstance.show()
+    this.modalInstance = new bootstrap.Modal(modal)
+    this.modalInstance.show()
 
     document.getElementById('applyFilterButton').addEventListener('click', () => this.applyFilter())
   }
@@ -170,7 +172,7 @@ class UI1 extends LitElement {
     })
 
     this.requestUpdate()
-    document.getElementById('filterModal').remove()
+    this.modalInstance.hide()
   }
 
   render() {
