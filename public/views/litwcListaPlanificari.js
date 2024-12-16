@@ -1,4 +1,4 @@
-import { LitElement, html, contextOferta } from '../client.js'
+import { LitElement, html, unsafeHTML, contextOferta } from '../client.js'
 
 /* global bootstrap */
 
@@ -37,16 +37,20 @@ class LitwcListaPlanificari extends LitElement {
                 <div class="mb-3">
                   <label for="select1" class="form-label">Responsabil planificare</label>
                   <select class="form-select" id="select1">
-                    ${contextOferta.angajati.map(
-                      (angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
+                    ${unsafeHTML(
+                      contextOferta.angajati
+                        .map((angajat) => `<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)
+                        .join('')
                     )}
                   </select>
                 </div>
                 <div class="mb-3">
                   <label for="select2" class="form-label">Responsabil executie</label>
                   <select class="form-select" id="select2">
-                    ${contextOferta.angajati.map(
-                      (angajat) => html`<option value="${angajat.PRNS}">${angajat.NAME2}</option>`
+                    ${unsafeHTML(
+                      contextOferta.angajati
+                        .map((angajat) => `<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)
+                        .join('')
                     )}
                   </select>
                 </div>
