@@ -133,7 +133,7 @@ class UI1 extends LitElement {
   }
 
   generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
-    const headers = [html`<th rowspan="2"></th>`]
+    const headers = [html`<th rowspan="2"><i class="bi bi-filter-square"></i></th>`]
 
     Object.keys(usefullEntityDisplayMask).forEach((key) => {
       if (usefullEntityDisplayMask[key].visible) {
