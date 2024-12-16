@@ -1,4 +1,4 @@
-import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete } from '../client.js'
+import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees } from '../client.js'
 
 class UI1 extends LitElement {
   static properties = {
@@ -95,14 +95,42 @@ class UI1 extends LitElement {
     const filterableFields = Object.keys(this.mainMask)
       .filter((key) => this.mainMask[key].isFilterable)
       .map((key) => {
-        return `
-          <div class="mb-3">
-            <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-            <input type="text" class="form-control" id="${key}" name="${key}">
-          </div>
-        `
+        if (this.mainMask[key].filter === 'filter') {
+          return `
+            <div class="mb-3">
+              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+              <select class="form-select" id="${key}" name="${key}">
+                ${this.getFilterOptions(key)}
+              </select>
+            </div>
+          `
+        } else {
+          return `
+            <div class="mb-3">
+              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+              <input type="text" class="form-control" id="${key}" name="${key}">
+            </div>
+          `
+        }
       })
     return filterableFields.join('')
+  }
+
+  getFilterOptions(key) {
+    const options = new Set()
+    this.articole.forEach((item) => {
+      if (item.articol[key]) {
+        options.add(item.articol[key])
+      }
+      item.subarticole.forEach((sub) => {
+        if (sub[key]) {
+          options.add(sub[key])
+        }
+      })
+    })
+    return Array.from(options)
+      .map((option) => `<option value="${option}">${option}</option>`)
+      .join('')
   }
 
   applyFilter() {
@@ -134,8 +162,34 @@ class UI1 extends LitElement {
       })
     })
 
+    this.applyCascadingFilters(filterValues)
     this.requestUpdate()
     document.querySelector('.modal').remove()
+  }
+
+  applyCascadingFilters(filterValues) {
+    const cascadeFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].cascadeFor)
+    cascadeFields.forEach((key) => {
+      const cascadeKey = this.mainMask[key].cascadeFor
+      const selectedValue = filterValues[key]
+      if (selectedValue) {
+        this.articole.forEach((item) => {
+          if (item.articol[key] === selectedValue) {
+            item.articol.visible = true
+            item.subarticole.forEach((sub) => {
+              if (sub[cascadeKey] !== selectedValue) {
+                sub.visible = false
+              }
+            })
+          } else {
+            item.articol.visible = false
+            item.subarticole.forEach((sub) => {
+              sub.visible = false
+            })
+          }
+        })
+      }
+    })
   }
 
   render() {
