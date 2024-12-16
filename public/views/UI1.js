@@ -167,33 +167,8 @@ class UI1 extends LitElement {
       })
     })
 
-    this.applyCascadingFilters(filterValues)
     this.requestUpdate()
-    document.querySelector('.modal').remove()
-  }
-
-  applyCascadingFilters(filterValues) {
-    const cascadeFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].cascadeFor)
-    cascadeFields.forEach((key) => {
-      const cascadeKey = this.mainMask[key].cascadeFor
-      const selectedValue = filterValues[key]
-      if (selectedValue) {
-        const relatedTree = trees.find((tree) => tree.some((branch) => branch.includes(selectedValue)))
-        if (relatedTree) {
-          const relatedBranches = relatedTree.filter((branch) => branch.includes(selectedValue))
-          this.articole.forEach((item) => {
-            const itemValue = item.articol[key]
-            const isVisible = relatedBranches.some((branch) => branch.includes(itemValue))
-            item.articol.visible = isVisible
-            item.subarticole.forEach((sub) => {
-              const subValue = sub[cascadeKey]
-              const isSubVisible = relatedBranches.some((branch) => branch.includes(subValue))
-              sub.visible = isSubVisible
-            })
-          })
-        }
-      }
-    })
+    document.getElementById('filterModal').hide()
   }
 
   render() {
