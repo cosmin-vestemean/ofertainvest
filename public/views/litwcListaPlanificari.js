@@ -36,7 +36,7 @@ class LitwcListaPlanificari extends LitElement {
 
   render() {
     return html`
-      <button type="button" class="btn btn-sm" id="adaugaPlanificare">Adauga planificare</button>
+      <button type="button" class="btn btn-primary m-2" id="adaugaPlanificare">Adauga planificare</button>
 
       <!-- Modal -->
       <div
