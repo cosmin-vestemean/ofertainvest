@@ -85,12 +85,15 @@ class UI1 extends LitElement {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="${this.applyFilter}">Apply Filter</button>
+            <button type="button" id="applyFilters" class="btn btn-primary">Apply Filter</button>
           </div>
         </div>
       </div>
     `
     document.body.appendChild(modal)
+
+    const applyFilters = document.getElementById('applyFilters')
+    applyFilters.addEventListener('click', () => this.applyFilter())
 
     const modalInstance = new bootstrap.Modal(modal)
     modalInstance.show()
