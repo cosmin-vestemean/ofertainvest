@@ -34,6 +34,11 @@ class UI1 extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     //... do something when connected
+    this.addEventListener('click', (e) => {
+      if (e.target.id === 'planificareNoua') {
+        this.showFilterModal()
+      }
+    })
   }
 
   createRenderRoot() {
@@ -60,6 +65,77 @@ class UI1 extends LitElement {
     } else {
       return ''
     }
+  }
+
+  showFilterModal() {
+    const modal = document.createElement('div')
+    modal.className = 'modal'
+    modal.style.display = 'block'
+    modal.innerHTML = `
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Filtru Planificare</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ${this.generateFilterForm()}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click="${this.applyFilter}">Apply Filter</button>
+          </div>
+        </div>
+      </div>
+    `
+    document.body.appendChild(modal)
+  }
+
+  generateFilterForm() {
+    const filterableFields = Object.keys(this.mainMask)
+      .filter((key) => this.mainMask[key].isFilterable)
+      .map((key) => {
+        return `
+          <div class="mb-3">
+            <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+            <input type="text" class="form-control" id="${key}" name="${key}">
+          </div>
+        `
+      })
+    return filterableFields.join('')
+  }
+
+  applyFilter() {
+    const filterValues = {}
+    const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
+    filterableFields.forEach((key) => {
+      const input = document.getElementById(key)
+      if (input) {
+        filterValues[key] = input.value
+      }
+    })
+
+    this.articole.forEach((item) => {
+      let visible = true
+      filterableFields.forEach((key) => {
+        if (filterValues[key] && item.articol[key] !== filterValues[key]) {
+          visible = false
+        }
+      })
+      item.articol.visible = visible
+      item.subarticole.forEach((sub) => {
+        let subVisible = true
+        filterableFields.forEach((key) => {
+          if (filterValues[key] && sub[key] !== filterValues[key]) {
+            subVisible = false
+          }
+        })
+        sub.visible = subVisible
+      })
+    })
+
+    this.requestUpdate()
+    document.querySelector('.modal').remove()
   }
 
   render() {
@@ -99,14 +175,16 @@ class UI1 extends LitElement {
             </thead>
             ${this.articole.map(
               (item, index) =>
-                html`<tbody>
-                  ${this.renderArticleRow(
-                    item,
-                    index,
-                    usefullEntityDisplayMask,
-                    usefullEntitySubsDisplayMask
-                  )}
-                </tbody>`
+                item.articol.visible
+                  ? html`<tbody>
+                      ${this.renderArticleRow(
+                        item,
+                        index,
+                        usefullEntityDisplayMask,
+                        usefullEntitySubsDisplayMask
+                      )}
+                    </tbody>`
+                  : ''
             )}
           </table>
         </div>
@@ -264,7 +342,9 @@ class UI1 extends LitElement {
           `
         : ''}
       ${item.subarticole.map((sub) =>
-        this.renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
+        sub.visible
+          ? this.renderSubarticleRow(item, sub, index, usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
+          : ''
       )}
       <tr class="spacer"></tr>
     `

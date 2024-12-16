@@ -381,7 +381,6 @@ const antemasuratoriDisplayMask = {
     RW: false,
     visible: false,
     label: 'Duplicat',
-    filter: 'search',
     isEnumerable: false,
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' }
@@ -391,7 +390,6 @@ const antemasuratoriDisplayMask = {
     RW: false,
     visible: false,
     label: 'Reteta',
-    filter: 'search',
     usefull: true,
     hasActions: false
   },
@@ -428,6 +426,7 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Denumire',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'search',
     usefull: true,
     hasActions: true,
@@ -457,6 +456,7 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 1',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
     usefull: true
   },
@@ -466,7 +466,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 2',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_1',
     usefull: true
   },
   NIVEL_OFERTA_3: {
@@ -475,7 +477,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 3',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_2',
     usefull: true
   },
   NIVEL_OFERTA_4: {
@@ -484,7 +488,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 4',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_3',
     usefull: true
   },
   NIVEL_OFERTA_5: {
@@ -493,7 +499,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 5',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_4',
     usefull: true
   },
   NIVEL_OFERTA_6: {
@@ -502,7 +510,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 6',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_5',
     usefull: true
   },
   NIVEL_OFERTA_7: {
@@ -511,7 +521,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 7',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_6',
     usefull: true
   },
   NIVEL_OFERTA_8: {
@@ -519,8 +531,10 @@ const antemasuratoriDisplayMask = {
     RW: false,
     visible: true,
     label: 'Nivel 8',
+    isFilterable: true,
     isEnumerable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_7',
     usefull: true
   },
   NIVEL_OFERTA_9: {
@@ -529,7 +543,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 9',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_8',
     usefull: true
   },
   NIVEL_OFERTA_10: {
@@ -538,7 +554,9 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Nivel 10',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_9',
     usefull: true
   },
   UM_ARTICOL_OFERTA: {
@@ -557,7 +575,7 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Cantitate oferta',
     isEnumerable: false,
-    filter: 'search',
+    filter: 'compare',
     usefull: true
   },
   CANTITATE_ARTICOL_ANTEMASURATORI: {
@@ -566,7 +584,7 @@ const antemasuratoriDisplayMask = {
     visible: true,
     label: 'Cantitate antemasuratori',
     isEnumerable: false,
-    filter: 'search',
+    filter: 'compare',
     usefull: true
   },
   ISARTOF: {
@@ -575,7 +593,6 @@ const antemasuratoriDisplayMask = {
     visible: false,
     label: 'Articol oferta',
     isEnumerable: false,
-    filter: 'search',
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' }
   },
@@ -628,7 +645,6 @@ const antemasuratoriSubsDisplayMask = {
     RW: false,
     visible: false,
     label: 'Duplicat',
-    filter: 'search',
     isEnumerable: false,
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
@@ -639,7 +655,6 @@ const antemasuratoriSubsDisplayMask = {
     RW: false,
     visible: false,
     label: 'Reteta',
-    filter: 'search',
     usefull: true,
     hasActions: false,
     master: 'DUPLICATEOF'
@@ -680,6 +695,7 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Denumire',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'search',
     usefull: true,
     master: 'DENUMIRE_ARTICOL_OFERTA',
@@ -712,6 +728,7 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 1',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
     usefull: true,
     master: 'NIVEL_OFERTA_1'
@@ -722,7 +739,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 2',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_1',
     usefull: true,
     master: 'NIVEL_OFERTA_2'
   },
@@ -732,7 +751,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 3',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_2',
     usefull: true,
     master: 'NIVEL_OFERTA_3'
   },
@@ -742,7 +763,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 4',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_3',
     usefull: true,
     master: 'NIVEL_OFERTA_4'
   },
@@ -752,7 +775,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 5',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_4',
     usefull: true,
     master: 'NIVEL_OFERTA_5'
   },
@@ -762,7 +787,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 6',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_5',
     usefull: true,
     master: 'NIVEL_OFERTA_6'
   },
@@ -772,7 +799,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 7',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_6',
     usefull: true,
     master: 'NIVEL_OFERTA_7'
   },
@@ -782,7 +811,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 8',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_7',
     usefull: true,
     master: 'NIVEL_OFERTA_8'
   },
@@ -792,7 +823,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 9',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_8',
     usefull: true,
     master: 'NIVEL_OFERTA_9'
   },
@@ -802,7 +835,9 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Nivel 10',
     isEnumerable: true,
+    isFilterable: true,
     filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_9',
     usefull: true,
     master: 'NIVEL_OFERTA_10'
   },
@@ -823,7 +858,7 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Cantitate oferta',
     isEnumerable: false,
-    filter: 'search',
+    filter: 'compare',
     usefull: true,
     master: 'CANTITATE_ARTICOL_OFERTA'
   },
@@ -833,7 +868,7 @@ const antemasuratoriSubsDisplayMask = {
     visible: true,
     label: 'Cantitate antemasuratori',
     isEnumerable: false,
-    filter: 'search',
+    filter: 'compare',
     usefull: true,
     master: 'CANTITATE_ARTICOL_ANTEMASURATORI'
   },
@@ -843,7 +878,6 @@ const antemasuratoriSubsDisplayMask = {
     visible: false,
     label: 'Articol oferta',
     isEnumerable: false,
-    filter: 'search',
     usefull: true,
     UI: { true: '<i class="bi bi-check2"></i>', false: '' },
     master: 'ISARTOF'
