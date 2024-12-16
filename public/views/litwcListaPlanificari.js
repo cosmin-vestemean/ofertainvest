@@ -33,7 +33,7 @@ class LitwcListaPlanificari extends LitElement {
                   <input type="date" class="form-control" id="endDate" />
                 </div>
                 <div class="mb-3">
-                  <label for="select1" class="form-label">Select 1</label>
+                  <label for="select1" class="form-label">Responsabil planificare</label>
                   <select class="form-select" id="select1">
                     ${contextOferta.angajati.map(
                       (angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
@@ -41,7 +41,7 @@ class LitwcListaPlanificari extends LitElement {
                   </select>
                 </div>
                 <div class="mb-3">
-                  <label for="select2" class="form-label">Select 2</label>
+                  <label for="select2" class="form-label">Responsabil executie</label>
                   <select class="form-select" id="select2">
                     ${contextOferta.angajati.map(
                       (angajat) => html`<option value="${angajat.PRNS}">${angajat.NAME2}</option>`
