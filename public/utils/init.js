@@ -102,7 +102,13 @@ function changeStyleInTheShadow(table, link) {
 
 export function init() {
   //show modal with spinner announcing that the app is initializing
-  let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'))
+  let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'), {
+    keyboard: false,
+    backdrop: false
+  })
+  //remove footer
+  let footer = document.getElementById('modal-footer3')
+  footer.innerHTML = ''
   let modalBody = document.getElementById('modal-body3')
   modalBody.innerHTML = ''
   //add <div class="d-flex justify-content-center">
@@ -146,7 +152,7 @@ export function init() {
   }
   let btn_column_filter = document.getElementById('btn_column_filter')
   btn_column_filter.onclick = function () {
-    let menu = my_table1.shadowRoot.getElementById('table_menu_content')
+    let menu = tables.my_table1.shadowRoot.getElementById('table_menu_content')
     if (menu.style.display === 'none') {
       menu.style.display = 'block'
     } else {
