@@ -76,7 +76,7 @@ class UI1 extends LitElement {
     modal.id = 'filterModal'
     modal.className = 'modal'
     modal.innerHTML = `
-      <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm" data-bs-backdrop="false">
+      <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Filtru</h5>
@@ -94,7 +94,10 @@ class UI1 extends LitElement {
     `
     document.body.appendChild(modal)
 
-    this.modalInstance = new bootstrap.Modal(modal)
+    this.modalInstance = new bootstrap.Modal(modal, {
+      keyboard: true,
+      backdrop: false
+    })
     this.modalInstance.show()
 
     document.getElementById('applyFilterButton').addEventListener('click', () => this.applyFilter())
