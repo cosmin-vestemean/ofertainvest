@@ -125,7 +125,7 @@ class UI1 extends LitElement {
           return `
             <div class="form-floating mb-3">
               <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-              <input type="text" class="form-control" list="datalistOptions" id="${key}" name="${key}" placeholder="${this.mainMask[key].label}">
+              <input type="text" class="form-control" list="datalistOptions" id="${key}" name="${key}" placeholder="Type to search...">
               <datalist id="datalistOptions">
                 ${this.getFilterOptions(key)}
               </datalist>
