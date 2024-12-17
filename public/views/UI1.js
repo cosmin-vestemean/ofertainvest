@@ -79,7 +79,7 @@ class UI1 extends LitElement {
       <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Filtru</h5>
+            <h5 class="modal-title">Filtru compus</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -106,13 +106,17 @@ class UI1 extends LitElement {
   generateFilterForm() {
     const filterableFields = Object.keys(this.mainMask)
       .filter((key) => this.mainMask[key].isFilterable)
-      .filter((key) => this.articole.some((item) => item.articol[key] !== undefined || item.subarticole.some((sub) => sub[key] !== undefined)))
+      .filter((key) =>
+        this.articole.some(
+          (item) => item.articol[key] !== undefined || item.subarticole.some((sub) => sub[key] !== undefined)
+        )
+      )
       .map((key) => {
         if (this.mainMask[key].filter === 'filter') {
           return `
             <div class="form-floating mb-3">
               <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-              <select class="form-select form-select-sm" id="${key}" name="${key}">
+              <select class="form-select" id="${key}" name="${key}">
                 ${this.getFilterOptions(key)}
               </select>
             </div>
@@ -121,7 +125,10 @@ class UI1 extends LitElement {
           return `
             <div class="form-floating mb-3">
               <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-              <input type="text" class="form-control form-control-sm" id="${key}" name="${key}" placeholder="${this.mainMask[key].label}">
+              <input type="text" class="form-control" list="datalistOptions" id="${key}" name="${key}" placeholder="${this.mainMask[key].label}">
+              <datalist id="datalistOptions">
+                ${this.getFilterOptions(key)}
+              </datalist>
             </div>
           `
         }
@@ -222,18 +229,17 @@ class UI1 extends LitElement {
                 ${headers}
               </tr>
             </thead>
-            ${this.articole.map(
-              (item, index) =>
-                item.articol.visible
-                  ? html`<tbody>
-                      ${this.renderArticleRow(
-                        item,
-                        index,
-                        usefullEntityDisplayMask,
-                        usefullEntitySubsDisplayMask
-                      )}
-                    </tbody>`
-                  : ''
+            ${this.articole.map((item, index) =>
+              item.articol.visible
+                ? html`<tbody>
+                    ${this.renderArticleRow(
+                      item,
+                      index,
+                      usefullEntityDisplayMask,
+                      usefullEntitySubsDisplayMask
+                    )}
+                  </tbody>`
+                : ''
             )}
           </table>
         </div>
