@@ -86,8 +86,8 @@ class UI1 extends LitElement {
             ${this.generateFilterForm()}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="applyFilterButton">Apply Filter</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Inchide</button>
+            <button type="button" class="btn btn-primary" id="applyFilterButton">Aplica filtrul</button>
           </div>
         </div>
       </div>
