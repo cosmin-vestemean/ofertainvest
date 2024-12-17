@@ -106,9 +106,11 @@ export function init() {
     keyboard: false,
     backdrop: false
   })
-  //remove footer
-  let footer = document.getElementById('modal-footer3')
-  footer.innerHTML = ''
+  //remove footer from modal
+  let modalFooter = document.getElementById('modal-footer3')
+  if (modalFooter) {
+    modalFooter.remove();
+  }
   let modalBody = document.getElementById('modal-body3')
   modalBody.innerHTML = ''
   //add <div class="d-flex justify-content-center">
