@@ -76,7 +76,7 @@ class UI1 extends LitElement {
     modal.id = 'filterModal'
     modal.className = 'modal'
     modal.innerHTML = `
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm" data-bs-backdrop="false">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Filtru</h5>
