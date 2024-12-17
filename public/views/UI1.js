@@ -114,7 +114,7 @@ class UI1 extends LitElement {
       .map((key) => {
         if (this.mainMask[key].filter === 'filter') {
           return `
-            <div class="form-floating mb-3">
+            <div class="mb-3">
               <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
               <select class="form-select" id="${key}" name="${key}">
                 ${this.getFilterOptions(key)}
@@ -124,8 +124,7 @@ class UI1 extends LitElement {
         } else {
           return `
             <div class="form-floating mb-3">
-              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-              <input type="text" class="form-control" list="datalistOptions" id="${key}" name="${key}" placeholder="Type to search...">
+              <input type="text" class="form-control" list="datalistOptions" id="${key}" name="${key}" placeholder="${this.mainMask[key].label}...">
               <datalist id="datalistOptions">
                 ${this.getFilterOptions(key)}
               </datalist>
