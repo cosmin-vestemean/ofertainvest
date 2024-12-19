@@ -38,40 +38,15 @@ class UI1 extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     //... do something when connected
+    this.createFilterModal()
     this.addEventListener('click', (e) => {
-      if (e.target.id === 'planificareNoua') {
-        this.showFilterModal()
+      if (e.target.id === 'showFilterModal') {
+        this.modalInstance.show()
       }
     })
   }
 
-  createRenderRoot() {
-    return this
-  }
-
-  usefullDisplayMask = (mask) => {
-    let displayMask = {}
-    for (let column in mask) {
-      if (mask[column].usefull) {
-        displayMask[column] = mask[column]
-      }
-    }
-    return displayMask
-  }
-
-  getBorderStyle(type, length) {
-    if (length > 0) {
-      if (type && type.includes('grupare artificiala')) {
-        return 'border-left: 2px solid var(--bs-warning);'
-      } else {
-        return 'border-left: 2px solid var(--bs-info);'
-      }
-    } else {
-      return ''
-    }
-  }
-
-  showFilterModal() {
+  createFilterModal() {
     const modal = document.createElement('div')
     modal.id = 'filterModal'
     modal.className = 'modal'
@@ -98,9 +73,34 @@ class UI1 extends LitElement {
       keyboard: true,
       backdrop: false
     })
-    this.modalInstance.show()
 
-    document.getElementById('applyFilterButton').addEventListener('click', () => this.applyFilter())
+    modal.querySelector('#applyFilterButton').addEventListener('click', () => this.applyFilter())
+  }
+
+  createRenderRoot() {
+    return this
+  }
+
+  usefullDisplayMask = (mask) => {
+    let displayMask = {}
+    for (let column in mask) {
+      if (mask[column].usefull) {
+        displayMask[column] = mask[column]
+      }
+    }
+    return displayMask
+  }
+
+  getBorderStyle(type, length) {
+    if (length > 0) {
+      if (type && type.includes('grupare artificiala')) {
+        return 'border-left: 2px solid var(--bs-warning);'
+      } else {
+        return 'border-left: 2px solid var(--bs-info);'
+      }
+    } else {
+      return ''
+    }
   }
 
   generateFilterForm() {
@@ -268,7 +268,7 @@ class UI1 extends LitElement {
   generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask) {
     const headers = [
       html`<th rowspan="2">
-        <div class="col"><i id="planificareNoua" class="bi bi-filter-square text-success fs-5"></i></div>
+        <div class="col"><i id="showFilterModal" class="bi bi-filter-square text-success fs-5"></i></div>
       </th>`
     ]
 
