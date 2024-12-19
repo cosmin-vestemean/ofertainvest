@@ -5,30 +5,31 @@ import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees } fr
 class UI1 extends LitElement {
   static properties = {
     data: { type: Array },
+    mainMask: { type: Object },
+    subsMask: { type: Object }
   }
 
+  // Internal variables
   _modalInstance = null
+  _dropdownItems = [
+    'Material',
+    'Manopera',
+    'Transport',
+    'Utilaj',
+    'Echipament',
+    'Material+Manopera',
+    'Material+Transport',
+    'Material+Utilaj',
+    'Material+Echipament'
+  ]
+  _hasMainHeader = true
+  _hasSubHeader = true
+  _canAddInLine = true
+  _isInitialized = false
 
   constructor() {
     super()
-    this.data = []
-    this._articole = []
-    this._dropdownItems = [
-      'Material',
-      'Manopera',
-      'Transport',
-      'Utilaj',
-      'Echipament',
-      'Material+Manopera',
-      'Material+Transport',
-      'Material+Utilaj',
-      'Material+Echipament'
-    ]
-    this._hasMainHeader = true
-    this._hasSubHeader = true
-    this._canAddInLine = true
-    this._mainMask = {}
-    this._subsMask = {}
+    this.articole = []
   }
 
   set hasMainHeader(value) {
@@ -55,31 +56,24 @@ class UI1 extends LitElement {
     return this._canAddInLine
   }
 
-  set mainMask(value) {
-    this._mainMask = value
-  }
-
-  get mainMask() {
-    return this._mainMask
-  }
-
-  set subsMask(value) {
-    this._subsMask = value
-  }
-
-  get subsMask() {
-    return this._subsMask
-  }
-
   connectedCallback() {
     super.connectedCallback()
-    //... do something when connected
-    this.createFilterModal()
-    this.addEventListener('click', (e) => {
-      if (e.target.id === 'showFilterModal') {
-        this._modalInstance.show()
+    this.data = []
+  }
+
+  updated(changedProperties) {
+    //daca proprietatile mainMask si subsMask au fost schimbate, prima data sunt goale, cand se deseneaza componenta in index.html, apoi sunt setate inainte de randarea componentei
+    if (changedProperties.has('mainMask')) {
+      if (!this._isInitialized && this.mainMask) {
+        this.createFilterModal()
+        this.addEventListener('click', (e) => {
+          if (e.target.id === 'showFilterModal') {
+            this._modalInstance.show()
+          }
+        })
+        this._isInitialized = true
       }
-    })
+    }
   }
 
   createFilterModal() {
@@ -140,18 +134,18 @@ class UI1 extends LitElement {
   }
 
   generateFilterForm() {
-    const filterableFields = Object.keys(this._mainMask)
-      .filter((key) => this._mainMask[key].isFilterable)
+    const filterableFields = Object.keys(this.mainMask)
+      .filter((key) => this.mainMask[key].isFilterable)
       .filter((key) =>
         this._articole.some(
           (item) => item.articol[key] !== undefined || item.subarticole.some((sub) => sub[key] !== undefined)
         )
       )
       .map((key) => {
-        if (this._mainMask[key].filter === 'filter') {
+        if (this.mainMask[key].filter === 'filter') {
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this._mainMask[key].label}</label>
+              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
               <select class="form-select form-select-sm" id="${key}" name="${key}">
                 ${this.getFilterOptions(key)}
               </select>
@@ -160,7 +154,7 @@ class UI1 extends LitElement {
         } else {
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this._mainMask[key].label}</label>
+              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
               <input type="text" class="form-control form-control-sm" list="datalistOptions" id="${key}" name="${key}" placeholder="Cauta...">
               <datalist id="datalistOptions">
                 ${this.getFilterOptions(key)}
@@ -191,7 +185,7 @@ class UI1 extends LitElement {
 
   applyFilter() {
     const filterValues = {}
-    const filterableFields = Object.keys(this._mainMask).filter((key) => this._mainMask[key].isFilterable)
+    const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
     filterableFields.forEach((key) => {
       const input = document.getElementById(key)
       if (input) {
@@ -226,8 +220,8 @@ class UI1 extends LitElement {
     if (!this.data || this.data.length == 0) {
       return html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
     } else {
-      const usefullEntityDisplayMask = this.usefullDisplayMask(this._mainMask)
-      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this._subsMask)
+      const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
+      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
       this._articole = this.data.flatMap((box) =>
         box.content.map((activitate) => {
