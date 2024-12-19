@@ -33,6 +33,8 @@ class UI1 extends LitElement {
     this.hasMainHeader = true
     this.hasSubHeader = true
     this.canAddInLine = true
+    this.mainMask = {}
+    this.subsMask = {}
   }
 
   connectedCallback() {
