@@ -5,21 +5,15 @@ import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees } fr
 class UI1 extends LitElement {
   static properties = {
     data: { type: Array },
-    dropdownItems: { type: Array },
-    mainMask: { type: Object },
-    subsMask: { type: Object },
-    hasMainHeader: { type: Boolean },
-    hasSubHeader: { type: Boolean },
-    canAddInLine: { type: Boolean }
   }
 
-  modalInstance = null
+  _modalInstance = null
 
   constructor() {
     super()
     this.data = []
-    this.articole = []
-    this.dropdownItems = [
+    this._articole = []
+    this._dropdownItems = [
       'Material',
       'Manopera',
       'Transport',
@@ -30,11 +24,51 @@ class UI1 extends LitElement {
       'Material+Utilaj',
       'Material+Echipament'
     ]
-    this.hasMainHeader = true
-    this.hasSubHeader = true
-    this.canAddInLine = true
-    this.mainMask = {}
-    this.subsMask = {}
+    this._hasMainHeader = true
+    this._hasSubHeader = true
+    this._canAddInLine = true
+    this._mainMask = {}
+    this._subsMask = {}
+  }
+
+  set hasMainHeader(value) {
+    this._hasMainHeader = value
+  }
+
+  get hasMainHeader() {
+    return this._hasMainHeader
+  }
+
+  set hasSubHeader(value) {
+    this._hasSubHeader = value
+  }
+
+  get hasSubHeader() {
+    return this._hasSubHeader
+  }
+
+  set canAddInLine(value) {
+    this._canAddInLine = value
+  }
+
+  get canAddInLine() {
+    return this._canAddInLine
+  }
+
+  set mainMask(value) {
+    this._mainMask = value
+  }
+
+  get mainMask() {
+    return this._mainMask
+  }
+
+  set subsMask(value) {
+    this._subsMask = value
+  }
+
+  get subsMask() {
+    return this._subsMask
   }
 
   connectedCallback() {
@@ -43,7 +77,7 @@ class UI1 extends LitElement {
     this.createFilterModal()
     this.addEventListener('click', (e) => {
       if (e.target.id === 'showFilterModal') {
-        this.modalInstance.show()
+        this._modalInstance.show()
       }
     })
   }
@@ -71,7 +105,7 @@ class UI1 extends LitElement {
     `
     document.body.appendChild(modal)
 
-    this.modalInstance = new bootstrap.Modal(modal, {
+    this._modalInstance = new bootstrap.Modal(modal, {
       keyboard: true,
       backdrop: false
     })
@@ -106,18 +140,18 @@ class UI1 extends LitElement {
   }
 
   generateFilterForm() {
-    const filterableFields = Object.keys(this.mainMask)
-      .filter((key) => this.mainMask[key].isFilterable)
+    const filterableFields = Object.keys(this._mainMask)
+      .filter((key) => this._mainMask[key].isFilterable)
       .filter((key) =>
-        this.articole.some(
+        this._articole.some(
           (item) => item.articol[key] !== undefined || item.subarticole.some((sub) => sub[key] !== undefined)
         )
       )
       .map((key) => {
-        if (this.mainMask[key].filter === 'filter') {
+        if (this._mainMask[key].filter === 'filter') {
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+              <label for="${key}" class="form-label">${this._mainMask[key].label}</label>
               <select class="form-select form-select-sm" id="${key}" name="${key}">
                 ${this.getFilterOptions(key)}
               </select>
@@ -126,7 +160,7 @@ class UI1 extends LitElement {
         } else {
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+              <label for="${key}" class="form-label">${this._mainMask[key].label}</label>
               <input type="text" class="form-control form-control-sm" list="datalistOptions" id="${key}" name="${key}" placeholder="Cauta...">
               <datalist id="datalistOptions">
                 ${this.getFilterOptions(key)}
@@ -140,7 +174,7 @@ class UI1 extends LitElement {
 
   getFilterOptions(key) {
     const options = new Set()
-    this.articole.forEach((item) => {
+    this._articole.forEach((item) => {
       if (item.articol[key]) {
         options.add(item.articol[key])
       }
@@ -157,7 +191,7 @@ class UI1 extends LitElement {
 
   applyFilter() {
     const filterValues = {}
-    const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
+    const filterableFields = Object.keys(this._mainMask).filter((key) => this._mainMask[key].isFilterable)
     filterableFields.forEach((key) => {
       const input = document.getElementById(key)
       if (input) {
@@ -165,7 +199,7 @@ class UI1 extends LitElement {
       }
     })
 
-    this.articole.forEach((item) => {
+    this._articole.forEach((item) => {
       let visible = true
       filterableFields.forEach((key) => {
         if (filterValues[key] && item.articol[key] !== filterValues[key]) {
@@ -185,17 +219,17 @@ class UI1 extends LitElement {
     })
 
     this.requestUpdate()
-    this.modalInstance.hide()
+    this._modalInstance.hide()
   }
 
   render() {
     if (!this.data || this.data.length == 0) {
       return html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
     } else {
-      const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
-      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
+      const usefullEntityDisplayMask = this.usefullDisplayMask(this._mainMask)
+      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this._subsMask)
 
-      this.articole = this.data.flatMap((box) =>
+      this._articole = this.data.flatMap((box) =>
         box.content.map((activitate) => {
           const articol = activitate.object
           const newArticol = this.extractFields(articol, usefullEntityDisplayMask)
@@ -212,14 +246,14 @@ class UI1 extends LitElement {
       )
 
       // Initially set all items to visible
-      this.articole.forEach((item) => {
+      this._articole.forEach((item) => {
         item.articol.visible = true
         item.subarticole.forEach((sub) => {
           sub.visible = true
         })
       })
 
-      console.log('articole', this.articole)
+      console.log('_articole', this._articole)
 
       const headers = this.generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
 
@@ -231,7 +265,7 @@ class UI1 extends LitElement {
                 ${headers}
               </tr>
             </thead>
-            ${this.articole.map((item, index) =>
+            ${this._articole.map((item, index) =>
               item.articol.visible
                 ? html`<tbody>
                     ${this.renderArticleRow(
@@ -286,7 +320,7 @@ class UI1 extends LitElement {
         const headerContent = hasActions ? this.actionsBar() : usefullEntityDisplayMask[key].label || key
 
         // Check if there are any values for this key in the cells
-        const hasValues = this.articole.some((item) => item.articol[key] !== undefined)
+        const hasValues = this._articole.some((item) => item.articol[key] !== undefined)
 
         if (hasValues) {
           headers.push(html`<th colspan="${colspan}">${headerContent}</th>`)
@@ -322,7 +356,7 @@ class UI1 extends LitElement {
                   aria-expanded="false"
                 ></i>
                 <ul class="dropdown-menu">
-                  ${this.dropdownItems.map(
+                  ${this._dropdownItems.map(
                     (dropdownItem) =>
                       html`<li>
                         <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}"
@@ -382,7 +416,7 @@ class UI1 extends LitElement {
                         : usefullEntitySubsDisplayMask[subKey].label || subKey
                       // Check if there are any values for this subKey in the cells
                       const hasValues = item.subarticole.some((sub) => sub[subKey] !== undefined)
-                      if (this.hasSubHeader) {
+                      if (this._hasSubHeader) {
                         if (hasValues) {
                           return html`<th class="${zoneClass}">${headerContent}</th>`
                         }
@@ -481,7 +515,7 @@ class UI1 extends LitElement {
       const tr = event.target.closest('tr')
       const dropdown = tr.querySelector('td .dropdown')
       if (dropdown) {
-        if (this.canAddInLine) {
+        if (this._canAddInLine) {
           dropdown.classList.remove('d-none')
         }
       } else {
@@ -620,7 +654,7 @@ class UI1 extends LitElement {
             <i class="bi bi-plus-square text-primary"></i> Adauga articol
           </button>
           <ul class="dropdown-menu">
-            ${this.dropdownItems.map(
+            ${this._dropdownItems.map(
               (dropdownItem) =>
                 html`<li>
                   <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
