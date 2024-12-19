@@ -22,7 +22,7 @@ class MyTableListaRetete extends UI1 {
             <i class="bi bi-plus-square text-primary"></i> Adauga articol
           </button>
           <ul class="dropdown-menu">
-            ${this.dropdownItems.map(
+            ${this._dropdownItems.map(
               (dropdownItem) =>
                 html`<li>
                   <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
