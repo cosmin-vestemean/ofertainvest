@@ -124,7 +124,7 @@ class LitwcListaPlanificari extends LitElement {
       tables.my_table8.element.canAddInLine = true
       tables.tablePlanificareCurenta.mainMask = planificareDisplayMask
       tables.tablePlanificareCurenta.subMask = planificareSubsDisplayMask
-      tables.tablePlanificareCurenta.tables.tablePlanificareCurenta.data = ds_planificareNoua
+      tables.tablePlanificareCurenta.data = ds_planificareNoua
     })
   }
 }
