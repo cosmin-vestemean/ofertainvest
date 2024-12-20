@@ -1,5 +1,5 @@
 import { template, _nivel_oferta, LitElement, html } from '../client.js'
-//import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/_cantitate_oferta.js'
+//import { _cantitate_antemasuratori, _cantitate_oferta } from '../utils/def_coloane.js'
 import { context } from '../controllers/estimari.js'
 
 class LitwcSelectAntemasuratori extends LitElement {

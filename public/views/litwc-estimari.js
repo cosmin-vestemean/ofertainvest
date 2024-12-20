@@ -3,7 +3,7 @@ import {
   _cantitate_estimari,
   _cantitate_antemasuratori,
   _cantitate_estimari_anterioare
-} from '../utils/_cantitate_oferta.js'
+} from '../utils/def_coloane.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'

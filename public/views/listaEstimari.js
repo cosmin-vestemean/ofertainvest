@@ -1,9 +1,9 @@
 import { _start_date, _end_date, template, contextOferta, client, LitElement, html } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { context } from '../controllers/estimari.js'
-import { _cantitate_estimari } from '../utils/_cantitate_oferta.js'
+import { _cantitate_estimari } from '../utils/def_coloane.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
-import { _cantitate_estimari_anterioare } from '../utils/_cantitate_oferta.js'
+import { _cantitate_estimari_anterioare } from '../utils/def_coloane.js'
 
 export async function addNewEstimare(addDate = true) {
   const query = `select a.CCCINSTANTE,

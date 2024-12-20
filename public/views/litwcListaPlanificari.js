@@ -1,6 +1,5 @@
 import { LitElement, html, contextOferta } from '../client.js'
-import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
-import { _cantitate_planificari } from '../utils/_cantitate_oferta.js'
+import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'

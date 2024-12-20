@@ -6,7 +6,7 @@ import {
   _cantitate_estimari,
   _cantitate_estimari_anterioare,
   _cantitate_antemasuratori, _cantitate_oferta
-} from '../utils/_cantitate_oferta.js'
+} from '../utils/def_coloane.js'
 
 
 function setValueOfDsEstimariPoolByKey(instanta, ramura, activitate, key, value) {

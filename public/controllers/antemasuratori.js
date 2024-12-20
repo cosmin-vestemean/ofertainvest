@@ -19,7 +19,7 @@ import {
   _cantitate_antemasuratori,
   //_cantitate_oferta,
   _cantitate_estimari
-} from '../utils/_cantitate_oferta.js'
+} from '../utils/def_coloane.js'
 import { runSQLTransaction } from '../utils/S1.js'
 import { antemasuratoriDisplayMask, antemasuratoriSubsDisplayMask } from '../views/masks.js'
 

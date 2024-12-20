@@ -1,4 +1,4 @@
-import { _cantitate_planificari, _cantitate_antemasuratori } from '../utils/_cantitate_oferta.js'
+import { _cantitate_planificari, _cantitate_antemasuratori } from '../utils/def_coloane.js'
 
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
