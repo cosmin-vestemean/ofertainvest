@@ -110,12 +110,14 @@ class LitwcListaPlanificari extends LitElement {
       tables.hideAllBut([tables.tablePlanificareCurenta])
       const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
       ds_planificareNoua.forEach((parent) => {
-        parent.object[_cantitate_planificari] = 0
-        if (parent.children) {
-          parent.children.forEach((child) => {
-            child.object[_cantitate_planificari] = 0
-          })
-        }
+        parent.content.forEach((item) => {
+          item.object[_cantitate_planificari] = 0
+          if (item.children) {
+            item.children.forEach((child) => {
+              child.object[_cantitate_planificari] = 0
+            })
+          }
+        })
       })
       tables.my_table8.element.hasMainHeader = true
       tables.my_table8.element.hasSubHeader = true
