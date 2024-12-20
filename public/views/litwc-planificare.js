@@ -1,4 +1,4 @@
-import { UI1 } from './UI1.js';
+import UI1 from './UI1.js';
 
 export class Planificare extends UI1 {
   constructor() {
