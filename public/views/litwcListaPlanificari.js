@@ -119,12 +119,12 @@ class LitwcListaPlanificari extends LitElement {
           }
         })
       })
-      tables.my_table8.element.hasMainHeader = true
-      tables.my_table8.element.hasSubHeader = true
-      tables.my_table8.element.canAddInLine = true
-      tables.tablePlanificareCurenta.mainMask = planificareDisplayMask
-      tables.tablePlanificareCurenta.subMask = planificareSubsDisplayMask
-      tables.tablePlanificareCurenta.data = ds_planificareNoua
+      tables.tablePlanificareCurenta.element.hasMainHeader = true
+      tables.tablePlanificareCurenta.element.hasSubHeader = true
+      tables.tablePlanificareCurenta.element.canAddInLine = true
+      tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
+      tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
+      tables.tablePlanificareCurenta.element.data = ds_planificareNoua
     })
   }
 }
