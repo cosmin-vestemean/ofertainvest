@@ -987,7 +987,7 @@ const planificareDisplayMask = {
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
     RW: false,
-    visible: true,
+    visible: false,
     label: 'Tip articol',
     isEnumerable: true,
     filter: 'filter',
@@ -996,7 +996,7 @@ const planificareDisplayMask = {
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
     RW: false,
-    visible: true,
+    visible: false,
     label: 'Subtip articol',
     isEnumerable: true,
     filter: 'filter',
@@ -1264,7 +1264,7 @@ const planificareSubsDisplayMask = {
   TIP_ARTICOL_OFERTA: {
     value: 'TIP_ARTICOL_OFERTA',
     RW: false,
-    visible: true,
+    visible: false,
     label: 'Tip articol',
     isEnumerable: true,
     filter: 'filter',
@@ -1274,7 +1274,7 @@ const planificareSubsDisplayMask = {
   SUBTIP_ARTICOL_OFERTA: {
     value: 'SUBTIP_ARTICOL_OFERTA',
     RW: false,
-    visible: true,
+    visible: false,
     label: 'Subtip articol',
     isEnumerable: true,
     filter: 'filter',

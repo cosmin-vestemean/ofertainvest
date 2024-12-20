@@ -1,7 +1,7 @@
 import { LitElement, html, contextOferta } from '../client.js'
 import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import { _cantitate_planificari } from '../utils/_cantitate_oferta.js'
-import { ds_antemasuratori } from '../utils/ds_antemasuratori.js'
+import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'
 
@@ -111,10 +111,10 @@ class LitwcListaPlanificari extends LitElement {
       tables.hideAllBut([tables.tablePlanificareCurenta])
       const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
       ds_planificareNoua.forEach((parent) => {
-        parent.object._cantitate_planificari = 0
+        parent.object[_cantitate_planificari] = 0
         if (parent.children) {
           parent.children.forEach((child) => {
-            child.object._cantitate_planificari = 0
+            child.object[_cantitate_planificari] = 0
           })
         }
       })
