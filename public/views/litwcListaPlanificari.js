@@ -23,29 +23,28 @@ class LitwcListaPlanificari extends LitElement {
     this.initialized = false
   }
 
-  updated() {
-    if (!this.initialized && ds_antemasuratori && ds_antemasuratori.length > 0) {
-      this.initialized = true
-      document.getElementById('btnPlanificareNoua').addEventListener('click', () => {
-        tables.hideAllBut([tables.tablePlanificareCurenta])
-        const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-        ds_planificareNoua.forEach((parent) => {
-          parent.content.forEach((item) => {
-            item.object[_cantitate_planificari] = 0
-            if (item.children) {
-              item.children.forEach((child) => {
-                child.object[_cantitate_planificari] = 0
-              })
-            }
-          })
+  handlePlanificareNoua() {
+    if (ds_antemasuratori && ds_antemasuratori.length > 0) {
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+      const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+      ds_planificareNoua.forEach((parent) => {
+        parent.content.forEach((item) => {
+          item.object[_cantitate_planificari] = 0
+          if (item.children) {
+            item.children.forEach((child) => {
+              child.object[_cantitate_planificari] = 0
+            })
+          }
         })
-        tables.tablePlanificareCurenta.element.hasMainHeader = true
-        tables.tablePlanificareCurenta.element.hasSubHeader = true
-        tables.tablePlanificareCurenta.element.canAddInLine = true
-        tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
-        tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
-        tables.tablePlanificareCurenta.element.data = ds_planificareNoua
       })
+      tables.tablePlanificareCurenta.element.hasMainHeader = true
+      tables.tablePlanificareCurenta.element.hasSubHeader = true
+      tables.tablePlanificareCurenta.element.canAddInLine = true
+      tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
+      tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
+      tables.tablePlanificareCurenta.element.data = ds_planificareNoua
+    } else {
+      console.log('ds_antemasuratori is empty')
     }
   }
 
@@ -115,7 +114,14 @@ class LitwcListaPlanificari extends LitElement {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="btnPlanificareNoua">Planificare noua</button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="btnPlanificareNoua"
+                @click="${this.handlePlanificareNoua}"
+              >
+                Planificare noua
+              </button>
             </div>
           </div>
         </div>
