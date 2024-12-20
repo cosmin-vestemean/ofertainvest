@@ -52,7 +52,7 @@ class LitwcListaPlanificari extends LitElement {
         aria-labelledby="planificareModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="planificareModalLabel">Adauga Planificare</h5>
