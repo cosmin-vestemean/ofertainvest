@@ -20,32 +20,32 @@ class LitwcListaPlanificari extends LitElement {
   constructor() {
     super()
     this.angajati = contextOferta.angajati
-    this.initialized = false;
+    this.initialized = false
   }
 
   updated() {
     if (!this.initialized && ds_antemasuratori && ds_antemasuratori.length > 0) {
-      this.initialized = true;
+      this.initialized = true
       document.getElementById('btnPlanificareNoua').addEventListener('click', () => {
-        tables.hideAllBut([tables.tablePlanificareCurenta]);
-        const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori));
+        tables.hideAllBut([tables.tablePlanificareCurenta])
+        const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
         ds_planificareNoua.forEach((parent) => {
           parent.content.forEach((item) => {
-            item.object[_cantitate_planificari] = 0;
+            item.object[_cantitate_planificari] = 0
             if (item.children) {
               item.children.forEach((child) => {
-                child.object[_cantitate_planificari] = 0;
-              });
+                child.object[_cantitate_planificari] = 0
+              })
             }
-          });
-        });
-        tables.tablePlanificareCurenta.element.hasMainHeader = true;
-        tables.tablePlanificareCurenta.element.hasSubHeader = true;
-        tables.tablePlanificareCurenta.element.canAddInLine = true;
-        tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask;
-        tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask;
-        tables.tablePlanificareCurenta.element.data = ds_planificareNoua;
-      });
+          })
+        })
+        tables.tablePlanificareCurenta.element.hasMainHeader = true
+        tables.tablePlanificareCurenta.element.hasSubHeader = true
+        tables.tablePlanificareCurenta.element.canAddInLine = true
+        tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
+        tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
+        tables.tablePlanificareCurenta.element.data = ds_planificareNoua
+      })
     }
   }
 
@@ -73,7 +73,7 @@ class LitwcListaPlanificari extends LitElement {
 
       <!-- Modal -->
       <div
-        class="modal fade"
+        class="modal"
         id="planificareModal"
         tabindex="-1"
         aria-labelledby="planificareModalLabel"
@@ -128,7 +128,10 @@ class LitwcListaPlanificari extends LitElement {
     //update angajati
     this.angajati = contextOferta.angajati
     console.log(this.angajati)
-    const modal = new bootstrap.Modal(document.getElementById('planificareModal'))
+    const modal = new bootstrap.Modal(document.getElementById('planificareModal'), {
+      keyboard: true,
+      backdrop: false
+    })
     modal.show()
   }
 }
