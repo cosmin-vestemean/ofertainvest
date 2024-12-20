@@ -27,11 +27,6 @@ class UI1 extends LitElement {
   _canAddInLine = true
   _isInitialized = false
 
-  constructor() {
-    super()
-    this.articole = []
-  }
-
   set hasMainHeader(value) {
     this._hasMainHeader = value
   }
@@ -54,6 +49,11 @@ class UI1 extends LitElement {
 
   get canAddInLine() {
     return this._canAddInLine
+  }
+
+  constructor() {
+    super()
+    this.articole = []
   }
 
   connectedCallback() {

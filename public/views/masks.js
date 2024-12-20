@@ -1,3 +1,5 @@
+import { _cantitate_planificari, _cantitate_antemasuratori } from '../utils/_cantitate_oferta.js'
+
 const TIP_ARTICOL_OFERTA = ['ARTICOL', 'SUBARTICOL', 'MATERIAL']
 const SUBTIP_ARTICOL_OFERTA = [
   'PRINCIPAL',
@@ -578,8 +580,8 @@ const antemasuratoriDisplayMask = {
     filter: 'compare',
     usefull: true
   },
-  CANTITATE_ARTICOL_ANTEMASURATORI: {
-    value: 'CANITATE_ARTICOL_ANTEMASURATORI',
+  _cantitate_antemasuratori: {
+    value: _cantitate_antemasuratori,
     RW: true,
     visible: true,
     label: 'Cantitate antemasuratori',
@@ -862,15 +864,15 @@ const antemasuratoriSubsDisplayMask = {
     usefull: true,
     master: 'CANTITATE_ARTICOL_OFERTA'
   },
-  CANTITATE_ARTICOL_ANTEMASURATORI: {
-    value: 'CANITATE_ARTICOL_ANTEMASURATORI',
+  _cantitate_antemasuratori: {
+    value: _cantitate_antemasuratori,
     RW: true,
     visible: true,
     label: 'Cantitate antemasuratori',
     isEnumerable: false,
     filter: 'compare',
     usefull: true,
-    master: 'CANTITATE_ARTICOL_ANTEMASURATORI'
+    master: _cantitate_antemasuratori
   },
   ISARTOF: {
     value: 'ISARTOF',
@@ -925,4 +927,577 @@ const antemasuratoriSubsDisplayMask = {
   }
 }
 
-export { recipeDisplayMask, recipeSubsDisplayMask, antemasuratoriDisplayMask, antemasuratoriSubsDisplayMask }
+const planificareDisplayMask = {
+  ISDUPLICATE: {
+    value: 'ISDUPLICATE',
+    RW: false,
+    visible: false,
+    label: 'Duplicat',
+    isEnumerable: false,
+    usefull: true,
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' }
+  },
+  DUPLICATEOF: {
+    value: 'DUPLICATEOF',
+    RW: false,
+    visible: false,
+    label: 'Reteta',
+    usefull: true,
+    hasActions: false
+  },
+  old_WBS: {
+    value: 'old_WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS vechi',
+    filter: 'search',
+    usefull: true,
+    hasActions: false
+  },
+  WBS: {
+    value: 'WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS',
+    filter: 'search',
+    usefull: true,
+    hasActions: false
+  },
+  SERIE_ARTICOL_OFERTA: {
+    value: 'SERIE_ARTICOL_OFERTA',
+    RW: false,
+    visible: false,
+    label: 'Serie articol',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true
+  },
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Denumire',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'search',
+    usefull: true,
+    hasActions: true,
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
+  },
+  TIP_ARTICOL_OFERTA: {
+    value: 'TIP_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Tip articol',
+    isEnumerable: true,
+    filter: 'filter',
+    usefull: true
+  },
+  SUBTIP_ARTICOL_OFERTA: {
+    value: 'SUBTIP_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Subtip articol',
+    isEnumerable: true,
+    filter: 'filter',
+    usefull: true
+  },
+  NIVEL_OFERTA_1: {
+    value: 'NIVEL_OFERTA_1',
+    RW: false,
+    visible: true,
+    label: 'Nivel 1',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    usefull: true
+  },
+  NIVEL_OFERTA_2: {
+    value: 'NIVEL_OFERTA_2',
+    RW: false,
+    visible: true,
+    label: 'Nivel 2',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_1',
+    usefull: true
+  },
+  NIVEL_OFERTA_3: {
+    value: 'NIVEL_OFERTA_3',
+    RW: false,
+    visible: true,
+    label: 'Nivel 3',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_2',
+    usefull: true
+  },
+  NIVEL_OFERTA_4: {
+    value: 'NIVEL_OFERTA_4',
+    RW: false,
+    visible: true,
+    label: 'Nivel 4',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_3',
+    usefull: true
+  },
+  NIVEL_OFERTA_5: {
+    value: 'NIVEL_OFERTA_5',
+    RW: false,
+    visible: true,
+    label: 'Nivel 5',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_4',
+    usefull: true
+  },
+  NIVEL_OFERTA_6: {
+    value: 'NIVEL_OFERTA_6',
+    RW: false,
+    visible: true,
+    label: 'Nivel 6',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_5',
+    usefull: true
+  },
+  NIVEL_OFERTA_7: {
+    value: 'NIVEL_OFERTA_7',
+    RW: false,
+    visible: true,
+    label: 'Nivel 7',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_6',
+    usefull: true
+  },
+  NIVEL_OFERTA_8: {
+    value: 'NIVEL_OFERTA_8',
+    RW: false,
+    visible: true,
+    label: 'Nivel 8',
+    isFilterable: true,
+    isEnumerable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_7',
+    usefull: true
+  },
+  NIVEL_OFERTA_9: {
+    value: 'NIVEL_OFERTA_9',
+    RW: false,
+    visible: true,
+    label: 'Nivel 9',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_8',
+    usefull: true
+  },
+  NIVEL_OFERTA_10: {
+    value: 'NIVEL_OFERTA_10',
+    RW: false,
+    visible: true,
+    label: 'Nivel 10',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_9',
+    usefull: true
+  },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'UM',
+    isEnumerable: false,
+    filter: 'filter',
+    usefull: true,
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
+  },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate oferta',
+    isEnumerable: false,
+    filter: 'compare',
+    usefull: true
+  },
+  _cantitate_antemasuratori: {
+    value: _cantitate_antemasuratori,
+    RW: true,
+    visible: true,
+    label: 'Cantitate antemasuratori',
+    isEnumerable: false,
+    filter: 'compare',
+    usefull: true
+  },
+  ISARTOF: {
+    value: 'ISARTOF',
+    RW: false,
+    visible: false,
+    label: 'Articol oferta',
+    isEnumerable: false,
+    usefull: true,
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' }
+  },
+  CCCANTEMASURATORI: {
+    value: 'CCCANTEMASURATORI',
+    RW: false,
+    visible: false,
+    label: 'CCCANTEMASURATORI',
+    useAsMeta: true,
+    usefull: true,
+    type: 'number'
+  },
+  CCCPATHS: {
+    value: 'CCCPATHS',
+    RW: false,
+    visible: false,
+    label: 'CCCPATHS',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCINSTANTE: {
+    value: 'CCCINSTANTE',
+    RW: false,
+    visible: false,
+    label: 'CCCINSTANTE',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCACTIVITINSTANTE: {
+    value: 'CCCACTIVITINSTANTE',
+    RW: false,
+    visible: false,
+    label: 'CCCACTIVITINSTANTE',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCOFERTEWEBLINII: {
+    value: 'CCCOFERTEWEBLINII',
+    RW: false,
+    visible: false,
+    label: 'CCCOFERTEWEBLINII',
+    useAsMeta: true,
+    usefull: true
+  },
+  _cantitate_planificari: {
+    value: _cantitate_planificari,
+    RW: false,
+    visible: true,
+    label: 'Cantitate planificare',
+    usefull: true
+  }
+}
+
+const planificareSubsDisplayMask = {
+  ISDUPLICATE: {
+    value: 'ISDUPLICATE',
+    RW: false,
+    visible: false,
+    label: 'Duplicat',
+    isEnumerable: false,
+    usefull: true,
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
+    master: 'ISDUPLICATE'
+  },
+  DUPLICATEOF: {
+    value: 'DUPLICATEOF',
+    RW: false,
+    visible: false,
+    label: 'Reteta',
+    usefull: true,
+    hasActions: false,
+    master: 'DUPLICATEOF'
+  },
+  old_WBS: {
+    value: 'old_WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS vechi',
+    filter: 'search',
+    usefull: true,
+    hasActions: false,
+    master: 'old_WBS'
+  },
+  WBS: {
+    value: 'WBS',
+    RW: false,
+    visible: false,
+    label: 'WBS',
+    filter: 'search',
+    usefull: true,
+    hasActions: false,
+    master: 'WBS'
+  },
+  SERIE_ARTICOL_OFERTA: {
+    value: 'SERIE_ARTICOL_OFERTA',
+    RW: false,
+    visible: false,
+    label: 'Serie articol',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true,
+    master: 'SERIE_ARTICOL_OFERTA'
+  },
+  DENUMIRE_ARTICOL_OFERTA: {
+    value: 'DENUMIRE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Denumire',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'search',
+    usefull: true,
+    master: 'DENUMIRE_ARTICOL_OFERTA',
+    hasActions: true,
+    verticalDelimiterStyleClass: 'zone1VerticalDelimiter'
+  },
+  TIP_ARTICOL_OFERTA: {
+    value: 'TIP_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Tip articol',
+    isEnumerable: true,
+    filter: 'filter',
+    usefull: true,
+    master: 'TIP_ARTICOL_OFERTA'
+  },
+  SUBTIP_ARTICOL_OFERTA: {
+    value: 'SUBTIP_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Subtip articol',
+    isEnumerable: true,
+    filter: 'filter',
+    usefull: true,
+    master: 'SUBTIP_ARTICOL_OFERTA'
+  },
+  NIVEL_OFERTA_1: {
+    value: 'NIVEL_OFERTA_1',
+    RW: false,
+    visible: true,
+    label: 'Nivel 1',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    usefull: true,
+    master: 'NIVEL_OFERTA_1'
+  },
+  NIVEL_OFERTA_2: {
+    value: 'NIVEL_OFERTA_2',
+    RW: false,
+    visible: true,
+    label: 'Nivel 2',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_1',
+    usefull: true,
+    master: 'NIVEL_OFERTA_2'
+  },
+  NIVEL_OFERTA_3: {
+    value: 'NIVEL_OFERTA_3',
+    RW: false,
+    visible: true,
+    label: 'Nivel 3',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_2',
+    usefull: true,
+    master: 'NIVEL_OFERTA_3'
+  },
+  NIVEL_OFERTA_4: {
+    value: 'NIVEL_OFERTA_4',
+    RW: false,
+    visible: true,
+    label: 'Nivel 4',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_3',
+    usefull: true,
+    master: 'NIVEL_OFERTA_4'
+  },
+  NIVEL_OFERTA_5: {
+    value: 'NIVEL_OFERTA_5',
+    RW: false,
+    visible: true,
+    label: 'Nivel 5',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_4',
+    usefull: true,
+    master: 'NIVEL_OFERTA_5'
+  },
+  NIVEL_OFERTA_6: {
+    value: 'NIVEL_OFERTA_6',
+    RW: false,
+    visible: true,
+    label: 'Nivel 6',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_5',
+    usefull: true,
+    master: 'NIVEL_OFERTA_6'
+  },
+  NIVEL_OFERTA_7: {
+    value: 'NIVEL_OFERTA_7',
+    RW: false,
+    visible: true,
+    label: 'Nivel 7',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_6',
+    usefull: true,
+    master: 'NIVEL_OFERTA_7'
+  },
+  NIVEL_OFERTA_8: {
+    value: 'NIVEL_OFERTA_8',
+    RW: false,
+    visible: true,
+    label: 'Nivel 8',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_7',
+    usefull: true,
+    master: 'NIVEL_OFERTA_8'
+  },
+  NIVEL_OFERTA_9: {
+    value: 'NIVEL_OFERTA_9',
+    RW: false,
+    visible: true,
+    label: 'Nivel 9',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_8',
+    usefull: true,
+    master: 'NIVEL_OFERTA_9'
+  },
+  NIVEL_OFERTA_10: {
+    value: 'NIVEL_OFERTA_10',
+    RW: false,
+    visible: true,
+    label: 'Nivel 10',
+    isEnumerable: true,
+    isFilterable: true,
+    filter: 'filter',
+    cascadeFor: 'NIVEL_OFERTA_9',
+    usefull: true,
+    master: 'NIVEL_OFERTA_10'
+  },
+  UM_ARTICOL_OFERTA: {
+    value: 'UM_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'UM',
+    isEnumerable: false,
+    filter: 'filter',
+    usefull: true,
+    master: 'UM_ARTICOL_OFERTA',
+    verticalDelimiterStyleClass: 'zone2VerticalDelimiter'
+  },
+  CANTITATE_ARTICOL_OFERTA: {
+    value: 'CANTITATE_ARTICOL_OFERTA',
+    RW: false,
+    visible: true,
+    label: 'Cantitate oferta',
+    isEnumerable: false,
+    filter: 'compare',
+    usefull: true,
+    master: 'CANTITATE_ARTICOL_OFERTA'
+  },
+  _cantitate_antemasuratori: {
+    value: _cantitate_antemasuratori,
+    RW: true,
+    visible: true,
+    label: 'Cantitate antemasuratori',
+    isEnumerable: false,
+    filter: 'compare',
+    usefull: true,
+    master: _cantitate_antemasuratori
+  },
+  ISARTOF: {
+    value: 'ISARTOF',
+    RW: false,
+    visible: false,
+    label: 'Articol oferta',
+    isEnumerable: false,
+    usefull: true,
+    UI: { true: '<i class="bi bi-check2"></i>', false: '' },
+    master: 'ISARTOF'
+  },
+  CCCANTEMASURATORI: {
+    value: 'CCCANTEMASURATORI',
+    RW: false,
+    visible: false,
+    label: 'CCCANTEMASURATORI',
+    useAsMeta: true,
+    usefull: true,
+    type: 'number'
+  },
+  CCCPATHS: {
+    value: 'CCCPATHS',
+    RW: false,
+    visible: false,
+    label: 'CCCPATHS',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCINSTANTE: {
+    value: 'CCCINSTANTE',
+    RW: false,
+    visible: false,
+    label: 'CCCINSTANTE',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCACTIVITINSTANTE: {
+    value: 'CCCACTIVITINSTANTE',
+    RW: false,
+    visible: false,
+    label: 'CCCACTIVITINSTANTE',
+    useAsMeta: true,
+    usefull: true
+  },
+  CCCOFERTEWEBLINII: {
+    value: 'CCCOFERTEWEBLINII',
+    RW: false,
+    visible: false,
+    label: 'CCCOFERTEWEBLINII',
+    useAsMeta: true,
+    usefull: true
+  },
+  _cantitate_planificari: {
+    value: _cantitate_planificari,
+    RW: false,
+    visible: true,
+    label: 'Cantitate planificare',
+    isEnumerable: false,
+    filter: 'compare',
+    usefull: true
+  }
+}
+
+export {
+  recipeDisplayMask,
+  recipeSubsDisplayMask,
+  antemasuratoriDisplayMask,
+  antemasuratoriSubsDisplayMask,
+  planificareDisplayMask,
+  planificareSubsDisplayMask
+}

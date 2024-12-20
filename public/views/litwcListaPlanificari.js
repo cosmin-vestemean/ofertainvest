@@ -1,6 +1,13 @@
 import { LitElement, html, contextOferta } from '../client.js'
+import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
+import { _cantitate_planificari } from '../utils/_cantitate_oferta.js'
+import { ds_antemasuratori } from '../utils/ds_antemasuratori.js'
+import { tables } from '../utils/tables.js'
+import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'
 
 /* global bootstrap */
+
+export let ds_planificareNoua = []
 
 class LitwcListaPlanificari extends LitElement {
   createRenderRoot() {
@@ -82,7 +89,7 @@ class LitwcListaPlanificari extends LitElement {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Planificare</button>
+              <button type="button" class="btn btn-primary" id="btnPlanificareNoua">Planificare noua</button>
             </div>
           </div>
         </div>
@@ -97,6 +104,27 @@ class LitwcListaPlanificari extends LitElement {
     console.log(this.angajati)
     const modal = new bootstrap.Modal(document.getElementById('planificareModal'))
     modal.show()
+  }
+
+  firstUpdated() {
+    document.getElementById('btnPlanificareNoua').addEventListener('click', () => {
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+      const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+      ds_planificareNoua.forEach((parent) => {
+        parent.object._cantitate_planificari = 0
+        if (parent.children) {
+          parent.children.forEach((child) => {
+            child.object._cantitate_planificari = 0
+          })
+        }
+      })
+      tables.my_table8.element.hasMainHeader = true
+      tables.my_table8.element.hasSubHeader = true
+      tables.my_table8.element.canAddInLine = true
+      tables.tablePlanificareCurenta.mainMask = planificareDisplayMask
+      tables.tablePlanificareCurenta.subMask = planificareSubsDisplayMask
+      tables.tablePlanificareCurenta.tables.tablePlanificareCurenta.data = ds_planificareNoua
+    })
   }
 }
 

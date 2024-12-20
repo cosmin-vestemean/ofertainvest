@@ -35,6 +35,10 @@ export const tables = {
     element: document.getElementById('my_table_lista_retete'),
     visible: true
   },
+  tablePlanificareCurenta : {
+    element: document.getElementById('planificareCurenta'),
+    visible: true
+  },
   allTables() {
     return [
       this.my_table1,
@@ -45,7 +49,8 @@ export const tables = {
       this.my_table6,
       this.my_table7,
       this.my_table8,
-      this.estimari_timeline
+      this.estimari_timeline,
+      this.tablePlanificareCurenta
     ]
   },
   hideAllBut(tablesExcept) {
