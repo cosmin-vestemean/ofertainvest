@@ -580,15 +580,6 @@ const antemasuratoriDisplayMask = {
     filter: 'compare',
     usefull: true
   },
-  _cantitate_antemasuratori: {
-    value: _cantitate_antemasuratori,
-    RW: true,
-    visible: true,
-    label: 'Cantitate antemasuratori',
-    isEnumerable: false,
-    filter: 'compare',
-    usefull: true
-  },
   ISARTOF: {
     value: 'ISARTOF',
     RW: false,
@@ -639,6 +630,17 @@ const antemasuratoriDisplayMask = {
     useAsMeta: true,
     usefull: true
   }
+}
+
+antemasuratoriDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: true,
+  visible: true,
+  label: 'Cantitate',
+  isEnumerable: false,
+  filter: 'search',
+  usefull: true,
+  type: 'number'
 }
 
 const antemasuratoriSubsDisplayMask = {
@@ -864,16 +866,6 @@ const antemasuratoriSubsDisplayMask = {
     usefull: true,
     master: 'CANTITATE_ARTICOL_OFERTA'
   },
-  _cantitate_antemasuratori: {
-    value: _cantitate_antemasuratori,
-    RW: true,
-    visible: true,
-    label: 'Cantitate antemasuratori',
-    isEnumerable: false,
-    filter: 'compare',
-    usefull: true,
-    master: _cantitate_antemasuratori
-  },
   ISARTOF: {
     value: 'ISARTOF',
     RW: false,
@@ -925,6 +917,17 @@ const antemasuratoriSubsDisplayMask = {
     useAsMeta: true,
     usefull: true
   }
+}
+
+antemasuratoriSubsDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: true,
+  visible: true,
+  label: 'Cantitate antemsuratori',
+  isEnumerable: false,
+  filter: 'search',
+  usefull: true,
+  type: 'number'
 }
 
 const planificareDisplayMask = {
@@ -1130,15 +1133,6 @@ const planificareDisplayMask = {
     filter: 'compare',
     usefull: true
   },
-  _cantitate_antemasuratori: {
-    value: _cantitate_antemasuratori,
-    RW: true,
-    visible: true,
-    label: 'Cantitate antemasuratori',
-    isEnumerable: false,
-    filter: 'compare',
-    usefull: true
-  },
   ISARTOF: {
     value: 'ISARTOF',
     RW: false,
@@ -1189,13 +1183,25 @@ const planificareDisplayMask = {
     useAsMeta: true,
     usefull: true
   },
-  _cantitate_planificari: {
-    value: _cantitate_planificari,
-    RW: false,
-    visible: true,
-    label: 'Cantitate planificare',
-    usefull: true
-  }
+}
+
+planificareDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: false,
+  visible: true,
+  label: 'Cantitate antemasuratori',
+  isEnumerable: false,
+  filter: 'search',
+  usefull: true,
+  type: 'number'
+}
+
+planificareDisplayMask[_cantitate_planificari] = {
+  value: _cantitate_planificari,
+  RW: false,
+  visible: true,
+  label: 'Cantitate planificare',
+  usefull: true
 }
 
 const planificareSubsDisplayMask = {
@@ -1421,16 +1427,6 @@ const planificareSubsDisplayMask = {
     usefull: true,
     master: 'CANTITATE_ARTICOL_OFERTA'
   },
-  _cantitate_antemasuratori: {
-    value: _cantitate_antemasuratori,
-    RW: true,
-    visible: true,
-    label: 'Cantitate antemasuratori',
-    isEnumerable: false,
-    filter: 'compare',
-    usefull: true,
-    master: _cantitate_antemasuratori
-  },
   ISARTOF: {
     value: 'ISARTOF',
     RW: false,
@@ -1481,16 +1477,26 @@ const planificareSubsDisplayMask = {
     label: 'CCCOFERTEWEBLINII',
     useAsMeta: true,
     usefull: true
-  },
-  _cantitate_planificari: {
-    value: _cantitate_planificari,
-    RW: false,
-    visible: true,
-    label: 'Cantitate planificare',
-    isEnumerable: false,
-    filter: 'compare',
-    usefull: true
   }
+}
+
+planificareSubsDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: false,
+  visible: true,
+  label: 'Cantitate antemasuratori',
+  isEnumerable: false,
+  filter: 'search',
+  usefull: true,
+  type: 'number'
+}
+
+planificareSubsDisplayMask[_cantitate_planificari] = {
+  value: _cantitate_planificari,
+  RW: false,
+  visible: true,
+  label: 'Cantitate planificare',
+  usefull: true
 }
 
 export {
