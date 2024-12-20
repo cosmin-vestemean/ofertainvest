@@ -636,7 +636,7 @@ antemasuratoriDisplayMask[_cantitate_antemasuratori] = {
   value: _cantitate_antemasuratori,
   RW: true,
   visible: true,
-  label: 'Cantitate',
+  label: 'Cantitate antemasuratori',
   isEnumerable: false,
   filter: 'search',
   usefull: true,
