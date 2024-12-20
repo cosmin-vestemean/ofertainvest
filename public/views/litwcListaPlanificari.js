@@ -108,7 +108,7 @@ class LitwcListaPlanificari extends LitElement {
   firstUpdated() {
     document.getElementById('btnPlanificareNoua').addEventListener('click', () => {
       tables.hideAllBut([tables.tablePlanificareCurenta])
-      const ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+      ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
       ds_planificareNoua.forEach((parent) => {
         parent.content.forEach((item) => {
           item.object[_cantitate_planificari] = 0
