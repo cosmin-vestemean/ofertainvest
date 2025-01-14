@@ -17,10 +17,10 @@ class UI1 extends LitElement {
     'Transport',
     'Utilaj',
     'Echipament',
-    'Material+Manopera',
-    'Material+Transport',
-    'Material+Utilaj',
-    'Material+Echipament'
+    'Manopera+Material',
+    'Manopera+Transport',
+    'Manopera+Utilaj',
+    'Manopera+Echipament'
   ]
   _hasMainHeader = true
   _hasSubHeader = true

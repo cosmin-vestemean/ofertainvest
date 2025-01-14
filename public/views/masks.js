@@ -1198,10 +1198,10 @@ planificareDisplayMask[_cantitate_antemasuratori] = {
 
 planificareDisplayMask[_cantitate_planificari] = {
   value: _cantitate_planificari,
-  RW: false,
+  RW: true,
   visible: true,
-  label: 'Cantitate planificare',
-  usefull: true
+  usefull: true,
+  type: 'number',
 }
 
 const planificareSubsDisplayMask = {
@@ -1493,7 +1493,7 @@ planificareSubsDisplayMask[_cantitate_antemasuratori] = {
 
 planificareSubsDisplayMask[_cantitate_planificari] = {
   value: _cantitate_planificari,
-  RW: false,
+  RW: true,
   visible: true,
   label: 'Cantitate planificare',
   usefull: true
