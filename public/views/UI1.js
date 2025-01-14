@@ -13,15 +13,16 @@ class UI1 extends LitElement {
   _modalInstance = null
   _dropdownItems = [
     'Material',
-    'Manopera',
     'Transport',
     'Utilaj',
     'Echipament',
+    'Manopera',
     'Manopera+Material',
     'Manopera+Transport',
     'Manopera+Utilaj',
     'Manopera+Echipament'
   ]
+  _parentIsUnfolded = false
   _hasMainHeader = true
   _hasSubHeader = true
   _canAddInLine = true
@@ -667,6 +668,7 @@ class UI1 extends LitElement {
 
   addSub(item) {
     console.log('Add sub', item)
+    //daca dropdown contine manopera
   }
 
   savePackage(item) {
