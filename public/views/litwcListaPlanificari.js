@@ -37,15 +37,16 @@ class LitwcListaPlanificari extends LitElement {
           }
         })
       })
+      //hide modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('planificareModal'))
+      modal.hide()
+      //update table PlanificareCurenta
       tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
       tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
       tables.tablePlanificareCurenta.element.hasMainHeader = true
       tables.tablePlanificareCurenta.element.hasSubHeader = true
       tables.tablePlanificareCurenta.element.canAddInLine = true
       tables.tablePlanificareCurenta.element.data = ds_planificareNoua
-      //hide modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('planificareModal'))
-      modal.hide()
     } else {
       console.log('ds_antemasuratori is empty')
     }
