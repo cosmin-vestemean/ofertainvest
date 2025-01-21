@@ -39,7 +39,6 @@ class LitwcListaPlanificari extends LitElement {
       })
       
       tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
-      console.log('planificareSubsDisplayMask', planificareSubsDisplayMask)
       tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
       tables.tablePlanificareCurenta.element.hasMainHeader = true
       tables.tablePlanificareCurenta.element.hasSubHeader = true

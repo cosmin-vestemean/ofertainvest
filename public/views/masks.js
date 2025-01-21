@@ -1202,6 +1202,7 @@ planificareDisplayMask[_cantitate_planificari] = {
   visible: true,
   usefull: true,
   type: 'number',
+  label: 'Cantitate planificare',
 }
 
 const planificareSubsDisplayMask = {
