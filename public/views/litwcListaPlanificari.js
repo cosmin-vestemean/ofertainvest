@@ -37,30 +37,9 @@ class LitwcListaPlanificari extends LitElement {
           }
         })
       })
-
-      const modalElement = document.getElementById('planificareModal')
-      const modal = bootstrap.Modal.getInstance(modalElement)
-
-      // Store the currently focused element
-      const previouslyFocused = document.activeElement
-
-      // Hide modal
-      modal.hide()
-
-      // Set aria attributes
-      modalElement.setAttribute('aria-hidden', 'true')
-
-      // Add event listeners for modal events
-      modalElement.addEventListener('show.bs.modal', () => {
-        modalElement.removeAttribute('aria-hidden')
-        // Return focus to previously focused element
-        if (previouslyFocused && previouslyFocused.focus) {
-          previouslyFocused.focus()
-        }
-      })
-
-      //update table PlanificareCurenta
+      
       tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
+      console.log('planificareSubsDisplayMask', planificareSubsDisplayMask)
       tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
       tables.tablePlanificareCurenta.element.hasMainHeader = true
       tables.tablePlanificareCurenta.element.hasSubHeader = true

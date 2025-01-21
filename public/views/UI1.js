@@ -222,6 +222,7 @@ class UI1 extends LitElement {
       return html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
     } else {
       const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
+      console.log('subsMask', this.subsMask)
       const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
       this._articole = this.data.flatMap((box) =>
