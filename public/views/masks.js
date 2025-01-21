@@ -1183,6 +1183,13 @@ const planificareDisplayMask = {
     useAsMeta: true,
     usefull: true
   },
+  CANTITATE_ARTICOL_PLANIFICARE: {
+    value: 'CANTITATE_ARTICOL_PLANIFICARE',
+    RW: true,
+    visible: true,
+    label: 'Cantitate planificare',
+    usefull: true
+  }
 }
 
 planificareDisplayMask[_cantitate_antemasuratori] = {
@@ -1476,6 +1483,13 @@ const planificareSubsDisplayMask = {
     visible: false,
     label: 'CCCOFERTEWEBLINII',
     useAsMeta: true,
+    usefull: true
+  },
+  CANTITATE_ARTICOL_PLANIFICARE : {
+    value: 'CANTITATE_ARTICOL_PLANIFICARE',
+    RW: true,
+    visible: true,
+    label: 'Cantitate planificare',
     usefull: true
   }
 }

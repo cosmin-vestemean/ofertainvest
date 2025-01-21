@@ -37,11 +37,11 @@ class LitwcListaPlanificari extends LitElement {
           }
         })
       })
+      tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
+      tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
       tables.tablePlanificareCurenta.element.hasMainHeader = true
       tables.tablePlanificareCurenta.element.hasSubHeader = true
       tables.tablePlanificareCurenta.element.canAddInLine = true
-      tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
-      tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
       tables.tablePlanificareCurenta.element.data = ds_planificareNoua
       //hide modal
       const modal = bootstrap.Modal.getInstance(document.getElementById('planificareModal'))
