@@ -37,20 +37,28 @@ class LitwcListaPlanificari extends LitElement {
           }
         })
       })
-      
-      // Get the modal element directly
-    const modalElement = document.getElementById('planificareModal')
-    const modal = bootstrap.Modal.getInstance(modalElement)
-    
-    // Hide modal and set inert
-    modal.hide()
-    modalElement.setAttribute('inert', '')
-    
-    // Add event listener to remove inert when modal is shown
-    modalElement.addEventListener('show.bs.modal', () => {
-      modalElement.removeAttribute('inert')
-    })
-      
+
+      const modalElement = document.getElementById('planificareModal')
+      const modal = bootstrap.Modal.getInstance(modalElement)
+
+      // Store the currently focused element
+      const previouslyFocused = document.activeElement
+
+      // Hide modal
+      modal.hide()
+
+      // Set aria attributes
+      modalElement.setAttribute('aria-hidden', 'true')
+
+      // Add event listeners for modal events
+      modalElement.addEventListener('show.bs.modal', () => {
+        modalElement.removeAttribute('aria-hidden')
+        // Return focus to previously focused element
+        if (previouslyFocused && previouslyFocused.focus) {
+          previouslyFocused.focus()
+        }
+      })
+
       //update table PlanificareCurenta
       tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
       tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
