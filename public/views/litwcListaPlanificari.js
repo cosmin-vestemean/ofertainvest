@@ -37,11 +37,20 @@ class LitwcListaPlanificari extends LitElement {
           }
         })
       })
-      //hide modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('planificareModal'))
-      modal.hide()
-      //In this code, after hiding the modal, the inert attribute is added to the modal element to prevent it from receiving focus and interaction. 
-      modal.setAttribute('inert', 'true')
+      
+      // Get the modal element directly
+    const modalElement = document.getElementById('planificareModal')
+    const modal = bootstrap.Modal.getInstance(modalElement)
+    
+    // Hide modal and set inert
+    modal.hide()
+    modalElement.setAttribute('inert', '')
+    
+    // Add event listener to remove inert when modal is shown
+    modalElement.addEventListener('show.bs.modal', () => {
+      modalElement.removeAttribute('inert')
+    })
+      
       //update table PlanificareCurenta
       tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
       tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
