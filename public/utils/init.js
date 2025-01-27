@@ -698,7 +698,8 @@ export function init() {
     .catch((error) => {
       console.error('error', error)
     })
-} */
+  */
+}
 function applyTheme(theme) {
   let link = null
   selectedTheme = theme
