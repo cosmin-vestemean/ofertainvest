@@ -3,68 +3,68 @@ import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'
+import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
 
 export let ds_planificareNoua = []
 
 class LitwcListaPlanificari extends LitElement {
+  static properties = {
+    angajati: { type: Array }
+  }
+
   createRenderRoot() {
     return this
   }
 
-  properties = {
-    angajati: { type: Array }
-  }
-
   constructor() {
     super()
-    this.angajati = contextOferta.angajati
-    this.initialized = false
-  }
-
-  handlePlanificareNoua() {
-    if (ds_antemasuratori && ds_antemasuratori.length > 0) {
-      tables.hideAllBut([tables.tablePlanificareCurenta])
-      ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-      ds_planificareNoua.forEach((parent) => {
-        parent.content.forEach((item) => {
-          item.object[_cantitate_planificari] = 0
-          if (item.children) {
-            item.children.forEach((child) => {
-              child.object[_cantitate_planificari] = 0
-            })
-          }
-        })
-      })
-      
-      tables.tablePlanificareCurenta.element.mainMask = planificareDisplayMask
-      tables.tablePlanificareCurenta.element.subMask = planificareSubsDisplayMask
-      tables.tablePlanificareCurenta.element.hasMainHeader = true
-      tables.tablePlanificareCurenta.element.hasSubHeader = true
-      tables.tablePlanificareCurenta.element.canAddInLine = true
-      tables.tablePlanificareCurenta.element.data = ds_planificareNoua
-    } else {
-      console.log('ds_antemasuratori is empty')
-    }
+    this.angajati = []
   }
 
   connectedCallback() {
     super.connectedCallback()
+    this.loadEmployees()
     this.addEventListener('click', (e) => {
       if (e.target.id === 'adaugaPlanificare') {
         this.handleAddPlanificare()
       }
     })
-    if (!this.angajati || this.angajati.length === 0) {
-      const intervalId = setInterval(() => {
-        if (contextOferta.angajati && contextOferta.angajati.length > 0) {
-          this.angajati = contextOferta.angajati
-          this.requestUpdate()
-          clearInterval(intervalId)
-        }
-      }, 500)
+  }
+
+  async loadEmployees() {
+    this.angajati = await employeesService.loadEmployees()
+    this.requestUpdate()
+  }
+
+  handlePlanificareNoua() {
+    if (!ds_antemasuratori?.length) {
+      console.log('ds_antemasuratori is empty')
+      return
     }
+
+    tables.hideAllBut([tables.tablePlanificareCurenta])
+    ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+    
+    ds_planificareNoua.forEach((parent) => {
+      parent.content.forEach((item) => {
+        item.object[_cantitate_planificari] = 0
+        item.children?.forEach((child) => {
+          child.object[_cantitate_planificari] = 0
+        })
+      })
+    })
+
+    const table = tables.tablePlanificareCurenta.element
+    table.hasMainHeader = true
+    table.hasSubHeader = true 
+    table.canAddInLine = true
+    table.mainMask = planificareDisplayMask
+    table.subMask = planificareSubsDisplayMask
+    table.data = ds_planificareNoua
+
+    bootstrap.Modal.getInstance(document.getElementById('planificareModal')).hide()
   }
 
   render() {
@@ -132,17 +132,13 @@ class LitwcListaPlanificari extends LitElement {
 
   handleAddPlanificare() {
     console.log('Adauga planificare button clicked')
-    //update angajati
-    this.angajati = contextOferta.angajati
-    console.log(this.angajati)
-    const modal = new bootstrap.Modal(document.getElementById('planificareModal'), {
-      keyboard: true,
+    new bootstrap.Modal(document.getElementById('planificareModal'), {
+      keyboard: true, 
       backdrop: false
-    })
-    modal.show()
+    }).show()
   }
 }
 
-export default LitwcListaPlanificari
-
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
+
+export default LitwcListaPlanificari

@@ -28,6 +28,8 @@ class UI1 extends LitElement {
   _canAddInLine = true
   _isInitialized = false
 
+  _articole = []
+
   set hasMainHeader(value) {
     this._hasMainHeader = value
   }
