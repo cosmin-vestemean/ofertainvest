@@ -103,7 +103,7 @@ class LitwcListaPlanificari extends LitElement {
       hasSubHeader: true,
       canAddInLine: true,
       mainMask: planificareDisplayMask,
-      subMask: planificareSubsDisplayMask,
+      subsMask: planificareSubsDisplayMask,
       data: ds_planificareNoua
     })
 
