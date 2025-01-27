@@ -927,7 +927,8 @@ antemasuratoriSubsDisplayMask[_cantitate_antemasuratori] = {
   isEnumerable: false,
   filter: 'search',
   usefull: true,
-  type: 'number'
+  type: 'number',
+  master: _cantitate_antemasuratori
 }
 
 const planificareDisplayMask = {
