@@ -636,7 +636,7 @@ antemasuratoriDisplayMask[_cantitate_antemasuratori] = {
   value: _cantitate_antemasuratori,
   RW: true,
   visible: true,
-  label: 'Cantitate antemasuratori',
+  label: 'Cantitate antemas.',
   isEnumerable: false,
   filter: 'search',
   usefull: true,
@@ -1498,7 +1498,7 @@ planificareSubsDisplayMask[_cantitate_planificari] = {
   value: _cantitate_planificari,
   RW: true,
   visible: true,
-  label: 'Cantitate planificare',
+  label: 'Cantitate planif.',
   usefull: true,
   type: 'number',
   master: _cantitate_planificari
