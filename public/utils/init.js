@@ -684,7 +684,7 @@ export function init() {
   }
 
   //load lisa angajati
-  client
+ /*  client
     .service('getDataset')
     .find({
       query: {
@@ -698,7 +698,7 @@ export function init() {
     .catch((error) => {
       console.error('error', error)
     })
-}
+} */
 function applyTheme(theme) {
   let link = null
   selectedTheme = theme

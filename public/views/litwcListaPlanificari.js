@@ -11,116 +11,145 @@ export let ds_planificareNoua = []
 
 class LitwcListaPlanificari extends LitElement {
   static properties = {
-    angajati: { type: Array }
+    angajati: { type: Array },
+    isLoading: { type: Boolean }
+  }
+
+  constructor() {
+    super()
+    this.angajati = []
+    this.isLoading = true
+    this.modal = null
   }
 
   createRenderRoot() {
     return this
   }
 
-  constructor() {
-    super()
-    this.angajati = []
+  async connectedCallback() {
+    super.connectedCallback()
+    await this.loadEmployees()
+    this.setupEventListeners()
   }
 
-  connectedCallback() {
-    super.connectedCallback()
-    this.loadEmployees()
+  setupEventListeners() {
     this.addEventListener('click', (e) => {
       if (e.target.id === 'adaugaPlanificare') {
-        this.handleAddPlanificare()
+        this.showPlanificareModal()
       }
     })
   }
 
   async loadEmployees() {
-    this.angajati = await employeesService.loadEmployees()
-    this.requestUpdate()
+    try {
+      this.isLoading = true
+      this.angajati = await employeesService.loadEmployees()
+    } catch (error) {
+      console.error('Failed to load employees:', error)
+      this.angajati = []
+    } finally {
+      this.isLoading = false
+      this.requestUpdate()
+    }
+  }
+
+  showPlanificareModal() {
+    if (!this.modal) {
+      this.modal = new bootstrap.Modal(document.getElementById('planificareModal'), {
+        keyboard: true,
+        backdrop: false
+      })
+    }
+    this.modal.show()
+  }
+
+  validateDates() {
+    const startDate = document.getElementById('startDate').value
+    const endDate = document.getElementById('endDate').value
+    
+    if (!startDate || !endDate) {
+      alert('Please select both start and end dates')
+      return false
+    }
+    
+    if (new Date(startDate) > new Date(endDate)) {
+      alert('Start date cannot be after end date')
+      return false
+    }
+    
+    return true
   }
 
   handlePlanificareNoua() {
+    if (!this.validateDates()) return
     if (!ds_antemasuratori?.length) {
-      console.log('ds_antemasuratori is empty')
+      console.warn('No antemasuratori available')
       return
     }
 
-    tables.hideAllBut([tables.tablePlanificareCurenta])
     ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    
-    ds_planificareNoua.forEach((parent) => {
-      parent.content.forEach((item) => {
+    ds_planificareNoua.forEach(parent => {
+      parent.content.forEach(item => {
         item.object[_cantitate_planificari] = 0
-        item.children?.forEach((child) => {
+        item.children?.forEach(child => {
           child.object[_cantitate_planificari] = 0
         })
       })
     })
 
     const table = tables.tablePlanificareCurenta.element
-    table.hasMainHeader = true
-    table.hasSubHeader = true 
-    table.canAddInLine = true
-    table.mainMask = planificareDisplayMask
-    table.subMask = planificareSubsDisplayMask
-    table.data = ds_planificareNoua
+    Object.assign(table, {
+      hasMainHeader: true,
+      hasSubHeader: true,
+      canAddInLine: true,
+      mainMask: planificareDisplayMask,
+      subMask: planificareSubsDisplayMask,
+      data: ds_planificareNoua
+    })
 
-    bootstrap.Modal.getInstance(document.getElementById('planificareModal')).hide()
+    tables.hideAllBut([tables.tablePlanificareCurenta])
+    this.modal?.hide()
   }
 
-  render() {
+  renderEmployeeSelect(id, label) {
     return html`
-      <button type="button" class="btn btn-primary m-2" id="adaugaPlanificare">Adauga planificare</button>
+      <div class="mb-3">
+        <label for="${id}" class="form-label">${label}</label>
+        <select class="form-select" id="${id}">
+          ${this.angajati.map(angajat => 
+            html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
+          )}
+        </select>
+      </div>
+    `
+  }
 
-      <!-- Modal -->
-      <div
-        class="modal"
-        id="planificareModal"
-        tabindex="-1"
-        aria-labelledby="planificareModalLabel"
-        aria-hidden="true"
-      >
+  renderModal() {
+    return html`
+      <div class="modal" id="planificareModal" tabindex="-1">
         <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="planificareModalLabel">Adauga Planificare</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 class="modal-title">Adauga Planificare</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
               <form>
                 <div class="mb-3">
                   <label for="startDate" class="form-label">Start Date</label>
-                  <input type="date" class="form-control" id="startDate" />
+                  <input type="date" class="form-control" id="startDate" required />
                 </div>
                 <div class="mb-3">
                   <label for="endDate" class="form-label">End Date</label>
-                  <input type="date" class="form-control" id="endDate" />
+                  <input type="date" class="form-control" id="endDate" required />
                 </div>
-                <div class="mb-3">
-                  <label for="select1" class="form-label">Responsabil planificare</label>
-                  <select class="form-select" id="select1">
-                    ${this.angajati.map(
-                      (angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
-                    )}
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="select2" class="form-label">Responsabil executie</label>
-                  <select class="form-select" id="select2">
-                    ${this.angajati.map(
-                      (angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
-                    )}
-                  </select>
-                </div>
+                ${this.renderEmployeeSelect('select1', 'Responsabil planificare')}
+                ${this.renderEmployeeSelect('select2', 'Responsabil executie')}
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="btnPlanificareNoua"
-                @click="${this.handlePlanificareNoua}"
-              >
+              <button type="button" class="btn btn-primary" @click="${() => this.handlePlanificareNoua()}">
                 Planificare noua
               </button>
             </div>
@@ -130,12 +159,19 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  handleAddPlanificare() {
-    console.log('Adauga planificare button clicked')
-    new bootstrap.Modal(document.getElementById('planificareModal'), {
-      keyboard: true, 
-      backdrop: false
-    }).show()
+  render() {
+    if (this.isLoading) {
+      return html`<div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>`
+    }
+
+    return html`
+      <button type="button" class="btn btn-primary m-2" id="adaugaPlanificare">
+        Adauga planificare
+      </button>
+      ${this.renderModal()}
+    `
   }
 }
 
