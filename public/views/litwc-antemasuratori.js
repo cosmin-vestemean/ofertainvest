@@ -9,31 +9,6 @@ export class antemasuratori extends UI1 {
     // Constructorul clasei MyTableListaRetete
   }
 
-  actionsBar(item) {
-    return html`
-      <div class="actions-bar row">
-        <div class="dropdown col">
-          <button
-            class="btn btn-sm dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="bi bi-plus-square text-primary"></i> Adauga articol
-          </button>
-          <ul class="dropdown-menu">
-            ${this._dropdownItems.map(
-              (dropdownItem) =>
-                html`<li>
-                  <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
-                </li>`
-            )}
-          </ul>
-        </div>
-      </div>
-    `
-  }
-
   async saveLine(item, htmlElement, value) {
     let nr
     try {

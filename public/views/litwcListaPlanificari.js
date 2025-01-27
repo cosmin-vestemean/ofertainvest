@@ -100,7 +100,7 @@ class LitwcListaPlanificari extends LitElement {
     const table = tables.tablePlanificareCurenta.element
     Object.assign(table, {
       hasMainHeader: true,
-      hasSubHeader: true,
+      hasSubHeader: false,
       canAddInLine: true,
       mainMask: planificareDisplayMask,
       subsMask: planificareSubsDisplayMask,
