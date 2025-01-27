@@ -664,9 +664,23 @@ class UI1 extends LitElement {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${(e) => this.savePackage(item, e.target)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.saveArticle(item, e.target)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
+        </div>
+        <div class="col pt-1 fs-6">
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              role="switch"
+              class="form-check-input"
+              id="checkboxConfirmare"
+              name="checkboxConfirmare"
+            />
+            <label class="form-check-label" for="checkboxConfirmare"
+              ><i class="bi bi-card-checklist"></i
+            ></label>
+          </div>
         </div>
       </div>
     `
@@ -694,7 +708,7 @@ class UI1 extends LitElement {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${(e) => this.savePackage(item, e.target)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.saveArticle(item, e.target)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
