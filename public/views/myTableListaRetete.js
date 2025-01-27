@@ -9,7 +9,7 @@ class MyTableListaRetete extends UI1 {
   }
 
   // Suprascrie metodele din UI1 sau adaugă metode noi
-  actionsBar(item) {
+  subarticleActionsBar(item) {
     return html`
       <div class="actions-bar row">
         <div class="dropdown col">

@@ -314,7 +314,7 @@ class UI1 extends LitElement {
         )
         const colspan = subKeys.length || 1
         const hasActions = usefullEntityDisplayMask[key].hasActions || false
-        const headerContent = hasActions ? this.actionsBar() : usefullEntityDisplayMask[key].label || key
+        const headerContent = hasActions ? this.articleActionsBar() : usefullEntityDisplayMask[key].label || key
 
         // Check if there are any values for this key in the cells
         const hasValues = this._articole.some((item) => item.articol[key] !== undefined)
@@ -409,7 +409,7 @@ class UI1 extends LitElement {
                       const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
                       const hasActions = usefullEntitySubsDisplayMask[subKey].hasActions || false
                       const headerContent = hasActions
-                        ? this.actionsBar(item)
+                        ? this.subarticleActionsBar(item)
                         : usefullEntitySubsDisplayMask[subKey].label || subKey
                       // Check if there are any values for this subKey in the cells
                       const hasValues = item.subarticole.some((sub) => sub[subKey] !== undefined)
@@ -418,7 +418,7 @@ class UI1 extends LitElement {
                           return html`<th class="${zoneClass}">${headerContent}</th>`
                         }
                       } else if (hasActions) {
-                        return html`<th class="${zoneClass}">${this.actionsBar(item)}</th>`
+                        return html`<th class="${zoneClass}">${this.subarticleActionsBar(item)}</th>`
                       }
                     })
                   } else {
@@ -457,6 +457,10 @@ class UI1 extends LitElement {
             if (subKeys.length > 0) {
               return subKeys.map((subKey) => {
                 const zoneClass = usefullEntitySubsDisplayMask[subKey].verticalDelimiterStyleClass || ''
+                const hasActions = usefullEntitySubsDisplayMask[subKey].hasActions || false
+                const headerContent = hasActions
+                  ? this.subarticleActionsBar(item)
+                  : usefullEntitySubsDisplayMask[subKey].label || subKey
                 const hasValues = sub[subKey] !== undefined
                 if (hasValues) {
                   return html`<td
@@ -638,7 +642,37 @@ class UI1 extends LitElement {
     }
   }
 
-  actionsBar(item) {
+  articleActionsBar(item) {
+    return html`
+      <div class="actions-bar row">
+        <div class="dropdown col">
+          <button
+            class="btn btn-sm dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-plus-square text-primary"></i> Adauga articol
+          </button>
+          <ul class="dropdown-menu">
+            ${this._dropdownItems.map(
+              (dropdownItem) =>
+                html`<li>
+                  <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
+                </li>`
+            )}
+          </ul>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.savePackage(item, e.target)}">
+            <i class="bi bi-save text-info"></i> Salveaza
+          </button>
+        </div>
+      </div>
+    `
+  }
+
+  subarticleActionsBar(item) {
     return html`
       <div class="actions-bar row">
         <div class="dropdown col">
