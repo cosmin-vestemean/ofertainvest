@@ -1419,7 +1419,7 @@ export function showRecipes() {
     console.log('recipes data', recipes_ds)
 
     tables.hideAllBut([tables.my_table8])
-    
+
     tables.my_table8.element.hasMainHeader = true
     tables.my_table8.element.hasSubHeader = true
     tables.my_table8.element.canAddInLine = true
@@ -2302,6 +2302,14 @@ function adaugaInReteta2(reteta, related) {
     child.level = child.branch.length
     child.virtual = true
     child.hasChildren = false
+    //daca TIP_ARTICOL_OFERTA = 'ARTICOL' si SUBTIP_ARTICOL_OFERTA = 'PRINCIPAL' => ISARTOF = 1
+    if (
+      (child.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'articol' &&
+        child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal') ||
+      (child.object.TIP_ARTICOL_OFERTA.toLowerCase() == 'material' &&
+        child.object.SUBTIP_ARTICOL_OFERTA.toLowerCase() == 'principal')
+    )
+      child.object.ISARTOF = 1
     reteta.reteta[0].children.push(child)
     reteta.reteta[0].hasChildren = true
   }
