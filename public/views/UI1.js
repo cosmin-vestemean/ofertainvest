@@ -146,27 +146,65 @@ class UI1 extends LitElement {
       )
       .map((key) => {
         if (this.mainMask[key].filter === 'filter') {
+          const options = this.getFilterOptions(key);
+          const cascadeFor = this.mainMask[key].cascadeFor;
+          const id = `filter_${key}`;
+          
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-              <select class="form-select form-select-sm" id="${key}" name="${key}">
-                ${this.getFilterOptions(key)}
+              <label for="${id}" class="form-label">${this.mainMask[key].label}</label>
+              <select class="form-select form-select-sm" 
+                id="${id}" 
+                name="${key}" 
+                ${cascadeFor ? `data-cascade-for="${cascadeFor}"` : ''}
+                onchange="this.getRootNode().host.handleCascadingFilter(event)">
+                <option value="">All</option>
+                ${options}
               </select>
             </div>
-          `
+          `;
         } else {
           return `
             <div class="mb-3">
               <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
-              <input type="text" class="form-control form-control-sm" list="datalistOptions" id="${key}" name="${key}" placeholder="Cauta...">
-              <datalist id="datalistOptions">
-                ${this.getFilterOptions(key)}
-              </datalist>
+              <input type="text" class="form-control form-control-sm" id="${key}" name="${key}" placeholder="Search...">
             </div>
-          `
+          `;
         }
-      })
-    return filterableFields.join('')
+      });
+    return filterableFields.join('');
+  }
+
+  handleCascadingFilter(event) {
+    const select = event.target;
+    const key = select.name;
+    const value = select.value;
+    
+    // Find matching tree branch based on selected value
+    const relevantBranches = trees.find(tree => 
+      tree.some(branch => branch.includes(value))
+    ) || [];
+
+    const matchingBranches = relevantBranches.filter(branch => 
+      branch.includes(value)
+    );
+
+    // Get next level field based on cascadeFor relationship
+    const nextLevel = Object.keys(this.mainMask).find(k => this.mainMask[k].cascadeFor === key);
+
+    if (nextLevel) {
+      const nextSelect = this.shadowRoot.querySelector(`#filter_${nextLevel}`);
+      if (nextSelect) {
+        const options = new Set();
+        matchingBranches.forEach(branch => {
+          const nextValue = branch[branch.indexOf(value) + 1];
+          if (nextValue) {
+            options.add(nextValue);
+          }
+        });
+        nextSelect.innerHTML = `<option value="">All</option>` + Array.from(options).map(option => `<option value="${option}">${option}</option>`).join('');
+      }
+    }
   }
 
   getFilterOptions(key) {
