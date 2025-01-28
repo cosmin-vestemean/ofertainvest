@@ -372,13 +372,17 @@ class UI1 extends LitElement {
   }
 
   applyHistoricalFilter(index) {
+    // First reset all filters
+    this.resetFilter()
+    
+    // Then apply the selected historical filter
     const filter = this._filterHistory[index]
-    // Set form values
     Object.entries(filter).forEach(([key, value]) => {
       const input = document.getElementById(key)
       if (input) input.value = value
     })
-    // Apply the filter
+    
+    // Finally apply the filter
     this.applyFilter()
   }
 
