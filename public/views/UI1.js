@@ -150,14 +150,17 @@ class UI1 extends LitElement {
           const cascadeFor = this.mainMask[key].cascadeFor;
           const id = `filter_${key}`;
           
+          // Create event handler name unique to this component instance
+          const handlerName = `handleCascadingFilter_${this._isInitialized ? 'initialized' : 'new'}`;
+          this[handlerName] = (e) => this.handleCascadingFilter(e);
+          
           return `
             <div class="mb-3">
               <label for="${id}" class="form-label">${this.mainMask[key].label}</label>
               <select class="form-select form-select-sm" 
                 id="${id}" 
                 name="${key}" 
-                ${cascadeFor ? `data-cascade-for="${cascadeFor}"` : ''}
-                onchange="this.getRootNode().host.handleCascadingFilter(event)">
+                ${cascadeFor ? `data-cascade-for="${cascadeFor}"` : ''}>
                 <option value="">All</option>
                 ${options}
               </select>
@@ -172,14 +175,39 @@ class UI1 extends LitElement {
           `;
         }
       });
-    return filterableFields.join('');
+
+    const formHtml = filterableFields.join('');
+    
+    // Add script to handle select changes
+    return `
+      ${formHtml}
+      <script>
+        const selects = document.querySelectorAll('select[data-cascade-for]');
+        selects.forEach(select => {
+          select.addEventListener('change', (e) => {
+            const component = e.target.closest('div[id]').getRootNode().host;
+            if (component && typeof component.handleCascadingFilter === 'function') {
+              component.handleCascadingFilter(e);
+            }
+          });
+        });
+      </script>
+    `;
   }
 
   handleCascadingFilter(event) {
+    // Ensure we're working with the modal content
+    const modal = document.getElementById('filterModal');
     const select = event.target;
     const key = select.name;
     const value = select.value;
     
+    if (!value) {
+      // If "All" selected, reset dependent dropdowns
+      this.resetDependentDropdowns(key);
+      return;
+    }
+
     // Find matching tree branch based on selected value
     const relevantBranches = trees.find(tree => 
       tree.some(branch => branch.includes(value))
@@ -193,16 +221,41 @@ class UI1 extends LitElement {
     const nextLevel = Object.keys(this.mainMask).find(k => this.mainMask[k].cascadeFor === key);
 
     if (nextLevel) {
-      const nextSelect = this.shadowRoot.querySelector(`#filter_${nextLevel}`);
+      const nextSelect = modal.querySelector(`#filter_${nextLevel}`);
       if (nextSelect) {
         const options = new Set();
         matchingBranches.forEach(branch => {
-          const nextValue = branch[branch.indexOf(value) + 1];
-          if (nextValue) {
-            options.add(nextValue);
+          const valueIndex = branch.indexOf(value);
+          if (valueIndex !== -1 && valueIndex < branch.length - 1) {
+            const nextValue = branch[valueIndex + 1];
+            if (nextValue) {
+              options.add(nextValue);
+            }
           }
         });
-        nextSelect.innerHTML = `<option value="">All</option>` + Array.from(options).map(option => `<option value="${option}">${option}</option>`).join('');
+
+        nextSelect.innerHTML = `<option value="">All</option>` + 
+          Array.from(options)
+            .map(option => `<option value="${option}">${option}</option>`)
+            .join('');
+            
+        // Trigger change event to cascade to next level
+        nextSelect.dispatchEvent(new Event('change'));
+      }
+    }
+  }
+
+  resetDependentDropdowns(key) {
+    // Find all dependent dropdowns and reset them
+    const modal = document.getElementById('filterModal');
+    let currentKey = key;
+    let nextLevel;
+    
+    while (nextLevel = Object.keys(this.mainMask).find(k => this.mainMask[k].cascadeFor === currentKey)) {
+      const nextSelect = modal.querySelector(`#filter_${nextLevel}`);
+      if (nextSelect) {
+        nextSelect.innerHTML = '<option value="">All</option>';
+        currentKey = nextLevel;
       }
     }
   }
