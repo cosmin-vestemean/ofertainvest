@@ -119,6 +119,7 @@ class UI1 extends LitElement {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Inchide</button>
+            <button type="button" class="btn btn-warning" id="resetFilterButton">Reset</button>
             <button type="button" class="btn btn-primary" id="applyFilterButton">Aplica filtrul</button>
           </div>
         </div>
@@ -132,6 +133,29 @@ class UI1 extends LitElement {
     })
 
     modal.querySelector('#applyFilterButton').addEventListener('click', () => this.applyFilter())
+    modal.querySelector('#resetFilterButton').addEventListener('click', () => this.resetFilter())
+  }
+
+  resetFilter() {
+    // Reset all filter inputs
+    const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
+    
+    filterableFields.forEach((key) => {
+      const input = document.getElementById(key)
+      if (input) {
+        input.value = ''
+      }
+    })
+    
+    // Reset visibility flags
+    this._filteredArticole = this._articole.map(item => ({
+      ...item,
+      articol: { ...item.articol, visible: true },
+      subarticole: item.subarticole.map(sub => ({ ...sub, visible: true }))
+    }))
+
+    this.requestUpdate()
+    this._modalInstance.hide()
   }
 
   createRenderRoot() {
