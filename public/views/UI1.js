@@ -346,8 +346,7 @@ class UI1 extends LitElement {
 
   formatFilterDescription(filter) {
     // Create a readable description of the filter
-    return Object.entries(filter)
-      .map(([key, value]) => `${this.mainMask[key]?.label || key}: ${value}`)
+    return Object.values(filter)
       .join(', ')
       .substring(0, 50) + '...'
   }
