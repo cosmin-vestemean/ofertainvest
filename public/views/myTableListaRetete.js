@@ -45,7 +45,7 @@ class MyTableListaRetete extends UI1 {
               name="checkboxConfirmare"
             />
             <label class="form-check-label" for="checkboxConfirmare"
-              ><i class="bi bi-card-checklist"></i
+              ><i class="bi bi-lock"></i
             ></label>
           </div>
         </div>
