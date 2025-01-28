@@ -110,7 +110,7 @@ class UI1 extends LitElement {
     modal.id = 'filterModal'
     modal.className = 'modal'
     modal.innerHTML = `
-      <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm">
+      <div role="dialog" class="modal-dialog modal-dialog-scrollable modal">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Filtru compus</h5>
@@ -291,6 +291,19 @@ class UI1 extends LitElement {
       if (!this._filterHistory.some(f => JSON.stringify(f) === JSON.stringify(filterValues))) {
         this._filterHistory = [filterValues, ...this._filterHistory].slice(0, 10) // Keep last 10
         localStorage.setItem('filterHistory', JSON.stringify(this._filterHistory))
+        
+        // Update history dropdown content
+        const historyList = document.getElementById('filterHistoryList')
+        if (historyList) {
+          historyList.innerHTML = this._filterHistory.map((filter, index) => `
+            <li>
+              <a class="dropdown-item" href="#" data-filter-index="${index}">
+                ${this.formatFilterDescription(filter)}
+                <i class="bi bi-x text-danger float-end remove-filter" data-filter-index="${index}"></i>
+              </a>
+            </li>
+          `).join('')
+        }
       }
     }
 
@@ -342,6 +355,20 @@ class UI1 extends LitElement {
   removeFromFilterHistory(index) {
     this._filterHistory = this._filterHistory.filter((_, i) => i !== index)
     localStorage.setItem('filterHistory', JSON.stringify(this._filterHistory))
+    
+    // Update history dropdown content
+    const historyList = document.getElementById('filterHistoryList')
+    if (historyList) {
+      historyList.innerHTML = this._filterHistory.map((filter, index) => `
+        <li>
+          <a class="dropdown-item" href="#" data-filter-index="${index}">
+            ${this.formatFilterDescription(filter)}
+            <i class="bi bi-x text-danger float-end remove-filter" data-filter-index="${index}"></i>
+          </a>
+        </li>
+      `).join('')
+    }
+
     this.requestUpdate()
   }
 
