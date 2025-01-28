@@ -171,9 +171,11 @@ class UI1 extends LitElement {
 
   getFilterOptions(key) {
     const options = new Set()
+    // Add 'All' option first
+    options.add('')
     this._articole.forEach((item) => {
       if (item.articol[key]) {
-        options.add(item.articol[key])
+        options.add(item.articol[key]) 
       }
       item.subarticole.forEach((sub) => {
         if (sub[key]) {
@@ -182,7 +184,7 @@ class UI1 extends LitElement {
       })
     })
     return Array.from(options)
-      .map((option) => `<option value="${option}">${option}</option>`)
+      .map((option) => `<option value="${option}">${option || 'All'}</option>`)
       .join('')
   }
 
