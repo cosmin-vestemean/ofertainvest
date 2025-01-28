@@ -289,9 +289,11 @@ class UI1 extends LitElement {
         if (mask[key].type === 'boolean') {
           newObject[key] = object[key] === 1 ? object[key] : object[key]
         } else if (mask[key].type === 'number') {
-          newObject[key] = isNaN(parseFloat(object[key]))
-            ? parseFloat(0).toFixed(4)
-            : parseFloat(object[key]).toFixed(4)
+            newObject[key] = isNaN(parseFloat(object[key])) 
+            ? 0 
+            : Number.isInteger(parseFloat(object[key])) 
+              ? parseFloat(object[key]) 
+              : parseFloat(object[key]).toFixed(4)
         } else {
           newObject[key] = object[key]
         }
