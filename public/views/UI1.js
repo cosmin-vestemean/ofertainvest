@@ -7,7 +7,8 @@ class UI1 extends LitElement {
     data: { type: Array },
     mainMask: { type: Object },
     subsMask: { type: Object },
-    _filteredArticole: { type: Array, state: true } // Add this new property
+    _filteredArticole: { type: Array, state: true }, // Add this new property
+    _filterHistory: { type: Array, state: true }
   }
 
   // Internal variables
@@ -58,6 +59,7 @@ class UI1 extends LitElement {
   constructor() {
     super()
     this.articole = []
+    this._filterHistory = JSON.parse(localStorage.getItem('filterHistory') || '[]')
   }
 
   connectedCallback() {
@@ -115,6 +117,23 @@ class UI1 extends LitElement {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="d-flex justify-content-end mb-2">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterHistoryDropdown" data-bs-toggle="dropdown">
+                  <i class="bi bi-clock-history"></i> Istoric filtrări
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" id="filterHistoryList">
+                  ${this._filterHistory.map((filter, index) => `
+                    <li>
+                      <a class="dropdown-item" href="#" data-filter-index="${index}">
+                        ${this.formatFilterDescription(filter)}
+                        <i class="bi bi-x text-danger float-end remove-filter" data-filter-index="${index}"></i>
+                      </a>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+            </div>
             ${this.generateFilterForm()}
           </div>
           <div class="modal-footer">
@@ -134,6 +153,25 @@ class UI1 extends LitElement {
 
     modal.querySelector('#applyFilterButton').addEventListener('click', () => this.applyFilter())
     modal.querySelector('#resetFilterButton').addEventListener('click', () => this.resetFilter())
+
+    // Add click handlers for filter history
+    const historyList = modal.querySelector('#filterHistoryList')
+    historyList?.addEventListener('click', (e) => {
+      const target = e.target
+      if (target.classList.contains('remove-filter')) {
+        e.preventDefault()
+        e.stopPropagation()
+        const index = parseInt(target.dataset.filterIndex)
+        this.removeFromFilterHistory(index)
+        return
+      }
+
+      const filterIndex = target.dataset.filterIndex
+      if (filterIndex !== undefined) {
+        e.preventDefault()
+        this.applyHistoricalFilter(parseInt(filterIndex))
+      }
+    })
   }
 
   resetFilter() {
@@ -247,6 +285,15 @@ class UI1 extends LitElement {
       }
     })
 
+    // Save to history if there are actual filters
+    if (Object.keys(filterValues).length > 0) {
+      // Don't add if exactly the same filter exists
+      if (!this._filterHistory.some(f => JSON.stringify(f) === JSON.stringify(filterValues))) {
+        this._filterHistory = [filterValues, ...this._filterHistory].slice(0, 10) // Keep last 10
+        localStorage.setItem('filterHistory', JSON.stringify(this._filterHistory))
+      }
+    }
+
     // If no filters are set, show everything
     if (Object.keys(filterValues).length === 0) {
       this._filteredArticole = this._articole.map(item => ({
@@ -282,6 +329,31 @@ class UI1 extends LitElement {
 
     this.requestUpdate()
     this._modalInstance.hide()
+  }
+
+  formatFilterDescription(filter) {
+    // Create a readable description of the filter
+    return Object.entries(filter)
+      .map(([key, value]) => `${this.mainMask[key]?.label || key}: ${value}`)
+      .join(', ')
+      .substring(0, 50) + '...'
+  }
+
+  removeFromFilterHistory(index) {
+    this._filterHistory = this._filterHistory.filter((_, i) => i !== index)
+    localStorage.setItem('filterHistory', JSON.stringify(this._filterHistory))
+    this.requestUpdate()
+  }
+
+  applyHistoricalFilter(index) {
+    const filter = this._filterHistory[index]
+    // Set form values
+    Object.entries(filter).forEach(([key, value]) => {
+      const input = document.getElementById(key)
+      if (input) input.value = value
+    })
+    // Apply the filter
+    this.applyFilter()
   }
 
   render() {
