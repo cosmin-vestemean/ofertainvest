@@ -6,7 +6,8 @@ class UI1 extends LitElement {
   static properties = {
     data: { type: Array },
     mainMask: { type: Object },
-    subsMask: { type: Object }
+    subsMask: { type: Object },
+    _filteredArticole: { type: Array, state: true } // Add this new property
   }
 
   // Internal variables
@@ -65,8 +66,31 @@ class UI1 extends LitElement {
   }
 
   updated(changedProperties) {
-    //daca proprietatile mainMask si subsMask au fost schimbate, prima data sunt goale, cand se deseneaza componenta in index.html, apoi sunt setate inainte de randarea componentei
-    if (changedProperties.has('mainMask')) {
+    if (changedProperties.has('data') || changedProperties.has('mainMask')) {
+      // Initialize _articole and _filteredArticole when data changes
+      if (this.data && this.data.length > 0) {
+        const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
+        const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
+
+        this._articole = this.data.flatMap((box) =>
+          box.content.map((activitate) => {
+            const articol = activitate.object
+            const newArticol = this.extractFields(articol, usefullEntityDisplayMask)
+            const subarticole = activitate.children.map((subarticol) =>
+              this.extractFields(subarticol.object, usefullEntitySubsDisplayMask)
+            )
+
+            return {
+              meta: box.meta,
+              articol: { ...newArticol, visible: true },
+              subarticole: subarticole.map(sub => ({ ...sub, visible: true }))
+            }
+          })
+        )
+        
+        this._filteredArticole = [...this._articole]
+      }
+
       if (!this._isInitialized && this.mainMask) {
         this.createFilterModal()
         this.addEventListener('click', (e) => {
@@ -191,31 +215,46 @@ class UI1 extends LitElement {
   applyFilter() {
     const filterValues = {}
     const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
+    
     filterableFields.forEach((key) => {
       const input = document.getElementById(key)
-      if (input) {
+      if (input && input.value) {
         filterValues[key] = input.value
       }
     })
 
-    this._articole.forEach((item) => {
-      let visible = true
-      filterableFields.forEach((key) => {
-        if (filterValues[key] && item.articol[key] !== filterValues[key]) {
-          visible = false
+    // If no filters are set, show everything
+    if (Object.keys(filterValues).length === 0) {
+      this._filteredArticole = this._articole.map(item => ({
+        ...item,
+        articol: { ...item.articol, visible: true },
+        subarticole: item.subarticole.map(sub => ({ ...sub, visible: true }))
+      }))
+    } else {
+      this._filteredArticole = this._articole.map(item => {
+        // Check article visibility
+        const articleVisible = Object.entries(filterValues).every(([key, value]) => 
+          item.articol[key]?.toString().toLowerCase().includes(value.toLowerCase())
+        )
+
+        // Check subarticole visibility 
+        const subarticoleVisible = item.subarticole.map(sub => {
+          const subVisible = Object.entries(filterValues).every(([key, value]) =>
+            sub[key]?.toString().toLowerCase().includes(value.toLowerCase())
+          )
+          return { ...sub, visible: subVisible }
+        })
+
+        // Article is visible if it matches or any of its subarticole match
+        const anySubVisible = subarticoleVisible.some(sub => sub.visible)
+        
+        return {
+          ...item,
+          articol: { ...item.articol, visible: articleVisible || anySubVisible },
+          subarticole: subarticoleVisible
         }
       })
-      item.articol.visible = visible
-      item.subarticole.forEach((sub) => {
-        let subVisible = true
-        filterableFields.forEach((key) => {
-          if (filterValues[key] && sub[key] !== filterValues[key]) {
-            subVisible = false
-          }
-        })
-        sub.visible = subVisible
-      })
-    })
+    }
 
     this.requestUpdate()
     this._modalInstance.hide()
@@ -224,62 +263,34 @@ class UI1 extends LitElement {
   render() {
     if (!this.data || this.data.length == 0) {
       return html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
-    } else {
-      const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
-      const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
-
-      this._articole = this.data.flatMap((box) =>
-        box.content.map((activitate) => {
-          const articol = activitate.object
-          const newArticol = this.extractFields(articol, usefullEntityDisplayMask)
-          const subarticole = activitate.children.map((subarticol) =>
-            this.extractFields(subarticol.object, usefullEntitySubsDisplayMask)
-          )
-
-          return {
-            meta: box.meta,
-            articol: newArticol,
-            subarticole: subarticole
-          }
-        })
-      )
-
-      // Initially set all items to visible
-      this._articole.forEach((item) => {
-        item.articol.visible = true
-        item.subarticole.forEach((sub) => {
-          sub.visible = true
-        })
-      })
-
-      console.log('_articole', this._articole)
-
-      const headers = this.generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask)
-
-      return html`
-        <div class="container-fluid">
-          <table class="table table-sm is-responsive table-hover ms-4" style="font-size: small;">
-            <thead>
-              <tr>
-                ${headers}
-              </tr>
-            </thead>
-            ${this._articole.map((item, index) =>
-              item.articol.visible
-                ? html`<tbody>
-                    ${this.renderArticleRow(
-                      item,
-                      index,
-                      usefullEntityDisplayMask,
-                      usefullEntitySubsDisplayMask
-                    )}
-                  </tbody>`
-                : ''
-            )}
-          </table>
-        </div>
-      `
     }
+
+    const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
+    const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
+
+    return html`
+      <div class="container-fluid">
+        <table class="table table-sm is-responsive table-hover ms-4" style="font-size: small;">
+          <thead>
+            <tr>
+              ${this.generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask)}
+            </tr>
+          </thead>
+          ${this._filteredArticole?.map((item, index) =>
+            item.articol.visible
+              ? html`<tbody>
+                  ${this.renderArticleRow(
+                    item,
+                    index,
+                    usefullEntityDisplayMask,
+                    usefullEntitySubsDisplayMask
+                  )}
+                </tbody>`
+              : ''
+          )}
+        </table>
+      </div>
+    `
   }
 
   extractFields(object, mask) {
