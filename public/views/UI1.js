@@ -251,7 +251,7 @@ class UI1 extends LitElement {
     let currentKey = key;
     let nextLevel;
     
-    while (nextLevel = Object.keys(this.mainMask).find(k => this.mainMask[k].cascadeFor === currentKey)) {
+    while ((nextLevel = Object.keys(this.mainMask).find(k => this.mainMask[k].cascadeFor === currentKey)) !== undefined) {
       const nextSelect = modal.querySelector(`#filter_${nextLevel}`);
       if (nextSelect) {
         nextSelect.innerHTML = '<option value="">All</option>';
