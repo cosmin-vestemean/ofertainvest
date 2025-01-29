@@ -36,20 +36,22 @@ export class Planificare extends UI1 {
     // Process main articles and subarticles
     this._articole.forEach((item) => {
       // Add main article
-      lines.push({
-        CCCOFERTEWEB: idOferta,
-        CCCANTEMASURATORI: item.CCCANTEMASURATORI,
-        CANTITATE: item[_cantitate_planificari]
-      })
+      if (item[_cantitate_planificari] > 0)
+        lines.push({
+          CCCOFERTEWEB: idOferta,
+          CCCANTEMASURATORI: item.CCCANTEMASURATORI,
+          CANTITATE: item[_cantitate_planificari]
+        })
 
       // Add subarticles if they exist
       if (item.subarticole) {
         item.subarticole.forEach((sub) => {
-          lines.push({
-            CCCOFERTEWEB: idOferta,
-            CCCANTEMASURATORI: sub.CCCANTEMASURATORI,
-            CANTITATE: sub[_cantitate_planificari]
-          })
+          if (sub[_cantitate_planificari] > 0)
+            lines.push({
+              CCCOFERTEWEB: idOferta,
+              CCCANTEMASURATORI: sub.CCCANTEMASURATORI,
+              CANTITATE: sub[_cantitate_planificari]
+            })
         })
       }
     })
