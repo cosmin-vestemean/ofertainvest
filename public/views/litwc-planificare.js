@@ -39,10 +39,7 @@ export class Planificare extends UI1 {
       lines.push({
         CCCOFERTEWEB: idOferta,
         CCCANTEMASURATORI: item.CCCANTEMASURATORI,
-        CANTITATE: item[_cantitate_planificari],
-        TOTALCANTITATE: 0,
-        RELIZAT: 0,
-        FINALIZAT: 0
+        CANTITATE: item[_cantitate_planificari]
       })
 
       // Add subarticles if they exist
@@ -51,10 +48,7 @@ export class Planificare extends UI1 {
           lines.push({
             CCCOFERTEWEB: idOferta,
             CCCANTEMASURATORI: sub.CCCANTEMASURATORI,
-            CANTITATE: sub[_cantitate_planificari],
-            TOTALCANTITATE: 0,
-            RELIZAT: 0,
-            FINALIZAT: 0
+            CANTITATE: sub[_cantitate_planificari]
           })
         })
       }
