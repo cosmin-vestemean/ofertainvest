@@ -77,6 +77,16 @@ export class Planificare extends UI1 {
       htmlElement.disabled = false
     }
   }
+
+  showToast(type, message) {
+    const toast = this.shadowRoot.querySelector('.toast')
+    toast.classList.add(`bg-${type}`)
+    toast.innerHTML = message
+    toast.classList.add('show')
+    setTimeout(() => {
+      toast.classList.remove('show')
+    }, 3000)
+  }
 }
 
 export default Planificare
