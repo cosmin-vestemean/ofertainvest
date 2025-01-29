@@ -86,6 +86,32 @@ export class Planificare extends UI1 {
     }
   }
 
+  saveLineArticle(item, htmlElement, value) {
+    let nr
+    try {
+      nr = parseFloat(value)
+    } catch (error) {
+      console.log('error', error)
+      alert('Valoare invalida')
+      return
+    }
+
+    item[_cantitate_planificari] = nr
+  }
+
+  saveLineSubArticle(item, htmlElement, value) {
+    let nr
+    try {
+      nr = parseFloat(value)
+    } catch (error) {
+      console.log('error', error)
+      alert('Valoare invalida')
+      return
+    }
+
+    item[_cantitate_planificari] = nr
+  }
+
   restorehtmlElement(element, value) {
     element.innerHTML = value
     element.disabled = false
