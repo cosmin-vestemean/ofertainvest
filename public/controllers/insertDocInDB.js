@@ -26,6 +26,8 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
           SELECT ID FROM @InsertedId;
         `
 
+        console.log('qInsert', qInsert)
+
       // Lines will be inserted after getting the header ID from transaction result
       const qResult = await getValFromS1Query(qInsert)
       if (!qResult.success) throw new Error('Header insert failed')
