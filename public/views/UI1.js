@@ -783,7 +783,7 @@ class UI1 extends LitElement {
     }
   }
 
-  articleActionsBar(item) {
+  articleActionsBar() {
     return html`
       <div class="actions-bar row">
         <div class="dropdown col">
@@ -799,13 +799,13 @@ class UI1 extends LitElement {
             ${this._dropdownItems.map(
               (dropdownItem) =>
                 html`<li>
-                  <a class="dropdown-item" href="#" @click="${() => this.addSub(item)}">${dropdownItem}</a>
+                  <a class="dropdown-item" href="#" @click="${() => this.addSub()}">${dropdownItem}</a>
                 </li>`
             )}
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${(e) => this.saveDocument(item, e.target)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.saveDocument(e.target)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
@@ -862,8 +862,8 @@ class UI1 extends LitElement {
     //daca dropdown contine manopera
   }
 
-  saveDocument(item, htmlElement) {
-    console.log('Save document', item)
+  saveDocument(htmlElement) {
+    console.log('Save document from ', htmlElement, 'articole', this._articole)
   }
 
   savePack(item) {
