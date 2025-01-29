@@ -104,7 +104,13 @@ class LitwcListaPlanificari extends LitElement {
       canAddInLine: true,
       mainMask: planificareDisplayMask,
       subsMask: planificareSubsDisplayMask,
-      data: ds_planificareNoua
+      data: ds_planificareNoua,
+      documentHeader: {
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        responsabilPlanificare: document.getElementById('select1').value,
+        responsabilExecutie: document.getElementById('select2').value
+      }
     })
 
     tables.hideAllBut([tables.tablePlanificareCurenta])

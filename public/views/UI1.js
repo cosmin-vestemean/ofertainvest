@@ -8,7 +8,8 @@ class UI1 extends LitElement {
     mainMask: { type: Object },
     subsMask: { type: Object },
     _filteredArticole: { type: Array, state: true }, // Add this new property
-    _filterHistory: { type: Array, state: true }
+    _filterHistory: { type: Array, state: true },
+    documentHeader: { type: Object },
   }
 
   // Internal variables
@@ -65,6 +66,9 @@ class UI1 extends LitElement {
   connectedCallback() {
     super.connectedCallback()
     this.data = []
+    this.mainMask = {}
+    this.subsMask = {}
+    this.documentHeader = {}
   }
 
   updated(changedProperties) {
