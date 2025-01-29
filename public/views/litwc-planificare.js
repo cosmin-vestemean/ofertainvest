@@ -64,7 +64,7 @@ export class Planificare extends UI1 {
       })
 
       if (result.success) {
-        this.showToast('success', 'Document salvat cu succes')
+        alert('success', 'Document salvat cu succes')
         return result.documentId
       }
     } catch (error) {
