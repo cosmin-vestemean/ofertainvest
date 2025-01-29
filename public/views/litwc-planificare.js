@@ -4,10 +4,6 @@ export class Planificare extends UI1 {
   constructor() {
     super()
   }
-
-  saveDocument(htmlElement) {
-
-  }
 }
 
 export default Planificare
