@@ -56,6 +56,11 @@ export class Planificare extends UI1 {
       }
     })
 
+    if (lines.length === 0) {
+      alert('warning', 'Nu am gasit planificari valide')
+      return
+    }
+
     try {
       const result = await upsertDocument({
         headerTable: 'CCCPLANIFICARI',
