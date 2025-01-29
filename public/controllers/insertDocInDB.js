@@ -3,6 +3,8 @@ import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 export async function upsertDocument({ headerTable, header, linesTable, lines, upsert }) {
   if (!headerTable || !header || !linesTable || !lines || !upsert) {
     throw new Error('Missing required parameters')
+  } else {
+    console.log('headerTable', headerTable, 'header', header, 'linesTable', linesTable, 'lines', lines, 'upsert', upsert)
   }
 
   try {
