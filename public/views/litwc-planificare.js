@@ -100,23 +100,17 @@ export class Planificare extends UI1 {
   }
 
   saveLineSubArticle(item, htmlElement, value) {
-    let nr
-    try {
-      nr = parseFloat(value)
-    } catch (error) {
-      console.log('error', error)
-      alert('Valoare invalida')
-      return
-    }
+    this.saveLineArticle(item, htmlElement, value)
+  }
 
-    item[_cantitate_planificari] = nr
+  saveLine(item, htmlElement, value) {
+    this.saveLineArticle(item, htmlElement, value)
   }
 
   restorehtmlElement(element, value) {
     element.innerHTML = value
     element.disabled = false
   }
-
 }
 
 export default Planificare
