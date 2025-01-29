@@ -805,7 +805,7 @@ class UI1 extends LitElement {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${(e) => this.saveArticle(item, e.target)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.saveDocument(item, e.target)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
@@ -849,7 +849,7 @@ class UI1 extends LitElement {
           </ul>
         </div>
         <div class="col">
-          <button type="button" class="btn btn-sm" @click="${(e) => this.saveArticle(item, e.target)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.savePack(item, e.target)}">
             <i class="bi bi-save text-info"></i> Salveaza
           </button>
         </div>
@@ -862,8 +862,12 @@ class UI1 extends LitElement {
     //daca dropdown contine manopera
   }
 
-  savePackage(item) {
-    console.log('Save article', item)
+  saveDocument(item, htmlElement) {
+    console.log('Save document', item)
+  }
+
+  savePack(item) {
+    console.log('Save article and subarticles', item)
   }
 
   saveLineArticle(item, htmlElement, value) {

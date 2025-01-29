@@ -63,7 +63,7 @@ class MyTableListaRetete extends UI1 {
     // Implement recalculation logic here
   }
 
-  async savePackage(item, htmlElement) {
+  async savePack(item, htmlElement) {
     console.log('Salveaza', item)
 
     //make htmlElement disabled and show spinner in it
