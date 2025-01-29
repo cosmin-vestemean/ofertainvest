@@ -122,7 +122,7 @@ class UI1 extends LitElement {
                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterHistoryDropdown" data-bs-toggle="dropdown">
                   <i class="bi bi-clock-history"></i> Istoric filtrări
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end" id="filterHistoryList">
+                <ul class="dropdown-menu dropdown-menu-end" id="filterHistoryList" style="min-width: 200px;">
                   ${this._filterHistory.map((filter, index) => `
                     <li>
                       <a class="dropdown-item" href="#" data-filter-index="${index}">
@@ -348,7 +348,7 @@ class UI1 extends LitElement {
     // Create a readable description of the filter
     return Object.values(filter)
       .join(', ')
-      //.substring(0, 50) + '...'
+      .substring(0, 100) + '...'
   }
 
   removeFromFilterHistory(index) {
