@@ -69,23 +69,13 @@ export class Planificare extends UI1 {
       }
     } catch (error) {
       console.error('Error saving document:', error)
-      this.showToast('error', 'Eroare la salvare document')
+      alert('error', 'Eroare la salvare document')
       throw error
     } finally {
       // Restore button state
       htmlElement.innerHTML = originalContent
       htmlElement.disabled = false
     }
-  }
-
-  showToast(type, message) {
-    const toast = this.shadowRoot.querySelector('.toast')
-    toast.classList.add(`bg-${type}`)
-    toast.innerHTML = message
-    toast.classList.add('show')
-    setTimeout(() => {
-      toast.classList.remove('show')
-    }, 3000)
   }
 }
 
