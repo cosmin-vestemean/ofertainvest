@@ -87,6 +87,14 @@ export class Planificare extends UI1 {
   }
 
   saveLineArticle(item, htmlElement, value) {
+    this.saveLine(item, htmlElement, value)
+  }
+
+  saveLineSubArticle(item, htmlElement, value) {
+    this.saveLine(item, htmlElement, value)
+  }
+
+  saveLine(item, htmlElement, value) {
     let nr
     try {
       nr = parseFloat(value)
@@ -97,14 +105,6 @@ export class Planificare extends UI1 {
     }
 
     item[_cantitate_planificari] = nr
-  }
-
-  saveLineSubArticle(item, htmlElement, value) {
-    this.saveLineArticle(item, htmlElement, value)
-  }
-
-  saveLine(item, htmlElement, value) {
-    this.saveLineArticle(item, htmlElement, value)
   }
 
   restorehtmlElement(element, value) {
