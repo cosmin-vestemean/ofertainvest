@@ -4,7 +4,18 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
   if (!headerTable || !header || !linesTable || !lines || !upsert) {
     throw new Error('Missing required parameters')
   } else {
-    console.log('headerTable', headerTable, 'header', header, 'linesTable', linesTable, 'lines', lines, 'upsert', upsert)
+    console.log(
+      'headerTable',
+      headerTable,
+      'header',
+      header,
+      'linesTable',
+      linesTable,
+      'lines',
+      lines,
+      'upsert',
+      upsert
+    )
   }
 
   try {
@@ -26,7 +37,7 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
           SELECT ID FROM @InsertedId;
         `
 
-        console.log('qInsert', qInsert)
+      console.log('qInsert', qInsert)
 
       // Lines will be inserted after getting the header ID from transaction result
       const qResult = await getValFromS1Query(qInsert)

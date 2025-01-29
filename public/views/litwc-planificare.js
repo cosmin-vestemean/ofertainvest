@@ -57,7 +57,7 @@ export class Planificare extends UI1 {
     })
 
     if (lines.length === 0) {
-      alert('warning', 'Nu am gasit planificari valide')
+      alert('Nu am gasit planificari valide')
       return
     }
 
@@ -71,12 +71,12 @@ export class Planificare extends UI1 {
       })
 
       if (result.success) {
-        alert('success', 'Document salvat cu succes')
+        alert('Document salvat cu succes')
         return result.documentId
       }
     } catch (error) {
       console.error('Error saving document:', error)
-      alert('error', 'Eroare la salvare document')
+      alert('Eroare la salvare document')
       throw error
     } finally {
       // Restore button state
