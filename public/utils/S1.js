@@ -179,25 +179,26 @@ export async function getValFromS1Query(query) {
 }
 
 export async function runSQLTransaction(objSqlList) {
-  return new Promise(async (resolve, reject) => {
-    if (!objSqlList || !objSqlList.sqlList || objSqlList.sqlList.length == 0) {
-      console.log('No sql query transmited.')
-      reject({ success: false, error: 'No sql query transmited.' })
-    }
-    try {
-      const result = await connectToS1Service()
-      const clientID = result.token
-      const response = await client.service('runSQLTransaction').create({
-        clientID: clientID,
-        sqlList: objSqlList.sqlList
-      })
-      //console.log('result', response)
-      resolve(response)
-    } catch (error) {
-      console.log('error', error)
-      reject({ success: false, error: error, sql: objSqlList.sqlList })
-    }
-  })
+  if (!objSqlList?.sqlList?.length) {
+    throw new Error('No SQL queries provided');
+  }
+
+  try {
+    const result = await connectToS1Service();
+    const response = await client.service('runSQLTransaction').create({
+      clientID: result.token,
+      sqlList: objSqlList.sqlList
+    });
+    
+    return response;
+  } catch (error) {
+    console.error('SQL transaction error:', error);
+    throw {
+      success: false,
+      error: error,
+      sql: objSqlList.sqlList
+    };
+  }
 }
 
 export async function getOferta(filename) {

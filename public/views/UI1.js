@@ -866,7 +866,7 @@ class UI1 extends LitElement {
     //daca dropdown contine manopera
   }
 
-  saveDocument(htmlElement) {
+  async saveDocument(htmlElement) {
     console.log('Save document from ', htmlElement, 'articole', this._articole)
   }
 
