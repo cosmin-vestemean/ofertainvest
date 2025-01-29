@@ -348,7 +348,7 @@ class UI1 extends LitElement {
     // Create a readable description of the filter
     return Object.values(filter)
       .join(', ')
-      .substring(0, 100) + '...'
+      //.substring(0, 50) + '...'
   }
 
   removeFromFilterHistory(index) {
