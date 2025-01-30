@@ -453,6 +453,7 @@ class UI1 extends LitElement {
             <h5
               class="card-title mb-0"
               contenteditable="true"
+              spellcheck="false"
               @blur=${(e) => this._handleTitleChange(e)}
               @keydown=${(e) => e.key === 'Enter' && e.target.blur()}
             >
