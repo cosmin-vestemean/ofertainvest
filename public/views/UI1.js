@@ -67,7 +67,7 @@ class UI1 extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    this.angajati = contextOferta.angajati || []
+    this.angajati = contextOferta?.angajati ?? []
     this.data = []
     this.mainMask = {}
     this.subsMask = {}

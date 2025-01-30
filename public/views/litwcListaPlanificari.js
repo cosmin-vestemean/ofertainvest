@@ -27,7 +27,7 @@ class LitwcListaPlanificari extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    this.angajati = contextOferta.angajati || []
+    this.angajati = contextOferta?.angajati ?? []
     this.isLoading = false
     this.setupEventListeners()
     this.requestUpdate()
