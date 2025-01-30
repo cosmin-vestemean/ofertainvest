@@ -105,6 +105,7 @@ export class Planificare extends UI1 {
     }
 
     item[_cantitate_planificari] = nr
+    console.log('item', item)
   }
 
   restorehtmlElement(element, value) {
