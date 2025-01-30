@@ -1517,7 +1517,7 @@ const listaPlanificariMask = {
     value: 'DATASTART', 
     RW: true,
     visible: true,
-    label: 'Data start',
+    label: 'Incepe la',
     type: 'datetime',
     usefull: true
   },
@@ -1525,7 +1525,7 @@ const listaPlanificariMask = {
     value: 'DATASTOP',
     RW: true, 
     visible: true,
-    label: 'Data stop',
+    label: 'Se termina la',
     type: 'datetime',
     usefull: true
   },
@@ -1545,8 +1545,8 @@ const listaPlanificariMask = {
     type: 'number',
     usefull: true
   },
-  STATUS: {
-    value: 'STATUS',
+  LOCKED: {
+    value: 'LOCKED',
     RW: false,
     visible: true,
     label: 'Status',

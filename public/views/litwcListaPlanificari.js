@@ -3,7 +3,6 @@ import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'
-import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
 
@@ -28,8 +27,10 @@ class LitwcListaPlanificari extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    await this.loadEmployees()
+    this.angajati = contextOferta.angajati || []
+    this.isLoading = false
     this.setupEventListeners()
+    this.requestUpdate()
   }
 
   setupEventListeners() {
@@ -40,18 +41,7 @@ class LitwcListaPlanificari extends LitElement {
     })
   }
 
-  async loadEmployees() {
-    try {
-      this.isLoading = true
-      this.angajati = await employeesService.loadEmployees()
-    } catch (error) {
-      console.error('Failed to load employees:', error)
-      this.angajati = []
-    } finally {
-      this.isLoading = false
-      this.requestUpdate()
-    }
-  }
+  // Remove loadEmployees() method as it's no longer needed
 
   showPlanificareModal() {
     if (!this.modal) {

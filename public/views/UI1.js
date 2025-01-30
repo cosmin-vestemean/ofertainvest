@@ -1,5 +1,4 @@
-import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees } from '../client.js'
-import { employeesService } from '../utils/employeesService.js'
+import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees, contextOferta } from '../client.js'
 
 /* global bootstrap */
 
@@ -68,12 +67,7 @@ class UI1 extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    try {
-      this.angajati = await employeesService.loadEmployees()
-    } catch (error) {
-      console.error('Failed to load employees:', error)
-      this.angajati = []
-    }
+    this.angajati = contextOferta.angajati || []
     this.data = []
     this.mainMask = {}
     this.subsMask = {}

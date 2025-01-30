@@ -31,6 +31,7 @@ import {
 import { _cantitate_oferta } from '../utils/def_coloane.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
+import { employeesService } from '../services/employeesService.js'
 import {
   populateSelects,
   getOferta,
@@ -100,7 +101,7 @@ function changeStyleInTheShadow(table, link) {
   }
 }
 
-export function init() {
+export async function init() {
   //show modal with spinner announcing that the app is initializing
   let modal = new bootstrap.Modal(document.getElementById('ModalGeneric'), {
     keyboard: false,
@@ -684,21 +685,12 @@ export function init() {
   }
 
   //load lisa angajati
- /*  client
-    .service('getDataset')
-    .find({
-      query: {
-        sqlQuery: `SELECT A.PRSN, A.NAME2 FROM PRSN A LEFT OUTER JOIN PRSEXTRA B ON A.PRSN=B.PRSN AND A.SODTYPE=B.SODTYPE AND B.COMPANY=1 WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
-      }
-    })
-    .then((result) => {
-      if (result.success) contextOferta.angajati = result.data
-      else console.error('error getting angajati', result)
-    })
-    .catch((error) => {
-      console.error('error', error)
-    })
-  */
+  try {
+    contextOferta.angajati = await employeesService.loadEmployees()
+  } catch (error) {
+    console.error('Failed to load employees:', error)
+    contextOferta.angajati = []
+  }
 }
 function applyTheme(theme) {
   let link = null
