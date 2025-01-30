@@ -59,7 +59,7 @@ export class Planificare extends UI1 {
 
     if (lines.length === 0) {
       alert('Nu am gasit planificari valide')
-      console.warn('No valid planificari found')
+      console.warn('Nu am gasit planificari valide')
       this.restorehtmlElement(htmlElement, originalContent)
       return
     }
