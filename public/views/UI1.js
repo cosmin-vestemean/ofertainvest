@@ -447,7 +447,7 @@ class UI1 extends LitElement {
     const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
     const renderDocumentHeader = () => html`
-      <div class="card mb-3">
+      <div class="card mb-3 ms-4">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h5
