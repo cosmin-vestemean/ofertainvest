@@ -435,7 +435,7 @@ class UI1 extends LitElement {
                 ${Object.entries(this.documentHeader).map(([key, value]) => {
                   let displayValue = value
                   if (key.toLowerCase().includes('responsabil') && this.angajati?.length > 0) {
-                    const employee = this.angajati.find(ang => ang.PRSN === value)
+                    const employee = this.angajati.find(ang => ang.PRSN == value)
                     displayValue = employee ? employee.NAME2 : value
                   } else if (value instanceof Date) {
                     displayValue = value.toLocaleDateString()
