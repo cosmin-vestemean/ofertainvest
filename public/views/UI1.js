@@ -1,4 +1,5 @@
 import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees } from '../client.js'
+import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
 
@@ -10,6 +11,7 @@ class UI1 extends LitElement {
     _filteredArticole: { type: Array, state: true }, // Add this new property
     _filterHistory: { type: Array, state: true },
     documentHeader: { type: Object },
+    angajati: { type: Array },
   }
 
   // Internal variables
@@ -30,7 +32,7 @@ class UI1 extends LitElement {
   _hasSubHeader = true
   _canAddInLine = true
   _isInitialized = false
-
+  _angajati = []
   _articole = []
 
   set hasMainHeader(value) {
@@ -61,10 +63,17 @@ class UI1 extends LitElement {
     super()
     this.articole = []
     this._filterHistory = JSON.parse(localStorage.getItem('filterHistory') || '[]')
+    this.angajati = []
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     super.connectedCallback()
+    try {
+      this.angajati = await employeesService.loadEmployees()
+    } catch (error) {
+      console.error('Failed to load employees:', error)
+      this.angajati = []
+    }
     this.data = []
     this.mainMask = {}
     this.subsMask = {}
@@ -405,12 +414,21 @@ class UI1 extends LitElement {
             <div class="card-body">
               <h5 class="card-title">Informatii Document</h5>
               <div class="row g-3">
-                ${Object.entries(this.documentHeader).map(([key, value]) => html`
-                  <div class="col-md-3">
-                    <div class="fw-bold text-muted">${key}</div>
-                    <div>${value instanceof Date ? value.toLocaleDateString() : value}</div>
-                  </div>
-                `)}
+                ${Object.entries(this.documentHeader).map(([key, value]) => {
+                  let displayValue = value
+                  if (key.toLowerCase().includes('responsabil') && this.angajati?.length > 0) {
+                    const employee = this.angajati.find(ang => ang.PRSN === value)
+                    displayValue = employee ? employee.NAME2 : value
+                  } else if (value instanceof Date) {
+                    displayValue = value.toLocaleDateString()
+                  }
+                  return html`
+                    <div class="col-md-3">
+                      <div class="fw-bold text-muted">${key}</div>
+                      <div>${displayValue}</div>
+                    </div>
+                  `
+                })}
               </div>
             </div>
           </div>

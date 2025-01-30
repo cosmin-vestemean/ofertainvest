@@ -16,7 +16,6 @@ export class Planificare extends UI1 {
     htmlElement.disabled = true
 
     const idOferta = contextOferta.CCCOFERTEWEB
-    console.log('header document', this.documentHeader, 'linii document', this._articole, 'oferta', idOferta)
     // Get document header data
     const { startDate, endDate, responsabilPlanificare, responsabilExecutie } = this.documentHeader
 
