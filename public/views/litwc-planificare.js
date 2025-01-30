@@ -40,8 +40,8 @@ export class Planificare extends UI1 {
       if (articol[_cantitate_planificari] > 0)
         lines.push({
           CCCOFERTEWEB: idOferta,
-          CCCANTEMASURATORI: item.CCCANTEMASURATORI,
-          CANTITATE: item[_cantitate_planificari]
+          CCCANTEMASURATORI: articol.CCCANTEMASURATORI,
+          CANTITATE: articol[_cantitate_planificari]
         })
 
       // Add subarticles if they exist

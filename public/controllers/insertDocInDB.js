@@ -93,7 +93,7 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
       if (!finalResult.success) {
         //delete document if transaction failed
         await runSQLTransaction({
-          sqlList: [`DELETE FROM ${headerTable} WHERE ID = ${documentId}`]
+          sqlList: [`DELETE FROM ${headerTable} WHERE ${headerTable} = ${documentId}`]
         })
         throw new Error(`Transaction failed for sql query ${finalResult.sql}`)
       }
