@@ -447,9 +447,9 @@ class UI1 extends LitElement {
     const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
     const renderDocumentHeader = () => html`
-      <div class="card mb-3 ms-4">
+      <div class="card mb-2 ms-4">
         <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
             <h5
               class="card-title mb-0"
               contenteditable="true"
@@ -459,7 +459,7 @@ class UI1 extends LitElement {
               ${this.documentHeader.name || 'Introdu denumirea documentului'}
             </h5>
           </div>
-          <div class="row g-3">
+          <div class="row g-1">
             ${Object.entries(this.documentHeader).map(([key, value]) => {
               const displayLabel = this.documentHeaderMask?.[key]?.label || key
               let displayValue = value
@@ -474,7 +474,7 @@ class UI1 extends LitElement {
               }
 
               return html`
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="form-label text-muted small">${displayLabel}</label>
                     <div class="fw-medium">${displayValue || '-'}</div>
