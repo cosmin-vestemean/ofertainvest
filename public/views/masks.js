@@ -1183,7 +1183,7 @@ const planificareDisplayMask = {
     label: 'CCCOFERTEWEBLINII',
     useAsMeta: true,
     usefull: true
-  },
+  }
 }
 
 planificareDisplayMask[_cantitate_antemasuratori] = {
@@ -1203,7 +1203,7 @@ planificareDisplayMask[_cantitate_planificari] = {
   visible: true,
   usefull: true,
   type: 'number',
-  label: 'Cant. planif.',
+  label: 'Cant. planif.'
 }
 
 const planificareSubsDisplayMask = {
@@ -1514,7 +1514,7 @@ const listaPlanificariMask = {
     usefull: true
   },
   DATASTART: {
-    value: 'DATASTART', 
+    value: 'DATASTART',
     RW: true,
     visible: true,
     label: 'Incepe la',
@@ -1523,7 +1523,7 @@ const listaPlanificariMask = {
   },
   DATASTOP: {
     value: 'DATASTOP',
-    RW: true, 
+    RW: true,
     visible: true,
     label: 'Se termina la',
     type: 'datetime',
@@ -1532,7 +1532,7 @@ const listaPlanificariMask = {
   RESPPLAN: {
     value: 'RESPPLAN',
     RW: true,
-    visible: true, 
+    visible: true,
     label: 'Responsabil planificare',
     type: 'number',
     usefull: true
@@ -1541,7 +1541,7 @@ const listaPlanificariMask = {
     value: 'RESPEXEC',
     RW: true,
     visible: true,
-    label: 'Responsabil executie', 
+    label: 'Responsabil executie',
     type: 'number',
     usefull: true
   },
@@ -1555,6 +1555,40 @@ const listaPlanificariMask = {
   }
 }
 
+const planificareHeaderMask = {
+  startDate: {
+    value: 'startDate',
+    RW: false,
+    visible: true,
+    label: 'Incepe la',
+    type: 'datetime',
+    usefull: true
+  },
+  endDate: {
+    value: 'endDate',
+    RW: false,
+    visible: true,
+    label: 'Se termina la',
+    type: 'datetime',
+    usefull: true
+  },
+  responsabilPlanificare: {
+    value: 'responsabilPlanificare',
+    RW: false,
+    visible: true,
+    label: 'Responsabil planificare',
+    type: 'number',
+    usefull: true
+  },
+  responsabilExecutie: {
+    value: 'responsabilExecutie',
+    RW: false,
+    visible: true,
+    label: 'Responsabil executie',
+    type: 'number',
+    usefull: true
+  }
+}
 
 export {
   recipeDisplayMask,
@@ -1563,5 +1597,6 @@ export {
   antemasuratoriSubsDisplayMask,
   planificareDisplayMask,
   planificareSubsDisplayMask,
-  listaPlanificariMask
+  listaPlanificariMask,
+  planificareHeaderMask
 }

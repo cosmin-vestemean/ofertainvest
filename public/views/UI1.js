@@ -11,6 +11,7 @@ class UI1 extends LitElement {
     _filteredArticole: { type: Array, state: true }, // Add this new property
     _filterHistory: { type: Array, state: true },
     documentHeader: { type: Object },
+    documentHeaderMask: { type: Object },
     angajati: { type: Array },
   }
 
@@ -72,6 +73,7 @@ class UI1 extends LitElement {
     this.mainMask = {}
     this.subsMask = {}
     this.documentHeader = {}
+    this.documentHeaderMask = {}
   }
 
   async firstUpdated() {
@@ -434,6 +436,13 @@ class UI1 extends LitElement {
               <div class="row g-3">
                 ${Object.entries(this.documentHeader).map(([key, value]) => {
                   let displayValue = value
+                  let displayLabel = key
+                  
+                  // Get label from documentHeaderMask if available
+                  if (this.documentHeaderMask?.[key]?.label) {
+                    displayLabel = this.documentHeaderMask[key].label
+                  }
+        
                   if (key.toLowerCase().includes('responsabil') && this.angajati?.length > 0) {
                     const employee = this.angajati.find(ang => ang.PRSN == value)
                     displayValue = employee ? employee.NAME2 : value
@@ -442,7 +451,7 @@ class UI1 extends LitElement {
                   }
                   return html`
                     <div class="col-md-3">
-                      <div class="fw-bold text-muted">${key}</div>
+                      <div class="fw-bold text-muted">${displayLabel}</div>
                       <div>${displayValue}</div>
                     </div>
                   `

@@ -2,7 +2,7 @@ import { LitElement, html, contextOferta } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
-import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'
+import { planificareDisplayMask, planificareSubsDisplayMask, planificareHeaderMask } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
@@ -115,7 +115,8 @@ class LitwcListaPlanificari extends LitElement {
         endDate: document.getElementById('endDate').value,
         responsabilPlanificare: document.getElementById('select1').value,
         responsabilExecutie: document.getElementById('select2').value
-      }
+      },
+      documentHeaderMask: planificareHeaderMask
     })
 
     tables.hideAllBut([tables.tablePlanificareCurenta])
