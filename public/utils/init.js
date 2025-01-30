@@ -687,7 +687,6 @@ export async function init() {
   //load lisa angajati
   try {
     contextOferta.angajati = await employeesService.loadEmployees()
-    console.log('contextOferta.angajati', contextOferta.angajati)
   } catch (error) {
     console.error('Failed to load employees:', error)
     contextOferta.angajati = []

@@ -11,7 +11,9 @@ export const employeesService = {
                      WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
         }
       })
-      return result.success ? result.data : []
+      const employees = result.success ? result.data : []
+      console.log('employees', employees)
+      return employees
     } catch (error) {
       console.error('Error loading employees:', error)
       return []
