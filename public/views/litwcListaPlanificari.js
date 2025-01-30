@@ -17,7 +17,7 @@ class LitwcListaPlanificari extends LitElement {
 
   constructor() {
     super()
-    this.angajati = []
+    this.angajati = [] // Initialize empty array
     this.isLoading = true
     this.modal = null
   }
@@ -35,28 +35,28 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async firstUpdated() {
-    // This runs after first render when all elements are in the DOM
-    if (contextOferta?.angajati?.length > 0) {
-      this.angajati = contextOferta.angajati
-    } else {
-      try {
-        // The worker handles caching internally
-        this.angajati = await employeesService.loadEmployees()
-        if (this.angajati.length > 0) {
-          contextOferta.angajati = this.angajati
+    try {
+      // First check context
+      if (contextOferta?.angajati?.length > 0) {
+        this.angajati = contextOferta.angajati 
+      } else {
+        // If not in context, load and cache
+        const employees = await employeesService.loadEmployees()
+        if (employees?.length > 0) {
+          this.angajati = employees
+          // Cache for other components
+          contextOferta.angajati = employees
         }
-      } catch (error) {
-        console.error('Failed to load employees:', error)
-        this.angajati = []
       }
+    } catch (error) {
+      console.error('Failed to load employees:', error)
+      this.angajati = [] // Ensure we have an empty array
+    } finally {
+      this.isLoading = false
+      this.setupEventListeners()
+      this.requestUpdate()
     }
-
-    this.isLoading = false
-    this.setupEventListeners()
-    this.requestUpdate()
   }
-
-  // Remove connectedCallback
 
   showPlanificareModal() {
     if (!this.modal) {
