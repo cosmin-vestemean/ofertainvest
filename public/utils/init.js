@@ -31,7 +31,7 @@ import {
 import { _cantitate_oferta } from '../utils/def_coloane.js'
 import { local_storage } from '../utils/local_storage.js'
 import { context } from '../controllers/estimari.js'
-import { employeesService } from '../services/employeesService.js'
+import { employeesService } from '../utils/employeesService.js'
 import {
   populateSelects,
   getOferta,
