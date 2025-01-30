@@ -1,20 +1,32 @@
 import { client } from '../client.js'
+const worker = new Worker('../workers/employeesWorker.js');
+let loadPromise = null;
 
 export const employeesService = {
   async loadEmployees() {
-    try {
-      const result = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `SELECT A.PRSN, A.NAME2 
-                     FROM PRSN A 
-                     LEFT OUTER JOIN PRSEXTRA B ON A.PRSN=B.PRSN AND A.SODTYPE=B.SODTYPE AND B.COMPANY=1 
-                     WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
+    if (loadPromise) return loadPromise;
+
+    loadPromise = new Promise((resolve, reject) => {
+      worker.onmessage = (e) => {
+        if (e.data.type === 'error') {
+          reject(new Error(e.data.error));
+        } else if (e.data.type === 'employees') {
+          resolve(e.data.data);
         }
-      })
-      return result.success ? result.data : []
-    } catch (error) {
-      console.error('Error loading employees:', error)
-      return []
-    }
+      };
+
+      worker.onerror = (error) => {
+        reject(error);
+      };
+
+      worker.postMessage({ type: 'loadEmployees' });
+    });
+
+    return loadPromise;
+  },
+
+  clearCache() {
+    loadPromise = null;
+    worker.postMessage({ type: 'clearCache' });
   }
-}
+};

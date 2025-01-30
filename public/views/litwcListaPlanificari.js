@@ -40,8 +40,8 @@ class LitwcListaPlanificari extends LitElement {
       this.angajati = contextOferta.angajati
     } else {
       try {
+        // The worker handles caching internally
         this.angajati = await employeesService.loadEmployees()
-        // Cache the result for other components
         if (this.angajati.length > 0) {
           contextOferta.angajati = this.angajati
         }
