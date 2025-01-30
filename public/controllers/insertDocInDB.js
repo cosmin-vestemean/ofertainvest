@@ -1,4 +1,4 @@
-import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
+import { runSQLTransaction } from '../utils/S1.js'
 
 export async function upsertDocument({ headerTable, header, linesTable, lines, upsert }) {
   if (!headerTable || !header || !linesTable || !lines || !upsert) {
@@ -30,22 +30,20 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
         .join(',')
 
       let qInsert = `
-          BEGIN TRSNSACTION;
           DECLARE @InsertedId TABLE (ID int);
           INSERT INTO ${headerTable} (${headerFields})
           OUTPUT INSERTED.${headerTable}ID INTO @InsertedId
           VALUES (${headerValues});
           SELECT ID FROM @InsertedId;
-          COMMIT TRANSACTION;
         `
 
       console.log('qInsert', qInsert)
 
       // Lines will be inserted after getting the header ID from transaction result
-      const qResult = await getValFromS1Query(qInsert)
+      const qResult = await runSQLTransaction({ sqlList: [qInsert] })
       if (!qResult.success) throw new Error('Header insert failed')
 
-      documentId = qResult.value
+      documentId = qResult.data
 
       console.log('documentId', documentId)
 

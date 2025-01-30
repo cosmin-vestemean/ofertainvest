@@ -63,9 +63,10 @@ function runSQLTransaction(obj) {
     strSql += 'ROLLBACK '
     strSql += 'END CATCH '
     try {
-      X.RUNSQL(strSql)
+      var returned=  X.RUNSQL(strSql)
       result.success = true
       result.sql = strSql
+      result.data = returned
       return result
     } catch (e) {
       result.error = e.message
