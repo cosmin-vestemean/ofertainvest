@@ -75,22 +75,28 @@ class UI1 extends LitElement {
   }
 
   async firstUpdated() {
-    // This runs after first render when all elements are in the DOM
+    try {
+      if (!this.angajati || this.angajati.length === 0) {
+        // First check context
         if (contextOferta?.angajati?.length > 0) {
-          this.angajati = contextOferta.angajati
+          this.angajati = contextOferta.angajati;
         } else {
-          try {
-            this.angajati = await employeesService.loadEmployees()
-            // Cache the result for other components
-            if (this.angajati.length > 0) {
-              contextOferta.angajati = this.angajati
-            }
-          } catch (error) {
-            console.error('Failed to load employees:', error)
-            this.angajati = []
+          // If not in context, load from service
+          const employees = await employeesService.loadEmployees();
+          if (employees?.length > 0) {
+            this.angajati = employees;
+            // Cache for other components
+            contextOferta.angajati = employees;
           }
         }
       }
+    } catch (error) {
+      console.error('Failed to load employees:', error);
+      this.angajati = []; // Ensure we have an empty array at minimum
+    }
+
+    this.requestUpdate();
+  }
 
   updated(changedProperties) {
     if (changedProperties.has('data') || changedProperties.has('mainMask')) {

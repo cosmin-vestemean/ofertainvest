@@ -1,4 +1,3 @@
-import { client } from '../client.js'
 const worker = new Worker('../workers/employeesWorker.js');
 let loadPromise = null;
 
