@@ -1,4 +1,12 @@
-import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, trees, contextOferta } from '../client.js'
+import {
+  theadIsSet,
+  LitElement,
+  html,
+  unsafeHTML,
+  ds_instanteRetete,
+  trees,
+  contextOferta
+} from '../client.js'
 import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
@@ -12,7 +20,7 @@ class UI1 extends LitElement {
     _filterHistory: { type: Array, state: true },
     documentHeader: { type: Object },
     documentHeaderMask: { type: Object },
-    angajati: { type: Array },
+    angajati: { type: Array }
   }
 
   // Internal variables
@@ -81,23 +89,23 @@ class UI1 extends LitElement {
       if (!this.angajati || this.angajati.length === 0) {
         // First check context
         if (contextOferta?.angajati?.length > 0) {
-          this.angajati = contextOferta.angajati;
+          this.angajati = contextOferta.angajati
         } else {
           // If not in context, load from service
-          const employees = await employeesService.loadEmployees();
+          const employees = await employeesService.loadEmployees()
           if (employees?.length > 0) {
-            this.angajati = employees;
+            this.angajati = employees
             // Cache for other components
-            contextOferta.angajati = employees;
+            contextOferta.angajati = employees
           }
         }
       }
     } catch (error) {
-      console.error('Failed to load employees:', error);
-      this.angajati = []; // Ensure we have an empty array at minimum
+      console.error('Failed to load employees:', error)
+      this.angajati = [] // Ensure we have an empty array at minimum
     }
 
-    this.requestUpdate();
+    this.requestUpdate()
   }
 
   updated(changedProperties) {
@@ -118,11 +126,11 @@ class UI1 extends LitElement {
             return {
               meta: box.meta,
               articol: { ...newArticol, visible: true },
-              subarticole: subarticole.map(sub => ({ ...sub, visible: true }))
+              subarticole: subarticole.map((sub) => ({ ...sub, visible: true }))
             }
           })
         )
-        
+
         this._filteredArticole = [...this._articole]
       }
 
@@ -156,14 +164,18 @@ class UI1 extends LitElement {
                   <i class="bi bi-clock-history"></i> Istoric filtrări
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" id="filterHistoryList" style="min-width: 200px;">
-                  ${this._filterHistory.map((filter, index) => `
+                  ${this._filterHistory
+                    .map(
+                      (filter, index) => `
                     <li>
                       <a class="dropdown-item" href="#" data-filter-index="${index}">
                         ${this.formatFilterDescription(filter)}
                         <i class="bi bi-x text-danger float-end remove-filter" data-filter-index="${index}"></i>
                       </a>
                     </li>
-                  `).join('')}
+                  `
+                    )
+                    .join('')}
                 </ul>
               </div>
             </div>
@@ -210,19 +222,19 @@ class UI1 extends LitElement {
   resetFilter() {
     // Reset all filter inputs
     const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
-    
+
     filterableFields.forEach((key) => {
       const input = document.getElementById(key)
       if (input) {
         input.value = ''
       }
     })
-    
+
     // Reset visibility flags
-    this._filteredArticole = this._articole.map(item => ({
+    this._filteredArticole = this._articole.map((item) => ({
       ...item,
       articol: { ...item.articol, visible: true },
-      subarticole: item.subarticole.map(sub => ({ ...sub, visible: true }))
+      subarticole: item.subarticole.map((sub) => ({ ...sub, visible: true }))
     }))
 
     this.requestUpdate()
@@ -294,7 +306,7 @@ class UI1 extends LitElement {
     options.add('')
     this._articole.forEach((item) => {
       if (item.articol[key]) {
-        options.add(item.articol[key]) 
+        options.add(item.articol[key])
       }
       item.subarticole.forEach((sub) => {
         if (sub[key]) {
@@ -310,7 +322,7 @@ class UI1 extends LitElement {
   applyFilter() {
     const filterValues = {}
     const filterableFields = Object.keys(this.mainMask).filter((key) => this.mainMask[key].isFilterable)
-    
+
     filterableFields.forEach((key) => {
       const input = document.getElementById(key)
       if (input && input.value) {
@@ -321,41 +333,45 @@ class UI1 extends LitElement {
     // Save to history if there are actual filters
     if (Object.keys(filterValues).length > 0) {
       // Don't add if exactly the same filter exists
-      if (!this._filterHistory.some(f => JSON.stringify(f) === JSON.stringify(filterValues))) {
+      if (!this._filterHistory.some((f) => JSON.stringify(f) === JSON.stringify(filterValues))) {
         this._filterHistory = [filterValues, ...this._filterHistory].slice(0, 10) // Keep last 10
         localStorage.setItem('filterHistory', JSON.stringify(this._filterHistory))
-        
+
         // Update history dropdown content
         const historyList = document.getElementById('filterHistoryList')
         if (historyList) {
-          historyList.innerHTML = this._filterHistory.map((filter, index) => `
+          historyList.innerHTML = this._filterHistory
+            .map(
+              (filter, index) => `
             <li>
               <a class="dropdown-item" href="#" data-filter-index="${index}">
                 ${this.formatFilterDescription(filter)}
                 <i class="bi bi-x text-danger float-end remove-filter" data-filter-index="${index}"></i>
               </a>
             </li>
-          `).join('')
+          `
+            )
+            .join('')
         }
       }
     }
 
     // If no filters are set, show everything
     if (Object.keys(filterValues).length === 0) {
-      this._filteredArticole = this._articole.map(item => ({
+      this._filteredArticole = this._articole.map((item) => ({
         ...item,
         articol: { ...item.articol, visible: true },
-        subarticole: item.subarticole.map(sub => ({ ...sub, visible: true }))
+        subarticole: item.subarticole.map((sub) => ({ ...sub, visible: true }))
       }))
     } else {
-      this._filteredArticole = this._articole.map(item => {
+      this._filteredArticole = this._articole.map((item) => {
         // Check article visibility
-        const articleVisible = Object.entries(filterValues).every(([key, value]) => 
+        const articleVisible = Object.entries(filterValues).every(([key, value]) =>
           item.articol[key]?.toString().toLowerCase().includes(value.toLowerCase())
         )
 
-        // Check subarticole visibility 
-        const subarticoleVisible = item.subarticole.map(sub => {
+        // Check subarticole visibility
+        const subarticoleVisible = item.subarticole.map((sub) => {
           const subVisible = Object.entries(filterValues).every(([key, value]) =>
             sub[key]?.toString().toLowerCase().includes(value.toLowerCase())
           )
@@ -363,8 +379,8 @@ class UI1 extends LitElement {
         })
 
         // Article is visible if it matches or any of its subarticole match
-        const anySubVisible = subarticoleVisible.some(sub => sub.visible)
-        
+        const anySubVisible = subarticoleVisible.some((sub) => sub.visible)
+
         return {
           ...item,
           articol: { ...item.articol, visible: articleVisible || anySubVisible },
@@ -379,26 +395,29 @@ class UI1 extends LitElement {
 
   formatFilterDescription(filter) {
     // Create a readable description of the filter
-    return Object.values(filter)
-      .join(', ')
-      //.substring(0, 50) + '...'
+    return Object.values(filter).join(', ')
+    //.substring(0, 50) + '...'
   }
 
   removeFromFilterHistory(index) {
     this._filterHistory = this._filterHistory.filter((_, i) => i !== index)
     localStorage.setItem('filterHistory', JSON.stringify(this._filterHistory))
-    
+
     // Update history dropdown content
     const historyList = document.getElementById('filterHistoryList')
     if (historyList) {
-      historyList.innerHTML = this._filterHistory.map((filter, index) => `
+      historyList.innerHTML = this._filterHistory
+        .map(
+          (filter, index) => `
         <li>
           <a class="dropdown-item" href="#" data-filter-index="${index}">
             ${this.formatFilterDescription(filter)}
             <i class="bi bi-x text-danger float-end remove-filter" data-filter-index="${index}"></i>
           </a>
         </li>
-      `).join('')
+      `
+        )
+        .join('')
     }
 
     this.requestUpdate()
@@ -407,14 +426,14 @@ class UI1 extends LitElement {
   applyHistoricalFilter(index) {
     // First reset all filters
     this.resetFilter()
-    
+
     // Then apply the selected historical filter
     const filter = this._filterHistory[index]
     Object.entries(filter).forEach(([key, value]) => {
       const input = document.getElementById(key)
       if (input) input.value = value
     })
-    
+
     // Finally apply the filter
     this.applyFilter()
   }
@@ -427,39 +446,51 @@ class UI1 extends LitElement {
     const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
     const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
+    const renderDocumentHeader = () => html`
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5
+              class="card-title mb-0"
+              contenteditable="true"
+              @blur=${(e) => this._handleTitleChange(e)}
+              @keydown=${(e) => e.key === 'Enter' && e.target.blur()}
+            >
+              ${this.documentHeader.name || 'Introdu denumirea documentului'}
+            </h5>
+            <small class="text-muted">ID: ${this.documentHeader.id || 'N/A'}</small>
+          </div>
+          <div class="row g-3">
+            ${Object.entries(this.documentHeader).map(([key, value]) => {
+              const displayLabel = this.documentHeaderMask?.[key]?.label || key
+              let displayValue = value
+
+              // Handle employee fields
+              if (key.toLowerCase().includes('responsabil')) {
+                displayValue = this._getEmployeeName(value)
+              }
+              // Handle dates
+              else if (value instanceof Date) {
+                displayValue = value.toLocaleDateString('ro-RO')
+              }
+
+              return html`
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label text-muted small">${displayLabel}</label>
+                    <div class="fw-medium">${displayValue || '-'}</div>
+                  </div>
+                </div>
+              `
+            })}
+          </div>
+        </div>
+      </div>
+    `
+
     return html`
       <div class="container-fluid">
-        ${this.documentHeader && Object.keys(this.documentHeader).length > 0 ? html`
-          <div class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title" contenteditable="true">Document nou</h5>
-              <div class="row g-3">
-                ${Object.entries(this.documentHeader).map(([key, value]) => {
-                  let displayValue = value
-                  let displayLabel = key
-                  
-                  // Get label from documentHeaderMask if available
-                  if (this.documentHeaderMask?.[key]?.label) {
-                    displayLabel = this.documentHeaderMask[key].label
-                  }
-        
-                  if (key.toLowerCase().includes('responsabil') && this.angajati?.length > 0) {
-                    const employee = this.angajati.find(ang => ang.PRSN == value)
-                    displayValue = employee ? employee.NAME2 : value
-                  } else if (value instanceof Date) {
-                    displayValue = value.toLocaleDateString()
-                  }
-                  return html`
-                    <div class="col-md-3">
-                      <div class="fw-bold text-muted">${displayLabel}</div>
-                      <div>${displayValue}</div>
-                    </div>
-                  `
-                })}
-              </div>
-            </div>
-          </div>
-        ` : ''}
+        ${this.documentHeader && Object.keys(this.documentHeader).length > 0 ? renderDocumentHeader() : ''}
         <table class="table table-sm is-responsive table-hover ms-4" style="font-size: small;">
           <thead>
             <tr>
@@ -490,10 +521,10 @@ class UI1 extends LitElement {
         if (mask[key].type === 'boolean') {
           newObject[key] = object[key] === 1 ? object[key] : object[key]
         } else if (mask[key].type === 'number') {
-            newObject[key] = isNaN(parseFloat(object[key])) 
-            ? 0 
-            : Number.isInteger(parseFloat(object[key])) 
-              ? parseFloat(object[key]) 
+          newObject[key] = isNaN(parseFloat(object[key]))
+            ? 0
+            : Number.isInteger(parseFloat(object[key]))
+              ? parseFloat(object[key])
               : parseFloat(object[key]).toFixed(4)
         } else {
           newObject[key] = object[key]
@@ -519,7 +550,9 @@ class UI1 extends LitElement {
         )
         const colspan = subKeys.length || 1
         const hasActions = usefullEntityDisplayMask[key].hasActions || false
-        const headerContent = hasActions ? this.articleActionsBar() : usefullEntityDisplayMask[key].label || key
+        const headerContent = hasActions
+          ? this.articleActionsBar()
+          : usefullEntityDisplayMask[key].label || key
 
         // Check if there are any values for this key in the cells
         const hasValues = this._articole.some((item) => item.articol[key] !== undefined)
@@ -882,9 +915,7 @@ class UI1 extends LitElement {
               id="checkboxConfirmare"
               name="checkboxConfirmare"
             />
-            <label class="form-check-label" for="checkboxConfirmare"
-              ><i class="bi bi-lock"></i
-            ></label>
+            <label class="form-check-label" for="checkboxConfirmare"><i class="bi bi-lock"></i></label>
           </div>
         </div>
       </div>
