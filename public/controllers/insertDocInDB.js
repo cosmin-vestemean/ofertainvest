@@ -1,4 +1,4 @@
-import { runSQLTransaction } from '../utils/S1.js'
+import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 
 export async function upsertDocument({ headerTable, header, linesTable, lines, upsert }) {
   if (!headerTable || !header || !linesTable || !lines || !upsert) {
@@ -32,7 +32,7 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
       let qInsert = `
           DECLARE @InsertedId TABLE (ID int);
           INSERT INTO ${headerTable} (${headerFields})
-          OUTPUT INSERTED.${headerTable} INTO @InsertedId
+          OUTPUT INSERTED.ID INTO @InsertedId
           VALUES (${headerValues});
           SELECT ID FROM @InsertedId;
         `
@@ -40,10 +40,10 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
       console.log('qInsert', qInsert)
 
       // Lines will be inserted after getting the header ID from transaction result
-      const qResult = await runSQLTransaction({ sqlList: [qInsert] })
+      const qResult = await getValFromS1Query(qInsert)
       if (!qResult.success) throw new Error('Header insert failed')
 
-      documentId = qResult.data
+      documentId = qResult.value
 
       console.log('documentId', documentId)
 
@@ -93,7 +93,7 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
       if (!finalResult.success) {
         //delete document if transaction failed
         await runSQLTransaction({
-          sqlList: [`DELETE FROM ${headerTable} WHERE ${headerTable} = ${documentId}`]
+          sqlList: [`DELETE FROM ${headerTable} WHERE ID = ${documentId}`]
         })
         throw new Error(`Transaction failed for sql query ${finalResult.sql}`)
       }

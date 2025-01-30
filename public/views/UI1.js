@@ -400,6 +400,21 @@ class UI1 extends LitElement {
 
     return html`
       <div class="container-fluid">
+        ${Object.keys(this.documentHeader).length > 0 ? html`
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Informatii Document</h5>
+              <div class="row g-3">
+                ${Object.entries(this.documentHeader).map(([key, value]) => html`
+                  <div class="col-md-3">
+                    <div class="fw-bold text-muted">${key}</div>
+                    <div>${value instanceof Date ? value.toLocaleDateString() : value}</div>
+                  </div>
+                `)}
+              </div>
+            </div>
+          </div>
+        ` : ''}
         <table class="table table-sm is-responsive table-hover ms-4" style="font-size: small;">
           <thead>
             <tr>
