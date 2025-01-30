@@ -12,7 +12,7 @@ export const employeesService = {
         }
       })
       const employees = result.success ? result.data : []
-      console.log('employees', employees)
+      console.info('employees', employees)
       return employees
     } catch (error) {
       console.error('Error loading employees:', error)
