@@ -432,7 +432,6 @@ class UI1 extends LitElement {
         ${this.documentHeader && Object.keys(this.documentHeader).length > 0 ? html`
           <div class="card mb-3">
             <div class="card-body">
-              <h5 class="card-title">Informatii Document</h5>
               <div class="row g-3">
                 ${Object.entries(this.documentHeader).map(([key, value]) => {
                   let displayValue = value
