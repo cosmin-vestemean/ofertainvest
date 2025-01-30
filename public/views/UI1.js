@@ -403,7 +403,7 @@ class UI1 extends LitElement {
 
     return html`
       <div class="container-fluid">
-        ${Object.keys(this.documentHeader).length > 0 ? html`
+        ${this.documentHeader && Object.keys(this.documentHeader).length > 0 ? html`
           <div class="card mb-3">
             <div class="card-body">
               <h5 class="card-title">Informatii Document</h5>
