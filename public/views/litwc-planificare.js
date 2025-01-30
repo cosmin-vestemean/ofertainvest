@@ -35,8 +35,9 @@ export class Planificare extends UI1 {
 
     // Process main articles and subarticles
     this._articole.forEach((item) => {
+      let articol = item.articol
       // Add main article
-      if (item[_cantitate_planificari] > 0)
+      if (articol[_cantitate_planificari] > 0)
         lines.push({
           CCCOFERTEWEB: idOferta,
           CCCANTEMASURATORI: item.CCCANTEMASURATORI,
