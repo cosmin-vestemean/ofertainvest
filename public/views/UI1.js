@@ -458,7 +458,6 @@ class UI1 extends LitElement {
             >
               ${this.documentHeader.name || 'Introdu denumirea documentului'}
             </h5>
-            <small class="text-muted">ID: ${this.documentHeader.id || 'N/A'}</small>
           </div>
           <div class="row g-3">
             ${Object.entries(this.documentHeader).map(([key, value]) => {
