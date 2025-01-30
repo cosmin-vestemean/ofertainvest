@@ -3,6 +3,7 @@ import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import { planificareDisplayMask, planificareSubsDisplayMask } from './masks.js'
+import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
 
@@ -25,14 +26,6 @@ class LitwcListaPlanificari extends LitElement {
     return this
   }
 
-  async connectedCallback() {
-    super.connectedCallback()
-    this.angajati = contextOferta?.angajati ?? []
-    this.isLoading = false
-    this.setupEventListeners()
-    this.requestUpdate()
-  }
-
   setupEventListeners() {
     this.addEventListener('click', (e) => {
       if (e.target.id === 'adaugaPlanificare') {
@@ -41,7 +34,29 @@ class LitwcListaPlanificari extends LitElement {
     })
   }
 
-  // Remove loadEmployees() method as it's no longer needed
+  async firstUpdated() {
+    // This runs after first render when all elements are in the DOM
+    if (contextOferta?.angajati?.length > 0) {
+      this.angajati = contextOferta.angajati
+    } else {
+      try {
+        this.angajati = await employeesService.loadEmployees()
+        // Cache the result for other components
+        if (this.angajati.length > 0) {
+          contextOferta.angajati = this.angajati
+        }
+      } catch (error) {
+        console.error('Failed to load employees:', error)
+        this.angajati = []
+      }
+    }
+
+    this.isLoading = false
+    this.setupEventListeners()
+    this.requestUpdate()
+  }
+
+  // Remove connectedCallback
 
   showPlanificareModal() {
     if (!this.modal) {
