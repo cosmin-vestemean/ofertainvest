@@ -513,6 +513,18 @@ class UI1 extends LitElement {
     `
   }
 
+  _handleTitleChange(e) {
+    const newTitle = e.target.textContent
+    // Trigger title update event/method
+    console.log('New title:', newTitle)
+  }
+  
+  _getEmployeeName(id) {
+    if (!this.angajati?.length) return id
+    const employee = this.angajati.find(ang => ang.PRSN == id)
+    return employee?.NAME2 || id
+  }
+
   extractFields(object, mask) {
     const newObject = {}
     for (let key in mask) {
