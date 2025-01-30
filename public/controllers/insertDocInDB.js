@@ -32,7 +32,7 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
       let qInsert = `
           DECLARE @InsertedId TABLE (ID int);
           INSERT INTO ${headerTable} (${headerFields})
-          OUTPUT INSERTED.${headerTable}ID INTO @InsertedId
+          OUTPUT INSERTED.${headerTable} INTO @InsertedId
           VALUES (${headerValues});
           SELECT ID FROM @InsertedId;
         `
