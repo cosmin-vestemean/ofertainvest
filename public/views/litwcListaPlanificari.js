@@ -313,12 +313,9 @@ class LitwcListaPlanificari extends LitElement {
         <thead>
           <tr>
             <th>#</th>
-            <th>Denumire</th>
-            <th>Start</th>
-            <th>Stop</th>
-            <th>Resp. planificare</th>
-            <th>Resp. executie</th>
-            <th>Status</th>
+            ${Object.entries(listaPlanificariMask)
+              .filter(([_, props]) => props.visible)
+              .map(([_, props]) => html`<th>${props.label}</th>`)}
           </tr>
         </thead>
         <tbody>
@@ -326,14 +323,19 @@ class LitwcListaPlanificari extends LitElement {
             (item, index) => html`
               <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
                 <td>${index + 1}</td>
-                <td>${item.NAME}</td>
-                <td>${item.DATASTART}</td>
-                <td>${new Date(item.DATASTOP).toLocaleDateString()}</td>
-                <td>${item.RESPPLAN_NAME}</td>
-                <td>${item.RESPEXEC_NAME}</td>
-                <td>
-                  <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
-                </td>
+                ${Object.entries(listaPlanificariMask)
+                  .filter(([_, props]) => props.visible)
+                  .map(([key, props]) => {
+                    if (key === 'LOCKED') {
+                      return html`<td>
+                        <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
+                      </td>`
+                    }
+                    if (props.type === 'datetime') {
+                      return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
+                    }
+                    return html`<td>${item[key]}</td>`
+                  })}
               </tr>
             `
           )}
