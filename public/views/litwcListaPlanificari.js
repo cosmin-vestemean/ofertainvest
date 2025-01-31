@@ -71,8 +71,8 @@ class LitwcListaPlanificari extends LitElement {
             u1.NAME2 as RESPPLAN_NAME, 
             u2.NAME2 as RESPEXEC_NAME
             FROM CCCPLANIFICARI p
-            LEFT JOIN S1.dbo.PRSN u1 ON u1.PRSN = p.RESPPLAN
-            LEFT JOIN S1.dbo.PRSN u2 ON u2.PRSN = p.RESPEXEC 
+            LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
+            LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
             WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
             ORDER BY p.INSDATE DESC`
         }
