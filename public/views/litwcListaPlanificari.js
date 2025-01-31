@@ -95,7 +95,7 @@ class LitwcListaPlanificari extends LitElement {
           .filter(([, col]) => col.visible)
           .map(([key]) => `<td>${plan[key]}</td>`)
           .join('')
-        return `<tr data-id="${plan.ID}">${cells}</tr>`
+        return `<tr data-id="${plan.CCCPLANIFICARI}">${cells}</tr>`
       })
       .join('')
 
