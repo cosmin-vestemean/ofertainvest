@@ -48,24 +48,23 @@ class LitwcListaPlanificari extends LitElement {
     })
     if (result.success) {
       this.planificari = result.data
-      this.requestUpdate()
+      this.setupTable()
     } else {
       console.error('Error loading planificari:', result.error)
     }
   }
 
-  async setupTable() {
-    const table = document.createElement('table')
-    table.className = 'table table-striped table-hover'
-    table.innerHTML = this.generateTableContent()
-    this.querySelector('#planificariList').appendChild(table)
+  setupTable() {
+    // Configure this element as a table
+    this.innerHTML = this.generateTableContent()
 
-    // Add click handlers
-    table.addEventListener('click', (e) => {
-      const row = e.target.closest('tr')
-      if (row?.dataset.id) {
-        this.openPlanificare(row.dataset.id)
-      }
+    // Add click handlers for rows
+    this.querySelectorAll('tr[data-id]').forEach((row) => {
+      row.addEventListener('click', () => {
+        if (row.dataset.id) {
+          this.openPlanificare(row.dataset.id)
+        }
+      })
     })
   }
 
@@ -322,8 +321,35 @@ class LitwcListaPlanificari extends LitElement {
 
     return html`
       ${this.renderToolbar()}
-      <div id="planificariList" class="table-responsive"></div>
-      ${this.renderModal()}
+        ${
+          this.planificari.length
+            ? html` <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    ${Object.values(listaPlanificariMask)
+                      .filter((col) => col.visible)
+                      .map((col) => html`<th>${col.label}</th>`)}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${this.planificari.map(
+                    (plan) => html`
+                      <tr
+                        data-id="${plan.CCCPLANIFICARI}"
+                        @click=${() => this.openPlanificare(plan.CCCPLANIFICARI)}
+                      >
+                        ${Object.entries(listaPlanificariMask)
+                          .filter(([, col]) => col.visible)
+                          .map(([key]) => html`<td>${plan[key]}</td>`)}
+                      </tr>
+                    `
+                  )}
+                </tbody>
+              </table>`
+            : html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
+        }
+        ${this.renderModal()}
+      </table>
     `
   }
 }
