@@ -39,8 +39,8 @@ class LitwcListaPlanificari extends LitElement {
     const query = `
       SELECT p.*, emp1.NAME2 as RESPPLAN_NUME, emp2.NAME2 as RESPEXEC_NUME 
       FROM CCCPLANIFICARI p
-      LEFT JOIN CCCSALARIATI emp1 ON p.RESPPLAN = emp1.PRSN
-      LEFT JOIN CCCSALARIATI emp2 ON p.RESPEX = emp2.PRSN
+      LEFT JOIN PRSN emp1 ON p.RESPPLAN = emp1.PRSN
+      LEFT JOIN PRSN emp2 ON p.RESPEX = emp2.PRSN
       WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
     `
     const result = await client.service('getDataset').find({
