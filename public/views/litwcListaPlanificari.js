@@ -116,6 +116,8 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
+    console.info('Opening planificare:', id)
+
     try {
       const response = await client.service('getDataset').find({
         query: {

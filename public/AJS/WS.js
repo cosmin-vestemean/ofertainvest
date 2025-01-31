@@ -8,7 +8,7 @@ function processSqlAsDataset(obj) {
   } catch (e) {
     err = e.message
   }
-  if (ds.RECORDCOUNT > 0) {
+  if (ds && ds.RECORDCOUNT > 0) {
     return {
       success: true,
       data: convertDatasetToArray(ds),
