@@ -36,6 +36,13 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async loadPlanificari() {
+    // Check for valid CCCOFERTEWEB
+    if (!contextOferta.CCCOFERTEWEB) {
+      console.warn('Invalid CCCOFERTEWEB value:', contextOferta.CCCOFERTEWEB)
+      this.planificari = []
+      return
+    }
+
     const query = `
       SELECT p.*, emp1.NAME2 as RESPPLAN_NUME, emp2.NAME2 as RESPEXEC_NUME 
       FROM CCCPLANIFICARI p
@@ -43,14 +50,22 @@ class LitwcListaPlanificari extends LitElement {
       LEFT JOIN PRSN emp2 ON p.RESPEXEC = emp2.PRSN
       WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
     `
-    const result = await client.service('getDataset').find({
-      query: { sqlQuery: query }
-    })
-    if (result.success) {
-      this.planificari = result.data
-      this.setupTable()
-    } else {
-      console.error('Error loading planificari:', result.error)
+
+    try {
+      const result = await client.service('getDataset').find({
+        query: { sqlQuery: query }
+      })
+
+      if (result.success) {
+        this.planificari = result.data
+        this.setupTable()
+      } else {
+        console.error('Error loading planificari:', result.error)
+        this.planificari = []
+      }
+    } catch (error) {
+      console.error('Failed to load planificari:', error)
+      this.planificari = []
     }
   }
 
@@ -157,11 +172,17 @@ class LitwcListaPlanificari extends LitElement {
         }
       }
 
-      // Load planificari
-      await this.loadPlanificari()
-      await this.setupTable()
+      // First ensure we have a valid CCCOFERTEWEB
+      if (!contextOferta.CCCOFERTEWEB) {
+        console.warn('Waiting for valid CCCOFERTEWEB...')
+        // You may want to add some retry logic or wait for an event that indicates CCCOFERTEWEB is set
+      } else {
+        // Load planificari
+        await this.loadPlanificari()
+        this.setupTable()
 
-      this.setupEventListeners()
+        this.setupEventListeners()
+      }
     } catch (error) {
       console.error('Error in initialization:', error)
     } finally {
