@@ -42,7 +42,7 @@ class LitwcListaPlanificari extends LitElement {
     try {
       // First check context
       if (contextOferta?.angajati?.length > 0) {
-        this.angajati = contextOferta.angajati 
+        this.angajati = contextOferta.angajati
       } else {
         // If not in context, load and cache
         const employees = await employeesService.loadEmployees()
@@ -97,7 +97,7 @@ class LitwcListaPlanificari extends LitElement {
       console.error('Error loading planificari:', error)
       this.planificari = []
       this.ds = []
-      this.renderPlanificari() 
+      this.renderPlanificari()
     }
   }
 
@@ -118,7 +118,7 @@ class LitwcListaPlanificari extends LitElement {
       })
 
       if (!response.success) {
-        console.error('Failed to load planificare details', response.error) 
+        console.error('Failed to load planificare details', response.error)
         return
       }
 
@@ -153,7 +153,6 @@ class LitwcListaPlanificari extends LitElement {
       })
 
       tables.hideAllBut([tables.tablePlanificareCurenta])
-
     } catch (error) {
       console.error('Error loading planificare details:', error)
     }
@@ -161,13 +160,14 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = this.planificari.map(p => {
+    this.ds = this.planificari.map((p) => {
       const filtered = {}
-      Object.keys(planificareHeaderMask).forEach(key => {
+      Object.keys(planificareHeaderMask).forEach((key) => {
         if (planificareHeaderMask[key].visible) {
           filtered[key] = p[key]
         }
       })
+      filtered.NAME = p.NAME
       filtered.RESPPLAN_NAME = p.RESPPLAN_NAME
       filtered.RESPEXEC_NAME = p.RESPEXEC_NAME
       filtered.CCCPLANIFICARI = p.CCCPLANIFICARI
@@ -193,17 +193,17 @@ class LitwcListaPlanificari extends LitElement {
   validateDates() {
     const startDate = document.getElementById('startDate').value
     const endDate = document.getElementById('endDate').value
-    
+
     if (!startDate || !endDate) {
       alert('Please select both start and end dates')
       return false
     }
-    
+
     if (new Date(startDate) > new Date(endDate)) {
       alert('Start date cannot be after end date')
       return false
     }
-    
+
     return true
   }
 
@@ -220,10 +220,10 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach(parent => {
-      parent.content.forEach(item => {
+    ds_planificareNoua.forEach((parent) => {
+      parent.content.forEach((item) => {
         item.object[_cantitate_planificari] = 0
-        item.children?.forEach(child => {
+        item.children?.forEach((child) => {
           child.object[_cantitate_planificari] = 0
         })
       })
@@ -255,9 +255,7 @@ class LitwcListaPlanificari extends LitElement {
       <div class="mb-3">
         <label for="${id}" class="form-label">${label}</label>
         <select class="form-select" id="${id}">
-          ${this.angajati.map(angajat => 
-            html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
-          )}
+          ${this.angajati.map((angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)}
         </select>
       </div>
     `
@@ -307,9 +305,7 @@ class LitwcListaPlanificari extends LitElement {
 
     return html`
       <div class="toolbar mb-2">
-        <button type="button" class="btn btn-primary me-2" id="adaugaPlanificare">
-          Adauga planificare
-        </button>
+        <button type="button" class="btn btn-primary me-2" id="adaugaPlanificare">Adauga planificare</button>
         <button type="button" class="btn btn-secondary me-2" @click="${() => this.loadPlanificari()}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
@@ -328,19 +324,21 @@ class LitwcListaPlanificari extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${this.ds.map((item, index) => html`
-            <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
-              <td>${index + 1}</td>
-              <td>${item.NAME}</td>
-              <td>${new Date(item.DATASTART).toLocaleDateString()}</td>
-              <td>${new Date(item.DATASTOP).toLocaleDateString()}</td>
-              <td>${item.RESPPLAN_NAME}</td>
-              <td>${item.RESPEXEC_NAME}</td>
-              <td>
-                <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
-              </td>
-            </tr>
-          `)}
+          ${this.ds.map(
+            (item, index) => html`
+              <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
+                <td>${index + 1}</td>
+                <td>${item.NAME}</td>
+                <td>${new Date(item.DATASTART).toLocaleDateString()}</td>
+                <td>${new Date(item.DATASTOP).toLocaleDateString()}</td>
+                <td>${item.RESPPLAN_NAME}</td>
+                <td>${item.RESPEXEC_NAME}</td>
+                <td>
+                  <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
+                </td>
+              </tr>
+            `
+          )}
         </tbody>
       </table>
       ${this.renderModal()}
