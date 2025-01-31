@@ -171,8 +171,8 @@ class LitwcListaPlanificari extends LitElement {
       filtered.RESPPLAN_NAME = p.RESPPLAN_NAME
       filtered.RESPEXEC_NAME = p.RESPEXEC_NAME
       filtered.CCCPLANIFICARI = p.CCCPLANIFICARI
-      filtered.DATASTART = new Date(p.DATASTART).toLocaleDateString()
-      filtered.DATASTOP = new Date(p.DATASTOP).toLocaleDateString()
+      filtered.DATASTART = p.DATASTART
+      filtered.DATASTOP = p.DATASTOP
       filtered.LOCKED = p.LOCKED
       return filtered
     })
@@ -331,7 +331,7 @@ class LitwcListaPlanificari extends LitElement {
               <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
                 <td>${index + 1}</td>
                 <td>${item.NAME}</td>
-                <td>${new Date(item.DATASTART).toLocaleDateString()}</td>
+                <td>${item.DATASTART}</td>
                 <td>${new Date(item.DATASTOP).toLocaleDateString()}</td>
                 <td>${item.RESPPLAN_NAME}</td>
                 <td>${item.RESPEXEC_NAME}</td>
