@@ -1,4 +1,4 @@
-import { LitElement, html, contextOferta } from '../client.js'
+import { LitElement, html, contextOferta, client } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
@@ -12,7 +12,9 @@ export let ds_planificareNoua = []
 class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
-    isLoading: { type: Boolean }
+    isLoading: { type: Boolean },
+    planificari: { type: Array },
+    ds: { type: Array }
   }
 
   constructor() {
@@ -20,6 +22,8 @@ class LitwcListaPlanificari extends LitElement {
     this.angajati = [] // Initialize empty array
     this.isLoading = true
     this.modal = null
+    this.planificari = []
+    this.ds = []
   }
 
   createRenderRoot() {
@@ -56,6 +60,105 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
+    this.loadPlanificari()
+  }
+
+  async loadPlanificari() {
+    try {
+      const response = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `SELECT p.*, 
+            u1.NAME2 as RESPPLAN_NAME, 
+            u2.NAME2 as RESPEXEC_NAME
+            FROM CCCPLANIFICARI p
+            LEFT JOIN S1.dbo.PRSN u1 ON u1.PRSN = p.RESPPLAN
+            LEFT JOIN S1.dbo.PRSN u2 ON u2.PRSN = p.RESPEXEC 
+            WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+            ORDER BY p.INSDATE DESC`
+        }
+      })
+
+      if (!response.success) {
+        console.error('Failed to load planificari', response.error)
+        return
+      }
+
+      this.planificari = response.data
+      this.renderPlanificari()
+    } catch (error) {
+      console.error('Error loading planificari:', error)
+    }
+  }
+
+  async openPlanificare(id) {
+    try {
+      const response = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `SELECT pl.*, a.* 
+            FROM CCCPLANIFICARILINII pl
+            INNER JOIN CCCANTEMASURATORI a ON a.CCCANTEMASURATORI = pl.CCCANTEMASURATORI 
+            WHERE pl.CCCPLANIFICARI = ${id}`
+        }
+      })
+
+      if (!response.success) {
+        console.error('Failed to load planificare details', response.error) 
+        return
+      }
+
+      const headerResponse = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `SELECT * FROM CCCPLANIFICARI WHERE CCCPLANIFICARI = ${id}`
+        }
+      })
+
+      if (!headerResponse.success || !headerResponse.data?.[0]) {
+        console.error('Failed to load planificare header')
+        return
+      }
+
+      const header = headerResponse.data[0]
+      const table = tables.tablePlanificareCurenta.element
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: response.data,
+        documentHeader: {
+          startDate: header.DATASTART,
+          endDate: header.DATASTOP,
+          responsabilPlanificare: header.RESPPLAN,
+          responsabilExecutie: header.RESPEXEC,
+          id: header.CCCPLANIFICARI
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
+
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+
+    } catch (error) {
+      console.error('Error loading planificare details:', error)
+    }
+  }
+
+  renderPlanificari() {
+    const table = tables.my_table7.element
+    this.ds = this.planificari.map(p => {
+      const filtered = {}
+      Object.keys(planificareHeaderMask).forEach(key => {
+        if (planificareHeaderMask[key].visible) {
+          filtered[key] = p[key]
+        }
+      })
+      filtered.RESPPLAN_NAME = p.RESPPLAN_NAME
+      filtered.RESPEXEC_NAME = p.RESPEXEC_NAME
+      filtered.CCCPLANIFICARI = p.CCCPLANIFICARI
+      return filtered
+    })
+
+    table.ds = this.ds
   }
 
   showPlanificareModal() {
@@ -179,9 +282,43 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     return html`
-      <button type="button" class="btn btn-primary m-2" id="adaugaPlanificare">
-        Adauga planificare
-      </button>
+      <div class="toolbar mb-2">
+        <button type="button" class="btn btn-primary me-2" id="adaugaPlanificare">
+          Adauga planificare
+        </button>
+        <button type="button" class="btn btn-secondary me-2" @click="${() => this.loadPlanificari()}">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+      </div>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Denumire</th>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Resp. planificare</th>
+            <th>Resp. executie</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${this.ds.map((item, index) => html`
+            <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
+              <td>${index + 1}</td>
+              <td>${item.NAME}</td>
+              <td>${new Date(item.DATASTART).toLocaleDateString()}</td>
+              <td>${new Date(item.DATASTOP).toLocaleDateString()}</td>
+              <td>${item.RESPPLAN_NAME}</td>
+              <td>${item.RESPEXEC_NAME}</td>
+              <td>
+                <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
+              </td>
+            </tr>
+          `)}
+        </tbody>
+      </table>
       ${this.renderModal()}
     `
   }
