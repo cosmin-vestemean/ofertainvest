@@ -4,11 +4,6 @@ import { runSQLTransaction, getValFromS1Query } from '../utils/S1.js'
 import UI1 from './UI1.js'
 
 export class antemasuratori extends UI1 {
-  constructor() {
-    super()
-    // Constructorul clasei MyTableListaRetete
-  }
-
   async saveLine(item, htmlElement, value) {
     let nr
     try {

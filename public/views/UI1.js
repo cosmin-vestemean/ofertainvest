@@ -73,6 +73,10 @@ class UI1 extends LitElement {
     this.articole = []
     this._filterHistory = JSON.parse(localStorage.getItem('filterHistory') || '[]')
     this.angajati = []
+    this.mainMask = {} // Initialize empty
+    this.subsMask = {}
+    this.data = []
+    this._filteredArticole = []
   }
 
   async connectedCallback() {
@@ -110,8 +114,8 @@ class UI1 extends LitElement {
 
   updated(changedProperties) {
     if (changedProperties.has('data') || changedProperties.has('mainMask')) {
-      // Initialize _articole and _filteredArticole when data changes
-      if (this.data && this.data.length > 0) {
+      // Initialize _articole and _filteredArticole when data AND mainMask change
+      if (this.data?.length > 0 && Object.keys(this.mainMask || {}).length > 0) {
         const usefullEntityDisplayMask = this.usefullDisplayMask(this.mainMask)
         const usefullEntitySubsDisplayMask = this.usefullDisplayMask(this.subsMask)
 
@@ -134,7 +138,7 @@ class UI1 extends LitElement {
         this._filteredArticole = [...this._articole]
       }
 
-      if (!this._isInitialized && this.mainMask) {
+      if (!this._isInitialized && Object.keys(this.mainMask || {}).length > 0) {
         this.createFilterModal()
         this.addEventListener('click', (e) => {
           if (e.target.id === 'showFilterModal') {
@@ -268,18 +272,29 @@ class UI1 extends LitElement {
   }
 
   generateFilterForm() {
+    if (!this.mainMask || !this._articole) {
+      console.warn('mainMask or _articole not initialized')
+      return '<div class="alert alert-warning">Filter not available yet</div>'
+    }
+
     const filterableFields = Object.keys(this.mainMask)
-      .filter((key) => this.mainMask[key].isFilterable)
+      .filter((key) => this.mainMask[key]?.isFilterable)
       .filter((key) =>
         this._articole.some(
           (item) => item.articol[key] !== undefined || item.subarticole.some((sub) => sub[key] !== undefined)
         )
       )
+
+    if (filterableFields.length === 0) {
+      return '<div class="alert alert-info">No filterable fields available</div>'
+    }
+
+    return filterableFields
       .map((key) => {
         if (this.mainMask[key].filter === 'filter') {
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+              <label for="${key}" class="form-label">${this.mainMask[key].label || key}</label>
               <select class="form-select form-select-sm" id="${key}" name="${key}">
                 ${this.getFilterOptions(key)}
               </select>
@@ -288,7 +303,7 @@ class UI1 extends LitElement {
         } else {
           return `
             <div class="mb-3">
-              <label for="${key}" class="form-label">${this.mainMask[key].label}</label>
+              <label for="${key}" class="form-label">${this.mainMask[key].label || key}</label>
               <input type="text" class="form-control form-control-sm" list="datalistOptions" id="${key}" name="${key}" placeholder="Cauta...">
               <datalist id="datalistOptions">
                 ${this.getFilterOptions(key)}
@@ -297,7 +312,7 @@ class UI1 extends LitElement {
           `
         }
       })
-    return filterableFields.join('')
+      .join('')
   }
 
   getFilterOptions(key) {
