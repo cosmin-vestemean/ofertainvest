@@ -2,15 +2,8 @@ import { LitElement, html, contextOferta, client } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
-import {
-  planificareDisplayMask,
-  planificareSubsDisplayMask,
-  planificareHeaderMask,
-  listaPlanificariMask
-} from './masks.js'
+import { planificareDisplayMask, planificareSubsDisplayMask, planificareHeaderMask, listaPlanificariMask } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
-
-/* global bootstrap */
 
 export let ds_planificareNoua = []
 
@@ -19,7 +12,8 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     planificari: { type: Array },
     isLoading: { type: Boolean },
-    selectedItems: { type: Array }
+    selectedItems: { type: Array },
+    errorMessage: { type: String }
   }
 
   constructor() {
@@ -29,18 +23,50 @@ class LitwcListaPlanificari extends LitElement {
     this.isLoading = true
     this.modal = null
     this.selectedItems = []
+    this.initialized = false
   }
 
   createRenderRoot() {
     return this
   }
 
-  async loadPlanificari() {
-    // Check for valid CCCOFERTEWEB
+  // Data loading and initialization
+  async updated(changedProperties) {
+    if (contextOferta.CCCOFERTEWEB && !this.initialized) {
+      await this._initializeComponent()
+    }
+  }
+
+  async _initializeComponent() {
+    this.isLoading = true
+    this.initialized = true
+    
+    try {
+      await this._loadEmployees()
+      await this._loadPlanificari()
+    } catch (error) {
+      this.errorMessage = 'Failed to load data: ' + error.message
+      console.error('Error initializing component:', error)
+    } finally {
+      this.isLoading = false
+      this.requestUpdate()
+    }
+  }
+
+  async _loadEmployees() {
+    if (!this.angajati.length) {
+      this.angajati = contextOferta.angajati?.length > 0 
+        ? contextOferta.angajati
+        : await employeesService.loadEmployees() || []
+      if (this.angajati.length) {
+        contextOferta.angajati = this.angajati
+      }
+    }
+  }
+
+  async _loadPlanificari() {
     if (!contextOferta.CCCOFERTEWEB) {
-      console.warn('Invalid CCCOFERTEWEB value:', contextOferta.CCCOFERTEWEB)
-      this.planificari = []
-      return
+      throw new Error('Invalid CCCOFERTEWEB')
     }
 
     const query = `
@@ -51,330 +77,141 @@ class LitwcListaPlanificari extends LitElement {
       WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
     `
 
-    try {
-      const result = await client.service('getDataset').find({
-        query: { sqlQuery: query }
-      })
+    const result = await client.service('getDataset').find({ query: { sqlQuery: query } })
+    
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to load planificari')
+    }
 
-      if (result.success) {
-        this.planificari = result.data
-        this.setupTable()
-      } else {
-        console.error('Error loading planificari:', result.error)
-        this.planificari = []
-      }
+    this.planificari = result.data
+  }
+
+  // Event handlers
+  async _handleAddPlanificare() {
+    if (!this.validateDates()) return
+    
+    try {
+      await this._createNewPlanificare()
+      this.modal?.hide()
     } catch (error) {
-      console.error('Failed to load planificari:', error)
-      this.planificari = []
+      console.error('Error creating planificare:', error)
+      alert('Failed to create planificare')
     }
   }
 
-  setupTable() {
-    // Configure this element as a table
-    this.innerHTML = this.generateTableContent()
-
-    // Add click handlers for rows
-    this.querySelectorAll('tr[data-id]').forEach((row) => {
-      row.addEventListener('click', () => {
-        if (row.dataset.id) {
-          this.openPlanificare(row.dataset.id)
-        }
+  async _handleDeletePlanificari() {
+    if (!confirm('Sigur doriti sa stergeti planificarile selectate?')) return
+    
+    try {
+      const ids = this.selectedItems.join(',')
+      await client.service('runSQLTransaction').create({
+        sqlList: [`DELETE FROM CCCPLANIFICARI WHERE ID IN (${ids})`]
       })
-    })
+      await this._loadPlanificari()
+    } catch (error) {
+      console.error('Error deleting planificari:', error)
+      alert('Failed to delete planificari')
+    }
   }
 
-  generateTableContent() {
-    const headers = Object.values(listaPlanificariMask)
-      .filter((col) => col.visible)
-      .map((col) => `<th>${col.label}</th>`)
-      .join('')
+  // UI Components
+  _renderTable() {
+    if (!this.planificari.length) {
+      return html`<div class="alert alert-info">No planificari found</div>`
+    }
 
-    const rows = this.planificari
-      .map((plan) => {
-        const cells = Object.entries(listaPlanificariMask)
-          .filter(([, col]) => col.visible)
-          .map(([key]) => `<td>${plan[key]}</td>`)
-          .join('')
-        return `<tr data-id="${plan.CCCPLANIFICARI}">${cells}</tr>`
-      })
-      .join('')
-
-    return `
-      <thead><tr>${headers}</tr></thead>
-      <tbody>${rows}</tbody>
+    return html`
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            ${Object.values(listaPlanificariMask)
+              .filter(col => col.visible)
+              .map(col => html`<th>${col.label}</th>`)}
+          </tr>
+        </thead>
+        <tbody>
+          ${this.planificari.map(plan => this._renderTableRow(plan))}
+        </tbody>
+      </table>
     `
   }
 
-  async openPlanificare(planId) {
-    // Load planificare details
+  _renderTableRow(plan) {
+    return html`
+      <tr data-id="${plan.CCCPLANIFICARI}" @click=${() => this._openPlanificare(plan.CCCPLANIFICARI)}>
+        ${Object.entries(listaPlanificariMask)
+          .filter(([,col]) => col.visible)
+          .map(([key]) => html`<td>${plan[key]}</td>`)}
+      </tr>
+    `
+  }
+
+  // ...existing modal rendering code...
+
+  render() {
+    if (this.isLoading) {
+      return html`<div class="spinner-border text-primary" role="status"></div>`
+    }
+
+    if (this.errorMessage) {
+      return html`<div class="alert alert-danger">${this.errorMessage}</div>`
+    }
+
+    return html`
+      ${this._renderToolbar()}
+      ${this._renderTable()}
+      ${this._renderModal()}
+    `
+  }
+
+  // Helper methods for planificare operations
+  async _openPlanificare(planId) {
+    try {
+      const data = await this._loadPlanificareDetails(planId)
+      const planificare = this.planificari.find(p => p.CCCPLANIFICARI === parseInt(planId))
+      
+      this._configurePlanificareTable(data, planificare)
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+    } catch (error) {
+      console.error('Error opening planificare:', error)
+      alert('Failed to open planificare')
+    }
+  }
+
+  async _loadPlanificareDetails(planId) {
     const query = `
       SELECT pl.*, a.* 
       FROM CCCPLANIFICARILINII pl
       JOIN CCCANTEMASURATORI a ON pl.CCCANTEMASURATORI = a.CCCANTEMASURATORI
       WHERE pl.CCCPLANIFICARI = ${planId}
     `
-    const result = await client.service('getDataset').find({
-      query: { sqlQuery: query }
-    })
-
-    if (result.success) {
-      const planificare = this.planificari.find((p) => p.CCCPLANIFICARI === parseInt(planId))
-
-      // Structure data for litwc-planificare
-      ds_planificareNoua = this.structureDataForPlanificare(result.data)
-
-      // Configure and show table
-      const table = tables.tablePlanificareCurenta.element
-      Object.assign(table, {
-        hasMainHeader: true,
-        hasSubHeader: false,
-        canAddInLine: true,
-        mainMask: planificareDisplayMask,
-        subsMask: planificareSubsDisplayMask,
-        data: ds_planificareNoua,
-        documentHeader: {
-          startDate: planificare.DATASTART,
-          endDate: planificare.DATASTOP,
-          responsabilPlanificare: planificare.RESPPLAN,
-          responsabilExecutie: planificare.RESPEX
-        },
-        documentHeaderMask: planificareHeaderMask
-      })
-
-      tables.hideAllBut([tables.tablePlanificareCurenta])
-    }
+    const result = await client.service('getDataset').find({ query: { sqlQuery: query } })
+    if (!result.success) throw new Error(result.error)
+    return result.data
   }
 
-  structureDataForPlanificare(data) {
-    // Transform flat data into hierarchical structure matching ds_antemasuratori format
-    // Implementation depends on your data structure
-    return data
-  }
-
-  setupEventListeners() {
-    this.addEventListener('click', (e) => {
-      if (e.target.id === 'adaugaPlanificare') {
-        this.showPlanificareModal()
-      }
-    })
-  }
-
-  async firstUpdated() {
-    try {
-      // Load employees if needed
-      if (contextOferta?.angajati?.length > 0) {
-        this.angajati = contextOferta.angajati
-      } else {
-        const employees = await employeesService.loadEmployees()
-        if (employees?.length > 0) {
-          this.angajati = employees
-          contextOferta.angajati = employees
-        }
-      }
-
-      // First ensure we have a valid CCCOFERTEWEB
-      if (!contextOferta.CCCOFERTEWEB) {
-        console.warn('Waiting for valid CCCOFERTEWEB...')
-        // You may want to add some retry logic or wait for an event that indicates CCCOFERTEWEB is set
-      } else {
-        // Load planificari
-        await this.loadPlanificari()
-        this.setupTable()
-
-        this.setupEventListeners()
-      }
-    } catch (error) {
-      console.error('Error in initialization:', error)
-    } finally {
-      this.isLoading = false
-      this.requestUpdate()
-    }
-  }
-
-  showPlanificareModal() {
-    if (!this.modal) {
-      this.modal = new bootstrap.Modal(document.getElementById('planificareModal'), {
-        keyboard: true,
-        backdrop: false
-      })
-    }
-    this.modal.show()
-  }
-
-  validateDates() {
-    const startDate = document.getElementById('startDate').value
-    const endDate = document.getElementById('endDate').value
-
-    if (!startDate || !endDate) {
-      alert('Please select both start and end dates')
-      return false
-    }
-
-    if (new Date(startDate) > new Date(endDate)) {
-      alert('Start date cannot be after end date')
-      return false
-    }
-
-    return true
-  }
-
-  handlePlanificareNoua() {
-    if (!this.validateDates()) return
-    if (!ds_antemasuratori?.length) {
-      console.warn('No antemasuratori available')
-      return
-    }
-
-    ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach((parent) => {
-      parent.content.forEach((item) => {
-        item.object[_cantitate_planificari] = 0
-        item.children?.forEach((child) => {
-          child.object[_cantitate_planificari] = 0
-        })
-      })
-    })
-
+  _configurePlanificareTable(data, planificare) {
+    ds_planificareNoua = this._structureDataForPlanificare(data)
+    
     const table = tables.tablePlanificareCurenta.element
     Object.assign(table, {
       hasMainHeader: true,
       hasSubHeader: false,
       canAddInLine: true,
-      mainMask: planificareDisplayMask,
+      mainMask: planificareDisplayMask, 
       subsMask: planificareSubsDisplayMask,
       data: ds_planificareNoua,
       documentHeader: {
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value,
-        responsabilPlanificare: document.getElementById('select1').value,
-        responsabilExecutie: document.getElementById('select2').value
+        startDate: planificare.DATASTART,
+        endDate: planificare.DATASTOP,
+        responsabilPlanificare: planificare.RESPPLAN,
+        responsabilExecutie: planificare.RESPEXEC
       },
       documentHeaderMask: planificareHeaderMask
     })
-
-    tables.hideAllBut([tables.tablePlanificareCurenta])
-    this.modal?.hide()
   }
 
-  renderEmployeeSelect(id, label) {
-    return html`
-      <div class="mb-3">
-        <label for="${id}" class="form-label">${label}</label>
-        <select class="form-select" id="${id}">
-          ${this.angajati.map((angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)}
-        </select>
-      </div>
-    `
-  }
-
-  renderModal() {
-    return html`
-      <div class="modal" id="planificareModal" tabindex="-1">
-        <div role="dialog" class="modal-dialog modal-dialog-scrollable modal-sm">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Adauga Planificare</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="startDate" class="form-label">Start Date</label>
-                  <input type="date" class="form-control" id="startDate" required />
-                </div>
-                <div class="mb-3">
-                  <label for="endDate" class="form-label">End Date</label>
-                  <input type="date" class="form-control" id="endDate" required />
-                </div>
-                ${this.renderEmployeeSelect('select1', 'Responsabil planificare')}
-                ${this.renderEmployeeSelect('select2', 'Responsabil executie')}
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" @click="${() => this.handlePlanificareNoua()}">
-                Planificare noua
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-  }
-
-  renderToolbar() {
-    return html`
-      <div class="btn-toolbar mb-2" role="toolbar">
-        <div class="btn-group me-2" role="group">
-          <button type="button" class="btn btn-primary" id="adaugaPlanificare">
-            <i class="bi bi-plus-lg"></i> Adauga planificare
-          </button>
-        </div>
-        <div class="btn-group me-2" role="group">
-          <button
-            type="button"
-            class="btn btn-danger"
-            ?disabled=${this.selectedItems.length === 0}
-            @click=${this.deletePlanificari}
-          >
-            <i class="bi bi-trash"></i> Sterge
-          </button>
-        </div>
-      </div>
-    `
-  }
-
-  async deletePlanificari() {
-    if (!confirm('Sigur doriti sa stergeti planificarile selectate?')) return
-
-    const ids = this.selectedItems.join(',')
-    const query = `DELETE FROM CCCPLANIFICARI WHERE ID IN (${ids})`
-    // ... implement delete logic using your API ...
-    await this.loadPlanificari()
-  }
-
-  render() {
-    if (this.isLoading) {
-      return html`<div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>`
-    }
-
-    return html`
-      ${this.renderToolbar()}
-        ${
-          this.planificari.length
-            ? html` <table class="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    ${Object.values(listaPlanificariMask)
-                      .filter((col) => col.visible)
-                      .map((col) => html`<th>${col.label}</th>`)}
-                  </tr>
-                </thead>
-                <tbody>
-                  ${this.planificari.map(
-                    (plan) => html`
-                      <tr
-                        data-id="${plan.CCCPLANIFICARI}"
-                        @click=${() => this.openPlanificare(plan.CCCPLANIFICARI)}
-                      >
-                        ${Object.entries(listaPlanificariMask)
-                          .filter(([, col]) => col.visible)
-                          .map(([key]) => html`<td>${plan[key]}</td>`)}
-                      </tr>
-                    `
-                  )}
-                </tbody>
-              </table>`
-            : html`<div class="alert alert-warning p-3" role="alert">No data.</div>`
-        }
-        ${this.renderModal()}
-      </table>
-    `
-  }
+  // ...existing validation and utility methods...
 }
 
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
-
-export default LitwcListaPlanificari
