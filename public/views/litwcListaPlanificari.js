@@ -64,6 +64,14 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async loadPlanificari() {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      console.warn('No valid CCCOFERTEWEB found')
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
+      return
+    }
+
     try {
       const response = await client.service('getDataset').find({
         query: {
@@ -87,10 +95,18 @@ class LitwcListaPlanificari extends LitElement {
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari() 
     }
   }
 
   async openPlanificare(id) {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      console.warn('No valid CCCOFERTEWEB found')
+      return
+    }
+
     try {
       const response = await client.service('getDataset').find({
         query: {
@@ -192,6 +208,11 @@ class LitwcListaPlanificari extends LitElement {
     if (!this.validateDates()) return
     if (!ds_antemasuratori?.length) {
       console.warn('No antemasuratori available')
+      return
+    }
+
+    if (!contextOferta?.CCCOFERTEWEB) {
+      alert('Nu există o ofertă validă selectată')
       return
     }
 
