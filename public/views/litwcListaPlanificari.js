@@ -77,8 +77,8 @@ class LitwcListaPlanificari extends LitElement {
         query: {
           sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
             p.RESPEXEC, p.RESPPLAN,
-            p.NAME, FORMAT('yyyy-mm-dd', p.DATASTART) DATASTART, FORMAT('yyyy-mm-dd', p.DATASTOP) DATASTOP, p.LOCKED, 
-            FORMAT('yyyy-mm-dd', p.INSDATE) INSDATE, FORMAT('yyyy-mm-dd', p.UPDDATE) UPDDATE,
+            p.NAME, p.DATASTART, p.DATASTOP, p.LOCKED, 
+            p.INSDATE, p.UPDDATE,
             p.INSUSR, p.UPDUSR,
             u1.NAME2 as RESPPLAN_NAME, 
             u2.NAME2 as RESPEXEC_NAME
