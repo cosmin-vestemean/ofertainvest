@@ -170,7 +170,7 @@ class LitwcListaPlanificari extends LitElement {
     this.ds = this.planificari.map((p) => {
       const filtered = {}
       Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].visible) {
+        if (listaPlanificariMask[key].usefull) {
           filtered[key] = p[key]
         }
       })
