@@ -177,6 +177,8 @@ class LitwcListaPlanificari extends LitElement {
       return filtered
     })
 
+    console.log('Planificari:', this.ds)
+
     table.ds = this.ds
   }
 
