@@ -92,6 +92,7 @@ class LitwcListaPlanificari extends LitElement {
       }
 
       this.planificari = response.data
+      console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
@@ -176,8 +177,6 @@ class LitwcListaPlanificari extends LitElement {
       filtered.LOCKED = p.LOCKED
       return filtered
     })
-
-    console.log('Planificari:', this.ds)
 
     table.ds = this.ds
   }

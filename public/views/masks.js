@@ -1545,12 +1545,28 @@ const listaPlanificariMask = {
     type: 'number',
     usefull: true
   },
+  RESPPLAN_NAME: {
+    value: 'RESPPLAN_NAME',
+    RW: false,
+    visible: true,
+    label: 'Resp. planificare',
+    type: 'string',
+    usefull: true
+  },
   RESPEXEC: {
     value: 'RESPEXEC',
     RW: true,
     visible: true,
     label: 'Resp. executie',
     type: 'number',
+    usefull: true
+  },
+  RESPEXEC_NAME: {
+    value: 'RESPEXEC_NAME',
+    RW: false,
+    visible: true,
+    label: 'Resp. executie',
+    type: 'string',
     usefull: true
   },
   LOCKED: {
