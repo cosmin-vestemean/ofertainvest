@@ -112,7 +112,7 @@ class LitwcListaPlanificari extends LitElement {
 
   async openPlanificare(id) {
     if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
+      console.warn('No valid CCCOFERTEWEB found') 
       return
     }
 
@@ -127,22 +127,16 @@ class LitwcListaPlanificari extends LitElement {
       })
 
       if (!response.success) {
-        console.error('Failed to load planificare details', response.error)
+        console.error('Failed to load planificare details', response.error) 
         return
       }
 
-      const headerResponse = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `SELECT * FROM CCCPLANIFICARI WHERE CCCPLANIFICARI = ${id}`
-        }
-      })
-
-      if (!headerResponse.success || !headerResponse.data?.[0]) {
-        console.error('Failed to load planificare header')
+      const header = this.planificari.find(p => p.CCCPLANIFICARI === id)
+      if (!header) {
+        console.error('Failed to find planificare header')
         return
       }
 
-      const header = headerResponse.data[0]
       const table = tables.tablePlanificareCurenta.element
       Object.assign(table, {
         hasMainHeader: true,
@@ -156,12 +150,14 @@ class LitwcListaPlanificari extends LitElement {
           endDate: header.DATASTOP,
           responsabilPlanificare: header.RESPPLAN,
           responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI
+          id: header.CCCPLANIFICARI,
+          name: header.NAME
         },
         documentHeaderMask: planificareHeaderMask
       })
 
       tables.hideAllBut([tables.tablePlanificareCurenta])
+
     } catch (error) {
       console.error('Error loading planificare details:', error)
     }
