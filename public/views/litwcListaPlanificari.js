@@ -171,8 +171,8 @@ class LitwcListaPlanificari extends LitElement {
       filtered.RESPPLAN_NAME = p.RESPPLAN_NAME
       filtered.RESPEXEC_NAME = p.RESPEXEC_NAME
       filtered.CCCPLANIFICARI = p.CCCPLANIFICARI
-      filtered.DATASTART = p.DATASTART
-      filtered.DATASTOP = p.DATASTOP
+      filtered.DATASTART = new Date(p.DATASTART).toLocaleDateString()
+      filtered.DATASTOP = new Date(p.DATASTOP).toLocaleDateString()
       filtered.LOCKED = p.LOCKED
       return filtered
     })
