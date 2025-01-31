@@ -1,8 +1,13 @@
-import { LitElement, html, contextOferta } from '../client.js'
+import { LitElement, html, contextOferta, client } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
-import { planificareDisplayMask, planificareSubsDisplayMask, planificareHeaderMask } from './masks.js'
+import {
+  planificareDisplayMask,
+  planificareSubsDisplayMask,
+  planificareHeaderMask,
+  listaPlanificariMask
+} from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
@@ -12,18 +17,124 @@ export let ds_planificareNoua = []
 class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
-    isLoading: { type: Boolean }
+    planificari: { type: Array },
+    isLoading: { type: Boolean },
+    selectedItems: { type: Array }
   }
 
   constructor() {
     super()
-    this.angajati = [] // Initialize empty array
+    this.angajati = []
+    this.planificari = []
     this.isLoading = true
     this.modal = null
+    this.selectedItems = []
   }
 
   createRenderRoot() {
     return this
+  }
+
+  async loadPlanificari() {
+    const query = `
+      SELECT p.*, emp1.NAME2 as RESPPLAN_NUME, emp2.NAME2 as RESPEXEC_NUME 
+      FROM CCCPLANIFICARI p
+      LEFT JOIN CCCSALARIATI emp1 ON p.RESPPLAN = emp1.PRSN
+      LEFT JOIN CCCSALARIATI emp2 ON p.RESPEX = emp2.PRSN
+      WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+    `
+    const result = await client.service('getDataset').find({
+      query: { sqlQuery: query }
+    })
+    if (result.success) {
+      this.planificari = result.data
+      this.requestUpdate()
+    } else {
+      console.error('Error loading planificari:', result.error)
+    }
+  }
+
+  async setupTable() {
+    const table = document.createElement('table')
+    table.className = 'table table-striped table-hover'
+    table.innerHTML = this.generateTableContent()
+    this.querySelector('#planificariList').appendChild(table)
+
+    // Add click handlers
+    table.addEventListener('click', (e) => {
+      const row = e.target.closest('tr')
+      if (row?.dataset.id) {
+        this.openPlanificare(row.dataset.id)
+      }
+    })
+  }
+
+  generateTableContent() {
+    const headers = Object.values(listaPlanificariMask)
+      .filter((col) => col.visible)
+      .map((col) => `<th>${col.label}</th>`)
+      .join('')
+
+    const rows = this.planificari
+      .map((plan) => {
+        const cells = Object.entries(listaPlanificariMask)
+          .filter(([, col]) => col.visible)
+          .map(([key]) => `<td>${plan[key]}</td>`)
+          .join('')
+        return `<tr data-id="${plan.ID}">${cells}</tr>`
+      })
+      .join('')
+
+    return `
+      <thead><tr>${headers}</tr></thead>
+      <tbody>${rows}</tbody>
+    `
+  }
+
+  async openPlanificare(planId) {
+    // Load planificare details
+    const query = `
+      SELECT pl.*, a.* 
+      FROM CCCPLANIFICARILINII pl
+      JOIN CCCANTEMASURATORI a ON pl.CCCANTEMASURATORI = a.CCCANTEMASURATORI
+      WHERE pl.CCCPLANIFICARI = ${planId}
+    `
+    const result = await client.service('getDataset').find({
+      query: { sqlQuery: query }
+    })
+
+    if (result.success) {
+      const planificare = this.planificari.find((p) => p.CCCPLANIFICARI === parseInt(planId))
+
+      // Structure data for litwc-planificare
+      ds_planificareNoua = this.structureDataForPlanificare(result.data)
+
+      // Configure and show table
+      const table = tables.tablePlanificareCurenta.element
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: ds_planificareNoua,
+        documentHeader: {
+          startDate: planificare.DATASTART,
+          endDate: planificare.DATASTOP,
+          responsabilPlanificare: planificare.RESPPLAN,
+          responsabilExecutie: planificare.RESPEX
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
+
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+    }
+  }
+
+  structureDataForPlanificare(data) {
+    // Transform flat data into hierarchical structure matching ds_antemasuratori format
+    // Implementation depends on your data structure
+    return data
   }
 
   setupEventListeners() {
@@ -36,24 +147,26 @@ class LitwcListaPlanificari extends LitElement {
 
   async firstUpdated() {
     try {
-      // First check context
+      // Load employees if needed
       if (contextOferta?.angajati?.length > 0) {
-        this.angajati = contextOferta.angajati 
+        this.angajati = contextOferta.angajati
       } else {
-        // If not in context, load and cache
         const employees = await employeesService.loadEmployees()
         if (employees?.length > 0) {
           this.angajati = employees
-          // Cache for other components
           contextOferta.angajati = employees
         }
       }
+
+      // Load planificari
+      await this.loadPlanificari()
+      await this.setupTable()
+
+      this.setupEventListeners()
     } catch (error) {
-      console.error('Failed to load employees:', error)
-      this.angajati = [] // Ensure we have an empty array
+      console.error('Error in initialization:', error)
     } finally {
       this.isLoading = false
-      this.setupEventListeners()
       this.requestUpdate()
     }
   }
@@ -71,17 +184,17 @@ class LitwcListaPlanificari extends LitElement {
   validateDates() {
     const startDate = document.getElementById('startDate').value
     const endDate = document.getElementById('endDate').value
-    
+
     if (!startDate || !endDate) {
       alert('Please select both start and end dates')
       return false
     }
-    
+
     if (new Date(startDate) > new Date(endDate)) {
       alert('Start date cannot be after end date')
       return false
     }
-    
+
     return true
   }
 
@@ -93,10 +206,10 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach(parent => {
-      parent.content.forEach(item => {
+    ds_planificareNoua.forEach((parent) => {
+      parent.content.forEach((item) => {
         item.object[_cantitate_planificari] = 0
-        item.children?.forEach(child => {
+        item.children?.forEach((child) => {
           child.object[_cantitate_planificari] = 0
         })
       })
@@ -128,9 +241,7 @@ class LitwcListaPlanificari extends LitElement {
       <div class="mb-3">
         <label for="${id}" class="form-label">${label}</label>
         <select class="form-select" id="${id}">
-          ${this.angajati.map(angajat => 
-            html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`
-          )}
+          ${this.angajati.map((angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)}
         </select>
       </div>
     `
@@ -171,6 +282,37 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
+  renderToolbar() {
+    return html`
+      <div class="btn-toolbar mb-2" role="toolbar">
+        <div class="btn-group me-2" role="group">
+          <button type="button" class="btn btn-primary" id="adaugaPlanificare">
+            <i class="bi bi-plus-lg"></i> Adauga planificare
+          </button>
+        </div>
+        <div class="btn-group me-2" role="group">
+          <button
+            type="button"
+            class="btn btn-danger"
+            ?disabled=${this.selectedItems.length === 0}
+            @click=${this.deletePlanificari}
+          >
+            <i class="bi bi-trash"></i> Sterge
+          </button>
+        </div>
+      </div>
+    `
+  }
+
+  async deletePlanificari() {
+    if (!confirm('Sigur doriti sa stergeti planificarile selectate?')) return
+
+    const ids = this.selectedItems.join(',')
+    const query = `DELETE FROM CCCPLANIFICARI WHERE ID IN (${ids})`
+    // ... implement delete logic using your API ...
+    await this.loadPlanificari()
+  }
+
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -179,9 +321,8 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     return html`
-      <button type="button" class="btn btn-primary m-2" id="adaugaPlanificare">
-        Adauga planificare
-      </button>
+      ${this.renderToolbar()}
+      <div id="planificariList" class="table-responsive"></div>
       ${this.renderModal()}
     `
   }
