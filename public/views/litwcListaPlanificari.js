@@ -108,17 +108,29 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     try {
+      // First get the main activities with their CCCACTIVITINSTANTE
       const response = await client.service('getDataset').find({
         query: {
-          sqlQuery: `SELECT pl.*, a.* 
-            FROM CCCPLANIFICARILINII pl
-            INNER JOIN CCCANTEMASURATORI a ON a.CCCANTEMASURATORI = pl.CCCANTEMASURATORI 
-            WHERE pl.CCCPLANIFICARI = ${id}`
+          sqlQuery: `
+            WITH Activities AS (
+              SELECT DISTINCT pl.*, a.*, c.DENUMIRE_ART_OF, c.UM_ART_OF, c.TIP_ART_OF, c.SUBTIP_ART_OF,
+                i.CCCACTIVITRETETE, i.ISMAIN, i.CCCRETETE, i.ISCUSTOM,
+                ROW_NUMBER() OVER (PARTITION BY a.CCCINSTANTE ORDER BY a.CCCACTIVITINSTANTE) as InstanceOrder,
+                h.DUPLICATEOF
+              FROM CCCPLANIFICARILINII pl
+              INNER JOIN CCCANTEMASURATORI a ON a.CCCANTEMASURATORI = pl.CCCANTEMASURATORI
+              INNER JOIN CCCACTIVITINSTANTE g ON g.CCCACTIVITINSTANTE = a.CCCACTIVITINSTANTE 
+              INNER JOIN CCCINSTANTE h ON h.CCCINSTANTE = a.CCCINSTANTE
+              LEFT JOIN CCCACTIVITRETETE i ON i.CCCRETETE = h.DUPLICATEOF
+              INNER JOIN CCCOFERTEWEBLINII c ON c.CCCOFERTEWEBLINII = a.CCCOFERTEWEBLINII
+              WHERE pl.CCCPLANIFICARI = ${id}
+            )
+            SELECT * FROM Activities ORDER BY CCCINSTANTE, InstanceOrder`
         }
       })
 
-      if (!response.success) {
-        console.error('Failed to load planificare details', response.error) 
+      if (!response.success || !response.data?.length) {
+        console.error('Failed to load planificare details', response.error)
         return
       }
 
@@ -133,21 +145,57 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
+      // Transform data into UI1 expected format
+      const groupedData = response.data.reduce((acc, row) => {
+        // Group by CCCINSTANTE
+        const key = row.CCCINSTANTE
+        if (!acc[key]) {
+          acc[key] = {
+            meta: { 
+              CCCINSTANTE: key,
+              DUPLICATEOF: row.DUPLICATEOF 
+            },
+            content: []
+          }
+        }
+        
+        // Check if this is an activity or material
+        const content = {
+          object: {
+            ...row,
+            CANTITATE_ARTICOL_OFERTA: row.CANTITATE || 0,
+            DENUMIRE_ARTICOL_OFERTA: row.DENUMIRE_ART_OF,
+            UM_ARTICOL_OFERTA: row.UM_ART_OF,
+            TIP_ARTICOL_OFERTA: row.TIP_ART_OF,
+            SUBTIP_ARTICOL_OFERTA: row.SUBTIP_ART_OF
+          },
+          children: [],
+          ISMAIN: row.ISMAIN === 1,
+          ISCUSTOM: row.ISCUSTOM === 1
+        }
+        
+        acc[key].content.push(content)
+        return acc
+      }, {})
+
+      const formattedData = Object.values(groupedData)
+
       const header = headerResponse.data[0]
-      const table = tables.tablePlanificareCurenta.element
+      const table = tables.tablePlanificareCurenta.element  
       Object.assign(table, {
         hasMainHeader: true,
         hasSubHeader: false,
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: response.data,
+        data: formattedData,
         documentHeader: {
           startDate: header.DATASTART,
           endDate: header.DATASTOP,
           responsabilPlanificare: header.RESPPLAN,
           responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI
+          id: header.CCCPLANIFICARI,
+          name: header.NAME
         },
         documentHeaderMask: planificareHeaderMask
       })
