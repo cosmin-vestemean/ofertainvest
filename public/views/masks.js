@@ -1505,6 +1505,14 @@ planificareSubsDisplayMask[_cantitate_planificari] = {
 }
 
 const listaPlanificariMask = {
+  CCCPLANIFICARI: {
+    value: 'CCCPLANIFICARI',
+    RW: false,
+    visible: false,
+    label: 'CCCPLANIFICARI',
+    useAsMeta: true,
+    usefull: true
+  },
   NAME: {
     value: 'NAME',
     RW: true,
@@ -1533,7 +1541,7 @@ const listaPlanificariMask = {
     value: 'RESPPLAN',
     RW: true,
     visible: true,
-    label: 'Responsabil planificare',
+    label: 'Resp. planificare',
     type: 'number',
     usefull: true
   },
@@ -1541,7 +1549,7 @@ const listaPlanificariMask = {
     value: 'RESPEXEC',
     RW: true,
     visible: true,
-    label: 'Responsabil executie',
+    label: 'Resp. executie',
     type: 'number',
     usefull: true
   },

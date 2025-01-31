@@ -2,7 +2,7 @@ import { LitElement, html, contextOferta, client } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
-import { planificareDisplayMask, planificareSubsDisplayMask, planificareHeaderMask } from './masks.js'
+import { planificareDisplayMask, planificareSubsDisplayMask, planificareHeaderMask, listaPlanificariMask } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
@@ -162,8 +162,8 @@ class LitwcListaPlanificari extends LitElement {
     const table = tables.my_table7.element
     this.ds = this.planificari.map((p) => {
       const filtered = {}
-      Object.keys(planificareHeaderMask).forEach((key) => {
-        if (planificareHeaderMask[key].visible) {
+      Object.keys(listaPlanificariMask).forEach((key) => {
+        if (listaPlanificariMask[key].visible) {
           filtered[key] = p[key]
         }
       })
