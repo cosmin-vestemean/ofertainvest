@@ -1540,7 +1540,7 @@ const listaPlanificariMask = {
   RESPPLAN: {
     value: 'RESPPLAN',
     RW: true,
-    visible: true,
+    visible: false,
     label: 'Resp. planificare',
     type: 'number',
     usefull: true
@@ -1556,7 +1556,7 @@ const listaPlanificariMask = {
   RESPEXEC: {
     value: 'RESPEXEC',
     RW: true,
-    visible: true,
+    visible: false,
     label: 'Resp. executie',
     type: 'number',
     usefull: true
