@@ -168,13 +168,6 @@ class LitwcListaPlanificari extends LitElement {
           filtered[key] = p[key]
         }
       })
-      filtered.NAME = p.NAME
-      filtered.RESPPLAN_NAME = p.RESPPLAN_NAME
-      filtered.RESPEXEC_NAME = p.RESPEXEC_NAME
-      filtered.CCCPLANIFICARI = p.CCCPLANIFICARI
-      filtered.DATASTART = p.DATASTART
-      filtered.DATASTOP = p.DATASTOP
-      filtered.LOCKED = p.LOCKED
       return filtered
     })
 
