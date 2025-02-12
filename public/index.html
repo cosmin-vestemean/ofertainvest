@@ -305,26 +305,6 @@
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
-                          <label for="saldoc" class="form-label text-primary">Alege o oferta</label>
-                          <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            onclick="document.getElementById('file_oferta_initiala').click()"
-                            >Incarca oferta</a
-                          >
-                          <input
-                            class="form-control form-control-sm"
-                            type="file"
-                            id="file_oferta_initiala"
-                            name="file"
-                            accept=".xlsx"
-                          />
-                        </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
                           <a class="dropdown-item" href="#">Salveaza oferta</a>
                         </li>
                       </ul>
@@ -650,6 +630,18 @@
               <div class="form-group">
                 <label for="trndate" class="form-label text-primary">Data</label>
                 <input class="form-control form-control-sm" type="date" id="trndate" name="trndate" />
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <label for="file_oferta_initiala" class="form-label text-primary">Fisier oferta</label>
+                <input
+                  class="form-control form-control-sm"
+                  type="file"
+                  id="file_oferta_initiala"
+                  name="file"
+                  accept=".xlsx"
+                />
               </div>
             </div>
             <div class="col-2">
