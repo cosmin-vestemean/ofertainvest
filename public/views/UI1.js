@@ -507,7 +507,7 @@ class UI1 extends LitElement {
       <div class="container-fluid">
         ${this.documentHeader && Object.keys(this.documentHeader).length > 0 ? renderDocumentHeader() : ''}
         <table class="table table-sm is-responsive table-hover ms-4" style="font-size: small;">
-          <thead>
+          <thead style="position: sticky; top: 0; background: white; z-index: 1000; border-bottom: 2px solid var(--bs-primary);">
             <tr>
               ${this.generateHeaders(usefullEntityDisplayMask, usefullEntitySubsDisplayMask)}
             </tr>
