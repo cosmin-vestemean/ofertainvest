@@ -552,11 +552,14 @@
                       <ul class="dropdown-menu" id="themesUl"></ul>
                     </li>
                   </ul>
-                  <div class="form-check form-switch position-absolute top-50 start-100 translate-middle">
-                    <input class="form-check-input" type="checkbox" id="snowToggle" />
-                    <label class="form-check-label" for="snowToggle"
-                      ><i class="bi bi-snow text-primary"></i
-                    ></label>
+                  <div class="d-flex align-items-center position-absolute top-50 end-0 translate-middle-y me-5">
+                    <div class="form-check form-switch me-3">
+                      <input class="form-check-input" type="checkbox" id="snowToggle" />
+                      <label class="form-check-label" for="snowToggle"><i class="bi bi-snow text-primary"></i></label>
+                    </div>
+                    <div class="me-2">
+                      <input class="form-control form-control-sm" type="date" id="trndate" name="trndate" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -565,10 +568,6 @@
         </div>
         <div class="row zenView" style="display: none">
           <div class="row" id="doc-header">
-            <div class="col-2">
-              <label for="trndate" class="form-label text-primary">Data</label>
-              <input class="form-control form-control-sm" type="date" id="trndate" name="trndate" />
-            </div>
             <div class="col-2">
               <label for="saldoc" class="form-label text-primary">Alege o oferta</label>
               <select class="form-select form-select-sm" id="saldoc" aria-label="Saldoc"></select>
