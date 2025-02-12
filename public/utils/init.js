@@ -134,6 +134,14 @@ export async function init() {
   div.appendChild(div1)
   modalBody.appendChild(div)
   modal.show()
+
+  // Add project button handler
+  let btn_proiect = document.getElementById('btn_proiect')
+  btn_proiect.onclick = function() {
+    tables.hideAllBut([tables.docHeader])
+    tables.docHeader.element.classList.remove('d-none')
+  }
+
   //this function executes when window is loaded
   //add event listener to select id="trdr" and select id="prjc"
   var trdr = document.getElementById('trdr')
