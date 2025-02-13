@@ -401,6 +401,55 @@ class LitwcListaPlanificari extends LitElement {
       </div>
     `
   }
+
+  renderArticleList(planificari) {
+    // Get all articles from planificari
+    const articles = planificari.flatMap(p => {
+      if (p.ARTICLES) {
+        return p.ARTICLES.map(article => ({
+          ...article,
+          planificare: p
+        }))
+      }
+      return []
+    })
+
+    return html`
+      <div class="article-list">
+        ${articles.map(article => html`
+          <div class="article-item ${this.selectedArticles.includes(article.ID) ? 'selected' : ''}"
+               @click="${() => this.toggleArticleSelection(article.ID)}"
+               draggable="true"
+               @dragstart="${(e) => this.handleDragStart(e, article)}"
+          >
+            <div class="article-header">
+              <small class="text-muted">${article.planificare.NAME}</small>
+            </div>
+            <div class="article-content">
+              ${article.NAME || 'Untitled'}
+              ${article[_cantitate_planificari] ? html`
+                <span class="badge bg-secondary">${article[_cantitate_planificari]}</span>
+              ` : ''}
+            </div>
+          </div>
+        `)}
+      </div>
+    `
+  }
+
+  toggleArticleSelection(articleId) {
+    if (this.selectedArticles.includes(articleId)) {
+      this.selectedArticles = this.selectedArticles.filter(id => id !== articleId)
+    } else {
+      this.selectedArticles = [...this.selectedArticles, articleId]
+    }
+    this.requestUpdate()
+  }
+
+  handleDragStart(e, article) {
+    e.dataTransfer.setData('text/plain', JSON.stringify(article))
+    e.dataTransfer.effectAllowed = 'move'
+  }
 }
 
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
