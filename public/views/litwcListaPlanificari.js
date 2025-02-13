@@ -121,10 +121,11 @@ class LitwcListaPlanificari extends LitElement {
     try {
       const response = await client.service('getDataset').find({
         query: {
-          sqlQuery: `SELECT pl.*, a.* 
-            FROM CCCPLANIFICARILINII pl
-            INNER JOIN CCCANTEMASURATORI a ON a.CCCANTEMASURATORI = pl.CCCANTEMASURATORI 
-            WHERE pl.CCCPLANIFICARI = ${id}`
+          sqlQuery: `select * from cccplanificarilinii a
+            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
+            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
+            inner join cccpaths d on (d.cccpaths=b.cccpaths)
+            WHERE a.CCCPLANIFICARI = ${id}`
         }
       })
 
