@@ -1,6 +1,6 @@
 import { LitElement, html, contextOferta, client } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
-import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { ds_antemasuratori, convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import { planificareDisplayMask, planificareSubsDisplayMask, planificareHeaderMask, listaPlanificariMask } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
@@ -140,6 +140,8 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
+      const planificareCurenta = convertDBAntemasuratori(response.data)
+
       const table = tables.tablePlanificareCurenta.element
       Object.assign(table, {
         hasMainHeader: true,
@@ -147,7 +149,7 @@ class LitwcListaPlanificari extends LitElement {
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: response.data,
+        data: planificareCurenta,
         documentHeader: {
           startDate: header.DATASTART,
           endDate: header.DATASTOP,
