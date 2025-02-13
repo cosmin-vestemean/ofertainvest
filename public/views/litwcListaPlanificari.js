@@ -140,7 +140,9 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      const planificareCurenta = convertDBAntemasuratori(response.data)
+      const planificareCurenta = await convertDBAntemasuratori(response.data)
+
+      console.info('Loaded planificare details:', planificareCurenta)
 
       const table = tables.tablePlanificareCurenta.element
       Object.assign(table, {
