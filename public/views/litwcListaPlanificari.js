@@ -14,7 +14,9 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array }
+    ds: { type: Array },
+    groupedPlanificari: { type: Object }, // New property
+    selectedArticles: { type: Array }     // New property
   }
 
   constructor() {
@@ -24,6 +26,8 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
+    this.groupedPlanificari = {}
+    this.selectedArticles = []
   }
 
   createRenderRoot() {
@@ -101,6 +105,21 @@ class LitwcListaPlanificari extends LitElement {
 
       this.planificari = response.data
       console.info('Loaded planificari:', this.planificari)
+
+      // Group planificari by executant
+      this.groupedPlanificari = this.planificari.reduce((groups, plan) => {
+        const execId = plan.RESPEXEC
+        if (!groups[execId]) {
+          groups[execId] = {
+            executant: this.angajati.find(a => a.PRSN === execId),
+            planificari: []
+          }
+        }
+        groups[execId].planificari.push(plan)
+        return groups
+      }, {})
+
+      this.requestUpdate()
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
@@ -296,6 +315,35 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
+  async scheduleBulkArticles(articles, executantId, startDate, endDate) {
+    // Validate dates
+    if (!startDate || !endDate || new Date(startDate) > new Date(endDate)) {
+      alert('Invalid date range')
+      return
+    }
+
+    // Create new planificare
+    const planificare = {
+      RESPEXEC: executantId,
+      DATASTART: startDate,
+      DATASTOP: endDate,
+      NAME: `Planificare ${new Date().toLocaleDateString()}`,
+      articles: articles
+    }
+
+    try {
+      // Save to database
+      const result = await this.savePlanificare(planificare)
+      if (result.success) {
+        await this.loadPlanificari() // Refresh list
+        this.selectedArticles = [] // Clear selection
+      }
+    } catch (error) {
+      console.error('Failed to schedule articles:', error)
+      alert('Failed to schedule articles')
+    }
+  }
+
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -311,39 +359,46 @@ class LitwcListaPlanificari extends LitElement {
       </button>
       </div>
 
-      <table class="table table-hover">
-      <thead>
-        <tr>
-        <th>#</th>
-        ${Object.entries(listaPlanificariMask)
-          .filter(([_, props]) => props.visible)
-          .map(([_, props]) => html`<th>${props.label}</th>`)}
-        </tr>
-      </thead>
-      <tbody>
-        ${this.ds.map(
-        (item, index) => html`
-          <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
-          <td>${index + 1}</td>
-          ${Object.entries(listaPlanificariMask)
-            .filter(([_, props]) => props.visible)
-            .map(([key, props]) => {
-            if (key === 'LOCKED') {
-              return html`<td>
-              <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
-              </td>`
-            }
-            if (props.type === 'datetime') {
-              return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
-            }
-            return html`<td>${item[key]}</td>`
-            })}
-          </tr>
-        `
-        )}
-      </tbody>
-      </table>
+      <div class="planificari-container">
+        ${Object.entries(this.groupedPlanificari).map(([execId, data]) => html`
+          <div class="executant-group card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h6 class="mb-0">${data.executant?.NAME2 || 'Unknown'}</h6>
+              <button class="btn btn-sm btn-primary" 
+                      @click=${() => this.showScheduleModal(execId)}>
+                <i class="bi bi-calendar-plus"></i> Programeaza
+              </button>
+            </div>
+            <div class="card-body">
+              ${this.renderPlanificariTimeline(data.planificari)}
+            </div>
+            <div class="card-footer">
+              ${this.renderArticleList(data.planificari)}
+            </div>
+          </div>
+        `)}
+      </div>
+
       ${this.renderModal()}
+    `
+  }
+
+  renderPlanificariTimeline(planificari) {
+    // Implement timeline visualization
+    return html`
+      <div class="timeline">
+        ${planificari.map(p => html`
+          <div class="timeline-item">
+            <div class="timeline-date">
+              ${new Date(p.DATASTART).toLocaleDateString()} - 
+              ${new Date(p.DATASTOP).toLocaleDateString()}
+            </div>
+            <div class="timeline-content">
+              ${p.NAME}
+            </div>
+          </div>
+        `)}
+      </div>
     `
   }
 }
