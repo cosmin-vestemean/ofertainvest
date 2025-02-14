@@ -1,5 +1,5 @@
 import UI1 from './UI1.js'
-import { contextOferta } from '../client.js'
+import { contextOferta, html, client } from '../client.js'
 import { upsertDocument } from '../controllers/insertDocInDB.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
