@@ -305,33 +305,6 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  async loadPlanificariContent(execId) {
-    try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `select * from cccplanificarilinii a
-            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
-            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
-            inner join cccpaths d on (d.cccpaths=b.cccpaths)
-            inner join cccplanificari p on p.cccplanificari = a.cccplanificari
-            WHERE p.RESPEXEC = ${execId}
-            AND p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
-        }
-      })
-
-      if (!response.success) {
-        console.error('Failed to load planificare content')
-        return null
-      }
-
-      return await convertDBAntemasuratori(response.data)
-
-    } catch (error) {
-      console.error('Error loading planificare content:', error)
-      return null
-    }
-  }
-
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -365,28 +338,31 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-container">
-        ${Object.entries(planificariByExecutant).map(async ([execId, data]) => {
-          const planificareContent = await this.loadPlanificariContent(execId)
-          return html`
-            <div class="executant-section card mb-4">
-              <div class="card-header bg-light">
-                <h5 class="mb-0">
-                  <i class="bi bi-person-circle text-primary me-2"></i>
-                  ${data.executant?.NAME2 || 'Executant necunoscut'}
-                </h5>
-              </div>
-              <div class="card-body">
+        ${Object.entries(planificariByExecutant).map(([execId, data]) => html`
+          <div class="executant-section card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">
+                <i class="bi bi-person-circle text-primary me-2"></i>
+                ${data.executant?.NAME2 || 'Executant necunoscut'}
+              </h5>
+            </div>
+            <div class="card-body">
+              ${data.planificari.map(planificare => html`
                 <litwc-planificare 
-                  .data=${planificareContent}
+                  .data=${planificare.articles}
                   .documentHeader=${{
-                    executant: data.executant,
-                    planificari: data.planificari
+                    startDate: planificare.DATASTART,
+                    endDate: planificare.DATASTOP,
+                    responsabilPlanificare: planificare.RESPPLAN,
+                    responsabilExecutie: planificare.RESPEXEC,
+                    id: planificare.CCCPLANIFICARI,
+                    name: planificare.NAME
                   }}
                 ></litwc-planificare>
-              </div>
+              `)}
             </div>
-          `
-        })}
+          </div>
+        `)}
       </div>
 
       ${this.renderModal()}
