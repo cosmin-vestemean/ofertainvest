@@ -14,7 +14,8 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array }
+    ds: { type: Array },
+    selectedPlanificare: { type: Object }
   }
 
   constructor() {
@@ -24,6 +25,7 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
+    this.selectedPlanificare = null
   }
 
   createRenderRoot() {
@@ -104,20 +106,9 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      //distinct planificari into this.planificari, with added object for each planificare as linii
-      const uniquePlanificari = response.data.reduce((acc, item) => {
-        if (!acc[item.CCCPLANIFICARI]) {
-          acc[item.CCCPLANIFICARI] = {
-            ...item,
-            linii: []
-          }
-        }
-        acc[item.CCCPLANIFICARI].linii.push(item)
-        return acc
-      }, {})
-
-      this.planificari = Object.values(uniquePlanificari)
-
+      // Group planificari with their lines
+      this.planificari = this.processPlanificariData(response.data)
+      
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
@@ -128,7 +119,85 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  async openPlanificare(id) {
+  processPlanificariData(data) {
+    // Group by CCCPLANIFICARI
+    const grouped = data.reduce((acc, item) => {
+      const id = item.CCCPLANIFICARI
+      if (!acc[id]) {
+        acc[id] = {
+          header: {
+            CCCPLANIFICARI: item.CCCPLANIFICARI,
+            CCCOFERTEWEB: item.CCCOFERTEWEB,
+            NAME: item.NAME,
+            DATASTART: item.DATASTART,
+            DATASTOP: item.DATASTOP,
+            RESPPLAN: item.RESPPLAN,
+            RESPEXEC: item.RESPEXEC,
+            RESPPLAN_NAME: item.RESPPLAN_NAME,
+            RESPEXEC_NAME: item.RESPEXEC_NAME,
+            LOCKED: item.LOCKED
+          },
+          lines: []
+        }
+      }
+      acc[id].lines.push(item)
+      return acc
+    }, {})
+
+    return Object.values(grouped)
+  }
+
+  async viewPlanificare(planificare, inNewWindow = false) {
+    try {
+      // Convert planificare lines to antemasuratori format
+      const convertedData = await convertDBAntemasuratori(planificare.lines)
+      
+      const config = {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: convertedData,
+        documentHeader: {
+          startDate: planificare.header.DATASTART,
+          endDate: planificare.header.DATASTOP,
+          responsabilPlanificare: planificare.header.RESPPLAN,  
+          responsabilExecutie: planificare.header.RESPEXEC,
+          id: planificare.header.CCCPLANIFICARI,
+          name: planificare.header.NAME
+        },
+        documentHeaderMask: planificareHeaderMask
+      }
+
+      if (inNewWindow) {
+        // Open in full screen planificare component
+        const planifComponent = tables.tablePlanificareCurenta.element
+        Object.assign(planifComponent, config)
+        tables.hideAllBut([tables.tablePlanificareCurenta])
+      } else {
+        // Update selected planificare to trigger inline rendering
+        this.selectedPlanificare = {
+          id: planificare.header.CCCPLANIFICARI,
+          config
+        }
+      }
+
+    } catch (error) {
+      console.error('Error processing planificare:', error)
+    }
+  }
+
+  renderPlanificare(planificare) {
+    return html`
+      <litwc-planificare
+        .config=${planificare.config}
+        @close=${() => this.selectedPlanificare = null}
+      ></litwc-planificare>
+    `
+  }
+
+  async openPlanificare(id, table) {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found') 
       return
@@ -162,17 +231,25 @@ class LitwcListaPlanificari extends LitElement {
 
       console.info('Loaded planificare details:', planificareCurenta)
 
-      const planificareElement = document.getElementById('planificareCurenta')
-      planificareElement.style.display = 'block'
-      planificareElement._articole = planificareCurenta
-      planificareElement.documentHeader = {
-        startDate: header.DATASTART,
-        endDate: header.DATASTOP,
-        responsabilPlanificare: header.RESPPLAN,
-        responsabilExecutie: header.RESPEXEC,
-        id: header.CCCPLANIFICARI,
-        name: header.NAME
-      }
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: planificareCurenta,
+        documentHeader: {
+          startDate: header.DATASTART,
+          endDate: header.DATASTOP,
+          responsabilPlanificare: header.RESPPLAN,
+          responsabilExecutie: header.RESPEXEC,
+          id: header.CCCPLANIFICARI,
+          name: header.NAME
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
+
+      tables.hideAllBut([tables.tablePlanificareCurenta])
 
     } catch (error) {
       console.error('Error loading planificare details:', error)
@@ -243,15 +320,22 @@ class LitwcListaPlanificari extends LitElement {
       })
     })
 
-    const planificareElement = document.getElementById('planificareCurenta')
-    planificareElement.style.display = 'block'
-    planificareElement._articole = ds_planificareNoua
-    planificareElement.documentHeader = {
-      startDate: document.getElementById('startDate').value,
-      endDate: document.getElementById('endDate').value,
-      responsabilPlanificare: document.getElementById('select1').value,
-      responsabilExecutie: document.getElementById('select2').value
-    }
+    const table = tables.tablePlanificareCurenta.element
+    Object.assign(table, {
+      hasMainHeader: true,
+      hasSubHeader: false,
+      canAddInLine: true,
+      mainMask: planificareDisplayMask,
+      subsMask: planificareSubsDisplayMask,
+      data: ds_planificareNoua,
+      documentHeader: {
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        responsabilPlanificare: document.getElementById('select1').value,
+        responsabilExecutie: document.getElementById('select2').value
+      },
+      documentHeaderMask: planificareHeaderMask
+    })
 
     tables.hideAllBut([tables.tablePlanificareCurenta])
     this.modal?.hide()
@@ -330,7 +414,10 @@ class LitwcListaPlanificari extends LitElement {
       <tbody>
         ${this.ds.map(
         (item, index) => html`
-          <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer">
+          <tr @click="${() => this.viewPlanificare(
+            this.planificari.find(p => p.header.CCCPLANIFICARI === item.CCCPLANIFICARI),
+            true
+          )}" style="cursor: pointer">
           <td>${index + 1}</td>
           ${Object.entries(listaPlanificariMask)
             .filter(([_, props]) => props.visible)
@@ -350,6 +437,12 @@ class LitwcListaPlanificari extends LitElement {
         )}
       </tbody>
       </table>
+
+      ${this.selectedPlanificare ? 
+        this.renderPlanificare(this.selectedPlanificare) : 
+        nothing
+      }
+      
       ${this.renderModal()}
     `
   }
