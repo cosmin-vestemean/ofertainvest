@@ -110,7 +110,7 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  async openPlanificare(id) {
+  async openPlanificare(id, table) {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found') 
       return
@@ -144,7 +144,6 @@ class LitwcListaPlanificari extends LitElement {
 
       console.info('Loaded planificare details:', planificareCurenta)
 
-      const table = tables.tablePlanificareCurenta.element
       Object.assign(table, {
         hasMainHeader: true,
         hasSubHeader: false,
@@ -310,43 +309,48 @@ class LitwcListaPlanificari extends LitElement {
 
     return html`
       <div class="toolbar mb-2">
-      <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">Adauga planificare</button>
-      <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
-        <i class="bi bi-arrow-clockwise"></i> Refresh
-      </button>
+        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
+          Adauga planificare
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
       </div>
 
       <table class="table table-hover">
-      <thead>
-        <tr>
-        <th>#</th>
-        ${Object.entries(listaPlanificariMask)
-          .filter(([_, props]) => props.visible)
-          .map(([_, props]) => html`<th>${props.label}</th>`)}
-        </tr>
-      </thead>
-      <tbody>
-        ${this.ds.map(
-        (item, index) => html`
-          <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
-          <td>${index + 1}</td>
-          ${Object.entries(listaPlanificariMask)
-            .filter(([_, props]) => props.visible)
-            .map(([key, props]) => {
-            if (key === 'LOCKED') {
-              return html`<td>
-              <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
-              </td>`
-            }
-            if (props.type === 'datetime') {
-              return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
-            }
-            return html`<td>${item[key]}</td>`
-            })}
+        <thead>
+          <tr>
+            <th>#</th>
+            ${Object.entries(listaPlanificariMask)
+              .filter(([_, props]) => props.visible)
+              .map(([_, props]) => html`<th>${props.label}</th>`)}
           </tr>
-        `
-        )}
-      </tbody>
+        </thead>
+        <tbody>
+          ${this.ds.map((item, index) => html`
+            <tr>
+              <td>${index + 1}</td>
+              ${Object.entries(listaPlanificariMask)
+                .filter(([_, props]) => props.visible)
+                .map(([key, props]) => {
+                  if (key === 'LOCKED') {
+                    return html`<td>
+                      <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
+                    </td>`
+                  }
+                  if (props.type === 'datetime') {
+                    return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
+                  }
+                  return html`<td>${item[key]}</td>`
+                })}
+            </tr>
+            <tr>
+              <td colspan="100%">
+                <litwc-planificare .planificareId="${item.CCCPLANIFICARI}"></litwc-planificare>
+              </td>
+            </tr>
+          `)}
+        </tbody>
       </table>
       ${this.renderModal()}
     `
