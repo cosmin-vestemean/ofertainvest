@@ -1,4 +1,4 @@
-import { LitElement, html, nothing, contextOferta, client } from '../client.js'
+import { LitElement, html, contextOferta, client } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori, convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
@@ -14,8 +14,7 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array },
-    selectedPlanificare: { type: Object }
+    ds: { type: Array }
   }
 
   constructor() {
@@ -25,7 +24,6 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
-    this.selectedPlanificare = null
   }
 
   createRenderRoot() {
@@ -87,15 +85,10 @@ class LitwcListaPlanificari extends LitElement {
         FORMAT(p.UPDDATE, 'yyyy-MM-dd') as UPDDATE,
         p.INSUSR, p.UPDUSR,
         u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, pa.*
+        u2.NAME2 as RESPEXEC_NAME
         FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
-        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
-        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
-        inner join cccpaths pa on (pa.CCCPATHS = a.CCCPATHS)
         WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
         ORDER BY p.INSDATE DESC`
         }
@@ -106,9 +99,7 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      // Group planificari with their lines
-      this.planificari = this.processPlanificariData(response.data)
-      
+      this.planificari = response.data
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
@@ -119,85 +110,7 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  processPlanificariData(data) {
-    // Group by CCCPLANIFICARI
-    const grouped = data.reduce((acc, item) => {
-      const id = item.CCCPLANIFICARI
-      if (!acc[id]) {
-        acc[id] = {
-          header: {
-            CCCPLANIFICARI: item.CCCPLANIFICARI,
-            CCCOFERTEWEB: item.CCCOFERTEWEB,
-            NAME: item.NAME,
-            DATASTART: item.DATASTART,
-            DATASTOP: item.DATASTOP,
-            RESPPLAN: item.RESPPLAN,
-            RESPEXEC: item.RESPEXEC,
-            RESPPLAN_NAME: item.RESPPLAN_NAME,
-            RESPEXEC_NAME: item.RESPEXEC_NAME,
-            LOCKED: item.LOCKED
-          },
-          lines: []
-        }
-      }
-      acc[id].lines.push(item)
-      return acc
-    }, {})
-
-    return Object.values(grouped)
-  }
-
-  async viewPlanificare(planificare, inNewWindow = false) {
-    try {
-      // Convert planificare lines to antemasuratori format
-      const convertedData = await convertDBAntemasuratori(planificare.lines)
-      
-      const config = {
-        hasMainHeader: true,
-        hasSubHeader: false,
-        canAddInLine: true,
-        mainMask: planificareDisplayMask,
-        subsMask: planificareSubsDisplayMask,
-        data: convertedData,
-        documentHeader: {
-          startDate: planificare.header.DATASTART,
-          endDate: planificare.header.DATASTOP,
-          responsabilPlanificare: planificare.header.RESPPLAN,  
-          responsabilExecutie: planificare.header.RESPEXEC,
-          id: planificare.header.CCCPLANIFICARI,
-          name: planificare.header.NAME
-        },
-        documentHeaderMask: planificareHeaderMask
-      }
-
-      if (inNewWindow) {
-        // Open in full screen planificare component
-        const planifComponent = tables.tablePlanificareCurenta.element
-        Object.assign(planifComponent, config)
-        tables.hideAllBut([tables.tablePlanificareCurenta])
-      } else {
-        // Update selected planificare to trigger inline rendering
-        this.selectedPlanificare = {
-          id: planificare.header.CCCPLANIFICARI,
-          config
-        }
-      }
-
-    } catch (error) {
-      console.error('Error processing planificare:', error)
-    }
-  }
-
-  renderPlanificare(planificare) {
-    return html`
-      <litwc-planificare
-        .config=${planificare.config}
-        @close=${() => this.selectedPlanificare = null}
-      ></litwc-planificare>
-    `
-  }
-
-  async openPlanificare(id, table) {
+  async openPlanificare(id) {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found') 
       return
@@ -231,6 +144,7 @@ class LitwcListaPlanificari extends LitElement {
 
       console.info('Loaded planificare details:', planificareCurenta)
 
+      const table = tables.tablePlanificareCurenta.element
       Object.assign(table, {
         hasMainHeader: true,
         hasSubHeader: false,
@@ -414,10 +328,7 @@ class LitwcListaPlanificari extends LitElement {
       <tbody>
         ${this.ds.map(
         (item, index) => html`
-          <tr @click="${() => this.viewPlanificare(
-            this.planificari.find(p => p.header.CCCPLANIFICARI === item.CCCPLANIFICARI),
-            true
-          )}" style="cursor: pointer">
+          <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
           <td>${index + 1}</td>
           ${Object.entries(listaPlanificariMask)
             .filter(([_, props]) => props.visible)
@@ -437,12 +348,6 @@ class LitwcListaPlanificari extends LitElement {
         )}
       </tbody>
       </table>
-
-      ${this.selectedPlanificare ? 
-        this.renderPlanificare(this.selectedPlanificare) : 
-        nothing
-      }
-      
       ${this.renderModal()}
     `
   }
