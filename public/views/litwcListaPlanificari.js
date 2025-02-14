@@ -68,44 +68,33 @@ class LitwcListaPlanificari extends LitElement {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
       this.ds = []
+      this.renderPlanificari()
       return
     }
 
     try {
       const response = await client.service('getDataset').find({
         query: {
-          sqlQuery: `
-            WITH PlanificariFull AS (
-              SELECT 
-                p.CCCPLANIFICARI, p.CCCOFERTEWEB,
-                p.RESPEXEC, p.RESPPLAN,
-                p.NAME as PLANIFICARE_NAME,
-                FORMAT(p.DATASTART, 'yyyy-MM-dd') as DATASTART,
-                FORMAT(p.DATASTOP, 'yyyy-MM-dd') as DATASTOP,
-                p.LOCKED,
-                FORMAT(p.INSDATE, 'yyyy-MM-dd') as INSDATE,
-                FORMAT(p.UPDDATE, 'yyyy-MM-dd') as UPDDATE,
-                p.INSUSR, p.UPDUSR,
-                u1.NAME2 as RESPPLAN_NAME,
-                u2.NAME2 as RESPEXEC_NAME,
-                a.*, 
-                c.DENUMIRE,
-                c.UM,
-                l.CANTITATE as ${_cantitate_planificari},
-                pa.PATH,
-                pa.PATHID
-              FROM CCCPLANIFICARI p
-              LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-              LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC
-              INNER JOIN cccplanificarilinii l on l.CCCPLANIFICARI = p.CCCPLANIFICARI
-              INNER JOIN cccantemasuratori a on a.cccantemasuratori = l.cccantemasuratori
-              INNER JOIN cccoferteweblinii c on c.CCCOFERTEWEBLINII = a.CCCOFERTEWEBLINII
-              INNER JOIN cccpaths pa on pa.CCCPATHS = a.CCCPATHS
-              WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-            )
-            SELECT * FROM PlanificariFull
-            ORDER BY RESPEXEC, DATASTART, PATHID
-          `
+          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
+        p.RESPEXEC, p.RESPPLAN,
+        p.NAME, 
+        FORMAT(p.DATASTART, 'yyyy-MM-dd') as DATASTART, 
+        FORMAT(p.DATASTOP, 'yyyy-MM-dd') as DATASTOP,
+        p.LOCKED, 
+        FORMAT(p.INSDATE, 'yyyy-MM-dd') as INSDATE,
+        FORMAT(p.UPDDATE, 'yyyy-MM-dd') as UPDDATE,
+        p.INSUSR, p.UPDUSR,
+        u1.NAME2 as RESPPLAN_NAME, 
+        u2.NAME2 as RESPEXEC_NAME
+        FROM CCCPLANIFICARI p
+        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
+        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
+        inner join cccplanificarilinii l on l.CCCPLANIFICARI = p.CCCPLANIFICARI
+        inner join cccantemasuratori a on a.cccantemasuratori = l.cccantemasuratori
+        inner join cccoferteweblinii o on o.CCCOFERTEWEBLINII = a.CCCOFERTEWEBLINII
+        inner join cccpaths pa on pa.CCCPATHS = a.CCCPATHS
+        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+        ORDER BY p.INSDATE DESC`
         }
       })
 
@@ -114,46 +103,14 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      // Group data by executant and planificare
-      const planificariByExecutant = response.data.reduce((acc, row) => {
-        const execId = row.RESPEXEC
-        const planId = row.CCCPLANIFICARI
-
-        if (!acc[execId]) {
-          acc[execId] = {
-            executant: {
-              PRSN: row.RESPEXEC,
-              NAME2: row.RESPEXEC_NAME
-            },
-            planificari: {}
-          }
-        }
-
-        if (!acc[execId].planificari[planId]) {
-          acc[execId].planificari[planId] = {
-            header: {
-              id: planId,
-              name: row.PLANIFICARE_NAME,
-              startDate: row.DATASTART,
-              endDate: row.DATASTOP,
-              responsabilPlanificare: row.RESPPLAN,
-              responsabilExecutie: row.RESPEXEC
-            },
-            articles: []
-          }
-        }
-
-        acc[execId].planificari[planId].articles.push(row)
-        return acc
-      }, {})
-
-      this.planificariByExecutant = planificariByExecutant
-      console.info('Loaded and grouped planificari:', planificariByExecutant)
-      this.requestUpdate()
-
+      this.planificari = response.data
+      console.info('Loaded planificari:', this.planificari)
+      this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
-      this.planificariByExecutant = {}
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
     }
   }
 
@@ -355,6 +312,21 @@ class LitwcListaPlanificari extends LitElement {
       </div>`
     }
 
+    // Group planificari by executant
+    const planificariByExecutant = this.ds.reduce((acc, planificare) => {
+      const execId = planificare.RESPEXEC
+      const executant = this.angajati.find(a => a.PRSN === execId)
+      
+      if (!acc[execId]) {
+        acc[execId] = {
+          executant,
+          planificari: []
+        }
+      }
+      acc[execId].planificari.push(planificare)
+      return acc
+    }, {})
+
     return html`
       <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
@@ -366,7 +338,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-container">
-        ${Object.entries(this.planificariByExecutant || {}).map(([execId, data]) => html`
+        ${Object.entries(planificariByExecutant).map(([execId, data]) => html`
           <div class="executant-section card mb-4">
             <div class="card-header bg-light">
               <h5 class="mb-0">
@@ -375,10 +347,17 @@ class LitwcListaPlanificari extends LitElement {
               </h5>
             </div>
             <div class="card-body">
-              ${Object.values(data.planificari).map(planificare => html`
+              ${data.planificari.map(planificare => html`
                 <litwc-planificare 
                   .data=${planificare.articles}
-                  .documentHeader=${planificare.header}
+                  .documentHeader=${{
+                    startDate: planificare.DATASTART,
+                    endDate: planificare.DATASTOP,
+                    responsabilPlanificare: planificare.RESPPLAN,
+                    responsabilExecutie: planificare.RESPEXEC,
+                    id: planificare.CCCPLANIFICARI,
+                    name: planificare.NAME
+                  }}
                 ></litwc-planificare>
               `)}
             </div>
