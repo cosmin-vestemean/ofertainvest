@@ -89,7 +89,7 @@ class LitwcListaPlanificari extends LitElement {
         u1.NAME2 as RESPPLAN_NAME, 
         u2.NAME2 as RESPEXEC_NAME,
         a.*,
-        l.* 
+        l.*,
         o.*,
         pa.*
         FROM CCCPLANIFICARI p
