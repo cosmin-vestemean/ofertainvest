@@ -1,71 +1,11 @@
 import UI1 from './UI1.js'
-import { contextOferta, html, client } from '../client.js'
+import { contextOferta } from '../client.js'
 import { upsertDocument } from '../controllers/insertDocInDB.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
-import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 
 export class Planificare extends UI1 {
-  static get properties() {
-    return {
-      planificareId: { type: Number },
-      data: { type: Array }
-    };
-  }
-
   constructor() {
-    super();
-    this.planificareId = null;
-    this.data = [];
-  }
-
-  async firstUpdated() {
-    if (this.planificareId) {
-      await this.loadPlanificareData(this.planificareId);
-    }
-  }
-
-  async loadPlanificareData(id) {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found');
-      return;
-    }
-
-    try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `select * from cccplanificarilinii a
-            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
-            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
-            inner join cccpaths d on (d.cccpaths=b.cccpaths)
-            WHERE a.CCCPLANIFICARI = ${id}`
-        }
-      });
-
-      if (!response.success) {
-        console.error('Failed to load planificare details', response.error);
-        return;
-      }
-
-      this.data = await convertDBAntemasuratori(response.data);
-      this.requestUpdate();
-
-    } catch (error) {
-      console.error('Error loading planificare details:', error);
-    }
-  }
-
-  render() {
-    return html`
-      <div>
-        Planificare ID: ${this.planificareId}
-        ${this.data ? html`
-          <p>Data loaded successfully!</p>
-          <!-- Render your data here -->
-        ` : html`
-          <p>Loading data...</p>
-        `}
-      </div>
-    `;
+    super()
   }
 
   async saveDocument(htmlElement) {

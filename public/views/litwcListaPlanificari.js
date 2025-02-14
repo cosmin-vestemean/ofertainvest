@@ -85,10 +85,15 @@ class LitwcListaPlanificari extends LitElement {
         FORMAT(p.UPDDATE, 'yyyy-MM-dd') as UPDDATE,
         p.INSUSR, p.UPDUSR,
         u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME
+        u2.NAME2 as RESPEXEC_NAME,
+        l.*, a.*, o.*, pa.*
         FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
+        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
+        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
+        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
+        inner join cccpaths pa on (pa.CCCPATHS = a.CCCPATHS)
         WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
         ORDER BY p.INSDATE DESC`
         }
@@ -99,7 +104,20 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      this.planificari = response.data
+      //distinct planificari into this.planificari, with added object for each planificare as linii
+      const uniquePlanificari = response.data.reduce((acc, item) => {
+        if (!acc[item.CCCPLANIFICARI]) {
+          acc[item.CCCPLANIFICARI] = {
+            ...item,
+            linii: []
+          }
+        }
+        acc[item.CCCPLANIFICARI].linii.push(item)
+        return acc
+      }, {})
+
+      this.planificari = Object.values(uniquePlanificari)
+
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
@@ -309,48 +327,43 @@ class LitwcListaPlanificari extends LitElement {
 
     return html`
       <div class="toolbar mb-2">
-        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
-          Adauga planificare
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
-          <i class="bi bi-arrow-clockwise"></i> Refresh
-        </button>
+      <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">Adauga planificare</button>
+      <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
+        <i class="bi bi-arrow-clockwise"></i> Refresh
+      </button>
       </div>
 
       <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            ${Object.entries(listaPlanificariMask)
-              .filter(([_, props]) => props.visible)
-              .map(([_, props]) => html`<th>${props.label}</th>`)}
+      <thead>
+        <tr>
+        <th>#</th>
+        ${Object.entries(listaPlanificariMask)
+          .filter(([_, props]) => props.visible)
+          .map(([_, props]) => html`<th>${props.label}</th>`)}
+        </tr>
+      </thead>
+      <tbody>
+        ${this.ds.map(
+        (item, index) => html`
+          <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer">
+          <td>${index + 1}</td>
+          ${Object.entries(listaPlanificariMask)
+            .filter(([_, props]) => props.visible)
+            .map(([key, props]) => {
+            if (key === 'LOCKED') {
+              return html`<td>
+              <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
+              </td>`
+            }
+            if (props.type === 'datetime') {
+              return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
+            }
+            return html`<td>${item[key]}</td>`
+            })}
           </tr>
-        </thead>
-        <tbody>
-          ${this.ds.map((item, index) => html`
-            <tr>
-              <td>${index + 1}</td>
-              ${Object.entries(listaPlanificariMask)
-                .filter(([_, props]) => props.visible)
-                .map(([key, props]) => {
-                  if (key === 'LOCKED') {
-                    return html`<td>
-                      <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
-                    </td>`
-                  }
-                  if (props.type === 'datetime') {
-                    return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
-                  }
-                  return html`<td>${item[key]}</td>`
-                })}
-            </tr>
-            <tr>
-              <td colspan="100%">
-                <litwc-planificare .planificareId="${item.CCCPLANIFICARI}"></litwc-planificare>
-              </td>
-            </tr>
-          `)}
-        </tbody>
+        `
+        )}
+      </tbody>
       </table>
       ${this.renderModal()}
     `
