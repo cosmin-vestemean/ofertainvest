@@ -308,46 +308,59 @@ class LitwcListaPlanificari extends LitElement {
       </div>`
     }
 
+    // Group planificari by executant
+    const planificariByExecutant = this.ds.reduce((acc, planificare) => {
+      const execId = planificare.RESPEXEC
+      const executant = this.angajati.find(a => a.PRSN === execId)
+      
+      if (!acc[execId]) {
+        acc[execId] = {
+          executant,
+          planificari: []
+        }
+      }
+      acc[execId].planificari.push(planificare)
+      return acc
+    }, {})
+
     return html`
       <div class="toolbar mb-2">
-      <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">Adauga planificare</button>
-      <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
-        <i class="bi bi-arrow-clockwise"></i> Refresh
-      </button>
+        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
+          Adauga planificare
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
       </div>
 
-      <table class="table table-hover">
-      <thead>
-        <tr>
-        <th>#</th>
-        ${Object.entries(listaPlanificariMask)
-          .filter(([_, props]) => props.visible)
-          .map(([_, props]) => html`<th>${props.label}</th>`)}
-        </tr>
-      </thead>
-      <tbody>
-        ${this.ds.map(
-        (item, index) => html`
-          <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI)}" style="cursor: pointer">
-          <td>${index + 1}</td>
-          ${Object.entries(listaPlanificariMask)
-            .filter(([_, props]) => props.visible)
-            .map(([key, props]) => {
-            if (key === 'LOCKED') {
-              return html`<td>
-              <i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
-              </td>`
-            }
-            if (props.type === 'datetime') {
-              return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
-            }
-            return html`<td>${item[key]}</td>`
-            })}
-          </tr>
-        `
-        )}
-      </tbody>
-      </table>
+      <div class="planificari-container">
+        ${Object.entries(planificariByExecutant).map(([execId, data]) => html`
+          <div class="executant-section card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">
+                <i class="bi bi-person-circle text-primary me-2"></i>
+                ${data.executant?.NAME2 || 'Executant necunoscut'}
+              </h5>
+            </div>
+            <div class="card-body">
+              ${data.planificari.map(planificare => html`
+                <litwc-planificare 
+                  .data=${planificare.articles}
+                  .documentHeader=${{
+                    startDate: planificare.DATASTART,
+                    endDate: planificare.DATASTOP,
+                    responsabilPlanificare: planificare.RESPPLAN,
+                    responsabilExecutie: planificare.RESPEXEC,
+                    id: planificare.CCCPLANIFICARI,
+                    name: planificare.NAME
+                  }}
+                ></litwc-planificare>
+              `)}
+            </div>
+          </div>
+        `)}
+      </div>
+
       ${this.renderModal()}
     `
   }
