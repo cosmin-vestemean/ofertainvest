@@ -14,8 +14,7 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array },
-    groupedPlanificari: { type: Object }
+    ds: { type: Array }
   }
 
   constructor() {
@@ -25,7 +24,6 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
-    this.groupedPlanificari = {}
   }
 
   createRenderRoot() {
@@ -62,7 +60,7 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
-    await this.loadPlanificari()
+    this.loadPlanificari()
   }
 
   async loadPlanificari() {
@@ -87,11 +85,7 @@ class LitwcListaPlanificari extends LitElement {
         FORMAT(p.UPDDATE, 'yyyy-MM-dd') as UPDDATE,
         p.INSUSR, p.UPDUSR,
         u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        a.*,
-        l.*,
-        o.*,
-        pa.*
+        u2.NAME2 as RESPEXEC_NAME
         FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
@@ -111,23 +105,7 @@ class LitwcListaPlanificari extends LitElement {
 
       this.planificari = response.data
       console.info('Loaded planificari:', this.planificari)
-
-      // Group planificari by executant
-      this.groupedPlanificari = this.planificari.reduce((acc, planificare) => {
-        const execId = planificare.RESPEXEC
-        if (!acc[execId]) {
-          acc[execId] = {
-            executant: this.angajati.find(a => a.PRSN === execId),
-            planificari: [],
-            articles: []
-          }
-        }
-        acc[execId].planificari.push(planificare)
-        acc[execId].articles.push(planificare)
-        return acc
-      }, {})
-
-      this.requestUpdate()
+      this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
@@ -327,12 +305,54 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
+  async loadPlanificariContent(execId) {
+    try {
+      const response = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `select * from cccplanificarilinii a
+            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
+            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
+            inner join cccpaths d on (d.cccpaths=b.cccpaths)
+            inner join cccplanificari p on p.cccplanificari = a.cccplanificari
+            WHERE p.RESPEXEC = ${execId}
+            AND p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
+        }
+      })
+
+      if (!response.success) {
+        console.error('Failed to load planificare content')
+        return null
+      }
+
+      return await convertDBAntemasuratori(response.data)
+
+    } catch (error) {
+      console.error('Error loading planificare content:', error)
+      return null
+    }
+  }
+
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>`
     }
+
+    // Group planificari by executant
+    const planificariByExecutant = this.ds.reduce((acc, planificare) => {
+      const execId = planificare.RESPEXEC
+      const executant = this.angajati.find(a => a.PRSN === execId)
+      
+      if (!acc[execId]) {
+        acc[execId] = {
+          executant,
+          planificari: []
+        }
+      }
+      acc[execId].planificari.push(planificare)
+      return acc
+    }, {})
 
     return html`
       <div class="toolbar mb-2">
@@ -345,31 +365,28 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-container">
-        ${Object.entries(this.groupedPlanificari).map(([execId, data]) => html`
-          <div class="executant-section card mb-4">
-            <div class="card-header bg-light">
-              <h5 class="mb-0">
-                <i class="bi bi-person-circle text-primary me-2"></i>
-                ${data.executant?.NAME2 || 'Executant necunoscut'}
-              </h5>
-            </div>
-            <div class="card-body">
-              ${data.planificari.map(planificare => html`
+        ${Object.entries(planificariByExecutant).map(async ([execId, data]) => {
+          const planificareContent = await this.loadPlanificariContent(execId)
+          return html`
+            <div class="executant-section card mb-4">
+              <div class="card-header bg-light">
+                <h5 class="mb-0">
+                  <i class="bi bi-person-circle text-primary me-2"></i>
+                  ${data.executant?.NAME2 || 'Executant necunoscut'}
+                </h5>
+              </div>
+              <div class="card-body">
                 <litwc-planificare 
-                  .data=${convertDBAntemasuratori([planificare])}
+                  .data=${planificareContent}
                   .documentHeader=${{
-                    startDate: planificare.DATASTART,
-                    endDate: planificare.DATASTOP,
-                    responsabilPlanificare: planificare.RESPPLAN,
-                    responsabilExecutie: planificare.RESPEXEC,
-                    id: planificare.CCCPLANIFICARI,
-                    name: planificare.NAME
+                    executant: data.executant,
+                    planificari: data.planificari
                   }}
                 ></litwc-planificare>
-              `)}
+              </div>
             </div>
-          </div>
-        `)}
+          `
+        })}
       </div>
 
       ${this.renderModal()}
