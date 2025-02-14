@@ -128,7 +128,7 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  async openPlanificare(id, table) {
+  async openPlanificare(id) {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found') 
       return
@@ -162,25 +162,17 @@ class LitwcListaPlanificari extends LitElement {
 
       console.info('Loaded planificare details:', planificareCurenta)
 
-      Object.assign(table, {
-        hasMainHeader: true,
-        hasSubHeader: false,
-        canAddInLine: true,
-        mainMask: planificareDisplayMask,
-        subsMask: planificareSubsDisplayMask,
-        data: planificareCurenta,
-        documentHeader: {
-          startDate: header.DATASTART,
-          endDate: header.DATASTOP,
-          responsabilPlanificare: header.RESPPLAN,
-          responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI,
-          name: header.NAME
-        },
-        documentHeaderMask: planificareHeaderMask
-      })
-
-      tables.hideAllBut([tables.tablePlanificareCurenta])
+      const planificareElement = document.getElementById('planificareCurenta')
+      planificareElement.style.display = 'block'
+      planificareElement._articole = planificareCurenta
+      planificareElement.documentHeader = {
+        startDate: header.DATASTART,
+        endDate: header.DATASTOP,
+        responsabilPlanificare: header.RESPPLAN,
+        responsabilExecutie: header.RESPEXEC,
+        id: header.CCCPLANIFICARI,
+        name: header.NAME
+      }
 
     } catch (error) {
       console.error('Error loading planificare details:', error)
@@ -251,22 +243,15 @@ class LitwcListaPlanificari extends LitElement {
       })
     })
 
-    const table = tables.tablePlanificareCurenta.element
-    Object.assign(table, {
-      hasMainHeader: true,
-      hasSubHeader: false,
-      canAddInLine: true,
-      mainMask: planificareDisplayMask,
-      subsMask: planificareSubsDisplayMask,
-      data: ds_planificareNoua,
-      documentHeader: {
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value,
-        responsabilPlanificare: document.getElementById('select1').value,
-        responsabilExecutie: document.getElementById('select2').value
-      },
-      documentHeaderMask: planificareHeaderMask
-    })
+    const planificareElement = document.getElementById('planificareCurenta')
+    planificareElement.style.display = 'block'
+    planificareElement._articole = ds_planificareNoua
+    planificareElement.documentHeader = {
+      startDate: document.getElementById('startDate').value,
+      endDate: document.getElementById('endDate').value,
+      responsabilPlanificare: document.getElementById('select1').value,
+      responsabilExecutie: document.getElementById('select2').value
+    }
 
     tables.hideAllBut([tables.tablePlanificareCurenta])
     this.modal?.hide()
