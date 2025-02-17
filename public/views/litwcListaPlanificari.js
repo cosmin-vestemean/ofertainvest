@@ -88,6 +88,7 @@ class LitwcListaPlanificari extends LitElement {
         u1.NAME2 as RESPPLAN_NAME, 
         u2.NAME2 as RESPEXEC_NAME
         FROM CCCPLANIFICARI p
+        l.*, a.*, o.*, c.*
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
         inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
@@ -104,7 +105,46 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      this.planificari = response.data
+      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
+      // Group by planificare header
+      const grouped = response.data.reduce((acc, row) => {
+        if (!acc[row.CCCPLANIFICARI]) {
+          // Create header entry if it doesn't exist
+          acc[row.CCCPLANIFICARI] = {
+            CCCPLANIFICARI: row.CCCPLANIFICARI,
+            CCCOFERTEWEB: row.CCCOFERTEWEB,
+            RESPEXEC: row.RESPEXEC,
+            RESPPLAN: row.RESPPLAN,
+            RESPPLAN_NAME: row.RESPPLAN_NAME,
+            RESPEXEC_NAME: row.RESPEXEC_NAME,
+            linii: [] // Store detail rows here
+          }
+        }
+
+        // Add detail row if it exists
+        if (row.CCCANTEMASURATORI) {
+          acc[row.CCCPLANIFICARI].linii.push({
+            CCCANTEMASURATORI: row.CCCANTEMASURATORI,
+            CANTITATE: row.CANTITATE,
+            DENUMIRE: row.DENUMIRE,
+            UM: row.UM,
+            PRET: row.PRET,
+            CAPITOL: row.CAPITOL,
+            PATH: row.PATH
+          })
+        }
+
+        return acc
+      }, {})
+
+      // Convert to array and sort by RESPPLAN, RESPEXEC
+      this.planificari = Object.values(grouped).sort((a, b) => {
+        if (a.RESPPLAN === b.RESPPLAN) {
+          return a.RESPEXEC?.localeCompare(b.RESPEXEC || '')
+        }
+        return a.RESPPLAN?.localeCompare(b.RESPPLAN || '')
+      })
+
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
@@ -330,7 +370,11 @@ class LitwcListaPlanificari extends LitElement {
         <tbody>
           ${this.ds.map(
             (item, index) => html`
-              <tr @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer">
+              <tr
+                @click="${() =>
+                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+                style="cursor: pointer"
+              >
                 <td>${index + 1}</td>
                 ${Object.entries(listaPlanificariMask)
                   .filter(([_, props]) => props.visible)
