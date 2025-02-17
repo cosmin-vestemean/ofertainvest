@@ -86,9 +86,9 @@ class LitwcListaPlanificari extends LitElement {
           sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
         p.RESPEXEC, p.RESPPLAN,
         u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME
-        FROM CCCPLANIFICARI p
+        u2.NAME2 as RESPEXEC_NAME,
         l.*, a.*, o.*, c.*
+        FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
         inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
@@ -123,15 +123,7 @@ class LitwcListaPlanificari extends LitElement {
 
         // Add detail row if it exists
         if (row.CCCANTEMASURATORI) {
-          acc[row.CCCPLANIFICARI].linii.push({
-            CCCANTEMASURATORI: row.CCCANTEMASURATORI,
-            CANTITATE: row.CANTITATE,
-            DENUMIRE: row.DENUMIRE,
-            UM: row.UM,
-            PRET: row.PRET,
-            CAPITOL: row.CAPITOL,
-            PATH: row.PATH
-          })
+          acc[row.CCCPLANIFICARI].linii.push({ ...row })
         }
 
         return acc
