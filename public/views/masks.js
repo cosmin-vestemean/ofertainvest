@@ -1556,7 +1556,7 @@ const listaPlanificariMask = {
   LOCKED: {
     value: 'LOCKED',
     RW: false,
-    visible: true,
+    visible: false,
     label: 'Status',
     type: 'number',
     usefull: true
