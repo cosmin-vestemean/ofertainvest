@@ -3,7 +3,7 @@ import { contextOferta } from '../client.js'
 import { upsertDocument } from '../controllers/insertDocInDB.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 
-export class DetailiiPlanificare extends UI1 {
+export class Planificare extends UI1 {
   constructor() {
     super()
   }
@@ -114,6 +114,6 @@ export class DetailiiPlanificare extends UI1 {
   }
 }
 
-export default DetailiiPlanificare
+export default Planificare
 
-customElements.define('litwc-planificare', DetailiiPlanificare)
+customElements.define('litwc-planificare', Planificare)
