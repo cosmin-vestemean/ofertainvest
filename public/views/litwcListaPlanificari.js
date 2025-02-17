@@ -7,6 +7,9 @@ import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
 
+//await employeesService.loadEmployees()
+//await client.service('getDataset').find({ query: { sqlQuery: ``   } })
+
 export let ds_planificareNoua = []
 
 class LitwcListaPlanificari extends LitElement {
@@ -153,12 +156,9 @@ class LitwcListaPlanificari extends LitElement {
         subsMask: planificareSubsDisplayMask,
         data: planificareCurenta,
         documentHeader: {
-          startDate: header.DATASTART,
-          endDate: header.DATASTOP,
           responsabilPlanificare: header.RESPPLAN,
           responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI,
-          name: header.NAME
+          id: header.CCCPLANIFICARI
         },
         documentHeaderMask: planificareHeaderMask
       })
