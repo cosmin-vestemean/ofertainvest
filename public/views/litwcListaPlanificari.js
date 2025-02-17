@@ -107,7 +107,7 @@ class LitwcListaPlanificari extends LitElement {
 
       //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
       // Group by planificare header
-      const grouped = response.data.reduce((acc, row) => {
+      this.planificari = response.data.reduce((acc, row) => {
         if (!acc[row.CCCPLANIFICARI]) {
           // Create header entry if it doesn't exist
           acc[row.CCCPLANIFICARI] = {
