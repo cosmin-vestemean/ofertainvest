@@ -107,7 +107,7 @@ class LitwcListaPlanificari extends LitElement {
 
       //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
       // Group by planificare header
-      this.planificari = response.data.reduce((acc, row) => {
+      const grouped = response.data.reduce((acc, row) => {
         if (!acc[row.CCCPLANIFICARI]) {
           // Create header entry if it doesn't exist
           acc[row.CCCPLANIFICARI] = {
@@ -128,6 +128,9 @@ class LitwcListaPlanificari extends LitElement {
 
         return acc
       }, {})
+
+      // Convert to array
+      this.planificari = Object.values(grouped)
 
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
@@ -196,7 +199,7 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = Array.isArray(this.planificari) ? this.planificari.map((p) => {
+    this.ds = this.planificari.map((p) => {
       const filtered = {}
       Object.keys(listaPlanificariMask).forEach((key) => {
         if (listaPlanificariMask[key].usefull) {
@@ -204,7 +207,7 @@ class LitwcListaPlanificari extends LitElement {
         }
       })
       return filtered
-    }) : [];
+    })
 
     table.ds = this.ds
   }
