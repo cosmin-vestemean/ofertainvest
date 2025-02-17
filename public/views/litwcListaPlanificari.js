@@ -80,20 +80,12 @@ class LitwcListaPlanificari extends LitElement {
         query: {
           sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
         p.RESPEXEC, p.RESPPLAN,
-        p.NAME, 
-        FORMAT(p.DATASTART, 'yyyy-MM-dd') as DATASTART, 
-        FORMAT(p.DATASTOP, 'yyyy-MM-dd') as DATASTOP,
-        p.LOCKED, 
-        FORMAT(p.INSDATE, 'yyyy-MM-dd') as INSDATE,
-        FORMAT(p.UPDDATE, 'yyyy-MM-dd') as UPDDATE,
-        p.INSUSR, p.UPDUSR,
         u1.NAME2 as RESPPLAN_NAME, 
         u2.NAME2 as RESPEXEC_NAME
         FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-        ORDER BY p.INSDATE DESC`
+        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}`
         }
       })
 
