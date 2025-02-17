@@ -129,14 +129,6 @@ class LitwcListaPlanificari extends LitElement {
         return acc
       }, {})
 
-      // Convert to array and sort by RESPPLAN, RESPEXEC
-      this.planificari = Object.values(grouped).sort((a, b) => {
-        if (a.RESPPLAN === b.RESPPLAN) {
-          return a.RESPEXEC?.localeCompare(b.RESPEXEC || '')
-        }
-        return a.RESPPLAN?.localeCompare(b.RESPPLAN || '')
-      })
-
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
