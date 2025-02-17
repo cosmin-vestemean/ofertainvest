@@ -1516,25 +1516,9 @@ const listaPlanificariMask = {
   NAME: {
     value: 'NAME',
     RW: true,
-    visible: true,
+    visible: false,
     label: 'Denumire',
     type: 'string',
-    usefull: true
-  },
-  DATASTART: {
-    value: 'DATASTART',
-    RW: true,
-    visible: true,
-    label: 'Incepe la',
-    type: 'datetime',
-    usefull: true
-  },
-  DATASTOP: {
-    value: 'DATASTOP',
-    RW: true,
-    visible: true,
-    label: 'Se termina la',
-    type: 'datetime',
     usefull: true
   },
   RESPPLAN: {
