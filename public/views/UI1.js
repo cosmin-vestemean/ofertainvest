@@ -464,17 +464,6 @@ class UI1 extends LitElement {
     const renderDocumentHeader = () => html`
       <div class="card my-2 ms-4 border-secondary">
         <div class="card-body shadow">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6
-              class="card-title mb-0"
-              contenteditable="true"
-              spellcheck="false"
-              @blur=${(e) => this._handleTitleChange(e)}
-              @keydown=${(e) => e.key === 'Enter' && e.target.blur()}
-            >
-              ${this.documentHeader.name || 'Introdu denumirea documentului'}
-            </h6>
-          </div>
           <div class="row g-1">
             ${Object.entries(this.documentHeader).map(([key, value]) => {
               const displayLabel = this.documentHeaderMask?.[key]?.label || key
