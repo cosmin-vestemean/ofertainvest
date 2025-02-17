@@ -196,7 +196,7 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = this.planificari.map((p) => {
+    this.ds = Array.isArray(this.planificari) ? this.planificari.map((p) => {
       const filtered = {}
       Object.keys(listaPlanificariMask).forEach((key) => {
         if (listaPlanificariMask[key].usefull) {
@@ -204,7 +204,7 @@ class LitwcListaPlanificari extends LitElement {
         }
       })
       return filtered
-    })
+    }) : [];
 
     table.ds = this.ds
   }
