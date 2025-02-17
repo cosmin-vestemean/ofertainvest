@@ -346,22 +346,38 @@ class LitwcListaPlanificari extends LitElement {
         <thead>
           <tr>
             <th>#</th>
-            <th>Denumire</th>
-            <th>Data start</th>
-            <th>Data stop</th>
-            <th>Resp. planificare</th>
-            <th>Resp. executie</th>
-            <th>Status</th>
+            ${Object.entries(listaPlanificariMask)
+              .filter(([_, props]) => props.visible)
+              .map(([_, props]) => html`<th>${props.label}</th>`)}
           </tr>
         </thead>
         <tbody>
-          ${Object.values(this.planificari).map((planificare, index) => html`
-            <litwc-planificare
-              .planificare="${planificare}"
-              .index="${index}"
-              .onSelect="${(id) => this.openPlanificare(id, tables.tablePlanificareCurenta.element)}"
-            ></litwc-planificare>
-          `)}
+          ${this.ds.map(
+            (item, index) => html`
+              <tr
+                @click="${() =>
+                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+                style="cursor: pointer"
+              >
+                <td>${index + 1}</td>
+                ${Object.entries(listaPlanificariMask)
+                  .filter(([_, props]) => props.visible)
+                  .map(([key, props]) => {
+                    if (key === 'LOCKED') {
+                      return html`<td>
+                        <i
+                          class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"
+                        ></i>
+                      </td>`
+                    }
+                    if (props.type === 'datetime') {
+                      return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
+                    }
+                    return html`<td>${item[key]}</td>`
+                  })}
+              </tr>
+            `
+          )}
         </tbody>
       </table>
       ${this.renderModal()}
