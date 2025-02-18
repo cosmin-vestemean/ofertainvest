@@ -148,6 +148,12 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
+    // Ensure we have a valid table element
+    if (!table) {
+      console.error('No valid table element provided')
+      return
+    }
+
     console.info('Opening planificare:', id)
 
     try {
@@ -155,6 +161,11 @@ class LitwcListaPlanificari extends LitElement {
       if (!header) {
         console.error('Failed to find planificare header')
         return
+      }
+
+      if (!header.linii) {
+        console.warn('No lines found for planificare', id)
+        header.linii = []
       }
 
       Object.assign(table, {
@@ -361,9 +372,10 @@ class LitwcListaPlanificari extends LitElement {
                   })}
               </tr>
               <tr colspan="3">
-                <!--linii > new litwc-planificare-->
-                <litwc-planificare id="${item.CCCPLANIFICARI}"></litwc-planificare>
-                ${this.openPlanificare(item.CCCPLANIFICARI, document.getElementById(item.CCCPLANIFICARI))}
+                <litwc-planificare 
+                  id="planificare-${item.CCCPLANIFICARI}"
+                  .data="${item}"
+                ></litwc-planificare>
               </tr>
             `
           )}
