@@ -148,25 +148,33 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
-    // Ensure we have a valid table element
-    if (!table) {
-      console.error('No valid table element provided')
-      return
-    }
-
     console.info('Opening planificare:', id)
 
     try {
+      const response = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `select * from cccplanificarilinii a
+            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
+            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
+            inner join cccpaths d on (d.cccpaths=b.cccpaths)
+            WHERE a.CCCPLANIFICARI = ${id}`
+        }
+      })
+
+      if (!response.success) {
+        console.error('Failed to load planificare details', response.error)
+        return
+      }
+
       const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
       if (!header) {
         console.error('Failed to find planificare header')
         return
       }
 
-      if (!header.linii) {
-        console.warn('No lines found for planificare', id)
-        header.linii = []
-      }
+      const planificareCurenta = await convertDBAntemasuratori(response.data)
+
+      console.info('Loaded planificare details:', planificareCurenta)
 
       Object.assign(table, {
         hasMainHeader: true,
@@ -174,7 +182,7 @@ class LitwcListaPlanificari extends LitElement {
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: convertDBAntemasuratori(header.linii) || [],
+        data: planificareCurenta,
         documentHeader: {
           responsabilPlanificare: header.RESPPLAN,
           responsabilExecutie: header.RESPEXEC,
@@ -371,12 +379,8 @@ class LitwcListaPlanificari extends LitElement {
                     return html`<td>${item[key]}</td>`
                   })}
               </tr>
-              <tr colspan="3">
-                <litwc-planificare 
-                  id="planificare-${item.CCCPLANIFICARI}"
-                  .data="${item}"
-                ></litwc-planificare>
-              </tr>
+              <!--linii > new litwc-planificare-->
+              <litwc-planificare id="planificare-${item.CCCPLANIFICARI}"></litwc-planificare>
             `
           )}
         </tbody>
