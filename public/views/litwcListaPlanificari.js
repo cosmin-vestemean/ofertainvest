@@ -336,6 +336,33 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     return html`
+      <style>
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1rem;
+          padding: 1rem;
+        }
+        .planificare-card {
+          cursor: pointer;
+          transition: transform 0.2s;
+        }
+        .planificare-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-header {
+          background-color: #f8f9fa;
+        }
+        .card-footer {
+          background-color: #f8f9fa;
+          font-size: 0.9em;
+        }
+        .lock-icon {
+          font-size: 1.2em;
+        }
+      </style>
+
       <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
@@ -345,94 +372,34 @@ class LitwcListaPlanificari extends LitElement {
         </button>
       </div>
 
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            ${Object.entries(listaPlanificariMask)
-              .filter(([_, props]) => props.visible)
-              .map(([_, props]) => html`<th>${props.label}</th>`)}
-          </tr>
-        </thead>
-        <tbody>
-          ${this.ds.map(
-            (item, index) => html`
-              <tr
-                @click="${() =>
-                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
-                style="cursor: pointer"
-              >
-                <td>${index + 1}</td>
-                ${Object.entries(listaPlanificariMask)
-                  .filter(([_, props]) => props.visible)
-                  .map(([key, props]) => {
-                    if (key === 'LOCKED') {
-                      return html`<td>
-                        <i
-                          class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"
-                        ></i>
-                      </td>`
-                    }
-                    if (props.type === 'datetime') {
-                      return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
-                    }
-                    return html`<td>${item[key]}</td>`
-                  })}
-              </tr>
-              ${this.renderPlanificareDetails(item)}
-            `
-          )}
-        </tbody>
-      </table>
+      <div class="card-grid">
+        ${this.ds.map((item, index) => html`
+          <div class="card planificare-card" 
+               @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Planificare #${index + 1}</span>
+              <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'} lock-icon"></i>
+            </div>
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Responsabil Planificare</h6>
+              <p class="card-text">${item.RESPPLAN_NAME || 'N/A'}</p>
+              <h6 class="card-subtitle mb-2 text-muted">Responsabil Executie</h6>
+              <p class="card-text">${item.RESPEXEC_NAME || 'N/A'}</p>
+            </div>
+            <div class="card-footer text-muted">
+              ID: ${item.CCCPLANIFICARI}
+            </div>
+          </div>
+        `)}
+      </div>
+
       ${this.renderModal()}
     `
   }
 
   renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
-    if (!header) return null
-
-    // First render with empty data
-    /*
-    .documentHeader=${{
-              responsabilPlanificare: header.RESPPLAN,
-              responsabilExecutie: header.RESPEXEC,
-              id: header.CCCPLANIFICARI
-            }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
-    const element = html`
-      <tr>
-        <td colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible).length + 1}">
-          <litwc-planificare
-            id="planificare-${item.CCCPLANIFICARI}"
-            .hasMainHeader=${true}
-            .hasSubHeader=${false}
-            .canAddInLine=${true}
-            .mainMask=${planificareDisplayMask}
-            .subsMask=${planificareSubsDisplayMask}
-            .data=${[]}
-          ></litwc-planificare>
-        </td>
-      </tr>
-    `
-
-    // Then update data asynchronously
-    this.updatePlanificareData(header)
-
-    return element
-  }
-
-  async updatePlanificareData(header) {
-    try {
-      const convertedData = await convertDBAntemasuratori(header.linii || [])
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-    }
+    // Remove this method as it's no longer needed for card layout
+    return null;
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
