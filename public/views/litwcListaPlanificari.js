@@ -69,6 +69,10 @@ class LitwcListaPlanificari extends LitElement {
       this.requestUpdate()
     }
     this.loadPlanificari()
+    // Update all planificari data after loading
+    this.planificari.forEach(header => {
+      this.updatePlanificareData(header)
+    })
   }
 
   async loadPlanificari() {
@@ -413,15 +417,6 @@ class LitwcListaPlanificari extends LitElement {
     } catch (error) {
       console.error('Error converting planificare data:', error)
     }
-  }
-
-  firstUpdated() {
-    // ...existing firstUpdated code...
-    
-    // Update all planificari data after loading
-    this.planificari.forEach(header => {
-      this.updatePlanificareData(header)
-    })
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
