@@ -163,7 +163,7 @@ class LitwcListaPlanificari extends LitElement {
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: header.linii || [],
+        data: convertDBAntemasuratori(header.linii) || [],
         documentHeader: {
           responsabilPlanificare: header.RESPPLAN,
           responsabilExecutie: header.RESPEXEC,
