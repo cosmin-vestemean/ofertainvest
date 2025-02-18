@@ -380,16 +380,38 @@ class LitwcListaPlanificari extends LitElement {
                   })}
               </tr>
               <!--linii > new litwc-planificare-->
-              <litwc-planificare id="planificare-${item.CCCPLANIFICARI}"></litwc-planificare>
+              <litwc-planificare
+                id="planificare-${item.CCCPLANIFICARI}"
+                .hasMainHeader="${true}"
+                .hasSubHeader="${false}"
+                .canAddInLine="${true}"
+                .mainMask="${planificareDisplayMask}"
+                .subsMask="${planificareSubsDisplayMask}"
+                .documentHeader="${item}"
+                .documentHeaderMask="${planificareHeaderMask}"
+              ></litwc-planificare>
             `
+          )}
           )}
         </tbody>
       </table>
       ${this.renderModal()}
+      
+      <script>
+      class MyComponent extends HTMLElement {
+          connectedCallback() {
+              const planificari = this.querySelectorAll('litwc-planificare');
+              planificari.forEach(async (planificare) => {
+                  const item = planificare.documentHeader;
+                  planificare.data = await convertDBAntemasuratori(item.linii);
+              });
+          }
+      }
+      customElements.define('data-loader', MyComponent);
+      </script>
     `
   }
 }
-
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
 
 export default LitwcListaPlanificari
