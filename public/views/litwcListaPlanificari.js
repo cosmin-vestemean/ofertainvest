@@ -379,6 +379,9 @@ class LitwcListaPlanificari extends LitElement {
                     return html`<td>${item[key]}</td>`
                   })}
               </tr>
+              <!--linii > new litwc-planificare-->
+              <litwc-planificare id="${item.CCCPLANIFICARI}"></litwc-planificare>
+              ${this.openPlanificare(item.CCCPLANIFICARI, document.getElementById(item.CCCPLANIFICARI))}
             `
           )}
         </tbody>
