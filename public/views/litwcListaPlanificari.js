@@ -130,7 +130,10 @@ class LitwcListaPlanificari extends LitElement {
       }, {})
 
       // Convert to array
-      this.planificari = Object.values(grouped)
+      this.planificari = Object.values(grouped).map(planificare => ({
+        ...planificare,
+        showDetails: false
+      }))
 
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
@@ -358,8 +361,11 @@ class LitwcListaPlanificari extends LitElement {
           ${this.ds.map(
             (item, index) => html`
               <tr
-                @click="${() =>
-                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+                @click="${() => {
+                  item.showDetails = !item.showDetails
+                  this.requestUpdate()
+                }}"
+                class="${item.showDetails ? 'active' : ''}"
                 style="cursor: pointer"
               >
                 <td>${index + 1}</td>
@@ -379,9 +385,24 @@ class LitwcListaPlanificari extends LitElement {
                     return html`<td>${item[key]}</td>`
                   })}
               </tr>
-              <!--linii > new litwc-planificare-->
-              <litwc-planificare id="${item.CCCPLANIFICARI}"></litwc-planificare>
-              ${this.openPlanificare(item.CCCPLANIFICARI, document.getElementById(item.CCCPLANIFICARI))}
+              <tr class="planificare-details" ?hidden=${!item.showDetails}>
+                <td
+                  colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible)
+                    .length + 1}"
+                >
+                  <litwc-planificare
+                    id="planificare-${item.CCCPLANIFICARI}"
+                    .documentHeader=${{
+                      responsabilPlanificare: item.RESPPLAN,
+                      responsabilExecutie: item.RESPEXEC
+                    }}
+                    .data=${item.linii || []}
+                    .mainMask=${planificareDisplayMask}
+                    .subsMask=${planificareSubsDisplayMask}
+                    .documentHeaderMask=${planificareHeaderMask}
+                  ></litwc-planificare>
+                </td>
+              </tr>
             `
           )}
         </tbody>
