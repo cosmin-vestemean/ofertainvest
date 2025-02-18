@@ -388,22 +388,22 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  async renderPlanificareDetails(item) {
+  renderPlanificareDetails(item) {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    const convertedData = await convertDBAntemasuratori(header.linii || [])
-
-    return html`
+    // First render with empty data
+    const element = html`
       <tr>
         <td colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible).length + 1}">
           <litwc-planificare
+            id="planificare-${item.CCCPLANIFICARI}"
             .hasMainHeader=${true}
             .hasSubHeader=${false}
             .canAddInLine=${true}
             .mainMask=${planificareDisplayMask}
             .subsMask=${planificareSubsDisplayMask}
-            .data=${convertedData}
+            .data=${[]}
             .documentHeader=${{
               responsabilPlanificare: header.RESPPLAN,
               responsabilExecutie: header.RESPEXEC,
@@ -414,6 +414,23 @@ class LitwcListaPlanificari extends LitElement {
         </td>
       </tr>
     `
+
+    // Then update data asynchronously
+    this.updatePlanificareData(header)
+
+    return element
+  }
+
+  async updatePlanificareData(header) {
+    try {
+      const convertedData = await convertDBAntemasuratori(header.linii || [])
+      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
+      if (element) {
+        element.data = convertedData
+      }
+    } catch (error) {
+      console.error('Error converting planificare data:', error)
+    }
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
