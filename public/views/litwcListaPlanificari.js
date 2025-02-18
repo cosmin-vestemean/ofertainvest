@@ -337,29 +337,27 @@ class LitwcListaPlanificari extends LitElement {
 
     return html`
       <style>
-        .card-grid {
+        .planificari-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
           gap: 1rem;
           padding: 1rem;
         }
         .planificare-card {
-          cursor: pointer;
-          transition: transform 0.2s;
-        }
-        .planificare-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          border: 1px solid #dee2e6;
+          border-radius: 0.25rem;
+          background: white;
         }
         .card-header {
-          background-color: #f8f9fa;
+          padding: 0.75rem;
+          border-bottom: 1px solid #dee2e6;
+          background: #f8f9fa;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
-        .card-footer {
-          background-color: #f8f9fa;
-          font-size: 0.9em;
-        }
-        .lock-icon {
-          font-size: 1.2em;
+        .card-body {
+          padding: 0;
         }
       </style>
 
@@ -372,34 +370,58 @@ class LitwcListaPlanificari extends LitElement {
         </button>
       </div>
 
-      <div class="card-grid">
-        ${this.ds.map((item, index) => html`
-          <div class="card planificare-card" 
-               @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Planificare #${index + 1}</span>
-              <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'} lock-icon"></i>
+      <div class="planificari-grid">
+        ${this.planificari.map((item, index) => html`
+          <div class="planificare-card">
+            <div class="card-header">
+              <span>Planificare #${index + 1} - ${item.RESPPLAN_NAME || 'N/A'}</span>
+              <div>
+                <i class="bi ${item.LOCKED ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>
+              </div>
             </div>
             <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">Responsabil Planificare</h6>
-              <p class="card-text">${item.RESPPLAN_NAME || 'N/A'}</p>
-              <h6 class="card-subtitle mb-2 text-muted">Responsabil Executie</h6>
-              <p class="card-text">${item.RESPEXEC_NAME || 'N/A'}</p>
-            </div>
-            <div class="card-footer text-muted">
-              ID: ${item.CCCPLANIFICARI}
+              <litwc-planificare
+                id="planificare-${item.CCCPLANIFICARI}"
+                .hasMainHeader=${true}
+                .hasSubHeader=${false}
+                .canAddInLine=${true}
+                .mainMask=${planificareDisplayMask}
+                .subsMask=${planificareSubsDisplayMask}
+                .data=${[]}
+                .documentHeader=${{
+                  responsabilPlanificare: item.RESPPLAN,
+                  responsabilExecutie: item.RESPEXEC,
+                  id: item.CCCPLANIFICARI
+                }}
+                .documentHeaderMask=${planificareHeaderMask}
+              ></litwc-planificare>
             </div>
           </div>
         `)}
       </div>
-
       ${this.renderModal()}
     `
   }
 
-  renderPlanificareDetails(item) {
-    // Remove this method as it's no longer needed for card layout
-    return null;
+  async updatePlanificareData(header) {
+    try {
+      const convertedData = await convertDBAntemasuratori(header.linii || [])
+      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
+      if (element) {
+        element.data = convertedData
+      }
+    } catch (error) {
+      console.error('Error converting planificare data:', error)
+    }
+  }
+
+  firstUpdated() {
+    // ...existing firstUpdated code...
+    
+    // Update all planificari data after loading
+    this.planificari.forEach(header => {
+      this.updatePlanificareData(header)
+    })
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
