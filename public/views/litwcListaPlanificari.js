@@ -392,22 +392,21 @@ class LitwcListaPlanificari extends LitElement {
               ></litwc-planificare>
             `
           )}
-          )}
         </tbody>
       </table>
       ${this.renderModal()}
-      
+
       <script>
-      class MyComponent extends HTMLElement {
+        class MyComponent extends HTMLElement {
           connectedCallback() {
-              const planificari = this.querySelectorAll('litwc-planificare');
-              planificari.forEach(async (planificare) => {
-                  const item = planificare.documentHeader;
-                  planificare.data = await convertDBAntemasuratori(item.linii);
-              });
+            const planificari = this.querySelectorAll('litwc-planificare')
+            planificari.forEach(async (planificare) => {
+              const item = planificare.documentHeader
+              planificare.data = await convertDBAntemasuratori(item.linii)
+            })
           }
-      }
-      customElements.define('data-loader', MyComponent);
+        }
+        customElements.define('data-loader', MyComponent)
       </script>
     `
   }
