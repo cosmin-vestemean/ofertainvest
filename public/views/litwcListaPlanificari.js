@@ -151,30 +151,14 @@ class LitwcListaPlanificari extends LitElement {
     console.info('Opening planificare:', id)
 
     try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `select * from cccplanificarilinii a
-            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
-            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
-            inner join cccpaths d on (d.cccpaths=b.cccpaths)
-            WHERE a.CCCPLANIFICARI = ${id}`
-        }
-      })
-
-      if (!response.success) {
-        console.error('Failed to load planificare details', response.error)
-        return
-      }
-
       const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
       if (!header) {
         console.error('Failed to find planificare header')
         return
       }
 
-      const planificareCurenta = await convertDBAntemasuratori(response.data)
-
-      console.info('Loaded planificare details:', planificareCurenta)
+      const planificareCurenta = await convertDBAntemasuratori(header.linii || [])
+      console.info('Using cached planificare details:', planificareCurenta)
 
       Object.assign(table, {
         hasMainHeader: true,
@@ -193,7 +177,7 @@ class LitwcListaPlanificari extends LitElement {
 
       if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
     } catch (error) {
-      console.error('Error loading planificare details:', error)
+      console.error('Error processing planificare details:', error)
     }
   }
 
