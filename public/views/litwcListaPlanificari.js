@@ -130,10 +130,7 @@ class LitwcListaPlanificari extends LitElement {
       }, {})
 
       // Convert to array
-      this.planificari = Object.values(grouped).map(planificare => ({
-        ...planificare,
-        showDetails: false
-      }))
+      this.planificari = Object.values(grouped)
 
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
@@ -154,30 +151,11 @@ class LitwcListaPlanificari extends LitElement {
     console.info('Opening planificare:', id)
 
     try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `select * from cccplanificarilinii a
-            inner join cccantemasuratori b on (a.cccantemasuratori=b.cccantemasuratori and a.cccoferteweb=b.cccoferteweb)
-            inner join cccoferteweblinii c on (b.cccoferteweblinii=c.cccoferteweblinii)
-            inner join cccpaths d on (d.cccpaths=b.cccpaths)
-            WHERE a.CCCPLANIFICARI = ${id}`
-        }
-      })
-
-      if (!response.success) {
-        console.error('Failed to load planificare details', response.error)
-        return
-      }
-
       const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
       if (!header) {
         console.error('Failed to find planificare header')
         return
       }
-
-      const planificareCurenta = await convertDBAntemasuratori(response.data)
-
-      console.info('Loaded planificare details:', planificareCurenta)
 
       Object.assign(table, {
         hasMainHeader: true,
@@ -185,7 +163,7 @@ class LitwcListaPlanificari extends LitElement {
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: planificareCurenta,
+        data: header.linii || [],
         documentHeader: {
           responsabilPlanificare: header.RESPPLAN,
           responsabilExecutie: header.RESPEXEC,
@@ -361,11 +339,8 @@ class LitwcListaPlanificari extends LitElement {
           ${this.ds.map(
             (item, index) => html`
               <tr
-                @click="${() => {
-                  item.showDetails = !item.showDetails
-                  this.requestUpdate()
-                }}"
-                class="${item.showDetails ? 'active' : ''}"
+                @click="${() =>
+                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
                 style="cursor: pointer"
               >
                 <td>${index + 1}</td>
@@ -385,23 +360,10 @@ class LitwcListaPlanificari extends LitElement {
                     return html`<td>${item[key]}</td>`
                   })}
               </tr>
-              <tr class="planificare-details" ?hidden=${!item.showDetails}>
-                <td
-                  colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible)
-                    .length + 1}"
-                >
-                  <litwc-planificare
-                    id="planificare-${item.CCCPLANIFICARI}"
-                    .documentHeader=${{
-                      responsabilPlanificare: item.RESPPLAN,
-                      responsabilExecutie: item.RESPEXEC
-                    }}
-                    .data=${item.linii || []}
-                    .mainMask=${planificareDisplayMask}
-                    .subsMask=${planificareSubsDisplayMask}
-                    .documentHeaderMask=${planificareHeaderMask}
-                  ></litwc-planificare>
-                </td>
+              <tr colspan="3">
+                <!--linii > new litwc-planificare-->
+                <litwc-planificare id="${item.CCCPLANIFICARI}"></litwc-planificare>
+                ${this.openPlanificare(item.CCCPLANIFICARI, document.getElementById(item.CCCPLANIFICARI))}
               </tr>
             `
           )}
