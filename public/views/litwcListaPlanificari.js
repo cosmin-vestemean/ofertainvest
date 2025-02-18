@@ -393,6 +393,14 @@ class LitwcListaPlanificari extends LitElement {
     if (!header) return null
 
     // First render with empty data
+    /*
+    .documentHeader=${{
+              responsabilPlanificare: header.RESPPLAN,
+              responsabilExecutie: header.RESPEXEC,
+              id: header.CCCPLANIFICARI
+            }}
+    .documentHeaderMask=${planificareHeaderMask}
+    */
     const element = html`
       <tr>
         <td colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible).length + 1}">
@@ -404,12 +412,6 @@ class LitwcListaPlanificari extends LitElement {
             .mainMask=${planificareDisplayMask}
             .subsMask=${planificareSubsDisplayMask}
             .data=${[]}
-            .documentHeader=${{
-              responsabilPlanificare: header.RESPPLAN,
-              responsabilExecutie: header.RESPEXEC,
-              id: header.CCCPLANIFICARI
-            }}
-            .documentHeaderMask=${planificareHeaderMask}
           ></litwc-planificare>
         </td>
       </tr>
