@@ -379,35 +379,40 @@ class LitwcListaPlanificari extends LitElement {
                     return html`<td>${item[key]}</td>`
                   })}
               </tr>
-              <!--linii > new litwc-planificare-->
-              <litwc-planificare
-                id="planificare-${item.CCCPLANIFICARI}"
-                .hasMainHeader="${true}"
-                .hasSubHeader="${false}"
-                .canAddInLine="${true}"
-                .mainMask="${planificareDisplayMask}"
-                .subsMask="${planificareSubsDisplayMask}"
-                .documentHeader="${item}"
-                .documentHeaderMask="${planificareHeaderMask}"
-              ></litwc-planificare>
+              ${this.renderPlanificareDetails(item)}
             `
           )}
         </tbody>
       </table>
       ${this.renderModal()}
+    `
+  }
 
-      <script>
-        class MyComponent extends HTMLElement {
-          connectedCallback() {
-            const planificari = this.querySelectorAll('litwc-planificare')
-            planificari.forEach(async (planificare) => {
-              const item = planificare.documentHeader
-              planificare.data = await convertDBAntemasuratori(item.linii)
-            })
-          }
-        }
-        customElements.define('data-loader', MyComponent)
-      </script>
+  async renderPlanificareDetails(item) {
+    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+    if (!header) return null
+
+    const convertedData = await convertDBAntemasuratori(header.linii || [])
+
+    return html`
+      <tr>
+        <td colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible).length + 1}">
+          <litwc-planificare
+            .hasMainHeader=${true}
+            .hasSubHeader=${false}
+            .canAddInLine=${true}
+            .mainMask=${planificareDisplayMask}
+            .subsMask=${planificareSubsDisplayMask}
+            .data=${convertedData}
+            .documentHeader=${{
+              responsabilPlanificare: header.RESPPLAN,
+              responsabilExecutie: header.RESPEXEC,
+              id: header.CCCPLANIFICARI
+            }}
+            .documentHeaderMask=${planificareHeaderMask}
+          ></litwc-planificare>
+        </td>
+      </tr>
     `
   }
 }
