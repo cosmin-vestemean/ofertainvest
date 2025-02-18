@@ -417,6 +417,15 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
+    /*
+    .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+    .documentHeaderMask=${planificareHeaderMask}
+    */
+
     const element = html`
       <div class="card-body">
         <litwc-planificare
@@ -427,12 +436,6 @@ class LitwcListaPlanificari extends LitElement {
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
           .data=${[]}
-          .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-          .documentHeaderMask=${planificareHeaderMask}
         ></litwc-planificare>
       </div>
     `
