@@ -336,6 +336,43 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     return html`
+      <style>
+        .planificari-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem;
+        }
+        .planificare-card {
+          border: 1px solid #dee2e6;
+          border-radius: 0.25rem;
+          background: white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card-header {
+          padding: 1rem;
+          background: #f8f9fa;
+          border-bottom: 1px solid #dee2e6;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .card-header-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          width: 100%;
+        }
+        .header-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .card-body {
+          padding: 1rem;
+        }
+      </style>
+
       <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
@@ -345,45 +382,33 @@ class LitwcListaPlanificari extends LitElement {
         </button>
       </div>
 
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            ${Object.entries(listaPlanificariMask)
-              .filter(([_, props]) => props.visible)
-              .map(([_, props]) => html`<th>${props.label}</th>`)}
-          </tr>
-        </thead>
-        <tbody>
-          ${this.ds.map(
-            (item, index) => html`
-              <tr
-                @click="${() =>
-                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
-                style="cursor: pointer"
-              >
-                <td>${index + 1}</td>
+      <div class="planificari-stack">
+        ${this.ds.map((item, index) => html`
+          <div class="planificare-card">
+            <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+              <div class="card-header-content">
+                <div class="header-item">
+                  <strong>#${index + 1}</strong>
+                </div>
                 ${Object.entries(listaPlanificariMask)
                   .filter(([_, props]) => props.visible)
-                  .map(([key, props]) => {
-                    if (key === 'LOCKED') {
-                      return html`<td>
-                        <i
-                          class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"
-                        ></i>
-                      </td>`
-                    }
-                    if (props.type === 'datetime') {
-                      return html`<td>${new Date(item[key]).toLocaleDateString()}</td>`
-                    }
-                    return html`<td>${item[key]}</td>`
-                  })}
-              </tr>
-              ${this.renderPlanificareDetails(item)}
-            `
-          )}
-        </tbody>
-      </table>
+                  .map(([key, props]) => html`
+                    <div class="header-item">
+                      <span class="text-muted">${props.label}:</span>
+                      ${key === 'LOCKED' 
+                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
+                        : props.type === 'datetime'
+                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                          : html`<span>${item[key]}</span>`
+                      }
+                    </div>
+                  `)}
+              </div>
+            </div>
+            ${this.renderPlanificareDetails(item)}
+          </div>
+        `)}
+      </div>
       ${this.renderModal()}
     `
   }
@@ -392,34 +417,27 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    // First render with empty data
-    /*
-    .documentHeader=${{
-              responsabilPlanificare: header.RESPPLAN,
-              responsabilExecutie: header.RESPEXEC,
-              id: header.CCCPLANIFICARI
-            }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
     const element = html`
-      <tr>
-        <td colspan="${Object.entries(listaPlanificariMask).filter(([_, props]) => props.visible).length + 1}">
-          <litwc-planificare
-            id="planificare-${item.CCCPLANIFICARI}"
-            .hasMainHeader=${true}
-            .hasSubHeader=${false}
-            .canAddInLine=${true}
-            .mainMask=${planificareDisplayMask}
-            .subsMask=${planificareSubsDisplayMask}
-            .data=${[]}
-          ></litwc-planificare>
-        </td>
-      </tr>
+      <div class="card-body">
+        <litwc-planificare
+          id="planificare-${item.CCCPLANIFICARI}"
+          .hasMainHeader=${true}
+          .hasSubHeader=${false}
+          .canAddInLine=${true}
+          .mainMask=${planificareDisplayMask}
+          .subsMask=${planificareSubsDisplayMask}
+          .data=${[]}
+          .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+          .documentHeaderMask=${planificareHeaderMask}
+        ></litwc-planificare>
+      </div>
     `
 
-    // Then update data asynchronously
     this.updatePlanificareData(header)
-
     return element
   }
 
