@@ -1,5 +1,7 @@
 /* Global X */
 
+import { usrPwdValidate } from '../utils/S1'
+
 function processSqlAsDataset(obj) {
   var ds, err
   if (!obj.sqlQuery) return { success: false, error: 'No sql query transmited.' }
@@ -65,7 +67,7 @@ function runSQLTransaction(obj) {
     strSql += 'ROLLBACK '
     strSql += 'END CATCH '
     try {
-      var returned=  X.RUNSQL(strSql)
+      var returned = X.RUNSQL(strSql)
       result.success = true
       result.sql = strSql
       result.data = returned
@@ -80,5 +82,22 @@ function runSQLTransaction(obj) {
       X.RUNSQL(strSql) */
     }
     return result
+  }
+}
+
+function usrPwdValidate(obj) {
+  const clientID = obj.clientID
+  const module = obj.module
+  const refid = obj.refid
+  const password = obj.password
+  //REFID means USERS when module is 0
+  if (module == 0) {
+    if (X.USERVALIDATE(refid, password)) {
+      return { success: true, message: 'User validated successfully' }
+    } else {
+      return { success: false, message: 'Invalid login' }
+    }
+  } else {
+    return { success: false, message: 'Invalid module' }
   }
 }

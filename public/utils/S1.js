@@ -1,6 +1,8 @@
 import { client, contextOferta, ds_instanteRetete, recipes_ds, trees, semafoare } from '../client.js'
 import { ds_antemasuratori, newTree } from '../controllers/antemasuratori.js'
 
+/* global X */
+
 async function connectToS1Service() {
   if (!client) {
     console.log('client not found')
@@ -14,6 +16,25 @@ async function connectToS1Service() {
   const result = await connectToS1.find()
   return result
 }
+
+export async function usrPwdValidate(module, refid, pwd) {
+  const response = await connectToS1Service()
+  const clientID = response.token
+  if (!clientID) {
+    console.log('clientID not found')
+    return
+  } else {
+    //connect to S1 service to validate user and password
+    const result = await client.service('usrPwdValidate').find({
+      clientID: clientID,
+      module: module,
+      refid: refid,
+      pwd: pwd
+    })
+    return result
+  }
+}
+
 export async function populateSelects() {
   await connectToS1Service()
     .then(async (result) => {
@@ -180,24 +201,24 @@ export async function getValFromS1Query(query) {
 
 export async function runSQLTransaction(objSqlList) {
   if (!objSqlList?.sqlList?.length) {
-    throw new Error('No SQL queries provided');
+    throw new Error('No SQL queries provided')
   }
 
   try {
-    const result = await connectToS1Service();
+    const result = await connectToS1Service()
     const response = await client.service('runSQLTransaction').create({
       clientID: result.token,
       sqlList: objSqlList.sqlList
-    });
-    
-    return response;
+    })
+
+    return response
   } catch (error) {
-    console.error('SQL transaction error:', error);
+    console.error('SQL transaction error:', error)
     throw {
       success: false,
       error: error,
       sql: objSqlList.sqlList
-    };
+    }
   }
 }
 

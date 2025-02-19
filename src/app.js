@@ -173,6 +173,24 @@ class getDatasetServiceClass {
 //register the service
 app.use('getDataset', new getDatasetServiceClass())
 
+class validateUserPwdServiceClass {
+  async find(params) {
+    const url = mainURL + '/JS/WS/usrPwdValidate'
+    const method = 'POST'
+    const clientID = params.query.clientID
+    const module = params.query.module
+    const refid = params.query.refid
+    const password = params.query.password
+    const response = await fetch(url, {
+      method: method,
+      body: JSON.stringify({ clientID: clientID, module: module, refid: refid, password: password })
+    })
+    const json = await response.json()
+    console.log(json)
+    return json
+  }
+}
+
 class getValFromQueryServiceClass {
   async find(params) {
     const url = mainURL + '/JS/WS/getValFromQuery'
