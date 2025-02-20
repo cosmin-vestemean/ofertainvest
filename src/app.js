@@ -156,25 +156,13 @@ class getRegisteredUsersServiceClass {
     if (json.success) {
       const users = json.objs
       console.log(users)
-      //test
-      //authenticate
-      const authResponse = await app.service('authenticate').find({
-        query: { clientID: json.clientID, COMPANY: 1, BRANCH: 1, MODULE: 0, REFID: 999 }
-      })
-      if (authResponse.success) {
-        console.log(authResponse)
-        //validate user password
-        app
-          .service('validateUserPwd')
-          .find({ query: { clientID: authResponse.clientID, module: 0, refid: 999, password: 'invaliat' } })
-        return {
-          success: true,
-          users: users,
-          appId: json.appId,
-          clientID: json.clientID,
-          version: json.ver,
-          sn: json.sn
-        }
+      return {
+        success: true,
+        users: users,
+        appId: json.appId,
+        clientID: json.clientID,
+        version: json.ver,
+        sn: json.sn
       }
     } else {
       return { success: false, error: json.error }
@@ -184,20 +172,38 @@ class getRegisteredUsersServiceClass {
 
 app.use('getRegisteredUsers', new getRegisteredUsersServiceClass())
 
-//test
-app.service('getRegisteredUsers').find({})
-
 class validateUserPwdServiceClass {
   async find(params) {
     const url = mainURL + '/JS/WS/usrPwdValidate'
     const method = 'POST'
     const clientID = params.query.clientID
-    const module = params.query.module
+    const module = params.query.module || 0
     const refid = params.query.refid
     const password = params.query.password
+    const COMPANY = params.query.COMPANY || 1
+    const BRANCH = params.query.BRANCH || 1
+    const appID = params.query.appID || 1001
+
+    // Authenticate first
+    const authResult = await app.service('authenticate').find({
+      query: {
+        clientID: clientID,
+        appID: appID,
+        COMPANY: COMPANY,
+        BRANCH: BRANCH,
+        MODULE: module,
+        REFID: refid
+      }
+    })
+
+    if (!authResult.success) {
+      return { success: false, error: 'Authentication failed' }
+    }
+
+    // Proceed with validation after successful authentication
     const response = await fetch(url, {
       method: method,
-      body: JSON.stringify({ clientID: clientID, module: module, refid: refid, password: password })
+      body: JSON.stringify({ clientID: authResult.clientID, module, refid, password })
     })
     const json = await response.json()
     console.log(json)
@@ -206,6 +212,9 @@ class validateUserPwdServiceClass {
 }
 
 app.use('validateUserPwd', new validateUserPwdServiceClass())
+
+//test
+app.service('validateUserPwd').find({refid: 999, password: 'invaliat'} )
 
 class setDocumentServiceClass {
   async create(data, params) {
