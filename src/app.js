@@ -214,7 +214,8 @@ class validateUserPwdServiceClass {
 app.use('validateUserPwd', new validateUserPwdServiceClass())
 
 //test
-app.service('validateUserPwd').find({refid: 999, password: 'invaliat'} )
+const tok = await app.service('getRegisteredUsers').find({})
+app.service('validateUserPwd').find({clientID: tok, refid: 999, password: 'invaliat'} )
 
 class setDocumentServiceClass {
   async create(data, params) {
