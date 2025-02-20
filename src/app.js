@@ -214,7 +214,9 @@ class validateUserPwdServiceClass {
 app.use('validateUserPwd', new validateUserPwdServiceClass())
 
 //test
-const tok = await app.service('getRegisteredUsers').find({})
+const tok = await app.service('getRegisteredUsers').find({}).then((res) => {
+  return res.clientID
+})
 app.service('validateUserPwd').find({clientID: tok, refid: 999, password: 'invaliat'} )
 
 class setDocumentServiceClass {
