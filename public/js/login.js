@@ -18,8 +18,10 @@ export class Login {
     try {
       const result = await client.service('getRegisteredUsers').find({})
       clientID = result.clientID
+      console.log('login Client ID:', clientID)
       if (result.success) {
         const users = result.users
+        console.info('Users:', users)
         users.forEach((user) => {
           const option = document.createElement('option')
           option.value = user.REFID
