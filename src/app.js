@@ -129,7 +129,7 @@ class getRegisteredUsersServiceClass {
         appId: json.appId,
         clientID: json.clientID,
         version: json.ver,
-        sn: json.sn,
+        sn: json.sn
       }
     } else {
       return { success: false, error: json.error }
@@ -225,7 +225,7 @@ class validateUserPwdServiceClass {
 app.use('validateUserPwd', new validateUserPwdServiceClass())
 
 //test
-app.service('validateUserPwd').find({ clientID: 0, module: 0, refid: 999, password: 'invaliat' })
+app.service('validateUserPwd').find({ query: { clientID: 0, module: 0, refid: 999, password: 'invaliat' } })
 
 class getValFromQueryServiceClass {
   async find(params) {
