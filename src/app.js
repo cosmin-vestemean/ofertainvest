@@ -11,7 +11,6 @@ import { mssql } from './mssql.js'
 import { services } from './services/index.js'
 import { channels } from './channels.js'
 import { authentication } from './authentication.js'
-import { version } from 'winston'
 
 const wsLoginData = { username: 'Serra', password: '5151' }
 const mainURL = 'https://investdej.oncloud.gr/s1services'

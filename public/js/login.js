@@ -1,4 +1,3 @@
-import { cli } from 'winston/lib/winston/config/index.js'
 import { client } from '../client.js'
 
 export class Login {
