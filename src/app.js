@@ -176,13 +176,13 @@ class validateUserPwdServiceClass {
   async find(params) {
     const url = mainURL + '/JS/WS/usrPwdValidate'
     const method = 'POST'
-    const clientID = params.query.clientID
-    const module = params.query.module || 0
-    const refid = params.query.refid
-    const password = params.query.password
-    const COMPANY = params.query.COMPANY || 1
-    const BRANCH = params.query.BRANCH || 1
-    const appID = params.query.appID || 1001
+    const clientID = params.clientID
+    const module = params.module || 0
+    const refid = params.refid
+    const password = params.password
+    const COMPANY = params.COMPANY || 1
+    const BRANCH = params.BRANCH || 1
+    const appID = params.appID || 1001
 
     // Authenticate first
     const authResult = await app.service('authenticate').find({
