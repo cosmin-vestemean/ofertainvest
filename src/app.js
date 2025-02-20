@@ -108,6 +108,39 @@ class connectToS1ServiceClass {
 //register the service
 app.use('connectToS1', new connectToS1ServiceClass())
 
+//authenticate Class
+class authenticateServiceClass {
+  async find(params) {
+    const clientID = params.query.clientID
+    const COMPANY = params.query.COMPANY
+    const BRANCH = params.query.BRANCH
+    const MODULE = params.query.MODULE
+    const REFID = params.query.REFID
+    const url = mainURL
+    const method = 'POST'
+    const body = {
+      service: 'authenticate',
+      clientID: clientID,
+      COMPANY: COMPANY,
+      BRANCH: BRANCH,
+      MODULE: MODULE,
+      REFID: REFID
+    }
+
+    const response = await fetch(url, { method: method, body: JSON.stringify(body) })
+    const json = await response.json()
+    console.log(json)
+
+    if (json.success) {
+      return { success: true, clientID: json.clientID, s1user: json.s1u, image: json.image }
+    } else {
+      return { success: false, error: json.error }
+    }
+  }
+}
+
+app.use('authenticate', new authenticateServiceClass())
+
 class getRegisteredUsersServiceClass {
   async find(params) {
     const url = mainURL
@@ -124,16 +157,24 @@ class getRegisteredUsersServiceClass {
       const users = json.objs
       console.log(users)
       //test
-      app
-        .service('validateUserPwd')
-        .find({ query: { clientID: json.clientID, module: 0, refid: 999, password: 'invaliat' } })
-      return {
-        success: true,
-        users: users,
-        appId: json.appId,
-        clientID: json.clientID,
-        version: json.ver,
-        sn: json.sn
+      //authenticate
+      const authResponse = await app.service('authenticate').find({
+        query: { clientID: json.clientID, COMPANY: 1, BRANCH: 1, MODULE: 0, REFID: 999 }
+      })
+      if (authResponse.success) {
+        console.log(authResponse)
+        //validate user password
+        app
+          .service('validateUserPwd')
+          .find({ query: { clientID: authResponse.clientID, module: 0, refid: 999, password: 'invaliat' } })
+        return {
+          success: true,
+          users: users,
+          appId: json.appId,
+          clientID: json.clientID,
+          version: json.ver,
+          sn: json.sn
+        }
       }
     } else {
       return { success: false, error: json.error }
