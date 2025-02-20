@@ -191,6 +191,11 @@ class validateUserPwdServiceClass {
   }
 }
 
+app.use('validateUserPwd', new validateUserPwdServiceClass())
+
+//test
+app.service('validateUserPwd').find({ module: 0, refid: 999, password: 'invaliat' })
+
 class getValFromQueryServiceClass {
   async find(params) {
     const url = mainURL + '/JS/WS/getValFromQuery'

@@ -1,7 +1,5 @@
 /* Global X */
 
-import { usrPwdValidate } from '../utils/S1'
-
 function processSqlAsDataset(obj) {
   var ds, err
   if (!obj.sqlQuery) return { success: false, error: 'No sql query transmited.' }
@@ -85,14 +83,17 @@ function runSQLTransaction(obj) {
   }
 }
 
-function usrPwdValidate(obj) {
-  const clientID = obj.clientID
-  const module = obj.module
-  const refid = obj.refid
-  const password = obj.password
+function usrPwdValidate(requestObj) {
+  var clientID = requestObj.clientID;
+  var appId = requestObj.appId;
+  var module = requestObj.module;
+  var refid = requestObj.refid;
+  var username;
+  const password = requestObj.password;
   //REFID means USERS when module is 0
   if (module == 0) {
-    if (X.USERVALIDATE(refid, password)) {
+    username = X.SQL("SELECT CODE FROM USERS WHERE USERS = " + refid);
+    if (X.USERVALIDATE(username, password) == true) {
       return { success: true, message: 'User validated successfully' }
     } else {
       return { success: false, message: 'Invalid login' }
