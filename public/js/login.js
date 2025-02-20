@@ -1,3 +1,4 @@
+import { cli } from 'winston/lib/winston/config/index.js'
 import { client } from '../client.js'
 
 export class Login {
@@ -8,23 +9,23 @@ export class Login {
     this.loginMessage = document.getElementById('loginMessage')
     this.container = document.querySelector('.container-fluid')
     this.loginContainer = document.getElementById('loginContainer')
-    
+
     this.init()
   }
 
   async init() {
+    const clientID = ''
     // Load users into select
     try {
       const result = await client.service('getRegisteredUsers').find({})
+      clientID = result.clientID
       if (result.success) {
         const users = result.users
-        users.forEach(user => {
+        users.forEach((user) => {
           const option = document.createElement('option')
           option.value = user.REFID
           option.textContent = user.REFIDNAME
-          // Store clientID as data attribute
-          option.dataset.clientId = user.CLIENTID
-          this.userSelect.appendChild(option) 
+          this.userSelect.appendChild(option)
         })
       }
     } catch (error) {
@@ -35,11 +36,9 @@ export class Login {
     // Add form submit handler
     this.loginForm.addEventListener('submit', async (e) => {
       e.preventDefault()
-      
+
       const userId = this.userSelect.value
       const password = this.password.value
-      // Get clientID from selected option
-      const clientId = this.userSelect.options[this.userSelect.selectedIndex].dataset.clientId
 
       if (!userId || !password) {
         this.showMessage('Please select a user and enter password', true)
@@ -48,9 +47,9 @@ export class Login {
 
       try {
         const result = await client.service('validateUserPwd').find({
+          clientID: clientID,
           refid: userId,
-          password: password,
-          clientId: clientId // Pass clientID to validation
+          password: password
         })
 
         if (result.success) {
@@ -63,14 +62,13 @@ export class Login {
         }
       } catch (error) {
         console.error('Login error:', error)
-        this.showMessage('Login failed', true) 
+        this.showMessage('Login failed', true)
       }
     })
   }
 
   showMessage(message, isError = false) {
     this.loginMessage.textContent = message
-    this.loginMessage.className = 'mt-3 text-center ' + 
-      (isError ? 'text-danger' : 'text-success')
+    this.loginMessage.className = 'mt-3 text-center ' + (isError ? 'text-danger' : 'text-success')
   }
 }
