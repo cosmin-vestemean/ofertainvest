@@ -8,7 +8,7 @@ export class Login {
     this.loginMessage = document.getElementById('loginMessage')
     this.container = document.querySelector('.container-fluid')
     this.loginContainer = document.getElementById('loginContainer')
-    this.clientID = '' 
+    this.clientID = ''
     this.isLoading = false
     this.init()
   }
@@ -21,7 +21,7 @@ export class Login {
       }
 
       this.clientID = result.clientID
-      
+
       if (!this.clientID) {
         throw new Error('No client ID returned')
       }
@@ -29,8 +29,8 @@ export class Login {
       console.log('loadUsers clientID:', this.clientID) // Add this line
 
       const users = result.users
-      users.forEach(user => {
-        const option = document.createElement('option') 
+      users.forEach((user) => {
+        const option = document.createElement('option')
         option.value = user.REFID
         option.textContent = user.REFIDNAME
         this.userSelect.appendChild(option)
@@ -50,15 +50,17 @@ export class Login {
     }
 
     if (!userId || !password) {
-      throw new Error('Missing username or password')  
+      throw new Error('Missing username or password')
     }
 
     console.log('validateCredentials clientID:', this.clientID) // Add this line
 
     const result = await client.service('validateUserPwd').find({
-      clientID: this.clientID,
-      refid: userId, 
-      password: password
+      query: {
+        clientID: this.clientID,
+        refid: userId,
+        password: password
+      }
     })
 
     if (!result.success) {
@@ -74,14 +76,15 @@ export class Login {
 
     this.loginForm.addEventListener('submit', async (e) => {
       e.preventDefault()
-      
+
       if (this.isLoading) return
 
       this.isLoading = true
       this.showMessage('Logging in...')
 
       try {
-        if (!this.clientID) { // Add this check
+        if (!this.clientID) {
+          // Add this check
           throw new Error('Client ID not available. Please try again.')
         }
 
@@ -89,11 +92,10 @@ export class Login {
         const password = this.password.value
 
         await this.validateCredentials(userId, password)
-        
+
         this.showMessage('Login successful!')
         this.loginContainer.style.display = 'none'
         this.container.style.display = 'block'
-
       } catch (error) {
         console.error('Login error:', error)
         this.showMessage(error.message, true)
