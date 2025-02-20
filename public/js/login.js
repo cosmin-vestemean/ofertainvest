@@ -13,7 +13,7 @@ export class Login {
   }
 
   async init() {
-    const clientID = ''
+    let clientID = ''
     // Load users into select
     try {
       const result = await client.service('getRegisteredUsers').find({})
