@@ -11,6 +11,7 @@ import { selectedTheme } from './utils/init.js'
 import { ds_antemasuratori, setDsAntemasuratori } from './controllers/antemasuratori.js'
 import { _cantitate_oferta } from './utils/def_coloane.js'
 import { recipeDisplayMask, recipeSubsDisplayMask } from './views/masks.js'
+import { Login } from './js/login.js'
 
 customElements.define('litwc-cantitate-persoana', LitwcCantitatePersoana)
 
@@ -1666,7 +1667,6 @@ class Activity extends LitElement {
         tr.appendChild(td)
         for (const [key, value] of Object.entries(recipeDisplayMask)) {
           let props = value
-          let td = document.createElement('td')
           let visibility = props.visible
           if (visibility === false) {
             td.classList.add('d-none')
@@ -3343,3 +3343,5 @@ customElements.define('my-estimari', estimari)
 customElements.define('litwc-select-antemasuratori', LitwcSelectAntemasuratori)
 
 export { LitElement, html, css, unsafeHTML }
+
+new Login()
