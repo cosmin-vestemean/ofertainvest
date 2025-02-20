@@ -11,6 +11,10 @@ import { mssql } from './mssql.js'
 import { services } from './services/index.js'
 import { channels } from './channels.js'
 import { authentication } from './authentication.js'
+import { version } from 'winston'
+
+const wsLoginData = { username: 'Serra', password: '5151' }
+const mainURL = 'https://investdej.oncloud.gr/s1services'
 
 const app = koa(feathers())
 
@@ -54,21 +58,17 @@ app.hooks({
   teardown: []
 })
 
-const mainURL = 'https://investdej.oncloud.gr/s1services'
-
 class connectToS1ServiceClass {
   async find(params) {
     const url = mainURL
-    const username = 'Serra'
-    const password = '5151'
     const method = 'POST'
     const body = {
       service: 'login',
-      username: username,
-      password: password,
+      username: wsLoginData.username,
+      password: wsLoginData.password,
       appId: 1001
     }
-    console.log(body)
+    //console.log(body)
     const response = await fetch(url, { method: method, body: JSON.stringify(body) })
     const json = await response.json()
     console.log(json)
@@ -107,6 +107,37 @@ class connectToS1ServiceClass {
 
 //register the service
 app.use('connectToS1', new connectToS1ServiceClass())
+
+class getRegisteredUsersServiceClass {
+  async find(params) {
+    const url = mainURL
+    const method = 'POST'
+    const body = {
+      service: 'login',
+      username: wsLoginData.username,
+      password: wsLoginData.password,
+      appId: 1001
+    }
+    //console.log(body)
+    const response = await fetch(url, { method: method, body: JSON.stringify(body) })
+    const json = await response.json()
+    if (json.success) {
+      const users = json.objs
+      return {
+        success: true,
+        users: users,
+        appId: json.appId,
+        clientID: json.clientID,
+        version: json.ver,
+        sn: json.sn,
+      }
+    } else {
+      return { success: false, error: json.error }
+    }
+  }
+}
+
+app.use('getRegisteredUsers', new getRegisteredUsersServiceClass())
 
 class setDocumentServiceClass {
   async create(data, params) {

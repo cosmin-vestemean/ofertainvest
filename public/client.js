@@ -111,6 +111,15 @@ client.configure(
   })
 )
 
+client.configure('getRegisteredUsers', socketClient.service('getRegisteredUsers'), {
+  methods: ['find']
+})
+
+//validateUserPwd
+client.configure('validateUserPwd', socketClient.service('validateUserPwd'), {
+  methods: ['find']
+})
+
 const login = async () => {
   try {
     // First try to log in with an existing JWT
