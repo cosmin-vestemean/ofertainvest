@@ -36,6 +36,8 @@ export class Login {
       throw new Error('Failed to load users')
     }
 
+    console.info('Users:', result)
+
     this.clientID = result.clientID
     if (!this.clientID) {
       throw new Error('No client ID received') 
