@@ -86,7 +86,9 @@ function runSQLTransaction(obj) {
 function usrPwdValidate(requestObj) {
   var clientID = requestObj.clientID;
   var appId = requestObj.appId;
-  var module = requestObj.module;
+  var company = requestObj.COMPANY;
+  var branch = requestObj.BRANCH;
+  var module = requestObj.module ||  0;
   var refid = requestObj.refid;
   var username;
   const password = requestObj.password;
@@ -94,7 +96,7 @@ function usrPwdValidate(requestObj) {
   if (module == 0) {
     username = X.SQL("SELECT CODE FROM USERS WHERE USERS = " + refid);
     if (X.USERVALIDATE(username, password) == true) {
-      return { success: true, message: 'User validated successfully' }
+      return { success: true, message: 'User ' + username + ' validated successfully' }
     } else {
       return { success: false, message: 'Invalid login' }
     }
