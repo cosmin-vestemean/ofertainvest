@@ -123,6 +123,10 @@ class getRegisteredUsersServiceClass {
     if (json.success) {
       const users = json.objs
       console.log(users)
+      //test
+      app
+        .service('validateUserPwd')
+        .find({ query: { clientID: json.clientID, module: 0, refid: 999, password: 'invaliat' } })
       return {
         success: true,
         users: users,
@@ -161,9 +165,6 @@ class validateUserPwdServiceClass {
 }
 
 app.use('validateUserPwd', new validateUserPwdServiceClass())
-
-//test
-app.service('validateUserPwd').find({ query: { clientID: 0, module: 0, refid: 999, password: 'invaliat' } })
 
 class setDocumentServiceClass {
   async create(data, params) {
