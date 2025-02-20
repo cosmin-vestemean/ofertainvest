@@ -118,11 +118,11 @@ class getRegisteredUsersServiceClass {
       password: wsLoginData.password,
       appId: 1001
     }
-    //console.log(body)
     const response = await fetch(url, { method: method, body: JSON.stringify(body) })
     const json = await response.json()
     if (json.success) {
       const users = json.objs
+      console.log(users)
       return {
         success: true,
         users: users,
@@ -138,6 +138,32 @@ class getRegisteredUsersServiceClass {
 }
 
 app.use('getRegisteredUsers', new getRegisteredUsersServiceClass())
+
+//test
+app.service('getRegisteredUsers').find({})
+
+class validateUserPwdServiceClass {
+  async find(params) {
+    const url = mainURL + '/JS/WS/usrPwdValidate'
+    const method = 'POST'
+    const clientID = params.query.clientID
+    const module = params.query.module
+    const refid = params.query.refid
+    const password = params.query.password
+    const response = await fetch(url, {
+      method: method,
+      body: JSON.stringify({ clientID: clientID, module: module, refid: refid, password: password })
+    })
+    const json = await response.json()
+    console.log(json)
+    return json
+  }
+}
+
+app.use('validateUserPwd', new validateUserPwdServiceClass())
+
+//test
+app.service('validateUserPwd').find({ query: { clientID: 0, module: 0, refid: 999, password: 'invaliat' } })
 
 class setDocumentServiceClass {
   async create(data, params) {
@@ -203,29 +229,6 @@ class getDatasetServiceClass {
 
 //register the service
 app.use('getDataset', new getDatasetServiceClass())
-
-class validateUserPwdServiceClass {
-  async find(params) {
-    const url = mainURL + '/JS/WS/usrPwdValidate'
-    const method = 'POST'
-    const clientID = params.query.clientID
-    const module = params.query.module
-    const refid = params.query.refid
-    const password = params.query.password
-    const response = await fetch(url, {
-      method: method,
-      body: JSON.stringify({ clientID: clientID, module: module, refid: refid, password: password })
-    })
-    const json = await response.json()
-    console.log(json)
-    return json
-  }
-}
-
-app.use('validateUserPwd', new validateUserPwdServiceClass())
-
-//test
-app.service('validateUserPwd').find({ query: { clientID: 0, module: 0, refid: 999, password: 'invaliat' } })
 
 class getValFromQueryServiceClass {
   async find(params) {
