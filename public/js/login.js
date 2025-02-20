@@ -26,6 +26,8 @@ export class Login {
         throw new Error('No client ID returned')
       }
 
+      console.log('loadUsers clientID:', this.clientID) // Add this line
+
       const users = result.users
       users.forEach(user => {
         const option = document.createElement('option') 
@@ -50,6 +52,8 @@ export class Login {
     if (!userId || !password) {
       throw new Error('Missing username or password')  
     }
+
+    console.log('validateCredentials clientID:', this.clientID) // Add this line
 
     const result = await client.service('validateUserPwd').find({
       clientID: this.clientID,
@@ -77,6 +81,10 @@ export class Login {
       this.showMessage('Logging in...')
 
       try {
+        if (!this.clientID) { // Add this check
+          throw new Error('Client ID not available. Please try again.')
+        }
+
         const userId = this.userSelect.value
         const password = this.password.value
 

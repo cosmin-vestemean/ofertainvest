@@ -183,6 +183,8 @@ class validateUserPwdServiceClass {
     const BRANCH = params.BRANCH || 1
     const appID = params.appID || 1001
 
+    console.log('validateUserPwd params:', params) // Add this line
+
     // Authenticate first
     const authResult = await app.service('authenticate').find({
       query: {
