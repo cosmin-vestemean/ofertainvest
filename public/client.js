@@ -112,12 +112,12 @@ client.configure(
   })
 )
 
-client.configure('getRegisteredUsers', socketClient.service('getRegisteredUsers'), {
+client.use('getRegisteredUsers', socketClient.service('getRegisteredUsers'), {
   methods: ['find']
 })
 
 //validateUserPwd
-client.configure('validateUserPwd', socketClient.service('validateUserPwd'), {
+client.use('validateUserPwd', socketClient.service('validateUserPwd'), {
   methods: ['find']
 })
 
