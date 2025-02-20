@@ -205,6 +205,7 @@ class validateUserPwdServiceClass {
       body: JSON.stringify({ clientID: authResult.clientID, module, refid, password })
     })
     const json = await response.json()
+    json.clientID = authResult.clientID
     console.log(json)
     return json
   }
