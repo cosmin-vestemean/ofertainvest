@@ -1108,12 +1108,13 @@ class UI1 extends LitElement {
     reviewBtn.addEventListener('click', () => {
       const qtyColumns = this.querySelectorAll('.sendQtyTo')
       qtyColumns.forEach(td => {
+        const tr = td.closest('tr')
         if (allVisible) {
           if (td.textContent === '0' || td.textContent === '') {
-            td.classList.add('d-none')
+        tr.style.display = 'none'
           }
         } else {
-          td.classList.remove('d-none')
+          tr.style.display = ''
         }
       })
       allVisible = !allVisible
