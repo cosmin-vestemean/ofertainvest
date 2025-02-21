@@ -1025,11 +1025,14 @@ class UI1 extends LitElement {
     panel.style.padding = '10px'
     panel.style.zIndex = '1000'
     panel.id = 'sendToPanel'
+    panel.style.display = 'flex' // Make elements display inline
+    panel.style.alignItems = 'center' // Vertically align items
 
     // 1. Review button
     const reviewButton = document.createElement('button')
     reviewButton.textContent = 'Review'
     reviewButton.className = 'btn btn-sm btn-outline-secondary'
+    reviewButton.style.marginRight = '5px' // Add some spacing
     let allVisible = true // Track visibility state
     reviewButton.addEventListener('click', () => {
       const qtyColumns = this.querySelectorAll('.sendQtyTo')
@@ -1052,10 +1055,12 @@ class UI1 extends LitElement {
     // 2. Dropdown "Send to"
     const sendToLabel = document.createElement('label')
     sendToLabel.textContent = 'Send to: '
+    sendToLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(sendToLabel)
 
     const sendToSelect = document.createElement('select')
     sendToSelect.className = 'form-select form-select-sm'
+    sendToSelect.style.marginRight = '5px' // Add some spacing
     const options = ['Estimari', 'Planificari', 'Programari']
     options.forEach((optionText) => {
       const option = document.createElement('option')
@@ -1068,10 +1073,12 @@ class UI1 extends LitElement {
     // 3. Dropdown "For" (employees)
     const forLabel = document.createElement('label')
     forLabel.textContent = ' For: '
+    forLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(forLabel)
 
     const forSelect = document.createElement('select')
     forSelect.className = 'form-select form-select-sm'
+    forSelect.style.marginRight = '5px' // Add some spacing
     // Populate with employees from this.angajati
     this.angajati.forEach((employee) => {
       const option = document.createElement('option')
@@ -1084,36 +1091,43 @@ class UI1 extends LitElement {
     // 4. Date pickers
     const fromLabel = document.createElement('label')
     fromLabel.textContent = ' From: '
+    fromLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(fromLabel)
 
     const fromDate = document.createElement('input')
     fromDate.type = 'date'
     fromDate.className = 'form-control form-control-sm'
+    fromLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(fromDate)
 
     const toLabel = document.createElement('label')
     toLabel.textContent = ' To: '
+    toLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(toLabel)
 
     const toDate = document.createElement('input')
     toDate.type = 'date'
     toDate.className = 'form-control form-control-sm'
+    toLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(toDate)
 
     // 5. Comment input
     const commentLabel = document.createElement('label')
     commentLabel.textContent = ' Comment: '
+    commentLabel.style.marginRight = '5px' // Add some spacing
     panel.appendChild(commentLabel)
 
     const commentInput = document.createElement('input')
     commentInput.type = 'text'
     commentInput.className = 'form-control form-control-sm'
+    commentInput.style.marginRight = '5px' // Add some spacing
     panel.appendChild(commentInput)
 
     // 6. Send button
     const sendButton = document.createElement('button')
     sendButton.textContent = 'Send'
     sendButton.className = 'btn btn-sm btn-primary'
+    sendButton.style.marginRight = '5px' // Add some spacing
     sendButton.addEventListener('click', () => {
       this.sendTo(sendToSelect.value, forSelect.value, fromDate.value, toDate.value, commentInput.value)
       sendButton.style.display = 'none' // Hide the button after sending
