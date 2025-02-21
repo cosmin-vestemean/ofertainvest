@@ -645,7 +645,6 @@ class UI1 extends LitElement {
             }
           }
         })}
-        //add hidden column for "Cantitate"
         <td class="d-none sendQtyTo" contenteditable="true"></td>
       </tr>
       ${item.subarticole.length > 0
