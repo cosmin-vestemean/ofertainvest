@@ -258,41 +258,35 @@
   </head>
   <body>
     <!-- Add login form container -->
-    <section class="vh-100">
-      <div id="loginContainer" class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-5">
-            <div class="card shadow">
-              <div class="card-header">
-                <img
-                  src="https://www.invest-dej.com/templates/livecms/images/logo-inves.png"
-                  alt="Invest Software Hub Logo"
-                  class="img-fluid"
-                />
-              </div>
-              <div class="card-body">
-                <form id="loginForm">
-                  <div class="mb-3">
-                    <label for="userSelect" class="form-label">Select User</label>
-                    <select class="form-select" id="userSelect" required>
-                      <option value="">Choose user...</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" required />
-                  </div>
-                  <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                  </div>
-                  <div id="loginMessage" class="mt-3 text-center"></div>
-                </form>
-              </div>
+    <div id="loginContainer" class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="text-center">Login</h3>
+            </div>
+            <div class="card-body">
+              <form id="loginForm">
+                <div class="mb-3">
+                  <label for="userSelect" class="form-label">Select User</label>
+                  <select class="form-select" id="userSelect" required>
+                    <option value="">Choose user...</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+                <div id="loginMessage" class="mt-3 text-center"></div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <div class="container-fluid" style="display: none">
       <div class="row" id="page-header">
@@ -333,7 +327,12 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                          <a class="dropdown-item" href="#" id="vizualizare_oferta_initiala">Oferta</a>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            id="vizualizare_oferta_initiala"
+                            >Oferta</a
+                          >
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
@@ -371,7 +370,9 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                          <a class="dropdown-item" href="#" id="lista_retete_scurta">Lista retete</a>
+                          <a class="dropdown-item" href="#" id="lista_retete_scurta"
+                            >Lista retete</a
+                          >
                         </li>
                         <li>
                           <div class="btn-group btn-group-toggle mx-3 my-2" data-toggle="buttons">
@@ -439,7 +440,9 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                          <a class="dropdown-item" id="listaAntemasuratori" href="#">Lista antemasuratori</a>
+                          <a class="dropdown-item" id="listaAntemasuratori" href="#"
+                            >Lista antemasuratori</a
+                          >
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
@@ -594,8 +597,20 @@
           <!-- Menu -->
           <div id="leftMenu" class="row zenView" style="display: none">
             <ul class="list-group border-primary">
-              <li id="btn_proiect" class="list-group-item" aria-current="true">Proiect</li>
-              <li id="btn_oferta" class="list-group-item" aria-current="true">Oferta</li>
+              <li
+                id="btn_proiect"
+                class="list-group-item"
+                aria-current="true"
+              >
+                Proiect
+              </li>
+              <li
+                id="btn_oferta"
+                class="list-group-item"
+                aria-current="true"
+              >
+                Oferta
+              </li>
               <li
                 id="btn_oferta_initiala"
                 class="list-group-item"
@@ -605,10 +620,14 @@
                 Niveluri
               </li>
               <li id="btn_listaRetete" class="list-group-item">Retete</li>
-              <li id="btn_antemasuratori" class="list-group-item">Antemasuratori</li>
+              <li id="btn_antemasuratori" class="list-group-item">
+                Antemasuratori
+              </li>
               <li id="btn_estimari" class="list-group-item">Estimari</li>
               <li id="btn_planificari" class="list-group-item">Planificari</li>
-              <li id="btn_programari" class="list-group-item">Programari</li>
+              <li id="btn_programari" class="list-group-item">
+                Programari
+              </li>
             </ul>
           </div>
           <div id="quickPanel" class="row">
@@ -659,37 +678,19 @@
             <div class="col-4">
               <div class="form-group">
                 <label for="saldoc" class="form-label text-primary">Alege o oferta</label>
-                <select
-                  class="form-select form-select-sm"
-                  id="saldoc"
-                  name="saldoc"
-                  aria-label="Saldoc"
-                  required
-                ></select>
+                <select class="form-select form-select-sm" id="saldoc" name="saldoc" aria-label="Saldoc" required></select>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label for="trdr" class="form-label text-primary">Client</label>
-                <select
-                  class="form-select form-select-sm"
-                  id="trdr"
-                  name="trdr"
-                  aria-label="Trader"
-                  required
-                ></select>
+                <select class="form-select form-select-sm" id="trdr" name="trdr" aria-label="Trader" required></select>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label for="prjc" class="form-label text-primary">Proiect</label>
-                <select
-                  class="form-select form-select-sm"
-                  id="prjc"
-                  name="prjc"
-                  aria-label="Project"
-                  required
-                ></select>
+                <select class="form-select form-select-sm" id="prjc" name="prjc" aria-label="Project" required></select>
               </div>
             </div>
             <div class="col-2">
