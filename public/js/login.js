@@ -10,6 +10,7 @@ export class Login {
     this.loginContainer = document.getElementById('loginContainer')
     this.clientID = ''
     this.isLoading = false
+    this.username = ''
     this.init()
   }
 
@@ -91,11 +92,13 @@ export class Login {
         const userId = this.userSelect.value
         const password = this.password.value
 
-        await this.validateCredentials(userId, password)
+        const validateResponse  =await this.validateCredentials(userId, password)
+        this.username = validateResponse.username
 
         this.showMessage('Login successful!')
         this.loginContainer.style.display = 'none'
         this.container.style.display = 'block'
+        document.getElementById('username').textContent = this.username
       } catch (error) {
         console.error('Login error:', error)
         this.showMessage(error.message, true)

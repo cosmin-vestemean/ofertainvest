@@ -1,5 +1,7 @@
 /* Global X */
 
+import { user } from "../../src/services/users/users"
+
 function processSqlAsDataset(obj) {
   var ds, err
   if (!obj.sqlQuery) return { success: false, error: 'No sql query transmited.' }
@@ -96,7 +98,7 @@ function usrPwdValidate(requestObj) {
   if (module == 0) {
     username = X.SQL("SELECT CODE FROM USERS WHERE USERS = " + refid);
     if (X.USERVALIDATE(username, password) == true) {
-      return { success: true, message: 'User ' + username + ' validated successfully' }
+      return { success: true, message: 'User ' + username + ' validated successfully', username: username }
     } else {
       return { success: false, message: 'Invalid login' }
     }
