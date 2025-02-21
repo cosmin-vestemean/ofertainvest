@@ -1008,7 +1008,49 @@ class UI1 extends LitElement {
     panel.style.zIndex = '1000'
     panel.id = 'sendToPanel'
     panel.className = 'bg-light shadow-sm p-2 d-flex gap-3 align-items-center'
+
+    // Add close button
+    const closeBtn = document.createElement('button')
+    closeBtn.innerHTML = '<i class="bi bi-x-lg"></i>'
+    closeBtn.className = 'btn btn-sm btn-link text-dark ms-auto'
+    closeBtn.style.textDecoration = 'none'
+    closeBtn.addEventListener('click', () => panel.remove())
+    
+    panel.appendChild(closeBtn)
     return panel
+  }
+
+  sendToActions() {
+    const qtyColumn = this.querySelectorAll('.sendQtyTo')
+    qtyColumn.forEach(td => td.classList.remove('d-none'))
+
+    const panel = this.createActionPanel()
+    const {group: sendToGroup, select: sendToSelect} = this.createSendToGroup() 
+    const {group: empGroup, select: empSelect} = this.createEmployeeGroup()
+    const {group: dateGroup, fromDate, toDate} = this.createDateGroup()
+    const {group: commentGroup, input: commentInput} = this.createCommentGroup()
+    const {group: btnGroup, sendBtn} = this.createActionButtons()
+
+    sendBtn.addEventListener('click', () => {
+      this.sendTo(
+        sendToSelect.value,
+        empSelect.value, 
+        fromDate.value,
+        toDate.value,
+        commentInput.value
+      )
+      panel.remove()
+    })
+
+    // Insert groups before the close button
+    const closeBtn = panel.querySelector('button')
+    panel.insertBefore(sendToGroup, closeBtn)
+    panel.insertBefore(empGroup, closeBtn) 
+    panel.insertBefore(dateGroup, closeBtn)
+    panel.insertBefore(commentGroup, closeBtn)
+    panel.insertBefore(btnGroup, closeBtn)
+
+    document.body.appendChild(panel)
   }
 
   createSendToGroup() {
@@ -1127,32 +1169,6 @@ class UI1 extends LitElement {
 
     group.append(reviewBtn, sendBtn)
     return {group, sendBtn, reviewBtn}
-  }
-
-  sendToActions() {
-    const qtyColumn = this.querySelectorAll('.sendQtyTo')
-    qtyColumn.forEach(td => td.classList.remove('d-none'))
-
-    const panel = this.createActionPanel()
-    const {group: sendToGroup, select: sendToSelect} = this.createSendToGroup() 
-    const {group: empGroup, select: empSelect} = this.createEmployeeGroup()
-    const {group: dateGroup, fromDate, toDate} = this.createDateGroup()
-    const {group: commentGroup, input: commentInput} = this.createCommentGroup()
-    const {group: btnGroup, sendBtn} = this.createActionButtons()
-
-    sendBtn.addEventListener('click', () => {
-      this.sendTo(
-        sendToSelect.value,
-        empSelect.value, 
-        fromDate.value,
-        toDate.value,
-        commentInput.value
-      )
-      panel.remove()
-    })
-
-    panel.append(sendToGroup, empGroup, dateGroup, commentGroup, btnGroup)
-    document.body.appendChild(panel)
   }
 
   sendTo(destination, employee, fromDate, toDate, comment) {
