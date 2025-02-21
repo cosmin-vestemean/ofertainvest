@@ -735,6 +735,7 @@ class UI1 extends LitElement {
             }
           }
         })}
+        <td class="d-none sendQtyTo" contenteditable="true"></td>
       </tr>
     `
   }
