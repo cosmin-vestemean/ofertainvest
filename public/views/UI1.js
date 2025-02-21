@@ -939,9 +939,9 @@ class UI1 extends LitElement {
             <label class="form-check-label" for="checkboxConfirmare"><i class="bi bi-lock"></i></label>
           </div>
         </div>
-        <div class="col pt-1 fs-4 text-warning">
+        <div class="col pt-1">
           <button type="button" class="btn btn-sm" @click="${(e) => this.sendToActions(e.target)}">
-            <i class="bi bi-box-arrow-in-up-right"></i>
+            <i class="bi bi-box-arrow-in-up-right fs-4 text-warning"></i>
           </button>
         </div>
       </div>
