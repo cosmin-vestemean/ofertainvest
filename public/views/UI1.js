@@ -523,10 +523,10 @@ class UI1 extends LitElement {
     // Trigger title update event/method
     console.log('New title:', newTitle)
   }
-  
+
   _getEmployeeName(id) {
     if (!this.angajati?.length) return id
-    const employee = this.angajati.find(ang => ang.PRSN == id)
+    const employee = this.angajati.find((ang) => ang.PRSN == id)
     return employee?.NAME2 || id
   }
 
@@ -578,6 +578,9 @@ class UI1 extends LitElement {
         }
       }
     })
+
+    //add hidden column header "Cantitate" after all the above columns
+    headers.push(html`<th class="d-none sendQtyTo">Cantitate</th>`)
 
     return headers
   }
@@ -642,6 +645,8 @@ class UI1 extends LitElement {
             }
           }
         })}
+        //add hidden column for "Cantitate"
+        <td class="d-none sendQtyTo" contenteditable="true"></td>
       </tr>
       ${item.subarticole.length > 0
         ? html`
@@ -934,6 +939,11 @@ class UI1 extends LitElement {
             <label class="form-check-label" for="checkboxConfirmare"><i class="bi bi-lock"></i></label>
           </div>
         </div>
+        <div class="col pt-1 fs-6">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.sendTo(e.target)}">
+            <i class="bi bi-box-arrow-in-up-right"></i>
+          </button>
+        </div>
       </div>
     `
   }
@@ -987,6 +997,14 @@ class UI1 extends LitElement {
 
   saveLineSubArticle(item, htmlElement, value) {
     console.log('Save sub', item, htmlElement, value)
+  }
+
+  sendTo() {
+    //show hidden column "Cantitate"
+    const qtyColumn = this.querySelectorAll('.sendQtyTo')
+    qtyColumn.forEach((td) => {
+      td.classList.remove('d-none')
+    })
   }
 }
 
