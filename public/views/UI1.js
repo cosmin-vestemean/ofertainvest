@@ -1028,8 +1028,15 @@ class UI1 extends LitElement {
     const existingPanel = document.getElementById('sendToPanel')
     if (existingPanel) {
       existingPanel.remove()
-      // Hide quantity columns when closing panel
+      
+      // Hide quantity columns
       this.hideQuantityColumns()
+      
+      // Show all rows that might have been hidden by review
+      const hiddenRows = this.querySelectorAll('tr[style*="display: none"]')
+      hiddenRows.forEach(row => {
+        row.style.display = ''
+      })
     }
   }
 
