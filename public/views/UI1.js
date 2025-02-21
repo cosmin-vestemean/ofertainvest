@@ -1000,6 +1000,9 @@ class UI1 extends LitElement {
   }
 
   createActionPanel() {
+    // Remove any existing panels first
+    this.cleanupActionPanel()
+
     const panel = document.createElement('div')
     panel.style.position = 'fixed'
     panel.style.top = '0' 
@@ -1014,13 +1017,29 @@ class UI1 extends LitElement {
     closeBtn.innerHTML = '<i class="bi bi-x-lg"></i>'
     closeBtn.className = 'btn btn-sm btn-link text-dark ms-auto'
     closeBtn.style.textDecoration = 'none'
-    closeBtn.addEventListener('click', () => panel.remove())
+    closeBtn.addEventListener('click', () => this.cleanupActionPanel())
     
     panel.appendChild(closeBtn)
     return panel
   }
 
+  cleanupActionPanel() {
+    // Remove existing panel if any
+    const existingPanel = document.getElementById('sendToPanel')
+    if (existingPanel) {
+      existingPanel.remove()
+      // Hide quantity columns when closing panel
+      this.hideQuantityColumns()
+    }
+  }
+
+  hideQuantityColumns() {
+    const qtyColumns = this.querySelectorAll('.sendQtyTo')
+    qtyColumns.forEach(td => td.classList.add('d-none'))
+  }
+
   sendToActions() {
+    // Show quantity columns
     const qtyColumn = this.querySelectorAll('.sendQtyTo')
     qtyColumn.forEach(td => td.classList.remove('d-none'))
 
@@ -1039,7 +1058,7 @@ class UI1 extends LitElement {
         toDate.value,
         commentInput.value
       )
-      panel.remove()
+      this.cleanupActionPanel() // Use cleanup method instead of just panel.remove()
     })
 
     // Insert groups before the close button
