@@ -1,7 +1,5 @@
 /* Global X */
 
-import { user } from "../../src/services/users/users"
-
 function processSqlAsDataset(obj) {
   var ds, err
   if (!obj.sqlQuery) return { success: false, error: 'No sql query transmited.' }
