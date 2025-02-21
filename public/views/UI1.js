@@ -1148,7 +1148,7 @@ class UI1 extends LitElement {
         toDate.value,
         commentInput.value
       )
-      sendBtn.style.display = 'none'
+      panel.remove()
     })
 
     panel.append(sendToGroup, empGroup, dateGroup, commentGroup, btnGroup)
