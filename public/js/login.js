@@ -98,7 +98,7 @@ export class Login {
         this.showMessage('Login successful!')
         this.loginContainer.style.display = 'none'
         this.container.style.display = 'block'
-        document.getElementById('userName').textContent = this.username
+        document.getElementById('userName').textContent = '<i class="bi bi-person-fill fs-3">' + this.username
       } catch (error) {
         console.error('Login error:', error)
         this.showMessage(error.message, true)
