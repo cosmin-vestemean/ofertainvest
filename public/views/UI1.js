@@ -999,142 +999,158 @@ class UI1 extends LitElement {
     console.log('Save sub', item, htmlElement, value)
   }
 
-  sendToActions() {
-    //show hidden column "Cantitate"
-    const qtyColumn = this.querySelectorAll('.sendQtyTo')
-    qtyColumn.forEach((td) => {
-      td.classList.remove('d-none')
-    })
-    //create a top-0 fixed panel with contextual functions/elements
-    //1. review button: hides all zero sendQtyTo columns, change caption to All, clicked again shows all
-    //2. dropdown with Estimari, Planificari and Programari, label "Send to"
-    //3. dropdown with all the employees, label "For"
-    //4. optional 2 datepickers, label "From" and "To"
-    //5. Optional text input, label "Comment"
-    //6. button "Send" with this.sendTo()
-    //7. When clicking "Send" button, hide it
-    //end of pseudo code
-
-    // Create the panel
+  createActionPanel() {
     const panel = document.createElement('div')
     panel.style.position = 'fixed'
-    panel.style.top = '0'
+    panel.style.top = '0' 
     panel.style.left = '0'
     panel.style.width = '100%'
-    panel.style.backgroundColor = 'white'
-    panel.style.padding = '10px'
     panel.style.zIndex = '1000'
     panel.id = 'sendToPanel'
-    panel.style.display = 'flex' // Make elements display inline
-    panel.style.alignItems = 'center' // Vertically align items
+    panel.className = 'bg-light shadow-sm p-2 d-flex gap-3 align-items-center'
+    return panel
+  }
 
-    // 1. Review button
-    const reviewButton = document.createElement('button')
-    reviewButton.textContent = 'Review'
-    reviewButton.className = 'btn btn-sm btn-outline-secondary'
-    reviewButton.style.marginRight = '5px' // Add some spacing
-    let allVisible = true // Track visibility state
-    reviewButton.addEventListener('click', () => {
+  createSendToGroup() {
+    const group = document.createElement('div')
+    group.className = 'd-flex gap-2 align-items-center'
+
+    const label = document.createElement('label')
+    label.textContent = 'Send to:'
+    
+    const select = document.createElement('select') 
+    select.className = 'form-select form-select-sm'
+    select.style.width = 'auto'
+    
+    const options = ['Estimari', 'Planificari', 'Programari']
+    options.forEach(opt => {
+      const option = document.createElement('option')
+      option.value = opt
+      option.textContent = opt
+      select.appendChild(option)
+    })
+
+    group.append(label, select)
+    return {group, select}
+  }
+
+  createEmployeeGroup() {
+    const group = document.createElement('div')
+    group.className = 'd-flex gap-2 align-items-center'
+
+    const label = document.createElement('label')
+    label.textContent = 'For:'
+    
+    const select = document.createElement('select')
+    select.className = 'form-select form-select-sm'
+    select.style.width = 'auto'
+    
+    this.angajati.forEach(emp => {
+      const option = document.createElement('option')
+      option.value = emp.PRSN
+      option.textContent = emp.NAME2
+      select.appendChild(option)
+    })
+
+    group.append(label, select)
+    return {group, select}
+  }
+
+  createDateGroup() {
+    const group = document.createElement('div')
+    group.className = 'd-flex gap-2 align-items-center'
+
+    const fromLabel = document.createElement('label')
+    fromLabel.textContent = 'From:'
+    
+    const fromDate = document.createElement('input')
+    fromDate.type = 'date'
+    fromDate.className = 'form-control form-control-sm'
+    fromDate.style.width = 'auto'
+
+    const toLabel = document.createElement('label')
+    toLabel.textContent = 'To:'
+    
+    const toDate = document.createElement('input')
+    toDate.type = 'date'
+    toDate.className = 'form-control form-control-sm'
+    toDate.style.width = 'auto'
+
+    group.append(fromLabel, fromDate, toLabel, toDate)
+    return {group, fromDate, toDate}
+  }
+
+  createCommentGroup() {
+    const group = document.createElement('div')
+    group.className = 'd-flex gap-2 align-items-center'
+
+    const label = document.createElement('label')
+    label.textContent = 'Comment:'
+    
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.className = 'form-control form-control-sm'
+    input.style.width = 'auto'
+
+    group.append(label, input)
+    return {group, input}
+  }
+
+  createActionButtons() {
+    const group = document.createElement('div')
+    group.className = 'd-flex gap-2'
+
+    const reviewBtn = document.createElement('button')
+    reviewBtn.textContent = 'Review'
+    reviewBtn.className = 'btn btn-sm btn-outline-secondary'
+    let allVisible = true
+
+    reviewBtn.addEventListener('click', () => {
       const qtyColumns = this.querySelectorAll('.sendQtyTo')
-      qtyColumns.forEach((td) => {
+      qtyColumns.forEach(td => {
         if (allVisible) {
-          // Hide columns with zero quantity
           if (td.textContent === '0' || td.textContent === '') {
             td.classList.add('d-none')
           }
         } else {
-          // Show all columns
           td.classList.remove('d-none')
         }
       })
       allVisible = !allVisible
-      reviewButton.textContent = allVisible ? 'Review' : 'All'
+      reviewBtn.textContent = allVisible ? 'Review' : 'All'
     })
-    panel.appendChild(reviewButton)
 
-    // 2. Dropdown "Send to"
-    const sendToLabel = document.createElement('label')
-    sendToLabel.textContent = 'Send to: '
-    sendToLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(sendToLabel)
+    const sendBtn = document.createElement('button')
+    sendBtn.textContent = 'Send'
+    sendBtn.className = 'btn btn-sm btn-primary'
 
-    const sendToSelect = document.createElement('select')
-    sendToSelect.className = 'form-select form-select-sm'
-    sendToSelect.style.marginRight = '5px' // Add some spacing
-    const options = ['Estimari', 'Planificari', 'Programari']
-    options.forEach((optionText) => {
-      const option = document.createElement('option')
-      option.value = optionText
-      option.textContent = optionText
-      sendToSelect.appendChild(option)
+    group.append(reviewBtn, sendBtn)
+    return {group, sendBtn, reviewBtn}
+  }
+
+  sendToActions() {
+    const qtyColumn = this.querySelectorAll('.sendQtyTo')
+    qtyColumn.forEach(td => td.classList.remove('d-none'))
+
+    const panel = this.createActionPanel()
+    const {group: sendToGroup, select: sendToSelect} = this.createSendToGroup() 
+    const {group: empGroup, select: empSelect} = this.createEmployeeGroup()
+    const {group: dateGroup, fromDate, toDate} = this.createDateGroup()
+    const {group: commentGroup, input: commentInput} = this.createCommentGroup()
+    const {group: btnGroup, sendBtn} = this.createActionButtons()
+
+    sendBtn.addEventListener('click', () => {
+      this.sendTo(
+        sendToSelect.value,
+        empSelect.value, 
+        fromDate.value,
+        toDate.value,
+        commentInput.value
+      )
+      sendBtn.style.display = 'none'
     })
-    panel.appendChild(sendToSelect)
 
-    // 3. Dropdown "For" (employees)
-    const forLabel = document.createElement('label')
-    forLabel.textContent = ' For: '
-    forLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(forLabel)
-
-    const forSelect = document.createElement('select')
-    forSelect.className = 'form-select form-select-sm'
-    forSelect.style.marginRight = '5px' // Add some spacing
-    // Populate with employees from this.angajati
-    this.angajati.forEach((employee) => {
-      const option = document.createElement('option')
-      option.value = employee.PRSN
-      option.textContent = employee.NAME2
-      forSelect.appendChild(option)
-    })
-    panel.appendChild(forSelect)
-
-    // 4. Date pickers
-    const fromLabel = document.createElement('label')
-    fromLabel.textContent = ' From: '
-    fromLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(fromLabel)
-
-    const fromDate = document.createElement('input')
-    fromDate.type = 'date'
-    fromDate.className = 'form-control form-control-sm'
-    fromLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(fromDate)
-
-    const toLabel = document.createElement('label')
-    toLabel.textContent = ' To: '
-    toLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(toLabel)
-
-    const toDate = document.createElement('input')
-    toDate.type = 'date'
-    toDate.className = 'form-control form-control-sm'
-    toLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(toDate)
-
-    // 5. Comment input
-    const commentLabel = document.createElement('label')
-    commentLabel.textContent = ' Comment: '
-    commentLabel.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(commentLabel)
-
-    const commentInput = document.createElement('input')
-    commentInput.type = 'text'
-    commentInput.className = 'form-control form-control-sm'
-    commentInput.style.marginRight = '5px' // Add some spacing
-    panel.appendChild(commentInput)
-
-    // 6. Send button
-    const sendButton = document.createElement('button')
-    sendButton.textContent = 'Send'
-    sendButton.className = 'btn btn-sm btn-primary'
-    sendButton.style.marginRight = '5px' // Add some spacing
-    sendButton.addEventListener('click', () => {
-      this.sendTo(sendToSelect.value, forSelect.value, fromDate.value, toDate.value, commentInput.value)
-      sendButton.style.display = 'none' // Hide the button after sending
-    })
-    panel.appendChild(sendButton)
-
-    // Append the panel to the document
+    panel.append(sendToGroup, empGroup, dateGroup, commentGroup, btnGroup)
     document.body.appendChild(panel)
   }
 
