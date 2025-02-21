@@ -1118,7 +1118,7 @@ class UI1 extends LitElement {
         }
       })
       allVisible = !allVisible
-      reviewBtn.textContent = allVisible ? 'Review' : 'All'
+      reviewBtn.textContent = allVisible ? 'Review' : 'Show all'
     })
 
     const sendBtn = document.createElement('button')
