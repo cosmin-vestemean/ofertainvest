@@ -940,7 +940,7 @@ class UI1 extends LitElement {
           </div>
         </div>
         <div class="col pt-1 fs-4 text-warning">
-          <button type="button" class="btn btn-sm" @click="${(e) => this.sendTo(e.target)}">
+          <button type="button" class="btn btn-sm" @click="${(e) => this.sendToActions(e.target)}">
             <i class="bi bi-box-arrow-in-up-right"></i>
           </button>
         </div>
@@ -999,12 +999,134 @@ class UI1 extends LitElement {
     console.log('Save sub', item, htmlElement, value)
   }
 
-  sendTo() {
+  sendToActions() {
     //show hidden column "Cantitate"
     const qtyColumn = this.querySelectorAll('.sendQtyTo')
     qtyColumn.forEach((td) => {
       td.classList.remove('d-none')
     })
+    //create a top-0 fixed panel with contextual functions/elements
+    //1. review button: hides all zero sendQtyTo columns, change caption to All, clicked again shows all
+    //2. dropdown with Estimari, Planificari and Programari, label "Send to"
+    //3. dropdown with all the employees, label "For"
+    //4. optional 2 datepickers, label "From" and "To"
+    //5. Optional text input, label "Comment"
+    //6. button "Send" with this.sendTo()
+    //7. When clicking "Send" button, hide it
+    //end of pseudo code
+
+    // Create the panel
+    const panel = document.createElement('div')
+    panel.style.position = 'fixed'
+    panel.style.top = '0'
+    panel.style.left = '0'
+    panel.style.width = '100%'
+    panel.style.backgroundColor = 'white'
+    panel.style.padding = '10px'
+    panel.style.zIndex = '1000'
+    panel.id = 'sendToPanel'
+
+    // 1. Review button
+    const reviewButton = document.createElement('button')
+    reviewButton.textContent = 'Review'
+    reviewButton.className = 'btn btn-sm btn-outline-secondary'
+    let allVisible = true // Track visibility state
+    reviewButton.addEventListener('click', () => {
+      const qtyColumns = this.querySelectorAll('.sendQtyTo')
+      qtyColumns.forEach((td) => {
+        if (allVisible) {
+          // Hide columns with zero quantity
+          if (td.textContent === '0' || td.textContent === '') {
+            td.classList.add('d-none')
+          }
+        } else {
+          // Show all columns
+          td.classList.remove('d-none')
+        }
+      })
+      allVisible = !allVisible
+      reviewButton.textContent = allVisible ? 'Review' : 'All'
+    })
+    panel.appendChild(reviewButton)
+
+    // 2. Dropdown "Send to"
+    const sendToLabel = document.createElement('label')
+    sendToLabel.textContent = 'Send to: '
+    panel.appendChild(sendToLabel)
+
+    const sendToSelect = document.createElement('select')
+    sendToSelect.className = 'form-select form-select-sm'
+    const options = ['Estimari', 'Planificari', 'Programari']
+    options.forEach((optionText) => {
+      const option = document.createElement('option')
+      option.value = optionText
+      option.textContent = optionText
+      sendToSelect.appendChild(option)
+    })
+    panel.appendChild(sendToSelect)
+
+    // 3. Dropdown "For" (employees)
+    const forLabel = document.createElement('label')
+    forLabel.textContent = ' For: '
+    panel.appendChild(forLabel)
+
+    const forSelect = document.createElement('select')
+    forSelect.className = 'form-select form-select-sm'
+    // Populate with employees from this.angajati
+    this.angajati.forEach((employee) => {
+      const option = document.createElement('option')
+      option.value = employee.PRSN
+      option.textContent = employee.NAME2
+      forSelect.appendChild(option)
+    })
+    panel.appendChild(forSelect)
+
+    // 4. Date pickers
+    const fromLabel = document.createElement('label')
+    fromLabel.textContent = ' From: '
+    panel.appendChild(fromLabel)
+
+    const fromDate = document.createElement('input')
+    fromDate.type = 'date'
+    fromDate.className = 'form-control form-control-sm'
+    panel.appendChild(fromDate)
+
+    const toLabel = document.createElement('label')
+    toLabel.textContent = ' To: '
+    panel.appendChild(toLabel)
+
+    const toDate = document.createElement('input')
+    toDate.type = 'date'
+    toDate.className = 'form-control form-control-sm'
+    panel.appendChild(toDate)
+
+    // 5. Comment input
+    const commentLabel = document.createElement('label')
+    commentLabel.textContent = ' Comment: '
+    panel.appendChild(commentLabel)
+
+    const commentInput = document.createElement('input')
+    commentInput.type = 'text'
+    commentInput.className = 'form-control form-control-sm'
+    panel.appendChild(commentInput)
+
+    // 6. Send button
+    const sendButton = document.createElement('button')
+    sendButton.textContent = 'Send'
+    sendButton.className = 'btn btn-sm btn-primary'
+    sendButton.addEventListener('click', () => {
+      this.sendTo(sendToSelect.value, forSelect.value, fromDate.value, toDate.value, commentInput.value)
+      sendButton.style.display = 'none' // Hide the button after sending
+    })
+    panel.appendChild(sendButton)
+
+    // Append the panel to the document
+    document.body.appendChild(panel)
+  }
+
+  sendTo(destination, employee, fromDate, toDate, comment) {
+    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
+    // Implement the actual sending logic here
   }
 }
 
