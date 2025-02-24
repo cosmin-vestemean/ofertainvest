@@ -312,27 +312,25 @@ class LitwcListaPlanificari extends LitElement {
       return null
     }
 
-    const data = header.processedLinii || []
-    console.log('Rendering planificare details:', {
-      id: header.CCCPLANIFICARI,
-      dataLength: data.length,
-      firstItem: data[0],
-      masks: {
-        main: planificareDisplayMask,
-        subs: planificareSubsDisplayMask,
-        header: planificareHeaderMask
-      }
-    })
+    // Structure data in the format UI1 expects
+    const structuredData = header.processedLinii?.map(line => ({
+      meta: {
+        type: line.meta?.type || 'standard'
+      },
+      content: [{
+        object: line,
+        children: line.children?.map(child => ({
+          object: child
+        })) || []
+      }]
+    })) || []
 
-    // Add a debug div if data looks wrong
-    if (!Array.isArray(data) || data.length === 0) {
-      return html`
-        <div class="alert alert-warning m-3">
-          <h6>Debug Info:</h6>
-          <pre>${JSON.stringify(header, null, 2)}</pre>
-        </div>
-      `
-    }
+    console.log('Structured data for UI1:', {
+      id: header.CCCPLANIFICARI,
+      dataLength: structuredData.length,
+      sample: structuredData[0],
+      rawData: header.processedLinii?.[0]
+    })
 
     return html`
       <div class="card-body">
@@ -343,17 +341,24 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${data}
+          .data=${structuredData}
           .documentHeader=${{
             responsabilPlanificare: header.RESPPLAN,
             responsabilExecutie: header.RESPEXEC,
             id: header.CCCPLANIFICARI,
-            // Add any other needed header fields
+            startDate: header.DATASTART,
+            endDate: header.DATASTOP
           }}
           .documentHeaderMask=${planificareHeaderMask}
+          @update="${this.handlePlanificareUpdate}"
         ></litwc-planificare>
       </div>
     `
+  }
+
+  handlePlanificareUpdate(event) {
+    console.log('Planificare updated:', event.detail)
+    // Handle any updates from the child component
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
