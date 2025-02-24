@@ -67,7 +67,6 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       // Apelăm direct loadPlanificari() după ce am terminat încărcarea angajaților
       await this.loadPlanificari()
-      this.requestUpdate()
     }
   }
 
