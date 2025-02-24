@@ -27,7 +27,7 @@ class LitwcListaPlanificari extends LitElement {
 
   constructor() {
     super()
-    this.angajati = [] 
+    this.angajati = []
     this.isLoading = true
     this.modal = null
     this.planificari = []
@@ -85,7 +85,7 @@ class LitwcListaPlanificari extends LitElement {
 
     try {
       const planificare = await planificariController.getPlanificareById(id, this.planificari)
-      
+
       Object.assign(table, {
         hasMainHeader: true,
         hasSubHeader: false,
@@ -251,13 +251,15 @@ class LitwcListaPlanificari extends LitElement {
       </div>`
     }
 
-    return html`
-      <div class="toolbar mb-2">
+    return html` <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
         </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2" 
-          @click="${() => this.handleRefreshClick()}">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-2"
+          @click="${() => this.handleRefreshClick()}"
+        >
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
       </div>
@@ -271,24 +273,31 @@ class LitwcListaPlanificari extends LitElement {
   renderPlanificareCard(item, index) {
     return html`
       <div class="planificare-card">
-        <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
+        <div
+          class="card-header"
+          @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+          style="cursor: pointer;"
+        >
           <div class="card-header-content">
             <div class="header-item">
               <strong>#${index + 1}</strong>
             </div>
             ${Object.entries(listaPlanificariMask)
               .filter(([_, props]) => props.visible)
-              .map(([key, props]) => html`
-                <div class="header-item">
-                  <span class="text-muted">${props.label}:</span>
-                  ${key === 'LOCKED' 
-                    ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                    : props.type === 'datetime'
-                      ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                      : html`<span>${item[key]}</span>`
-                  }
-                </div>
-              `)}
+              .map(
+                ([key, props]) => html`
+                  <div class="header-item">
+                    <span class="text-muted">${props.label}:</span>
+                    ${key === 'LOCKED'
+                      ? html`<i
+                          class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"
+                        ></i>`
+                      : props.type === 'datetime'
+                        ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                        : html`<span>${item[key]}</span>`}
+                  </div>
+                `
+              )}
           </div>
         </div>
         ${this.renderPlanificareDetails(item)}
@@ -297,22 +306,16 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+    const header = this.planificari.find((p) => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
+    const data = header.processedLinii || []
     console.log('Rendering planificare details:', {
       id: header.CCCPLANIFICARI,
-      hasProcessedLines: Boolean(header.processedLinii),
-      linesCount: header.processedLinii?.length || 0
+      data: data
     })
-
-    const data = header.processedLinii || []
     if (data.length === 0) {
-      return html`
-        <div class="alert alert-warning m-3">
-          No data available for this planificare.
-        </div>
-      `
+      return html` <div class="alert alert-warning m-3">No data available for this planificare.</div> `
     }
 
     return html`
