@@ -89,7 +89,7 @@ class PlanificariController {
           RESPEXEC: row.RESPEXEC,
           RESPPLAN: row.RESPPLAN,
           RESPPLAN_NAME: row.RESPPLAN_NAME,
-          RESPEXEC_NAME: row.RESEXEC_NAME,
+          RESPEXEC_NAME: row.RESPEXEC_NAME, // fixed mismatch (was row.RESEXEC_NAME)
           linii: []
         }
       }
