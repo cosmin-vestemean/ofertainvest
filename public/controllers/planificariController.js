@@ -3,6 +3,40 @@ import { convertDBAntemasuratori } from './antemasuratori.js'
 import { _cantitate_antemasuratori, _cantitate_planificari } from '../utils/def_coloane.js'
 
 class PlanificariController {
+  constructor() {
+    this.planificari = []
+    this.displayData = []
+    this.eventTarget = new EventTarget()
+  }
+
+  // Event handling
+  addEventListener(type, listener) {
+    this.eventTarget.addEventListener(type, listener)
+  }
+
+  removeEventListener(type, listener) {
+    this.eventTarget.removeEventListener(type, listener)
+  }
+
+  // State management
+  getPlanificari() {
+    return this.planificari
+  }
+
+  getDisplayData() {
+    return this.displayData
+  }
+
+  dispatchDataUpdate() {
+    const event = new CustomEvent('planificariUpdate', {
+      detail: {
+        planificari: this.planificari,
+        displayData: this.displayData
+      }
+    })
+    this.eventTarget.dispatchEvent(event)
+  }
+
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
@@ -39,6 +73,13 @@ class PlanificariController {
       const grouped = this.groupPlanificariData(response.data)
       const planificari = await this.processPlanificari(grouped)
       const displayData = this.prepareDisplayData(planificari)
+
+      // Update internal state
+      this.planificari = planificari
+      this.displayData = displayData
+
+      // Notify listeners
+      this.dispatchDataUpdate()
 
       return { planificari, displayData }
     } catch (error) {

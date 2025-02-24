@@ -33,6 +33,14 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
+
+    // Listen for data updates from controller
+    planificariController.addEventListener('planificariUpdate', (event) => {
+      this.planificari = event.detail.planificari
+      this.ds = event.detail.displayData
+      this.isLoading = false
+      this.renderPlanificari()
+    })
   }
 
   createRenderRoot() {
@@ -69,21 +77,7 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
-    this.loadPlanificari()
-  }
-
-  async loadPlanificari() {
-    try {
-      const { planificari, displayData } = await planificariController.loadPlanificari()
-      this.planificari = planificari
-      this.ds = displayData
-      this.renderPlanificari()
-    } catch (error) {
-      console.error('Error loading planificari:', error)
-      this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
-    }
+    planificariController.loadPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -247,6 +241,11 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
+  async handleRefreshClick() {
+    this.isLoading = true
+    await planificariController.loadPlanificari()
+  }
+
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -296,7 +295,8 @@ class LitwcListaPlanificari extends LitElement {
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
         </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
+        <button type="button" class="btn btn-secondary btn-sm me-2" 
+          @click="${() => this.handleRefreshClick()}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
       </div>
