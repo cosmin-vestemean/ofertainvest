@@ -52,12 +52,12 @@ class LitwcListaPlanificari extends LitElement {
       if (contextOferta?.angajati?.length > 0) {
         this.angajati = contextOferta.angajati
       } else {
-        // If not in context, load and cache
+        // If not in context, load and cache  
         const employees = await employeesService.loadEmployees()
         if (employees?.length > 0) {
           this.angajati = employees
           // Cache for other components
-          contextOferta.angajati = employees
+          contextOferta.angajati = employees 
         }
       }
     } catch (error) {
@@ -68,7 +68,14 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
-    this.loadPlanificari()
+    // Eliminăm apelul loadPlanificari() de aici
+  }
+
+  // Adăugăm metoda updated
+  async updated(changedProperties) {
+    if(changedProperties.has('isLoading') && !this.isLoading) {
+      await this.loadPlanificari()
+    }
   }
 
   async loadPlanificari() {
