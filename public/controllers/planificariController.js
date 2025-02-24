@@ -5,7 +5,6 @@ import { _cantitate_antemasuratori, _cantitate_planificari } from '../utils/def_
 class PlanificariController {
   constructor() {
     this.planificari = []
-    this.displayData = []
     this.eventTarget = new EventTarget()
   }
 
@@ -23,15 +22,10 @@ class PlanificariController {
     return this.planificari
   }
 
-  getDisplayData() {
-    return this.displayData
-  }
-
   dispatchDataUpdate() {
     const event = new CustomEvent('planificariUpdate', {
       detail: {
-        planificari: this.planificari,
-        displayData: this.displayData
+        planificari: this.planificari
       }
     })
     this.eventTarget.dispatchEvent(event)
@@ -40,7 +34,9 @@ class PlanificariController {
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
-      return { planificari: [], displayData: [] }
+      this.planificari = []
+      this.dispatchDataUpdate()
+      return []
     }
 
     try {
@@ -66,29 +62,20 @@ class PlanificariController {
         }
       })
 
-      console.info('Loaded planificari:', response)
-
       if (!response?.success || !response?.data) {
         throw new Error('Failed to load planificari')
       }
 
       const grouped = this.groupPlanificariData(response.data)
-      console.info('Grouped planificari:', grouped)
-      const planificari = await this.processPlanificari(grouped)
-      console.info('Processed planificari:', planificari)
-      const displayData = this.prepareDisplayData(planificari)
-      console.info('Display data:', displayData)
-
-      // Update internal state
-      this.planificari = planificari
-      this.displayData = displayData
-
-      // Notify listeners
+      this.planificari = await this.processPlanificari(grouped)
+      
       this.dispatchDataUpdate()
+      return this.planificari
 
-      return { planificari, displayData }
     } catch (error) {
       console.error('Error loading planificari:', error)
+      this.planificari = []
+      this.dispatchDataUpdate()
       throw error
     }
   }
@@ -102,7 +89,7 @@ class PlanificariController {
           RESPEXEC: row.RESPEXEC,
           RESPPLAN: row.RESPPLAN,
           RESPPLAN_NAME: row.RESPPLAN_NAME,
-          RESPEXEC_NAME: row.RESPEXEC_NAME,
+          RESPEXEC_NAME: row.RESEXEC_NAME,
           linii: []
         }
       }
@@ -128,17 +115,6 @@ class PlanificariController {
       }
     }
     return planificari
-  }
-
-  prepareDisplayData(planificari) {
-    return planificari.map(p => ({
-      CCCPLANIFICARI: p.CCCPLANIFICARI,
-      CCCOFERTEWEB: p.CCCOFERTEWEB,
-      RESPEXEC: p.RESPEXEC,
-      RESPPLAN: p.RESPPLAN,
-      RESPPLAN_NAME: p.RESPPLAN_NAME,
-      RESPEXEC_NAME: p.RESPEXEC_NAME
-    }))
   }
 
   async getPlanificareById(id, planificari) {
