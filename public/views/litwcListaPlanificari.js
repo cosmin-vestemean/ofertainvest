@@ -340,8 +340,8 @@ class LitwcListaPlanificari extends LitElement {
       <div class="planificari-stack">
         ${this.ds.map((item, index) => html`
           <div class="planificare-card">
-            <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
-              <div class="card-header-content">
+            <div class="card-header" style="cursor: pointer;">
+              <div class="card-header-content" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
                 <div class="header-item">
                   <strong>#${index + 1}</strong>
                 </div>
@@ -359,6 +359,10 @@ class LitwcListaPlanificari extends LitElement {
                     </div>
                   `)}
               </div>
+              <button type="button" class="btn btn-light btn-sm" 
+                @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+                <i class="bi bi-arrows-fullscreen"></i>
+              </button>
             </div>
             ${this.renderPlanificareDetails(item)}
           </div>
