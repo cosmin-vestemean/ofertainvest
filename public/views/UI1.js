@@ -113,6 +113,14 @@ class UI1 extends LitElement {
   }
 
   updated(changedProperties) {
+    if (changedProperties.has('data')) {
+      console.log('UI1 received new data:', {
+        received: this.data,
+        isArray: Array.isArray(this.data),
+        length: this.data?.length,
+        firstItem: this.data?.[0]
+      });
+    }
     if (changedProperties.has('data') || changedProperties.has('mainMask')) {
       // Initialize _articole and _filteredArticole when data AND mainMask change
       if (this.data?.length > 0 && Object.keys(this.mainMask || {}).length > 0) {

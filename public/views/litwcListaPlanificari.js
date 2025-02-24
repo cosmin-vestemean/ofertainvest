@@ -307,29 +307,31 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificareDetails(item) {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
-    if (!header) {
-      console.warn('No header found for planificare:', item.CCCPLANIFICARI)
-      return null
+    if (!header?.processedLinii) {
+      console.warn('Invalid planificare data:', header)
+      return html`
+        <div class="alert alert-warning m-3">
+          Loading planificare details...
+        </div>
+      `
     }
 
-    // Structure data in the format UI1 expects
-    const structuredData = header.processedLinii?.map(line => ({
+    // Transform data for UI1 component
+    const transformedData = [{
       meta: {
-        type: line.meta?.type || 'standard'
+        type: 'planificare',
+        id: header.CCCPLANIFICARI
       },
-      content: [{
+      content: header.processedLinii.map(line => ({
         object: line,
-        children: line.children?.map(child => ({
-          object: child
-        })) || []
-      }]
-    })) || []
+        children: [] // Add children if needed
+      }))
+    }]
 
-    console.log('Structured data for UI1:', {
+    console.log('Transformed data for UI1:', {
       id: header.CCCPLANIFICARI,
-      dataLength: structuredData.length,
-      sample: structuredData[0],
-      rawData: header.processedLinii?.[0]
+      dataLength: transformedData[0].content.length,
+      sample: transformedData[0].content[0]
     })
 
     return html`
@@ -341,24 +343,16 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${structuredData}
+          .data=${transformedData}
           .documentHeader=${{
             responsabilPlanificare: header.RESPPLAN,
             responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI,
-            startDate: header.DATASTART,
-            endDate: header.DATASTOP
+            id: header.CCCPLANIFICARI
           }}
           .documentHeaderMask=${planificareHeaderMask}
-          @update="${this.handlePlanificareUpdate}"
         ></litwc-planificare>
       </div>
     `
-  }
-
-  handlePlanificareUpdate(event) {
-    console.log('Planificare updated:', event.detail)
-    // Handle any updates from the child component
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
