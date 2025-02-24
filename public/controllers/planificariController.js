@@ -105,9 +105,15 @@ class PlanificariController {
     
     for (const planificare of planificari) {
       try {
-        console.log('Processing planificare:', planificare.CCCPLANIFICARI)
-        const processed = await convertDBAntemasuratori(planificare.linii || [])
-        console.log('Processed lines:', processed)
+        console.log('Processing planificare:', planificare.CCCPLANIFICARI, 'with lines:', planificare.linii.length)
+        
+        const processed = await convertDBAntemasuratori(planificare.linii)
+        console.log('Processed result:', {
+          id: planificare.CCCPLANIFICARI,
+          linesCount: processed?.length || 0,
+          firstLine: processed?.[0]
+        })
+        
         planificare.processedLinii = processed
       } catch (error) {
         console.error(`Error processing planificare ${planificare.CCCPLANIFICARI}:`, error)

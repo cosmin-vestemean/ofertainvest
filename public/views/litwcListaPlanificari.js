@@ -300,6 +300,21 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
+    console.log('Rendering planificare details:', {
+      id: header.CCCPLANIFICARI,
+      hasProcessedLines: Boolean(header.processedLinii),
+      linesCount: header.processedLinii?.length || 0
+    })
+
+    const data = header.processedLinii || []
+    if (data.length === 0) {
+      return html`
+        <div class="alert alert-warning m-3">
+          No data available for this planificare.
+        </div>
+      `
+    }
+
     return html`
       <div class="card-body">
         <litwc-planificare
@@ -309,7 +324,7 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${header.processedLinii || []}
+          .data=${data}
           .documentHeader=${{
             responsabilPlanificare: header.RESPPLAN,
             responsabilExecutie: header.RESPEXEC,
