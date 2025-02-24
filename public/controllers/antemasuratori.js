@@ -25,7 +25,7 @@ import { antemasuratoriDisplayMask, antemasuratoriSubsDisplayMask } from '../vie
 
 export var ds_antemasuratori = []
 export async function setDsAntemasuratori() {
-  const sqlQuery = `select * from CCCANTEMASURATORI a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE, A.CCCOFERTEWEBLINII`
+  const sqlQuery = `select *, a.CANTITATE as ${_cantitate_antemasuratori} from CCCANTEMASURATORI a inner join cccpaths b on (a.cccpaths=b.cccpaths) inner join cccoferteweblinii c on (c.cccoferteweblinii=a.cccoferteweblinii) where a.cccoferteweb = ${contextOferta.CCCOFERTEWEB} order by A.CCCINSTANTE, b.path, A.CCCACTIVITINSTANTE, A.CCCOFERTEWEBLINII`
   const response = await client.service('getDataset').find({
     query: {
       sqlQuery: sqlQuery
@@ -219,18 +219,7 @@ export async function convertDBAntemasuratori(antemasuratori) {
     keys = Object.keys(a)
     for (let j = 0; j < keys.length; j++) {
       if (!Object.keys(DBtoWBS).includes(keys[j])) {
-        //rename key CANTITATE to _cantitate_antemasuratori
-        if (keys[j] === 'CANTITATE_1' || keys[j] === 'CANTITATE_2' || keys[j] === 'CANTITATE') {
-          if (keys[j] === 'CANTITATE_1') {
-            aTransformed[_cantitate_antemasuratori] = a[keys[j]]
-          } else if (keys[j] === 'CANTITATE_2') {
-            aTransformed[_cantitate_estimari] = a[keys[j]]
-          } else {
-            aTransformed[_cantitate_antemasuratori] = a[keys[j]]
-          }
-        } else {
-          aTransformed[keys[j]] = a[keys[j]]
-        }
+        aTransformed[keys[j]] = a[keys[j]]
       }
     }
 

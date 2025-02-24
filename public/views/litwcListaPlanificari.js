@@ -87,7 +87,7 @@ class LitwcListaPlanificari extends LitElement {
         p.RESPEXEC, p.RESPPLAN,
         u1.NAME2 as RESPPLAN_NAME, 
         u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, c.*
+        l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}
         FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
