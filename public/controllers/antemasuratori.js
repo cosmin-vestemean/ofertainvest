@@ -218,8 +218,8 @@ export async function convertDBAntemasuratori(antemasuratori) {
     //add all OTHER keys and values from a (which are not in DBtoWBS) to aTransformed
     keys = Object.keys(a)
     for (let j = 0; j < keys.length; j++) {
-      if (!Object.keys(DBtoWBS).includes(keys[j])) {
-        aTransformed[keys[j]] = a[keys[j]]
+      if (!Object.keys(DBtoWBS).includes(keys[j])) {        
+          aTransformed[keys[j]] = a[keys[j]]
       }
     }
 
