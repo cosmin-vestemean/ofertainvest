@@ -1,0 +1,39 @@
+.planificari-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.planificare-card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card-header {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.header-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-body {
+  padding: 1rem;
+}

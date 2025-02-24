@@ -32,6 +32,14 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
+
+    // Add CSS link to the document if not already present
+    if (!document.querySelector('link[href="../styles/planificari.css"]')) {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = '../styles/planificari.css'
+      document.head.appendChild(link)
+    }
   }
 
   createRenderRoot() {
@@ -320,43 +328,6 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     return html`
-      <style>
-        .planificari-stack {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          padding: 1rem;
-        }
-        .planificare-card {
-          border: 1px solid #dee2e6;
-          border-radius: 0.25rem;
-          background: white;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .card-header {
-          padding: 1rem;
-          background: #f8f9fa;
-          border-bottom: 1px solid #dee2e6;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .card-header-content {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 1rem;
-          width: 100%;
-        }
-        .header-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .card-body {
-          padding: 1rem;
-        }
-      </style>
-
       <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
