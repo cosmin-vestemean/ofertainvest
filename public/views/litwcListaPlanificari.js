@@ -76,7 +76,7 @@ class LitwcListaPlanificari extends LitElement {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
       this.ds = []
-      this.renderPlanificari()
+      this.requestUpdate()
       return
     }
 
@@ -84,66 +84,71 @@ class LitwcListaPlanificari extends LitElement {
       const response = await client.service('getDataset').find({
         query: {
           sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
-        p.RESPEXEC, p.RESPPLAN,
-        u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori}
-        FROM CCCPLANIFICARI p
-        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
-        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
-        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
-        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
-        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-        ORDER BY p.RESPPLAN, p.RESPEXEC`
+            p.RESPEXEC, p.RESPPLAN,
+            u1.NAME2 as RESPPLAN_NAME, 
+            u2.NAME2 as RESPEXEC_NAME,
+            l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori}
+            FROM CCCPLANIFICARI p
+            LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
+            LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
+            inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
+            inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
+            inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
+            inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
+            WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+            ORDER BY p.RESPPLAN, p.RESPEXEC`
         }
       })
 
-      if (!response.success) {
-        console.error('Failed to load planificari', response.error)
-        return
+      if (!response?.success || !response?.data) {
+        throw new Error('Failed to load planificari')
       }
 
-      // Pre-process data before setting state
-      const grouped = response.data.reduce((acc, row) => {
-        if (!acc[row.CCCPLANIFICARI]) {
-          // Create header entry if it doesn't exist
-          acc[row.CCCPLANIFICARI] = {
-            CCCPLANIFICARI: row.CCCPLANIFICARI,
-            CCCOFERTEWEB: row.CCCOFERTEWEB,
-            RESPEXEC: row.RESPEXEC,
-            RESPPLAN: row.RESPPLAN,
-            RESPPLAN_NAME: row.RESPPLAN_NAME,
-            RESPEXEC_NAME: row.RESPEXEC_NAME,
-            linii: [] // Store detail rows here
-          }
-        }
-
-        // Add detail row if it exists
-        if (row.CCCANTEMASURATORI) {
-          acc[row.CCCPLANIFICARI].linii.push({ ...row })
-        }
-
-        return acc
-      }, {})
-
-      // Convert and cache the data before setting state
-      const processedPlanificari = await Promise.all(
-        Object.values(grouped).map(async (header) => ({
-          ...header,
-          processedLinii: await convertDBAntemasuratori(header.linii || [])
-        }))
-      )
-
-      this.planificari = processedPlanificari
-      this.renderPlanificari()
+      // Group and process data
+      const grouped = this.groupPlanificariData(response.data)
+      this.planificari = grouped
+      this.ds = this.processPlanificariForDisplay(grouped)
+      
+      this.requestUpdate()
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
       this.ds = []
-      this.renderPlanificari()
+      this.requestUpdate()
     }
+  }
+
+  groupPlanificariData(data) {
+    const grouped = {}
+    data.forEach(row => {
+      if (!grouped[row.CCCPLANIFICARI]) {
+        grouped[row.CCCPLANIFICARI] = {
+          CCCPLANIFICARI: row.CCCPLANIFICARI,
+          CCCOFERTEWEB: row.CCCOFERTEWEB,
+          RESPEXEC: row.RESPEXEC,
+          RESPPLAN: row.RESPPLAN,
+          RESPPLAN_NAME: row.RESPPLAN_NAME,
+          RESPEXEC_NAME: row.RESPEXEC_NAME,
+          linii: []
+        }
+      }
+      if (row.CCCANTEMASURATORI) {
+        grouped[row.CCCPLANIFICARI].linii.push(row)
+      }
+    })
+    return Object.values(grouped)
+  }
+
+  processPlanificariForDisplay(planificari) {
+    return planificari.map(p => {
+      const filtered = {}
+      Object.keys(listaPlanificariMask).forEach(key => {
+        if (listaPlanificariMask[key].usefull) {
+          filtered[key] = p[key]
+        }
+      })
+      return filtered
+    })
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -185,19 +190,62 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  renderPlanificari() {
-    const table = tables.my_table7.element
-    this.ds = this.planificari.map((p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
-        }
-      })
-      return filtered
-    })
+  render() {
+    if (this.isLoading) {
+      return html`
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      `
+    }
 
-    table.ds = this.ds
+    return html`
+      <div class="toolbar mb-2">
+        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
+          Adauga planificare
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+      </div>
+
+      <div class="planificari-stack">
+        ${this.ds?.length ? this.ds.map((item, index) => this.renderPlanificareCard(item, index)) 
+          : html`<div class="alert alert-info">Nu există planificări</div>`}
+      </div>
+      ${this.renderModal()}
+    `
+  }
+
+  renderPlanificareCard(item, index) {
+    return html`
+      <div class="planificare-card">
+        <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+          <div class="card-header-content">
+            <div class="header-item">
+              <strong>#${index + 1}</strong>
+            </div>
+            ${Object.entries(listaPlanificariMask)
+              .filter(([_, props]) => props.visible)
+              .map(([key, props]) => this.renderHeaderItem(key, props, item[key]))}
+          </div>
+        </div>
+      </div>
+    `
+  }
+
+  renderHeaderItem(key, props, value) {
+    return html`
+      <div class="header-item">
+        <span class="text-muted">${props.label}:</span>
+        ${key === 'LOCKED' 
+          ? html`<i class="bi ${value ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
+          : props.type === 'datetime'
+            ? html`<span>${new Date(value).toLocaleDateString()}</span>`
+            : html`<span>${value}</span>`
+        }
+      </div>
+    `
   }
 
   showPlanificareModal() {
@@ -316,91 +364,6 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  render() {
-    if (this.isLoading) {
-      return html`<div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>`
-    }
-
-    return html`
-      <style>
-        .planificari-stack {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          padding: 1rem;
-        }
-        .planificare-card {
-          border: 1px solid #dee2e6;
-          border-radius: 0.25rem;
-          background: white;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .card-header {
-          padding: 1rem;
-          background: #f8f9fa;
-          border-bottom: 1px solid #dee2e6;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .card-header-content {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 1rem;
-          width: 100%;
-        }
-        .header-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .card-body {
-          padding: 1rem;
-        }
-      </style>
-
-      <div class="toolbar mb-2">
-        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
-          Adauga planificare
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
-          <i class="bi bi-arrow-clockwise"></i> Refresh
-        </button>
-      </div>
-
-      <div class="planificari-stack">
-        ${this.ds.map((item, index) => html`
-          <div class="planificare-card">
-            <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
-              <div class="card-header-content">
-                <div class="header-item">
-                  <strong>#${index + 1}</strong>
-                </div>
-                ${Object.entries(listaPlanificariMask)
-                  .filter(([_, props]) => props.visible)
-                  .map(([key, props]) => html`
-                    <div class="header-item">
-                      <span class="text-muted">${props.label}:</span>
-                      ${key === 'LOCKED' 
-                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                        : props.type === 'datetime'
-                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                          : html`<span>${item[key]}</span>`
-                      }
-                    </div>
-                  `)}
-              </div>
-            </div>
-            ${this.renderPlanificareDetails(item)}
-          </div>
-        `)}
-      </div>
-      ${this.renderModal()}
-    `
-  }
-
   renderPlanificareDetails(item) {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
@@ -424,14 +387,6 @@ class LitwcListaPlanificari extends LitElement {
         ></litwc-planificare>
       </div>
     `
-  }
-}
-customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
-
-export default LitwcListaPlanificari
-        this.updatePlanificareData(header)
-      })
-    }
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
