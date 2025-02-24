@@ -105,8 +105,7 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
-      // Group by planificare header
+      // Pre-process data before setting state
       const grouped = response.data.reduce((acc, row) => {
         if (!acc[row.CCCPLANIFICARI]) {
           // Create header entry if it doesn't exist
@@ -129,10 +128,15 @@ class LitwcListaPlanificari extends LitElement {
         return acc
       }, {})
 
-      // Convert to array
-      this.planificari = Object.values(grouped)
+      // Convert and cache the data before setting state
+      const processedPlanificari = await Promise.all(
+        Object.values(grouped).map(async (header) => ({
+          ...header,
+          processedLinii: await convertDBAntemasuratori(header.linii || [])
+        }))
+      )
 
-      console.info('Loaded planificari:', this.planificari)
+      this.planificari = processedPlanificari
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
@@ -401,16 +405,7 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    /*
-    .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
-
-    const element = html`
+    return html`
       <div class="card-body">
         <litwc-planificare
           id="planificare-${item.CCCPLANIFICARI}"
@@ -419,24 +414,23 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${[]}
+          .data=${header.processedLinii}
+          .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+          .documentHeaderMask=${planificareHeaderMask}
         ></litwc-planificare>
       </div>
     `
-
-    this.updatePlanificareData(header)
-    return element
   }
+}
+customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
 
-  async updatePlanificareData(header) {
-    try {
-      const convertedData = await convertDBAntemasuratori(header.linii || [])
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
+export default LitwcListaPlanificari
+        this.updatePlanificareData(header)
+      })
     }
   }
 }
