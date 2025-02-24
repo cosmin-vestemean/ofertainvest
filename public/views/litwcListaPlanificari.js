@@ -52,11 +52,11 @@ class LitwcListaPlanificari extends LitElement {
       if (contextOferta?.angajati?.length > 0) {
         this.angajati = contextOferta.angajati
       } else {
-        // If not in context, load and cache  
+        // If not in context, load and cache
         const employees = await employeesService.loadEmployees()
         if (employees?.length > 0) {
           this.angajati = employees
-          contextOferta.angajati = employees 
+          contextOferta.angajati = employees
         }
       }
     } catch (error) {
@@ -330,7 +330,7 @@ class LitwcListaPlanificari extends LitElement {
           border: 1px solid #dee2e6;
           border-radius: 0.25rem;
           background: white;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .card-header {
           padding: 1rem;
@@ -366,76 +366,77 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.ds.map((item, index) => html`
-          <div class="planificare-card">
-            <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
-              <div class="card-header-content">
-                <div class="header-item">
-                  <strong>#${index + 1}</strong>
+        ${this.ds.map(
+          (item, index) => html`
+            <div class="planificare-card">
+              <div
+                class="card-header"
+                @click="${() =>
+                  this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+                style="cursor: pointer;"
+              >
+                <div class="card-header-content">
+                  <div class="header-item">
+                    <strong>#${index + 1}</strong>
+                  </div>
+                  ${Object.entries(listaPlanificariMask)
+                    .filter(([_, props]) => props.visible)
+                    .map(
+                      ([key, props]) => html`
+                        <div class="header-item">
+                          <span class="text-muted">${props.label}:</span>
+                          ${key === 'LOCKED'
+                            ? html`<i
+                                class="bi ${item[key]
+                                  ? 'bi-lock-fill text-danger'
+                                  : 'bi-unlock text-success'}"
+                              ></i>`
+                            : props.type === 'datetime'
+                              ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                              : html`<span>${item[key]}</span>`}
+                        </div>
+                      `
+                    )}
                 </div>
-                ${Object.entries(listaPlanificariMask)
-                  .filter(([_, props]) => props.visible)
-                  .map(([key, props]) => html`
-                    <div class="header-item">
-                      <span class="text-muted">${props.label}:</span>
-                      ${key === 'LOCKED' 
-                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                        : props.type === 'datetime'
-                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                          : html`<span>${item[key]}</span>`
-                      }
-                    </div>
-                  `)}
               </div>
+              ${this.renderPlanificareDetails(item)}
             </div>
-            ${this.renderPlanificareDetails(item)}
-          </div>
-        `)}
+          `
+        )}
       </div>
       ${this.renderModal()}
     `
   }
 
-  renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+  async renderPlanificareDetails(item) {
+    const header = this.planificari.find((p) => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    /*
-    .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
-
-    const element = html`
-      <div class="card-body">
-        <litwc-planificare
-          id="planificare-${item.CCCPLANIFICARI}"
-          .hasMainHeader=${true}
-          .hasSubHeader=${false}
-          .canAddInLine=${true}
-          .mainMask=${planificareDisplayMask}
-          .subsMask=${planificareSubsDisplayMask}
-          .data=${[]}
-        ></litwc-planificare>
-      </div>
-    `
-
-    this.updatePlanificareData(header)
-    return element
-  }
-
-  async updatePlanificareData(header) {
     try {
       const convertedData = await convertDBAntemasuratori(header.linii || [])
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
+
+      return html`
+        <div class="card-body">
+          <litwc-planificare
+            id="planificare-${item.CCCPLANIFICARI}"
+            .hasMainHeader=${true}
+            .hasSubHeader=${false}
+            .canAddInLine=${true}
+            .mainMask=${planificareDisplayMask}
+            .subsMask=${planificareSubsDisplayMask}
+            .data=${convertedData}
+            .documentHeader=${{
+              responsabilPlanificare: header.RESPPLAN,
+              responsabilExecutie: header.RESPEXEC,
+              id: header.CCCPLANIFICARI
+            }}
+            .documentHeaderMask=${planificareHeaderMask}
+          ></litwc-planificare>
+        </div>
+      `
     } catch (error) {
       console.error('Error converting planificare data:', error)
+      return null
     }
   }
 }
