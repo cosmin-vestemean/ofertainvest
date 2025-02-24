@@ -74,93 +74,35 @@ class LitwcListaPlanificari extends LitElement {
 
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
       this.ds = []
-      this.renderPlanificari()
       return
     }
-
     try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
-        p.RESPEXEC, p.RESPPLAN,
-        u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori}
-        FROM CCCPLANIFICARI p
-        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
-        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
-        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
-        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
-        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-        ORDER BY p.RESPPLAN, p.RESPEXEC`
-        }
-      })
+      const response = await client.service('getDataset').find({ /* ... */ })
+      const grouped = /* ...reduce la fel... */
+      this.planificari = Object.values(grouped)
 
-      if (!response.success) {
-        console.error('Failed to load planificari', response.error)
-        return
-      }
-
-      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
-      // Group by planificare header
-      const grouped = response.data.reduce((acc, row) => {
-        if (!acc[row.CCCPLANIFICARI]) {
-          // Create header entry if it doesn't exist
-          acc[row.CCCPLANIFICARI] = {
-            CCCPLANIFICARI: row.CCCPLANIFICARI,
-            CCCOFERTEWEB: row.CCCOFERTEWEB,
-            RESPEXEC: row.RESPEXEC,
-            RESPPLAN: row.RESPPLAN,
-            RESPPLAN_NAME: row.RESPPLAN_NAME,
-            RESPEXEC_NAME: row.RESPEXEC_NAME,
-            linii: [] // Store detail rows here
-          }
-        }
-
-        // Add detail row if it exists
-        if (row.CCCANTEMASURATORI) {
-          acc[row.CCCPLANIFICARI].linii.push({ ...row })
-        }
-
-        return acc
-      }, {})
-
-      const planificariArray = Object.values(grouped)
       const planificariDetailsTemp = {}
-      
       await Promise.all(
-        planificariArray.map(async p => {
-          planificariDetailsTemp[p.CCCPLANIFICARI] = 
-            await convertDBAntemasuratori(p.linii || [])
+        this.planificari.map(async (p) => {
+          // așteptați să fie convertite
+          planificariDetailsTemp[p.CCCPLANIFICARI] = await convertDBAntemasuratori(p.linii || [])
         })
       )
-      
-      this.planificari = planificariArray
       this.planificariDetails = planificariDetailsTemp
-      
-      // Acum calculezi ds abia după ce detaliile sunt încărcate
-      this.ds = this.planificari.map(p => {
-        const filtered = {}
-        Object.keys(listaPlanificariMask).forEach(key => {
-          if (listaPlanificariMask[key].usefull) {
-            filtered[key] = p[key]
-          }
-        })
-        return filtered
-      })
-      
-      this.renderPlanificari()
-      this.requestUpdate() // forțează re-randarea cu datele complete
+
+      // Dacă vreți ds pentru un tabel separat:
+      this.ds = this.planificari.map((p) => { /* ... */ })
+
+      // Deoarece planificari, planificariDetails și ds sunt proprietăți reactive,
+      // LitElement va re-randa automat interfața, deci puteți elimina apelul manual renderPlanificari()
+      this.isLoading = false // trigger re-render
+      this.requestUpdate()
     } catch (error) {
-      console.error('Error loading planificari:', error)
+      console.error(error)
       this.planificari = []
       this.ds = []
-      this.renderPlanificari()
     }
   }
 
