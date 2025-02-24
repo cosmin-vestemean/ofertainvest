@@ -22,24 +22,21 @@ class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
     isLoading: { type: Boolean },
-    planificari: { type: Array },
-    ds: { type: Array }
+    planificari: { type: Array }
   }
 
   constructor() {
     super()
-    this.angajati = [] // Initialize empty array
+    this.angajati = [] 
     this.isLoading = true
     this.modal = null
     this.planificari = []
-    this.ds = []
 
     // Listen for data updates from controller
     planificariController.addEventListener('planificariUpdate', (event) => {
       this.planificari = event.detail.planificari
-      this.ds = event.detail.displayData
       this.isLoading = false
-      this.renderPlanificari()
+      this.requestUpdate()
     })
   }
 
@@ -112,7 +109,8 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = this.planificari.map((p) => {
+    // Convert planificari to display format using mask
+    const displayData = this.planificari.map((p) => {
       const filtered = {}
       Object.keys(listaPlanificariMask).forEach((key) => {
         if (listaPlanificariMask[key].usefull) {
@@ -122,7 +120,7 @@ class LitwcListaPlanificari extends LitElement {
       return filtered
     })
 
-    table.ds = this.ds
+    table.ds = displayData
   }
 
   showPlanificareModal() {
