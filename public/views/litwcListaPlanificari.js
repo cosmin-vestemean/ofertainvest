@@ -336,16 +336,7 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    /*
-    .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
-
-    const element = html`
+    return html`
       <div class="card-body">
         <litwc-planificare
           id="planificare-${item.CCCPLANIFICARI}"
@@ -354,25 +345,16 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${[]}
+          .data=${header.processedLinii || []}
+          .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+          .documentHeaderMask=${planificareHeaderMask}
         ></litwc-planificare>
       </div>
     `
-
-    this.updatePlanificareData(header)
-    return element
-  }
-
-  async updatePlanificareData(header) {
-    try {
-      const convertedData = await convertDBAntemasuratori(header.linii || [])
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-    }
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)

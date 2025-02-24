@@ -557,12 +557,17 @@ export async function init() {
         listaPlanificari.isLoading = true
       }
 
+      // Verify components are loaded
+      console.log('Custom elements defined:', {
+        listaPlanificari: customElements.get('litwc-lista-planificari'),
+        planificare: customElements.get('litwc-planificare')
+      })
+
       // Load data through controller
       await planificariController.loadPlanificari()
       
     } catch (error) {
       console.error('Error loading planificari:', error)
-      // Handle error state
     }
   }
 

@@ -115,8 +115,17 @@ class PlanificariController {
 
   async processPlanificari(grouped) {
     const planificari = Object.values(grouped)
+    
     for (const planificare of planificari) {
-      planificare.processedLinii = await convertDBAntemasuratori(planificare.linii || [])
+      try {
+        console.log('Processing planificare:', planificare.CCCPLANIFICARI)
+        const processed = await convertDBAntemasuratori(planificare.linii || [])
+        console.log('Processed lines:', processed)
+        planificare.processedLinii = processed
+      } catch (error) {
+        console.error(`Error processing planificare ${planificare.CCCPLANIFICARI}:`, error)
+        planificare.processedLinii = []
+      }
     }
     return planificari
   }
