@@ -53,7 +53,6 @@ import {
 } from '../controllers/antemasuratori.js'
 import moment from 'https://unpkg.com/moment@2.29.4/dist/moment.js'
 import { calculateLeftMenuTopPosition } from './calculateElements.js'
-import  { planificariController } from '../controllers/planificariController.js'
 
 export var selectedTheme = local_storage.selectedTheme.get() || 'default'
 
@@ -549,26 +548,8 @@ export async function init() {
 
   let btn_planificari = document.getElementById('btn_planificari')
   btn_planificari.onclick = async function () {
-    try {
-      // Show loading state
-      tables.hideAllBut([tables.my_table7])
-      const listaPlanificari = document.querySelector('litwc-lista-planificari')
-      if (listaPlanificari) {
-        listaPlanificari.isLoading = true
-      }
-
-      // Verify components are loaded
-      console.log('Custom elements defined:', {
-        listaPlanificari: customElements.get('litwc-lista-planificari'),
-        planificare: customElements.get('litwc-planificare')
-      })
-
-      // Load data through controller
-      await planificariController.loadPlanificari()
-      
-    } catch (error) {
-      console.error('Error loading planificari:', error)
-    }
+    //hide all tables but 7
+    tables.hideAllBut([tables.my_table7])
   }
 
   //btn_listaRetete
