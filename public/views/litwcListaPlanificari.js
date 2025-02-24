@@ -130,23 +130,32 @@ class LitwcListaPlanificari extends LitElement {
         return acc
       }, {})
 
-      // Convert to array
-      this.planificari = Object.values(grouped)
-
-      // Preîncărcăm toate detaliile
+      const planificariArray = Object.values(grouped)
+      const planificariDetailsTemp = {}
+      
       await Promise.all(
-        this.planificari.map(async (p) => {
-          try {
-            this.planificariDetails[p.CCCPLANIFICARI] = 
-              await convertDBAntemasuratori(p.linii || [])
-          } catch (error) {
-            console.error(`Error converting planificare ${p.CCCPLANIFICARI}:`, error)
-          }
+        planificariArray.map(async p => {
+          planificariDetailsTemp[p.CCCPLANIFICARI] = 
+            await convertDBAntemasuratori(p.linii || [])
         })
       )
-
-      console.info('Loaded planificari:', this.planificari)
+      
+      this.planificari = planificariArray
+      this.planificariDetails = planificariDetailsTemp
+      
+      // Acum calculezi ds abia după ce detaliile sunt încărcate
+      this.ds = this.planificari.map(p => {
+        const filtered = {}
+        Object.keys(listaPlanificariMask).forEach(key => {
+          if (listaPlanificariMask[key].usefull) {
+            filtered[key] = p[key]
+          }
+        })
+        return filtered
+      })
+      
       this.renderPlanificari()
+      this.requestUpdate() // forțează re-randarea cu datele complete
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
