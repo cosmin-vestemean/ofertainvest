@@ -341,7 +341,7 @@ class LitwcListaPlanificari extends LitElement {
         ${this.ds.map((item, index) => html`
           <div class="planificare-card">
             <div class="card-header" style="cursor: pointer;">
-              <div class="card-header-content" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+              <div class="card-header-content">
                 <div class="header-item">
                   <strong>#${index + 1}</strong>
                 </div>
