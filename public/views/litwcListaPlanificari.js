@@ -22,8 +22,7 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array },
-    planificariDetails: { type: Object } // Adăugăm noua proprietate
+    ds: { type: Array }
   }
 
   constructor() {
@@ -33,7 +32,6 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
-    this.planificariDetails = {} // Inițializăm obiectul pentru detalii
   }
 
   createRenderRoot() {
@@ -54,55 +52,93 @@ class LitwcListaPlanificari extends LitElement {
       if (contextOferta?.angajati?.length > 0) {
         this.angajati = contextOferta.angajati
       } else {
-        // If not in context, load and cache  
+        // If not in context, load and cache
         const employees = await employeesService.loadEmployees()
         if (employees?.length > 0) {
           this.angajati = employees
-          contextOferta.angajati = employees 
+          // Cache for other components
+          contextOferta.angajati = employees
         }
       }
     } catch (error) {
       console.error('Failed to load employees:', error)
-      this.angajati = []
+      this.angajati = [] // Ensure we have an empty array
     } finally {
       this.isLoading = false
       this.setupEventListeners()
-      // Apelăm direct loadPlanificari() după ce am terminat încărcarea angajaților
-      await this.loadPlanificari()
+      this.requestUpdate()
     }
+    this.loadPlanificari()
   }
 
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
+      console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
       this.ds = []
+      this.renderPlanificari()
       return
     }
+
     try {
-      const response = await client.service('getDataset').find({ /* ... */ })
-      const grouped = /* ...reduce la fel... */
+      const response = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
+        p.RESPEXEC, p.RESPPLAN,
+        u1.NAME2 as RESPPLAN_NAME, 
+        u2.NAME2 as RESPEXEC_NAME,
+        l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori}
+        FROM CCCPLANIFICARI p
+        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
+        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
+        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
+        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
+        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
+        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
+        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+        ORDER BY p.RESPPLAN, p.RESPEXEC`
+        }
+      })
+
+      if (!response.success) {
+        console.error('Failed to load planificari', response.error)
+        return
+      }
+
+      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
+      // Group by planificare header
+      const grouped = response.data.reduce((acc, row) => {
+        if (!acc[row.CCCPLANIFICARI]) {
+          // Create header entry if it doesn't exist
+          acc[row.CCCPLANIFICARI] = {
+            CCCPLANIFICARI: row.CCCPLANIFICARI,
+            CCCOFERTEWEB: row.CCCOFERTEWEB,
+            RESPEXEC: row.RESPEXEC,
+            RESPPLAN: row.RESPPLAN,
+            RESPPLAN_NAME: row.RESPPLAN_NAME,
+            RESPEXEC_NAME: row.RESPEXEC_NAME,
+            linii: [] // Store detail rows here
+          }
+        }
+
+        // Add detail row if it exists
+        if (row.CCCANTEMASURATORI) {
+          acc[row.CCCPLANIFICARI].linii.push({ ...row })
+        }
+
+        return acc
+      }, {})
+
+      // Convert to array
       this.planificari = Object.values(grouped)
 
-      const planificariDetailsTemp = {}
-      await Promise.all(
-        this.planificari.map(async (p) => {
-          // așteptați să fie convertite
-          planificariDetailsTemp[p.CCCPLANIFICARI] = await convertDBAntemasuratori(p.linii || [])
-        })
-      )
-      this.planificariDetails = planificariDetailsTemp
-
-      // Dacă vreți ds pentru un tabel separat:
-      this.ds = this.planificari.map((p) => { /* ... */ })
-
-      // Deoarece planificari, planificariDetails și ds sunt proprietăți reactive,
-      // LitElement va re-randa automat interfața, deci puteți elimina apelul manual renderPlanificari()
-      this.isLoading = false // trigger re-render
-      this.requestUpdate()
+      console.info('Loaded planificari:', this.planificari)
+      this.renderPlanificari()
     } catch (error) {
-      console.error(error)
+      console.error('Error loading planificari:', error)
       this.planificari = []
       this.ds = []
+      this.renderPlanificari()
     }
   }
 
@@ -365,10 +401,16 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    const data = this.planificariDetails[item.CCCPLANIFICARI]
-    if (!data) return html`<div>No data available</div>`
+    /*
+    .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+    .documentHeaderMask=${planificareHeaderMask}
+    */
 
-    return html`
+    const element = html`
       <div class="card-body">
         <litwc-planificare
           id="planificare-${item.CCCPLANIFICARI}"
@@ -377,10 +419,25 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${data}
+          .data=${[]}
         ></litwc-planificare>
       </div>
     `
+
+    this.updatePlanificareData(header)
+    return element
+  }
+
+  async updatePlanificareData(header) {
+    try {
+      const convertedData = await convertDBAntemasuratori(header.linii || [])
+      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
+      if (element) {
+        element.data = convertedData
+      }
+    } catch (error) {
+      console.error('Error converting planificare data:', error)
+    }
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
