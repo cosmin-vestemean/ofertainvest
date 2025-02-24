@@ -110,8 +110,7 @@ class PlanificariController {
         const processed = await convertDBAntemasuratori(planificare.linii)
         console.log('Processed result:', {
           id: planificare.CCCPLANIFICARI,
-          linesCount: processed?.length || 0,
-          firstLine: processed?.[0]
+          processed: processed
         })
         
         planificare.processedLinii = processed
