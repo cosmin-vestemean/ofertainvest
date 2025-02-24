@@ -9,7 +9,6 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
-import { planificariController } from '../controllers/planificariController.js'
 
 /* global bootstrap */
 
@@ -22,22 +21,17 @@ class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
     isLoading: { type: Boolean },
-    planificari: { type: Array }
+    planificari: { type: Array },
+    ds: { type: Array }
   }
 
   constructor() {
     super()
-    this.angajati = []
+    this.angajati = [] // Initialize empty array
     this.isLoading = true
     this.modal = null
     this.planificari = []
-
-    // Listen for data updates from controller
-    planificariController.addEventListener('planificariUpdate', (event) => {
-      this.planificari = event.detail.planificari
-      this.isLoading = false
-      this.requestUpdate()
-    })
+    this.ds = []
   }
 
   createRenderRoot() {
@@ -74,7 +68,78 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
-    planificariController.loadPlanificari()
+    this.loadPlanificari()
+  }
+
+  async loadPlanificari() {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      console.warn('No valid CCCOFERTEWEB found')
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
+      return
+    }
+
+    try {
+      const response = await client.service('getDataset').find({
+        query: {
+          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
+        p.RESPEXEC, p.RESPPLAN,
+        u1.NAME2 as RESPPLAN_NAME, 
+        u2.NAME2 as RESPEXEC_NAME,
+        l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori}
+        FROM CCCPLANIFICARI p
+        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
+        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
+        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
+        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
+        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
+        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
+        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
+        ORDER BY p.RESPPLAN, p.RESPEXEC`
+        }
+      })
+
+      if (!response.success) {
+        console.error('Failed to load planificari', response.error)
+        return
+      }
+
+      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
+      // Group by planificare header
+      const grouped = response.data.reduce((acc, row) => {
+        if (!acc[row.CCCPLANIFICARI]) {
+          // Create header entry if it doesn't exist
+          acc[row.CCCPLANIFICARI] = {
+            CCCPLANIFICARI: row.CCCPLANIFICARI,
+            CCCOFERTEWEB: row.CCCOFERTEWEB,
+            RESPEXEC: row.RESPEXEC,
+            RESPPLAN: row.RESPPLAN,
+            RESPPLAN_NAME: row.RESPPLAN_NAME,
+            RESPEXEC_NAME: row.RESPEXEC_NAME,
+            linii: [] // Store detail rows here
+          }
+        }
+
+        // Add detail row if it exists
+        if (row.CCCANTEMASURATORI) {
+          acc[row.CCCPLANIFICARI].linii.push({ ...row })
+        }
+
+        return acc
+      }, {})
+
+      // Convert to array
+      this.planificari = Object.values(grouped)
+
+      console.info('Loaded planificari:', this.planificari)
+      this.renderPlanificari()
+    } catch (error) {
+      console.error('Error loading planificari:', error)
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
+    }
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -83,8 +148,17 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
+    console.info('Opening planificare:', id)
+
     try {
-      const planificare = await planificariController.getPlanificareById(id, this.planificari)
+      const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
+      if (!header) {
+        console.error('Failed to find planificare header')
+        return
+      }
+
+      const planificareCurenta = await convertDBAntemasuratori(header.linii || [])
+      console.info('Using cached planificare details:', planificareCurenta)
 
       Object.assign(table, {
         hasMainHeader: true,
@@ -92,25 +166,24 @@ class LitwcListaPlanificari extends LitElement {
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: planificare.processedLinii,
+        data: planificareCurenta,
         documentHeader: {
-          responsabilPlanificare: planificare.RESPPLAN,
-          responsabilExecutie: planificare.RESPEXEC,
-          id: planificare.CCCPLANIFICARI
+          responsabilPlanificare: header.RESPPLAN,
+          responsabilExecutie: header.RESPEXEC,
+          id: header.CCCPLANIFICARI
         },
         documentHeaderMask: planificareHeaderMask
       })
 
       if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
     } catch (error) {
-      console.error('Error opening planificare:', error)
+      console.error('Error processing planificare details:', error)
     }
   }
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    // Convert planificari to display format using mask
-    const displayData = this.planificari.map((p) => {
+    this.ds = this.planificari.map((p) => {
       const filtered = {}
       Object.keys(listaPlanificariMask).forEach((key) => {
         if (listaPlanificariMask[key].usefull) {
@@ -120,7 +193,7 @@ class LitwcListaPlanificari extends LitElement {
       return filtered
     })
 
-    table.ds = displayData
+    table.ds = this.ds
   }
 
   showPlanificareModal() {
@@ -239,11 +312,6 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  async handleRefreshClick() {
-    this.isLoading = true
-    await planificariController.loadPlanificari()
-  }
-
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -251,72 +319,106 @@ class LitwcListaPlanificari extends LitElement {
       </div>`
     }
 
-    return html` <div class="toolbar mb-2">
+    return html`
+      <style>
+        .planificari-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem;
+        }
+        .planificare-card {
+          border: 1px solid #dee2e6;
+          border-radius: 0.25rem;
+          background: white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card-header {
+          padding: 1rem;
+          background: #f8f9fa;
+          border-bottom: 1px solid #dee2e6;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .card-header-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          width: 100%;
+        }
+        .header-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .card-body {
+          padding: 1rem;
+        }
+      </style>
+
+      <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary btn-sm me-2"
-          @click="${() => this.handleRefreshClick()}"
-        >
+        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
       </div>
 
       <div class="planificari-stack">
-        ${this.planificari.map((item, index) => this.renderPlanificareCard(item, index))}
-      </div>
-      ${this.renderModal()}`
-  }
-
-  renderPlanificareCard(item, index) {
-    return html`
-      <div class="planificare-card">
-        <div
-          class="card-header"
-          @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
-          style="cursor: pointer;"
-        >
-          <div class="card-header-content">
-            <div class="header-item">
-              <strong>#${index + 1}</strong>
+        ${this.ds.map((item, index) => html`
+          <div class="planificare-card">
+            <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
+              <div class="card-header-content">
+                <div class="header-item">
+                  <strong>#${index + 1}</strong>
+                </div>
+                ${Object.entries(listaPlanificariMask)
+                  .filter(([_, props]) => props.visible)
+                  .map(([key, props]) => html`
+                    <div class="header-item">
+                      <span class="text-muted">${props.label}:</span>
+                      ${key === 'LOCKED' 
+                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
+                        : props.type === 'datetime'
+                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                          : html`<span>${item[key]}</span>`
+                      }
+                    </div>
+                  `)}
+              </div>
             </div>
-            ${Object.entries(listaPlanificariMask)
-              .filter(([_, props]) => props.visible)
-              .map(
-                ([key, props]) => html`
-                  <div class="header-item">
-                    <span class="text-muted">${props.label}:</span>
-                    ${key === 'LOCKED'
-                      ? html`<i
-                          class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"
-                        ></i>`
-                      : props.type === 'datetime'
-                        ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                        : html`<span>${item[key]}</span>`}
-                  </div>
-                `
-              )}
+            ${this.renderPlanificareDetails(item)}
           </div>
-        </div>
-        ${this.renderPlanificareDetails(item)}
+        `)}
       </div>
+      ${this.renderModal()}
     `
   }
 
   renderPlanificareDetails(item) {
-    const header = this.planificari.find((p) => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
-    if (!header) return null
+    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+    if (!header) {
+      console.warn('No header found for planificare:', item.CCCPLANIFICARI)
+      return null
+    }
 
-    const data = header.processedLinii || []
+    // Check if we already have processed lines
+    if (!header.processedLinii) {
+      console.warn('No processed lines for planificare:', item.CCCPLANIFICARI)
+      return html`
+        <div class="alert alert-warning m-3">
+          Loading planificare data...
+        </div>
+      `
+    }
+
     console.log('Rendering planificare details:', {
       id: header.CCCPLANIFICARI,
-      data: data
+      linesCount: header.processedLinii.length,
+      firstLine: header.processedLinii[0]
     })
-    if (data.length === 0) {
-      return html` <div class="alert alert-warning m-3">No data available for this planificare.</div> `
-    }
 
     return html`
       <div class="card-body">
@@ -327,7 +429,7 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${data}
+          .data=${header.processedLinii}
           .documentHeader=${{
             responsabilPlanificare: header.RESPPLAN,
             responsabilExecutie: header.RESPEXEC,
