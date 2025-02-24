@@ -366,7 +366,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.ds.map((item, index) => html`
+        ${this.ds.map(async (item, index) => html`
           <div class="planificare-card">
             <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
               <div class="card-header-content">
@@ -388,7 +388,7 @@ class LitwcListaPlanificari extends LitElement {
                   `)}
               </div>
             </div>
-            ${this.renderPlanificareDetails(item)}
+            ${await this.renderPlanificareDetails(item)}
           </div>
         `)}
       </div>
