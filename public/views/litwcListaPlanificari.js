@@ -56,25 +56,18 @@ class LitwcListaPlanificari extends LitElement {
         const employees = await employeesService.loadEmployees()
         if (employees?.length > 0) {
           this.angajati = employees
-          // Cache for other components
           contextOferta.angajati = employees 
         }
       }
     } catch (error) {
       console.error('Failed to load employees:', error)
-      this.angajati = [] // Ensure we have an empty array
+      this.angajati = []
     } finally {
       this.isLoading = false
       this.setupEventListeners()
-      this.requestUpdate()
-    }
-    // Eliminăm apelul loadPlanificari() de aici
-  }
-
-  // Adăugăm metoda updated
-  async updated(changedProperties) {
-    if(changedProperties.has('isLoading') && !this.isLoading) {
+      // Apelăm direct loadPlanificari() după ce am terminat încărcarea angajaților
       await this.loadPlanificari()
+      this.requestUpdate()
     }
   }
 
