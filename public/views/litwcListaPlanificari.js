@@ -22,7 +22,8 @@ class LitwcListaPlanificari extends LitElement {
     angajati: { type: Array },
     isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array }
+    ds: { type: Array },
+    planificariDetails: { type: Object } // Adăugăm noua proprietate
   }
 
   constructor() {
@@ -32,6 +33,7 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
+    this.planificariDetails = {} // Inițializăm obiectul pentru detalii
   }
 
   createRenderRoot() {
@@ -130,6 +132,18 @@ class LitwcListaPlanificari extends LitElement {
 
       // Convert to array
       this.planificari = Object.values(grouped)
+
+      // Preîncărcăm toate detaliile
+      await Promise.all(
+        this.planificari.map(async (p) => {
+          try {
+            this.planificariDetails[p.CCCPLANIFICARI] = 
+              await convertDBAntemasuratori(p.linii || [])
+          } catch (error) {
+            console.error(`Error converting planificare ${p.CCCPLANIFICARI}:`, error)
+          }
+        })
+      )
 
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
@@ -366,7 +380,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.ds.map(async (item, index) => html`
+        ${this.ds.map((item, index) => html`
           <div class="planificare-card">
             <div class="card-header" @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}" style="cursor: pointer;">
               <div class="card-header-content">
@@ -388,7 +402,7 @@ class LitwcListaPlanificari extends LitElement {
                   `)}
               </div>
             </div>
-            ${await this.renderPlanificareDetails(item)}
+            ${this.renderPlanificareDetails(item)}
           </div>
         `)}
       </div>
@@ -396,30 +410,26 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  async renderPlanificareDetails(item) {
+  renderPlanificareDetails(item) {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    try {
-      const convertedData = await convertDBAntemasuratori(header.linii || [])
-      
-      return html`
-        <div class="card-body">
-          <litwc-planificare
-            id="planificare-${item.CCCPLANIFICARI}"
-            .hasMainHeader=${true}
-            .hasSubHeader=${false}
-            .canAddInLine=${true}
-            .mainMask=${planificareDisplayMask}
-            .subsMask=${planificareSubsDisplayMask}
-            .data=${convertedData}
-          ></litwc-planificare>
-        </div>
-      `
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-      return null
-    }
+    const data = this.planificariDetails[item.CCCPLANIFICARI]
+    if (!data) return html`<div>No data available</div>`
+
+    return html`
+      <div class="card-body">
+        <litwc-planificare
+          id="planificare-${item.CCCPLANIFICARI}"
+          .hasMainHeader=${true}
+          .hasSubHeader=${false}
+          .canAddInLine=${true}
+          .mainMask=${planificareDisplayMask}
+          .subsMask=${planificareSubsDisplayMask}
+          .data=${data}
+        ></litwc-planificare>
+      </div>
+    `
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
