@@ -9,6 +9,7 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
+import { planificariController } from '../controllers/planificariController.js'
 
 /* global bootstrap */
 
@@ -72,67 +73,10 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async loadPlanificari() {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
-      this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
-      return
-    }
-
     try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
-        p.RESPEXEC, p.RESPPLAN,
-        u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, c.*, l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori}
-        FROM CCCPLANIFICARI p
-        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
-        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
-        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
-        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
-        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-        ORDER BY p.RESPPLAN, p.RESPEXEC`
-        }
-      })
-
-      if (!response.success) {
-        console.error('Failed to load planificari', response.error)
-        return
-      }
-
-      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
-      // Group by planificare header
-      const grouped = response.data.reduce((acc, row) => {
-        if (!acc[row.CCCPLANIFICARI]) {
-          // Create header entry if it doesn't exist
-          acc[row.CCCPLANIFICARI] = {
-            CCCPLANIFICARI: row.CCCPLANIFICARI,
-            CCCOFERTEWEB: row.CCCOFERTEWEB,
-            RESPEXEC: row.RESPEXEC,
-            RESPPLAN: row.RESPPLAN,
-            RESPPLAN_NAME: row.RESPPLAN_NAME,
-            RESPEXEC_NAME: row.RESPEXEC_NAME,
-            linii: [] // Store detail rows here
-          }
-        }
-
-        // Add detail row if it exists
-        if (row.CCCANTEMASURATORI) {
-          acc[row.CCCPLANIFICARI].linii.push({ ...row })
-        }
-
-        return acc
-      }, {})
-
-      // Convert to array
-      this.planificari = Object.values(grouped)
-
-      console.info('Loaded planificari:', this.planificari)
+      const { planificari, displayData } = await planificariController.loadPlanificari()
+      this.planificari = planificari
+      this.ds = displayData
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
@@ -148,36 +92,27 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
-    console.info('Opening planificare:', id)
-
     try {
-      const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
-      if (!header) {
-        console.error('Failed to find planificare header')
-        return
-      }
-
-      const planificareCurenta = await convertDBAntemasuratori(header.linii || [])
-      console.info('Using cached planificare details:', planificareCurenta)
-
+      const planificare = await planificariController.getPlanificareById(id, this.planificari)
+      
       Object.assign(table, {
         hasMainHeader: true,
         hasSubHeader: false,
         canAddInLine: true,
         mainMask: planificareDisplayMask,
         subsMask: planificareSubsDisplayMask,
-        data: planificareCurenta,
+        data: planificare.processedLinii,
         documentHeader: {
-          responsabilPlanificare: header.RESPPLAN,
-          responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI
+          responsabilPlanificare: planificare.RESPPLAN,
+          responsabilExecutie: planificare.RESPEXEC,
+          id: planificare.CCCPLANIFICARI
         },
         documentHeaderMask: planificareHeaderMask
       })
 
       if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
     } catch (error) {
-      console.error('Error processing planificare details:', error)
+      console.error('Error opening planificare:', error)
     }
   }
 
