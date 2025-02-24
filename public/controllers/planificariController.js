@@ -66,13 +66,18 @@ class PlanificariController {
         }
       })
 
+      console.info('Loaded planificari:', response)
+
       if (!response?.success || !response?.data) {
         throw new Error('Failed to load planificari')
       }
 
       const grouped = this.groupPlanificariData(response.data)
+      console.info('Grouped planificari:', grouped)
       const planificari = await this.processPlanificari(grouped)
+      console.info('Processed planificari:', planificari)
       const displayData = this.prepareDisplayData(planificari)
+      console.info('Display data:', displayData)
 
       // Update internal state
       this.planificari = planificari
