@@ -106,7 +106,6 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
       // Group by planificare header
       const grouped = response.data.reduce((acc, row) => {
         if (!acc[row.CCCPLANIFICARI]) {
@@ -133,24 +132,34 @@ class LitwcListaPlanificari extends LitElement {
       // Convert to array
       this.planificari = Object.values(grouped)
 
-      // Preîncărcăm toate detaliile
+      // Reset planificariDetails
+      this.planificariDetails = {}
+
+      // Preîncărcăm toate detaliile și așteptăm să se termine
       await Promise.all(
         this.planificari.map(async (p) => {
           try {
-            this.planificariDetails[p.CCCPLANIFICARI] = 
-              await convertDBAntemasuratori(p.linii || [])
+            const convertedData = await convertDBAntemasuratori(p.linii || [])
+            this.planificariDetails[p.CCCPLANIFICARI] = convertedData
           } catch (error) {
             console.error(`Error converting planificare ${p.CCCPLANIFICARI}:`, error)
           }
         })
       )
 
-      console.info('Loaded planificari:', this.planificari)
+      // Doar după ce toate detaliile sunt încărcate, facem render
       this.renderPlanificari()
+      
+      // Forțăm un update pentru a ne asigura că UI-ul se actualizează
+      this.requestUpdate()
+
+      console.info('Loaded planificari:', this.planificari)
+      console.info('Loaded details:', this.planificariDetails)
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
       this.ds = []
+      this.planificariDetails = {}
       this.renderPlanificari()
     }
   }
