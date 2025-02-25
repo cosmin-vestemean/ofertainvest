@@ -269,26 +269,6 @@
         transition: width 0.3s ease;
       }
 
-      #menuToggle {
-        position: fixed;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1010;
-        background: var(--bs-primary);
-        color: white;
-        border: none;
-        border-radius: 0 4px 4px 0;
-        padding: 8px;
-        cursor: pointer;
-        opacity: 0.8;
-        transition: opacity 0.3s;
-      }
-
-      #menuToggle:hover {
-        opacity: 1;
-      }
-
       #leftMenu {
         overflow-y: auto;
         max-height: calc(100vh - 100px);
@@ -626,9 +606,6 @@
         </div>
       </div>
       <div class="row">
-        <button id="menuToggle" type="button" aria-label="Toggle menu">
-          <i class="bi bi-chevron-left"></i>
-        </button>
         <div class="col-1 mt-4" id="leftContent">
           <!-- Menu -->
           <div id="leftMenu" class="row zenView" style="display: none">
@@ -673,6 +650,9 @@
               data-bs-placement="top"
               title="Top"
             ></i>
+            <button id="menuToggle" type="button" aria-label="Toggle menu">
+              <i class="bi bi-chevron-left"></i>
+            </button>
           </div>
         </div>
         <div class="col-11" id="mainContent" style="position: relative">
