@@ -255,17 +255,43 @@
         }
       }
       #leftContent {
-        transition: width 0.3s;
+        transition: width 0.3s ease;
+        position: relative;
       }
-      #leftContent.hidden {
+
+      #leftContent.collapsed {
         width: 0;
+        padding: 0;
         overflow: hidden;
       }
+
       #mainContent {
-        transition: width 0.3s;
+        transition: width 0.3s ease;
       }
-      #mainContent.expanded {
-        width: 100%;
+
+      #menuToggle {
+        position: fixed;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1010;
+        background: var(--bs-primary);
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        padding: 8px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+      }
+
+      #menuToggle:hover {
+        opacity: 1;
+      }
+
+      #leftMenu {
+        overflow-y: auto;
+        max-height: calc(100vh - 100px);
       }
     </style>
   </head>
@@ -600,6 +626,9 @@
         </div>
       </div>
       <div class="row">
+        <button id="menuToggle" type="button" aria-label="Toggle menu">
+          <i class="bi bi-chevron-left"></i>
+        </button>
         <div class="col-1 mt-4" id="leftContent">
           <!-- Menu -->
           <div id="leftMenu" class="row zenView" style="display: none">
@@ -808,24 +837,6 @@
         })
       })
     </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const leftContent = document.getElementById('leftContent');
-        const mainContent = document.getElementById('mainContent');
-        const toggleButton = document.createElement('button');
-        toggleButton.innerHTML = 'Toggle Menu';
-        toggleButton.classList.add('btn', 'btn-secondary');
-        toggleButton.style.position = 'fixed';
-        toggleButton.style.top = '10px';
-        toggleButton.style.left = '10px';
-        document.body.appendChild(toggleButton);
-
-        toggleButton.addEventListener('click', () => {
-          leftContent.classList.toggle('hidden');
-          mainContent.classList.toggle('expanded');
-        });
-      });
-    </script>
     <div class="snowflakes" aria-hidden="true">
       <div class="snowflake">
         <div class="inner">♪</div>
@@ -878,6 +889,25 @@
         if (!snowToggle.checked) {
           snowflakes.style.display = 'none'
         }
+
+        const menuToggle = document.getElementById('menuToggle');
+        const leftContent = document.getElementById('leftContent');
+        const mainContent = document.getElementById('mainContent');
+        const toggleIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+          leftContent.classList.toggle('collapsed');
+          toggleIcon.classList.toggle('bi-chevron-left');
+          toggleIcon.classList.toggle('bi-chevron-right');
+          
+          if (leftContent.classList.contains('collapsed')) {
+            mainContent.classList.remove('col-11');
+            mainContent.classList.add('col-12');
+          } else {
+            mainContent.classList.remove('col-12');
+            mainContent.classList.add('col-11');
+          }
+        });
       })
     </script>
   </body>
