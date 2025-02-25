@@ -1553,6 +1553,22 @@ const listaPlanificariMask = {
     type: 'string',
     usefull: true
   },
+  DATASTART: {
+    value: 'DATASTART',
+    RW: true,
+    visible: true,
+    label:  'Data inceput',
+    type: 'datetime',
+    usefull: true
+  },
+  DATASTOP: {
+    value: 'DATASTOP',
+    RW: true,
+    visible: true,
+    label:  'Data final.',
+    type: 'datetime',
+    usefull: true
+  },
   LOCKED: {
     value: 'LOCKED',
     RW: false,
