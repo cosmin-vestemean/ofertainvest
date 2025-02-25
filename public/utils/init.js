@@ -161,15 +161,6 @@ export async function init() {
   btn_top.onclick = function () {
     window.scrollTo(0, 0)
   }
-  let btn_column_filter = document.getElementById('btn_column_filter')
-  btn_column_filter.onclick = function () {
-    let menu = tables.my_table1.shadowRoot.getElementById('table_menu_content')
-    if (menu.style.display === 'none') {
-      menu.style.display = 'block'
-    } else {
-      menu.style.display = 'none'
-    }
-  }
   //saldoc: load data from S1 service getDataset, table CCCOFERTEWEB with columns FILENAME
   let saldoc = document.getElementById('saldoc')
   saldoc.onchange = async function () {
@@ -383,12 +374,6 @@ export async function init() {
       tables.my_table3.element.reteta = reteta
     }
   })
-
-  //btn_showHideHeader
-  let btn_showHideHeader = document.getElementById('btn_showHideHeader')
-  btn_showHideHeader.onclick = function () {
-    showHideHeader()
-  }
 
   //antemasuratori
   let nav_antemasuratori = document.getElementById('listaAntemasuratori')
