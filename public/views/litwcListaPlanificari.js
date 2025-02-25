@@ -97,7 +97,7 @@ class LitwcListaPlanificari extends LitElement {
         u2.NAME2 as RESPEXEC_NAME,
         l.*, a.*, o.*, c.*, 
         l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori},
-        CONVERT(varchar, l.DATASTART, 103) as DATASTART_X, CONVERT(varchar, l.DATASTOP, 103) as DATASTOP_X
+        l.DATASTART as DATASTART_X, CONVERT(varchar, l.DATASTOP, 103) as DATASTOP_X
         FROM CCCPLANIFICARI p
         LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
         LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
