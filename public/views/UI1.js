@@ -640,16 +640,31 @@ class UI1 extends LitElement {
             const zoneClass = usefullEntityDisplayMask[key].verticalDelimiterStyleClass || ''
             const hasValues = item.articol[key] !== undefined
             if (hasValues) {
-              return html`<td
-                colspan="${colspan}"
-                contenteditable="${usefullEntityDisplayMask[key].RW}"
-                class="${zoneClass}"
-                @focusin="${(e) => this.handleFocusIn(e, item, key)}"
-                @focusout="${(e) => this.saveLineArticle(item.articol, e.target, e.target.textContent)}"
-                @keydown="${(e) => this.handleKeyDown(e, item, key)}"
-              >
-                ${item.articol[key]}
-              </td>`
+                // Check if this is a datetime field
+                if (usefullEntityDisplayMask[key].type === 'datetime') {
+                return html`<td
+                  colspan="${colspan}"
+                  class="${zoneClass}"
+                >
+                  <input 
+                  type="date" 
+                  class="form-control form-control-sm" 
+                  value="${item.articol[key] ? new Date(item.articol[key]).toISOString().split('T')[0] : ''}"
+                  @change="${(e) => this.saveLineArticle(item.articol, e.target, e.target.value)}"
+                  />
+                </td>`
+                } else {
+                return html`<td
+                  colspan="${colspan}"
+                  contenteditable="${usefullEntityDisplayMask[key].RW}"
+                  class="${zoneClass}"
+                  @focusin="${(e) => this.handleFocusIn(e, item, key)}"
+                  @focusout="${(e) => this.saveLineArticle(item.articol, e.target, e.target.textContent)}"
+                  @keydown="${(e) => this.handleKeyDown(e, item, key)}"
+                >
+                  ${item.articol[key]}
+                </td>`
+                }
             }
           }
         })}
