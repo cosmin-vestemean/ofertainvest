@@ -1018,7 +1018,7 @@ class UI1 extends LitElement {
     panel.style.width = '100%'
     panel.style.zIndex = '1000'
     panel.id = 'sendToPanel'
-    panel.className = 'bg-light shadow-sm p-2 d-flex gap-3 align-items-center'
+    panel.className = 'bg-light shadow-sm p-2 d-flex gap-3 align-items-center border-bottom'
 
     // Add close button
     const closeBtn = document.createElement('button')
