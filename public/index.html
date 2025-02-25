@@ -254,6 +254,19 @@
           height: 0 !important;
         }
       }
+      #leftContent {
+        transition: width 0.3s;
+      }
+      #leftContent.hidden {
+        width: 0;
+        overflow: hidden;
+      }
+      #mainContent {
+        transition: width 0.3s;
+      }
+      #mainContent.expanded {
+        width: 100%;
+      }
     </style>
   </head>
   <body>
@@ -794,6 +807,24 @@
           this.classList.add('active')
         })
       })
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const leftContent = document.getElementById('leftContent');
+        const mainContent = document.getElementById('mainContent');
+        const toggleButton = document.createElement('button');
+        toggleButton.innerHTML = 'Toggle Menu';
+        toggleButton.classList.add('btn', 'btn-secondary');
+        toggleButton.style.position = 'fixed';
+        toggleButton.style.top = '10px';
+        toggleButton.style.left = '10px';
+        document.body.appendChild(toggleButton);
+
+        toggleButton.addEventListener('click', () => {
+          leftContent.classList.toggle('hidden');
+          mainContent.classList.toggle('expanded');
+        });
+      });
     </script>
     <div class="snowflakes" aria-hidden="true">
       <div class="snowflake">
