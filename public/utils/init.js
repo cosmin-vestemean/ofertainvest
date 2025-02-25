@@ -15,7 +15,6 @@ import {
   theadIsSet,
   setRetetaCurenta,
   getRetetaCurenta,
-  showHideHeader,
   addOnChangeEvt,
   delimiter,
   themes,
@@ -578,31 +577,6 @@ export async function init() {
       themesUl.selectedIndex = themes.indexOf(selectedTheme)
     }
   })
-
-  //zenView
-  const zenView = document.getElementById('zenView')
-  //hide/show all page-header class elements
-  zenView.onclick = function () {
-    let pageHeaders = document.getElementsByClassName('zenView')
-    for (let i = 0; i < pageHeaders.length; i++) {
-      let pageHeader = pageHeaders[i]
-      if (pageHeader.style.display === 'none') {
-        pageHeader.style.display = 'block'
-        let mainContent = document.getElementById('mainContent')
-        //col-12 -> col-11
-        mainContent.classList.remove('col-12')
-        mainContent.classList.add('col-11')
-        calculateLeftMenuTopPosition()
-      } else {
-        pageHeader.style.display = 'none'
-        let mainContent = document.getElementById('mainContent')
-        //col-11 -> col-12
-        mainContent.classList.remove('col-11')
-        mainContent.classList.add('col-12')
-      }
-    }
-    showHideHeader()
-  }
 
   function detectMobileUserAgent() {
     let isMobile = false

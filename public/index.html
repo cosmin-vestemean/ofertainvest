@@ -555,26 +555,6 @@
                       <a
                         class="nav-link dropdown-toggle"
                         href="#"
-                        id="navbarDropdownMenuLink"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Vizualizare
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li>
-                          <a id="zenView" class="dropdown-item" href="#">Zen</a>
-                        </li>
-                        <li>
-                          <a id="fullScreen" class="dropdown-item" href="#">Full screen</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
                         id="navbarDropdownMenuLinkThemes"
                         role="button"
                         data-bs-toggle="dropdown"
@@ -646,6 +626,10 @@
               <button id="btn_top" class="btn btn-light btn-sm border-0" type="button"
                 data-bs-toggle="tooltip" data-bs-placement="right" title="Scroll to top">
           <i class="bi bi-arrow-up"></i>
+              </button>
+              <button id="fullScreen" class="btn btn-light btn-sm border-0" type="button"
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Toggle fullscreen">
+                <i class="bi bi-fullscreen"></i>
               </button>
             </div>
           </div>
@@ -741,7 +725,7 @@
               aria-hidden="true"
             >
               <div id="genericContainer" class="modal-dialog modal-lg modal-dialog-centered
-              modal-dialog-scrollable role="document">
+              modal-dialog-scrollable" role="document">
               <div class="modal-content">
                 <div class="modal-body" id="modal-body3"></div>
                 <div class="modal-footer" id="modal-footer3">
