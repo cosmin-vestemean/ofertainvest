@@ -744,15 +744,29 @@ class UI1 extends LitElement {
                   : usefullEntitySubsDisplayMask[subKey].label || subKey
                 const hasValues = sub[subKey] !== undefined
                 if (hasValues) {
-                  return html`<td
-                    contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
-                    class="${zoneClass}"
-                    @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
-                    @focusout="${(e) => this.saveLineSubArticle(sub, e.target, e.target.textContent)}"
-                    @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
-                  >
-                    ${sub[subKey]}
-                  </td>`
+                    // Check if this is a datetime field
+                    if (usefullEntitySubsDisplayMask[subKey].type === 'datetime') {
+                    return html`<td
+                      class="${zoneClass}"
+                    >
+                      <input 
+                      type="date" 
+                      class="form-control form-control-sm" 
+                      value="${sub[subKey] ? new Date(sub[subKey]).toISOString().split('T')[0] : ''}"
+                      @change="${(e) => this.saveLineSubArticle(sub, e.target, e.target.value)}"
+                      />
+                    </td>`
+                    } else {
+                    return html`<td
+                      contenteditable="${usefullEntitySubsDisplayMask[subKey].RW}"
+                      class="${zoneClass}"
+                      @focusin="${(e) => this.handleFocusIn(e, sub, subKey)}"
+                      @focusout="${(e) => this.saveLineSubArticle(sub, e.target, e.target.textContent)}"
+                      @keydown="${(e) => this.handleKeyDown(e, sub, subKey)}"
+                    >
+                      ${sub[subKey]}
+                    </td>`
+                    }
                 }
               })
             }
