@@ -1184,6 +1184,24 @@ const planificareDisplayMask = {
     useAsMeta: true,
     usefull: true
   },
+  [_cantitate_antemasuratori]: {
+    value: _cantitate_antemasuratori,
+    RW: false,
+    visible: true,
+    label: 'Cant. antemas.',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true,
+    type: 'number'
+  },
+  [_cantitate_planificari]: {
+    value: _cantitate_planificari,
+    RW: true,
+    visible: true,
+    usefull: true,
+    type: 'number',
+    label: 'Cant. planif.'
+  },
   DATASTART: {
     value: 'DATASTART',
     RW: true,
@@ -1200,26 +1218,6 @@ const planificareDisplayMask = {
     type: 'datetime',
     usefull: true
   }
-}
-
-planificareDisplayMask[_cantitate_antemasuratori] = {
-  value: _cantitate_antemasuratori,
-  RW: false,
-  visible: true,
-  label: 'Cant. antemas.',
-  isEnumerable: false,
-  filter: 'search',
-  usefull: true,
-  type: 'number'
-}
-
-planificareDisplayMask[_cantitate_planificari] = {
-  value: _cantitate_planificari,
-  RW: true,
-  visible: true,
-  usefull: true,
-  type: 'number',
-  label: 'Cant. planif.'
 }
 
 const planificareSubsDisplayMask = {
@@ -1496,6 +1494,26 @@ const planificareSubsDisplayMask = {
     useAsMeta: true,
     usefull: true
   },
+  [_cantitate_antemasuratori]: {
+    value: _cantitate_antemasuratori,
+    RW: false,
+    visible: true,
+    label: 'Cant. antemas.',
+    isEnumerable: false,
+    filter: 'search',
+    usefull: true,
+    type: 'number',
+    master: _cantitate_antemasuratori
+  },
+  [_cantitate_planificari]: {
+    value: _cantitate_planificari,
+    RW: true,
+    visible: true,
+    label: 'Cant. planif.',
+    usefull: true,
+    type: 'number',
+    master: _cantitate_planificari
+  },
   DATASTART: {
     value: 'DATASTART',
     RW: true,
@@ -1511,29 +1529,7 @@ const planificareSubsDisplayMask = {
     label:  'Data final.',
     type: 'datetime',
     usefull: true
-  },
-}
-
-planificareSubsDisplayMask[_cantitate_antemasuratori] = {
-  value: _cantitate_antemasuratori,
-  RW: false,
-  visible: true,
-  label: 'Cant. antemas.',
-  isEnumerable: false,
-  filter: 'search',
-  usefull: true,
-  type: 'number',
-  master: _cantitate_antemasuratori
-}
-
-planificareSubsDisplayMask[_cantitate_planificari] = {
-  value: _cantitate_planificari,
-  RW: true,
-  visible: true,
-  label: 'Cant. planif.',
-  usefull: true,
-  type: 'number',
-  master: _cantitate_planificari
+  }
 }
 
 const listaPlanificariMask = {
