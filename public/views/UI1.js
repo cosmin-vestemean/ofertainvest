@@ -119,7 +119,7 @@ class UI1 extends LitElement {
         isArray: Array.isArray(this.data),
         length: this.data?.length,
         firstItem: this.data?.[0]
-      })
+      });
     }
     if (changedProperties.has('data') || changedProperties.has('mainMask')) {
       // Initialize _articole and _filteredArticole when data AND mainMask change
@@ -483,7 +483,7 @@ class UI1 extends LitElement {
               }
               // Handle dates
               else if (value instanceof Date) {
-                displayValue = value.toLocaleDateString()
+                displayValue = value.toLocaleDateString('ro-RO')
               }
 
               return html`
@@ -648,11 +648,7 @@ class UI1 extends LitElement {
                 @focusout="${(e) => this.saveLineArticle(item.articol, e.target, e.target.textContent)}"
                 @keydown="${(e) => this.handleKeyDown(e, item, key)}"
               >
-                ${usefullEntityDisplayMask[key].type === 'datetime'
-                  ? item.articol[key]
-                    ? new Date(item.articol[key]).toLocaleDateString()
-                    : '<span class="text-muted">-</span>'
-                  : item.articol[key]}
+                ${item.articol[key]}
               </td>`
             }
           }
@@ -1017,7 +1013,7 @@ class UI1 extends LitElement {
 
     const panel = document.createElement('div')
     panel.style.position = 'fixed'
-    panel.style.top = '0'
+    panel.style.top = '0' 
     panel.style.left = '0'
     panel.style.width = '100%'
     panel.style.zIndex = '1000'
@@ -1030,7 +1026,7 @@ class UI1 extends LitElement {
     closeBtn.className = 'btn btn-sm btn-link text-dark ms-auto'
     closeBtn.style.textDecoration = 'none'
     closeBtn.addEventListener('click', () => this.cleanupActionPanel())
-
+    
     panel.appendChild(closeBtn)
     return panel
   }
@@ -1040,13 +1036,13 @@ class UI1 extends LitElement {
     const existingPanel = document.getElementById('sendToPanel')
     if (existingPanel) {
       existingPanel.remove()
-
+      
       // Hide quantity columns
       this.hideQuantityColumns()
-
+      
       // Show all rows that might have been hidden by review
       const hiddenRows = this.querySelectorAll('tr[style*="display: none"]')
-      hiddenRows.forEach((row) => {
+      hiddenRows.forEach(row => {
         row.style.display = ''
       })
     }
@@ -1054,30 +1050,36 @@ class UI1 extends LitElement {
 
   hideQuantityColumns() {
     const qtyColumns = this.querySelectorAll('.sendQtyTo')
-    qtyColumns.forEach((td) => td.classList.add('d-none'))
+    qtyColumns.forEach(td => td.classList.add('d-none'))
   }
 
   sendToActions() {
     // Show quantity columns
     const qtyColumn = this.querySelectorAll('.sendQtyTo')
-    qtyColumn.forEach((td) => td.classList.remove('d-none'))
+    qtyColumn.forEach(td => td.classList.remove('d-none'))
 
     const panel = this.createActionPanel()
-    const { group: sendToGroup, select: sendToSelect } = this.createSendToGroup()
-    const { group: empGroup, select: empSelect } = this.createEmployeeGroup()
-    const { group: dateGroup, fromDate, toDate } = this.createDateGroup()
-    const { group: commentGroup, input: commentInput } = this.createCommentGroup()
-    const { group: btnGroup, sendBtn } = this.createActionButtons()
+    const {group: sendToGroup, select: sendToSelect} = this.createSendToGroup() 
+    const {group: empGroup, select: empSelect} = this.createEmployeeGroup()
+    const {group: dateGroup, fromDate, toDate} = this.createDateGroup()
+    const {group: commentGroup, input: commentInput} = this.createCommentGroup()
+    const {group: btnGroup, sendBtn} = this.createActionButtons()
 
     sendBtn.addEventListener('click', () => {
-      this.sendTo(sendToSelect.value, empSelect.value, fromDate.value, toDate.value, commentInput.value)
+      this.sendTo(
+        sendToSelect.value,
+        empSelect.value, 
+        fromDate.value,
+        toDate.value,
+        commentInput.value
+      )
       this.cleanupActionPanel() // Use cleanup method instead of just panel.remove()
     })
 
     // Insert groups before the close button
     const closeBtn = panel.querySelector('button')
     panel.insertBefore(sendToGroup, closeBtn)
-    panel.insertBefore(empGroup, closeBtn)
+    panel.insertBefore(empGroup, closeBtn) 
     panel.insertBefore(dateGroup, closeBtn)
     panel.insertBefore(commentGroup, closeBtn)
     panel.insertBefore(btnGroup, closeBtn)
@@ -1091,13 +1093,13 @@ class UI1 extends LitElement {
 
     const label = document.createElement('label')
     label.textContent = 'Send to:'
-
-    const select = document.createElement('select')
+    
+    const select = document.createElement('select') 
     select.className = 'form-select form-select-sm'
     select.style.width = 'auto'
-
+    
     const options = ['Estimari', 'Planificari', 'Programari']
-    options.forEach((opt) => {
+    options.forEach(opt => {
       const option = document.createElement('option')
       option.value = opt
       option.textContent = opt
@@ -1105,7 +1107,7 @@ class UI1 extends LitElement {
     })
 
     group.append(label, select)
-    return { group, select }
+    return {group, select}
   }
 
   createEmployeeGroup() {
@@ -1114,12 +1116,12 @@ class UI1 extends LitElement {
 
     const label = document.createElement('label')
     label.textContent = 'For:'
-
+    
     const select = document.createElement('select')
     select.className = 'form-select form-select-sm'
     select.style.width = 'auto'
-
-    this.angajati.forEach((emp) => {
+    
+    this.angajati.forEach(emp => {
       const option = document.createElement('option')
       option.value = emp.PRSN
       option.textContent = emp.NAME2
@@ -1127,7 +1129,7 @@ class UI1 extends LitElement {
     })
 
     group.append(label, select)
-    return { group, select }
+    return {group, select}
   }
 
   createDateGroup() {
@@ -1136,7 +1138,7 @@ class UI1 extends LitElement {
 
     const fromLabel = document.createElement('label')
     fromLabel.textContent = 'From:'
-
+    
     const fromDate = document.createElement('input')
     fromDate.type = 'date'
     fromDate.className = 'form-control form-control-sm'
@@ -1144,14 +1146,14 @@ class UI1 extends LitElement {
 
     const toLabel = document.createElement('label')
     toLabel.textContent = 'To:'
-
+    
     const toDate = document.createElement('input')
     toDate.type = 'date'
     toDate.className = 'form-control form-control-sm'
     toDate.style.width = 'auto'
 
     group.append(fromLabel, fromDate, toLabel, toDate)
-    return { group, fromDate, toDate }
+    return {group, fromDate, toDate}
   }
 
   createCommentGroup() {
@@ -1160,14 +1162,14 @@ class UI1 extends LitElement {
 
     const label = document.createElement('label')
     label.textContent = 'Comment:'
-
+    
     const input = document.createElement('input')
     input.type = 'text'
     input.className = 'form-control form-control-sm'
     input.style.width = 'auto'
 
     group.append(label, input)
-    return { group, input }
+    return {group, input}
   }
 
   createActionButtons() {
@@ -1181,11 +1183,11 @@ class UI1 extends LitElement {
 
     reviewBtn.addEventListener('click', () => {
       const qtyColumns = this.querySelectorAll('.sendQtyTo')
-      qtyColumns.forEach((td) => {
+      qtyColumns.forEach(td => {
         const tr = td.closest('tr')
         if (allVisible) {
           if (td.textContent === '0' || td.textContent === '') {
-            tr.style.display = 'none'
+        tr.style.display = 'none'
           }
         } else {
           tr.style.display = ''
@@ -1200,22 +1202,11 @@ class UI1 extends LitElement {
     sendBtn.className = 'btn btn-sm btn-primary'
 
     group.append(reviewBtn, sendBtn)
-    return { group, sendBtn, reviewBtn }
+    return {group, sendBtn, reviewBtn}
   }
 
   sendTo(destination, employee, fromDate, toDate, comment) {
-    console.log(
-      'Sending to:',
-      destination,
-      'for employee:',
-      employee,
-      'from:',
-      fromDate,
-      'to:',
-      toDate,
-      'comment:',
-      comment
-    )
+    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
     // Implement the actual sending logic here
   }
 }
