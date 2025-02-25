@@ -1206,8 +1206,8 @@ planificareDisplayMask[_cantitate_planificari] = {
   label: 'Cant. planif.'
 }
 
-planificareDisplayMask.DATASTART = {
-  value: 'DATASTART',
+planificareDisplayMask.DATASTART_1 = {
+  value: 'DATASTART_1',
   RW: true,
   visible: true,
   label: 'Data inceput',
@@ -1215,8 +1215,8 @@ planificareDisplayMask.DATASTART = {
   usefull: true
 }
 
-planificareDisplayMask.DATASTOP = {
-  value: 'DATASTOP',
+planificareDisplayMask.DATASTOP_1 = {
+  value: 'DATASTOP_1',
   RW: true,
   visible: true,
   label: 'Data final.',
@@ -1522,8 +1522,8 @@ planificareSubsDisplayMask[_cantitate_planificari] = {
   master: _cantitate_planificari
 }
 
-planificareSubsDisplayMask.DATASTART = {
-  value: 'DATASTART',
+planificareSubsDisplayMask.DATASTART_1 = {
+  value: 'DATASTART_1',
   RW: true,
   visible: true,
   label: 'Data inceput',
@@ -1531,8 +1531,8 @@ planificareSubsDisplayMask.DATASTART = {
   usefull: true
 }
 
-planificareSubsDisplayMask.DATASTOP = {
-  value: 'DATASTOP',
+planificareSubsDisplayMask.DATASTOP_1 = {
+  value: 'DATASTOP_1',
   RW: true,
   visible: true,
   label: 'Data final.',
