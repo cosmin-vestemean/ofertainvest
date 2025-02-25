@@ -483,7 +483,7 @@ class UI1 extends LitElement {
               }
               // Handle dates
               else if (value instanceof Date) {
-                displayValue = value.toLocaleDateString('ro-RO')
+                displayValue = value.toLocaleDateString()
               }
 
               return html`
@@ -649,7 +649,9 @@ class UI1 extends LitElement {
                 @keydown="${(e) => this.handleKeyDown(e, item, key)}"
               >
                 ${usefullEntityDisplayMask[key].type === 'datetime'
-                  ? new Date(item.articol[key]).toLocaleDateString()
+                  ? item.articol[key]
+                    ? new Date(item.articol[key]).toLocaleDateString()
+                    : '<span class="text-muted">-</span>'
                   : item.articol[key]}
               </td>`
             }
