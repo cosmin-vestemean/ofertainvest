@@ -361,7 +361,7 @@ class LitwcListaPlanificari extends LitElement {
                     </div>
                   `)}
               </div>
-              <button type="button" class="btn btn-primary btn-sm" 
+              <button type="button" class="btn btn-primary btn-sm m-1" 
                 @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
                 <i class="bi bi-arrows-fullscreen"></i>
               </button>
