@@ -270,21 +270,9 @@
       }
 
       #menuToggle {
-        position: absolute;
-        left: 100%;
-        top: 50vh;
-        transform: translateY(-50%);
-        z-index: 1010;
-        background: var(--bs-primary);
-        color: white;
-        border: none;
-        border-radius: 0 4px 4px 0;
-        padding: 8px;
         cursor: pointer;
         opacity: 0.8;
         transition: opacity 0.3s;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
       }
 
       #menuToggle:hover {
@@ -628,9 +616,6 @@
         </div>
       </div>
       <div class="row">
-        <button id="menuToggle" type="button" aria-label="Toggle menu">
-          <i class="bi bi-chevron-left"></i>
-        </button>
         <div class="col-1 mt-4" id="leftContent">
           <!-- Menu -->
           <div id="leftMenu" class="row zenView" style="display: none">
@@ -638,12 +623,12 @@
               <li id="btn_proiect" class="list-group-item" aria-current="true">Proiect</li>
               <li id="btn_oferta" class="list-group-item" aria-current="true">Oferta</li>
               <li
-                id="btn_oferta_initiala"
-                class="list-group-item"
-                data-bs-toggle="modal"
-                data-bs-target="#ModalCytoscape"
+          id="btn_oferta_initiala"
+          class="list-group-item"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalCytoscape"
               >
-                Niveluri
+          Niveluri
               </li>
               <li id="btn_listaRetete" class="list-group-item">Retete</li>
               <li id="btn_antemasuratori" class="list-group-item">Antemasuratori</li>
@@ -653,28 +638,24 @@
               <li id="btn_pontaje" class="list-group-item">Pontaje</li>
             </ul>
           </div>
-          <div id="quickPanel" class="row">
-            <i
-              id="btn_column_filter"
-              class="bi bi-columns-gap col"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Column filter"
-            ></i>
-            <i
-              id="btn_showHideHeader"
-              class="bi bi-eye col"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Show hide header. Reload dataset after show/hide"
-            ></i>
-            <i
-              id="btn_top"
-              class="bi bi-arrow-up col"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Top"
-            ></i>
+          <div id="quickPanel" class="position-fixed bottom-0 start-0 p-2 bg-light shadow rounded-end">
+            <div class="d-flex flex-column gap-3">
+              <button id="menuToggle" class="btn btn-light btn-sm border-0" type="button" aria-label="Toggle menu">
+          <i class="bi bi-chevron-left"></i>
+              </button>
+              <button id="btn_column_filter" class="btn btn-light btn-sm border-0" type="button"
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Column filter">
+          <i class="bi bi-columns-gap"></i>
+              </button>
+              <button id="btn_showHideHeader" class="btn btn-light btn-sm border-0" type="button"
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Show/hide header">
+          <i class="bi bi-eye"></i>
+              </button>
+              <button id="btn_top" class="btn btn-light btn-sm border-0" type="button"
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Scroll to top">
+          <i class="bi bi-arrow-up"></i>
+              </button>
+            </div>
           </div>
         </div>
         <div class="col-11" id="mainContent" style="position: relative">
