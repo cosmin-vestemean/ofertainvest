@@ -1184,40 +1184,44 @@ const planificareDisplayMask = {
     useAsMeta: true,
     usefull: true
   },
-  [_cantitate_antemasuratori]: {
-    value: _cantitate_antemasuratori,
-    RW: false,
-    visible: true,
-    label: 'Cant. antemas.',
-    isEnumerable: false,
-    filter: 'search',
-    usefull: true,
-    type: 'number'
-  },
-  [_cantitate_planificari]: {
-    value: _cantitate_planificari,
-    RW: true,
-    visible: true,
-    usefull: true,
-    type: 'number',
-    label: 'Cant. planif.'
-  },
-  DATASTART: {
-    value: 'DATASTART',
-    RW: true,
-    visible: true,
-    label:  'Data inceput',
-    type: 'datetime',
-    usefull: true
-  },
-  DATASTOP: {
-    value: 'DATASTOP',
-    RW: true,
-    visible: true,
-    label:  'Data final.',
-    type: 'datetime',
-    usefull: true
-  }
+}
+
+planificareDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: false,
+  visible: true,
+  label: 'Cant. antemas.',
+  isEnumerable: false,
+  filter: 'search',
+  usefull: true,
+  type: 'number'
+}
+
+planificareDisplayMask[_cantitate_planificari] = {
+  value: _cantitate_planificari,
+  RW: true,
+  visible: true,
+  usefull: true,
+  type: 'number',
+  label: 'Cant. planif.'
+}
+
+planificareDisplayMask.DATASTART = {
+  value: 'DATASTART',
+  RW: true,
+  visible: true,
+  label: 'Data inceput',
+  type: 'datetime',
+  usefull: true
+}
+
+planificareDisplayMask.DATASTOP = {
+  value: 'DATASTOP',
+  RW: true,
+  visible: true,
+  label: 'Data final.',
+  type: 'datetime',
+  usefull: true
 }
 
 const planificareSubsDisplayMask = {
@@ -1493,43 +1497,47 @@ const planificareSubsDisplayMask = {
     label: 'CCCOFERTEWEBLINII',
     useAsMeta: true,
     usefull: true
-  },
-  [_cantitate_antemasuratori]: {
-    value: _cantitate_antemasuratori,
-    RW: false,
-    visible: true,
-    label: 'Cant. antemas.',
-    isEnumerable: false,
-    filter: 'search',
-    usefull: true,
-    type: 'number',
-    master: _cantitate_antemasuratori
-  },
-  [_cantitate_planificari]: {
-    value: _cantitate_planificari,
-    RW: true,
-    visible: true,
-    label: 'Cant. planif.',
-    usefull: true,
-    type: 'number',
-    master: _cantitate_planificari
-  },
-  DATASTART: {
-    value: 'DATASTART',
-    RW: true,
-    visible: true,
-    label:  'Data inceput',
-    type: 'datetime',
-    usefull: true
-  },
-  DATASTOP: {
-    value: 'DATASTOP',
-    RW: true,
-    visible: true,
-    label:  'Data final.',
-    type: 'datetime',
-    usefull: true
   }
+}
+
+planificareSubsDisplayMask[_cantitate_antemasuratori] = {
+  value: _cantitate_antemasuratori,
+  RW: false,
+  visible: true,
+  label: 'Cant. antemas.',
+  isEnumerable: false,
+  filter: 'search',
+  usefull: true,
+  type: 'number',
+  master: _cantitate_antemasuratori
+}
+
+planificareSubsDisplayMask[_cantitate_planificari] = {
+  value: _cantitate_planificari,
+  RW: true,
+  visible: true,
+  label: 'Cant. planif.',
+  usefull: true,
+  type: 'number',
+  master: _cantitate_planificari
+}
+
+planificareSubsDisplayMask.DATASTART = {
+  value: 'DATASTART',
+  RW: true,
+  visible: true,
+  label: 'Data inceput',
+  type: 'datetime',
+  usefull: true
+}
+
+planificareSubsDisplayMask.DATASTOP = {
+  value: 'DATASTOP',
+  RW: true,
+  visible: true,
+  label: 'Data final.',
+  type: 'datetime',
+  usefull: true
 }
 
 const listaPlanificariMask = {
