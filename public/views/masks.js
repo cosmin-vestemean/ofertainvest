@@ -1528,7 +1528,8 @@ planificareSubsDisplayMask.DATASTART_X = {
   visible: true,
   label: 'Data inceput',
   type: 'datetime',
-  usefull: true
+  usefull: true,
+  master: 'DATASTART_X'
 }
 
 planificareSubsDisplayMask.DATASTOP_X = {
@@ -1537,7 +1538,8 @@ planificareSubsDisplayMask.DATASTOP_X = {
   visible: true,
   label: 'Data final.',
   type: 'datetime',
-  usefull: true
+  usefull: true,
+  master: 'DATASTOP_X'
 }
 
 const listaPlanificariMask = {
