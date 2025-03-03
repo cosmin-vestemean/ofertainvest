@@ -25,8 +25,7 @@ class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
     isLoading: { type: Boolean },
-    planificari: { type: Array },
-    ds: { type: Array }
+    planificari: { type: Array }
   }
 
   constructor() {
@@ -35,7 +34,6 @@ class LitwcListaPlanificari extends LitElement {
     this.isLoading = true
     this.modal = null
     this.planificari = []
-    this.ds = []
 
     // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
@@ -87,7 +85,6 @@ class LitwcListaPlanificari extends LitElement {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
-      this.ds = []
       this.renderPlanificari()
       return
     }
@@ -99,18 +96,27 @@ class LitwcListaPlanificari extends LitElement {
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
-        this.ds = []
         this.renderPlanificari()
         return
       }
       
-      this.planificari = result.data
+      // Process and transform data for display
+      this.planificari = result.data.map(p => {
+        // Add display-friendly properties based on the mask
+        const displayItem = { ...p }
+        Object.keys(listaPlanificariMask).forEach(key => {
+          if (listaPlanificariMask[key].usefull) {
+            displayItem[key] = p[key]
+          }
+        })
+        return displayItem
+      })
+      
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
-      this.ds = []
       this.renderPlanificari()
     }
   }
@@ -157,17 +163,7 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = this.planificari.map((p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
-        }
-      })
-      return filtered
-    })
-
-    table.ds = this.ds
+    table.ds = this.planificari
   }
 
   showPlanificareModal() {
@@ -304,7 +300,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.ds.map((item, index) => html`
+        ${this.planificari.map((item, index) => html`
           <div class="planificare-card">
             <div class="card-header">
               <div class="card-header-content">
