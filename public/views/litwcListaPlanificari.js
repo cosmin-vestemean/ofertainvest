@@ -88,118 +88,33 @@ class LitwcListaPlanificari extends LitElement {
 
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
-      this.showToast('Warning', 'No valid offer selected', 'warning');
-      this.planificari = [];
-      this.ds = [];
-      this.renderPlanificari();
-      return;
+      console.warn('No valid CCCOFERTEWEB found')
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
+      return
     }
-  
+
     try {
-      this.isLoading = true;
-      this.requestUpdate();
-      
-      // Show loading toast
-      const loadingToastId = this.showToast('Loading', 'Retrieving schedules...', 'info', false);
-      
       // Use the service instead of direct API call
-      const result = await planificariService.getPlanificari();
-      
-      // Hide the loading toast
-      this.hideToast(loadingToastId);
+      const result = await planificariService.getPlanificari()
       
       if (!result.success) {
-        this.showToast('Error', 'Failed to load schedules', 'danger');
-        console.error('Failed to load planificari', result.error);
-        this.planificari = [];
-        this.ds = [];
-      } else {
-        this.planificari = result.data;
-        if (this.planificari.length === 0) {
-          this.showToast('Info', 'No schedules found', 'info');
-        } else {
-          this.showToast('Success', `Loaded ${this.planificari.length} schedules`, 'success');
-        }
-        console.info('Loaded planificari:', this.planificari);
+        console.error('Failed to load planificari', result.error)
+        this.planificari = []
+        this.ds = []
+        this.renderPlanificari()
+        return
       }
+      
+      this.planificari = result.data
+      console.info('Loaded planificari:', this.planificari)
+      this.renderPlanificari()
     } catch (error) {
-      this.showToast('Error', 'Failed to load schedules', 'danger');
-      console.error('Error loading planificari:', error);
-      this.planificari = [];
-      this.ds = [];
-    } finally {
-      this.isLoading = false;
-      this.renderPlanificari();
-      this.requestUpdate();
-    }
-  }
-  
-  /**
-   * Shows a toast notification
-   * @param {string} title - The title of the toast
-   * @param {string} message - The message to display
-   * @param {string} type - The type of toast (success, danger, warning, info)
-   * @param {boolean} autoHide - Whether to auto hide the toast
-   * @returns {string} The ID of the toast for reference
-   */
-  showToast(title, message, type = 'info', autoHide = true) {
-    // Create toast container if it doesn't exist
-    let toastContainer = document.getElementById('toast-container');
-    if (!toastContainer) {
-      toastContainer = document.createElement('div');
-      toastContainer.id = 'toast-container';
-      toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-      document.body.appendChild(toastContainer);
-    }
-    
-    // Create a unique ID for this toast
-    const toastId = `toast-${Date.now()}`;
-    
-    // Create the toast element
-    const toastEl = document.createElement('div');
-    toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
-    toastEl.id = toastId;
-    toastEl.setAttribute('role', 'alert');
-    toastEl.setAttribute('aria-live', 'assertive');
-    toastEl.setAttribute('aria-atomic', 'true');
-    
-    if (autoHide) {
-      toastEl.setAttribute('data-bs-delay', '3000');
-      toastEl.setAttribute('data-bs-autohide', 'true');
-    } else {
-      toastEl.setAttribute('data-bs-autohide', 'false');
-    }
-    
-    toastEl.innerHTML = `
-      <div class="d-flex">
-        <div class="toast-body">
-          <strong>${title}</strong>: ${message}
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-    `;
-    
-    // Add it to the container
-    toastContainer.appendChild(toastEl);
-    
-    // Initialize and show using Bootstrap
-    const toastInstance = new bootstrap.Toast(toastEl);
-    toastInstance.show();
-    
-    return toastId;
-  }
-  
-  /**
-   * Hides a specific toast by ID
-   * @param {string} toastId - The ID of the toast to hide
-   */
-  hideToast(toastId) {
-    const toastEl = document.getElementById(toastId);
-    if (toastEl) {
-      const toastInstance = bootstrap.Toast.getInstance(toastEl);
-      if (toastInstance) {
-        toastInstance.hide();
-      }
+      console.error('Error loading planificari:', error)
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
     }
   }
 
