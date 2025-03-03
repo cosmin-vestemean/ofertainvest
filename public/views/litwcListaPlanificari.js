@@ -324,8 +324,8 @@ class LitwcListaPlanificari extends LitElement {
           <div class="planificare-card">
             <div class="card-header">
               <div class="card-header-content">
-                <div class="header-item">
-                  <strong>#${index + 1}</strong>
+                <div class="header-item m-1">
+                  <span class="text-primary">#${index + 1}</span>
                 </div>
                 ${Object.entries(listaPlanificariMask)
                   .filter(([_, props]) => props.visible)
@@ -341,7 +341,7 @@ class LitwcListaPlanificari extends LitElement {
                     </div>
                   `)}
               </div>
-              <button type="button" class="btn btn-primary btn-sm m-1" 
+              <button type="button" class="btn btn-outline-primary btn-sm m-1" 
                 @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
                 <i class="bi bi-arrows-fullscreen"></i>
               </button>
