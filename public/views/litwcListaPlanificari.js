@@ -9,6 +9,7 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
+// Import the new service
 import { planificariService } from '../services/planificariService.js' 
 
 /* global bootstrap */
@@ -23,28 +24,22 @@ export let ds_planificareNoua = []
 class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
-    isLoading: { type: Boolean, reflect: true },
+    isLoading: { type: Boolean },
     planificari: { type: Array },
-    ds: { type: Array },
-    contextValid: { type: Boolean }
+    ds: { type: Array }
   }
 
   constructor() {
     super()
-    this.angajati = []
+    this.angajati = [] // Initialize empty array
     this.isLoading = true
     this.modal = null
     this.planificari = []
     this.ds = []
-    this.contextValid = false
   }
 
   connectedCallback() {
     super.connectedCallback()
-    this.loadCssIfNeeded()
-  }
-
-  loadCssIfNeeded() {
     // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
       const link = document.createElement('link')
@@ -68,57 +63,38 @@ class LitwcListaPlanificari extends LitElement {
 
   async firstUpdated() {
     try {
-      await this.loadEmployees()
-      this.validateContext()
+      // First check context
+      if (contextOferta?.angajati?.length > 0) {
+        this.angajati = contextOferta.angajati
+      } else {
+        // If not in context, load and cache
+        const employees = await employeesService.loadEmployees()
+        if (employees?.length > 0) {
+          this.angajati = employees
+          // Cache for other components
+          contextOferta.angajati = employees
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load employees:', error)
+      this.angajati = [] // Ensure we have an empty array
     } finally {
       this.isLoading = false
       this.setupEventListeners()
-      this.initializeModal()
       this.requestUpdate()
     }
     await this.loadPlanificari()
   }
 
-  async loadEmployees() {
-    // First check context
-    if (contextOferta?.angajati?.length > 0) {
-      this.angajati = contextOferta.angajati
-      return
-    }
-
-    // If not in context, load and cache
-    try {
-      const employees = await employeesService.loadEmployees()
-      if (employees?.length > 0) {
-        this.angajati = employees
-        // Cache for other components
-        contextOferta.angajati = employees
-      }
-    } catch (error) {
-      console.error('Failed to load employees:', error)
-      this.angajati = [] // Ensure we have an empty array
-    }
-  }
-
-  validateContext() {
-    this.contextValid = Boolean(contextOferta?.CCCOFERTEWEB)
-    return this.contextValid
-  }
-
-  initializeModal() {
-    // Lazy initialize modal when needed
-    this.modal = null;
-  }
-
   async loadPlanificari() {
-    if (!this.validateContext()) {
+    if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
       this.ds = []
+      this.renderPlanificari()
       return
     }
 
-    this.isLoading = true;
     try {
       // Use the service instead of direct API call
       const result = await planificariService.getPlanificari()
@@ -127,6 +103,7 @@ class LitwcListaPlanificari extends LitElement {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
         this.ds = []
+        this.renderPlanificari()
         return
       }
       
@@ -135,35 +112,20 @@ class LitwcListaPlanificari extends LitElement {
       console.error('Error loading planificari:', error)
       this.planificari = []
       this.ds = []
-    } finally {
-      this.isLoading = false;
+      this.renderPlanificari()
     }
   }
 
   updatePlanificari(data) {
     this.planificari = data
-    this.processDisplayData()
-  }
-
-  processDisplayData() {
-    this.ds = this.planificari.map((p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
-        }
-      })
-      return filtered
-    })
-    
-    const table = tables.my_table7.element
-    if (table) {
-      table.ds = this.ds
-    }
+    this.renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
-    if (!this.validateContext()) return;
+    if (!contextOferta?.CCCOFERTEWEB) {
+      console.warn('No valid CCCOFERTEWEB found')
+      return
+    }
 
     console.info('Opening planificare:', id)
 
@@ -176,8 +138,22 @@ class LitwcListaPlanificari extends LitElement {
 
       // Use the service to convert data
       const planificareCurenta = await planificariService.convertPlanificareData(header.linii)
-      
-      this.configurePlanificareTable(table, planificareCurenta, header)
+      console.info('Using cached planificare details:', planificareCurenta)
+
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: planificareCurenta,
+        documentHeader: {
+          responsabilPlanificare: header.RESPPLAN,
+          responsabilExecutie: header.RESPEXEC,
+          id: header.CCCPLANIFICARI
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
 
       if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
     } catch (error) {
@@ -185,21 +161,19 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  configurePlanificareTable(table, data, header) {
-    Object.assign(table, {
-      hasMainHeader: true,
-      hasSubHeader: false,
-      canAddInLine: true,
-      mainMask: planificareDisplayMask,
-      subsMask: planificareSubsDisplayMask,
-      data,
-      documentHeader: {
-        responsabilPlanificare: header.RESPPLAN,
-        responsabilExecutie: header.RESPEXEC,
-        id: header.CCCPLANIFICARI
-      },
-      documentHeaderMask: planificareHeaderMask
+  renderPlanificari() {
+    const table = tables.my_table7.element
+    this.ds = this.planificari.map((p) => {
+      const filtered = {}
+      Object.keys(listaPlanificariMask).forEach((key) => {
+        if (listaPlanificariMask[key].usefull) {
+          filtered[key] = p[key]
+        }
+      })
+      return filtered
     })
+
+    table.ds = this.ds
   }
 
   showPlanificareModal() {
@@ -230,25 +204,17 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   handlePlanificareNoua() {
-    if (!this.validateDates()) return;
-    if (!this.validateContext()) {
-      alert('Nu există o ofertă validă selectată')
-      return;
-    }
+    if (!this.validateDates()) return
     if (!ds_antemasuratori?.length) {
       console.warn('No antemasuratori available')
-      return;
+      return
     }
 
-    const processedData = this.processAntemasuratori();
-    const headerData = this.collectHeaderData();
-    
-    this.configurePlanificareNouaTable(processedData, headerData);
-    tables.hideAllBut([tables.tablePlanificareCurenta]);
-    this.modal?.hide();
-  }
-  
-  processAntemasuratori() {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      alert('Nu există o ofertă validă selectată')
+      return
+    }
+
     ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
     ds_planificareNoua.forEach((parent) => {
       parent.content.forEach((item) => {
@@ -258,19 +224,7 @@ class LitwcListaPlanificari extends LitElement {
         })
       })
     })
-    return ds_planificareNoua;
-  }
-  
-  collectHeaderData() {
-    return {
-      startDate: document.getElementById('startDate').value,
-      endDate: document.getElementById('endDate').value,
-      responsabilPlanificare: document.getElementById('select1').value,
-      responsabilExecutie: document.getElementById('select2').value
-    };
-  }
-  
-  configurePlanificareNouaTable(data, headerData) {
+
     const table = tables.tablePlanificareCurenta.element
     Object.assign(table, {
       hasMainHeader: true,
@@ -278,33 +232,18 @@ class LitwcListaPlanificari extends LitElement {
       canAddInLine: true,
       mainMask: planificareDisplayMask,
       subsMask: planificareSubsDisplayMask,
-      data,
-      documentHeader: headerData,
+      data: ds_planificareNoua,
+      documentHeader: {
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        responsabilPlanificare: document.getElementById('select1').value,
+        responsabilExecutie: document.getElementById('select2').value
+      },
       documentHeaderMask: planificareHeaderMask
     })
-  }
 
-  saveLine(item, htmlElement, value) {
-    try {
-      const nr = parseFloat(value)
-      item[_cantitate_planificari] = nr
-    } catch (error) {
-      console.log('error', error)
-      alert('Valoare invalida')
-    }
-  }
-  
-  saveLineArticle(item, htmlElement, value) {
-    this.saveLine(item, htmlElement, value)
-  }
-
-  saveLineSubArticle(item, htmlElement, value) {
-    this.saveLine(item, htmlElement, value)
-  }
-
-  restorehtmlElement(element, value) {
-    element.innerHTML = value
-    element.disabled = false
+    tables.hideAllBut([tables.tablePlanificareCurenta])
+    this.modal?.hide()
   }
 
   renderEmployeeSelect(id, label) {
@@ -353,40 +292,6 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
-    if (!header) return null
-
-    const element = html`
-      <div class="card-body">
-        <litwc-planificare
-          id="planificare-${item.CCCPLANIFICARI}"
-          .hasMainHeader=${true}
-          .hasSubHeader=${false}
-          .canAddInLine=${true}
-          .mainMask=${planificareDisplayMask}
-          .subsMask=${planificareSubsDisplayMask}
-          .data=${[]}
-        ></litwc-planificare>
-      </div>
-    `
-
-    this.updatePlanificareData(header)
-    return element
-  }
-
-  async updatePlanificareData(header) {
-    try {
-      const convertedData = await planificariService.convertPlanificareData(header.linii)
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-    }
-  }
-
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -417,7 +322,12 @@ class LitwcListaPlanificari extends LitElement {
                   .map(([key, props]) => html`
                     <div class="header-item">
                       <span class="text-muted">${props.label}:</span>
-                      ${this.renderItemValue(key, props, item)}
+                      ${key === 'LOCKED' 
+                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
+                        : props.type === 'datetime'
+                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                          : html`<span>${item[key]}</span>`
+                      }
                     </div>
                   `)}
               </div>
@@ -433,14 +343,47 @@ class LitwcListaPlanificari extends LitElement {
       ${this.renderModal()}
     `
   }
-  
-  renderItemValue(key, props, item) {
-    if (key === 'LOCKED') {
-      return html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-    } else if (props.type === 'datetime') {
-      return html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-    } else {
-      return html`<span>${item[key]}</span>`
+
+  renderPlanificareDetails(item) {
+    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+    if (!header) return null
+
+    /*
+    .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+    .documentHeaderMask=${planificareHeaderMask}
+    */
+
+    const element = html`
+      <div class="card-body">
+        <litwc-planificare
+          id="planificare-${item.CCCPLANIFICARI}"
+          .hasMainHeader=${true}
+          .hasSubHeader=${false}
+          .canAddInLine=${true}
+          .mainMask=${planificareDisplayMask}
+          .subsMask=${planificareSubsDisplayMask}
+          .data=${[]}
+        ></litwc-planificare>
+      </div>
+    `
+
+    this.updatePlanificareData(header)
+    return element
+  }
+
+  async updatePlanificareData(header) {
+    try {
+      const convertedData = await planificariService.convertPlanificareData(header.linii)
+      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
+      if (element) {
+        element.data = convertedData
+      }
+    } catch (error) {
+      console.error('Error converting planificare data:', error)
     }
   }
 }
