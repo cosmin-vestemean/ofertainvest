@@ -324,7 +324,7 @@ class LitwcListaPlanificari extends LitElement {
           <div class="planificare-card">
             <div class="card-header">
               <div class="card-header-content">
-                <div class="header-item m-1">
+                <div class="header-item m-2">
                   <span class="text-primary">#${index + 1}</span>
                 </div>
                 ${Object.entries(listaPlanificariMask)
