@@ -88,7 +88,7 @@ class LitwcListaPlanificari extends LitElement {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
       this.processedPlanificari = {}
-      this.renderPlanificari()
+      this.requestUpdate() // Use requestUpdate instead of renderPlanificari
       return
     }
 
@@ -101,7 +101,7 @@ class LitwcListaPlanificari extends LitElement {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
         this.processedPlanificari = {}
-        this.renderPlanificari()
+        this.requestUpdate() // Use requestUpdate instead of renderPlanificari
         return
       }
       
@@ -121,7 +121,8 @@ class LitwcListaPlanificari extends LitElement {
       await this.preprocessAllPlanificariDetails();
       
       console.info('Loaded planificari:', this.planificari)
-      this.renderPlanificari()
+      
+      // No need to call a separate render function, just trigger an update
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
@@ -186,11 +187,6 @@ class LitwcListaPlanificari extends LitElement {
     } catch (error) {
       console.error('Error processing planificare details:', error)
     }
-  }
-
-  renderPlanificari() {
-    const table = tables.my_table7.element
-    table.ds = this.planificari
   }
 
   showPlanificareModal() {
