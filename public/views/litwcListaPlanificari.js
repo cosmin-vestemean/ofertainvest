@@ -95,6 +95,11 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
+    //log all requiered data
+    console.log('Loading planificari for offer:', contextOferta.CCCOFERTEWEB);
+    console.log('Context:', contextOferta);
+    console.log('Employees data:', this.angajati);
+
     try {
       // Use the service instead of direct API call
       const result = await planificariService.getPlanificari()
