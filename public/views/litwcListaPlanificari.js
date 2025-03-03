@@ -1,5 +1,5 @@
 import { LitElement, html, contextOferta } from '../client.js'
-import {_cantitate_planificari } from '../utils/def_coloane.js'
+import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import {
@@ -10,7 +10,7 @@ import {
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
 // Import the new service
-import { planificariService } from '../services/planificariService.js' 
+import { planificariService } from '../services/planificariService.js'
 
 /* global bootstrap */
 
@@ -94,7 +94,7 @@ class LitwcListaPlanificari extends LitElement {
     try {
       // Use the service to get all planificari data
       const result = await planificariService.getPlanificari()
-      
+
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
@@ -102,24 +102,24 @@ class LitwcListaPlanificari extends LitElement {
         this.requestUpdate() // Use requestUpdate instead of renderPlanificari
         return
       }
-      
+
       // Process and transform data for display
-      this.planificari = result.data.map(p => {
+      this.planificari = result.data.map((p) => {
         // Add display-friendly properties based on the mask
         const displayItem = { ...p }
-        Object.keys(listaPlanificariMask).forEach(key => {
+        Object.keys(listaPlanificariMask).forEach((key) => {
           if (listaPlanificariMask[key].usefull) {
             displayItem[key] = p[key]
           }
         })
         return displayItem
       })
-      
+
       // Pre-process all planificare details
-      await this.preprocessAllPlanificariDetails();
-      
+      await this.preprocessAllPlanificariDetails()
+
       console.info('Loaded planificari:', this.planificari)
-      
+
       // No need to call a separate render function, just trigger an update
     } catch (error) {
       console.error('Error loading planificari:', error)
@@ -134,18 +134,18 @@ class LitwcListaPlanificari extends LitElement {
 
   async preprocessAllPlanificariDetails() {
     // Process all planificari data in parallel
-    const processingPromises = this.planificari.map(async header => {
+    const processingPromises = this.planificari.map(async (header) => {
       try {
-        const convertedData = await planificariService.convertPlanificareData(header.linii);
-        this.processedPlanificari[header.CCCPLANIFICARI] = convertedData;
+        const convertedData = await planificariService.convertPlanificareData(header.linii)
+        this.processedPlanificari[header.CCCPLANIFICARI] = convertedData
       } catch (error) {
-        console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error);
-        this.processedPlanificari[header.CCCPLANIFICARI] = [];
+        console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error)
+        this.processedPlanificari[header.CCCPLANIFICARI] = []
       }
-    });
+    })
 
     // Wait for all processing to complete
-    await Promise.all(processingPromises);
+    await Promise.all(processingPromises)
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -315,47 +315,58 @@ class LitwcListaPlanificari extends LitElement {
           Adauga planificare
         </button>
         <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
-          <i class="bi bi-arrow-clockwise"></i> Refresh
+          <i class="bi bi-arrow-clockwise"></i>
         </button>
       </div>
 
       <div class="planificari-stack">
-        ${this.planificari.map((item, index) => html`
-          <div class="planificare-card">
-            <div class="card-header">
-              <div class="card-header-content">
-                <div class="header-item">
-                  <strong>#${index + 1}</strong>
+        ${this.planificari.map(
+          (item, index) => html`
+            <div class="planificare-card">
+              <div class="card-header">
+                <div class="card-header-content">
+                  <div class="header-item">
+                    <strong>#${index + 1}</strong>
+                  </div>
+                  ${Object.entries(listaPlanificariMask)
+                    .filter(([_, props]) => props.visible)
+                    .map(
+                      ([key, props]) => html`
+                        <div class="header-item">
+                          <span class="text-muted">${props.label}:</span>
+                          ${key === 'LOCKED'
+                            ? html`<i
+                                class="bi ${item[key]
+                                  ? 'bi-lock-fill text-danger'
+                                  : 'bi-unlock text-success'}"
+                              ></i>`
+                            : props.type === 'datetime'
+                              ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                              : html`<span>${item[key]}</span>`}
+                        </div>
+                      `
+                    )}
                 </div>
-                ${Object.entries(listaPlanificariMask)
-                  .filter(([_, props]) => props.visible)
-                  .map(([key, props]) => html`
-                    <div class="header-item">
-                      <span class="text-muted">${props.label}:</span>
-                      ${key === 'LOCKED' 
-                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                        : props.type === 'datetime'
-                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                          : html`<span>${item[key]}</span>`
-                      }
-                    </div>
-                  `)}
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm m-1"
+                  @click="${() =>
+                    this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+                >
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </button>
               </div>
-              <button type="button" class="btn btn-primary btn-sm m-1" 
-                @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
-                <i class="bi bi-arrows-fullscreen"></i>
-              </button>
+              ${this.renderPlanificareDetails(item)}
             </div>
-            ${this.renderPlanificareDetails(item)}
-          </div>
-        `)}
+          `
+        )}
       </div>
       ${this.renderModal()}
     `
   }
 
   renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+    const header = this.planificari.find((p) => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
     // Use the pre-processed data
