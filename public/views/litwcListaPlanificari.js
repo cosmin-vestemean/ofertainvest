@@ -375,12 +375,6 @@ class LitwcListaPlanificari extends LitElement {
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
           .data=${planificareData}
-          .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-          .documentHeaderMask=${planificareHeaderMask}
         ></litwc-planificare>
       </div>
     `
