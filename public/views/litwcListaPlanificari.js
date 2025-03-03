@@ -1,6 +1,5 @@
-import { LitElement, html, contextOferta, client } from '../client.js'
-import { _cantitate_antemasuratori, _cantitate_planificari } from '../utils/def_coloane.js'
-import { ds_antemasuratori, convertDBAntemasuratori } from '../controllers/antemasuratori.js'
+import { LitElement, html, contextOferta } from '../client.js'
+import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { tables } from '../utils/tables.js'
 import {
   planificareDisplayMask,
@@ -8,12 +7,10 @@ import {
   planificareHeaderMask,
   listaPlanificariMask
 } from './masks.js'
-import { employeesService } from '../utils/employeesService.js'
+import { planificariController } from '../controllers/planificariController.js'
+import { planificariDataService } from '../services/planificariDataService.js'
 
 /* global bootstrap */
-
-//await employeesService.loadEmployees()
-//await client.service('getDataset').find({ query: { sqlQuery: ``   } })
 
 export let ds_planificareNoua = []
 
@@ -27,11 +24,16 @@ class LitwcListaPlanificari extends LitElement {
 
   constructor() {
     super()
-    this.angajati = [] // Initialize empty array
+    this.angajati = [] 
     this.isLoading = true
     this.modal = null
     this.planificari = []
     this.ds = []
+    this.displayConfig = {
+      mainMask: planificareDisplayMask,
+      subsMask: planificareSubsDisplayMask,
+      headerMask: planificareHeaderMask
+    }
 
     // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
@@ -56,21 +58,10 @@ class LitwcListaPlanificari extends LitElement {
 
   async firstUpdated() {
     try {
-      // First check context
-      if (contextOferta?.angajati?.length > 0) {
-        this.angajati = contextOferta.angajati
-      } else {
-        // If not in context, load and cache
-        const employees = await employeesService.loadEmployees()
-        if (employees?.length > 0) {
-          this.angajati = employees
-          // Cache for other components
-          contextOferta.angajati = employees
-        }
-      }
+      this.angajati = await planificariController.loadEmployees()
     } catch (error) {
       console.error('Failed to load employees:', error)
-      this.angajati = [] // Ensure we have an empty array
+      this.angajati = []
     } finally {
       this.isLoading = false
       this.setupEventListeners()
@@ -80,72 +71,12 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async loadPlanificari() {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
-      this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
-      return
-    }
-
     try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
-        p.RESPEXEC, p.RESPPLAN,
-        u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, c.*, 
-        l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori},
-        CONVERT(varchar, l.DATASTART, 103) as DATASTART_X, CONVERT(varchar, l.DATASTOP, 103) as DATASTOP_X
-        FROM CCCPLANIFICARI p
-        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
-        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
-        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
-        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
-        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-        ORDER BY p.RESPPLAN, p.RESPEXEC`
-        }
-      })
-
-      if (!response.success) {
-        console.error('Failed to load planificari', response.error)
-        return
-      }
-
-      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
-      // Group by planificare header
-      const grouped = response.data.reduce((acc, row) => {
-        if (!acc[row.CCCPLANIFICARI]) {
-          // Create header entry if it doesn't exist
-          acc[row.CCCPLANIFICARI] = {
-            CCCPLANIFICARI: row.CCCPLANIFICARI,
-            CCCOFERTEWEB: row.CCCOFERTEWEB,
-            RESPEXEC: row.RESPEXEC,
-            RESPPLAN: row.RESPPLAN,
-            RESPPLAN_NAME: row.RESPPLAN_NAME,
-            RESPEXEC_NAME: row.RESPEXEC_NAME,
-            linii: [] // Store detail rows here
-          }
-        }
-
-        // Add detail row if it exists
-        if (row.CCCANTEMASURATORI) {
-          acc[row.CCCPLANIFICARI].linii.push({ ...row })
-        }
-
-        return acc
-      }, {})
-
-      // Convert to array
-      this.planificari = Object.values(grouped)
-
-      console.info('Loaded planificari:', this.planificari)
+      this.ds = await planificariController.loadPlanificari(listaPlanificariMask)
+      this.planificari = planificariController.planificari
       this.renderPlanificari()
     } catch (error) {
-      console.error('Error loading planificari:', error)
+      console.error('Error in loadPlanificari:', error)
       this.planificari = []
       this.ds = []
       this.renderPlanificari()
@@ -153,56 +84,15 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
-      return
-    }
-
-    console.info('Opening planificare:', id)
-
     try {
-      const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
-      if (!header) {
-        console.error('Failed to find planificare header')
-        return
-      }
-
-      const planificareCurenta = await convertDBAntemasuratori(header.linii || [])
-      console.info('Using cached planificare details:', planificareCurenta)
-
-      Object.assign(table, {
-        hasMainHeader: true,
-        hasSubHeader: false,
-        canAddInLine: true,
-        mainMask: planificareDisplayMask,
-        subsMask: planificareSubsDisplayMask,
-        data: planificareCurenta,
-        documentHeader: {
-          responsabilPlanificare: header.RESPPLAN,
-          responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI
-        },
-        documentHeaderMask: planificareHeaderMask
-      })
-
-      if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
+      await planificariController.openPlanificare(id, table, this.displayConfig, hideAllBut)
     } catch (error) {
-      console.error('Error processing planificare details:', error)
+      console.error('Error in openPlanificare:', error)
     }
   }
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = this.planificari.map((p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
-        }
-      })
-      return filtered
-    })
-
     table.ds = this.ds
   }
 
@@ -219,61 +109,39 @@ class LitwcListaPlanificari extends LitElement {
   validateDates() {
     const startDate = document.getElementById('startDate').value
     const endDate = document.getElementById('endDate').value
-
-    if (!startDate || !endDate) {
-      alert('Please select both start and end dates')
+    
+    const isValid = planificariController.validateDates(startDate, endDate)
+    
+    if (!isValid) {
+      alert('Please select valid start and end dates')
       return false
     }
-
-    if (new Date(startDate) > new Date(endDate)) {
-      alert('Start date cannot be after end date')
-      return false
-    }
-
+    
     return true
   }
 
-  handlePlanificareNoua() {
+  async handlePlanificareNoua() {
     if (!this.validateDates()) return
-    if (!ds_antemasuratori?.length) {
-      console.warn('No antemasuratori available')
-      return
-    }
-
-    if (!contextOferta?.CCCOFERTEWEB) {
-      alert('Nu există o ofertă validă selectată')
-      return
-    }
-
-    ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach((parent) => {
-      parent.content.forEach((item) => {
-        item.object[_cantitate_planificari] = 0
-        item.children?.forEach((child) => {
-          child.object[_cantitate_planificari] = 0
-        })
-      })
-    })
-
-    const table = tables.tablePlanificareCurenta.element
-    Object.assign(table, {
-      hasMainHeader: true,
-      hasSubHeader: false,
-      canAddInLine: true,
-      mainMask: planificareDisplayMask,
-      subsMask: planificareSubsDisplayMask,
-      data: ds_planificareNoua,
-      documentHeader: {
+    
+    try {
+      const headerData = {
         startDate: document.getElementById('startDate').value,
         endDate: document.getElementById('endDate').value,
         responsabilPlanificare: document.getElementById('select1').value,
         responsabilExecutie: document.getElementById('select2').value
-      },
-      documentHeaderMask: planificareHeaderMask
-    })
-
-    tables.hideAllBut([tables.tablePlanificareCurenta])
-    this.modal?.hide()
+      }
+      
+      await planificariController.setupNewPlanificare(
+        headerData, 
+        tables.tablePlanificareCurenta.element, 
+        this.displayConfig
+      )
+      
+      this.modal?.hide()
+    } catch (error) {
+      console.error('Error in handlePlanificareNoua:', error)
+      alert(error.message || 'A apărut o eroare')
+    }
   }
 
   renderEmployeeSelect(id, label) {
@@ -378,15 +246,6 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    /*
-    .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
-
     const element = html`
       <div class="card-body">
         <litwc-planificare
@@ -407,16 +266,17 @@ class LitwcListaPlanificari extends LitElement {
 
   async updatePlanificareData(header) {
     try {
-      const convertedData = await convertDBAntemasuratori(header.linii || [])
+      const convertedData = await planificariDataService.convertPlanificareData(header.linii || [])
       const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
       if (element) {
         element.data = convertedData
       }
     } catch (error) {
-      console.error('Error converting planificare data:', error)
+      console.error('Error updating planificare data:', error)
     }
   }
 }
+
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
 
 export default LitwcListaPlanificari
