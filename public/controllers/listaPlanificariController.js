@@ -99,18 +99,22 @@ class ListaPlanificariController {
     await Promise.all(processingPromises)
   }
 
-  _updateComponentData() {
+  async _updateComponentData() {
     if (!this._component) return
     
     this._component.planificari = this._cache.planificari || []
     this._component.processedPlanificari = this._cache.processedPlanificari || {}
+    this._component.requestUpdate()
+    await this._component.updateComplete
   }
 
-  _resetComponentData() {
+  async _resetComponentData() {
     if (!this._component) return
     
     this._component.planificari = []
     this._component.processedPlanificari = {}
+    this._component.requestUpdate()
+    await this._component.updateComplete
   }
 }
 
