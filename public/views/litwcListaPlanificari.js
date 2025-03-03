@@ -318,6 +318,16 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   showToast(message, type = 'info') {
+    let toastContainer = this.querySelector('#toast-container')
+    
+    // Create toast container if it doesn't exist
+    if (!toastContainer) {
+      toastContainer = document.createElement('div')
+      toastContainer.id = 'toast-container'
+      toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
+      this.appendChild(toastContainer)
+    }
+
     const toastEl = document.createElement('div')
     toastEl.className = `toast align-items-center text-white bg-${type} border-0`
     toastEl.setAttribute('role', 'alert')
@@ -333,7 +343,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
     `
     
-    this.querySelector('#toast-container').appendChild(toastEl)
+    toastContainer.appendChild(toastEl)
     const toast = new bootstrap.Toast(toastEl)
     toast.show()
     
