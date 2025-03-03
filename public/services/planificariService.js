@@ -73,6 +73,15 @@ export const planificariService = {
   },
 
   async convertPlanificareData(linii) {
-    return await convertDBAntemasuratori(linii || [])
+    if (!linii || linii.length === 0) {
+      return []
+    }
+    
+    try {
+      return await convertDBAntemasuratori(linii || [])
+    } catch (error) {
+      console.error('Error converting planificare data:', error)
+      return []
+    }
   }
 }

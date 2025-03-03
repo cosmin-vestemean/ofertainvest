@@ -101,7 +101,8 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
       
-      this.updatePlanificari(result.data)
+      // Process all planificari data immediately
+      await this.updatePlanificari(result.data)
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
@@ -109,18 +110,27 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  updatePlanificari(data) {
-    // Process data to include only the fields we need to display
-    this.planificari = data.map((p) => {
+  async updatePlanificari(data) {
+    // Process and convert details data up front for all planificari
+    this.planificari = await Promise.all(data.map(async (p) => {
       const filtered = {}
       Object.keys(listaPlanificariMask).forEach((key) => {
         if (listaPlanificariMask[key].usefull) {
           filtered[key] = p[key]
         }
       })
-      // Keep all original data by adding linii and other fields that might be needed
-      return { ...filtered, linii: p.linii, CCCPLANIFICARI: p.CCCPLANIFICARI }
-    });
+      
+      // Pre-process the details data for immediate rendering
+      const detailsData = await planificariService.convertPlanificareData(p.linii)
+      
+      // Return a complete object with header info and processed details
+      return { 
+        ...filtered, 
+        CCCPLANIFICARI: p.CCCPLANIFICARI,
+        linii: p.linii,
+        processedDetails: detailsData  // Store the processed details
+      }
+    }));
     
     this.requestUpdate();
   }
@@ -314,7 +324,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.planificari.map(async (item, index) => html`
+        ${this.planificari.map((item, index) => html`
           <div class="planificare-card">
             <div class="card-header">
               <div class="card-header-content">
@@ -340,7 +350,7 @@ class LitwcListaPlanificari extends LitElement {
                 <i class="bi bi-arrows-fullscreen"></i>
               </button>
             </div>
-            ${await this.renderPlanificareDetails(item)}
+            ${this.renderPlanificareDetails(item)}
           </div>
         `)}
       </div>
@@ -348,11 +358,9 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  async renderPlanificareDetails(item) {
+  renderPlanificareDetails(item) {
+    // Since we now have pre-processed data, we can use it directly
     if (!item) return null
-
-    // Convert data before rendering
-    const convertedData = await planificariService.convertPlanificareData(item.linii)
 
     return html`
       <div class="card-body">
@@ -363,7 +371,7 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${convertedData}
+          .data=${item.processedDetails || []}
         ></litwc-planificare>
       </div>
     `
