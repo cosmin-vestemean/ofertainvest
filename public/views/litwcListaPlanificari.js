@@ -194,7 +194,7 @@ class LitwcListaPlanificari extends LitElement {
     return true
   }
 
-  handlePlanificareNoua() {
+  async handlePlanificareNoua() {
     if (!this.validateDates()) return
     if (!ds_antemasuratori?.length) {
       console.warn('No antemasuratori available')
