@@ -1,5 +1,5 @@
 import { LitElement, html, contextOferta } from '../client.js'
-import { _cantitate_planificari } from '../utils/def_coloane.js'
+import {_cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import {
@@ -9,73 +9,36 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
-import { planificariService } from '../services/planificariService.js'
+// Import the new service
+import { planificariService } from '../services/planificariService.js' 
 
 /* global bootstrap */
 
-// Move export to a proper state management pattern or context
 export let ds_planificareNoua = []
 
 /**
- * LitwcListaPlanificari component for managing and displaying planificari (schedules)
+ * LitwcListaPlanificari is a custom web component that extends LitElement.
+ * It is responsible for managing and displaying a list of planificari (schedules).
+ * The component handles loading, rendering, and interacting with planificari data.
  */
 class LitwcListaPlanificari extends LitElement {
   static properties = {
-    angajati: { type: Array }, 
-    planificari: { type: Array },
+    angajati: { type: Array },
     isLoading: { type: Boolean },
-    hasError: { type: Boolean },
-    errorMessage: { type: String }
+    planificari: { type: Array }
   }
 
   constructor() {
     super()
-    this.angajati = []
-    this.planificari = []
+    this.angajati = [] // Initialize empty array
     this.isLoading = true
-    this.hasError = false
-    this.errorMessage = ''
     this.modal = null
+    this.planificari = []
   }
 
-  /**
-   * Create shadow DOM - we disable it to inherit parent styles
-   */
-  createRenderRoot() {
-    return this
-  }
-
-  /**
-   * Load CSS dependencies once when component connects
-   */
   connectedCallback() {
     super.connectedCallback()
-    this._loadCss()
-  }
-
-  /**
-   * Load required resources after first render 
-   */
-  async firstUpdated() {
-    try {
-      await Promise.all([
-        this._loadEmployees(),
-        this._loadPlanificari()
-      ])
-    } catch (error) {
-      this._handleError(error, 'Failed to initialize component')
-    } finally {
-      this.isLoading = false
-    }
-
-    // Set up event delegation once
-    this.addEventListener('click', this._handleClick.bind(this))
-  }
-
-  /**
-   * Load CSS stylesheet once if not already present
-   */
-  _loadCss() {
+    // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
       const link = document.createElement('link')
       link.rel = 'stylesheet'
@@ -84,93 +47,127 @@ class LitwcListaPlanificari extends LitElement {
     }
   }
 
-  /**
-   * Handle delegated click events
-   */
-  _handleClick(e) {
-    if (e.target.id === 'adaugaPlanificare') {
-      this._showModal()
-    } else if (e.target.matches('.refresh-btn')) {
-      this._loadPlanificari()
-    } else if (e.target.matches('.create-btn')) {
-      this._createNewPlanificare()
-    } else if (e.target.closest('.open-planificare-btn')) {
-      const button = e.target.closest('.open-planificare-btn')
-      const id = button.dataset.id
-      if (id) this._openPlanificare(id)
-    }
+  createRenderRoot() {
+    return this
   }
 
-  /**
-   * Load employees from context or service
-   */
-  async _loadEmployees() {
-    if (contextOferta?.angajati?.length > 0) {
-      this.angajati = contextOferta.angajati
-      return
-    }
-    
+  setupEventListeners() {
+    this.addEventListener('click', (e) => {
+      if (e.target.id === 'adaugaPlanificare') {
+        this.showPlanificareModal()
+      }
+    })
+  }
+
+  async firstUpdated() {
     try {
-      const employees = await employeesService.loadEmployees()
-      if (employees?.length > 0) {
-        this.angajati = employees
-        contextOferta.angajati = employees // Cache for other components
+      // First check context
+      if (contextOferta?.angajati?.length > 0) {
+        this.angajati = contextOferta.angajati
+      } else {
+        // If not in context, load and cache
+        const employees = await employeesService.loadEmployees()
+        if (employees?.length > 0) {
+          this.angajati = employees
+          // Cache for other components
+          contextOferta.angajati = employees
+        }
       }
     } catch (error) {
-      this._handleError(error, 'Failed to load employees')
+      console.error('Failed to load employees:', error)
       this.angajati = [] // Ensure we have an empty array
+    } finally {
+      this.isLoading = false
+      this.setupEventListeners()
+      this.requestUpdate()
     }
+    await this.loadPlanificari()
   }
 
-  /**
-   * Load planificari data from service
-   */
-  async _loadPlanificari() {
+  async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
-      this._handleError(null, 'No valid offer context')
+      console.warn('No valid CCCOFERTEWEB found')
+      this.planificari = []
+      this.requestUpdate();
       return
     }
 
     try {
-      this.isLoading = true
+      // Use the service instead of direct API call
       const result = await planificariService.getPlanificari()
       
       if (!result.success) {
-        throw new Error(result.error || 'Failed to load planificari')
+        console.error('Failed to load planificari', result.error)
+        this.planificari = []
+        this.requestUpdate();
+        return
       }
       
-      // Process data to include only needed fields plus original data
-      this.planificari = result.data.map(p => {
-        const filtered = Object.fromEntries(
-          Object.entries(listaPlanificariMask)
-            .filter(([_, props]) => props.usefull)
-            .map(([key]) => [key, p[key]])
-        )
-        return { ...filtered, linii: p.linii, CCCPLANIFICARI: p.CCCPLANIFICARI }
-      })
-      
-      this.hasError = false
+      this.updatePlanificari(result.data)
     } catch (error) {
-      this._handleError(error, 'Error loading planificari')
+      console.error('Error loading planificari:', error)
       this.planificari = []
-    } finally {
-      this.isLoading = false
+      this.requestUpdate();
     }
   }
 
-  /**
-   * Handle errors consistently
-   */
-  _handleError(error, defaultMessage) {
-    console.error(defaultMessage, error)
-    this.hasError = true
-    this.errorMessage = error?.message || defaultMessage
+  updatePlanificari(data) {
+    // Process data to include only the fields we need to display
+    this.planificari = data.map((p) => {
+      const filtered = {}
+      Object.keys(listaPlanificariMask).forEach((key) => {
+        if (listaPlanificariMask[key].usefull) {
+          filtered[key] = p[key]
+        }
+      })
+      // Keep all original data by adding linii and other fields that might be needed
+      return { ...filtered, linii: p.linii, CCCPLANIFICARI: p.CCCPLANIFICARI }
+    });
+    
+    this.requestUpdate();
   }
 
-  /**
-   * Show modal for creating new planificare
-   */
-  _showModal() {
+  async openPlanificare(id, table, hideAllBut = true) {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      console.warn('No valid CCCOFERTEWEB found')
+      return
+    }
+
+    console.info('Opening planificare:', id)
+
+    try {
+      const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
+      if (!header) {
+        console.error('Failed to find planificare header')
+        return
+      }
+
+      // Use the service to convert data
+      const planificareCurenta = await planificariService.convertPlanificareData(header.linii)
+      console.info('Using cached planificare details:', planificareCurenta)
+
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: planificareCurenta,
+        documentHeader: {
+          responsabilPlanificare: header.RESPPLAN,
+          responsabilExecutie: header.RESPEXEC,
+          id: header.CCCPLANIFICARI
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
+
+      if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
+    } catch (error) {
+      console.error('Error processing planificare details:', error)
+    }
+  }
+
+  showPlanificareModal() {
     if (!this.modal) {
       this.modal = new bootstrap.Modal(document.getElementById('planificareModal'), {
         keyboard: true,
@@ -180,10 +177,7 @@ class LitwcListaPlanificari extends LitElement {
     this.modal.show()
   }
 
-  /**
-   * Validate date inputs from modal
-   */
-  _validateDates() {
+  validateDates() {
     const startDate = document.getElementById('startDate').value
     const endDate = document.getElementById('endDate').value
 
@@ -200,32 +194,28 @@ class LitwcListaPlanificari extends LitElement {
     return true
   }
 
-  /**
-   * Create new planificare from form data
-   */
-  _createNewPlanificare() {
-    if (!this._validateDates() || !contextOferta?.CCCOFERTEWEB) {
-      alert('Missing required data')
-      return
-    }
-
+  async handlePlanificareNoua() {
+    if (!this.validateDates()) return
     if (!ds_antemasuratori?.length) {
-      alert('No antemasuratori available')
+      console.warn('No antemasuratori available')
       return
     }
 
-    // Create deep copy and initialize quantities
+    if (!contextOferta?.CCCOFERTEWEB) {
+      alert('Nu există o ofertă validă selectată')
+      return
+    }
+
     ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach(parent => {
-      parent.content.forEach(item => {
+    ds_planificareNoua.forEach((parent) => {
+      parent.content.forEach((item) => {
         item.object[_cantitate_planificari] = 0
-        item.children?.forEach(child => {
+        item.children?.forEach((child) => {
           child.object[_cantitate_planificari] = 0
         })
       })
     })
 
-    // Configure table with form data
     const table = tables.tablePlanificareCurenta.element
     Object.assign(table, {
       hasMainHeader: true,
@@ -247,77 +237,13 @@ class LitwcListaPlanificari extends LitElement {
     this.modal?.hide()
   }
 
-  /**
-   * Open existing planificare by ID
-   */
-  async _openPlanificare(id) {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      this._handleError(null, 'No valid offer context')
-      return
-    }
-
-    try {
-      const header = this.planificari.find(p => p.CCCPLANIFICARI === id)
-      if (!header) {
-        throw new Error('Failed to find planificare header')
-      }
-
-      // Convert data using service
-      const planificareCurenta = await planificariService.convertPlanificareData(header.linii)
-      
-      // Configure table with data
-      const table = tables.tablePlanificareCurenta.element
-      Object.assign(table, {
-        hasMainHeader: true,
-        hasSubHeader: false,
-        canAddInLine: true,
-        mainMask: planificareDisplayMask,
-        subsMask: planificareSubsDisplayMask,
-        data: planificareCurenta,
-        documentHeader: {
-          responsabilPlanificare: header.RESPPLAN,
-          responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI
-        },
-        documentHeaderMask: planificareHeaderMask
-      })
-
-      tables.hideAllBut([tables.tablePlanificareCurenta])
-    } catch (error) {
-      this._handleError(error, 'Error opening planificare')
-    }
-  }
-
-  /**
-   * Update a specific planificare component with data
-   */
-  async _updatePlanificareData(item) {
-    if (!item) return
-    
-    try {
-      const convertedData = await planificariService.convertPlanificareData(item.linii)
-      const element = this.querySelector(`#planificare-${item.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-    }
-  }
-
-  /**
-   * Render methods split by responsibility for better maintenance
-   */
-  
-  renderToolbar() {
+  renderEmployeeSelect(id, label) {
     return html`
-      <div class="toolbar mb-2">
-        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
-          Adauga planificare
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2 refresh-btn">
-          <i class="bi bi-arrow-clockwise"></i> Refresh
-        </button>
+      <div class="mb-3">
+        <label for="${id}" class="form-label">${label}</label>
+        <select class="form-select" id="${id}">
+          ${this.angajati.map((angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)}
+        </select>
       </div>
     `
   }
@@ -341,13 +267,13 @@ class LitwcListaPlanificari extends LitElement {
                   <label for="endDate" class="form-label">End Date</label>
                   <input type="date" class="form-control" id="endDate" required />
                 </div>
-                ${this._renderEmployeeSelect('select1', 'Responsabil planificare')}
-                ${this._renderEmployeeSelect('select2', 'Responsabil executie')}
+                ${this.renderEmployeeSelect('select1', 'Responsabil planificare')}
+                ${this.renderEmployeeSelect('select2', 'Responsabil executie')}
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary create-btn">
+              <button type="button" class="btn btn-primary" @click="${() => this.handlePlanificareNoua()}">
                 Planificare noua
               </button>
             </div>
@@ -357,128 +283,107 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  _renderEmployeeSelect(id, label) {
-    return html`
-      <div class="mb-3">
-        <label for="${id}" class="form-label">${label}</label>
-        <select class="form-select" id="${id}">
-          ${this.angajati.map((angajat) => html`<option value="${angajat.PRSN}">${angajat.NAME2}</option>`)}
-        </select>
-      </div>
-    `
-  }
+  render() {
+    if (this.isLoading) {
+      return html`<div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>`
+    }
 
-  renderPlanificareCard(item, index) {
-    if (!item) return null
-    
-    return html`
-      <div class="planificare-card">
-        <div class="card-header">
-          <div class="card-header-content">
-            <div class="header-item">
-              <strong>#${index + 1}</strong>
-            </div>
-            ${Object.entries(listaPlanificariMask)
-              .filter(([_, props]) => props.visible)
-              .map(([key, props]) => html`
-                <div class="header-item">
-                  <span class="text-muted">${props.label}:</span>
-                  ${key === 'LOCKED' 
-                    ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                    : props.type === 'datetime'
-                      ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                      : html`<span>${item[key]}</span>`
-                  }
-                </div>
-              `)}
-          </div>
-          <button type="button" class="btn btn-primary btn-sm m-1 open-planificare-btn" 
-            data-id="${item.CCCPLANIFICARI}">
-            <i class="bi bi-arrows-fullscreen"></i>
+    if (!this.planificari || this.planificari.length === 0) {
+      return html`
+        <div class="toolbar mb-2">
+          <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
+            Adauga planificare
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm me-2" @click="${async () => await this.loadPlanificari()}">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
           </button>
         </div>
-        <div class="card-body">
-          <litwc-planificare
-            id="planificare-${item.CCCPLANIFICARI}"
-            .hasMainHeader=${true}
-            .hasSubHeader=${false}
-            .canAddInLine=${true}
-            .mainMask=${planificareDisplayMask}
-            .subsMask=${planificareSubsDisplayMask}
-            .data=${[]}
-          ></litwc-planificare>
-        </div>
-      </div>
-    `
-  }
-
-  renderPlanificariList() {
-    return html`
-      <div class="planificari-stack">
-        ${this.planificari.map((item, index) => {
-          // Schedule update for this item's data
-          setTimeout(() => this._updatePlanificareData(item), 0)
-          return this.renderPlanificareCard(item, index)
-        })}
-      </div>
-    `
-  }
-
-  renderError() {
-    return html`
-      <div class="alert alert-danger">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        ${this.errorMessage || 'An error occurred'}
-      </div>
-    `
-  }
-
-  renderEmpty() {
-    return html`
-      <div class="alert alert-info">
-        No planificari available. Click "Adauga planificare" to create one.
-      </div>
-    `
-  }
-
-  renderLoading() {
-    return html`
-      <div class="text-center my-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    `
-  }
-
-  /**
-   * Main render method with conditional states
-   */
-  render() {
-    // Always render the toolbar and modal
-    const toolbar = this.renderToolbar()
-    const modal = this.renderModal()
-    
-    // Conditional content based on state
-    let content
-    if (this.isLoading) {
-      content = this.renderLoading()
-    } else if (this.hasError) {
-      content = this.renderError()
-    } else if (!this.planificari || this.planificari.length === 0) {
-      content = this.renderEmpty()
-    } else {
-      content = this.renderPlanificariList()
+        <div class="alert alert-info">No planificari available. Click "Adauga planificare" to create one.</div>
+        ${this.renderModal()}
+      `
     }
 
     return html`
-      ${toolbar}
-      ${content}
-      ${modal}
+      <div class="toolbar mb-2">
+        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
+          Adauga planificare
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${async () => await this.loadPlanificari()}">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+      </div>
+
+      <div class="planificari-stack">
+        ${this.planificari.map((item, index) => html`
+          <div class="planificare-card">
+            <div class="card-header">
+              <div class="card-header-content">
+                <div class="header-item">
+                  <strong>#${index + 1}</strong>
+                </div>
+                ${Object.entries(listaPlanificariMask)
+                  .filter(([_, props]) => props.visible)
+                  .map(([key, props]) => html`
+                    <div class="header-item">
+                      <span class="text-muted">${props.label}:</span>
+                      ${key === 'LOCKED' 
+                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
+                        : props.type === 'datetime'
+                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                          : html`<span>${item[key]}</span>`
+                      }
+                    </div>
+                  `)}
+              </div>
+              <button type="button" class="btn btn-primary btn-sm m-1" 
+                @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+                <i class="bi bi-arrows-fullscreen"></i>
+              </button>
+            </div>
+            ${this.renderPlanificareDetails(item)}
+          </div>
+        `)}
+      </div>
+      ${this.renderModal()}
     `
   }
-}
 
+  renderPlanificareDetails(item) {
+    // Since we now store all the data in planificari, we can directly find the item
+    if (!item) return null
+
+    const element = html`
+      <div class="card-body">
+        <litwc-planificare
+          id="planificare-${item.CCCPLANIFICARI}"
+          .hasMainHeader=${true}
+          .hasSubHeader=${false}
+          .canAddInLine=${true}
+          .mainMask=${planificareDisplayMask}
+          .subsMask=${planificareSubsDisplayMask}
+          .data=${[]}
+        ></litwc-planificare>
+      </div>
+    `
+
+    this.updatePlanificareData(item)
+    return element
+  }
+
+  async updatePlanificareData(item) {
+    try {
+      const convertedData = await planificariService.convertPlanificareData(item.linii)
+      const element = this.querySelector(`#planificare-${item.CCCPLANIFICARI}`)
+      if (element) {
+        element.data = convertedData
+      }
+    } catch (error) {
+      console.error('Error converting planificare data:', error)
+    }
+  }
+}
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
 
 export default LitwcListaPlanificari
