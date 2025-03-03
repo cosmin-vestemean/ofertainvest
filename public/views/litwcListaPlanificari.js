@@ -25,8 +25,7 @@ class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
     isLoading: { type: Boolean },
-    planificari: { type: Array },
-    ds: { type: Array }
+    planificari: { type: Array }
   }
 
   constructor() {
@@ -35,7 +34,6 @@ class LitwcListaPlanificari extends LitElement {
     this.isLoading = true
     this.modal = null
     this.planificari = []
-    this.ds = []
   }
 
   connectedCallback() {
@@ -90,7 +88,6 @@ class LitwcListaPlanificari extends LitElement {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
-      this.ds = []
       this.renderPlanificari()
       return
     }
@@ -102,7 +99,6 @@ class LitwcListaPlanificari extends LitElement {
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
-        this.ds = []
         this.renderPlanificari()
         return
       }
@@ -111,15 +107,24 @@ class LitwcListaPlanificari extends LitElement {
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
-      this.ds = []
       this.renderPlanificari()
     }
   }
 
   updatePlanificari(data) {
-    this.planificari = data
+    // Process data to include only the fields we need to display
+    this.planificari = data.map((p) => {
+      const filtered = {}
+      Object.keys(listaPlanificariMask).forEach((key) => {
+        if (listaPlanificariMask[key].usefull) {
+          filtered[key] = p[key]
+        }
+      })
+      // Keep all original data by adding linii and other fields that might be needed
+      return { ...filtered, linii: p.linii, CCCPLANIFICARI: p.CCCPLANIFICARI }
+    });
+    
     this.renderPlanificari()
-    // requestUpdate already called inside renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -164,17 +169,8 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificari() {
     const table = tables.my_table7.element
-    this.ds = this.planificari.map((p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
-        }
-      })
-      return filtered
-    })
-
-    table.ds = this.ds
+    // Simply assign the already filtered planificari to the table's data source
+    table.ds = this.planificari
     this.requestUpdate()
   }
 
@@ -301,7 +297,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>`
     }
 
-    if (!this.ds || this.ds.length === 0) {
+    if (!this.planificari || this.planificari.length === 0) {
       return html`
         <div class="toolbar mb-2">
           <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
@@ -327,7 +323,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.ds.map((item, index) => html`
+        ${this.planificari.map((item, index) => html`
           <div class="planificare-card">
             <div class="card-header">
               <div class="card-header-content">
@@ -362,17 +358,8 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
-    if (!header) return null
-
-    /*
-    .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
+    // Since we now store all the data in planificari, we can directly find the item
+    if (!item) return null
 
     const element = html`
       <div class="card-body">
@@ -388,14 +375,14 @@ class LitwcListaPlanificari extends LitElement {
       </div>
     `
 
-    this.updatePlanificareData(header)
+    this.updatePlanificareData(item)
     return element
   }
 
-  async updatePlanificareData(header) {
+  async updatePlanificareData(item) {
     try {
-      const convertedData = await planificariService.convertPlanificareData(header.linii)
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
+      const convertedData = await planificariService.convertPlanificareData(item.linii)
+      const element = this.querySelector(`#planificare-${item.CCCPLANIFICARI}`)
       if (element) {
         element.data = convertedData
       }
