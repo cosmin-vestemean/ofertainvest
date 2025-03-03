@@ -14,8 +14,6 @@ import { planificariService } from '../services/planificariService.js'
 
 /* global bootstrap */
 
-export let ds_planificareNoua = []
-
 /**
  * LitwcListaPlanificari is a custom web component that extends LitElement.
  * It is responsible for managing and displaying a list of planificari (schedules).
@@ -229,7 +227,7 @@ class LitwcListaPlanificari extends LitElement {
       return
     }
 
-    ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+    let ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
     ds_planificareNoua.forEach((parent) => {
       parent.content.forEach((item) => {
         item.object[_cantitate_planificari] = 0
@@ -248,8 +246,6 @@ class LitwcListaPlanificari extends LitElement {
       subsMask: planificareSubsDisplayMask,
       data: ds_planificareNoua,
       documentHeader: {
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value,
         responsabilPlanificare: document.getElementById('select1').value,
         responsabilExecutie: document.getElementById('select2').value
       },
