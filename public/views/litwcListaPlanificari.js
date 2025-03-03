@@ -304,7 +304,7 @@ class LitwcListaPlanificari extends LitElement {
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
         </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
+        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${async () => await this.loadPlanificari()}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
       </div>
