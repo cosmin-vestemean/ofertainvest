@@ -49,12 +49,14 @@ class ListaPlanificariController {
   }
 
   async loadPlanificari(forceReload = false) {
-    if (!forceReload && this._cache.planificari) {
-      this._updateComponentData()
-      return
-    }
-
+    this._component.isLoading = true
+    
     try {
+      if (!forceReload && this._cache.planificari) {
+        await this._updateComponentData()
+        return
+      }
+
       const result = await planificariService.getPlanificari()
       if (!result.success) {
         throw new Error(result.error || 'Failed to load planificari')
@@ -63,13 +65,15 @@ class ListaPlanificariController {
       // Cache the raw data
       this._cache.planificari = result.data
       
-      // Process and update component
+      // Process data before updating component
       await this._processPlanificariData()
-      this._updateComponentData()
+      await this._updateComponentData()
       
     } catch (error) {
       console.error('Error loading planificari:', error)
-      this._resetComponentData()
+      await this._resetComponentData()
+    } finally {
+      this._component.isLoading = false
     }
   }
 
@@ -104,6 +108,8 @@ class ListaPlanificariController {
     
     this._component.planificari = this._cache.planificari || []
     this._component.processedPlanificari = this._cache.processedPlanificari || {}
+    
+    // Ensure the update is complete before continuing
     this._component.requestUpdate()
     await this._component.updateComplete
   }
