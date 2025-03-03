@@ -6,144 +6,34 @@
 }
 
 .planificare-card {
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid #dee2e6;
   border-radius: 0.25rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  background-color: #fff;
-  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.planificare-card .card-header {
-  background-color: rgba(0, 0, 0, 0.03);
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-}
-
-.planificare-card .card-header-content {
+.card-header {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  flex-grow: 1;
+  width: 100%;
 }
 
-.planificare-card .header-item {
+.header-item {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  align-items: center;
 }
 
-.planificare-card .card-body {
+.card-body {
   padding: 1rem;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.accordion-button:not(.collapsed) {
-  background-color: #e7f1ff;
-  color: #0c63e4;
-}
-
-.accordion-button:focus {
-  box-shadow: none;
-  border-color: rgba(0, 0, 0, 0.125);
-}
-
-.accordion-button::after {
-  margin-left: 8px;
-}
-
-.accordion-body {
-  padding: 1rem;
-  background-color: #fff;
-}
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  background-color: #f8f9fa;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-}
-
-.accordion-item {
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-}
-
-.planificare-container {
-  background-color: #f8f9fa;
-  border-radius: 0.25rem;
-  overflow: hidden;
-}
-
-.planificare-container:last-child {
-  border-bottom: none;
-}
-
-.planificare-header {
-  background-color: rgba(0, 0, 0, 0.02);
-  padding: 0.75rem;
-}
-
-.planificare-info {
-  background-color: rgba(0, 0, 0, 0.03);
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-}
-
-.extend-btn {
-  z-index: 2;
-}
-
-/* Responsive styling */
-@media (max-width: 768px) {
-  .planificare-card .card-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .planificare-card .card-header-content {
-    margin-bottom: 0.5rem;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .planificare-header {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .planificare-header > div {
-    width: 100%;
-  }
-
-  .planificare-info {
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-  }
-  
-  .accordion-button {
-    flex-wrap: wrap;
-    padding: 0.5rem;
-  }
-
-  .extend-btn {
-    margin-top: 0.5rem;
-  }
-}
-
-/* Custom styling for litwc-planificare component */
-litwc-planificare {
-  display: block;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
-  padding: 0.5rem;
 }
