@@ -1,6 +1,6 @@
-import { LitElement, html, contextOferta, client } from '../client.js'
-import { _cantitate_antemasuratori, _cantitate_planificari } from '../utils/def_coloane.js'
-import { ds_antemasuratori, convertDBAntemasuratori } from '../controllers/antemasuratori.js'
+import { LitElement, html, contextOferta } from '../client.js'
+import {_cantitate_planificari } from '../utils/def_coloane.js'
+import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import {
   planificareDisplayMask,
@@ -9,11 +9,10 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
+// Import the new service
+import { planificariService } from '../services/planificariService.js' 
 
 /* global bootstrap */
-
-//await employeesService.loadEmployees()
-//await client.service('getDataset').find({ query: { sqlQuery: ``   } })
 
 export let ds_planificareNoua = []
 
@@ -89,59 +88,18 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     try {
-      const response = await client.service('getDataset').find({
-        query: {
-          sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
-        p.RESPEXEC, p.RESPPLAN,
-        u1.NAME2 as RESPPLAN_NAME, 
-        u2.NAME2 as RESPEXEC_NAME,
-        l.*, a.*, o.*, c.*, 
-        l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori},
-        CONVERT(varchar, l.DATASTART, 103) as DATASTART_X, CONVERT(varchar, l.DATASTOP, 103) as DATASTOP_X
-        FROM CCCPLANIFICARI p
-        LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-        LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
-        inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
-        inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
-        inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
-        inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
-        WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-        ORDER BY p.RESPPLAN, p.RESPEXEC`
-        }
-      })
-
-      if (!response.success) {
-        console.error('Failed to load planificari', response.error)
+      // Use the service instead of direct API call
+      const result = await planificariService.getPlanificari()
+      
+      if (!result.success) {
+        console.error('Failed to load planificari', result.error)
+        this.planificari = []
+        this.ds = []
+        this.renderPlanificari()
         return
       }
-
-      //extract from response.data distinct respplan, respexec from cccplanificari, add the rest details in a separate object named linii
-      // Group by planificare header
-      const grouped = response.data.reduce((acc, row) => {
-        if (!acc[row.CCCPLANIFICARI]) {
-          // Create header entry if it doesn't exist
-          acc[row.CCCPLANIFICARI] = {
-            CCCPLANIFICARI: row.CCCPLANIFICARI,
-            CCCOFERTEWEB: row.CCCOFERTEWEB,
-            RESPEXEC: row.RESPEXEC,
-            RESPPLAN: row.RESPPLAN,
-            RESPPLAN_NAME: row.RESPPLAN_NAME,
-            RESPEXEC_NAME: row.RESPEXEC_NAME,
-            linii: [] // Store detail rows here
-          }
-        }
-
-        // Add detail row if it exists
-        if (row.CCCANTEMASURATORI) {
-          acc[row.CCCPLANIFICARI].linii.push({ ...row })
-        }
-
-        return acc
-      }, {})
-
-      // Convert to array
-      this.planificari = Object.values(grouped)
-
+      
+      this.planificari = result.data
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
@@ -167,7 +125,8 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      const planificareCurenta = await convertDBAntemasuratori(header.linii || [])
+      // Use the service to convert data
+      const planificareCurenta = await planificariService.convertPlanificareData(header.linii)
       console.info('Using cached planificare details:', planificareCurenta)
 
       Object.assign(table, {
@@ -407,7 +366,7 @@ class LitwcListaPlanificari extends LitElement {
 
   async updatePlanificareData(header) {
     try {
-      const convertedData = await convertDBAntemasuratori(header.linii || [])
+      const convertedData = await planificariService.convertPlanificareData(header.linii)
       const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
       if (element) {
         element.data = convertedData
