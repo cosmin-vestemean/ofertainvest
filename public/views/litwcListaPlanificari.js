@@ -16,15 +16,6 @@ import { planificariService } from '../services/planificariService.js'
 
 export let ds_planificareNoua = []
 
-// Add this utility at the top of your file
-function debounce(func, wait) {
-  let timeout;
-  return function(...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
-  };
-}
-
 /**
  * LitwcListaPlanificari is a custom web component that extends LitElement.
  * It is responsible for managing and displaying a list of planificari (schedules).
@@ -45,11 +36,6 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
-    
-    // Create a debounced version of requestUpdate
-    this.debouncedUpdate = debounce(() => {
-      this.requestUpdate();
-    }, 50); // 50ms debounce time
   }
 
   connectedCallback() {
@@ -95,7 +81,7 @@ class LitwcListaPlanificari extends LitElement {
     } finally {
       this.isLoading = false
       this.setupEventListeners()
-      this.debouncedUpdate()
+      this.requestUpdate()
     }
     await this.loadPlanificari()
   }
@@ -103,7 +89,9 @@ class LitwcListaPlanificari extends LitElement {
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
-      this.updatePlanificari([])
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
       return
     }
 
@@ -113,40 +101,25 @@ class LitwcListaPlanificari extends LitElement {
       
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
-        this.updatePlanificari([])
+        this.planificari = []
+        this.ds = []
+        this.renderPlanificari()
         return
       }
       
       this.updatePlanificari(result.data)
     } catch (error) {
       console.error('Error loading planificari:', error)
-      this.updatePlanificari([])
+      this.planificari = []
+      this.ds = []
+      this.renderPlanificari()
     }
   }
 
   updatePlanificari(data) {
-    // Update the data source
     this.planificari = data
-    
-    // Transform the data once for display purposes
-    this.ds = this.planificari.map((p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
-        }
-      })
-      return filtered
-    })
-    
-    // Update the table separately from component rendering
-    const table = tables.my_table7.element
-    if (table) {
-      table.ds = this.ds
-    }
-    
-    // Request update once only
-    this.debouncedUpdate()
+    this.renderPlanificari()
+    // requestUpdate already called inside renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -187,6 +160,22 @@ class LitwcListaPlanificari extends LitElement {
     } catch (error) {
       console.error('Error processing planificare details:', error)
     }
+  }
+
+  renderPlanificari() {
+    const table = tables.my_table7.element
+    this.ds = this.planificari.map((p) => {
+      const filtered = {}
+      Object.keys(listaPlanificariMask).forEach((key) => {
+        if (listaPlanificariMask[key].usefull) {
+          filtered[key] = p[key]
+        }
+      })
+      return filtered
+    })
+
+    table.ds = this.ds
+    this.requestUpdate()
   }
 
   showPlanificareModal() {
