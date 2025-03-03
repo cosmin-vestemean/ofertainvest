@@ -9,8 +9,8 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
-// Import the new service
 import { planificariService } from '../services/planificariService.js' 
+import { listaPlanificariController } from '../controllers/listaPlanificariController.js'
 
 /* global bootstrap */
 
@@ -42,6 +42,9 @@ class LitwcListaPlanificari extends LitElement {
       link.href = '../styles/planificari.css'
       document.head.appendChild(link)
     }
+
+    // Initialize controller
+    listaPlanificariController.init(this)
   }
 
   createRenderRoot() {
@@ -57,79 +60,12 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async firstUpdated() {
-    try {
-      // First check context
-      if (contextOferta?.angajati?.length > 0) {
-        this.angajati = contextOferta.angajati
-      } else {
-        // If not in context, load and cache
-        const employees = await employeesService.loadEmployees()
-        if (employees?.length > 0) {
-          this.angajati = employees
-          // Cache for other components
-          contextOferta.angajati = employees
-        }
-      }
-    } catch (error) {
-      console.error('Failed to load employees:', error)
-      this.angajati = [] // Ensure we have an empty array
-    } finally {
-      this.isLoading = false
-      this.setupEventListeners()
-      this.requestUpdate()
-    }
-    this.loadPlanificari()
+    await listaPlanificariController.loadInitialData()
+    this.setupEventListeners()
   }
 
   async loadPlanificari() {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
-      this.planificari = []
-      this.processedPlanificari = {}
-      this.requestUpdate() // Use requestUpdate instead of renderPlanificari
-      return
-    }
-
-    this.isLoading = true
-    try {
-      // Use the service to get all planificari data
-      const result = await planificariService.getPlanificari()
-      
-      if (!result.success) {
-        console.error('Failed to load planificari', result.error)
-        this.planificari = []
-        this.processedPlanificari = {}
-        this.requestUpdate() // Use requestUpdate instead of renderPlanificari
-        return
-      }
-      
-      // Process and transform data for display
-      this.planificari = result.data.map(p => {
-        // Add display-friendly properties based on the mask
-        const displayItem = { ...p }
-        Object.keys(listaPlanificariMask).forEach(key => {
-          if (listaPlanificariMask[key].usefull) {
-            displayItem[key] = p[key]
-          }
-        })
-        return displayItem
-      })
-      
-      // Pre-process all planificare details
-      await this.preprocessAllPlanificariDetails();
-      
-      console.info('Loaded planificari:', this.planificari)
-      
-      // No need to call a separate render function, just trigger an update
-    } catch (error) {
-      console.error('Error loading planificari:', error)
-      this.planificari = []
-      this.processedPlanificari = {}
-    } finally {
-      this.isLoading = false
-      await this.updateComplete
-      this.requestUpdate()
-    }
+    await listaPlanificariController.reload()
   }
 
   async preprocessAllPlanificariDetails() {
