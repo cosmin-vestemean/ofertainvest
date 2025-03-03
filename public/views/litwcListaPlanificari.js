@@ -16,6 +16,11 @@ import { planificariService } from '../services/planificariService.js'
 
 export let ds_planificareNoua = []
 
+/**
+ * LitwcListaPlanificari is a custom web component that extends LitElement.
+ * It is responsible for managing and displaying a list of planificari (schedules).
+ * The component handles loading, rendering, and interacting with planificari data.
+ */
 class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
@@ -31,7 +36,10 @@ class LitwcListaPlanificari extends LitElement {
     this.modal = null
     this.planificari = []
     this.ds = []
+  }
 
+  connectedCallback() {
+    super.connectedCallback()
     // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
       const link = document.createElement('link')
