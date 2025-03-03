@@ -119,6 +119,7 @@ class LitwcListaPlanificari extends LitElement {
   updatePlanificari(data) {
     this.planificari = data
     this.renderPlanificari()
+    // requestUpdate already called inside renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -174,6 +175,7 @@ class LitwcListaPlanificari extends LitElement {
     })
 
     table.ds = this.ds
+    this.requestUpdate()
   }
 
   showPlanificareModal() {
@@ -297,6 +299,21 @@ class LitwcListaPlanificari extends LitElement {
       return html`<div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>`
+    }
+
+    if (!this.ds || this.ds.length === 0) {
+      return html`
+        <div class="toolbar mb-2">
+          <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
+            Adauga planificare
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm me-2" @click="${async () => await this.loadPlanificari()}">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+          </button>
+        </div>
+        <div class="alert alert-info">No planificari available. Click "Adauga planificare" to create one.</div>
+        ${this.renderModal()}
+      `
     }
 
     return html`
