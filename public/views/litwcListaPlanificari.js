@@ -79,58 +79,86 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
-    await this.loadPlanificari()
+    
+    // Wait for component to be fully rendered before loading planificari
+    setTimeout(() => this.loadPlanificari(), 0)
   }
 
   async loadPlanificari() {
+    console.log('Loading planificari, context:', contextOferta?.CCCOFERTEWEB)
+    this.isLoading = true
+    this.requestUpdate()
+    
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
+      this.isLoading = false
       this.requestUpdate();
       return
     }
 
     try {
       // Use the service instead of direct API call
+      console.log('Fetching planificari data from service')
       const result = await planificariService.getPlanificari()
       
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
+        this.isLoading = false
         this.requestUpdate();
         return
       }
       
+      console.log('Planificari data received:', result.data.length)
       // Process all planificari data immediately
       await this.updatePlanificari(result.data)
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
+    } finally {
+      this.isLoading = false
       this.requestUpdate();
     }
   }
 
   async updatePlanificari(data) {
-    // Process and convert details data up front for all planificari
-    this.planificari = await Promise.all(data.map(async (p) => {
-      const filtered = {}
-      Object.keys(listaPlanificariMask).forEach((key) => {
-        if (listaPlanificariMask[key].usefull) {
-          filtered[key] = p[key]
+    console.log('Processing planificari data, entries:', data.length)
+    
+    if (!data || data.length === 0) {
+      console.warn('No planificari data to process')
+      this.planificari = []
+      return
+    }
+    
+    try {
+      // Process and convert details data up front for all planificari
+      this.planificari = await Promise.all(data.map(async (p) => {
+        const filtered = {}
+        Object.keys(listaPlanificariMask).forEach((key) => {
+          if (listaPlanificariMask[key].usefull) {
+            filtered[key] = p[key]
+          }
+        })
+        
+        // Pre-process the details data for immediate rendering
+        const detailsData = await planificariService.convertPlanificareData(p.linii)
+        console.log(`Processed planificare ${p.CCCPLANIFICARI} with ${p.linii?.length || 0} lines`)
+        
+        // Return a complete object with header info and processed details
+        return { 
+          ...filtered, 
+          CCCPLANIFICARI: p.CCCPLANIFICARI,
+          linii: p.linii,
+          processedDetails: detailsData  // Store the processed details
         }
-      })
+      }));
       
-      // Pre-process the details data for immediate rendering
-      const detailsData = await planificariService.convertPlanificareData(p.linii)
-      
-      // Return a complete object with header info and processed details
-      return { 
-        ...filtered, 
-        CCCPLANIFICARI: p.CCCPLANIFICARI,
-        linii: p.linii,
-        processedDetails: detailsData  // Store the processed details
-      }
-    }));
+      console.log('All planificari processed, total:', this.planificari.length)
+    } catch (error) {
+      console.error('Error in updatePlanificari:', error)
+      this.planificari = []
+    }
     
     this.requestUpdate();
   }
@@ -361,7 +389,10 @@ class LitwcListaPlanificari extends LitElement {
   renderPlanificareDetails(item) {
     // Since we now have pre-processed data, we can use it directly
     if (!item) return null
-
+    
+    const details = item.processedDetails || []
+    console.log(`Rendering planificare ${item.CCCPLANIFICARI} details:`, details.length)
+    
     return html`
       <div class="card-body">
         <litwc-planificare
@@ -371,7 +402,7 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${item.processedDetails || []}
+          .data=${details}
         ></litwc-planificare>
       </div>
     `
