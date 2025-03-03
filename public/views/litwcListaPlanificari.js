@@ -328,21 +328,25 @@ class LitwcListaPlanificari extends LitElement {
         ${Object.entries(groupedPlanificari).map(([groupKey, group], groupIndex) => html`
           <div class="accordion-item mb-3">
             <h2 class="accordion-header" id="heading-${groupIndex}">
-              <button class="accordion-button collapsed" 
+              <button class="accordion-button collapsed d-flex justify-content-between" 
                       type="button" 
                       data-bs-toggle="collapse" 
                       data-bs-target="#collapse-${groupIndex}" 
                       aria-expanded="false" 
                       aria-controls="collapse-${groupIndex}">
-                <div class="d-flex justify-content-between w-100 align-items-center">
-                  <div>
-                    <strong>Responsabil planificare:</strong> ${group.responsabilName} | 
-                    <strong>Responsabil execuție:</strong> ${group.executantName}
-                  </div>
-                  <div class="ms-2">
-                    <div class="badge bg-primary rounded-pill">${group.items.length}</div>
-                  </div>
+                <div class="flex-grow-1">
+                  <strong>Responsabil planificare:</strong> ${group.responsabilName} | 
+                  <strong>Responsabil execuție:</strong> ${group.executantName}
                 </div>
+                ${group.items.length === 1 ? html`
+                  <button type="button" class="btn btn-sm btn-outline-primary ms-2 extend-btn" 
+                    @click="${(e) => {
+                      e.stopPropagation();
+                      this.openPlanificare(group.items[0].CCCPLANIFICARI, tables.tablePlanificareCurenta.element);
+                    }}">
+                    <i class="bi bi-arrows-fullscreen"></i> Extinde
+                  </button>
+                ` : ''}
               </button>
             </h2>
             <div id="collapse-${groupIndex}" 
@@ -351,27 +355,29 @@ class LitwcListaPlanificari extends LitElement {
               <div class="accordion-body">
                 ${group.items.map((planificare, itemIndex) => html`
                   <div class="planificare-container mb-3 ${itemIndex < group.items.length - 1 ? 'border-bottom pb-3' : ''}">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                      <div class="planificare-info d-flex flex-wrap gap-3">
-                        ${Object.entries(listaPlanificariMask)
-                          .filter(([_, props]) => props.visible)
-                          .map(([key, props]) => html`
-                            <div class="d-flex align-items-center gap-1">
-                              <span class="text-muted small">${props.label}:</span>
-                              ${key === 'LOCKED' 
-                                ? html`<i class="bi ${planificare[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                                : props.type === 'datetime'
-                                  ? html`<span class="fw-bold">${new Date(planificare[key]).toLocaleDateString()}</span>`
-                                  : html`<span class="fw-bold">${planificare[key]}</span>`
-                              }
-                            </div>
-                          `)}
+                    ${group.items.length > 1 ? html`
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="small text-muted">
+                          ${Object.entries(listaPlanificariMask)
+                            .filter(([_, props]) => props.visible)
+                            .map(([key, props]) => html`
+                              <span class="me-3">
+                                <strong>${props.label}:</strong>
+                                ${key === 'LOCKED' 
+                                  ? html`<i class="bi ${planificare[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
+                                  : props.type === 'datetime'
+                                    ? html`${new Date(planificare[key]).toLocaleDateString()}`
+                                    : html`${planificare[key]}`
+                                }
+                              </span>
+                            `)}
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" 
+                          @click="${() => this.openPlanificare(planificare.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
+                          <i class="bi bi-arrows-fullscreen"></i> Extinde
+                        </button>
                       </div>
-                      <button type="button" class="btn btn-sm btn-outline-primary" 
-                        @click="${() => this.openPlanificare(planificare.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
-                        <i class="bi bi-arrows-fullscreen"></i> Extinde
-                      </button>
-                    </div>
+                    ` : ''}
                     
                     <litwc-planificare
                       id="planificare-${planificare.CCCPLANIFICARI}-${groupIndex}"

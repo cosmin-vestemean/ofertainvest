@@ -48,6 +48,10 @@
   border-color: rgba(0, 0, 0, 0.125);
 }
 
+.accordion-button::after {
+  margin-left: 8px;
+}
+
 .accordion-body {
   padding: 1rem;
   background-color: #fff;
@@ -91,6 +95,10 @@
   border-radius: 0.25rem;
 }
 
+.extend-btn {
+  z-index: 2;
+}
+
 /* Responsive styling */
 @media (max-width: 768px) {
   .planificare-card .card-header {
@@ -121,6 +129,11 @@
   
   .accordion-button {
     flex-wrap: wrap;
+    padding: 0.5rem;
+  }
+
+  .extend-btn {
+    margin-top: 0.5rem;
   }
 }
 
