@@ -325,7 +325,7 @@ class LitwcListaPlanificari extends LitElement {
             <div class="card-header">
               <div class="card-header-content">
                 <div class="header-item m-2">
-                  <span class="text-primary">#${index + 1}</span>
+                  <span class="text-info">#${index + 1}</span>
                 </div>
                 ${Object.entries(listaPlanificariMask)
                   .filter(([_, props]) => props.visible)
