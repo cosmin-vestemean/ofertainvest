@@ -83,7 +83,7 @@ class LitwcListaPlanificari extends LitElement {
       this.setupEventListeners()
       this.requestUpdate()
     }
-    this.loadPlanificari()
+    await this.loadPlanificari()
   }
 
   async loadPlanificari() {
@@ -107,15 +107,18 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
       
-      this.planificari = result.data
-      console.info('Loaded planificari:', this.planificari)
-      this.renderPlanificari()
+      this.updatePlanificari(result.data)
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
       this.ds = []
       this.renderPlanificari()
     }
+  }
+
+  updatePlanificari(data) {
+    this.planificari = data
+    this.renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
