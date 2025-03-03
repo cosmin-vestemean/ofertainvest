@@ -83,7 +83,7 @@ class LitwcListaPlanificari extends LitElement {
 
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
+      this.showToast('Nu există o ofertă validă selectată', 'warning')
       this.planificari = []
       this.processedPlanificari = {}
       this.requestUpdate() // Use requestUpdate instead of renderPlanificari
@@ -96,7 +96,7 @@ class LitwcListaPlanificari extends LitElement {
       const result = await planificariService.getPlanificari()
       
       if (!result.success) {
-        console.error('Failed to load planificari', result.error)
+        this.showToast('Eroare la încărcarea planificărilor', 'danger')
         this.planificari = []
         this.processedPlanificari = {}
         this.requestUpdate() // Use requestUpdate instead of renderPlanificari
@@ -121,8 +121,9 @@ class LitwcListaPlanificari extends LitElement {
       console.info('Loaded planificari:', this.planificari)
       
       // No need to call a separate render function, just trigger an update
+      this.showToast('Planificările au fost încărcate cu succes', 'success')
     } catch (error) {
-      console.error('Error loading planificari:', error)
+      this.showToast('Eroare la încărcarea planificărilor: ' + error.message, 'danger')
       this.planificari = []
       this.processedPlanificari = {}
     } finally {
@@ -133,24 +134,29 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async preprocessAllPlanificariDetails() {
-    // Process all planificari data in parallel
-    const processingPromises = this.planificari.map(async header => {
-      try {
-        const convertedData = await planificariService.convertPlanificareData(header.linii);
-        this.processedPlanificari[header.CCCPLANIFICARI] = convertedData;
-      } catch (error) {
-        console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error);
-        this.processedPlanificari[header.CCCPLANIFICARI] = [];
-      }
-    });
+    try {
+      // Process all planificari data in parallel
+      const processingPromises = this.planificari.map(async header => {
+        try {
+          const convertedData = await planificariService.convertPlanificareData(header.linii);
+          this.processedPlanificari[header.CCCPLANIFICARI] = convertedData;
+        } catch (error) {
+          console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error);
+          this.processedPlanificari[header.CCCPLANIFICARI] = [];
+        }
+      });
 
-    // Wait for all processing to complete
-    await Promise.all(processingPromises);
+      // Wait for all processing to complete
+      await Promise.all(processingPromises);
+      this.showToast('Datele au fost procesate cu succes', 'success')
+    } catch (error) {
+      this.showToast('Eroare la procesarea datelor: ' + error.message, 'danger')
+    }
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
     if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
+      this.showToast('Nu există o ofertă validă selectată', 'warning')
       return
     }
 
@@ -183,8 +189,9 @@ class LitwcListaPlanificari extends LitElement {
       })
 
       if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
+      this.showToast('Planificare deschisă cu succes', 'success')
     } catch (error) {
-      console.error('Error processing planificare details:', error)
+      this.showToast('Eroare la deschiderea planificării: ' + error.message, 'danger')
     }
   }
 
@@ -216,44 +223,52 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   handlePlanificareNoua() {
-    if (!this.validateDates()) return
+    if (!this.validateDates()) {
+      this.showToast('Vă rugăm să selectați datele corect', 'warning')
+      return
+    }
     if (!ds_antemasuratori?.length) {
-      console.warn('No antemasuratori available')
+      this.showToast('Nu există antemăsurători disponibile', 'warning')
       return
     }
 
     if (!contextOferta?.CCCOFERTEWEB) {
-      alert('Nu există o ofertă validă selectată')
+      this.showToast('Nu există o ofertă validă selectată', 'warning')
       return
     }
 
-    let ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach((parent) => {
-      parent.content.forEach((item) => {
-        item.object[_cantitate_planificari] = 0
-        item.children?.forEach((child) => {
-          child.object[_cantitate_planificari] = 0
+    try {
+      let ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+      ds_planificareNoua.forEach((parent) => {
+        parent.content.forEach((item) => {
+          item.object[_cantitate_planificari] = 0
+          item.children?.forEach((child) => {
+            child.object[_cantitate_planificari] = 0
+          })
         })
       })
-    })
 
-    const table = tables.tablePlanificareCurenta.element
-    Object.assign(table, {
-      hasMainHeader: true,
-      hasSubHeader: false,
-      canAddInLine: true,
-      mainMask: planificareDisplayMask,
-      subsMask: planificareSubsDisplayMask,
-      data: ds_planificareNoua,
-      documentHeader: {
-        responsabilPlanificare: document.getElementById('select1').value,
-        responsabilExecutie: document.getElementById('select2').value
-      },
-      documentHeaderMask: planificareHeaderMask
-    })
+      const table = tables.tablePlanificareCurenta.element
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: ds_planificareNoua,
+        documentHeader: {
+          responsabilPlanificare: document.getElementById('select1').value,
+          responsabilExecutie: document.getElementById('select2').value
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
 
-    tables.hideAllBut([tables.tablePlanificareCurenta])
-    this.modal?.hide()
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+      this.modal?.hide()
+      this.showToast('Planificare nouă creată cu succes', 'success')
+    } catch (error) {
+      this.showToast('Eroare la crearea planificării: ' + error.message, 'danger')
+    }
   }
 
   renderEmployeeSelect(id, label) {
@@ -302,6 +317,30 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
+  showToast(message, type = 'info') {
+    const toastEl = document.createElement('div')
+    toastEl.className = `toast align-items-center text-white bg-${type} border-0`
+    toastEl.setAttribute('role', 'alert')
+    toastEl.setAttribute('aria-live', 'assertive')
+    toastEl.setAttribute('aria-atomic', 'true')
+    
+    toastEl.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">
+          ${message}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    `
+    
+    this.querySelector('#toast-container').appendChild(toastEl)
+    const toast = new bootstrap.Toast(toastEl)
+    toast.show()
+    
+    // Remove toast after it's hidden
+    toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove())
+  }
+
   render() {
     if (this.isLoading) {
       return html`<div class="spinner-border text-primary" role="status">
@@ -310,6 +349,8 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     return html`
+      <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+      
       <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
