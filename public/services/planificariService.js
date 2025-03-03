@@ -2,24 +2,13 @@ import { client, contextOferta } from '../client.js'
 import { _cantitate_antemasuratori, _cantitate_planificari } from '../utils/def_coloane.js'
 import { convertDBAntemasuratori } from '../controllers/antemasuratori.js'
 
-// Cache for planificari data
-let cachedPlanificari = null
-let lastLoadContext = null
-
 export const planificariService = {
-  async getPlanificari(forceRefresh = false) {
+  async getPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       return { success: false, data: [] }
     }
-    
-    // Use cached data if available and context hasn't changed
-    if (!forceRefresh && cachedPlanificari && lastLoadContext === contextOferta.CCCOFERTEWEB) {
-      console.log('Using cached planificari data')
-      return { success: true, data: cachedPlanificari }
-    }
 
-    console.log('Fetching fresh planificari data from database')
     try {
       const response = await client.service('getDataset').find({
         query: {
@@ -42,21 +31,12 @@ export const planificariService = {
         }
       })
 
-      if (!response.success || !response.data) {
-        console.error('Database query failed:', response.error)
+      if (!response.success) {
         return { success: false, data: [], error: response.error }
       }
 
-      console.log(`Raw data received, ${response.data.length} rows`)
-      
       // Process the data
       const grouped = this.processResponseData(response.data)
-      console.log(`Processed into ${grouped.length} planificari`)
-      
-      // Cache the results
-      cachedPlanificari = grouped
-      lastLoadContext = contextOferta.CCCOFERTEWEB
-      
       return { success: true, data: grouped }
     } catch (error) {
       console.error('Error in getPlanificari:', error)
@@ -65,10 +45,6 @@ export const planificariService = {
   },
 
   processResponseData(data) {
-    if (!data || data.length === 0) {
-      return []
-    }
-    
     // Group by planificare header
     const grouped = data.reduce((acc, row) => {
       if (!acc[row.CCCPLANIFICARI]) {
@@ -102,17 +78,10 @@ export const planificariService = {
     }
     
     try {
-      const result = await convertDBAntemasuratori(linii || [])
-      return result
+      return await convertDBAntemasuratori(linii || [])
     } catch (error) {
       console.error('Error converting planificare data:', error)
       return []
     }
-  },
-  
-  clearCache() {
-    cachedPlanificari = null
-    lastLoadContext = null
-    console.log('Planificari cache cleared')
   }
 }
