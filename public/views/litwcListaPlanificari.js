@@ -129,6 +129,7 @@ class LitwcListaPlanificari extends LitElement {
       this.processedPlanificari = {}
     } finally {
       this.isLoading = false
+      await this.updateComplete
       this.requestUpdate()
     }
   }
