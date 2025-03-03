@@ -292,10 +292,25 @@ class LitwcListaPlanificari extends LitElement {
 
   renderPlanificareDetails(item) {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
-    if (!header) return null
+    if (!header) {
+      console.warn('No header found for planificare:', item.CCCPLANIFICARI)
+      return null
+    }
 
     // Use the pre-processed data
-    const planificareData = this.processedPlanificari[item.CCCPLANIFICARI] || []
+    const planificareData = this.processedPlanificari[item.CCCPLANIFICARI]
+    
+    // Debug log
+    console.log('Rendering planificare details:', {
+      CCCPLANIFICARI: item.CCCPLANIFICARI,
+      hasData: !!planificareData,
+      dataLength: planificareData?.length
+    })
+
+    if (!planificareData || planificareData.length === 0) {
+      console.warn('No processed data for planificare:', item.CCCPLANIFICARI)
+      return html`<div class="alert alert-warning">Processing data...</div>`
+    }
 
     return html`
       <div class="card-body">

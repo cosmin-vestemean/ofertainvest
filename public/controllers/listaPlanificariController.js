@@ -67,6 +67,14 @@ class ListaPlanificariController {
       
       // Process data before updating component
       await this._processPlanificariData()
+      
+      // Debug logs
+      console.log('Processed data:', {
+        planificari: this._cache.planificari,
+        processedData: this._cache.processedPlanificari
+      })
+
+      // Wait for component update to complete
       await this._updateComponentData()
       
     } catch (error) {
@@ -89,11 +97,15 @@ class ListaPlanificariController {
   async _processPlanificariData() {
     if (!this._cache.planificari) return
 
+    this._cache.processedPlanificari = {}
+    
     // Process all planificari data in parallel
     const processingPromises = this._cache.planificari.map(async header => {
       try {
-        this._cache.processedPlanificari[header.CCCPLANIFICARI] = 
-          await planificariService.convertPlanificareData(header.linii)
+        const convertedData = await planificariService.convertPlanificareData(header.linii)
+        if (convertedData && convertedData.length > 0) {
+          this._cache.processedPlanificari[header.CCCPLANIFICARI] = convertedData
+        }
       } catch (error) {
         console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error)
         this._cache.processedPlanificari[header.CCCPLANIFICARI] = []
@@ -112,6 +124,12 @@ class ListaPlanificariController {
     // Ensure the update is complete before continuing
     this._component.requestUpdate()
     await this._component.updateComplete
+
+    // Debug log after update
+    console.log('Component updated with:', {
+      planificari: this._component.planificari,
+      processedPlanificari: this._component.processedPlanificari
+    })
   }
 
   async _resetComponentData() {
