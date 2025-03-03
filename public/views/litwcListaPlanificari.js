@@ -88,7 +88,7 @@ class LitwcListaPlanificari extends LitElement {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
-      this.renderPlanificari()
+      this.requestUpdate();
       return
     }
 
@@ -99,7 +99,7 @@ class LitwcListaPlanificari extends LitElement {
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
-        this.renderPlanificari()
+        this.requestUpdate();
         return
       }
       
@@ -107,7 +107,7 @@ class LitwcListaPlanificari extends LitElement {
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
-      this.renderPlanificari()
+      this.requestUpdate();
     }
   }
 
@@ -124,7 +124,7 @@ class LitwcListaPlanificari extends LitElement {
       return { ...filtered, linii: p.linii, CCCPLANIFICARI: p.CCCPLANIFICARI }
     });
     
-    this.renderPlanificari()
+    this.requestUpdate();
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -165,13 +165,6 @@ class LitwcListaPlanificari extends LitElement {
     } catch (error) {
       console.error('Error processing planificare details:', error)
     }
-  }
-
-  renderPlanificari() {
-    const table = tables.my_table7.element
-    // Simply assign the already filtered planificari to the table's data source
-    table.ds = this.planificari
-    this.requestUpdate()
   }
 
   showPlanificareModal() {
