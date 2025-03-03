@@ -102,7 +102,6 @@ class LitwcListaPlanificari extends LitElement {
       }
       
       this.updatePlanificari(result.data)
-      await this.updateComplete
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
@@ -315,7 +314,7 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.planificari.map((item, index) => html`
+        ${this.planificari.map(async (item, index) => html`
           <div class="planificare-card">
             <div class="card-header">
               <div class="card-header-content">
@@ -341,7 +340,7 @@ class LitwcListaPlanificari extends LitElement {
                 <i class="bi bi-arrows-fullscreen"></i>
               </button>
             </div>
-            ${this.renderPlanificareDetails(item)}
+            ${await this.renderPlanificareDetails(item)}
           </div>
         `)}
       </div>
@@ -349,11 +348,13 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  renderPlanificareDetails(item) {
-    // Since we now store all the data in planificari, we can directly find the item
+  async renderPlanificareDetails(item) {
     if (!item) return null
 
-    const element = html`
+    // Convert data before rendering
+    const convertedData = await planificariService.convertPlanificareData(item.linii)
+
+    return html`
       <div class="card-body">
         <litwc-planificare
           id="planificare-${item.CCCPLANIFICARI}"
@@ -362,25 +363,10 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${[]}
+          .data=${convertedData}
         ></litwc-planificare>
       </div>
     `
-
-    this.updatePlanificareData(item)
-    return element
-  }
-
-  async updatePlanificareData(item) {
-    try {
-      const convertedData = await planificariService.convertPlanificareData(item.linii)
-      const element = this.querySelector(`#planificare-${item.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-    }
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
