@@ -2825,15 +2825,6 @@ export function showRecipesList(data) {
 
 export function showHideHeader() {
   theadIsSet = !theadIsSet
-  console.log('theadIsSet', theadIsSet)
-  let btn_showHideHeader = document.getElementById('btn_showHideHeader')
-  if (theadIsSet) {
-    btn_showHideHeader.classList.remove('btn-secondary')
-    btn_showHideHeader.classList.add('btn-primary')
-  } else {
-    btn_showHideHeader.classList.remove('btn-primary')
-    btn_showHideHeader.classList.add('btn-secondary')
-  }
 }
 
 //create a <recipe> element
