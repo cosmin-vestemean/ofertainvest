@@ -318,37 +318,40 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   showToast(message, type = 'info') {
-    let toastContainer = this.querySelector('#toast-container')
-    
-    // Create toast container if it doesn't exist
-    if (!toastContainer) {
-      toastContainer = document.createElement('div')
-      toastContainer.id = 'toast-container'
-      toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
-      this.appendChild(toastContainer)
-    }
-
-    const toastEl = document.createElement('div')
-    toastEl.className = `toast align-items-center text-white bg-${type} border-0`
-    toastEl.setAttribute('role', 'alert')
-    toastEl.setAttribute('aria-live', 'assertive')
-    toastEl.setAttribute('aria-atomic', 'true')
-    
-    toastEl.innerHTML = `
-      <div class="d-flex">
-        <div class="toast-body">
-          ${message}
+    // Wait for DOM to be ready
+    requestAnimationFrame(() => {
+      let toastContainer = this.querySelector('#toast-container')
+      
+      // Create toast container if it doesn't exist
+      if (!toastContainer) {
+        toastContainer = document.createElement('div')
+        toastContainer.id = 'toast-container'
+        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
+        this.appendChild(toastContainer)
+      }
+  
+      const toastEl = document.createElement('div')
+      toastEl.className = `toast align-items-center text-white bg-${type} border-0`
+      toastEl.setAttribute('role', 'alert')
+      toastEl.setAttribute('aria-live', 'assertive')
+      toastEl.setAttribute('aria-atomic', 'true')
+      
+      toastEl.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            ${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-      </div>
-    `
-    
-    toastContainer.appendChild(toastEl)
-    const toast = new bootstrap.Toast(toastEl)
-    toast.show()
-    
-    // Remove toast after it's hidden
-    toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove())
+      `
+      
+      toastContainer.appendChild(toastEl)
+      const toast = new bootstrap.Toast(toastEl)
+      toast.show()
+      
+      // Remove toast after it's hidden
+      toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove())
+    })
   }
 
   render() {
