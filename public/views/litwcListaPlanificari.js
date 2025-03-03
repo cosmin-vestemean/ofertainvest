@@ -27,6 +27,7 @@ class LitwcListaPlanificari extends LitElement {
     isLoading: { type: Boolean },
     planificari: { type: Array },
     ds: { type: Array }
+    this.setupEventListeners()
   }
 
   constructor() {
@@ -89,33 +90,90 @@ class LitwcListaPlanificari extends LitElement {
   async loadPlanificari() {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
-      this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
+      this.resetPlanificari()
       return
     }
 
     try {
-      // Use the service instead of direct API call
-      const result = await planificariService.getPlanificari()
+      // Set loading state
+      this.isLoading = true;
+      this.requestUpdate();
+      
+      const result = await planificariService.getPlanificari();
       
       if (!result.success) {
-        console.error('Failed to load planificari', result.error)
-        this.planificari = []
-        this.ds = []
-        this.renderPlanificari()
-        return
+        console.error('Failed to load planificari', result.error);
+        // Add user feedback for error
+        this.showNotification('Error loading planificari data', 'error');
+        this.resetPlanificari();
+        return;
       }
       
-      this.planificari = result.data
-      console.info('Loaded planificari:', this.planificari)
-      this.renderPlanificari()
+      this.planificari = result.data;
+      console.info(`Loaded ${this.planificari.length} planificari`);
+      
+      // Add success notification for better UX
+      if (this.planificari.length === 0) {
+        this.showNotification('No planificari available', 'info');
+      } else {
+        this.showNotification(`Loaded ${this.planificari.length} planificari`, 'success');
+      }
+      
+      this.renderPlanificari();
     } catch (error) {
-      console.error('Error loading planificari:', error)
-      this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
+      console.error('Error loading planificari:', error);
+      this.showNotification('Failed to load data. Please try again.', 'error');
+      this.resetPlanificari();
+    } finally {
+      // Reset loading state
+      this.isLoading = false;
+      this.requestUpdate();
     }
+  }
+
+  // Helper method for notifications
+  showNotification(message, type = 'info') {
+    // Implement notification system based on your UI framework
+    // For example, using a toast notification library or custom element
+    
+    // Simple implementation using bootstrap toast (if available)
+    const toastContainer = document.getElementById('toast-container') || this.createToastContainer();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-white bg-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} border-0`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+    
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Initialize and show the toast
+    if (typeof bootstrap !== 'undefined') {
+      const bsToast = new bootstrap.Toast(toast);
+      bsToast.show();
+    }
+  }
+
+  // Helper to create toast container if it doesn't exist
+  createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+    document.body.appendChild(container);
+    return container;
+  }
+  
+  resetPlanificari() {
+    this.planificari = []
+    this.ds = []
+    this.renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
