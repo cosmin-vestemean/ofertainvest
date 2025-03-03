@@ -25,7 +25,8 @@ class LitwcListaPlanificari extends LitElement {
   static properties = {
     angajati: { type: Array },
     isLoading: { type: Boolean },
-    planificari: { type: Array }
+    planificari: { type: Array },
+    processedPlanificari: { type: Object }
   }
 
   constructor() {
@@ -34,6 +35,7 @@ class LitwcListaPlanificari extends LitElement {
     this.isLoading = true
     this.modal = null
     this.planificari = []
+    this.processedPlanificari = {} // Store processed data by CCCPLANIFICARI
 
     // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
@@ -85,17 +87,20 @@ class LitwcListaPlanificari extends LitElement {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       this.planificari = []
+      this.processedPlanificari = {}
       this.renderPlanificari()
       return
     }
 
+    this.isLoading = true
     try {
-      // Use the service instead of direct API call
+      // Use the service to get all planificari data
       const result = await planificariService.getPlanificari()
       
       if (!result.success) {
         console.error('Failed to load planificari', result.error)
         this.planificari = []
+        this.processedPlanificari = {}
         this.renderPlanificari()
         return
       }
@@ -112,13 +117,35 @@ class LitwcListaPlanificari extends LitElement {
         return displayItem
       })
       
+      // Pre-process all planificare details
+      await this.preprocessAllPlanificariDetails();
+      
       console.info('Loaded planificari:', this.planificari)
       this.renderPlanificari()
     } catch (error) {
       console.error('Error loading planificari:', error)
       this.planificari = []
-      this.renderPlanificari()
+      this.processedPlanificari = {}
+    } finally {
+      this.isLoading = false
+      this.requestUpdate()
     }
+  }
+
+  async preprocessAllPlanificariDetails() {
+    // Process all planificari data in parallel
+    const processingPromises = this.planificari.map(async header => {
+      try {
+        const convertedData = await planificariService.convertPlanificareData(header.linii);
+        this.processedPlanificari[header.CCCPLANIFICARI] = convertedData;
+      } catch (error) {
+        console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error);
+        this.processedPlanificari[header.CCCPLANIFICARI] = [];
+      }
+    });
+
+    // Wait for all processing to complete
+    await Promise.all(processingPromises);
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -136,8 +163,8 @@ class LitwcListaPlanificari extends LitElement {
         return
       }
 
-      // Use the service to convert data
-      const planificareCurenta = await planificariService.convertPlanificareData(header.linii)
+      // Use pre-processed data instead of fetching again
+      const planificareCurenta = this.processedPlanificari[id] || []
       console.info('Using cached planificare details:', planificareCurenta)
 
       Object.assign(table, {
@@ -338,16 +365,10 @@ class LitwcListaPlanificari extends LitElement {
     const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
-    /*
-    .documentHeader=${{
-            responsabilPlanificare: header.RESPPLAN,
-            responsabilExecutie: header.RESPEXEC,
-            id: header.CCCPLANIFICARI
-          }}
-    .documentHeaderMask=${planificareHeaderMask}
-    */
+    // Use the pre-processed data
+    const planificareData = this.processedPlanificari[item.CCCPLANIFICARI] || []
 
-    const element = html`
+    return html`
       <div class="card-body">
         <litwc-planificare
           id="planificare-${item.CCCPLANIFICARI}"
@@ -356,25 +377,16 @@ class LitwcListaPlanificari extends LitElement {
           .canAddInLine=${true}
           .mainMask=${planificareDisplayMask}
           .subsMask=${planificareSubsDisplayMask}
-          .data=${[]}
+          .data=${planificareData}
+          .documentHeader=${{
+            responsabilPlanificare: header.RESPPLAN,
+            responsabilExecutie: header.RESPEXEC,
+            id: header.CCCPLANIFICARI
+          }}
+          .documentHeaderMask=${planificareHeaderMask}
         ></litwc-planificare>
       </div>
     `
-
-    this.updatePlanificareData(header)
-    return element
-  }
-
-  async updatePlanificareData(header) {
-    try {
-      const convertedData = await planificariService.convertPlanificareData(header.linii)
-      const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
-      if (element) {
-        element.data = convertedData
-      }
-    } catch (error) {
-      console.error('Error converting planificare data:', error)
-    }
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
