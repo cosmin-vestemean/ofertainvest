@@ -49,7 +49,8 @@
 }
 
 .accordion-body {
-  padding: 0;
+  padding: 1rem;
+  background-color: #fff;
 }
 
 .toolbar {
@@ -70,7 +71,9 @@
 }
 
 .planificare-container {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 .planificare-container:last-child {
@@ -80,6 +83,12 @@
 .planificare-header {
   background-color: rgba(0, 0, 0, 0.02);
   padding: 0.75rem;
+}
+
+.planificare-info {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 /* Responsive styling */
@@ -103,13 +112,25 @@
   .planificare-header > div {
     width: 100%;
   }
+
+  .planificare-info {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  
+  .accordion-button {
+    flex-wrap: wrap;
+  }
 }
 
 /* Custom styling for litwc-planificare component */
 litwc-planificare {
   display: block;
-  padding: 0.5rem;
   max-height: 300px;
   overflow-y: auto;
   background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
 }
