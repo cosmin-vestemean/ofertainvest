@@ -1,6 +1,5 @@
 import { LitElement, html, contextOferta } from '../client.js'
-import {_cantitate_planificari } from '../utils/def_coloane.js'
-import { ds_antemasuratori } from '../controllers/antemasuratori.js'
+import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { tables } from '../utils/tables.js'
 import {
   planificareDisplayMask,
@@ -9,8 +8,7 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
-// Import the new service
-import { planificariService } from '../services/planificariService.js' 
+import { planificariController } from '../controllers/planificariController.js'
 
 /* global bootstrap */
 
@@ -79,35 +77,17 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   async loadPlanificari() {
-    if (!contextOferta?.CCCOFERTEWEB) {
-      console.warn('No valid CCCOFERTEWEB found')
-      this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
-      return
-    }
-
-    try {
-      // Use the service instead of direct API call
-      const result = await planificariService.getPlanificari()
-      
-      if (!result.success) {
-        console.error('Failed to load planificari', result.error)
-        this.planificari = []
-        this.ds = []
-        this.renderPlanificari()
-        return
-      }
-      
+    // Use the controller instead
+    const result = await planificariController.loadPlanificari()
+    
+    if (result.success) {
       this.planificari = result.data
-      console.info('Loaded planificari:', this.planificari)
-      this.renderPlanificari()
-    } catch (error) {
-      console.error('Error loading planificari:', error)
+    } else {
       this.planificari = []
-      this.ds = []
-      this.renderPlanificari()
     }
+    
+    this.ds = []
+    this.renderPlanificari()
   }
 
   async openPlanificare(id, table, hideAllBut = true) {
@@ -117,37 +97,30 @@ class LitwcListaPlanificari extends LitElement {
     }
 
     console.info('Opening planificare:', id)
-
-    try {
-      const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
-      if (!header) {
-        console.error('Failed to find planificare header')
-        return
-      }
-
-      // Use the service to convert data
-      const planificareCurenta = await planificariService.convertPlanificareData(header.linii)
-      console.info('Using cached planificare details:', planificareCurenta)
-
-      Object.assign(table, {
-        hasMainHeader: true,
-        hasSubHeader: false,
-        canAddInLine: true,
-        mainMask: planificareDisplayMask,
-        subsMask: planificareSubsDisplayMask,
-        data: planificareCurenta,
-        documentHeader: {
-          responsabilPlanificare: header.RESPPLAN,
-          responsabilExecutie: header.RESPEXEC,
-          id: header.CCCPLANIFICARI
-        },
-        documentHeaderMask: planificareHeaderMask
-      })
-
-      if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
-    } catch (error) {
-      console.error('Error processing planificare details:', error)
+    
+    // Use controller
+    const result = await planificariController.getPlanificareDetails(id)
+    if (!result.success) {
+      console.error('Failed to get planificare details:', result.error)
+      return
     }
+
+    Object.assign(table, {
+      hasMainHeader: true,
+      hasSubHeader: false,
+      canAddInLine: true,
+      mainMask: planificareDisplayMask,
+      subsMask: planificareSubsDisplayMask,
+      data: result.data,
+      documentHeader: {
+        responsabilPlanificare: result.header.RESPPLAN,
+        responsabilExecutie: result.header.RESPEXEC,
+        id: result.header.CCCPLANIFICARI
+      },
+      documentHeaderMask: planificareHeaderMask
+    })
+
+    if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
   }
 
   renderPlanificari() {
@@ -178,41 +151,29 @@ class LitwcListaPlanificari extends LitElement {
   validateDates() {
     const startDate = document.getElementById('startDate').value
     const endDate = document.getElementById('endDate').value
-
-    if (!startDate || !endDate) {
-      alert('Please select both start and end dates')
+    
+    const validation = planificariController.validateDateRange(startDate, endDate)
+    if (!validation.valid) {
+      alert(validation.message)
       return false
     }
-
-    if (new Date(startDate) > new Date(endDate)) {
-      alert('Start date cannot be after end date')
-      return false
-    }
-
+    
     return true
   }
 
   handlePlanificareNoua() {
     if (!this.validateDates()) return
-    if (!ds_antemasuratori?.length) {
-      console.warn('No antemasuratori available')
-      return
-    }
-
+    
     if (!contextOferta?.CCCOFERTEWEB) {
       alert('Nu există o ofertă validă selectată')
       return
     }
 
-    ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
-    ds_planificareNoua.forEach((parent) => {
-      parent.content.forEach((item) => {
-        item.object[_cantitate_planificari] = 0
-        item.children?.forEach((child) => {
-          child.object[_cantitate_planificari] = 0
-        })
-      })
-    })
+    ds_planificareNoua = planificariController.preparePlanificareNoua()
+    if (ds_planificareNoua.length === 0) {
+      console.warn('No antemasuratori available')
+      return
+    }
 
     const table = tables.tablePlanificareCurenta.element
     Object.assign(table, {
@@ -366,7 +327,7 @@ class LitwcListaPlanificari extends LitElement {
 
   async updatePlanificareData(header) {
     try {
-      const convertedData = await planificariService.convertPlanificareData(header.linii)
+      const convertedData = await planificariController.convertPlanificareData(header.linii)
       const element = this.querySelector(`#planificare-${header.CCCPLANIFICARI}`)
       if (element) {
         element.data = convertedData
