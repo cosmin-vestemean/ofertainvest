@@ -9,7 +9,6 @@ import {
   listaPlanificariMask
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
-// Import the new service
 import { planificariService } from '../services/planificariService.js' 
 
 /* global bootstrap */
@@ -28,7 +27,7 @@ class LitwcListaPlanificari extends LitElement {
 
   constructor() {
     super()
-    this.angajati = [] // Initialize empty array
+    this.angajati = []
     this.isLoading = true
     this.modal = null
     this.planificari = []
@@ -128,7 +127,7 @@ class LitwcListaPlanificari extends LitElement {
         ...filtered, 
         CCCPLANIFICARI: p.CCCPLANIFICARI,
         linii: p.linii,
-        processedDetails: processedDetails  // Store the processed details for immediate display
+        processedDetails: processedDetails
       }
     }));
     
@@ -314,39 +313,38 @@ class LitwcListaPlanificari extends LitElement {
 
       ${this.planificari.length === 0 
         ? html`<div class="alert alert-info">Nu există planificări. Apăsați "Adaugă planificare" pentru a crea una.</div>` 
-        : this.renderPlanificariAccordion()}
+        : this.renderAccordion()}
       
       ${this.renderModal()}
     `
   }
 
-  renderPlanificariAccordion() {
+  renderAccordion() {
     // Group planificari by RESPPLAN and RESPEXEC
     const groupedPlanificari = this.groupPlanificariByResponsabili()
     
     return html`
       <div class="accordion" id="planificariAccordion">
         ${Object.entries(groupedPlanificari).map(([groupKey, group], groupIndex) => html`
-          <div class="accordion-item mb-3 border rounded">
-            <h2 class="accordion-header">
-              <button class="accordion-button ${groupIndex > 0 ? 'collapsed' : ''}" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#collapse-${groupIndex}">
-                <div class="d-flex justify-content-between w-100 align-items-center">
-                  <div>
-                    <strong>Responsabil planificare:</strong> ${group.responsabilName}
-                  </div>
-                  <div class="ms-3">
-                    <strong>Responsabil execuție:</strong> ${group.executantName}
-                  </div>
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="heading-${groupIndex}">
+              <button class="accordion-button ${groupIndex > 0 ? 'collapsed' : ''}" 
+                      type="button" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target="#collapse-${groupIndex}" 
+                      aria-expanded="${groupIndex === 0 ? 'true' : 'false'}" 
+                      aria-controls="collapse-${groupIndex}">
+                <div class="d-flex justify-content-between w-100">
+                  <span><strong>Responsabil planificare:</strong> ${group.responsabilName}</span>
+                  <span><strong>Responsabil execuție:</strong> ${group.executantName}</span>
                 </div>
               </button>
             </h2>
-            <div id="collapse-${groupIndex}" class="accordion-collapse collapse ${groupIndex === 0 ? 'show' : ''}" 
-              data-bs-parent="#planificariAccordion">
-              <div class="accordion-body p-3">
-                <div class="planificari-stack">
-                  ${group.items.map(planificare => this.renderPlanificareCard(planificare))}
-                </div>
+            <div id="collapse-${groupIndex}" 
+                class="accordion-collapse collapse ${groupIndex === 0 ? 'show' : ''}" 
+                aria-labelledby="heading-${groupIndex}">
+              <div class="accordion-body p-0">
+                ${group.items.map(planificare => this.renderPlanificare(planificare, groupIndex))}
               </div>
             </div>
           </div>
@@ -377,42 +375,40 @@ class LitwcListaPlanificari extends LitElement {
     return groups
   }
 
-  renderPlanificareCard(planificare) {
+  renderPlanificare(planificare, groupIndex) {
     return html`
-      <div class="planificare-card mb-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="card-header-content">
+      <div class="planificare-container">
+        <div class="planificare-header d-flex justify-content-between align-items-center p-2 border-bottom bg-light">
+          <div class="d-flex flex-wrap gap-3">
             ${Object.entries(listaPlanificariMask)
               .filter(([_, props]) => props.visible)
               .map(([key, props]) => html`
-                <div class="header-item">
-                  <span class="text-muted">${props.label}:</span>
+                <div class="d-flex align-items-center gap-1">
+                  <span class="text-muted small">${props.label}:</span>
                   ${key === 'LOCKED' 
                     ? html`<i class="bi ${planificare[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
                     : props.type === 'datetime'
-                      ? html`<span>${new Date(planificare[key]).toLocaleDateString()}</span>`
-                      : html`<span>${planificare[key]}</span>`
+                      ? html`<span class="fw-bold">${new Date(planificare[key]).toLocaleDateString()}</span>`
+                      : html`<span class="fw-bold">${planificare[key]}</span>`
                   }
                 </div>
               `)}
           </div>
-          <button type="button" class="btn btn-primary btn-sm m-1" 
+          <button type="button" class="btn btn-sm btn-outline-primary" 
             @click="${() => this.openPlanificare(planificare.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
-            <i class="bi bi-arrows-fullscreen"></i> Vezi detalii
+            <i class="bi bi-arrows-fullscreen"></i> Extinde
           </button>
         </div>
         
-        <div class="card-body">
-          <litwc-planificare
-            id="planificare-${planificare.CCCPLANIFICARI}"
-            .hasMainHeader=${true}
-            .hasSubHeader=${false}
-            .canAddInLine=${true}
-            .mainMask=${planificareDisplayMask}
-            .subsMask=${planificareSubsDisplayMask}
-            .data=${planificare.processedDetails || []}
-          ></litwc-planificare>
-        </div>
+        <litwc-planificare
+          id="planificare-${planificare.CCCPLANIFICARI}-${groupIndex}"
+          .hasMainHeader=${true}
+          .hasSubHeader=${false}
+          .canAddInLine=${true}
+          .mainMask=${planificareDisplayMask}
+          .subsMask=${planificareSubsDisplayMask}
+          .data=${planificare.processedDetails || []}
+        ></litwc-planificare>
       </div>
     `
   }

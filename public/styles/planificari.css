@@ -39,8 +39,17 @@
 }
 
 .accordion-button:not(.collapsed) {
-  background-color: rgba(13, 110, 253, 0.1);
-  color: #0d6efd;
+  background-color: #e7f1ff;
+  color: #0c63e4;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+.accordion-body {
+  padding: 0;
 }
 
 .toolbar {
@@ -52,6 +61,28 @@
   margin-bottom: 1rem;
 }
 
+.accordion-item {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.planificare-container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.planificare-container:last-child {
+  border-bottom: none;
+}
+
+.planificare-header {
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 0.75rem;
+}
+
+/* Responsive styling */
 @media (max-width: 768px) {
   .planificare-card .card-header {
     flex-direction: column;
@@ -63,4 +94,22 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+  
+  .planificare-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .planificare-header > div {
+    width: 100%;
+  }
+}
+
+/* Custom styling for litwc-planificare component */
+litwc-planificare {
+  display: block;
+  padding: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #fff;
 }
