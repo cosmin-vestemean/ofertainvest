@@ -4,7 +4,6 @@ import {
   html,
   unsafeHTML,
   ds_instanteRetete,
-  trees,
   contextOferta
 } from '../client.js'
 import { employeesService } from '../utils/employeesService.js'
@@ -1101,31 +1100,102 @@ class UI1 extends LitElement {
     reviewBtn.addEventListener('click', () => {
       // Clear previous selections
       this._selectedItems = []
-
-      const qtyColumns = this.querySelectorAll('.sendQtyTo')
-      qtyColumns.forEach((td) => {
-        const tr = td.closest('tr')
-        const quantity = td.textContent.trim()
-
-        if (allVisible) {
-          // Hide rows with empty or zero quantity
-          if (quantity === '0' || quantity === '') {
-            tr.style.display = 'none'
-          } else {
-            // Get the item associated with this row
-            const item = this.getItemFromRow(tr)
-            if (item && !this._selectedItems.includes(item)) {
-              this._selectedItems.push(item)
+      const parentArticlesWithQuantity = new Set()
+    
+      if (allVisible) {
+        // First pass: identify which parent articles have non-zero quantities
+        // (either directly or via their subarticles)
+        const qtyColumns = this.querySelectorAll('.sendQtyTo')
+        qtyColumns.forEach((td) => {
+          const quantity = td.textContent.trim()
+          if (quantity && quantity !== '0') {
+            const tr = td.closest('tr')
+            
+            // If this is an article row with quantity
+            if (tr.hasAttribute('data-index')) {
+              const index = parseInt(tr.getAttribute('data-index'))
+              parentArticlesWithQuantity.add(index)
+            }
+            
+            // If this is a subarticle row with quantity, mark its parent
+            if (tr.classList.contains('subarticle') && tr.hasAttribute('data-parent-index')) {
+              const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
+              parentArticlesWithQuantity.add(parentIndex)
             }
           }
-        } else {
-          // Show all rows
+        })
+    
+        // Second pass: hide/show rows and collect items
+        const allRows = this.querySelectorAll('tr[data-index], tr.subarticle')
+        allRows.forEach((tr) => {
+          if (tr.hasAttribute('data-index')) {
+            // This is a parent article row
+            const index = parseInt(tr.getAttribute('data-index'))
+            
+            if (parentArticlesWithQuantity.has(index)) {
+              // Show this article and add it to selected items
+              tr.style.display = ''
+              const item = this._filteredArticole[index]
+              if (item && !this._selectedItems.includes(item)) {
+                this._selectedItems.push(item)
+              }
+              
+              // Also make sure to expand it to show its subarticles
+              const toggleIcon = tr.querySelector('i')
+              if (toggleIcon && toggleIcon.classList.contains('bi-plus-square')) {
+                // Trigger expansion to show subarticles
+                this.toggleSubarticles(index)
+              }
+            } else {
+              // Hide this article
+              tr.style.display = 'none'
+            }
+          } 
+          else if (tr.classList.contains('subarticle')) {
+            // This is a subarticle row
+            const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
+            
+            if (parentArticlesWithQuantity.has(parentIndex)) {
+              // Show this subarticle since its parent has quantity
+              tr.style.display = ''
+              tr.classList.remove('d-none') // Also remove bootstrap hiding
+            } else {
+              // Hide this subarticle
+              tr.style.display = 'none'
+            }
+          }
+        })
+        
+        // Update button text
+        reviewBtn.textContent = 'Show All'
+      } else {
+        // Show all rows again
+        const allRows = this.querySelectorAll('tr[data-index], tr.subarticle')
+        allRows.forEach((tr) => {
           tr.style.display = ''
-        }
-      })
-
+          
+          // For subarticles, respect their original state
+          if (tr.classList.contains('subarticle')) {
+            // Check if parent is expanded
+            const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
+            const parentRow = this.querySelector(`tr[data-index="${parentIndex}"]`)
+            const toggleIcon = parentRow.querySelector('i')
+            
+            // If parent is collapsed, keep subarticles hidden
+            if (toggleIcon && toggleIcon.classList.contains('bi-plus-square')) {
+              tr.classList.add('d-none')
+            } else {
+              tr.classList.remove('d-none')
+            }
+          }
+        })
+        
+        // Update button text
+        reviewBtn.textContent = 'Review'
+      }
+    
+      // Toggle visibility state
       allVisible = !allVisible
-      reviewBtn.textContent = allVisible ? 'Review' : 'Show all'
       
       // Update the status indicator
       const count = this._selectedItems ? this._selectedItems.length : 0
