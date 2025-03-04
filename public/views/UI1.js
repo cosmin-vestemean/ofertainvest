@@ -6,6 +6,7 @@ import {
   ds_instanteRetete,
   contextOferta
 } from '../client.js'
+import { tables } from '../utils/tables.js'
 import { employeesService } from '../utils/employeesService.js'
 
 /* global bootstrap */
@@ -1515,6 +1516,11 @@ class UI1 extends LitElement {
 
     // Here you would implement the actual sending logic
     // For example, making an API call to save these items to the destination system
+
+    if (destination === 'Planificari') {
+      const listaPlanificari = tables.my_table7.element.getPlanificariByResponsabili(35, employee)
+      console.info('Lista planificari:', listaPlanificari)
+    }
 
     // Reset selected items after sending
     this._selectedItems = []

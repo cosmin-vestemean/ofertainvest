@@ -1,5 +1,5 @@
 import { LitElement, html, contextOferta } from '../client.js'
-import {_cantitate_planificari } from '../utils/def_coloane.js'
+import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
 import {
@@ -10,7 +10,7 @@ import {
 } from './masks.js'
 import { employeesService } from '../utils/employeesService.js'
 // Import the new service
-import { planificariService } from '../services/planificariService.js' 
+import { planificariService } from '../services/planificariService.js'
 
 /* global bootstrap */
 
@@ -94,7 +94,7 @@ class LitwcListaPlanificari extends LitElement {
     try {
       // Use the service to get all planificari data
       const result = await planificariService.getPlanificari()
-      
+
       if (!result.success) {
         this.showToast('Eroare la încărcarea planificărilor', 'danger')
         this.planificari = []
@@ -102,24 +102,24 @@ class LitwcListaPlanificari extends LitElement {
         this.requestUpdate() // Use requestUpdate instead of renderPlanificari
         return
       }
-      
+
       // Process and transform data for display
-      this.planificari = result.data.map(p => {
+      this.planificari = result.data.map((p) => {
         // Add display-friendly properties based on the mask
         const displayItem = { ...p }
-        Object.keys(listaPlanificariMask).forEach(key => {
+        Object.keys(listaPlanificariMask).forEach((key) => {
           if (listaPlanificariMask[key].usefull) {
             displayItem[key] = p[key]
           }
         })
         return displayItem
       })
-      
+
       // Pre-process all planificare details
-      await this.preprocessAllPlanificariDetails();
-      
+      await this.preprocessAllPlanificariDetails()
+
       console.info('Loaded planificari:', this.planificari)
-      
+
       // No need to call a separate render function, just trigger an update
       this.showToast('Planificările au fost încărcate cu succes', 'success')
     } catch (error) {
@@ -136,18 +136,18 @@ class LitwcListaPlanificari extends LitElement {
   async preprocessAllPlanificariDetails() {
     try {
       // Process all planificari data in parallel
-      const processingPromises = this.planificari.map(async header => {
+      const processingPromises = this.planificari.map(async (header) => {
         try {
-          const convertedData = await planificariService.convertPlanificareData(header.linii);
-          this.processedPlanificari[header.CCCPLANIFICARI] = convertedData;
+          const convertedData = await planificariService.convertPlanificareData(header.linii)
+          this.processedPlanificari[header.CCCPLANIFICARI] = convertedData
         } catch (error) {
-          console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error);
-          this.processedPlanificari[header.CCCPLANIFICARI] = [];
+          console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error)
+          this.processedPlanificari[header.CCCPLANIFICARI] = []
         }
-      });
+      })
 
       // Wait for all processing to complete
-      await Promise.all(processingPromises);
+      await Promise.all(processingPromises)
       this.showToast('Datele au fost procesate cu succes', 'success')
     } catch (error) {
       this.showToast('Eroare la procesarea datelor: ' + error.message, 'danger')
@@ -321,7 +321,7 @@ class LitwcListaPlanificari extends LitElement {
     // Wait for DOM to be ready
     requestAnimationFrame(() => {
       let toastContainer = this.querySelector('#toast-container')
-      
+
       // Create toast container if it doesn't exist
       if (!toastContainer) {
         toastContainer = document.createElement('div')
@@ -329,13 +329,13 @@ class LitwcListaPlanificari extends LitElement {
         toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
         this.appendChild(toastContainer)
       }
-  
+
       const toastEl = document.createElement('div')
       toastEl.className = `toast align-items-center text-white bg-${type} border-0`
       toastEl.setAttribute('role', 'alert')
       toastEl.setAttribute('aria-live', 'assertive')
       toastEl.setAttribute('aria-atomic', 'true')
-      
+
       toastEl.innerHTML = `
         <div class="d-flex">
           <div class="toast-body">
@@ -344,11 +344,11 @@ class LitwcListaPlanificari extends LitElement {
           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
       `
-      
+
       toastContainer.appendChild(toastEl)
       const toast = new bootstrap.Toast(toastEl)
       toast.show()
-      
+
       // Remove toast after it's hidden
       toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove())
     })
@@ -363,7 +363,7 @@ class LitwcListaPlanificari extends LitElement {
 
     return html`
       <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-      
+
       <div class="toolbar mb-2">
         <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
           Adauga planificare
@@ -374,42 +374,53 @@ class LitwcListaPlanificari extends LitElement {
       </div>
 
       <div class="planificari-stack">
-        ${this.planificari.map((item, index) => html`
-          <div class="planificare-card">
-            <div class="card-header">
-              <div class="card-header-content">
-                <div class="header-item">
-                  <span class="text-info mx-2">#${index + 1}</span>
+        ${this.planificari.map(
+          (item, index) => html`
+            <div class="planificare-card">
+              <div class="card-header">
+                <div class="card-header-content">
+                  <div class="header-item">
+                    <span class="text-info mx-2">#${index + 1}</span>
+                  </div>
+                  ${Object.entries(listaPlanificariMask)
+                    .filter(([_, props]) => props.visible)
+                    .map(
+                      ([key, props]) => html`
+                        <div class="header-item">
+                          <span class="text-muted">${props.label}:</span>
+                          ${key === 'LOCKED'
+                            ? html`<i
+                                class="bi ${item[key]
+                                  ? 'bi-lock-fill text-danger'
+                                  : 'bi-unlock text-success'}"
+                              ></i>`
+                            : props.type === 'datetime'
+                              ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                              : html`<span>${item[key]}</span>`}
+                        </div>
+                      `
+                    )}
                 </div>
-                ${Object.entries(listaPlanificariMask)
-                  .filter(([_, props]) => props.visible)
-                  .map(([key, props]) => html`
-                    <div class="header-item">
-                      <span class="text-muted">${props.label}:</span>
-                      ${key === 'LOCKED' 
-                        ? html`<i class="bi ${item[key] ? 'bi-lock-fill text-danger' : 'bi-unlock text-success'}"></i>`
-                        : props.type === 'datetime'
-                          ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                          : html`<span>${item[key]}</span>`
-                      }
-                    </div>
-                  `)}
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm m-1"
+                  @click="${() =>
+                    this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+                >
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </button>
               </div>
-              <button type="button" class="btn btn-outline-primary btn-sm m-1" 
-                @click="${() => this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}">
-                <i class="bi bi-arrows-fullscreen"></i>
-              </button>
+              ${this.renderPlanificareDetails(item)}
             </div>
-            ${this.renderPlanificareDetails(item)}
-          </div>
-        `)}
+          `
+        )}
       </div>
       ${this.renderModal()}
     `
   }
 
   renderPlanificareDetails(item) {
-    const header = this.planificari.find(p => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
+    const header = this.planificari.find((p) => p.CCCPLANIFICARI === item.CCCPLANIFICARI)
     if (!header) return null
 
     // Use the pre-processed data
@@ -428,6 +439,19 @@ class LitwcListaPlanificari extends LitElement {
         ></litwc-planificare>
       </div>
     `
+  }
+
+  // Gets planificari filtered by both RESPPLAN and RESPEXEC
+  getPlanificariByResponsabili({ RESPPLAN, RESPEXEC } = {}) {
+    if (!this.planificari?.length) {
+      return []
+    }
+
+    return this.planificari.filter((planificare) => {
+      return (
+        (!RESPPLAN || planificare.RESPPLAN === RESPPLAN) && (!RESPEXEC || planificare.RESPEXEC === RESPEXEC)
+      )
+    })
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
