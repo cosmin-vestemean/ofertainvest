@@ -1056,54 +1056,54 @@ class UI1 extends LitElement {
   sendToActions() {
     // Clear any previously selected items
     this._selectedItems = []
-
+  
     // Show quantity columns
     const qtyColumns = this.querySelectorAll('.sendQtyTo')
     qtyColumns.forEach((td) => {
       td.classList.remove('d-none')
-
+  
       // Set default values if empty
       if (!td.textContent.trim()) {
         td.textContent = '0'
       }
     })
-
+  
     const panel = this.createActionPanel()
     const { group: sendToGroup, select: sendToSelect } = this.createSendToGroup()
     const { group: empGroup, select: empSelect } = this.createEmployeeGroup()
     const { group: dateGroup, fromDate, toDate } = this.createDateGroup()
     const { group: commentGroup, input: commentInput } = this.createCommentGroup()
     const { group: btnGroup, sendBtn, reviewBtn } = this.createActionButtons()
-
+  
     // Set default dates
     const today = new Date().toISOString().split('T')[0]
     fromDate.value = today
     toDate.value = today
-
-    // Add a status indicator
-    const statusIndicator = document.createElement('div')
-    statusIndicator.className = 'ms-3 text-muted'
-    statusIndicator.textContent = 'Select quantities and press Review to see selected items'
-    panel.insertBefore(statusIndicator, btnGroup)
-
-    reviewBtn.addEventListener('click', () => {
-      const count = this._selectedItems ? this._selectedItems.length : 0
-      statusIndicator.textContent = `${count} items selected`
-    })
-
-    sendBtn.addEventListener('click', () => {
-      this.sendTo(sendToSelect.value, empSelect.value, fromDate.value, toDate.value, commentInput.value)
-      this.cleanupActionPanel()
-    })
-
-    // Insert groups before the close button
+  
+    // First append all groups to the panel in the desired order
     const closeBtn = panel.querySelector('button')
     panel.insertBefore(sendToGroup, closeBtn)
     panel.insertBefore(empGroup, closeBtn)
     panel.insertBefore(dateGroup, closeBtn)
     panel.insertBefore(commentGroup, closeBtn)
     panel.insertBefore(btnGroup, closeBtn)
-
+    
+    // Add a status indicator
+    const statusIndicator = document.createElement('div')
+    statusIndicator.className = 'ms-3 text-muted'
+    statusIndicator.textContent = 'Select quantities and press Review to see selected items'
+    panel.insertBefore(statusIndicator, btnGroup)
+  
+    reviewBtn.addEventListener('click', () => {
+      const count = this._selectedItems ? this._selectedItems.length : 0
+      statusIndicator.textContent = `${count} items selected`
+    })
+  
+    sendBtn.addEventListener('click', () => {
+      this.sendTo(sendToSelect.value, empSelect.value, fromDate.value, toDate.value, commentInput.value)
+      this.cleanupActionPanel()
+    })
+  
     document.body.appendChild(panel)
   }
 
