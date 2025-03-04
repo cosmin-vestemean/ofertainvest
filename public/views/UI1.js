@@ -1114,6 +1114,13 @@ class UI1 extends LitElement {
     const group = document.createElement('div')
     group.className = 'd-flex gap-2 align-items-center'
 
+    //Add from label and select
+    const labelFrom = document.createElement('label')
+    labelFrom.textContent = 'From:'
+
+    const selectFrom = document.createElement('select')
+    selectFrom.className = 'form-select form-select-sm'
+
     const label = document.createElement('label')
     label.textContent = 'For:'
     
@@ -1126,6 +1133,7 @@ class UI1 extends LitElement {
       option.value = emp.PRSN
       option.textContent = emp.NAME2
       select.appendChild(option)
+      selectFrom.appendChild(option.cloneNode(true))
     })
 
     group.append(label, select)
