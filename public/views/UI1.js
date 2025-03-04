@@ -1,11 +1,4 @@
-import {
-  theadIsSet,
-  LitElement,
-  html,
-  unsafeHTML,
-  ds_instanteRetete,
-  contextOferta
-} from '../client.js'
+import { theadIsSet, LitElement, html, unsafeHTML, ds_instanteRetete, contextOferta } from '../client.js'
 import { tables } from '../utils/tables.js'
 import { employeesService } from '../utils/employeesService.js'
 
@@ -1045,7 +1038,7 @@ class UI1 extends LitElement {
       hiddenRows.forEach((row) => {
         row.style.display = ''
       })
-      
+
       // Clear all warnings
       const warningCells = this.querySelectorAll('.sendQtyTo.text-warning')
       warningCells.forEach((cell) => {
@@ -1094,7 +1087,7 @@ class UI1 extends LitElement {
     panel.insertBefore(dateGroup, closeBtn)
     panel.insertBefore(commentGroup, closeBtn)
     panel.insertBefore(btnGroup, closeBtn)
-    
+
     // Add a status indicator
     const statusIndicator = document.createElement('div')
     statusIndicator.className = 'ms-3 text-muted'
@@ -1103,13 +1096,13 @@ class UI1 extends LitElement {
 
     // Variable to track visibility state
     let allVisible = true
-    
+
     // Set up review button click handler
     reviewBtn.addEventListener('click', () => {
       // Clear previous selections
       this._selectedItems = []
       const parentArticlesWithQuantity = new Set()
-    
+
       if (allVisible) {
         // First pass: identify which parent articles have non-zero quantities
         // (either directly or via their subarticles)
@@ -1118,13 +1111,13 @@ class UI1 extends LitElement {
           const quantity = td.textContent.trim()
           if (quantity && quantity !== '0') {
             const tr = td.closest('tr')
-            
+
             // If this is an article row with quantity
             if (tr.hasAttribute('data-index')) {
               const index = parseInt(tr.getAttribute('data-index'))
               parentArticlesWithQuantity.add(index)
             }
-            
+
             // If this is a subarticle row with quantity, mark its parent
             if (tr.classList.contains('subarticle') && tr.hasAttribute('data-parent-index')) {
               const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
@@ -1132,7 +1125,7 @@ class UI1 extends LitElement {
             }
           }
         })
-    
+
         // Second pass: highlight empty cells within structures that have quantities
         // and hide rows that don't belong to structures with quantities
         const allRows = this.querySelectorAll('tr[data-index], tr.subarticle')
@@ -1140,7 +1133,7 @@ class UI1 extends LitElement {
           if (tr.hasAttribute('data-index')) {
             // This is a parent article row
             const index = parseInt(tr.getAttribute('data-index'))
-            
+
             if (parentArticlesWithQuantity.has(index)) {
               // Show this article and add it to selected items
               tr.style.display = ''
@@ -1148,7 +1141,7 @@ class UI1 extends LitElement {
               if (item && !this._selectedItems.includes(item)) {
                 this._selectedItems.push(item)
               }
-              
+
               // Check if this article's own quantity is zero
               const qtyCell = tr.querySelector('.sendQtyTo')
               if (qtyCell && (qtyCell.textContent.trim() === '0' || qtyCell.textContent.trim() === '')) {
@@ -1156,7 +1149,7 @@ class UI1 extends LitElement {
                 qtyCell.classList.add('text-warning')
                 qtyCell.title = 'This item has zero quantity but is part of a selected structure'
               }
-              
+
               // Also make sure to expand it to show its subarticles
               const toggleIcon = tr.querySelector('i')
               if (toggleIcon && toggleIcon.classList.contains('bi-plus-square')) {
@@ -1167,16 +1160,15 @@ class UI1 extends LitElement {
               // Hide this article
               tr.style.display = 'none'
             }
-          } 
-          else if (tr.classList.contains('subarticle')) {
+          } else if (tr.classList.contains('subarticle')) {
             // This is a subarticle row
             const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
-            
+
             if (parentArticlesWithQuantity.has(parentIndex)) {
               // Show this subarticle since its parent has quantity
               tr.style.display = ''
               tr.classList.remove('d-none') // Also remove bootstrap hiding
-              
+
               // Check if this subarticle's quantity is zero
               const qtyCell = tr.querySelector('.sendQtyTo')
               if (qtyCell && (qtyCell.textContent.trim() === '0' || qtyCell.textContent.trim() === '')) {
@@ -1190,7 +1182,7 @@ class UI1 extends LitElement {
             }
           }
         })
-        
+
         // Update button text
         reviewBtn.textContent = 'Show All'
       } else {
@@ -1198,14 +1190,14 @@ class UI1 extends LitElement {
         const allRows = this.querySelectorAll('tr[data-index], tr.subarticle')
         allRows.forEach((tr) => {
           tr.style.display = ''
-          
+
           // For subarticles, respect their original state
           if (tr.classList.contains('subarticle')) {
             // Check if parent is expanded
             const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
             const parentRow = this.querySelector(`tr[data-index="${parentIndex}"]`)
             const toggleIcon = parentRow.querySelector('i')
-            
+
             // If parent is collapsed, keep subarticles hidden
             if (toggleIcon && toggleIcon.classList.contains('bi-plus-square')) {
               tr.classList.add('d-none')
@@ -1213,7 +1205,7 @@ class UI1 extends LitElement {
               tr.classList.remove('d-none')
             }
           }
-          
+
           // Remove warning highlights when showing all
           const qtyCell = tr.querySelector('.sendQtyTo')
           if (qtyCell) {
@@ -1221,18 +1213,18 @@ class UI1 extends LitElement {
             qtyCell.removeAttribute('title')
           }
         })
-        
+
         // Update button text
         reviewBtn.textContent = 'Review'
       }
-    
+
       // Toggle visibility state
       allVisible = !allVisible
-      
+
       // Update the status indicator
       const count = this._selectedItems ? this._selectedItems.length : 0
       statusIndicator.textContent = `${count} items selected`
-      
+
       console.log('Selected items:', this._selectedItems)
     })
 
@@ -1511,14 +1503,28 @@ class UI1 extends LitElement {
 
       return itemCopy
     })
-    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
+    console.log(
+      'Sending to:',
+      destination,
+      'for employee:',
+      employee,
+      'from:',
+      fromDate,
+      'to:',
+      toDate,
+      'comment:',
+      comment
+    )
     console.log('Sending items with quantities:', itemsWithQuantities)
 
     // Here you would implement the actual sending logic
     // For example, making an API call to save these items to the destination system
 
     if (destination === 'Planificari') {
-      const listaPlanificari = tables.my_table7.element.getPlanificariByResponsabili(35, employee)
+      const listaPlanificari = tables.my_table7.element.getPlanificariByResponsabili({
+        RESPPLAN: 35,
+        RESPEXEC: employee
+      })
       console.info('Lista planificari:', listaPlanificari)
     }
 
