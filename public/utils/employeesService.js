@@ -8,7 +8,7 @@ export const employeesService = {
           sqlQuery: `SELECT A.PRSN, A.NAME2 
                      FROM PRSN A 
                      LEFT OUTER JOIN PRSEXTRA B ON A.PRSN=B.PRSN AND A.SODTYPE=B.SODTYPE AND B.COMPANY=1 
-                     WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1`
+                     WHERE A.COMPANY=:X.SYS.COMPANY AND A.SODTYPE=20 AND A.ISACTIVE=1 AND A.TPRSN=0 AND B.UTBL02=1 ORDER BY A.NAME2`
         }
       })
       const employees = result.success ? result.data : []
