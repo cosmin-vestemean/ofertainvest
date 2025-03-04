@@ -1211,35 +1211,82 @@ class UI1 extends LitElement {
     reviewBtn.textContent = 'Review'
     reviewBtn.className = 'btn btn-sm btn-outline-secondary'
     let allVisible = true
+    
+    // Create a reference to statusIndicator that will be available inside the event handlers
+    const statusIndicator = document.getElementById('sendToPanel')?.querySelector('.text-muted')
 
     reviewBtn.addEventListener('click', () => {
-      // Clear previous selections
-      this._selectedItems = []
-
-      const qtyColumns = this.querySelectorAll('.sendQtyTo')
-      qtyColumns.forEach((td) => {
-        const tr = td.closest('tr')
-        const quantity = td.textContent.trim()
-
-        if (allVisible) {
-          // Hide rows with empty or zero quantity
-          if (quantity === '0' || quantity === '') {
-            tr.style.display = 'none'
-          } else {
-            // Get the item associated with this row
-            const item = this.getItemFromRow(tr)
-            if (item && !this._selectedItems.includes(item)) {
-              this._selectedItems.push(item)
+      if (allVisible) {
+        // First collect items with non-zero quantities
+        this._selectedItems = []
+        const processedArticles = new Set()
+        
+        const qtyColumns = this.querySelectorAll('.sendQtyTo')
+        qtyColumns.forEach((td) => {
+          const quantity = td.textContent.trim()
+          if (quantity && quantity !== '0') {
+            const tr = td.closest('tr')
+            
+            // Check if this is a subarticle row
+            if (tr.classList.contains('subarticle') && tr.hasAttribute('data-parent-index')) {
+              const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
+              
+              // If we haven't already processed this parent article, add it
+              if (!processedArticles.has(parentIndex)) {
+                processedArticles.add(parentIndex)
+                const item = this._filteredArticole[parentIndex]
+                if (item) {
+                  this._selectedItems.push(item)
+                }
+              }
+            }
+            // Check if this is an article row
+            else if (tr.hasAttribute('data-index')) {
+              const index = parseInt(tr.getAttribute('data-index'))
+              
+              // If we haven't already processed this article, add it
+              if (!processedArticles.has(index)) {
+                processedArticles.add(index)
+                const item = this._filteredArticole[index]
+                if (item) {
+                  this._selectedItems.push(item)
+                }
+              }
             }
           }
-        } else {
-          // Show all rows
-          tr.style.display = ''
-        }
-      })
-
-      allVisible = !allVisible
-      reviewBtn.textContent = allVisible ? 'Review' : 'Show all'
+        })
+        
+        // Hide rows with zero quantity by applying a class rather than style directly
+        const allRows = this.querySelectorAll('tr[data-index], tr.subarticle')
+        allRows.forEach(row => {
+          const qtyCell = row.querySelector('.sendQtyTo')
+          const quantity = qtyCell?.textContent.trim()
+          
+          if (!quantity || quantity === '0') {
+            row.classList.add('d-none')
+          }
+        })
+        
+        // Change button text
+        reviewBtn.textContent = 'Show All'
+      } else {
+        // Show all rows again
+        const hiddenRows = this.querySelectorAll('tr.d-none[data-index], tr.subarticle.d-none')
+        hiddenRows.forEach(row => {
+          row.classList.remove('d-none')
+        })
+        
+        // Change button text back
+        reviewBtn.textContent = 'Review'
+      }
+      
+      // Update status indicator
+      const count = this._selectedItems ? this._selectedItems.length : 0
+      const currentStatusIndicator = document.getElementById('sendToPanel')?.querySelector('.text-muted')
+      if (currentStatusIndicator) {
+        currentStatusIndicator.textContent = `${count} items selected`
+      }
+      
       console.log('Selected items:', this._selectedItems)
     })
 
