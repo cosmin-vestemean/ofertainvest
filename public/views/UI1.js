@@ -1240,7 +1240,7 @@ class UI1 extends LitElement {
 
       allVisible = !allVisible
       reviewBtn.textContent = allVisible ? 'Review' : 'Show all'
-      console.log('Selected items:', this._selectedItems.length)
+      console.log('Selected items:', this._selectedItems)
     })
 
     const sendBtn = document.createElement('button')
