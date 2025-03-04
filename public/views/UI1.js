@@ -1082,9 +1082,9 @@ class UI1 extends LitElement {
     const { group: btnGroup, sendBtn, reviewBtn } = this.createActionButtons()
 
     // Set default dates
-    const today = new Date().toISOString().split('T')[0]
+    /* const today = new Date().toISOString().split('T')[0]
     fromDate.value = today
-    toDate.value = today
+    toDate.value = today */
 
     // First append all groups to the panel in the desired order
     const closeBtn = panel.querySelector('button')
@@ -1458,8 +1458,6 @@ class UI1 extends LitElement {
   }
 
   sendTo(destination, employee, fromDate, toDate, comment) {
-    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
-
     // Process the selected items
     if (!this._selectedItems || this._selectedItems.length === 0) {
       // If no items were explicitly selected through review, collect all items with non-zero quantities
@@ -1512,7 +1510,7 @@ class UI1 extends LitElement {
 
       return itemCopy
     })
-
+    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
     console.log('Sending items with quantities:', itemsWithQuantities)
 
     // Here you would implement the actual sending logic
