@@ -119,7 +119,7 @@ class UI1 extends LitElement {
         isArray: Array.isArray(this.data),
         length: this.data?.length,
         firstItem: this.data?.[0]
-      });
+      })
     }
     if (changedProperties.has('data') || changedProperties.has('mainMask')) {
       // Initialize _articole and _filteredArticole when data AND mainMask change
@@ -1013,7 +1013,7 @@ class UI1 extends LitElement {
 
     const panel = document.createElement('div')
     panel.style.position = 'fixed'
-    panel.style.top = '0' 
+    panel.style.top = '0'
     panel.style.left = '0'
     panel.style.width = '100%'
     panel.style.zIndex = '1000'
@@ -1026,7 +1026,7 @@ class UI1 extends LitElement {
     closeBtn.className = 'btn btn-sm btn-link text-dark ms-auto'
     closeBtn.style.textDecoration = 'none'
     closeBtn.addEventListener('click', () => this.cleanupActionPanel())
-    
+
     panel.appendChild(closeBtn)
     return panel
   }
@@ -1036,13 +1036,13 @@ class UI1 extends LitElement {
     const existingPanel = document.getElementById('sendToPanel')
     if (existingPanel) {
       existingPanel.remove()
-      
+
       // Hide quantity columns
       this.hideQuantityColumns()
-      
+
       // Show all rows that might have been hidden by review
       const hiddenRows = this.querySelectorAll('tr[style*="display: none"]')
-      hiddenRows.forEach(row => {
+      hiddenRows.forEach((row) => {
         row.style.display = ''
       })
     }
@@ -1050,36 +1050,56 @@ class UI1 extends LitElement {
 
   hideQuantityColumns() {
     const qtyColumns = this.querySelectorAll('.sendQtyTo')
-    qtyColumns.forEach(td => td.classList.add('d-none'))
+    qtyColumns.forEach((td) => td.classList.add('d-none'))
   }
 
   sendToActions() {
+    // Clear any previously selected items
+    this._selectedItems = []
+
     // Show quantity columns
-    const qtyColumn = this.querySelectorAll('.sendQtyTo')
-    qtyColumn.forEach(td => td.classList.remove('d-none'))
+    const qtyColumns = this.querySelectorAll('.sendQtyTo')
+    qtyColumns.forEach((td) => {
+      td.classList.remove('d-none')
+
+      // Set default values if empty
+      if (!td.textContent.trim()) {
+        td.textContent = '0'
+      }
+    })
 
     const panel = this.createActionPanel()
-    const {group: sendToGroup, select: sendToSelect} = this.createSendToGroup() 
-    const {group: empGroup, select: empSelect} = this.createEmployeeGroup()
-    const {group: dateGroup, fromDate, toDate} = this.createDateGroup()
-    const {group: commentGroup, input: commentInput} = this.createCommentGroup()
-    const {group: btnGroup, sendBtn} = this.createActionButtons()
+    const { group: sendToGroup, select: sendToSelect } = this.createSendToGroup()
+    const { group: empGroup, select: empSelect } = this.createEmployeeGroup()
+    const { group: dateGroup, fromDate, toDate } = this.createDateGroup()
+    const { group: commentGroup, input: commentInput } = this.createCommentGroup()
+    const { group: btnGroup, sendBtn, reviewBtn } = this.createActionButtons()
+
+    // Set default dates
+    const today = new Date().toISOString().split('T')[0]
+    fromDate.value = today
+    toDate.value = today
+
+    // Add a status indicator
+    const statusIndicator = document.createElement('div')
+    statusIndicator.className = 'ms-3 text-muted'
+    statusIndicator.textContent = 'Select quantities and press Review to see selected items'
+    panel.insertBefore(statusIndicator, btnGroup)
+
+    reviewBtn.addEventListener('click', () => {
+      const count = this._selectedItems ? this._selectedItems.length : 0
+      statusIndicator.textContent = `${count} items selected`
+    })
 
     sendBtn.addEventListener('click', () => {
-      this.sendTo(
-        sendToSelect.value,
-        empSelect.value, 
-        fromDate.value,
-        toDate.value,
-        commentInput.value
-      )
-      this.cleanupActionPanel() // Use cleanup method instead of just panel.remove()
+      this.sendTo(sendToSelect.value, empSelect.value, fromDate.value, toDate.value, commentInput.value)
+      this.cleanupActionPanel()
     })
 
     // Insert groups before the close button
     const closeBtn = panel.querySelector('button')
     panel.insertBefore(sendToGroup, closeBtn)
-    panel.insertBefore(empGroup, closeBtn) 
+    panel.insertBefore(empGroup, closeBtn)
     panel.insertBefore(dateGroup, closeBtn)
     panel.insertBefore(commentGroup, closeBtn)
     panel.insertBefore(btnGroup, closeBtn)
@@ -1093,13 +1113,13 @@ class UI1 extends LitElement {
 
     const label = document.createElement('label')
     label.textContent = 'Send to:'
-    
-    const select = document.createElement('select') 
+
+    const select = document.createElement('select')
     select.className = 'form-select form-select-sm'
     select.style.width = 'auto'
-    
+
     const options = ['Estimari', 'Planificari', 'Programari']
-    options.forEach(opt => {
+    options.forEach((opt) => {
       const option = document.createElement('option')
       option.value = opt
       option.textContent = opt
@@ -1107,7 +1127,7 @@ class UI1 extends LitElement {
     })
 
     group.append(label, select)
-    return {group, select}
+    return { group, select }
   }
 
   createEmployeeGroup() {
@@ -1123,12 +1143,12 @@ class UI1 extends LitElement {
 
     const label = document.createElement('label')
     label.textContent = 'For:'
-    
+
     const select = document.createElement('select')
     select.className = 'form-select form-select-sm'
     select.style.width = 'auto'
-    
-    this.angajati.forEach(emp => {
+
+    this.angajati.forEach((emp) => {
       const option = document.createElement('option')
       option.value = emp.PRSN
       option.textContent = emp.NAME2
@@ -1137,7 +1157,7 @@ class UI1 extends LitElement {
     })
 
     group.append(label, select)
-    return {group, select}
+    return { group, select }
   }
 
   createDateGroup() {
@@ -1146,7 +1166,7 @@ class UI1 extends LitElement {
 
     const fromLabel = document.createElement('label')
     fromLabel.textContent = 'From:'
-    
+
     const fromDate = document.createElement('input')
     fromDate.type = 'date'
     fromDate.className = 'form-control form-control-sm'
@@ -1154,14 +1174,14 @@ class UI1 extends LitElement {
 
     const toLabel = document.createElement('label')
     toLabel.textContent = 'To:'
-    
+
     const toDate = document.createElement('input')
     toDate.type = 'date'
     toDate.className = 'form-control form-control-sm'
     toDate.style.width = 'auto'
 
     group.append(fromLabel, fromDate, toLabel, toDate)
-    return {group, fromDate, toDate}
+    return { group, fromDate, toDate }
   }
 
   createCommentGroup() {
@@ -1170,19 +1190,22 @@ class UI1 extends LitElement {
 
     const label = document.createElement('label')
     label.textContent = 'Comment:'
-    
+
     const input = document.createElement('input')
     input.type = 'text'
     input.className = 'form-control form-control-sm'
     input.style.width = 'auto'
 
     group.append(label, input)
-    return {group, input}
+    return { group, input }
   }
 
   createActionButtons() {
     const group = document.createElement('div')
     group.className = 'd-flex gap-2'
+
+    // Array to store selected items
+    this._selectedItems = []
 
     const reviewBtn = document.createElement('button')
     reviewBtn.textContent = 'Review'
@@ -1190,19 +1213,34 @@ class UI1 extends LitElement {
     let allVisible = true
 
     reviewBtn.addEventListener('click', () => {
+      // Clear previous selections
+      this._selectedItems = []
+
       const qtyColumns = this.querySelectorAll('.sendQtyTo')
-      qtyColumns.forEach(td => {
+      qtyColumns.forEach((td) => {
         const tr = td.closest('tr')
+        const quantity = td.textContent.trim()
+
         if (allVisible) {
-          if (td.textContent === '0' || td.textContent === '') {
-        tr.style.display = 'none'
+          // Hide rows with empty or zero quantity
+          if (quantity === '0' || quantity === '') {
+            tr.style.display = 'none'
+          } else {
+            // Get the item associated with this row
+            const item = this.getItemFromRow(tr)
+            if (item && !this._selectedItems.includes(item)) {
+              this._selectedItems.push(item)
+            }
           }
         } else {
+          // Show all rows
           tr.style.display = ''
         }
       })
+
       allVisible = !allVisible
       reviewBtn.textContent = allVisible ? 'Review' : 'Show all'
+      console.log('Selected items:', this._selectedItems.length)
     })
 
     const sendBtn = document.createElement('button')
@@ -1210,12 +1248,147 @@ class UI1 extends LitElement {
     sendBtn.className = 'btn btn-sm btn-primary'
 
     group.append(reviewBtn, sendBtn)
-    return {group, sendBtn, reviewBtn}
+    return { group, sendBtn, reviewBtn }
+  }
+
+  getItemFromRow(row) {
+    // Check if this is an article row
+    if (row.hasAttribute('data-index')) {
+      const index = parseInt(row.getAttribute('data-index'))
+      return this._filteredArticole[index]
+    }
+
+    // Check if this is a subarticle row
+    if (row.classList.contains('subarticle') && row.hasAttribute('data-parent-index')) {
+      const parentIndex = parseInt(row.getAttribute('data-parent-index'))
+      const parent = this._filteredArticole[parentIndex]
+
+      // Find the specific subarticle from this row
+      // We need to find which subarticle this row represents
+      const subarticleRows = Array.from(
+        this.querySelectorAll(`tr.subarticle[data-parent-index="${parentIndex}"]`)
+      )
+      const subarticleIndex = subarticleRows.indexOf(row)
+
+      if (subarticleIndex !== -1 && parent.subarticole[subarticleIndex]) {
+        // Return the parent with only this specific subarticle
+        return {
+          meta: parent.meta,
+          articol: parent.articol,
+          subarticole: [parent.subarticole[subarticleIndex]]
+        }
+      }
+    }
+
+    return null
+  }
+
+  collectItemsWithQuantities() {
+    const selectedItems = []
+    const processedArticles = new Set()
+
+    // Process all quantity cells
+    const qtyColumns = this.querySelectorAll('.sendQtyTo')
+
+    qtyColumns.forEach((td) => {
+      const quantity = td.textContent.trim()
+      if (quantity && quantity !== '0') {
+        const tr = td.closest('tr')
+
+        // Check if this is a subarticle row
+        if (tr.classList.contains('subarticle') && tr.hasAttribute('data-parent-index')) {
+          const parentIndex = parseInt(tr.getAttribute('data-parent-index'))
+
+          // If we haven't already processed this parent article, add it
+          if (!processedArticles.has(parentIndex)) {
+            processedArticles.add(parentIndex)
+            selectedItems.push(this._filteredArticole[parentIndex])
+          }
+        }
+        // Check if this is an article row
+        else if (tr.hasAttribute('data-index')) {
+          const index = parseInt(tr.getAttribute('data-index'))
+
+          // If we haven't already processed this article, add it
+          if (!processedArticles.has(index)) {
+            processedArticles.add(index)
+            selectedItems.push(this._filteredArticole[index])
+          }
+        }
+      }
+    })
+
+    return selectedItems
   }
 
   sendTo(destination, employee, fromDate, toDate, comment) {
-    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
-    // Implement the actual sending logic here
+    console.log(
+      'Sending to:',
+      destination,
+      'for employee:',
+      employee,
+      'from:',
+      fromDate,
+      'to:',
+      toDate,
+      'comment:',
+      comment
+    )
+
+    // Process the selected items
+    if (!this._selectedItems || this._selectedItems.length === 0) {
+      // If no items were explicitly selected through review, collect all items with non-zero quantities
+      this._selectedItems = this.collectItemsWithQuantities()
+    }
+
+    if (this._selectedItems.length === 0) {
+      alert('No items selected to send. Please enter quantities first.')
+      return
+    }
+
+    // Get the quantities for each selected item
+    const itemsWithQuantities = this._selectedItems.map((item) => {
+      // Create a copy of the item with quantity information
+      const itemCopy = { ...item }
+
+      // Find the quantity for this article from the UI
+      const articleRow = this.querySelector(`tr[data-index="${this._filteredArticole.indexOf(item)}"]`)
+      if (articleRow) {
+        const qtyCell = articleRow.querySelector('.sendQtyTo')
+        if (qtyCell) {
+          itemCopy.quantity = qtyCell.textContent.trim()
+        }
+      }
+
+      // Check quantities for subarticles
+      itemCopy.subarticole = item.subarticole.map((sub, idx) => {
+        const subCopy = { ...sub }
+        // Find the corresponding subarticle row and get its quantity
+        const parentIndex = this._filteredArticole.indexOf(item)
+        const subarticleRows = Array.from(
+          this.querySelectorAll(`tr.subarticle[data-parent-index="${parentIndex}"]`)
+        )
+
+        if (subarticleRows[idx]) {
+          const subQtyCell = subarticleRows[idx].querySelector('.sendQtyTo')
+          if (subQtyCell) {
+            subCopy.quantity = subQtyCell.textContent.trim()
+          }
+        }
+
+        return subCopy
+      })
+
+      return itemCopy
+    })
+
+    console.log('Sending items with quantities:', itemsWithQuantities)
+
+    // Here you would implement the actual sending logic
+    // For example, making an API call to save these items to the destination system
+
+    // Reset selected items after sending
+    this._selectedItems = []
   }
 }
 
