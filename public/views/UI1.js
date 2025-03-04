@@ -1044,6 +1044,13 @@ class UI1 extends LitElement {
       hiddenRows.forEach((row) => {
         row.style.display = ''
       })
+      
+      // Clear all warnings
+      const warningCells = this.querySelectorAll('.sendQtyTo.text-warning')
+      warningCells.forEach((cell) => {
+        cell.classList.remove('text-warning')
+        cell.removeAttribute('title')
+      })
     }
   }
 
@@ -1125,7 +1132,8 @@ class UI1 extends LitElement {
           }
         })
     
-        // Second pass: hide/show rows and collect items
+        // Second pass: highlight empty cells within structures that have quantities
+        // and hide rows that don't belong to structures with quantities
         const allRows = this.querySelectorAll('tr[data-index], tr.subarticle')
         allRows.forEach((tr) => {
           if (tr.hasAttribute('data-index')) {
@@ -1138,6 +1146,14 @@ class UI1 extends LitElement {
               const item = this._filteredArticole[index]
               if (item && !this._selectedItems.includes(item)) {
                 this._selectedItems.push(item)
+              }
+              
+              // Check if this article's own quantity is zero
+              const qtyCell = tr.querySelector('.sendQtyTo')
+              if (qtyCell && (qtyCell.textContent.trim() === '0' || qtyCell.textContent.trim() === '')) {
+                // Highlight with warning color to indicate it's part of a selected structure but has zero quantity
+                qtyCell.classList.add('text-warning')
+                qtyCell.title = 'This item has zero quantity but is part of a selected structure'
               }
               
               // Also make sure to expand it to show its subarticles
@@ -1159,6 +1175,14 @@ class UI1 extends LitElement {
               // Show this subarticle since its parent has quantity
               tr.style.display = ''
               tr.classList.remove('d-none') // Also remove bootstrap hiding
+              
+              // Check if this subarticle's quantity is zero
+              const qtyCell = tr.querySelector('.sendQtyTo')
+              if (qtyCell && (qtyCell.textContent.trim() === '0' || qtyCell.textContent.trim() === '')) {
+                // Highlight with warning color
+                qtyCell.classList.add('text-warning')
+                qtyCell.title = 'This item has zero quantity but is part of a selected structure'
+              }
             } else {
               // Hide this subarticle
               tr.style.display = 'none'
@@ -1187,6 +1211,13 @@ class UI1 extends LitElement {
             } else {
               tr.classList.remove('d-none')
             }
+          }
+          
+          // Remove warning highlights when showing all
+          const qtyCell = tr.querySelector('.sendQtyTo')
+          if (qtyCell) {
+            qtyCell.classList.remove('text-warning')
+            qtyCell.removeAttribute('title')
           }
         })
         
@@ -1427,18 +1458,7 @@ class UI1 extends LitElement {
   }
 
   sendTo(destination, employee, fromDate, toDate, comment) {
-    console.log(
-      'Sending to:',
-      destination,
-      'for employee:',
-      employee,
-      'from:',
-      fromDate,
-      'to:',
-      toDate,
-      'comment:',
-      comment
-    )
+    console.log('Sending to:', destination, 'for employee:', employee, 'from:', fromDate, 'to:', toDate, 'comment:', comment)
 
     // Process the selected items
     if (!this._selectedItems || this._selectedItems.length === 0) {
@@ -1462,6 +1482,9 @@ class UI1 extends LitElement {
         const qtyCell = articleRow.querySelector('.sendQtyTo')
         if (qtyCell) {
           itemCopy.quantity = qtyCell.textContent.trim()
+          // Clear warning after processing
+          qtyCell.classList.remove('text-warning')
+          qtyCell.removeAttribute('title')
         }
       }
 
@@ -1478,6 +1501,9 @@ class UI1 extends LitElement {
           const subQtyCell = subarticleRows[idx].querySelector('.sendQtyTo')
           if (subQtyCell) {
             subCopy.quantity = subQtyCell.textContent.trim()
+            // Clear warning after processing
+            subQtyCell.classList.remove('text-warning')
+            subQtyCell.removeAttribute('title')
           }
         }
 
