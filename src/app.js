@@ -12,7 +12,7 @@ import { services } from './services/index.js'
 import { channels } from './channels.js'
 import { authentication } from './authentication.js'
 
-const wsLoginData = { username: 'WebApps', password: '5151' }
+const wsLoginData = { username: 'WebApps', password: 'Tx9$7pK2@bVz8D*E4^mQr!L' }
 const mainURL = 'https://investdej.oncloud.gr/s1services'
 
 const app = koa(feathers())
