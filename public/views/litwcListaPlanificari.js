@@ -209,11 +209,6 @@ class LitwcListaPlanificari extends LitElement {
     const startDate = document.getElementById('startDate').value
     const endDate = document.getElementById('endDate').value
 
-    if (!startDate || !endDate) {
-      alert('Please select both start and end dates')
-      return false
-    }
-
     if (new Date(startDate) > new Date(endDate)) {
       alert('Start date cannot be after end date')
       return false
@@ -293,14 +288,25 @@ class LitwcListaPlanificari extends LitElement {
             </div>
             <div class="modal-body">
               <form>
-                <div class="mb-3">
-                  <label for="startDate" class="form-label">Start Date</label>
-                  <input type="date" class="form-control" id="startDate" required />
+                <div class="form-check form-switch mb-3">
+                  <input class="form-check-input" type="checkbox" id="showDates" @change="${(e) => {
+                    const dateFields = this.querySelector('.date-fields');
+                    dateFields.style.display = e.target.checked ? 'block' : 'none';
+                  }}">
+                  <label class="form-check-label" for="showDates">Include date</label>
                 </div>
-                <div class="mb-3">
-                  <label for="endDate" class="form-label">End Date</label>
-                  <input type="date" class="form-control" id="endDate" required />
+                
+                <div class="date-fields" style="display: none">
+                  <div class="mb-3">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" />
+                  </div>
                 </div>
+
                 ${this.renderEmployeeSelect('select1', 'Responsabil planificare')}
                 ${this.renderEmployeeSelect('select2', 'Responsabil executie')}
               </form>
@@ -315,6 +321,7 @@ class LitwcListaPlanificari extends LitElement {
         </div>
       </div>
     `
+  }
   }
 
   showToast(message, type = 'info') {
