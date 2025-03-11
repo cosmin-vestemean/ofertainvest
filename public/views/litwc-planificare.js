@@ -17,14 +17,12 @@ export class Planificare extends UI1 {
 
     const idOferta = contextOferta.CCCOFERTEWEB
     // Get document header data
-    const { startDate, endDate, responsabilPlanificare, responsabilExecutie } = this.documentHeader
+    const { responsabilPlanificare, responsabilExecutie } = this.documentHeader
 
     // Build header
     const header = {
       CCCOFERTEWEB: idOferta,
       NAME: `Planificare ${new Date().toISOString()}`,
-      DATASTART: startDate,
-      DATASTOP: endDate,
       RESPPLAN: responsabilPlanificare,
       RESPEXEC: responsabilExecutie
     }
