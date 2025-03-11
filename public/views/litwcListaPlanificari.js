@@ -375,19 +375,27 @@ class LitwcListaPlanificari extends LitElement {
     return html`
       <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-      <div class="toolbar mb-2">
-        <button type="button" class="btn btn-primary btn-sm me-2" id="adaugaPlanificare">
-          Adauga planificare
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
-          <i class="bi bi-arrow-clockwise"></i> Refresh
-        </button>
-        <button type="button" class="btn btn-warning btn-sm me-2" @click="${() => this.loadPlanificari(true)}">
-          <i class="bi bi-cloud-download"></i> Force Refresh
-        </button>
-        <button type="button" class="btn btn-outline-secondary btn-sm me-2" @click="${() => this.toggleAllSubarticles()}">
-          <i class="bi bi-arrows-expand"></i> Expand/Collapse All
-        </button>
+      <div class="toolbar d-flex align-items-center mb-3 p-2 bg-light border rounded shadow-sm">
+        <div class="btn-group me-auto" role="group" aria-label="Basic actions">
+          <button type="button" class="btn btn-primary btn-sm" id="adaugaPlanificare" title="Adaugă planificare nouă">
+            <i class="bi bi-plus-lg me-1"></i> Adaugă planificare
+          </button>
+        </div>
+        
+        <div class="btn-group me-2" role="group" aria-label="Data operations">
+          <button type="button" class="btn btn-outline-secondary btn-sm" @click="${() => this.loadPlanificari()}" title="Reîncarcă din cache">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+          </button>
+          <button type="button" class="btn btn-outline-warning btn-sm" @click="${() => this.loadPlanificari(true)}" title="Reîncarcă din baza de date">
+            <i class="bi bi-cloud-download"></i> Force Refresh
+          </button>
+        </div>
+        
+        <div class="btn-group" role="group" aria-label="Display options">
+          <button type="button" class="btn btn-outline-info btn-sm" @click="${() => this.toggleAllSubarticles()}" title="Expandează sau restrânge toate secțiunile">
+            <i class="bi bi-arrows-expand"></i> Expand/Collapse
+          </button>
+        </div>
       </div>
 
       <div class="planificari-stack">
