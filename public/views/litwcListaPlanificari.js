@@ -506,9 +506,9 @@ class LitwcListaPlanificari extends LitElement {
       });
     });
 
-    // Show a toast message
+    // Show a toast message - fix the message to match the action taken
     this.showToast(
-      shouldExpand ? 'All sections expanded' : 'All sections collapsed',
+      shouldExpand ? 'Toate secțiunile au fost expandate' : 'Toate secțiunile au fost restrânse',
       'info'
     );
   }
