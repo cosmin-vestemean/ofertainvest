@@ -394,15 +394,7 @@ class LitwcListaPlanificari extends LitElement {
             ([key, props]) => html`
                         <div class="header-item">
                           <span class="text-muted">${props.label}:</span>
-                          ${key === 'LOCKED'
-                ? html`<i
-                                class="bi ${item[key]
-                    ? 'bi-lock-fill text-danger'
-                    : 'bi-unlock text-success'}"
-                              ></i>`
-                : props.type === 'datetime'
-                  ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                  : html`<span>${item[key]}</span>`}
+                          <span class="text-info">${item[key]}</span>
                         </div>
                       `
           )}

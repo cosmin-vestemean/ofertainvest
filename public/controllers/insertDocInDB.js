@@ -23,7 +23,7 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
     let documentId
 
     if (upsert.toLowerCase() === 'insert') {
-      // Use OUTPUT clause to get new ID
+      // Use OUTPUT clause to get new PK headerTable ID
       const headerFields = Object.keys(header).join(',')
       const headerValues = Object.values(header)
         .map((val) => (typeof val === 'string' ? `'${val}'` : val))
