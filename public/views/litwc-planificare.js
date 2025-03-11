@@ -28,7 +28,7 @@ export class Planificare extends UI1 {
     }
 
     // Build lines
-    const lines = []
+    let lines = []
 
     // Process main articles and subarticles
     this._articole.forEach((item) => {
