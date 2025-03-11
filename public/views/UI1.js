@@ -869,35 +869,52 @@ class UI1 extends LitElement {
   }
 
   handleKeyDown(event, item, key) {
-    //navigheaza intre celulele editabile cu sagetile sus/jos si stanga/dreapta
-    //stanga dreapta - navigheaza intre celulele din acelasi rand, circular
-    //sus jos - navigheaza intre randuri
+    // navigheaza intre celulele editabile cu sagetile sus/jos si stanga/dreapta
+    // stanga dreapta - navigheaza intre celulele din acelasi rand, circular
+    // sus jos - navigheaza intre randuri
     const td = event.target
     const tr = td.parentElement
-    const trs = [...tr.parentElement.children]
-    const tds = [...tr.children]
+    
+    if (!tr || !tr.parentElement) return; // Safety check for parent elements
+    
+    const trs = [...tr.parentElement.children].filter(el => el.tagName === 'TR' && !el.classList.contains('spacer'));
+    const tds = [...tr.children].filter(el => el.tagName === 'TD' && !el.classList.contains('d-none'));
+    
     const index = tds.indexOf(td)
     const rowIndex = trs.indexOf(tr)
     const keyName = event.key
+    
     if (keyName === 'ArrowRight') {
-      if (index < tds.length - 1) {
+      if (index < tds.length - 1 && tds[index + 1]) {
         tds[index + 1].focus()
-      } else {
-        tds[0].focus()
+      } else if (tds[0]) {
+        tds[0].focus() // Wrap to first cell
       }
     } else if (keyName === 'ArrowLeft') {
-      if (index > 0) {
+      if (index > 0 && tds[index - 1]) {
         tds[index - 1].focus()
-      } else {
-        tds[tds.length - 1].focus()
+      } else if (tds.length > 0 && tds[tds.length - 1]) {
+        tds[tds.length - 1].focus() // Wrap to last cell
       }
     } else if (keyName === 'ArrowDown') {
-      if (rowIndex < trs.length - 1) {
-        trs[rowIndex + 1].children[index].focus()
+      if (rowIndex < trs.length - 1 && trs[rowIndex + 1]) {
+        const nextRow = trs[rowIndex + 1]
+        const nextRowCells = [...nextRow.children].filter(el => el.tagName === 'TD' && !el.classList.contains('d-none'))
+        // Make sure we don't go out of bounds with the column index
+        const targetCellIndex = Math.min(index, nextRowCells.length - 1)
+        if (targetCellIndex >= 0 && nextRowCells[targetCellIndex]) {
+          nextRowCells[targetCellIndex].focus()
+        }
       }
     } else if (keyName === 'ArrowUp') {
-      if (rowIndex > 0) {
-        trs[rowIndex - 1].children[index].focus()
+      if (rowIndex > 0 && trs[rowIndex - 1]) {
+        const prevRow = trs[rowIndex - 1]
+        const prevRowCells = [...prevRow.children].filter(el => el.tagName === 'TD' && !el.classList.contains('d-none'))
+        // Make sure we don't go out of bounds with the column index
+        const targetCellIndex = Math.min(index, prevRowCells.length - 1)
+        if (targetCellIndex >= 0 && prevRowCells[targetCellIndex]) {
+          prevRowCells[targetCellIndex].focus()
+        }
       }
     }
   }
