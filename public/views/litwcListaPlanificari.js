@@ -1,5 +1,4 @@
-import { LitElement, html } from '../client.js'
-import { PlanificariController } from '../controllers/PlanificariController.js'
+import { LitElement, html, contextOferta } from '../client.js'
 import { _cantitate_planificari } from '../utils/def_coloane.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
@@ -30,13 +29,13 @@ class LitwcListaPlanificari extends LitElement {
 
   constructor() {
     super()
-    this.controller = new PlanificariController(this)
-    this.angajati = []
+    this.angajati = [] // Initialize empty array
     this.isLoading = true
+    this.modal = null
     this.planificari = []
-    this.processedPlanificari = {}
+    this.processedPlanificari = {} // Store processed data by CCCPLANIFICARI
 
-    // Add CSS if needed
+    // Add CSS link to the document if not already present
     if (!document.querySelector('link[href="../styles/planificari.css"]')) {
       const link = document.createElement('link')
       link.rel = 'stylesheet'
@@ -49,46 +48,227 @@ class LitwcListaPlanificari extends LitElement {
     return this
   }
 
-  async firstUpdated() {
-    await this.controller.initialize()
+  setupEventListeners() {
+    this.addEventListener('click', (e) => {
+      if (e.target.id === 'adaugaPlanificare') {
+        this.showPlanificareModal()
+      }
+    })
   }
 
-  // Keep UI-specific methods like showToast, renderEmployeeSelect, etc.
-  showToast(message, type = 'info') {
-    // Wait for DOM to be ready
-    requestAnimationFrame(() => {
-      let toastContainer = this.querySelector('#toast-container')
+  async firstUpdated() {
+    try {
+      // First check context
+      if (contextOferta?.angajati?.length > 0) {
+        this.angajati = contextOferta.angajati
+      } else {
+        // If not in context, load and cache
+        const employees = await employeesService.loadEmployees()
+        if (employees?.length > 0) {
+          this.angajati = employees
+          // Cache for other components
+          contextOferta.angajati = employees
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load employees:', error)
+      this.angajati = [] // Ensure we have an empty array
+    } finally {
+      this.isLoading = false
+      this.setupEventListeners()
+      this.requestUpdate()
+    }
+    this.loadPlanificari()
+  }
 
-      // Create toast container if it doesn't exist
-      if (!toastContainer) {
-        toastContainer = document.createElement('div')
-        toastContainer.id = 'toast-container'
-        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
-        this.appendChild(toastContainer)
+  async loadPlanificari(forceRefresh = false) {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      this.showToast('Nu există o ofertă validă selectată', 'warning')
+      this.planificari = []
+      this.processedPlanificari = {}
+      this.requestUpdate()
+      return
+    }
+  
+    this.isLoading = true
+    try {
+      // Pass the forceRefresh parameter to the service
+      const result = await planificariService.getPlanificari(forceRefresh)
+  
+      if (!result.success) {
+        this.showToast('Eroare la încărcarea planificărilor', 'danger')
+        this.planificari = []
+        this.processedPlanificari = {}
+        this.requestUpdate()
+        return
+      }
+  
+      // Process and transform data for display
+      this.planificari = result.data.map((p) => {
+        // Add display-friendly properties based on the mask
+        const displayItem = { ...p }
+        Object.keys(listaPlanificariMask).forEach((key) => {
+          if (listaPlanificariMask[key].usefull) {
+            displayItem[key] = p[key]
+          }
+        })
+        return displayItem
+      })
+  
+      // Pre-process all planificare details
+      await this.preprocessAllPlanificariDetails()
+  
+      console.info('Loaded planificari:', this.planificari)
+  
+      // Show appropriate message based on whether it was a forced refresh
+      this.showToast(
+        forceRefresh 
+          ? 'Planificările au fost reîncărcate din baza de date' 
+          : 'Planificările au fost încărcate cu succes', 
+        'success'
+      )
+    } catch (error) {
+      this.showToast('Eroare la încărcarea planificărilor: ' + error.message, 'danger')
+      this.planificari = []
+      this.processedPlanificari = {}
+    } finally {
+      this.isLoading = false
+      await this.updateComplete
+      this.requestUpdate()
+    }
+  }
+
+  async preprocessAllPlanificariDetails() {
+    try {
+      // Process all planificari data in parallel
+      const processingPromises = this.planificari.map(async (header) => {
+        try {
+          const convertedData = await planificariService.convertPlanificareData(header.linii)
+          this.processedPlanificari[header.CCCPLANIFICARI] = convertedData
+        } catch (error) {
+          console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error)
+          this.processedPlanificari[header.CCCPLANIFICARI] = []
+        }
+      })
+
+      // Wait for all processing to complete
+      await Promise.all(processingPromises)
+      this.showToast('Datele au fost procesate cu succes', 'success')
+    } catch (error) {
+      this.showToast('Eroare la procesarea datelor: ' + error.message, 'danger')
+    }
+  }
+
+  async openPlanificare(id, table, hideAllBut = true) {
+    if (!contextOferta?.CCCOFERTEWEB) {
+      this.showToast('Nu există o ofertă validă selectată', 'warning')
+      return
+    }
+
+    console.info('Opening planificare:', id)
+
+    try {
+      const header = this.planificari.find((p) => p.CCCPLANIFICARI === id)
+      if (!header) {
+        console.error('Failed to find planificare header')
+        return
       }
 
-      const toastEl = document.createElement('div')
-      toastEl.className = `toast align-items-center text-white bg-${type} border-0`
-      toastEl.setAttribute('role', 'alert')
-      toastEl.setAttribute('aria-live', 'assertive')
-      toastEl.setAttribute('aria-atomic', 'true')
+      // Use pre-processed data instead of fetching again
+      const planificareCurenta = this.processedPlanificari[id] || []
+      console.info('Using cached planificare details:', planificareCurenta)
 
-      toastEl.innerHTML = `
-        <div class="d-flex">
-          <div class="toast-body">
-            ${message}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-      `
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: planificareCurenta,
+        documentHeader: {
+          responsabilPlanificare: header.RESPPLAN,
+          responsabilExecutie: header.RESPEXEC,
+          id: header.CCCPLANIFICARI
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
 
-      toastContainer.appendChild(toastEl)
-      const toast = new bootstrap.Toast(toastEl)
-      toast.show()
+      if (hideAllBut) tables.hideAllBut([tables.tablePlanificareCurenta])
+      this.showToast('Planificare deschisă cu succes', 'success')
+    } catch (error) {
+      this.showToast('Eroare la deschiderea planificării: ' + error.message, 'danger')
+    }
+  }
 
-      // Remove toast after it's hidden
-      toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove())
-    })
+  showPlanificareModal() {
+    if (!this.modal) {
+      this.modal = new bootstrap.Modal(document.getElementById('planificareModal'), {
+        keyboard: true,
+        backdrop: false
+      })
+    }
+    this.modal.show()
+  }
+
+  validateDates() {
+    const startDate = document.getElementById('startDate').value
+    const endDate = document.getElementById('endDate').value
+
+    if (new Date(startDate) > new Date(endDate)) {
+      alert('Start date cannot be after end date')
+      return false
+    }
+
+    return true
+  }
+
+  handlePlanificareNoua() {
+    if (!this.validateDates()) {
+      this.showToast('Vă rugăm să selectați datele corect', 'warning')
+      return
+    }
+    if (!ds_antemasuratori?.length) {
+      this.showToast('Nu există antemăsurători disponibile', 'warning')
+      return
+    }
+
+    if (!contextOferta?.CCCOFERTEWEB) {
+      this.showToast('Nu există o ofertă validă selectată', 'warning')
+      return
+    }
+
+    try {
+      let ds_planificareNoua = JSON.parse(JSON.stringify(ds_antemasuratori))
+      ds_planificareNoua.forEach((parent) => {
+        parent.content.forEach((item) => {
+          item.object[_cantitate_planificari] = 0
+          item.children?.forEach((child) => {
+            child.object[_cantitate_planificari] = 0
+          })
+        })
+      })
+
+      const table = tables.tablePlanificareCurenta.element
+      Object.assign(table, {
+        hasMainHeader: true,
+        hasSubHeader: false,
+        canAddInLine: true,
+        mainMask: planificareDisplayMask,
+        subsMask: planificareSubsDisplayMask,
+        data: ds_planificareNoua,
+        documentHeader: {
+          responsabilPlanificare: document.getElementById('select1').value,
+          responsabilExecutie: document.getElementById('select2').value
+        },
+        documentHeaderMask: planificareHeaderMask
+      })
+
+      tables.hideAllBut([tables.tablePlanificareCurenta])
+      this.modal?.hide()
+      this.showToast('Planificare nouă creată cu succes', 'success')
+    } catch (error) {
+      this.showToast('Eroare la crearea planificării: ' + error.message, 'danger')
+    }
   }
 
   renderEmployeeSelect(id, label) {
@@ -146,6 +326,43 @@ class LitwcListaPlanificari extends LitElement {
         </div>
       </div>
     `
+  }
+
+  showToast(message, type = 'info') {
+    // Wait for DOM to be ready
+    requestAnimationFrame(() => {
+      let toastContainer = this.querySelector('#toast-container')
+
+      // Create toast container if it doesn't exist
+      if (!toastContainer) {
+        toastContainer = document.createElement('div')
+        toastContainer.id = 'toast-container'
+        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
+        this.appendChild(toastContainer)
+      }
+
+      const toastEl = document.createElement('div')
+      toastEl.className = `toast align-items-center text-white bg-${type} border-0`
+      toastEl.setAttribute('role', 'alert')
+      toastEl.setAttribute('aria-live', 'assertive')
+      toastEl.setAttribute('aria-atomic', 'true')
+
+      toastEl.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            ${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      `
+
+      toastContainer.appendChild(toastEl)
+      const toast = new bootstrap.Toast(toastEl)
+      toast.show()
+
+      // Remove toast after it's hidden
+      toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove())
+    })
   }
 
   render() {
@@ -255,10 +472,51 @@ class LitwcListaPlanificari extends LitElement {
   }
 
   toggleAllSubarticles() {
-    this.controller.toggleAllSubarticles()
+    // Get all planificare components that are currently rendered
+    const planificareComponents = this.querySelectorAll('litwc-planificare');
+
+    // Track whether we want to expand or collapse
+    // We'll determine this by checking the first component's state
+    let shouldExpand = true;
+
+    // Check if any components have expanded rows (look for dash-square icons)
+    const anyExpanded = Array.from(planificareComponents).some(component =>
+      component.querySelector('.bi-dash-square')
+    );
+
+    // If any are expanded, we want to collapse all
+    shouldExpand = !anyExpanded;
+
+    planificareComponents.forEach(component => {
+      // Get all rows with child elements (those with data-index attribute)
+      const parentRows = component.querySelectorAll('tr[data-index]');
+
+      parentRows.forEach(row => {
+        const index = row.getAttribute('data-index');
+        const toggleIcon = row.querySelector('i');
+
+        // Only process rows that have the toggle icon
+        if (!toggleIcon) return;
+
+        // Check if this row has subarticles
+        const hasSubarticles = toggleIcon.classList.contains('bi-plus-square') ||
+          toggleIcon.classList.contains('bi-dash-square');
+
+        if (hasSubarticles) {
+          const isExpanded = toggleIcon.classList.contains('bi-dash-square');
+
+          // If we should expand and it's collapsed, or we should collapse and it's expanded
+          if ((shouldExpand && !isExpanded) || (!shouldExpand && isExpanded)) {
+            // Call the UI1 toggleSubarticles method (which the component inherits)
+            component.toggleSubarticles(parseInt(index));
+          }
+        }
+      });
+    });
+
+    // Removed toast message
   }
 }
-
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
 
 export default LitwcListaPlanificari
