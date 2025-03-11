@@ -290,9 +290,9 @@ class LitwcListaPlanificari extends LitElement {
               <form>
                 <div class="form-check form-switch mb-3">
                   <input class="form-check-input" type="checkbox" id="showDates" @change="${(e) => {
-                    const dateFields = this.querySelector('.date-fields');
-                    dateFields.style.display = e.target.checked ? 'block' : 'none';
-                  }}">
+        const dateFields = this.querySelector('.date-fields');
+        dateFields.style.display = e.target.checked ? 'block' : 'none';
+      }}">
                   <label class="form-check-label" for="showDates">Include date</label>
                 </div>
                 
@@ -321,7 +321,6 @@ class LitwcListaPlanificari extends LitElement {
         </div>
       </div>
     `
-  }
   }
 
   showToast(message, type = 'info') {
@@ -382,7 +381,7 @@ class LitwcListaPlanificari extends LitElement {
 
       <div class="planificari-stack">
         ${this.planificari.map(
-          (item, index) => html`
+      (item, index) => html`
             <div class="planificare-card">
               <div class="card-header">
                 <div class="card-header-content">
@@ -390,29 +389,29 @@ class LitwcListaPlanificari extends LitElement {
                     <span class="text-info mx-2">#${index + 1}</span>
                   </div>
                   ${Object.entries(listaPlanificariMask)
-                    .filter(([_, props]) => props.visible)
-                    .map(
-                      ([key, props]) => html`
+          .filter(([_, props]) => props.visible)
+          .map(
+            ([key, props]) => html`
                         <div class="header-item">
                           <span class="text-muted">${props.label}:</span>
                           ${key === 'LOCKED'
-                            ? html`<i
+                ? html`<i
                                 class="bi ${item[key]
-                                  ? 'bi-lock-fill text-danger'
-                                  : 'bi-unlock text-success'}"
+                    ? 'bi-lock-fill text-danger'
+                    : 'bi-unlock text-success'}"
                               ></i>`
-                            : props.type === 'datetime'
-                              ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
-                              : html`<span>${item[key]}</span>`}
+                : props.type === 'datetime'
+                  ? html`<span>${new Date(item[key]).toLocaleDateString()}</span>`
+                  : html`<span>${item[key]}</span>`}
                         </div>
                       `
-                    )}
+          )}
                 </div>
                 <button
                   type="button"
                   class="btn btn-outline-primary btn-sm m-1"
                   @click="${() =>
-                    this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
+          this.openPlanificare(item.CCCPLANIFICARI, tables.tablePlanificareCurenta.element)}"
                 >
                   <i class="bi bi-arrows-fullscreen"></i>
                 </button>
@@ -420,7 +419,7 @@ class LitwcListaPlanificari extends LitElement {
               ${this.renderPlanificareDetails(item)}
             </div>
           `
-        )}
+    )}
       </div>
       ${this.renderModal()}
     `
