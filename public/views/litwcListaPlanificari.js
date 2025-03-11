@@ -377,6 +377,9 @@ class LitwcListaPlanificari extends LitElement {
         <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm me-2" @click="${() => this.toggleAllSubarticles()}">
+          <i class="bi bi-arrows-expand"></i> Expand/Collapse All
+        </button>
       </div>
 
       <div class="planificari-stack">
@@ -450,6 +453,56 @@ class LitwcListaPlanificari extends LitElement {
         (!RESPPLAN || planificare.RESPPLAN === RESPPLAN) && (!RESPEXEC || planificare.RESPEXEC === RESPEXEC)
       )
     })
+  }
+
+  toggleAllSubarticles() {
+    // Get all planificare components that are currently rendered
+    const planificareComponents = this.querySelectorAll('litwc-planificare');
+
+    // Track whether we want to expand or collapse
+    // We'll determine this by checking the first component's state
+    let shouldExpand = true;
+
+    // Check if any components have expanded rows (look for dash-square icons)
+    const anyExpanded = Array.from(planificareComponents).some(component =>
+      component.querySelector('.bi-dash-square')
+    );
+
+    // If any are expanded, we want to collapse all
+    shouldExpand = !anyExpanded;
+
+    planificareComponents.forEach(component => {
+      // Get all rows with child elements (those with data-index attribute)
+      const parentRows = component.querySelectorAll('tr[data-index]');
+
+      parentRows.forEach(row => {
+        const index = row.getAttribute('data-index');
+        const toggleIcon = row.querySelector('i');
+
+        // Only process rows that have the toggle icon
+        if (!toggleIcon) return;
+
+        // Check if this row has subarticles
+        const hasSubarticles = toggleIcon.classList.contains('bi-plus-square') ||
+          toggleIcon.classList.contains('bi-dash-square');
+
+        if (hasSubarticles) {
+          const isExpanded = toggleIcon.classList.contains('bi-dash-square');
+
+          // If we should expand and it's collapsed, or we should collapse and it's expanded
+          if ((shouldExpand && !isExpanded) || (!shouldExpand && isExpanded)) {
+            // Call the UI1 toggleSubarticles method (which the component inherits)
+            component.toggleSubarticles(parseInt(index));
+          }
+        }
+      });
+    });
+
+    // Show a toast message
+    this.showToast(
+      shouldExpand ? 'All sections expanded' : 'All sections collapsed',
+      'info'
+    );
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
