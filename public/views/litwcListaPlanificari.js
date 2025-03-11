@@ -474,51 +474,72 @@ class LitwcListaPlanificari extends LitElement {
   toggleAllSubarticles() {
     // Get all planificare components that are currently rendered
     const planificareComponents = this.querySelectorAll('litwc-planificare');
+    if (!planificareComponents.length) {
+      this.showToast('Nu există secțiuni pentru a fi expandate/restrânse', 'info');
+      return;
+    }
 
-    // Track whether we want to expand or collapse
-    // We'll determine this by checking the first component's state
-    let shouldExpand = true;
-
-    // Check if any components have expanded rows (look for dash-square icons)
-    const anyExpanded = Array.from(planificareComponents).some(component =>
-      component.querySelector('.bi-dash-square')
-    );
-
-    // If any are expanded, we want to collapse all
-    shouldExpand = !anyExpanded;
-
-    planificareComponents.forEach(component => {
-      // Get all rows with child elements (those with data-index attribute)
-      const parentRows = component.querySelectorAll('tr[data-index]');
-
-      parentRows.forEach(row => {
-        const index = row.getAttribute('data-index');
-        const toggleIcon = row.querySelector('i');
-
-        // Only process rows that have the toggle icon
-        if (!toggleIcon) return;
-
-        // Check if this row has subarticles
-        const hasSubarticles = toggleIcon.classList.contains('bi-plus-square') ||
-          toggleIcon.classList.contains('bi-dash-square');
-
-        if (hasSubarticles) {
-          const isExpanded = toggleIcon.classList.contains('bi-dash-square');
-
-          // If we should expand and it's collapsed, or we should collapse and it's expanded
-          if ((shouldExpand && !isExpanded) || (!shouldExpand && isExpanded)) {
-            // Call the UI1 toggleSubarticles method (which the component inherits)
-            component.toggleSubarticles(parseInt(index));
-          }
+    // Force a DOM refresh to ensure we have the current state
+    this.updateComplete.then(() => {
+      // Check if any rows are expanded (have dash-square icons)
+      let anyExpanded = false;
+      
+      // Scan all components for expanded rows
+      planificareComponents.forEach(component => {
+        const expandedRows = component.querySelectorAll('.bi-dash-square');
+        if (expandedRows.length > 0) {
+          anyExpanded = true;
         }
       });
-    });
 
-    // Show a toast message - fix the message to match the action taken
-    this.showToast(
-      shouldExpand ? 'Toate secțiunile au fost expandate' : 'Toate secțiunile au fost restrânse',
-      'info'
-    );
+      // If any are expanded, we want to collapse all; otherwise, expand all
+      const shouldExpand = !anyExpanded;
+      let operationCount = 0;
+
+      planificareComponents.forEach(component => {
+        // Get all rows with child elements (those with data-index attribute)
+        const parentRows = component.querySelectorAll('tr[data-index]');
+
+        parentRows.forEach(row => {
+          const index = row.getAttribute('data-index');
+          const toggleIcon = row.querySelector('i');
+
+          // Only process rows that have the toggle icon
+          if (!toggleIcon) return;
+
+          // Check if this row has subarticles
+          const hasSubarticles = toggleIcon.classList.contains('bi-plus-square') ||
+                                toggleIcon.classList.contains('bi-dash-square');
+
+          if (hasSubarticles) {
+            const isExpanded = toggleIcon.classList.contains('bi-dash-square');
+
+            // If we should expand and it's collapsed, or we should collapse and it's expanded
+            if ((shouldExpand && !isExpanded) || (!shouldExpand && isExpanded)) {
+              // Call the UI1 toggleSubarticles method (which the component inherits)
+              component.toggleSubarticles(parseInt(index));
+              operationCount++;
+            }
+          }
+        });
+      });
+
+      // Show a toast message with count of affected sections
+      if (operationCount > 0) {
+        this.showToast(
+          shouldExpand 
+            ? `${operationCount} secțiuni au fost expandate` 
+            : `${operationCount} secțiuni au fost restrânse`,
+          'info'
+        );
+      } else {
+        this.showToast(
+          'Nu au fost găsite secțiuni pentru a fi ' + 
+          (shouldExpand ? 'expandate' : 'restrânse'),
+          'info'
+        );
+      }
+    });
   }
 }
 customElements.define('litwc-lista-planificari', LitwcListaPlanificari)
