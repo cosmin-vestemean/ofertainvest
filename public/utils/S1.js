@@ -178,25 +178,23 @@ export async function insertDocument(jsonToSend, UIElement) {
 }
 
 export async function getValFromS1Query(query) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await connectToS1Service()
-      const clientID = result.token
-      //console.log('clientID', clientID);
-      const queryResult = await client.service('getValFromQuery').find({
-        query: {
-          clientID: clientID,
-          appId: 1001,
-          sqlQuery: query
-        }
-      })
-      console.log('result', queryResult)
-      resolve(queryResult)
-    } catch (error) {
-      console.log('error', error)
-      reject({ success: false, error: error })
+  try {
+    const result = await connectToS1Service()
+    const response = await client.service('getValFromQuery').find({
+      query: {
+        clientID: result.token,
+        appId: 1001,
+        sqlQuery: query
+      }
+    })
+    return response
+  } catch (error) {
+    console.error('Error getting value from query:', error) 
+    throw {
+      success: false,
+      error: error
     }
-  })
+  }
 }
 
 export async function runSQLTransaction(objSqlList) {

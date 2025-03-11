@@ -30,11 +30,9 @@ export async function upsertDocument({ headerTable, header, linesTable, lines, u
         .join(',')
 
       let qInsert = `
-          DECLARE @InsertedId TABLE (ID int);
           INSERT INTO ${headerTable} (${headerFields})
-          OUTPUT INSERTED.ID INTO @InsertedId
+          OUTPUT INSERTED.${headerTable}
           VALUES (${headerValues});
-          SELECT ID FROM @InsertedId;
         `
 
       console.log('qInsert', qInsert)
