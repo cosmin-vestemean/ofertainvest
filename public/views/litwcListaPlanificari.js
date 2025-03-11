@@ -81,28 +81,28 @@ class LitwcListaPlanificari extends LitElement {
     this.loadPlanificari()
   }
 
-  async loadPlanificari() {
+  async loadPlanificari(forceRefresh = false) {
     if (!contextOferta?.CCCOFERTEWEB) {
       this.showToast('Nu există o ofertă validă selectată', 'warning')
       this.planificari = []
       this.processedPlanificari = {}
-      this.requestUpdate() // Use requestUpdate instead of renderPlanificari
+      this.requestUpdate()
       return
     }
-
+  
     this.isLoading = true
     try {
-      // Use the service to get all planificari data
-      const result = await planificariService.getPlanificari()
-
+      // Pass the forceRefresh parameter to the service
+      const result = await planificariService.getPlanificari(forceRefresh)
+  
       if (!result.success) {
         this.showToast('Eroare la încărcarea planificărilor', 'danger')
         this.planificari = []
         this.processedPlanificari = {}
-        this.requestUpdate() // Use requestUpdate instead of renderPlanificari
+        this.requestUpdate()
         return
       }
-
+  
       // Process and transform data for display
       this.planificari = result.data.map((p) => {
         // Add display-friendly properties based on the mask
@@ -114,14 +114,19 @@ class LitwcListaPlanificari extends LitElement {
         })
         return displayItem
       })
-
+  
       // Pre-process all planificare details
       await this.preprocessAllPlanificariDetails()
-
+  
       console.info('Loaded planificari:', this.planificari)
-
-      // No need to call a separate render function, just trigger an update
-      this.showToast('Planificările au fost încărcate cu succes', 'success')
+  
+      // Show appropriate message based on whether it was a forced refresh
+      this.showToast(
+        forceRefresh 
+          ? 'Planificările au fost reîncărcate din baza de date' 
+          : 'Planificările au fost încărcate cu succes', 
+        'success'
+      )
     } catch (error) {
       this.showToast('Eroare la încărcarea planificărilor: ' + error.message, 'danger')
       this.planificari = []
@@ -376,6 +381,9 @@ class LitwcListaPlanificari extends LitElement {
         </button>
         <button type="button" class="btn btn-secondary btn-sm me-2" @click="${() => this.loadPlanificari()}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+        <button type="button" class="btn btn-warning btn-sm me-2" @click="${() => this.loadPlanificari(true)}">
+          <i class="bi bi-cloud-download"></i> Force Refresh
         </button>
         <button type="button" class="btn btn-outline-secondary btn-sm me-2" @click="${() => this.toggleAllSubarticles()}">
           <i class="bi bi-arrows-expand"></i> Expand/Collapse All
