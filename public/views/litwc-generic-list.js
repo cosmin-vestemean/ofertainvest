@@ -1,4 +1,4 @@
-import { LitElement, html, contextOferta } from '../client.js'
+import { LitElement, html, contextOferta, unsafeHTML } from '../client.js'
 import { employeesService } from '../utils/employeesService.js'
 import { ds_antemasuratori } from '../controllers/antemasuratori.js'
 import { tables } from '../utils/tables.js'
@@ -453,20 +453,38 @@ export class LitwcGenericList extends LitElement {
         if (!header) return null
 
         const itemData = this.processedItems[item[this.idString]] || []
+        
+        // Create component HTML string for unsafeHTML to parse
+        const componentHTML = `
+            <${this.itemComponent}
+                id="${this.itemComponent}-${item[this.idString]}"
+                .hasMainHeader=${true}
+                .hasSubHeader=${false}
+                .canAddInLine=${true}
+            ></${this.itemComponent}>
+        `
 
         return html`
             <div class="card-body">
-                <${this.itemComponent}
-                    id="${this.itemComponent}-${item[this.idString]}"
-                    .hasMainHeader=${true}
-                    .hasSubHeader=${false}
-                    .canAddInLine=${true}
-                    .mainMask=${this.displayMask.mainMask}
-                    .subsMask=${this.displayMask.subsMask}
-                    .data=${itemData}
-                ></${this.itemComponent}>
+                ${unsafeHTML(componentHTML)}
             </div>
         `
+    }
+
+    updated(changedProperties) {
+        super.updated(changedProperties);
+        
+        if (changedProperties.has('items') || changedProperties.has('processedItems')) {
+            // Set properties on components after they're created
+            this.items.forEach(item => {
+                const component = this.querySelector(`#${this.itemComponent}-${item[this.idString]}`);
+                if (component) {
+                    component.mainMask = this.displayMask.mainMask;
+                    component.subsMask = this.displayMask.subsMask;
+                    component.data = this.processedItems[item[this.idString]] || [];
+                }
+            });
+        }
     }
 
     toggleAllSubarticles() {
