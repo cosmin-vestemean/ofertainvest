@@ -1539,8 +1539,8 @@ class UI1 extends LitElement {
 
     if (destination === 'Planificari') {
       const listaPlanificari = tables.my_table7.element.getPlanificariByResponsabili({
-        RESPPLAN: 35,
-        RESPEXEC: employee
+        RESP1: 35,
+        RESP2: employee
       })
       console.info('Lista planificari:', listaPlanificari)
     }

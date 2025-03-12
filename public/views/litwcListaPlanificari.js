@@ -186,8 +186,8 @@ class LitwcListaPlanificari extends LitElement {
         subsMask: planificareSubsDisplayMask,
         data: planificareCurenta,
         documentHeader: {
-          responsabilPlanificare: header.RESPPLAN,
-          responsabilExecutie: header.RESPEXEC,
+          responsabilPlanificare: header.RESP1,
+          responsabilExecutie: header.RESP2,
           id: header.CCCPLANIFICARI
         },
         documentHeaderMask: planificareHeaderMask
@@ -458,15 +458,15 @@ class LitwcListaPlanificari extends LitElement {
     `
   }
 
-  // Gets planificari filtered by both RESPPLAN and RESPEXEC
-  getPlanificariByResponsabili({ RESPPLAN, RESPEXEC } = {}) {
+  // Gets planificari filtered by both RESP1 and RESP2
+  getPlanificariByResponsabili({ RESP1, RESP2 } = {}) {
     if (!this.planificari?.length) {
       return []
     }
 
     return this.planificari.filter((planificare) => {
       return (
-        (!RESPPLAN || planificare.RESPPLAN === RESPPLAN) && (!RESPEXEC || planificare.RESPEXEC === RESPEXEC)
+        (!RESP1 || planificare.RESP1 === RESP1) && (!RESP2 || planificare.RESP2 === RESP2)
       )
     })
   }

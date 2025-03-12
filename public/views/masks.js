@@ -1559,32 +1559,32 @@ const listaPlanificariMask = {
     type: 'string',
     usefull: true
   },
-  RESPPLAN: {
-    value: 'RESPPLAN',
+  RESP1: {
+    value: 'RESP1',
     RW: true,
     visible: false,
     label: 'Resp. planificare',
     type: 'number',
     usefull: true
   },
-  RESPPLAN_NAME: {
-    value: 'RESPPLAN_NAME',
+  RESP1_NAME: {
+    value: 'RESP1_NAME',
     RW: false,
     visible: true,
     label: 'Resp. planificare',
     type: 'string',
     usefull: true
   },
-  RESPEXEC: {
-    value: 'RESPEXEC',
+  RESP2: {
+    value: 'RESP2',
     RW: true,
     visible: false,
     label: 'Resp. executie',
     type: 'number',
     usefull: true
   },
-  RESPEXEC_NAME: {
-    value: 'RESPEXEC_NAME',
+  RESP2_NAME: {
+    value: 'RESP2_NAME',
     RW: false,
     visible: true,
     label: 'Resp. executie',

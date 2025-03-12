@@ -23,8 +23,8 @@ export class Planificare extends UI1 {
     const header = {
       CCCOFERTEWEB: idOferta,
       NAME: `Planificare ${new Date().toISOString()}`,
-      RESPPLAN: responsabilPlanificare,
-      RESPEXEC: responsabilExecutie
+      RESP1: responsabilPlanificare,
+      RESP2: responsabilExecutie
     }
 
     // Build lines

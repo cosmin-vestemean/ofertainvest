@@ -24,21 +24,21 @@ export const planificariService = {
       const response = await client.service('getDataset').find({
         query: {
           sqlQuery: `SELECT p.CCCPLANIFICARI, p.CCCOFERTEWEB, 
-          p.RESPEXEC, p.RESPPLAN,
-          u1.NAME2 as RESPPLAN_NAME, 
-          u2.NAME2 as RESPEXEC_NAME,
+          p.RESP2, p.RESP1,
+          u1.NAME2 as RESP1_NAME, 
+          u2.NAME2 as RESP2_NAME,
           l.*, a.*, o.*, c.*, 
           l.CANTITATE as ${_cantitate_planificari}, a.CANTITATE as ${_cantitate_antemasuratori},
           CONVERT(varchar, l.DATASTART, 103) as DATASTART_X, CONVERT(varchar, l.DATASTOP, 103) as DATASTOP_X
           FROM CCCPLANIFICARI p
-          LEFT JOIN PRSN u1 ON u1.PRSN = p.RESPPLAN
-          LEFT JOIN PRSN u2 ON u2.PRSN = p.RESPEXEC 
+          LEFT JOIN PRSN u1 ON u1.PRSN = p.RESP1
+          LEFT JOIN PRSN u2 ON u2.PRSN = p.RESP2 
           inner join cccplanificarilinii l on (p.CCCPLANIFICARI = l.CCCPLANIFICARI)
           inner join cccantemasuratori a on (l.CCCANTEMASURATORI = a.CCCANTEMASURATORI and l.CCCOFERTEWEB = a.CCCOFERTEWEB)
           inner join cccoferteweblinii o on (a.CCCOFERTEWEBLINII = o.CCCOFERTEWEBLINII)
           inner join cccpaths c on (c.CCCPATHS = a.CCCPATHS)
           WHERE p.CCCOFERTEWEB = ${contextOferta.CCCOFERTEWEB}
-          ORDER BY p.RESPPLAN, p.RESPEXEC`
+          ORDER BY p.RESP1, p.RESP2`
         }
       })
 
@@ -76,10 +76,10 @@ export const planificariService = {
         acc[row.CCCPLANIFICARI] = {
           CCCPLANIFICARI: row.CCCPLANIFICARI,
           CCCOFERTEWEB: row.CCCOFERTEWEB,
-          RESPEXEC: row.RESPEXEC,
-          RESPPLAN: row.RESPPLAN,
-          RESPPLAN_NAME: row.RESPPLAN_NAME,
-          RESPEXEC_NAME: row.RESPEXEC_NAME,
+          RESP2: row.RESP2,
+          RESP1: row.RESP1,
+          RESP1_NAME: row.RESP1_NAME,
+          RESP2_NAME: row.RESP2_NAME,
           linii: [] // Store detail rows here
         }
       }
