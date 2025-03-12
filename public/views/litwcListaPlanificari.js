@@ -36,10 +36,10 @@ class LitwcListaPlanificari extends LitElement {
     this.processedPlanificari = {} // Store processed data by CCCPLANIFICARI
 
     // Add CSS link to the document if not already present
-    if (!document.querySelector('link[href="../css/planificari.css"]')) {
+    if (!document.querySelector('link[href="../styles/planificari.css"]')) {
       const link = document.createElement('link')
       link.rel = 'stylesheet'
-      link.href = '../css/planificari.css'
+      link.href = '../styles/planificari.css'
       document.head.appendChild(link)
     }
   }
