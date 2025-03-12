@@ -238,16 +238,16 @@ export class LitwcGenericList extends LitElement {
             this.showToast('Nu există o ofertă validă selectată', 'warning')
             return
         }
-    
+
         try {
             const header = this.items.find((i) => i[this.idString] === id)
             if (!header) {
                 console.error(`Failed to find ${this.DocumentType} header`)
                 return
             }
-    
+
             const itemData = this.processedItems[id] || []
-    
+
             Object.assign(table, {
                 hasMainHeader: true,
                 hasSubHeader: false,
@@ -262,7 +262,7 @@ export class LitwcGenericList extends LitElement {
                 },
                 documentHeaderMask: this.displayMask.documentHeaderMask
             })
-    
+
             if (hideAllBut) tables.hideAllBut([this.tableForNewDocument])
             this.showToast(`${this.DocumentType} deschis cu succes`, 'success')
         } catch (error) {
@@ -274,10 +274,10 @@ export class LitwcGenericList extends LitElement {
         if (!this.items?.length) {
             return []
         }
-      
+
         return this.items.filter((item) => {
             return (
-                (!RESP1 || item.RESP1 === RESP1) && 
+                (!RESP1 || item.RESP1 === RESP1) &&
                 (!RESP2 || item.RESP2 === RESP2)
             )
         })
@@ -342,9 +342,9 @@ export class LitwcGenericList extends LitElement {
               <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="showDates" 
                   @change="${(e) => {
-                    const dateFields = this.querySelector('.date-fields');
-                    dateFields.style.display = e.target.checked ? 'block' : 'none';
-                  }}">
+                const dateFields = this.querySelector('.date-fields');
+                dateFields.style.display = e.target.checked ? 'block' : 'none';
+            }}">
                 <label class="form-check-label" for="showDates">Include date</label>
               </div>
               
@@ -453,16 +453,19 @@ export class LitwcGenericList extends LitElement {
         if (!header) return null
 
         const itemData = this.processedItems[item[this.idString]] || []
-        
+
         // Create component HTML string for unsafeHTML to parse
         const componentHTML = `
-            <${this.itemComponent}
-                id="${this.itemComponent}-${item[this.idString]}"
-                .hasMainHeader=${true}
-                .hasSubHeader=${false}
-                .canAddInLine=${true}
-            ></${this.itemComponent}>
-        `
+    <${this.itemComponent}
+        id="${this.itemComponent}-${item[this.idString]}"
+        .hasMainHeader=${true}
+        .hasSubHeader=${false}
+        .canAddInLine=${true}
+        .mainMask=${this.displayMask.mainMask}
+        .subsMask=${this.displayMask.subsMask}
+        .data=${itemData}
+    ></${this.itemComponent}>
+    `
 
         return html`
             <div class="card-body">
@@ -471,51 +474,35 @@ export class LitwcGenericList extends LitElement {
         `
     }
 
-    updated(changedProperties) {
-        super.updated(changedProperties);
-        
-        if (changedProperties.has('items') || changedProperties.has('processedItems')) {
-            // Set properties on components after they're created
-            this.items.forEach(item => {
-                const component = this.querySelector(`#${this.itemComponent}-${item[this.idString]}`);
-                if (component) {
-                    component.mainMask = this.displayMask.mainMask;
-                    component.subsMask = this.displayMask.subsMask;
-                    component.data = this.processedItems[item[this.idString]] || [];
-                }
-            });
-        }
-    }
-
     toggleAllSubarticles() {
         const itemComponents = this.querySelectorAll(this.itemComponent);
         let shouldExpand = true;
 
         const anyExpanded = Array.from(itemComponents).some(component =>
-          component.querySelector('.bi-dash-square')
+            component.querySelector('.bi-dash-square')
         );
 
         shouldExpand = !anyExpanded;
 
         itemComponents.forEach(component => {
-          const parentRows = component.querySelectorAll('tr[data-index]');
+            const parentRows = component.querySelectorAll('tr[data-index]');
 
-          parentRows.forEach(row => {
-            const index = row.getAttribute('data-index');
-            const toggleIcon = row.querySelector('i');
+            parentRows.forEach(row => {
+                const index = row.getAttribute('data-index');
+                const toggleIcon = row.querySelector('i');
 
-            if (!toggleIcon) return;
+                if (!toggleIcon) return;
 
-            const hasSubarticles = toggleIcon.classList.contains('bi-plus-square') ||
-              toggleIcon.classList.contains('bi-dash-square');
+                const hasSubarticles = toggleIcon.classList.contains('bi-plus-square') ||
+                    toggleIcon.classList.contains('bi-dash-square');
 
-            if (hasSubarticles) {
-              const isExpanded = toggleIcon.classList.contains('bi-dash-square');
-              if ((shouldExpand && !isExpanded) || (!shouldExpand && isExpanded)) {
-                component.toggleSubarticles(parseInt(index));
-              }
-            }
-          });
+                if (hasSubarticles) {
+                    const isExpanded = toggleIcon.classList.contains('bi-dash-square');
+                    if ((shouldExpand && !isExpanded) || (!shouldExpand && isExpanded)) {
+                        component.toggleSubarticles(parseInt(index));
+                    }
+                }
+            });
         });
     }
 }
