@@ -1,9 +1,9 @@
 import UI1 from './UI1.js'
 import { contextOferta } from '../client.js'
 import { upsertDocument } from '../controllers/insertDocInDB.js'
-import { _cantitate_planificari } from '../utils/def_coloane.js'
+import { _cantitate_estimari } from '../utils/def_coloane.js'
 
-export class Planificare extends UI1 {
+export class Estimare extends UI1 {
   constructor() {
     super()
   }
@@ -17,14 +17,14 @@ export class Planificare extends UI1 {
 
     const idOferta = contextOferta.CCCOFERTEWEB
     // Get document header data
-    const { responsabilPlanificare, responsabilExecutie } = this.documentHeader
+    const { responsabilEstimare, responsabilPlanificare } = this.documentHeader
 
     // Build header
     const header = {
       CCCOFERTEWEB: idOferta,
-      NAME: `Planificare ${new Date().toISOString()}`,
-      RESP1: responsabilPlanificare,
-      RESP2: responsabilExecutie
+      NAME: `Estimare ${new Date().toISOString()}`,
+      RESP1: responsabilEstimare,
+      RESP2: responsabilPlanificare
     }
 
     // Build lines
@@ -34,38 +34,38 @@ export class Planificare extends UI1 {
     this._articole.forEach((item) => {
       let articol = item.articol
       // Add main article
-      if (articol[_cantitate_planificari] > 0)
+      if (articol[_cantitate_estimari] > 0)
         lines.push({
           CCCOFERTEWEB: idOferta,
           CCCANTEMASURATORI: articol.CCCANTEMASURATORI,
-          CANTITATE: articol[_cantitate_planificari]
+          CANTITATE: articol[_cantitate_estimari]
         })
 
       // Add subarticles if they exist
       if (item.subarticole) {
         item.subarticole.forEach((sub) => {
-          if (sub[_cantitate_planificari] > 0)
+          if (sub[_cantitate_estimari] > 0)
             lines.push({
               CCCOFERTEWEB: idOferta,
               CCCANTEMASURATORI: sub.CCCANTEMASURATORI,
-              CANTITATE: sub[_cantitate_planificari]
+              CANTITATE: sub[_cantitate_estimari]
             })
         })
       }
     })
 
     if (lines.length === 0) {
-      alert('Nu am gasit planificari valide')
-      console.warn('Nu am gasit planificari valide')
+      alert('Nu am gasit estimari valide')
+      console.warn('Nu am gasit estimari valide')
       this.restorehtmlElement(htmlElement, originalContent)
       return
     }
 
     try {
       const result = await upsertDocument({
-        headerTable: 'CCCPLANIFICARI',
+        headerTable: 'CCCESTIMARI',
         header,
-        linesTable: 'CCCPLANIFICARILINII',
+        linesTable: 'CCCESTIMARILINII',
         lines,
         upsert: 'insert'
       })
@@ -75,8 +75,8 @@ export class Planificare extends UI1 {
         return result.documentId
       }
     } catch (error) {
-      console.error('Error saving planificare:', error)
-      alert('Eroare la salvare planificare')
+      console.error('Error saving estimare:', error)
+      alert('Eroare la salvare estimare')
       throw error
     } finally {
       // Restore button state
@@ -102,7 +102,7 @@ export class Planificare extends UI1 {
       return
     }
 
-    item[_cantitate_planificari] = nr
+    item[_cantitate_estimari] = nr
     console.log('item', item)
   }
 
@@ -112,6 +112,6 @@ export class Planificare extends UI1 {
   }
 }
 
-export default Planificare
+export default Estimare
 
-customElements.define('litwc-planificare', Planificare)
+customElements.define('litwc-estimare', Estimare)

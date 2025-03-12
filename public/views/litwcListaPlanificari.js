@@ -36,10 +36,10 @@ class LitwcListaPlanificari extends LitElement {
     this.processedPlanificari = {} // Store processed data by CCCPLANIFICARI
 
     // Add CSS link to the document if not already present
-    if (!document.querySelector('link[href="../styles/planificari.css"]')) {
+    if (!document.querySelector('link[href="../css/planificari.css"]')) {
       const link = document.createElement('link')
       link.rel = 'stylesheet'
-      link.href = '../styles/planificari.css'
+      link.href = '../css/planificari.css'
       document.head.appendChild(link)
     }
   }
@@ -93,7 +93,7 @@ class LitwcListaPlanificari extends LitElement {
     this.isLoading = true
     try {
       // Pass the forceRefresh parameter to the service
-      const result = await planificariService.getPlanificari(forceRefresh)
+      const result = await planificariService.getData(forceRefresh)
   
       if (!result.success) {
         this.showToast('Eroare la încărcarea planificărilor', 'danger')
@@ -143,7 +143,7 @@ class LitwcListaPlanificari extends LitElement {
       // Process all planificari data in parallel
       const processingPromises = this.planificari.map(async (header) => {
         try {
-          const convertedData = await planificariService.convertPlanificareData(header.linii)
+          const convertedData = await planificariService.convertData(header.linii)
           this.processedPlanificari[header.CCCPLANIFICARI] = convertedData
         } catch (error) {
           console.error(`Error pre-processing planificare ${header.CCCPLANIFICARI}:`, error)
