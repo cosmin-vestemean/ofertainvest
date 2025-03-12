@@ -16,22 +16,26 @@ export class LitwcListaPlanificari extends LitwcGenericList {
     constructor() {
         super()
         
-        // Configure generic list properties
-        this.DocumentType = 'planificare'
-        this.stylesheet = 'planificari.css'
-        this.denumireCantitate = _cantitate_planificari
-        this.idString = 'CCCPLANIFICARI'
-        this.displayMask = listaPlanificariMask
-        this.itemComponent = 'litwc-planificare'
-        this.dataService = planificariService
-        this.tableForNewDocument = tables.tablePlanificareCurenta
-        this.denumireResp1 = 'Responsabil planificare'
-        this.denumireResp2 = 'Responsabil executie'
+        Object.assign(this, {
+            // Generic list properties
+            DocumentType: 'planificare',
+            stylesheet: 'planificari.css',
+            denumireCantitate: _cantitate_planificari,
+            idString: 'CCCPLANIFICARI',
+            displayMask: listaPlanificariMask,
+            itemComponent: 'litwc-planificare',
+            dataService: planificariService,
+            tableForNewDocument: tables.tablePlanificareCurenta,
+            denumireResp1: 'Responsabil planificare',
+            denumireResp2: 'Responsabil executie'
+        })
 
         // Configure display masks
-        this.displayMask.mainMask = planificareDisplayMask
-        this.displayMask.subsMask = planificareSubsDisplayMask 
-        this.displayMask.documentHeaderMask = planificareHeaderMask
+        Object.assign(this.displayMask, {
+            mainMask: planificareDisplayMask,
+            subsMask: planificareSubsDisplayMask,
+            documentHeaderMask: planificareHeaderMask
+        })
     }
 }
 
