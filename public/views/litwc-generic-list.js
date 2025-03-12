@@ -44,10 +44,10 @@ export class LitwcGenericList extends LitElement {
     }
 
     addStyles() {
-        if (!document.querySelector(`link[href="../css/${this.stylesheet}"]`)) {
+        if (!document.querySelector(`link[href="../styles/${this.stylesheet}"]`)) {
             const link = document.createElement('link')
             link.rel = 'stylesheet'
-            link.href = `../css/${this.stylesheet}`
+            link.href = `../styles/${this.stylesheet}`
             document.head.appendChild(link)
         }
     }
