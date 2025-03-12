@@ -7,7 +7,7 @@ let cachedPlanificari = null
 let lastLoadContext = null
 
 export const planificariService = {
-  async geData(forceRefresh = false) {
+  async getData(forceRefresh = false) {
     if (!contextOferta?.CCCOFERTEWEB) {
       console.warn('No valid CCCOFERTEWEB found')
       return { success: false, data: [] }
